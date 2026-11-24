@@ -1,0 +1,3 @@
+# Build workspace: transcripts, slide text, notes and scratch. Never published.
+_build/
+.DS_Store
