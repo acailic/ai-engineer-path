@@ -11,7 +11,7 @@ Everything here is synthesized from four open university sources and links back 
 
 ## Status
 
-**Work in progress: the chapters are being written and have not been published yet.** The plan is 11 parts and about 100 chapters, each built on the same shape: why it matters, the core idea from first principles, a worked example, what the lecturers say (with links to the exact moments), pitfalls, an exercise, and a self-check.
+**Work in progress: chapters are being written and pushed as they are finished, so some parts are still incomplete.** The plan is 11 parts and about 100 chapters, each built on the same shape: why it matters, the core idea from first principles, a worked example, what the lecturers say (with links to the exact moments), pitfalls, an exercise, and a self-check.
 
 | Part | Covers |
 |---|---|
