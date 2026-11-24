@@ -106,7 +106,7 @@ Precision, recall, and the base-rate trap in plain Python. Ten tickets, three of
 
 ```python
 def scores(truth, predicted):
-    """Both lists hold 1 (urgent) or 0) for each ticket."""
+    """Both lists hold 1 (urgent) or 0 (not urgent) for each ticket."""
     tp = sum(t == 1 and p == 1 for t, p in zip(truth, predicted))  # found
     fp = sum(t == 0 and p == 1 for t, p in zip(truth, predicted))  # false alarm
     fn = sum(t == 1 and p == 0 for t, p in zip(truth, predicted))  # missed
@@ -135,7 +135,7 @@ Accuracy alone cannot rank these two systems. Recall can.
 
 - **Talk about fit, not bugs.** Kästner recommends dropping "model bug" and "correctness" for models, because both import expectations from classic testing: that any single wrong output is a defect. He prefers *fit* and *prediction accuracy* (chapter 15).
 - **The difference is not randomness.** Most models give the same output for the same input. The problem is that no specification exists to check against. He traces this to reasoning: classic software is deductive (rules applied to cases), machine learning is inductive (rules inferred from cases), and induction can suggest a rule without guaranteeing it (chapter 15).
-- **Curve measures can hide the decision.** The area under a precision-recall or ROC curve summarizes a classifier over *all* thresholds. Kästner finds it popular in research and less useful in practice, where some recall or precision ranges are simply unacceptable (chapter 15). Pick your threshold and report the two numbers.
+- **Curve measures can hide the decision.** The area under a precision-recall curve, or under an ROC curve (a plot of hit rate against false-alarm rate), summarizes a classifier over *all* thresholds. Kästner finds it popular in research and less useful in practice, where some recall or precision ranges are simply unacceptable (chapter 15). Pick your threshold and report the two numbers.
 - **Leakage is measurable.** He cites a study of data leakage in notebooks (Yang et al., 2022) in which feature selection ran before the split on random data with no real signal. The expected accuracy was about 0.5. The reported accuracy was 0.76 (chapter 15).
 - **Test sets wear out collectively.** When a whole research community tunes against one benchmark, the benchmark degrades like a validation set, he argues. Published models then score higher on that benchmark than on fresh data (chapter 15).
 - **Small groups vanish in the average.** He cites a study finding 35 percent more misidentified words in a speech system for Black speakers, a gap an overall accuracy figure barely registers (Koenecke et al., 2020, as cited in chapter 15).

@@ -34,7 +34,7 @@ Question 2 is the one teams skip. Without it, every risk looks new and every mit
 
 ### 2. Follow the five priorities
 
-The proposal names five priorities. The right column is my translation into work for an engineering team.
+The proposal names five priorities. The right column translates each instrument into work for an engineering team.
 
 | Priority in the proposal | What it means for a team |
 |--------------------------|--------------------------|
@@ -56,7 +56,7 @@ You do not train frontier models, and the pattern still applies. It has three pa
 
 ### 4. Know the landscape, with dates
 
-The lecture is from December 2024. Regulation moves faster than any course. The table lists what I can support as of November 2026. Check the current text before you rely on an entry. <!-- VERIFY: rows marked (general knowledge) were not opened for this chapter. -->
+The lecture is from December 2024. Regulation moves faster than any course. The table lists what could be verified as of November 2026. Check the current text before you rely on an entry. <!-- VERIFY: rows marked (general knowledge) were not opened for this chapter. -->
 
 | Instrument | Kind | Date | What it asks of a team |
 |-----------|------|------|------------------------|
@@ -95,14 +95,14 @@ On stop: return to Level 0, file an incident report within 24 hours, pass both g
 Assumptions: image attachments are not tested. A new model version restarts at Level 0.
 ```
 
-What to observe: every level is defined by a measurement that someone can repeat. The red-team suite from [Red-Teaming and Safety Evaluation](06-red-teaming-and-safety-evaluation.md) produces the attack success rate. The monitoring from [Monitoring Agents](05-monitoring-agents-the-white-agent-approach.md) produces the logged runs.
+What to observe: every level is defined by a measurement that someone can repeat. The red-team suite from [Red-Teaming and Safety Evaluation](06-red-teaming-and-safety-evaluation.md) produces the attack success rate. The monitoring from [Monitoring Agents](05-runtime-monitoring-and-detection.md) produces the logged runs.
 
 ## What the practitioners say
 
 Dawn Song gave the policy part as the closing section of her Fall 2024 lecture.
 
 - **Law arrived before evidence.** She counts about 120 AI bills at the US federal level, and about 600 bills introduced in at least 45 states in the 2024 session, and describes heated disagreement in the field, with California's SB 1047 as her example. The bill was vetoed. Her summary of the problem: "Technical solution alone is necessary but insufficient." ([96:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=5760))
-- **The proposal.** AI policy should be informed by scientific understanding of AI risks and how to mitigate them, and that understanding is quite limited today (her slide). She lists the five priorities at [100:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=6000).
+- **The proposal.** Policy for AI, her slide argues, has to rest on a scientific grasp of the risks and of ways to reduce them, and today that grasp is thin. She lists the five priorities at [100:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=6000).
 - **A blueprint written in advance.** She calls for a map from future conditions, such as a capability level or a demonstrated harm, to candidate policy responses, agreed before anyone knows which condition will occur. That, she argues, sidesteps arguments about when a risk will materialize. About 200 institutions volunteered to contribute after the launch, as she reports at [102:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=6120). <!-- SOURCE GAP: the packet has no transcript for 96-100 minutes; the first priority and the risk-assessment questions are from the slides only. -->
 - **Marginal risk differs by domain.** Her slide from that lecture puts the marginal risk of AI for social engineering high, and for software exploits low, at the time. In the same lecture she states a forecast, as her own belief: in the near term AI will help attackers more than defenders ([94:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=5640)). The findings in [AI for Cyber Defense](08-ai-for-cyber-defense-and-vulnerability-detection.md) are the other side of that forecast.
 

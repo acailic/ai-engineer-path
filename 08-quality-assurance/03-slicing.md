@@ -223,7 +223,7 @@ You are done when you have a table of slices with accuracy and size, a ranked to
 ## Sources
 
 - **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 15: [link](https://mlip-cmu.github.io/book/15-model-quality.html)
-- **Reading:** Luke Oakden-Rayner, Jared Dunnmon, Gustavo Carneiro, and Christopher Ré, "Hidden Stratification Causes Clinically Meaningful Failures in Machine Learning for Medical Imaging" (2020), listed in the chapter's further readings: [link](https://dl.acm.org/doi/abs/10.1145/3368555.3384468)
+- **Reading:** Luke Oakden-Rayner, Jared Dunnmon, Gustavo Carneiro, and Christopher Ré, "Hidden Stratification Causes Clinically Meaningful Failures in Machine Learning for Medical Imaging" (2020), listed in the chapter's further readings: [link](https://doi.org/10.1145/3368555.3384468)
 - **Reading:** Yeounoh Chung, Neoklis Polyzotis, Kihyun Tae, and Steven Euijong Whang, "Automated Data Slicing for Model Validation: A Big Data-AI Integration Approach" (2019), the SliceFinder paper, listed in the chapter's further readings: [link](https://arxiv.org/abs/1807.06068)
 
 ## Next

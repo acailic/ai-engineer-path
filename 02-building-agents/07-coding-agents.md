@@ -25,7 +25,7 @@ Because tests exist, a coding agent can try, fail, read the error, and try again
 
 ### 1. Environment
 
-A coding agent runs in a **sandbox**, an isolated environment that cannot touch the rest of the machine. Inside it: a checkout of the repository with its dependencies installed, and a shell. OpenHands executes every action in a Docker container, as Neubig describes ([54:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3240)).
+A coding agent runs in a **sandbox**, an isolated environment that cannot touch the rest of the machine. Inside it: a checkout of the repository with its dependencies installed, and a shell. OpenHands executes every action in a Docker container, an isolated package for running software, as Neubig describes ([54:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3240)).
 
 ### 2. Action space
 
@@ -41,7 +41,7 @@ Neubig presents the second style through CodeAct, which acts by writing code and
 
 ### 3. Context
 
-The agent starts with the issue text and a repository it has never seen. Getting the right code into the context is the hard part. Neubig calls this **file localization**: finding the files a request is about. He rates it as "the biggest problem in coding agents nowadays" ([38:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2280)). Four designs from his lecture:
+The agent starts with the issue text and a repository it has never seen. Getting the right code into the context is the hard part. Neubig calls this **file localization**: finding the files a request is about. In his words, it "might even be the biggest problem in coding agents nowadays" ([38:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2280)). Four designs from his lecture:
 
 1. Let the user name the files. Accurate, but it only works for people who know the project.
 2. Give the agent a search tool and let it explore.
@@ -87,9 +87,12 @@ OpenHands is the open-source coding agent Neubig maintains; it was first release
 
 ## Worked example
 
-Three tools in the ACI style, each with one guardrail. The repository is a dictionary, so the file runs without a model or a disk. <!-- The same file is saved at _build/notes/W2/code/agent_computer_interface.py during the build. -->
+Three tools in the ACI style, each with one guardrail. The repository is a dictionary, so the file runs without a model or a disk. The file is also in the repository as [`examples/agent_computer_interface.py`](../examples/agent_computer_interface.py).
 
 ```python
+"""Three tools in the style of an agent-computer interface, each with a guardrail.
+No model and no disk: a short script stands in for the agent."""
+
 REPO = {
     "app.py": "def mean(prices):\n    return sum(prices) / (len(prices) - 1)\n",
     "app_test.py": "from app import mean\n\n\ndef test_mean():\n    assert mean([2, 4]) == 3\n",
@@ -164,7 +167,7 @@ Three cautions from the lecture:
 
 - **Bias.** SWE-bench keeps only issues whose fix came with new tests, which skews it toward bug fixes ([16:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=960)).
 - **Leakage.** Models train on public code, so some test problems were seen during training. He cites ARCADE, where new notebooks were harder than published ones, and LiveCodeBench, which exists to measure this gap ([19:16](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1156)).
-- **The metric.** The common measure is **pass@k**: the chance that at least one of *k* generated samples passes the tests. To estimate it without noise, the HumanEval authors generate *n* larger than *k* samples, count the *c* that pass, and compute 1 − C(n−c, k) / C(n, k). Text-overlap scores such as BLEU exist but ignore whether the code runs.
+- **The metric.** The common measure is **pass@k**: the chance that at least one of *k* generated samples passes the tests. To estimate it without noise, the HumanEval authors generate *n* larger than *k* samples, count the *c* that pass, and compute 1 − C(n−c, k) / C(n, k). Text-overlap scores such as BLEU, which measures shared word sequences between two texts, exist but ignore whether the code runs.
 
 General evaluation methods are in [Part 03](../03-evaluation/06-evaluating-capabilities-and-risks.md).
 

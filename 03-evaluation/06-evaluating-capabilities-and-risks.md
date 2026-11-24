@@ -17,6 +17,8 @@ Ben Mann, a co-founder of Anthropic, gave a lecture on this at Berkeley on Novem
 
 His second point was that the answer is to measure early and to commit in advance. That is the **Responsible Scaling Policy (RSP)**, which he describes as Anthropic's public commitment that model capability will not outstrip the company's ability to build effective guardrails for that capability.
 
+> **Since the lecture.** This chapter describes the policy as Mann presented it on 2024-11-25. Anthropic has revised it several times since. When this was checked on 2026-11-24, the policy page showed version 3.4, effective 2026-07-08, still using the ASL labels and the term *Required Safeguards*. Read the current text before you rely on any level definition: [Responsible Scaling Policy](https://www.anthropic.com/responsible-scaling-policy).
+
 **The analogy, and where it breaks.** The RSP is modeled on **biosafety levels**, the rules that decide which precautions a laboratory needs for a given pathogen, from a lab coat up to a sealed suit. Mann makes the comparison himself ([12:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=720)). He also names where it fails ([22:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=1320)). The dangerous pathogens already exist. The AI capabilities that would warrant the highest precautions do not exist yet, so the levels have to be forecast.
 
 ## How it works, step by step

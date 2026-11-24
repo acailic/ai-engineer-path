@@ -143,7 +143,7 @@ What to observe:
 - **The hard constraints removed the most accurate design.** The large LLM is never discussed. Nobody needs to defend that choice.
 - **The old classifier left without an argument.** The small classifier is better on all three qualities.
 - **The keyword rule survived.** It is not dominated, because nothing is cheaper. Whether a 17 percent error rate clears the minimum from step 2 is a separate question. That is the ladder from [chapter 02](02-when-to-use-ml-and-when-not-to.md).
-- **The real argument is the last two rows.** Going from the small classifier to the small LLM cuts the error rate from 8 to 5 percent. It multiplies the cost by 120 and the latency by 75. At 50,000 tickets a day, the LLM costs $60 a day and avoids 1,500 misroutes. Is a avoided misroute worth four cents? That is a question for the support lead and the finance owner, not for the model.
+- **The real argument is the last two rows.** Going from the small classifier to the small LLM cuts the error rate from 8 to 5 percent. It multiplies the cost by 120 and the latency by 75. At 50,000 tickets a day, the LLM costs $60 a day and avoids 1,500 misroutes. Is one avoided misroute worth four cents? That is a question for the support lead and the finance owner, not for the model.
 
 ### What changes for LLM and agent systems
 

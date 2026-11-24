@@ -41,7 +41,7 @@ Kästner borrows a framing from *Prediction Machines* (Agrawal, Gans and Goldfar
 
 ### The ladder of alternatives
 
-The four conditions come from the book. The ladder below is mine, and it is the practical form of "avoid ML when you can". Start at the bottom and climb only as far as the evidence forces you.
+The four conditions come from the book. The ladder below is this repository's own, and it is the practical form of "avoid ML when you can". Start at the bottom and climb only as far as the evidence forces you.
 
 | Rung | What it is | Use it when | Ongoing cost |
 |---|---|---|---|

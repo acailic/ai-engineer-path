@@ -69,7 +69,7 @@ An agent remembers only what your program puts in front of the model. [Chapter 0
 
 ## Worked example
 
-A complete agent in 105 lines of Python. There is no framework and no network: the model is a deterministic stub that replays a fixed script, so you can run and test the loop without an API key. This is the exact content of `_build/notes/W2/code/minimal_agent.py` <!-- FIXME: replace with the repository's examples path before publishing -->.
+A complete agent in 105 lines of Python. There is no framework and no network: the model is a deterministic stub that replays a fixed script, so you can run and test the loop without an API key. This is the exact content of [`examples/minimal_agent.py`](../examples/minimal_agent.py), which you can run directly.
 
 ```python
 """A minimal agent in plain Python: a model behind an interface, a tool

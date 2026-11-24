@@ -90,7 +90,7 @@ Design for L2. A control that works only with an L0 model is not a control.
 
 ### 7. Check the list
 
-Two community lists catch what a team forgets. The names are from the OWASP Top 10 for LLM Applications, 2025 edition (opened November 2026). The questions are mine.
+Two community lists catch what a team forgets. The names are from the OWASP Top 10 for LLM Applications, 2025 edition (opened November 2026). These questions are this repository's own.
 
 | Name | The question it makes you ask |
 |------|-------------------------------|
@@ -144,7 +144,7 @@ Dawn Song gave versions of this lecture in three terms, and the frame grew each 
 
 She also draws the line between **safety** and **security**. Security protects the system from outsiders. Safety means the system does no harm to the outside world. Safety has to assume adversaries, she says, because a compromised system cannot keep its own safety promises ([2:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=120)).
 
-Teams that already use the MITRE ATT&CK knowledge base for conventional systems can look at its companion for AI systems, MITRE ATLAS. <!-- VERIFY: MITRE ATLAS was not opened for this chapter. -->
+Teams that already use the MITRE ATT&CK knowledge base for conventional systems can look at its companion for AI systems, [MITRE ATLAS](https://atlas.mitre.org/). <!-- VERIFY: MITRE ATLAS was not opened for this chapter. -->
 
 ## Pitfalls
 

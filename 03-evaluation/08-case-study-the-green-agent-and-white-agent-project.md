@@ -43,15 +43,15 @@ The lecturer's image is the technician at a repair shop, who runs the whole insp
 
 An assessment runs in four steps:
 
-1. The platform confirms that all agents, including the green agent, are online and reset.
-2. It sends a task to the green agent, with the URLs of the participant agents to be tested.
-3. The green agent orchestrates the interaction: assigning tasks, supervising execution, managing tools and environments, and reporting updates to the platform.
-4. The green agent submits the metrics, which it defines through its implementation.
+1. The platform checks that every agent taking part, the green agent included, is online and has been reset.
+2. It hands the green agent a task together with the addresses of the white agents to be assessed.
+3. The green agent runs the session: it hands out the tasks, watches what happens, supplies tools and environments, and keeps the platform informed.
+4. The green agent sends back the scores, computed the way its own implementation defines them.
 
 A green agent is built from three parts ([72:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=4320)):
 
 - **A dataset of test tasks.**
-- **A predefined testing process:** which agent is tested first, in what order tasks are sent, and how tools are provided.
+- **A predefined testing process:** the order in which agents are tried and tasks go out, and how tools are supplied.
 - **The environment where tasks run:** extra tools or MCP modules, and instructions that tell white agents how to use them.
 
 AgentBeats offers a prompt-based toolkit for a quick prototype. Stricter workflows and custom environments are hand-coded. The staff expected students taking two or more units to hand-code their green agents. Any web service that complies with A2A can serve as one.
@@ -208,7 +208,7 @@ This chapter's reading of all that: the hard part is not the tasks. It is that t
 ## Sources
 
 - **Lecture:** Berkeley course staff, "LLM Agent Evaluations & Project Overview", UC Berkeley Agentic AI MOOC, Fall 2025: [video](https://www.youtube.com/watch?v=VfOA2a0dj4w), used at [green and white agents](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3840), [the two project types](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=4440), [the checklist](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=5280), [the grading rubric](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=5520).
-- **Reading:** UC Berkeley, "CS294/194-196: Agentic AI, Fall 2025", course page: syllabus, grading and project timeline, as archived for this course.
+- **Reading:** UC Berkeley, "CS294/194-196: Agentic AI, Fall 2025", [course page](https://rdi.berkeley.edu/agentic-ai/f25): syllabus, grading and project timeline.
 
 <!-- VERIFY: Add the URL of the Fall 2025 course page to the source above. The archived copy used here contains no URL. -->
 

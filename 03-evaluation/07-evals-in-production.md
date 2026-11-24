@@ -116,7 +116,7 @@ def repeat_contact_rate(path):
     return sum(t["outcome"]["repeat_contact_48h"] for t in handled) / len(handled)
 ```
 
-**The gate.** It reuses the [harness](02-a-minimal-eval-harness.md). Keep the file next to `eval_harness.py`.
+**The gate.** It reuses the [harness](02-a-minimal-eval-harness.md). Keep the file next to `eval_harness.py` (the repository ships it as [`examples/eval_harness.py`](../examples/eval_harness.py)).
 
 ```python
 # ci_gate.py: keep it in the same folder as eval_harness.py

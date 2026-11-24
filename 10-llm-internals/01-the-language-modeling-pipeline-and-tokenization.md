@@ -32,7 +32,7 @@ Stanford CS336, *Language Modeling from Scratch* (Spring 2026, taught by Percy L
 | Unit | Question it answers | What students build |
 |---|---|---|
 | Basics | What are the atoms, the model and the training loop? | A tokenizer, a Transformer, a training loop; train on TinyStories and OpenWebText |
-| Systems | How do you get the most out of GPUs? | A fused kernel in Triton, distributed training, faster inference |
+| Systems | How do you get the most out of GPUs? | A fused kernel in Triton, distributed training, profiling |
 | Scaling laws | How big should the model be for a given budget? | Fits that predict loss from small runs |
 | Data | What do you train on? | Text extraction, quality filters, deduplication |
 | Alignment | How do you make the model useful and safe? | Fine-tuning and reinforcement learning methods |

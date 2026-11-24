@@ -189,7 +189,7 @@ You are done when you have a table of four techniques with a rate and the number
 - **Lecture:** Dawn Song, "Agentic AI Safety & Security", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=CvZDJxd4LKM), used at [indirect injection as the wider threat](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2040), [attack surface and AgentPoison](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2640), [re-authentication example](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=3000)
 - **Lecture:** Dawn Song, "Towards Building Safe & Trustworthy AI Agents and A Path for Science- and Evidence-based AI Policy", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=QAgR4uQ15rc), used at [direct injection](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=2280), [limits of prompt-level defenses](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=3000)
 - **Reading:** Yupei Liu, Yuqi Jia, Runpeng Geng, Jinyuan Jia, and Neil Zhenqiang Gong, "Formalizing and Benchmarking Prompt Injection Attacks and Defenses" (USENIX Security 2024), the source of the taxonomy on the lecture slides
-- **Reading:** Zhaorun Chen, Yibin Wu, and others, "AgentPoison: Red-teaming LLM Agents via Poisoning Memory or Knowledge Bases" (NeurIPS 2024), as cited on the lecture slides <!-- VERIFY: author list from general knowledge; the slides give the title and venue. -->
+- **Reading:** Zhaorun Chen and others, "AgentPoison: Red-teaming LLM Agents via Poisoning Memory or Knowledge Bases" (NeurIPS 2024), as cited on the lecture slides <!-- VERIFY: author list from general knowledge; the slides give the title and venue. -->
 
 ## Next
 

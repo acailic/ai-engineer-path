@@ -26,7 +26,7 @@ A harness is a test runner for a system whose output varies. It has five parts, 
 
 Two ideas keep it small.
 
-**The system sits behind one method.** The harness never talks to a model. It calls `complete(prompt, seed)`. In this chapter a **stub** plays the model: a deterministic fake that returns canned behavior. It stands in for the real system the way a fake database stands in in a unit test. To evaluate a real system, write a class with the same method that calls your provider's SDK (the vendor's client library). Nothing else in the harness changes. Those calls cost API money.
+**The system sits behind one method.** The harness never talks to a model. It calls `complete(prompt, seed)`. In this chapter a **stub** plays the model: a deterministic fake that returns canned behavior. It stands in for the real system the way a fake database stands in for the real one in a unit test. To evaluate a real system, write a class with the same method that calls your provider's SDK (the vendor's client library). Nothing else in the harness changes. Those calls cost API money.
 
 **Graders return scores, not verdicts.** Kästner argues in chapter 15 that a learned model has no specification to be correct against, so you measure fit: how often it is good enough. He quotes the statistician George Box: all models are wrong, but some are useful.
 

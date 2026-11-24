@@ -23,7 +23,7 @@ Everything else is a judgment of **plausibility**. Is a refund of four million e
 
 The analogy is a type checker and a linter. Type errors stop the build. Linter warnings are heuristics that need judgment. The analogy breaks at the fix: you can silence a linter without harm, while a data warning ignored means the model trains or predicts on garbage.
 
-Six dimensions cover most problems. The first four are the ones Kästner lists as typical in production data (chapter 16).
+Six dimensions cover most problems. Four of them, completeness, consistency, accuracy, and precision, are the problems the book lists as typical in production data (chapter 16).
 
 | Dimension | Question | Triage example |
 |---|---|---|

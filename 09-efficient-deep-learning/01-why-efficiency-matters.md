@@ -104,7 +104,7 @@ The examples on his slides show how large the wins are (all as reported in the l
 
 | Task | Before | After | Technique |
 |---|---|---|---|
-| Image segmentation (EfficientViT-SAM) | 11 images/s | 182 images/s, 48.9× faster than SAM-ViT-H | efficient attention |
+| Image segmentation (EfficientViT-SAM) | 11 images/s | 182 images/s on the same chart (16.5×; up to 48.9× against SAM-ViT-H's default implementation) | efficient attention |
 | Image-to-image translation (GAN Compression) | 56.8 G MACs, 12.1 FPS | 3.50 G MACs, 40.0 FPS | pruning |
 | Image editing (SIGE) | 369 ms | 95 ms | skipping unchanged regions |
 | On-device training on a microcontroller (MCUNetV3) | 652 MB | 0.1 MB | quantized training, sparse updates |
@@ -166,7 +166,7 @@ Write a budget for one model. Find a model card or an announcement that states t
 ## Sources
 
 - **Lecture:** Song Han, "Lecture 1: Introduction", MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024): [video](https://www.youtube.com/watch?v=U7EPZv8Kh9w), used at [supply and demand](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=120), [training cost and pipeline](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=240), [running a model on a laptop](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2040), [course map](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3600), [algorithm and system co-design](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3720)
-- **Reading:** Song Han, Huizi Mao, William J. Dally, "Deep Compression: A Deep Neural Network Compression Framework" (ICLR 2016): [arXiv](https://arxiv.org/abs/1510.00149)
+- **Reading:** Song Han, Huizi Mao, William J. Dally, "Deep Compression: Compressing Deep Neural Networks with Pruning, Trained Quantization and Huffman Coding" (ICLR 2016): [arXiv](https://arxiv.org/abs/1510.00149)
 - **Reading:** Song Han et al., "EfficientML.ai" course site, slides and labs: [efficientml.ai](https://efficientml.ai)
 
 ## Next

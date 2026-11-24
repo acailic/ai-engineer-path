@@ -263,7 +263,7 @@ Extend the script:
 
 - **Lecture:** Song Han, "Lecture 2: Basics of Neural Networks", MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024): [video](https://www.youtube.com/watch?v=I0nKjPpZmMU), used at [Moore's law versus model size](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=0), [terms](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=120), [tensor dimensions](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=360), [grouped convolution](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1080), [latency and throughput](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1920), [MAC, FLOP and OP](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=3000)
 - **Lecture:** Song Han, "Lecture 1: Introduction", MIT 6.5940 (Fall 2024): [training versus inference memory](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=480), [algorithm and system co-design](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3720)
-- **Reading:** Vincent Dumoulin, Francesco Visin, "A Guide to Convolution Arithmetic for Deep Learning" (2018): [arXiv](https://arxiv.org/abs/1603.07285)
+- **Reading:** Vincent Dumoulin, Francesco Visin, "A Guide to Convolution Arithmetic for Deep Learning" (2016): [arXiv](https://arxiv.org/abs/1603.07285)
 
 ## Next
 

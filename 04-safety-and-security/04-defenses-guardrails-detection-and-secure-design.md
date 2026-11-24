@@ -233,4 +233,4 @@ You are done when you have three numbers: the attack success rate before the gat
 
 ## Next
 
-→ [Monitoring Agents: The White Agent Approach](05-monitoring-agents-the-white-agent-approach.md), for the layer that watches everything else while it runs.
+→ [Monitoring Agents: The White Agent Approach](05-runtime-monitoring-and-detection.md), for the layer that watches everything else while it runs.

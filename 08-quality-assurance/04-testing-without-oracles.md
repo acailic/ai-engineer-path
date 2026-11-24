@@ -7,7 +7,7 @@
 
 ## Why this matters
 
-Labeling tickets is slow. A support agent labels about two hundred per hour, so a test set of ten thousand costs fifty hours. It is stale in three months.
+Labeling tickets is slow. Suppose an agent labels about two hundred tickets per hour. A test set of ten thousand then costs fifty hours. It is stale in three months.
 
 Meanwhile you have a pile of unlabeled tickets and four requirements that no label can check:
 
@@ -68,7 +68,7 @@ Where do the inputs come from?
 
 ### Strategy 4: Simulation
 
-A **simulator** builds the input from a known answer, which reverses the oracle problem. A self-driving system is tested on rendered scenes where the testers placed every pedestrian, so they know where each one should be detected. For agents, a sandboxed environment with a known goal state plays the same role (see [agent infrastructure](../02-building-agents/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md)). Simulators are expensive to build and never fully realistic, so they pay off only for high-stakes or hard-to-reproduce situations.
+A **simulator** builds the input from a known answer, which reverses the oracle problem. A self-driving system is tested on rendered scenes where the testers placed every pedestrian, so they know where each one should be detected. For agents, a sandboxed environment with a known goal state plays the same role (see [agent infrastructure](../05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md)). Simulators are expensive to build and never fully realistic, so they pay off only for high-stakes or hard-to-reproduce situations.
 
 ### Strategy 5: Exploratory audits
 

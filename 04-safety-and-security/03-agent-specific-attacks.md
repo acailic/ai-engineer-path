@@ -109,7 +109,7 @@ Dawn Song added agent-specific surfaces in each term.
 
 ### The community list
 
-OWASP's Top 10 for Agentic Applications 2026 (opened November 2026) gives shared names to most of these classes. The mapping is mine.
+OWASP's Top 10 for Agentic Applications 2026 (opened November 2026) gives shared names to most of these classes. The mapping is this repository's own.
 
 | OWASP name (exact) | Class in this chapter |
 |--------------------|-----------------------|

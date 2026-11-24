@@ -208,7 +208,7 @@ Kästner's chapter 15 is the source, and it predates most current judge practice
 - **Solo spot checks mislead.** Developers often judge a few examples themselves. It gives a feel for quality and little insight into how general the result is (chapter 15).
 - **Some properties need a model.** He names length and vocabulary as properties a program can check, and uses an LLM deciding whether two texts mean the same as an example of a model-checked property (chapter 15).
 - **Models can write the tests.** He describes prompting an LLM for test data with specific traits, such as a sarcastic one-line review of a watch, and cites AdaTest, a tool that loops between error analysis and LLM-generated tests (chapter 15).
-- **For prompts, test like software.** The chapter's further readings point to Marco Tulio Ribeiro's 2023 essay on testing language models and prompts the way software is tested.
+- **For prompts, test like software.** The chapter's further readings point to Marco Tulio Ribeiro's 2023 essay on testing language models and prompts the way software is tested. For judge design and for the known judge biases, see [LLM-as-a-Judge and Rubrics](../03-evaluation/03-llm-as-a-judge-and-rubrics.md) in part 03.
 
 ## Pitfalls
 
