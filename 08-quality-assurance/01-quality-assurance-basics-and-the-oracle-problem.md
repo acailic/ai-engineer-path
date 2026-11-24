@@ -53,7 +53,7 @@ Correctness is only one target. Latency, cost per ticket, robustness to typos, a
 
 ### 3. Choose the approach
 
-Kästner groups assurance techniques into three families, and all three apply to ML systems: **dynamic** techniques execute the code (tests, profiling), **static** techniques read it without running it (code review, linters, type checkers), and **process evaluation** looks at how the work was done (are requirements written down, are known bugs tracked).
+Kästner groups assurance techniques into three families, and all three apply to ML systems: **dynamic** techniques execute the code (testing, dynamic program analysis), **static** techniques read it without running it (code review, linting, static data-flow analysis, formal verification), and **process evaluation** looks at how the work was done (are requirements written down, are known bugs tracked).
 
 ### 4. Name the oracle
 
@@ -144,7 +144,7 @@ Christian Kästner's *Machine Learning in Production* is the source for this cha
 - **Review finds more than bugs.** Studies of today's lightweight code review find it only moderately effective at catching defects. It does surface readability and design problems, and it spreads knowledge through the team. He suggests reviewing ML artifacts the same way: data code, training code, evaluation reports, and monitoring plans (chapter 14).
 - **A single wrong prediction is not a bug.** He argues against writing per-example unit tests for models and against failing a suite over one mistake. Most models are deterministic at inference, so this is not about noise: in his words, "the issue is the lack of a specification, not statistical noise" ([chapter 15](https://mlip-cmu.github.io/book/15-model-quality.html)).
 - **Evaluation is validation, not verification.** Without a specification you cannot check an implementation against one. You check whether the model fits the user's needs, which makes evaluating a model closer to requirements engineering than to testing code (chapter 15).
-- **Tooling beats good intentions.** His examples of enforced practice include merges blocked until two developers approve, CI that refuses failing changes, and Google's decision to show static-analysis warnings inside code review, where reviewers create social pressure to fix them (chapter 14).
+- **Tooling beats good intentions.** His examples of enforced practice include CI that refuses to merge a change that breaks a test, a version control setup that refuses merges that add no unit tests, and Google's decision to show static-analysis warnings inside code review, where reviewers create social pressure to fix them (chapter 14).
 
 ## Pitfalls
 

@@ -1,6 +1,6 @@
 # 12. Responsible Engineering, Versioning and Reproducibility
 
-**Level:** Practitioner · **Reading time:** 18 min · **Exercise:** 60 min
+**Level:** Practitioner · **Reading time:** 26 min · **Exercise:** 60 min
 **Prerequisites:** [Pipeline Quality](07-pipeline-quality.md) and [Data Quality](06-data-quality.md)
 
 > **In one sentence:** After this chapter you can record, for any output your system produced, exactly which code, data, prompt, and model version produced it, and you can say which parts of that result you can reproduce and which you cannot.
@@ -23,15 +23,15 @@ Kästner's argument has three steps (chapter 23).
 2. **Legal is not the same as ethical.** Software licenses have largely shielded developers from liability. That leaves a wide space of actions that are lawful and still wrong.
 3. **Do not wait.** Regulation is partial and slow. Engineers should learn the likely harms and prevent them regardless.
 
-### Versioning, provenance, and reproducibility
+Kästner opens chapter 24 with a case modeled on the 2019 launch of a credit card: an applicant with a large following publicly accuses the lender of discrimination, and the developers must reconstruct which of several interacting models and data sources produced that one decision, while A/B tests and canary releases keep changing the system (chapter 24).
 
-- **Versioning** gives every input to a result an identifier: the code, the data, the model, the prompt, the configuration.
-- **Provenance** (also called lineage) tracks the origin of a value and who modified it. Kästner credits it with building trust in data and helping debugging (chapter 16).
-- **Reproducibility** is the ability to run the same version again and get the same result.
+- **Versioning** gives every input to a result an identifier: the code, the data, the model, the prompt, the configuration. The book distinguishes **revisions**, which succeed each other in time, from **variants**, which exist side by side, such as the two models of an A/B test (chapter 24).
+- **Provenance** tracks the origin of a value and who modified it. Kästner credits it with building trust in data and helping debugging (chapter 16). In his usage, provenance tends to mean edits to individual rows, also across organizations, while **lineage** tends to mean data flows between files and processes inside a system (chapter 24).
+- **Replicability** is the ability to rerun exactly the same steps and get exactly the same result. **Reproducibility** is the ability to repeat a procedure with small differences and get a comparable result (chapter 24).
 
-The analogy is a recipe. Versioning is the ingredient list with brands and batch numbers. Provenance is the cook's log of what was actually done. Reproducibility is cooking it again and getting the same dish.
+The analogy is a recipe. Versioning is the ingredient list with brands and batch numbers. Provenance is the cook's log of what was actually done. Replicating is cooking it again and getting the same dish. Reproducing is another cook following the recipe and getting a dish that tastes the same.
 
-The analogy breaks for LLM systems at the last step. Sampling and provider-side changes mean that the same prompt and model version can give different text. There, reproducible means "re-runnable from recorded versions, with a known margin", not "identical to the last word".
+The analogy breaks for LLM systems at the third step. Sampling and provider-side changes mean that the same prompt and model version can give different text. That is tolerable. Kästner's guidance is to remove the accidental nondeterminism that missing versions cause, accept the kind that is inherent to a method, and record the outputs of those steps, because strict bit-for-bit replication of a trained model is rarely a practical goal (chapter 24).
 
 ## What the practitioners say
 
@@ -39,25 +39,27 @@ The analogy breaks for LLM systems at the last step. Sampling and provider-side 
 - **Lawful and still wrong.** His example is a drug whose price was raised from 13 to 750 dollars per pill, a legal move that the public widely condemned (chapter 23).
 - **Local choices, distant effects.** He gives the case of a model tuned for ad clicks that may end up promoting content that deepens teenage depression, and a review filter that may disadvantage minority-owned restaurants (chapter 23).
 - **Safety is not only about lives.** He cites smart home devices that shut off heating in freezing weather and a delivery robot that blocked a wheelchair user at a crossing (chapter 23).
-- **Principle lists converge.** As he reports them, the lists from Microsoft, Google, the European Commission, and the US White House all include some notion of fairness, safety, and privacy. They differ on transparency, human oversight, and accountability (chapter 23). They are statements of intent, not rules.
+- **Principle lists converge.** Microsoft lists fairness, reliability and safety, privacy and security, inclusiveness, transparency, and accountability. Google lists being socially beneficial, avoiding unfair bias, safety, accountability, privacy, scientific excellence, and responsible deployment (chapter 23). Self-regulation has no enforcement mechanism outside the organization that writes the principles, he adds.
+- **The book's structure is itself an argument.** He groups the rest of his book around two pieces of technical infrastructure, versioning with provenance and reproducibility, and explainability, and four concerns that cut across the whole life cycle: fairness, safety, security and privacy, transparency and accountability (chapter 23).
+- **Regulation was still pending as he wrote.** With the book finalized in late 2023, the closest to binding rules was the EU's AI Act, then expected to become law in 2024. It bans some uses outright, such as social scoring, and treats use in eight areas, including education, hiring, and law enforcement, as high-risk (chapter 23). Check its current status before relying on this.
 - **Critics see "ethics washing".** In their view, corporate principles and funded ethics research serve to hold off regulation (chapter 23).
 - **One early signal.** He notes that in April 2021 the US Federal Trade Commission said it read its prohibition on unfair and deceptive practices as covering racially biased algorithms (chapter 23).
 
 ## How it works, step by step
 
-A versioning checklist for an LLM feature, following the outline of chapter 24.
+Kästner's summary of the chapter is to version everything and then connect the versions: which version of the application uses which version of the model, which was trained by which version of the pipeline on which version of the data (chapter 24). The checklist below applies that to an LLM feature.
 
 ### 1. Code, including prompts
 
-Keep prompt templates in the repository, reviewed like code. A prompt edited in a dashboard has no history.
+Keep prompt templates in the repository, reviewed like code. A prompt edited in a dashboard has no history. Kästner notes that data scientists version their work less rigorously than software engineers, because exploratory work has no obvious milestones, and that versioning matters most when a model moves toward production and notebook code becomes pipeline code. Pin library versions, and build in CI so that undeclared dependencies surface (chapter 24).
 
 ### 2. Data and evaluation sets
 
-Never overwrite an evaluation set in place. Give each snapshot a name and a hash. For large data, do not copy it: record the query or snapshot identifier and a manifest of the rows used.
+Never overwrite an evaluation set in place. Give each snapshot a name and a hash. For large data, do not copy it: record the query or snapshot identifier and a manifest of the rows used. The book lists five strategies for large data sets (chapter 24): store a full copy of each version, simple but space hungry; store only the differences between versions, cheap to keep but costly to rebuild; record an **offset**, which works for data that is only ever appended, such as logs; version each record on its own; or version the pipeline and recreate a derived data set by rerunning it, which works only if every step is deterministic. Which one fits is a trade-off of storage space against the effort of retrieving an old version.
 
 ### 3. Models and experiments
 
-Record, for every experiment, what was tried and what it scored. For a hosted model, record the provider's version identifier, not only the model's name.
+Record, for every experiment, what was tried and what it scored. For a hosted model, record the provider's version identifier, not only the model's name. Kästner explains why models are usually stored as whole copies: a small change in data or settings alters many parameters, so there are no useful differences to store. Experiment-tracking tools such as MLflow, ModelDB, and Weights & Biases keep each model version with its metadata: data and code versions, hyperparameters, and evaluation results (chapter 24). He also describes an inference API with an optional version in its address, so that a client decides when to move to a new model version (chapter 24).
 
 ### 4. The inference call
 
@@ -65,7 +67,7 @@ Log the settings that can change the output: temperature, the seed if there is o
 
 ### 5. Provenance within pipelines
 
-Each artifact should record the run that produced it and the identifiers of its inputs.
+Each artifact should record the run that produced it and the identifiers of its inputs. The book describes four ways to get there (chapter 24). Manual diagrams go stale and say nothing about a specific file. Custom logging of file paths and hashes works but depends on discipline. A pipeline framework such as DVC, Pachyderm, or Flyte records provenance automatically when all data is accessed through it. Some hosted platforms track everything run on them without configuration. Kästner also suggests row-level records beyond the pipeline, such as who added a label, so that bad or malicious data, or data a user has a right to have deleted, can be found (chapter 24).
 
 ### 6. Provenance beyond the pipeline
 
@@ -142,7 +144,7 @@ You are done when one record is complete, when every missing field has a named c
 ## Sources
 
 - **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 23: [link](https://mlip-cmu.github.io/book/23-responsible-engineering.html)
-- **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 24 (section outline consulted): [link](https://mlip-cmu.github.io/book/24-versioning-provenance-and-reproducibility.html)
+- **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 24: [link](https://mlip-cmu.github.io/book/24-versioning-provenance-and-reproducibility.html)
 - **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 16, for the definition of provenance: [link](https://mlip-cmu.github.io/book/16-data-quality.html)
 
 ## Next

@@ -72,7 +72,7 @@ You do not need to run a model to get a first estimate. Two formulas carry most 
 - 16-bit: 14 GB ÷ 50 GB/s = 0.28 s per token, about 3.6 tokens per second. Slow to read.
 - 4-bit: 3.5 GB ÷ 50 GB/s = 0.07 s per token, about 14 tokens per second. Usable.
 
-Same model, same chip, four times faster. Nothing was computed faster. Fewer bytes were moved. This is what **quantization** buys, and it is why Han's students can run a 7-billion-parameter model on a MacBook M1 ([34:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2040)).
+Same model, same chip, four times faster. Nothing was computed faster. Fewer bytes were moved. This is what **quantization** buys, and it is why Han's students quantize a 7-billion-parameter model down to 4-bit and run it on a laptop; his own demo runs one on a MacBook M1 ([34:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2040)).
 
 ### Budgets to keep in mind
 
@@ -100,16 +100,16 @@ The examples on his slides show how large the wins are (all as reported in the l
 
 | Task | Before | After | Technique |
 |---|---|---|---|
-| Image segmentation (EfficientViT-SAM) | 11 images/s | 182 images/s on the same chart (16.5×; up to 48.9× against SAM-ViT-H's default implementation) | efficient attention |
+| Image segmentation (EfficientViT-SAM, A100 GPU) | 11 images/s | 182 images/s (16.5× on the slide's chart, which also claims a 48.9× speedup over SAM-ViT-H at matched zero-shot accuracy) | efficient attention |
 | Image-to-image translation (GAN Compression) | 56.8 G MACs, 12.1 FPS | 3.50 G MACs, 40.0 FPS | pruning |
 | Image editing (SIGE) | 369 ms | 95 ms | skipping unchanged regions |
 | On-device training on a microcontroller (MCUNetV3) | 652 MB | 0.1 MB | quantized training, sparse updates |
 
 A **MAC** is one multiply-accumulate: a × b + c. It is the unit used to count a model's arithmetic.
 
-Two more of Han's points are worth keeping. First, accuracy costs computation: his ImageNet chart shows the error rate falling from 28.2% in 2010 to 2.3% in 2017, and the next slide shows the more accurate models needing more MACs. Second, his transcript map at [56:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3360) warns against judging hardware by peak performance alone, and at [58:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3480) names three pillars: hardware, data and algorithm.
+Two more of Han's points are worth keeping. First, accuracy costs computation: his ImageNet chart shows the error rate falling from 28.2% in 2010 to 2.3% in 2017, and the next slide shows the more accurate models needing more MACs. Second, Han warns at [56:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3360) against judging hardware by peak performance alone: two chips can advertise higher peak numbers without being faster in practice, because "the peak performance doesn't directly translate to measured speed"; moving activations and weights, memory bandwidth and utilization all matter. The same block gives the gap in devices: tens of gigabytes of memory in the cloud against a few hundred kilobytes of SRAM on a microcontroller. At [58:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3480) he names three pillars of deep learning, hardware, data and algorithm, and states TinyML's goal for each: less computation, less carbon, fewer engineers, less data.
 
-He also mentions that SmoothQuant, a quantization method you will meet in [Chapter 04](04-quantization.md), started as a course project two years earlier ([34:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2040)).
+He also mentions that SmoothQuant, a quantization method you will meet in [Chapter 04](04-quantization.md), started as a course project two years earlier, and sketches the course's route to 4-bit: 16-bit to 8-bit with SmoothQuant, then 4-bit with AWQ, an activation-aware, weight-only method. SmoothQuant's key idea, as he puts it, is that activations hold a few very large values (outliers), so you scale the weights and the activations until the two are equalized and smoothed, which matrix multiplication allows because it is linear ([34:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2040)).
 
 ## Pitfalls
 

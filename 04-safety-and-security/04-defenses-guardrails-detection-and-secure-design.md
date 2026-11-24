@@ -13,7 +13,7 @@ The question of this chapter: which layers exist, what does each one stop, and i
 
 ## The core idea
 
-No single layer holds. Dawn Song's summary in Fall 2025: "there is no one silver bullet" ([82:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=4920)). The answer is **defense in depth**: several layers, arranged so that an attack has to defeat all of them. Her analogy in Spring 2025 is stacked slices of Swiss cheese: each slice has holes, and the holes do not line up ([76:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=4560)). The analogy breaks in one way: holes in cheese are random. An adaptive attacker looks for your holes on purpose and aims at them.
+No single layer holds. Dawn Song's summary in Fall 2025: "there is no one silver bullet" ([82:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=4920)). The answer is **defense in depth**: several layers, arranged so that an attack has to defeat all of them. Her analogy in Spring 2025 is Swiss cheese: layered defense, so that even if one layer fails, another can still stop the attack ([76:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=4560)). In the usual version of that analogy each slice has holes and the holes do not line up. The analogy breaks in one way: holes in cheese are random. An adaptive attacker looks for your holes on purpose and aims at them.
 
 The layers differ in how they can fail.
 
@@ -23,7 +23,7 @@ The layers differ in how they can fail.
 
 Build from the strong end. A policy gate on tool calls stops an injected instruction whatever wording it used, because it checks the action and not the text.
 
-Song sorts the mechanisms into two families. **Runtime protections** check while the agent runs: input guards, output guards, information flow control, monitoring, and a human in the loop. **Secure by design** changes the architecture: privilege separation and formal verification ([84:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5040), [94:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5640)).
+Song lists the mechanisms in four groups (Fall 2025): runtime protection, identity and access management, component hardening, and secure by design ([82:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=4920)). **Runtime protections** check while the agent runs: input guards, output guards, information flow control and taint tracking, monitoring, and a human in the loop. **Hardening** makes the model and the tools themselves harder to attack. **Secure by design** changes the architecture: privilege separation and formal verification ([84:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5040), [94:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5640), [98:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5880)).
 
 ## How it works, step by step
 
@@ -39,7 +39,7 @@ Her caution: strong models, prompted well, detect and sanitize many malicious in
 
 ### 2. Spotlight the data
 
-**Spotlighting** marks where untrusted data begins and ends, so that the model can tell it from instructions.The prompt-level techniques on her Fall 2024 slide, from Liu et al. (2024), are:
+**Spotlighting** marks where untrusted data begins and ends, so that the model can tell it from instructions. The prompt-level techniques on her Fall 2024 slide, from Liu et al. (2024), are:
 
 - **Delimiters**: enclose the data in markers.
 - **Sandwich prevention**: repeat the instruction after the data, so that the nearest text before the answer is yours.
@@ -50,11 +50,11 @@ Each of these costs tokens and lowers the rate. None of them is a wall, because 
 
 ### 3. Use the instruction hierarchy if you have it
 
-The **instruction hierarchy** is a model-level defense: the model is trained to privilege some instructions over others. A system prompt outranks a user message, which outranks text that arrives as data (as described on Song's Fall 2024 slide, which attributes the idea to OpenAI). She describes it as training models to prioritize more privileged instructions ([50:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=3000)). You cannot add it with a prompt. Either the provider trained the model that way, or it did not, and your own fine-tuning can weaken it (see [Trustworthiness Beyond Injection](07-trustworthiness-beyond-injection.md)).
+The **instruction hierarchy** is a model-level defense: the model is trained to privilege some instructions over others. A system prompt outranks a user message, which outranks text that arrives as data (as described on Song's Fall 2024 slide, which attributes the idea to OpenAI). She describes it as training models to prioritize more privileged instructions ([50:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=3000)). You cannot add it with a prompt. The same slide names a second model-level defense, structured queries (StruQ), which trains the model to keep instruction and data apart. Either the provider trained the model that way, or it did not, and your own fine-tuning can weaken it (see [Trustworthiness Beyond Injection](07-trustworthiness-beyond-injection.md)).
 
 ### 4. Add a learned detector, and measure it
 
-Two detection ideas from the same slide are cheap to try:
+The same slide lists four detection methods. Two use a model, which costs a call: perplexity-based detection, which flags data that the model finds statistically unusual, and detection by a guardrail model such as PromptGuard. Two are cheap to try:
 
 - **Known-answer detection**: add a question with a known answer to the prompt. If the model no longer answers it, something has taken over.
 - **Response-based detection**: check that the answer is a valid answer to the task.
@@ -74,17 +74,17 @@ An **output guard** validates what the agent produces, including tool calls and 
 - Contextual policies, generated for the current task and updated as the agent's state changes.
 - An enforcement component that watches each action and allows or blocks it.
 
-Her example from Fall 2025: for "summarize unread emails", the policy allows only reading. For "send an email to Alice", it allows only sending. Once the agent has looked up Alice's address, the policy narrows again to that one address ([88:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5280), [90:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5400)). An injected instruction can still reach the model, and the allowed actions are too few for it to matter.
+Her example from Fall 2025: for "summarize unread emails", the policy allows only reading. For "send an email to Alice", it allows only sending. Once the agent has looked up Alice's address, the policy narrows again to that one address ([88:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5280), [90:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5400)). An injected instruction can still reach the model, and the allowed actions are too few for it to matter. Her Spring 2025 examples make the same point. Asked for a patient's admission times, an agent that had loaded a poisoned knowledge base tried to call `delete database`. The policy forbade that one call, blocked it, and let the other database calls through ([86:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5160), [88:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5280)).
 
-In Spring 2025 she reported that adding Progent to an existing agent took about ten lines of change in their experiments, that it lowered the attack success rate while keeping utility, and that manual policies brought the rate to zero on their benchmarks ([98:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5880)).
+In Spring 2025 she reported that adding Progent to an existing agent took about ten lines of change in their experiments, that it lowered the attack success rate while keeping utility, and that manual policies brought the attack success rate to zero on two benchmarks, AgentDojo and ASB ([98:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5880); benchmark names from her slide).
 
 ### 7. Separate privileges and sandbox
 
 **Privilege separation** splits a system into parts with different permissions. A compromised part cannot borrow the permissions of another. **Sandboxing** is the enforcement: each part runs in a container that the operating system confines.
 
-The idea is older than agents. Song's own work from 2004, Privtrans, splits a program into a privileged **monitor** and an unprivileged **slave**. The slave does the risky work with no privileges. The monitor holds the privileges and exports a narrow interface. For an agent, the pattern is: the model-driven planner has no tools and no secrets. It proposes actions. A small executor, which the model cannot change, checks each proposal and performs it.
+The idea is older than agents. Song's own work from 2004, Privtrans, splits a program into a privileged **monitor** and an unprivileged **slave**. The slave does the risky work with no privileges. The monitor holds the privileges and exports a narrow interface. In Spring 2025 she described it as a source-to-source transformation: given the original code and a few annotations that mark sensitive data and privileged operations, the tool rewrote a program into two parts that talk over one channel. The monitor stays small, so it is easier to secure, and a flaw in the large slave no longer hands the attacker high privileges. Her group ran it on OpenSSH and OpenSSL ([102:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6120), [104:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6240)). For an agent, the pattern is: the model-driven planner has no tools and no secrets. It proposes actions. A small executor, which the model cannot change, checks each proposal and performs it.
 
-In Fall 2025 she described the agent version: instead of one monolithic agent, separate components, each in its own container with its own privileges ([94:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5640)). She also cited a rule of thumb, the **Rule of Two**: in one session, an agent should have at most two of these three properties ([96:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5760), [98:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5880)).
+In Spring 2025 she said privilege separation matters even more for agents, and that the approach should extend to splitting an agent automatically into components with least privilege ([106:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6360)). In Fall 2025 she described the agent version: instead of one monolithic agent, separate components, each in its own container with its own privileges ([94:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5640)). She also cited a rule of thumb, the **Rule of Two**: in one session, an agent should have at most two of these three properties ([96:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5760), [98:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5880)).
 
 1. It processes untrusted input.
 2. It has access to sensitive systems or private data.
@@ -166,7 +166,7 @@ The output is `allowed`, then a refusal for the email, then a refusal for the pa
 Song's defense story grew across three terms, and her caution stayed the same.
 
 - **Fall 2024: a taxonomy and a warning.** She sorted defenses into prompt level (prevention and detection), model level, and system level. Her verdict then: "none of these defenses currently are effective against the new and adaptive attacks", and many degrade model performance ([50:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=3000)). She pointed at system-level defenses: application isolation, information flow control, least privilege.
-- **Spring 2025: principles.** Defense in depth, least privilege and privilege separation, and secure by design, which she grounded in Saltzer and Schroeder's 1975 principles and the formally verified seL4 kernel ([76:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=4560)). She listed eight mechanism families and closed with open questions: how to give agents identities, how to keep full auditability at a reasonable storage cost, and how to write formal specifications for a component as vague as a model ([106:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6360)).
+- **Spring 2025: principles.** Defense in depth, least privilege and privilege separation, and secure by design, which she grounded in Saltzer and Schroeder's 1975 principles (her slide) and in the formally verified seL4 kernel ([80:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=4800)). She listed eight mechanism families (slide): hardening the model, input sanitization, policy enforcement on actions, privilege management, privilege separation, monitoring and detection, information flow tracking, and secure by design with formal verification. Each family came with open questions, for example how to give agents identities, how to keep full auditability at a reasonable storage cost ([106:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6360)), and how to write formal specifications for a non-symbolic component such as an LLM ([108:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6480)).
 - **Fall 2025: more principles and named tools.** She added fail-safe by default, complete mediation (every access is checked), economy of mechanism (keep it small), and open design (secrecy is not a control) ([82:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=4920)). She named working input guards, and repeated that none is foolproof.
 
 Her Fall 2024 point about model-level defenses still applies. Hardening the model is the provider's work: data cleaning, safety pre-training, alignment after training, and unlearning ([82:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=4920)). Use it. Do not depend on it alone.
@@ -220,8 +220,8 @@ You are done when you have three numbers: the attack success rate before the gat
 
 ## Sources
 
-- **Lecture:** Dawn Song, "Agentic AI Safety & Security", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=CvZDJxd4LKM), used at [defense principles](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=4920), [input guards](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5040), [output guards and limits](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5160), [contextual policies](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5280), [taint tracking](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5520), [containers and human in the loop](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5640), [Rule of Two](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5880)
-- **Lecture:** Dawn Song, "Towards building safe and secure agentic AI", UC Berkeley Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=ti6yPE2VPZc), used at [defense in depth](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=4560), [hardening and input guardrails](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=4920), [Progent results](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5880), [open questions](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6360)
+- **Lecture:** Dawn Song, "Agentic AI Safety & Security", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=CvZDJxd4LKM), used at [defense principles](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=4920), [input guards](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5040), [output guards and limits](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5160), [contextual policies](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5280), [taint tracking](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5520), [containers and human in the loop](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5640), [Rule of Two and hardening](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5880)
+- **Lecture:** Dawn Song, "Towards building safe and secure agentic AI", UC Berkeley Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=ti6yPE2VPZc), used at [defense in depth](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=4560), [provably secure design](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=4800), [hardening and input guardrails](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=4920), [Progent examples](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5160), [Progent results](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5880), [Privtrans](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6120), [open questions](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6360), [formal specifications](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6480)
 - **Lecture:** Dawn Song, "Towards Building Safe & Trustworthy AI Agents and A Path for Science- and Evidence-based AI Policy", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=QAgR4uQ15rc), used at [taxonomy of defenses and its limits](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=3000)
 - **Reading:** David Brumley and Dawn Song, "Privtrans: Automatically Partitioning Programs for Privilege Separation" (USENIX Security Symposium 2004)
 - **Reading:** Yupei Liu, Yuqi Jia, Runpeng Geng, Jinyuan Jia, and Neil Zhenqiang Gong, "Formalizing and Benchmarking Prompt Injection Attacks and Defenses" (USENIX Security 2024), the source of the defense taxonomy on the Fall 2024 slides
@@ -229,4 +229,4 @@ You are done when you have three numbers: the attack success rate before the gat
 
 ## Next
 
-→ [Monitoring Agents: The White Agent Approach](05-runtime-monitoring-and-detection.md), for the layer that watches everything else while it runs.
+→ [Runtime Monitoring and Detection](05-runtime-monitoring-and-detection.md), for the layer that watches everything else while it runs.

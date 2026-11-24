@@ -16,7 +16,7 @@ Jerry Liu's half of the Fall 2024 lecture is about what to add.
 A knowledge assistant has four ingredients, in Liu's list ([42:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2520)):
 
 1. A high-quality retrieval pipeline that handles more than text.
-2. Outputs beyond a chat reply: a report, a table, an action.
+2. Outputs beyond a chat reply: a research report, a data analysis, an action.
 3. Agent reasoning over the inputs: break the question down, plan, use tools, reflect.
 4. Deployment.
 
@@ -35,11 +35,11 @@ Four terms carry the rest of the chapter:
 
 ### 1. Parse into clean elements
 
-Complex documents contain embedded tables, charts, images, irregular layouts, headers and footers. Off-the-shelf parsers often turn them into broken text, and the model then hallucinates (states things that are not in the source) ([44:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2640)). A parser must return text chunks, tables and diagrams as separate, consistent elements ([46:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2760)).
+Complex documents contain embedded tables, charts, images, irregular layouts, headers and footers. Off-the-shelf parsers often turn them into broken text, and the model then hallucinates (states things that are not in the source) ([44:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2640)). A parser must return text chunks, tables and diagrams as separate, consistent elements ([46:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2760)). Liu's examples of complex documents: an investor slide deck, an annual financial report, a spreadsheet, a form.
 
 ### 2. Create several representations per element
 
-A standard pipeline embeds each element as it is. Liu describes a better way ([48:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2880)):
+A standard pipeline embeds each element as it is. Liu describes a better way, which he calls hierarchical indexing and retrieval ([48:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2880)):
 
 - For a table, extract several summaries that point at the table.
 - For a picture, use a model to write descriptions that point at the picture. A text embedding model cannot read an image.
@@ -59,7 +59,7 @@ At question time the system retrieves nodes, follows each node's reference back 
 
 Plain RAG returns a fixed number of chunks and never takes the question apart. It fails on four kinds of request: summarization, which needs the whole document; comparison, which needs two or more documents; multi-part questions; and high-level tasks ([52:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3120)).
 
-**Agentic RAG** puts an agent layer above retrieval. The agent treats retrieval as one tool among several, decomposes the question and decides which tools to call ([54:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3240)). Liu sees a spectrum. At the general end: a ReAct-style loop (an agent that alternates reasoning and tool calls) or a system he calls LM Compiler, which plans a graph of calls ahead of time and replans. Many teams instead compose narrower pieces: tool use, memory, structured output, calls to an existing API, and query decomposition ([54:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3240)).
+**Agentic RAG** puts an agent layer above retrieval. The agent treats retrieval as one tool among several, decomposes the question and decides which tools to call ([54:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3240)). Liu sees a spectrum. At the general end: a ReAct-style loop (an agent that alternates reasoning and tool calls) or a system he calls LLM Compiler, which plans a graph of calls ahead of time and replans. Many teams instead compose narrower pieces: tool use, memory, structured output, calls to an existing API, and query decomposition ([54:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3240)).
 
 ### 6. Choose constrained or unconstrained on purpose
 
@@ -137,12 +137,13 @@ In the lecture's terms, this file is still plain retrieval: no agent, no reasoni
 
 Jerry Liu leads LlamaIndex, which he describes as an open-source toolkit for building agents over your data. His half of the lecture is a use case his company works on: a multimodal knowledge assistant ([37:04](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2224)).
 
+- **What the assistant is for.** The setting he describes is a company with a million PDFs, slide decks and spreadsheets that wants an interface: a task goes in, an output comes back. A chatbot is the simplest case. The output can also be a structured answer, a research report or an action, such as sending an email, booking a meeting or writing code ([38:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2280)). LlamaIndex, he says, began as an open-source toolkit that helped people build RAG systems and moved on to multi-step reasoning; its enterprise product is a managed service that takes over data indexing and retrieval ([38:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2280)).
 - **Why plain RAG is not enough.** It is stateless, and many questions need a memory layer. A chatbot that cannot answer most of what users ask adds little. The "80%" he mentions is a figure of speech, not a measurement ([42:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2520)).
 - **Question types.** A bank of PDFs gets pointed questions, multi-document comparisons and longer research tasks, such as turning ten arXiv papers on quantization into a short survey ([46:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2760)).
 - **The parser matters.** A bad PDF parser feeds the model text the parser invented, and no model recovers from that. He says their own AI-powered PDF parser had more than 30,000 users at the time, with a free allowance of 1,000 pages a day (as reported in the lecture, September 2024) ([46:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2760)).
 - **Beyond the chat reply.** Consultants and other knowledge workers want whole artifacts: a report, a slide deck, code ([52:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3120)).
 - **A report-generation architecture.** A researcher agent retrieves and fetches material and stores notes in a data cache. A writer agent turns the cache into interleaved text, image and table blocks. A reviewer may follow ([60:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3600)). [Chapter 05](05-multi-agent-systems-ii-the-llm-era.md) asks when such a division pays off.
-- **Customer support.** In his view it is the most common external enterprise use of agents ([60:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3600)).
+- **Customer support.** In his view it is the most common external enterprise use of agents. The gain he names is a higher deflection rate (the share of requests resolved without a person), and a better experience than an automated phone menu ([60:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3600)).
 - **From notebook to production.** Start in a notebook. Then give each agent an API, route communication through a central message queue, deploy on Kubernetes, and make human-in-the-loop a service: an agent that needs a person sends a message, waits and resumes. He cites the Devin coding agent, which stops and asks when it lacks clarity ([62:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3720), [64:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3840)).
 
 ## Pitfalls
@@ -216,7 +217,7 @@ Stretch goal: add a router prompt that sends comparison questions to a path that
 
 ## Sources
 
-- **Lecture:** Jerry Liu, "Agentic AI Frameworks & AutoGen + Building a Multimodal Knowledge Assistant" (second half), UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=OOdtmCMSOo4), used at [four ingredients](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2520), [data pipeline](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2640), [parsing](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2760), [representations and dereferencing](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2880), [multimodal RAG](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3000), [agentic RAG](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3120), [constrained flows](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3360), [tool rule of thumb](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3480), [report generation](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3600), [production](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3720)
+- **Lecture:** Jerry Liu, "Agentic AI Frameworks & AutoGen + Building a Multimodal Knowledge Assistant" (second half), UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=OOdtmCMSOo4), used at [the setting](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2280), [four ingredients](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2520), [data pipeline](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2640), [parsing](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2760), [representations and dereferencing](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2880), [multimodal RAG](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3000), [agentic RAG](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3120), [constrained flows](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3360), [tool rule of thumb](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3480), [report generation](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3600), [production](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3720)
 
 ## Next
 

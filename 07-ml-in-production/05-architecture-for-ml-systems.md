@@ -30,9 +30,20 @@ Three words carry the chapter:
 
 A feature can be added almost anywhere. Qualities cannot. Latency, privacy, offline use and update speed all depend on how the parts are arranged. So you list the qualities first and let them choose the shape.
 
+Kästner shows how far this goes with four systems that share almost nothing else ([chapter 8](https://mlip-cmu.github.io/book/08-thinking-like-a-software-architect.html)):
+
+| System | What shapes the design |
+|---|---|
+| Music recommendations | Answers must be fast and serve millions, and the team experiments constantly. Reliability matters less, because cached or non-personalized recommendations can stand in. |
+| Audio transcription | No real-time answers, but demand comes in bursts and inference needs specialized hardware. A cloud work queue fits, and rare updates can pass through manual checks. |
+| Autonomous train | Dozens of models run in real time on hardware aboard the train. Mistakes can be fatal, so non-ML components carry most of the safety logic. |
+| Privacy-focused smart keyboard | The phone trains the model as well as running it, on a battery. Even what telemetry to collect becomes a design decision. |
+
 ### Divide and conquer
 
 Split the system into components, each with one job, so that teams can work in parallel and test parts in isolation. For ML systems, Kästner returns to one split again in chapter 10: keep the model apart from the business logic, and keep the training and telemetry infrastructure apart from both. The model then has one place to live, one owner and one interface to guard.
+
+Kästner calls an interface the place where teams negotiate. It is rarely fully specified, and some responsibilities have to be written into it. His example is data quality. Does the component that provides the data answer for it, or does the pipeline that consumes it? He also recommends hiding whatever is likely to change inside one component, so that the change stays local. That is **information hiding**.
 
 ### Reason with views
 
@@ -40,7 +51,16 @@ You cannot hold a whole system in one picture. An **architectural view** shows o
 
 ### Use what others have learned
 
-Architects do not start from scratch. **Architectural styles** are common overall structures, such as client-server, the first one Kästner names, or the three-tier layout of front end, business logic and data storage. **Design patterns** are named solutions to smaller design problems, with their known benefits and pitfalls recorded.
+Architects do not start from scratch. **Architectural styles** are common overall structures. Kästner names six ([chapter 8](https://mlip-cmu.github.io/book/08-thinking-like-a-software-architect.html)):
+
+- **Client-server.** One server serves many simpler clients over a network.
+- **Multi-tier.** Requests travel down through layers and never back up. The usual form has three tiers: a presentation tier for the user interface, a logic tier for business rules and a data tier for storage.
+- **Service-oriented and microservices.** Self-contained services call each other remotely. Each owns its data, so each deploys and scales on its own.
+- **Event-based.** Components publish messages without knowing who listens. Robotics works this way.
+- **Data-flow**, or pipe-and-filter. One component's output is the next one's input, like shell commands joined with `|`. Training pipelines take this shape.
+- **Monolith.** One unit with interwoven internals. Simple to start, hard to grow.
+
+**Design patterns** are named solutions to smaller design problems, with their known benefits and pitfalls recorded. A pattern states its name, the problem, the solution, the alternatives and the trade-offs. ML has no stable catalog yet, Kästner warns: the proposed patterns are scattered and poorly named. Two of his examples matter here. A **heartbeat** lets a component signal at fixed intervals, so a monitor can read silence as failure; faster signals mean quicker detection and more network traffic. A **feature store** keeps the feature-engineering code in one place for training and serving, so the two cannot compute an input differently, at the price of extra infrastructure.
 
 ### Architecture against speed
 
@@ -77,7 +97,7 @@ Each row has one owner. A model update touches three rows: encoding, inference a
 
 ## Worked example
 
-An **architecture decision record** (ADR) is a short file that keeps one decision together with its context and its alternatives. Teams keep them in the repository, next to the code. This one settles where the triage model runs.
+An **architecture decision record** (ADR) is a short file that keeps one decision together with its context and its alternatives. Teams keep them in the repository, next to the code. The layout is the one Kästner describes for a design pattern: problem, solution, alternatives and trade-offs. This one settles where the triage model runs.
 
 ```markdown
 # ADR 014: Run the triage model as its own service
@@ -120,7 +140,7 @@ What to observe:
 For most teams, the LLM is a component that someone else operates. You never deploy the model. That moves the architectural decisions to what surrounds it.
 
 - **The prompt is a component.** Prompts, model names and settings belong in version control as artifacts with owners, not as strings inside application code.
-- **Retrieval is a component.** A system that lets the model consult your documents needs an indexing step, a store and a search step. Each has an interface and each can fail: [Evaluation Is the Product](../03-evaluation/01-evaluation-is-the-product.md) explains how to test the result.
+- **Retrieval is a component.** A system that lets the model consult your documents needs an indexing step, a store and a search step. Each has an interface and each can fail. Kästner records this as the **retrieval-augmented generation** pattern, with its costs: extra infrastructure, extra inference cost and latency, and the risk that the model repeats proprietary text from what it retrieved. [Evaluation Is the Product](../03-evaluation/01-evaluation-is-the-product.md) explains how to test the result.
 - **The text that reaches the model is an input surface.** A support ticket can carry instructions as easily as a web page can. The architecture view to add is a data-flow view: every source of text, and what the model can do after reading it: [Threat Modeling LLM Applications and Agents](../04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md).
 - **Cost becomes an architecturally significant requirement.** Price and latency scale with the number of tokens, the pieces of text a model reads and writes. Whether a component calls the model once per request or once per day is an architecture decision.
 
@@ -131,7 +151,7 @@ An **agent** changes who controls the flow. In a normal system, your code decide
 - **Architecture is about the decisions that are hard to undo.** Kästner defines it as the early decisions that most influence whether a system meets its quality requirements ([chapter 8](https://mlip-cmu.github.io/book/08-thinking-like-a-software-architect.html)). Qualities such as scalability, security and changeability cannot be added later without a rewrite.
 - **Make trade-offs on purpose.** You will not meet every requirement. Considering alternatives at design time turns trade-offs into deliberate choices instead of side effects of the first implementation.
 - **ML adds qualities to plan for.** Beyond the usual ones, he lists accuracy, training and inference cost, training and inference latency, reproducibility, data provenance, fairness and explainability.
-- **The Twitter redesign.** As a non-ML illustration, he recounts how Twitter began as a single Ruby on Rails application with one database, built by three friends. As it grew, it became slow, patches made it harder to maintain, and hardware spending became unsustainable. After 2010 the company rewrote the system, which Kästner calls a rare last resort, with four quality goals: lower latency and operating cost, reliability through isolating failures, maintainability through clearer module boundaries, and modifiability so small teams could ship features quickly.
+- **The Twitter redesign.** As a non-ML illustration, he recounts how Twitter began as a single Ruby on Rails application with one database, built by three friends. As it grew, it became slow, patches made it harder to maintain, and hardware spending became unsustainable. After 2010 the company rewrote the system, which Kästner calls a rare last resort, with four quality goals: lower latency and operating cost, reliability through isolating failures, maintainability through clearer module boundaries, and modifiability so small teams could ship features quickly. The rewrite split the monolith into microservices, replaced Ruby with Scala, and removed the single bottleneck for writing tweets. His last remark is that the original design suited its time: for a prototype chasing early users, scalability mattered less than speed.
 
 ## Pitfalls
 

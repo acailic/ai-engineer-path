@@ -107,12 +107,12 @@ print(estimate(prompt_tokens=500, output_tokens=200))                        # (
 print(estimate(prompt_tokens=500, output_tokens=200, history_tokens=8_000))  # (0.00465, 6.7)
 ```
 
-This script calls no API and costs nothing. To calibrate it you will make real calls; 20 short calls with a small model cost far less than one cent (estimate, as of November 2026).
+This script calls no API and costs nothing. To calibrate it you will make real calls. At the example prices above, 20 short calls cost just over one cent.
 
 What to observe:
 
 - **The history dominates.** With 8,000 tokens of earlier turns, the input is 17 times larger, and the cost rises sevenfold.
-- **The output dominates the time.** Both calls spend most of their latency waiting for 200 tokens to arrive.
+- **The output sets a floor on the time.** The 200 output tokens take 3.3 seconds in both calls, almost the whole latency of the short one.
 - **A conversation grows at every turn.** Sum the estimator over ten turns of a chat and the total rises much faster than the number of turns.
 
 The shape of the request, in illustrative pseudocode. Field names follow one provider's API and differ elsewhere:
@@ -131,7 +131,7 @@ The shape of the request, in illustrative pseudocode. Field names follow one pro
 The Berkeley lectures leave this ground to the API documentation. Dubois closes his with a list of topics he did not cover, and "decoding & inference" and "context size" are both on it (his outlook slide). What his lecture does supply is the mechanism behind the settings:
 
 - **Generation is a loop.** His slides list the steps of inference: tokenize, forward, predict the probability of the next token, sample, detokenize. Temperature and top-p act in the "sample" step, and the max-tokens parameter decides when the loop is stopped from outside.
-- **Sampling is a feature.** Denny Zhou shows in his Fall 2024 lecture that always taking the most likely token can start an answer on the wrong foot, and that exploring alternatives finds correct reasoning paths ([42:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2520)). A low temperature is a tool for reproducibility, not a setting for every task.
+- **Sampling is a feature.** Denny Zhou shows in his Fall 2024 lecture that always taking the most likely token can start an answer on the wrong foot, and that exploring alternatives finds correct reasoning paths ([38:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2280)). His example is an apple-counting question that a model answers wrongly when its first token is a bare number. A low temperature is a tool for reproducibility, not a setting for every task.
 
 Evan Miller's paper, covered in [Chapter 07](07-why-llm-outputs-are-noisy.md), adds the rule for evaluations: measure at the settings you deploy. Do not lower the temperature only to make the numbers calm.
 
@@ -156,7 +156,7 @@ Evan Miller's paper, covered in [Chapter 07](07-why-llm-outputs-are-noisy.md), a
 4. Replace the constants in the estimator with what you measured. Predict the cost and latency of a call with a 5,000-token prompt and 500 output tokens. Run it and compare.
 5. Run the request with streaming on and off, and note when the first characters appear.
 
-This makes about 25 paid calls, more with the stretch goal. With a small model they cost well under one cent in total (estimate, as of November 2026).
+This makes about 25 paid calls, more with the stretch goal. At the example prices above they cost under two cents in total, and under ten with the stretch goal. Real prices depend on the model and the provider.
 
 **You are done when:** your report has a two-column table, predicted against measured, for cost and for latency, and a sentence explaining any estimate that was off by more than a factor of two.
 

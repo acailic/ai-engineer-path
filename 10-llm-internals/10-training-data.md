@@ -43,9 +43,9 @@ The lecturer notes that the lines are blurry and that some large models now ship
 
 | Source | How to get it | Figures quoted in Lecture 13 |
 |---|---|---|
-| Common Crawl | Download a crawl: WARC files hold raw HTML, WET files hold extracted text | Non-profit since 2007; the April 2026 crawl has 2.19 billion pages, 372 TB |
-| Wikipedia | Periodic dumps | 67 million articles in 361 language editions |
-| GitHub | Clone repositories with permissive licenses; metadata from GitHub Archive | 420 million repositories, 28 million public |
+| Common Crawl | Download a crawl: WARC files hold raw HTML, WET files hold extracted text | Non-profit since 2007 ([32:00](https://www.youtube.com/watch?v=-qm0ln33G24&t=1920)); the April 2026 crawl has 2.19 billion pages, 372 TB |
+| Wikipedia | Periodic dumps | 67 million articles in 361 language editions ([36:00](https://www.youtube.com/watch?v=-qm0ln33G24&t=2160)) |
+| GitHub | Clone repositories with permissive licenses; metadata from GitHub Archive | 420 million repositories, 28 million public ([40:00](https://www.youtube.com/watch?v=-qm0ln33G24&t=2400)) |
 | arXiv | Bulk download; LaTeX source available | About 3 million submissions |
 | Stack Exchange | Data dumps with votes and tags | Question-and-answer format close to instruction data |
 | Books | Licensed or public-domain collections | Mixed legal status |
@@ -77,7 +77,7 @@ No single threshold is right. The lecturer's rule at [16:00](https://www.youtube
 
 Duplicates come in two kinds. Exact copies come from mirror sites and forks. Near copies differ by a few words: licenses, boilerplate, template text. One product description appears 61,036 times in C4. Removing repeats trains more efficiently and reduces memorization.
 
-**Exact duplicates.** Hash each document and keep one per hash. Use a fast hash such as MurmurHash, not a cryptographic one. C4 went finer, removing repeated three-sentence spans, with a warning: deleting a span from the middle can leave an incoherent document.
+**Exact duplicates.** Hash each document and keep one per hash. Use a fast hash such as MurmurHash, not a cryptographic one. C4 went finer, removing repeated three-sentence spans, with a warning: deleting a span from the middle can leave an incoherent document ([Lecture 14, 30:00](https://www.youtube.com/watch?v=5sxHosTLPF8&t=1800)).
 
 **Near duplicates.** Compare documents as sets of word sequences. The **Jaccard similarity** of two sets is their shared share:
 
@@ -102,11 +102,11 @@ Two answers come from the lecture. A hard cap on passes per source, and **regres
 
 ### 6. Synthetic data
 
-A strong model can write training data. In pretraining, Nemotron-CC has a model rephrase low-quality pages and generates tasks from good ones. After pretraining, whole datasets are synthetic: OpenThoughts has 1.2 million reasoning examples written by a 32B teacher. The lecturer's findings there: sampling 16 responses per prompt helped, filtering answers did not, and a stronger model was not the better teacher.
+A strong model can write training data. In pretraining, Nemotron-CC has a model rephrase low-quality pages and generates tasks from good ones. After pretraining, whole datasets are synthetic: OpenThoughts has 1.2 million reasoning examples written by a 32B teacher. The lecturer's findings there: sampling 16 responses per prompt helped, and a stronger model was not the better teacher. QwQ 32B taught better than DeepSeek R1 ([76:00](https://www.youtube.com/watch?v=5sxHosTLPF8&t=4560)).
 
 ### 7. The legal layer
 
-Almost everything online is copyrighted. Using it needs a license or a fair-use argument. As of the lecture, US courts had found training on lawfully obtained books to be fair use in two cases, and obtaining them by piracy to be unlawful in one, with a reported $1.5 billion settlement. The lecturer's summary is that the area is active and evolving, so treat this as a snapshot.
+Almost everything online is copyrighted. Using it needs a license or a fair-use argument. As of the lecture, US courts had found training on lawfully obtained books to be fair use in two cases, and obtaining them by piracy to be unlawful in one, with a reported $1.5 billion settlement. The lecturer stresses that the rulings are narrow: they do not make any training on copyrighted content fair use ([Lecture 13, 28:00](https://www.youtube.com/watch?v=-qm0ln33G24&t=1680), [30:00](https://www.youtube.com/watch?v=-qm0ln33G24&t=1800)). The area is active and evolving, so treat this as a snapshot.
 
 ## Worked example
 
@@ -170,7 +170,7 @@ The lecturer's thesis across both lectures is that data work never ended, it cha
 
 He is candid about the method's maturity. Where other parts of the course rest on first principles, "data processing is, right now at least, a lot just based on kind of vibes" ([80:00](https://www.youtube.com/watch?v=-qm0ln33G24&t=4800)). He suggests the data assignment as a place to look for better ways.
 
-On filtering he calls language identification a fairly easy problem ([12:00](https://www.youtube.com/watch?v=5sxHosTLPF8&t=720)). On mixing, he compares the regression method to scaling laws: cheap small runs that stand in for an expensive large one. And his closing description of the work is that "it's very domain-specific and requires looking at concrete examples" ([84:00](https://www.youtube.com/watch?v=5sxHosTLPF8&t=5040)).
+On filtering he calls language identification a fairly easy problem ([12:00](https://www.youtube.com/watch?v=5sxHosTLPF8&t=720)). On mixing, he compares the regression method to scaling laws: cheap small runs that stand in for an expensive large one ([62:00](https://www.youtube.com/watch?v=5sxHosTLPF8&t=3720)). And his closing description of the work is that "it's very domain-specific and requires looking at concrete examples" ([84:00](https://www.youtube.com/watch?v=5sxHosTLPF8&t=5040)).
 
 Lecture 13 also gives the history in datasets: WebText for GPT-2, C4 for T5, The Pile, MassiveText for Gopher, the Llama sets, RefinedWeb, FineWeb at 15 trillion tokens, Dolma at 3 trillion, and Nemotron-CC at 6.3 trillion. For scale, it notes that Llama 3 trained on 15 trillion tokens and Qwen3 on 36 trillion.
 
@@ -202,7 +202,7 @@ You are done when:
 ## Key takeaways
 
 - Training data comes from a pipeline: transform, filter, deduplicate, mix. The reduction is about two orders of magnitude.
-- Every filter is "find raw text that resembles a small trusted sample". The right threshold depends on how long you train.
+- Every filter has the same shape: find raw text that resembles a small trusted sample. The right threshold depends on how long you train.
 - Exact duplicates fall to hashing. Near duplicates fall to MinHash with locality-sensitive hashing, which needs time linear in the data.
 - Mixing is a scaling problem: try mixtures small, then extrapolate, with a cap on repeats.
 - The work is judgment-heavy and example-driven. Read the data.
@@ -247,7 +247,8 @@ You are done when:
 
 ## Sources
 
-- **Lecture:** Stanford CS336, "Lecture 13: Data (Sources, Datasets)", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=-qm0ln33G24), used at [why data is secret](https://www.youtube.com/watch?v=-qm0ln33G24&t=0), [stages](https://www.youtube.com/watch?v=-qm0ln33G24&t=120), [closing](https://www.youtube.com/watch?v=-qm0ln33G24&t=4800)- **Lecture:** Stanford CS336, "Lecture 14: Data", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=5sxHosTLPF8), used at [language ID](https://www.youtube.com/watch?v=5sxHosTLPF8&t=720), [thresholds](https://www.youtube.com/watch?v=5sxHosTLPF8&t=960), [simulated scarcity](https://www.youtube.com/watch?v=5sxHosTLPF8&t=4080), [closing](https://www.youtube.com/watch?v=5sxHosTLPF8&t=5040)
+- **Lecture:** Stanford CS336, "Lecture 13: Data (Sources, Datasets)", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=-qm0ln33G24), used at [why data is secret](https://www.youtube.com/watch?v=-qm0ln33G24&t=0), [stages](https://www.youtube.com/watch?v=-qm0ln33G24&t=120), [closing](https://www.youtube.com/watch?v=-qm0ln33G24&t=4800)
+- **Lecture:** Stanford CS336, "Lecture 14: Data", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=5sxHosTLPF8), used at [language ID](https://www.youtube.com/watch?v=5sxHosTLPF8&t=720), [thresholds](https://www.youtube.com/watch?v=5sxHosTLPF8&t=960), [simulated scarcity](https://www.youtube.com/watch?v=5sxHosTLPF8&t=4080), [closing](https://www.youtube.com/watch?v=5sxHosTLPF8&t=5040)
 - **Reading:** Common Crawl: [commoncrawl.org](https://commoncrawl.org/)
 - **Reading:** Colin Raffel et al., "Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer" (2019), the paper that introduced C4: [arXiv](https://arxiv.org/abs/1910.10683)
 - **Reading:** Guilherme Penedo et al., "The FineWeb Datasets: Decanting the Web for the Finest Text Data at Scale" (2024): [arXiv](https://arxiv.org/abs/2406.17557)

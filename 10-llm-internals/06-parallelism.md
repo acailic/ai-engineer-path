@@ -9,7 +9,7 @@
 
 Two situations push training onto many GPUs. The first is memory: a model with a trillion parameters does not fit on one B200 with 192 GB. The second is speed: you have 1,024 GPUs and a deadline.
 
-Percy Liang opens Lecture 7 with the catch: "It's very easy to use a ton of GPUs, but it's hard to use them effectively" ([0:00](https://www.youtube.com/watch?v=SzpOcwdIL0Y&t=0)). Used badly, a thousand GPUs do the work of fifty.
+Percy Liang opens Lecture 7 with the catch: "It's very easy to use a ton of GPUs, but it's hard to use them effectively" ([0:00](https://www.youtube.com/watch?v=SzpOcwdIL0Y&t=0)).
 
 ## The core idea
 
@@ -22,7 +22,7 @@ Chapter 05's rule was that compute is far from data, so move less of it. Multi-G
 | Another GPU in the same node | NVLink through a switch | 1.8 TB/s |
 | A GPU in another node | InfiniBand | About 0.05 TB/s |
 
-Each step down is slower, and the last is about 160 times slower than main memory.
+Each step down is slower, and the last is about 160 times slower than main memory. Liang's calibration: NVLink 5 gives 1.8 TB/s between GPUs in a node, about four times slower than a B200's 8 TB/s of HBM ([22:00](https://www.youtube.com/watch?v=SzpOcwdIL0Y&t=1320), [24:00](https://www.youtube.com/watch?v=SzpOcwdIL0Y&t=1440)).
 
 Given many GPUs, you can do two things with every tensor: **replicate** it, so each GPU has a full copy, or **shard** it, so each GPU holds a slice. Replication costs memory. Sharding costs communication, because a slice on one GPU is needed on another. Every strategy below is a choice of which tensors to shard.
 
@@ -47,6 +47,8 @@ A **rank** is one GPU's number in the job, and the **world size** is the count o
 
 One identity carries most of the lecture: all-reduce is reduce-scatter followed by all-gather. Splitting it in two lets you stop halfway and keep only a slice.
 
+Liang's accounting for an all-reduce on a tensor of `size` bytes: each rank sends about `2 × (world size − 1) / world size × size`, which approaches twice the size as the cluster grows. The effective bandwidth of the operation, bytes sent divided by time, is independent of world size and of whether messages travel a ring or a tree. His four-GPU run measures about 400 GB/s ([48:00](https://www.youtube.com/watch?v=SzpOcwdIL0Y&t=2880), [50:00](https://www.youtube.com/watch?v=SzpOcwdIL0Y&t=3000)).
+
 ### 2. Data parallelism
 
 **Distributed data parallel** (DDP) replicates the model and shards the data:
@@ -56,7 +58,7 @@ One identity carries most of the lecture: all-reduce is reduce-scatter followed 
 3. Gradients are summed across ranks with an all-reduce.
 4. Every rank applies the same update, so the copies stay identical.
 
-Losses differ per rank. Gradients and parameters end up the same. Liang calls it "basically standard training" ([60:00](https://www.youtube.com/watch?v=SzpOcwdIL0Y&t=3600)). The problem is memory: every GPU holds every parameter, gradient and optimizer state.
+Losses differ per rank. Gradients and parameters end up the same. Liang calls it standard training with one line added after the backward pass, and likes that DDP is modular: it averages gradients and does not care what the forward pass looks like ([60:00](https://www.youtube.com/watch?v=SzpOcwdIL0Y&t=3600)). The problem is memory: every GPU holds every parameter, gradient and optimizer state. Its hidden cost is the batch. With a batch of 8 you can never use more than 8 accelerators, and past the **critical batch size** an extra example buys less than one more optimization step would ([cs336-08, 28:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=1680)).
 
 ### 3. Shard the state: ZeRO and FSDP
 
@@ -76,7 +78,9 @@ Stages 1 and 2 cost nothing extra because of the identity above: the gradient al
 
 Shard by depth: consecutive layers go to different GPUs. A batch is split into **micro-batches** that flow through the stages one after another. While one GPU works on micro-batch two, the next GPU works on micro-batch one.
 
-The weakness is the **bubble**: at the start and end of each step, some GPUs wait for others. More micro-batches shrink the bubble. The strength is that each GPU talks only with its neighbors, sending activations forward and gradients back, so it works over slower links.
+The weakness is the **bubble**: at the start and end of each step, some GPUs wait for others. More micro-batches shrink the bubble. Hashimoto gives three reasons to use pipelines anyway: they save memory compared with DDP, they compose with data parallel, and they have the best communication properties. They move only activations, batch × sequence × hidden, point to point between neighboring stages, so pipelines live on the slowest links ([34:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=2040), [36:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=2160)).
+
+Two refinements shrink the bubble further. Clever scheduling interleaves forward and backward steps of different micro-batches, as in DeepSeek's paper. Zero-bubble pipelining splits the backward pass in two: sending the gradient signal to the previous stage is urgent, computing a stage's own weight gradients is not, so the latter is deferred into gaps ([38:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=2280)).
 
 ### 5. Tensor parallelism
 
@@ -84,9 +88,9 @@ Shard the width: each weight matrix is split into pieces that live on different 
 
 ### 6. The rest
 
-- **Expert parallelism** places different experts of a mixture-of-experts layer on different GPUs and routes tokens with all-to-all (Chapter 04).
-- **Sequence parallelism** and **context parallelism** split the sequence length, which matters for long inputs.
-- **Activation recomputation** returns from Chapter 02: recompute instead of storing, to fit more.
+- **Expert parallelism** places different experts of a mixture-of-experts layer on different GPUs and routes tokens with all-to-all (Chapter 04). It complicates combinations: experts change only the MLPs, not the attention, so you want high tensor parallelism for the attention and low for the experts. Recent systems decouple the two ([58:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=3480), [60:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=3600)).
+- **Sequence parallelism** and **context parallelism** split the sequence length, which matters for long inputs. Context parallelism, or ring attention, spreads the activations of a long sequence across accelerators and passes them around a ring. It is used in long-context extension and in serving ([60:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=3600)).
+- **Activation recomputation** returns from Chapter 02: recompute instead of storing, to fit more. Hashimoto's counterintuitive tip: more recomputation can raise throughput, because saved memory becomes a larger batch, and pipelines need large batches ([72:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=4320)).
 
 ### 7. Putting it together
 
@@ -124,19 +128,19 @@ What to observe:
 - With DDP, each of the 8 GPUs holds 84 GB for a 7B model. That does not fit an 80 GB H100 before a single activation.
 - Stage 1, sharding only the optimizer state, brings it to 35 GB, with no extra communication.
 - Stage 3 brings it to 10.5 GB, the full model and state divided by 8.
-- Activations are not included. They are the next thing to budget, and the reason for recomputation.
+- Activations are not included. They are the next thing to budget, and the reason for recomputation. At moderately long sequence lengths, Hashimoto notes, activations dwarf parameter memory. His rule of thumb for storing everything is about 34 × batch × sequence × hidden per layer, plus an attention term that grows with sequence length, which recomputation with FlashAttention removes ([46:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=2760)).
 
 ## What the practitioners say
 
 Liang gives the two reasons for multiple GPUs: the model does not fit, or you want more FLOPs ([2:00](https://www.youtube.com/watch?v=SzpOcwdIL0Y&t=120)). On hardware, he explains why distance matters. Plain Ethernet routes every transfer through the CPU. **RDMA** (remote direct memory access) lets one GPU write into another's memory directly. InfiniBand supports it, standard Ethernet does not, and NVLink domains now reach 72 GPUs in a rack ([26:00](https://www.youtube.com/watch?v=SzpOcwdIL0Y&t=1560)).
 
-He also defends the course's bare-bones style. On TPUs you declare the model and the sharding, and the compiler plans the communication. Writing with raw collectives is done "so you can see mechanically what's happening" ([78:00](https://www.youtube.com/watch?v=SzpOcwdIL0Y&t=4680)). His last observation is that data parallelism repeats work on purpose, to avoid moving optimizer state, and that since there will always be bigger models, the hierarchy is permanent ([80:00](https://www.youtube.com/watch?v=SzpOcwdIL0Y&t=4800)).
+He also defends the course's bare-bones style. On TPUs you declare the model and the sharding, and the compiler plans the communication. Writing with raw collectives is done so that you can see mechanically what is happening ([78:00](https://www.youtube.com/watch?v=SzpOcwdIL0Y&t=4680)). His last observation is that data parallelism repeats work on purpose, to avoid moving optimizer state, and that since there will always be bigger models, the hierarchy is permanent ([80:00](https://www.youtube.com/watch?v=SzpOcwdIL0Y&t=4800)).
 
-Hashimoto's Lecture 8 is the practitioner's view. Because all-reduce splits into reduce-scatter and all-gather, the sharded versions of data parallelism come "for free" ([2:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=120)). Of FSDP he says that in practice utilization is very close to a single GPU, and he finds it remarkable for something so conceptually simple.
+Hashimoto's Lecture 8 is the practitioner's view. Because all-reduce splits into reduce-scatter and all-gather, the sharded versions of data parallelism come free ([2:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=120)). Of FSDP he says that in practice utilization is very close to a single GPU, and he finds it remarkable for something so conceptually simple ([24:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=1440)). Stages 1 and 2 leave that memory untouched, and stage 3 still does not split activations, which is what pushes teams toward the model-parallel strategies: there the parameters stay put and activations travel ([30:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=1800)).
 
-On pipelines he quotes the folklore that they are terrible, and answers that batch size hides the bubble ([34:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=2040)). On tensor parallelism he is categorical: it is "extremely communication hungry", so it belongs inside one node of up to eight GPUs, and on TPU meshes you can go further ([42:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=2520)). His summary: "tensor parallel is great whenever we have high-speed interconnects, every other time we probably want to be using pipeline parallel" ([44:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=2640)). The guidance he shows from Megatron says the same thing in order: minimize model parallelism, maximize data parallelism.
+On pipelines he quotes the folklore that they are terrible, and answers that batch size hides the bubble ([34:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=2040)). On tensor parallelism he is categorical: it is "extremely communication hungry", so it belongs inside one node of up to eight GPUs, and on TPU meshes you can go further ([42:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=2520)). His summary: "tensor parallel is great whenever we have high-speed interconnects, every other time we probably want to be using pipeline parallel" ([44:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=2640)). The guidance he shows from Megatron says the same thing in order: minimize model parallelism, maximize data parallelism. The sweeps he walks through show tensor parallelism capped at 8, pipeline parallelism growing until the model fits, data parallelism shrinking as scale grows, and utilization staying flat even at ludicrously large GPU counts ([70:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=4200)).
 
-The slides close with published recipes from Dolma, DeepSeek, Yi, Llama 3 405B, Gemma 2, Mixtral, Nemotron and Qwen 3, which combine these strategies in roughly the way the prescription predicts. One number stands out as a reminder that scale brings failures: during Llama 3 405B training, he notes, GPUs failed 148 times ([76:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=4560)).
+He closes with what recent runs did. Olmo, a 7B model, was trained entirely with FSDP, as many 7B-class models are. DeepSeek V1 used ZeRO stage 1 with tensor, sequence and pipeline parallelism. DeepSeek V3 used pipeline parallelism with 64-way expert parallelism ([72:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=4320)). NVIDIA's recommended configuration for Mixtral 8x22B uses expert parallelism of 8, pipeline parallelism of 4 and tensor parallelism of 4 on the attention layers, which follows the prescription. One number stands out as a reminder that scale brings failures: during Llama 3 405B training, he notes, GPUs failed 148 times ([76:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=4560)).
 
 ## Pitfalls
 

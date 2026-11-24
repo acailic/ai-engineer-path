@@ -79,13 +79,14 @@ The base layer is **function calling**: the model returns a structured request (
 
 The **Model Context Protocol (MCP)** standardizes the other end: how an AI application discovers and calls what an external system offers. Its documentation, as of November 2026, introduces it as "an open-source standard for connecting AI applications to external systems" and compares it to a USB-C port: one connector for data sources (local files, databases), tools (search engines, calculators) and workflows (specialized prompts). The same page lists support in Claude, ChatGPT, VS Code, Cursor and other clients, and links to guides for building servers, building clients, and building interactive apps that run inside AI clients.
 
-That introduction does not define the roles. The definitions below come from the 2025 revisions of the specification, which was not re-opened for this edition:
+That introduction does not define the roles. The definitions below come from the protocol's architecture page, which on November 24, 2026 documented the revision of July 28, 2026:
 
-- A **host** is the AI application. A **client** lives inside the host and holds one connection. A **server** is a small program, local or remote, that exposes capabilities.
+- A **host** is the AI application. A **client** lives inside the host and holds one connection. A **server** is a small program, local or remote, that provides context.
 - Servers offer three kinds of primitives: **tools** (functions the model may call), **resources** (data the application reads) and **prompts** (templates users pick).
 - Messages use **JSON-RPC**: a request and its reply are JSON objects with a method name, parameters and an ID.
-- A **transport** carries the messages: `stdio` for a local program that reads and writes its standard input and output, and an HTTP-based transport for remote servers.
-- On connecting, the two sides negotiate capabilities.
+- A **transport** carries the messages: `stdio` for a local program that reads and writes its standard input and output, and an HTTP-based transport (Streamable HTTP) for remote servers.
+- Capability discovery. In the 2025 revisions the two sides exchanged protocol version and capabilities in an `initialize` request when a connection opened. In the revision of July 2026 the protocol is stateless: every request carries the protocol version and the client's capabilities in a `_meta` field, and a client may send `server/discover` to learn which versions and capabilities a server supports.
+- Clients offer a primitive too: **elicitation**, with which a server asks the user for information or confirmation. The same page marks roots, sampling and protocol logging as deprecated since that revision.
 
 What MCP changes is the arithmetic. Without a standard, M applications each integrate N tools: M times N connectors. With one, each side implements the protocol once: M plus N. What it costs is one more moving part, a protocol that is revised often, and a security boundary you must draw yourself. A third-party server is someone else's code, and its tool descriptions are untrusted text that the model reads. Start from [threat modeling](../04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md) before you connect one.
 
@@ -93,7 +94,7 @@ Other protocols exist for other boundaries. Agent-to-agent protocols, such as th
 
 ## Worked example
 
-A tool server in 30 lines of plain Python, with no SDK. It is illustrative pseudocode in one sense: the file runs and uses the message shapes of the 2025 specification, but it leaves out parts a real server needs (full version negotiation, capability details, standard error codes). Use an official SDK for real work.
+A tool server in 30 lines of plain Python, with no SDK. It is illustrative pseudocode in one sense: the file runs and uses the message shapes of the 2025 specification, but it leaves out parts a real server needs (full version negotiation, capability details, standard error codes). It also predates the revision of July 2026, which adds the `_meta` field to every request and the `server/discover` method. Use an official SDK for real work.
 
 ```python
 # toy_tool_server.py — an MCP-shaped server over stdio: one JSON message per line.
@@ -162,7 +163,7 @@ Nicolas Chapados of ServiceNow gave the first part of the lecture of October 21,
   4. Multimodality: tasks such as "order me a shirt like this one" need vision.
   5. Cost and speed: the demo videos were sped up. Shrinking the context is one way forward.
 
-One remark from a different lecture fits here. Oriol Vinyals notes that AlphaStar's in-game actions were API calls with typed arguments, emitted one argument at a time by a hand-built network, and calls that "strikingly close to tool use" ([16:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=960)). The difference is that a language model can learn any tool interface from its description.
+One remark from a different lecture fits here. Oriol Vinyals notes that AlphaStar's in-game actions were API calls with typed arguments, emitted one argument at a time by a hand-built network, and calls that "strikingly close to tool use"; he names MCP, the protocol of Part 3, as one such interface ([16:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=960)). The difference is that a language model can learn any tool interface from its description.
 
 ## Pitfalls
 
@@ -245,7 +246,7 @@ Stretch goal: rewrite the server with the official MCP SDK for your language and
 
 ## Sources
 
-- **Web:** Model Context Protocol documentation, "What is the Model Context Protocol (MCP?)": [modelcontextprotocol.io/docs/getting-started/intro](https://modelcontextprotocol.io/docs/getting-started/intro), opened November 24, 2026
+- **Web:** Model Context Protocol documentation: "What is the Model Context Protocol (MCP?)" ([intro](https://modelcontextprotocol.io/docs/getting-started/intro)) and "Architecture overview" ([architecture](https://modelcontextprotocol.io/docs/learn/architecture)), opened November 24, 2026; both pages document protocol version 2026-07-28
 - **Lecture:** Nicolas Chapados, "AI Agents for Enterprise Workflows" (second half, web agents), UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=-yf-e-9FvOc), used at [basic web agent](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=2040), [evaluation](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=2400), [WorkArena](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=2520), [AgentLab](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=3240), [challenges](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=3360)
 - **Lecture:** Oriol Vinyals, "Multi-Agent Systems in the Era of LLMs", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=ntjOxjZMaac), used at [actions as API calls](https://www.youtube.com/watch?v=ntjOxjZMaac&t=960)
 

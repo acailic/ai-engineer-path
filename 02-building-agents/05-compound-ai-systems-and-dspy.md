@@ -23,7 +23,7 @@ A **compound AI system** is a modular program in which language models play spec
 | Efficiency | Small models suffice when knowledge and control flow live in the program |
 | Inference-time scaling | The program can try several outputs and keep the best |
 
-Khattab's complaint is that such systems are built from long strings, or, as he puts it on a slide, they are too "stringly-typed": one prompt mixes the essential design with accidental wording. His slide lists the five roles a prompt couples (slide 14, [28:12](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=1692)). DSPy, a framework he developed with over 200 contributors, gives each role its own name:
+Khattab's complaint is that such systems are built from long strings: teams write thousands of tokens of English to coerce a model into each role, and when the model changes or a sixth module is added, the old wording is, in his words, "basically irrelevant at that point" ([12:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=720)). The systems are too "stringly-typed", as he puts it: one prompt mixes the essential design with accidental wording. He lists the five roles a prompt couples ([10:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=600)). DSPy, a framework he developed with over 200 contributors, gives each role its own name:
 
 | Role | Name in DSPy | The question it answers | Relative in ordinary programming |
 |---|---|---|---|
@@ -33,7 +33,7 @@ Khattab's complaint is that such systems are built from long strings, or, as he 
 | The objective | **Metric** | What counts as a good output? | A test |
 | The tuning | **Optimizer** | Which instructions and examples work? | A compiler pass |
 
-The idea is close to SQL: you declare the result you want and a planner decides how to get it. The analogy breaks on cost and certainty. A database planner is exact and free. A DSPy optimizer is a search that spends model calls and needs a small set of examples.
+The idea is close to SQL: you declare the result you want and a planner decides how to get it. The analogy breaks on cost and certainty. A database planner is exact and free. A DSPy optimizer is a search that spends model calls and needs a small set of examples. Khattab's own analogy is a compiler: the same C code becomes different machine code on different processors, and one program should become different prompts on different models ([14:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=840)).
 
 ## How it works, step by step
 
@@ -50,7 +50,7 @@ Three families of optimizers appear in the lecture:
 |---|---|---|
 | Bootstrap few-shot | Example demonstrations | Runs the program, keeps traces that scored well, searches over subsets |
 | Instruction proposal | The wording of instructions | A model proposes candidates, given earlier candidates and their scores |
-| MIPRO | Both together | A Bayesian optimizer, one that picks the next trial from earlier results, balances the two |
+| MIPRO | Both together | Bootstraps examples, proposes instructions, then a Bayesian optimizer, a probabilistic model that predicts the score of a combination from earlier trials, picks what to try next; each candidate is scored on a small sample of the validation set ([52:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3120), [54:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3240)) |
 
 ## Worked example
 
@@ -89,7 +89,7 @@ Compiling calls a paid API many times: each training example, times several cand
 
 Khattab's Fall 2024 lecture makes five points.
 
-- **Fluency hides mistakes.** A monolithic model's errors are hard to see because the wrong answer reads as well as the right one. He shows a model that gave Stanford's founding year wrong and one that "parallelized" his Python loop with a data race ([0:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=0)). A pipeline lets you inspect the trace.
+- **Fluency hides mistakes.** A monolithic model's errors are hard to see because the wrong answer reads as well as the right one. He shows one chat in which a model gave Stanford's founding year wrong and then returned parallel code with the very bug he had asked it to avoid ([0:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=0)). A pipeline lets you inspect the trace.
 - **Composition raises quality fast.** His slide reports scores on HotpotQA, a public benchmark of questions whose answers combine several documents, from a year before the lecture: adding retrieval and then a second retrieval hop, each with an optimized program, moved GPT-3.5 from 34.3 to 54.7 and Llama-2-13B-Chat from 27.5 to 50.0 (slide 30). He adds that newer models score substantially higher ([28:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=1680)). A small model with an optimized program beat a larger one without.
 
 | Program on his slide | GPT-3.5 | Llama-2-13B-Chat |
@@ -102,7 +102,7 @@ Khattab's Fall 2024 lecture makes five points.
 - **Ground the proposals.** An instruction writer does better when it sees more than past prompts and scores: worked examples for that module, a summary of the data set, and a description of the program's own code ([48:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2880), [50:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3000)).
 - **Show, don't tell.** On a benchmark of many programs, bootstrapped demonstrations gave the clearest gains. Optimized instructions helped most on tasks with many conditional rules, where a few examples cannot show every case ([56:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3360), [58:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3480)).
 
-His summary: write about ten lines of declarative code, state an objective, pick an optimizer, and spend your effort on which modules to build and how to connect them ([58:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3480)). On his slides from October 2024, DSPy was in production use at JetBlue, Databricks, Walmart, VMware, Replit and others. For where DSPy sits among agent frameworks, see [Part 05](../05-frameworks-and-multi-agent/01-the-agent-framework-landscape.md).
+His summary: write about ten lines of declarative code, state an objective, pick an optimizer, and spend your effort on which modules to build and how to connect them ([58:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3480)). As he tells it, Toronto researchers used it to win a medical question-answering competition against 15 other groups, and a Maryland researcher who had spent 20 hours on prompts for a text classifier beat his own system with DSPy in 10 minutes ([34:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2040), [36:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2160)). On his slides from October 2024, DSPy was in production use at JetBlue, Databricks, Walmart, VMware, Replit and others. For where DSPy sits among agent frameworks, see [Part 05](../05-frameworks-and-multi-agent/01-the-agent-framework-landscape.md).
 
 ## Pitfalls
 
@@ -159,8 +159,11 @@ Build and optimize a two-step program on a task with known answers.
 
 ## Sources
 
-- **Lecture:** Omar Khattab, "Compound AI Systems and the DSPy Framework", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=JEMYuzrKLUw), used at [why compound systems](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=120), [stringly-typed prompts](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=1692), [results](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=1680), [metric and traces](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=1920), [bootstrapping](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2520), [grounding](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2880), [findings](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3360), [lessons](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3480)
-- **Reading:** Omar Khattab, Arnav Singhvi, et al., "DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines" (2023): [link](https://arxiv.org/abs/2310.03714)- **Reading:** Krista Opsahl-Ong, Michael Ryan, et al., "Optimizing Instructions and Demonstrations for Multi-Stage Language Model Programs" (2024): [link](https://arxiv.org/abs/2406.11695)- **Reading:** Matei Zaharia, Omar Khattab, et al., "The Shift from Models to Compound AI Systems" (2024): [link](https://bair.berkeley.edu/blog/2024/02/18/compound-ai-systems/)- **Documentation:** DSPy: [dspy.ai](https://dspy.ai)
+- **Lecture:** Omar Khattab, "Compound AI Systems and the DSPy Framework", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=JEMYuzrKLUw), used at [why compound systems](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=120), [stringly-typed prompts](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=600), [the compiler analogy](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=840), [case studies](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2040), [results](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=1680), [metric and traces](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=1920), [bootstrapping](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2520), [MIPRO](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3120), [grounding](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2880), [findings](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3360), [lessons](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3480)
+- **Reading:** Omar Khattab, Arnav Singhvi, et al., "DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines" (2023): [link](https://arxiv.org/abs/2310.03714)
+- **Reading:** Krista Opsahl-Ong, Michael Ryan, et al., "Optimizing Instructions and Demonstrations for Multi-Stage Language Model Programs" (2024): [link](https://arxiv.org/abs/2406.11695)
+- **Reading:** Matei Zaharia, Omar Khattab, et al., "The Shift from Models to Compound AI Systems" (2024): [link](https://bair.berkeley.edu/blog/2024/02/18/compound-ai-systems/)
+- **Documentation:** DSPy: [dspy.ai](https://dspy.ai)
 
 ## Next
 

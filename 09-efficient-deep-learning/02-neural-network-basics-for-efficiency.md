@@ -83,13 +83,13 @@ Worked numbers: 3 input channels, 16 output channels, `K = 3`, `P = 1`, `S = 1`,
 - MACs: 3 × 3 × 3 × 16 × 224 × 224 = 21,676,032, about 21.7 million.
 - Output activations: 16 × 224 × 224 = 802,816 values. At 2 bytes: 1.6 MB.
 
-The output block is about 1,800 times larger than the weights that produced it. That is Han's point on slides 60 to 64: the activation count, not the parameter count, is the memory bottleneck when a convolutional network runs.
+The output block is about 1,800 times larger than the weights that produced it. That is Han's point: when a network is trained, the activation count, not the parameter count, is the memory bottleneck, because every intermediate result is kept for the backward pass and a batch multiplies them ([44:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=2640)).
 
 Two more layer types appear in every modern network. A **normalization layer** rescales activations so training converges faster. An **activation function** is a simple nonlinearity applied to each value, such as `max(0, x)`.
 
 ### 3. Attention, in one paragraph
 
-A **transformer** is the architecture behind modern language models. Its key step, **attention**, has every token compare itself with every other token. Han describes it as a softmax over all pairs, giving an `M × N` attention map ([30:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1800)). The efficiency consequence: work grows with the square of the sequence length. [Chapter 08](08-efficient-llm-inference-and-deployment.md) covers what to do about it; the architecture itself is explained in [transformer architectures](../10-llm-internals/03-transformer-architectures-and-hyperparameters.md).
+A **transformer** is the architecture behind modern language models. Its key step, **attention**, has every token compare itself with every other token. Han describes it as a softmax over all pairs, giving an `M × N` attention map ([30:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1800)). The efficiency consequence: work grows with the square of the sequence length, and with the square of the resolution for images. He previews two answers: sparse attention, since not all tokens need to attend to each other, and FlashAttention, which cuts the memory movement and brings memory down to almost constant but leaves the FLOPs unchanged ([30:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1800)). [Chapter 08](08-efficient-llm-inference-and-deployment.md) covers what to do about it; the architecture itself is explained in [transformer architectures](../10-llm-internals/03-transformer-architectures-and-hyperparameters.md).
 
 ### 4. Counting operations
 
@@ -101,14 +101,14 @@ A **transformer** is the architecture behind modern language models. Its key ste
 | OP | any operation: floating-point, integer, binary, bitwise ([50:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=3000)) | work |
 | OPS | operations per second | speed |
 
-Han's example: AlexNet, an image classifier, needs 724 million MACs, which he restates as 1.4 billion OPs ([50:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=3000)). He introduces OP because quantized networks do integer arithmetic, which "floating-point" does not describe.
+Han's example: AlexNet, an image classifier, needs 724 million MACs, which he restates as 1.4 billion OPs ([50:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=3000)). He introduces OP because quantized networks do integer arithmetic, which the word floating-point does not describe. One MAC is `a = a + b × c`, and he notes it usually comes as a single instruction on a GPU ([44:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=2640)); one MAC is two FLOPs only when the operands are floating-point numbers ([48:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=2880)).
 
 The capital S matters, and so does the factor of two. Always check whether a paper counted MACs or FLOPs.
 
 ### 5. Counting memory
 
 - **Model size** is the storage for the weights (Han's slide 58): `parameters × bits per weight / 8`.
-- **Activation memory** is the intermediate results. The **peak activation size** is the largest set alive at the same moment, and it sets the RAM you need.
+- **Activation memory** is the intermediate results. The **peak activation size** is the largest set alive at the same moment, and it sets the RAM you need. Han's first-order estimate is simply a layer's input block plus its output block; an activation block has `C × H × W` values. He also notes that the split between the two kinds of memory is U-shaped through a vision network: early layers have few weights but large activations because the resolution is high, late layers the reverse because the channel count is large ([44:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=2640)).
 - Training needs more than inference. **Backpropagation**, the algorithm that works out how each weight should change, reads every intermediate result again. So all of them are kept. Han: "we have to store those intermediate activations" (Lecture 1, [8:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=480)).
 
 ### 6. Latency and throughput
@@ -205,7 +205,7 @@ What to observe:
 
 - Han opens with the numbers behind this part: Moore's law doubles hardware capability every two years, while deep learning models grow more than four times every two years (slide 3; [0:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=0)).
 - He groups the goals in three: a **smaller** model for storage, a **faster** model for real-time predictions, and a **greener** model that takes less battery. Memory, he says, determines all three ([32:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1920)).
-- In the example he discusses at [44:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=2640), activations outnumber parameters about seven to one, and his slides add that this ratio did not improve from ResNet to MobileNetV2.
+- In the example he discusses at [44:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=2640), activations outnumber parameters about seven to one during training. Going from ResNet-50 to MobileNetV2 at about the same accuracy cut the parameters four times, but the activation memory, his main bottleneck, improved only 1.1 times, about 10%. His conclusion: optimizing the activation is hard.
 - Grouped convolution divides the MAC count by `G`, the number of groups ([48:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=2880)).
 
 ## Pitfalls
@@ -261,7 +261,7 @@ Extend the script:
 
 ## Sources
 
-- **Lecture:** Song Han, "Lecture 2: Basics of Neural Networks", MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024): [video](https://www.youtube.com/watch?v=I0nKjPpZmMU), used at [Moore's law versus model size](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=0), [terms](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=120), [tensor dimensions](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=360), [grouped convolution](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1080), [latency and throughput](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1920), [MAC, FLOP and OP](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=3000)
+- **Lecture:** Song Han, "Lecture 2: Basics of Neural Networks", MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024): [video](https://www.youtube.com/watch?v=I0nKjPpZmMU), used at [Moore's law versus model size](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=0), [terms](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=120), [tensor dimensions](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=360), [grouped convolution](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1080), [activations versus parameters](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=2640), [one MAC, two FLOPs](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=2880), [latency and throughput](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1920), [MAC, FLOP and OP](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=3000)
 - **Lecture:** Song Han, "Lecture 1: Introduction", MIT 6.5940 (Fall 2024): [training versus inference memory](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=480), [algorithm and system co-design](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3720)
 - **Reading:** Vincent Dumoulin, Francesco Visin, "A Guide to Convolution Arithmetic for Deep Learning" (2016): [arXiv](https://arxiv.org/abs/1603.07285)
 

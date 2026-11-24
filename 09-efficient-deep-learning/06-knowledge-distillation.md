@@ -76,7 +76,7 @@ As a rule of thumb, start with logits. Add feature matching only when the studen
 
 ### 4. No teacher needed: self and online distillation
 
-- **Self-distillation.** The student has the same architecture as the teacher. You train a network, then train a second network of the same size to copy the first. Han's example is Born-Again Networks ([26:00](https://www.youtube.com/watch?v=Ubj3QXv4rjw&t=1560)).
+- **Self-distillation.** The student has the same architecture as the teacher. You train a network, then train a second network of the same size to copy the first. Han's example trains same-size networks one after another: the first with the classification loss alone, each next one with the classification loss plus a match to the previous one's logits, and the steps are ensembled at the end ([26:00](https://www.youtube.com/watch?v=Ubj3QXv4rjw&t=1560)). Born-Again Networks is the best-known study of the idea.
 - **Online distillation.** Several networks train together and teach each other from the start (Deep Mutual Learning).
 - **Both.** Han's slides add a method that combines deep supervision with distillation: Be Your Own Teacher.
 
@@ -84,7 +84,7 @@ His summary: "Not necessarily do we need a teacher model" ([56:00](https://www.y
 
 ### 5. Beyond classification
 
-The same pattern applies to other tasks, with a different thing to copy: feature maps for object detection and segmentation, attention for language models (Han's slides 41 to 58). Training a small model on the outputs of a large one is also how many compact language models are built.
+The same pattern applies to other tasks, with a different thing to copy: feature maps for object detection and segmentation, attention for language models (Han's slides 41 to 58). Detection needs a trick, which Han shows at [36:00](https://www.youtube.com/watch?v=Ubj3QXv4rjw&t=2160): a bounding box is usually predicted by regression, a continuous value with no distribution to match, so he cuts each axis into six bins, 36 in all, and treats the location as a 36-way classification. Training a small model on the outputs of a large one is also how many compact language models are built.
 
 ### 6. Tiny models need different regularization
 

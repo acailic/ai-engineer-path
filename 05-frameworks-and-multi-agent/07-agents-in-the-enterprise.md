@@ -23,22 +23,22 @@ An enterprise agent is a model plus five things around it, and the model is the 
 
 Gokturk's summary, after conversations with many companies, matches: success now rests on access to a broad set of models, choice and flexibility at every level, and the ability to customize ([30:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=1800)).
 
-The analogy is turning a contractor into an employee on probation: sources are checked, work is reviewed, and the review is written down. The analogy breaks at learning. An employee improves between reviews. A model improves only when you change its prompt, its data or the model itself.
+The analogy is a contractor on probation: sources are checked and the review is written down. It breaks at learning. A model improves only when you change its prompt, its data or the model itself.
 
 Two terms carry the chapter. **Grounding** ties each statement to a source fetched at run time. **Attribution** is the share of statements that the cited sources actually support. Gokturk's slides show attribution as a user-experience metric, with an example answer whose supporting sources are counted, 4 out of 7.
 
 ## How it works, step by step: from notebook to workflow
 
 1. **Pick the workflow.** High volume, rule-bound, and with a completion that software can check. Chapados's example: coffee spills on a laptop, an employee opens a help-desk ticket, and a person works through manual steps to ship a new one ([2:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=120)).
-2. **Pick the level of automation.** Draft only, then act after approval, then act alone within limits. Chapados's slides carry a chart of automation levels, and one of his closing slides is titled "Envisioning AI Augmentation to Empower Workers".
+2. **Pick the level of automation.** Draft only, then act after approval, then act alone within limits. Chapados describes the progression: scripting and robotic process automation (software that replays fixed steps), then classical AI workflows such as recommenders, then agent workflows, which need the most intelligence ([12:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=720)).
 3. **Prefer APIs.** The slides separate two kinds of agents. The second half of the lecture is about agents that drive a web interface. Reach for those only when no API exists ([chapter 06](06-agent-infrastructure-sandboxes-browser-use-and-protocols.md)).
-4. **Ground with attribution.** Gokturk calls search fundamental, even for making a model work well, and describes what an application needs: "I'm saying this, because here is the exact blurb from exact this document that's saying this" ([30:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=1800)). He names healthcare, finance and customer service, where a guess about a bill is not acceptable.
+4. **Ground with attribution.** Gokturk calls search fundamental, even for making a model work well ([12:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=720)), and describes what an application needs: "I'm saying this, because here is the exact blurb from exact this document that's saying this" ([30:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=1800)). He names healthcare, finance and customer service, where a guess about a bill is not acceptable.
 5. **Adapt the model on the ladder.** Gokturk's order, from cheapest to dearest ([38:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=2280), [40:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=2400)):
    - **Prompt design.** Put one to ten examples in the prompt. Zero-shot means no example; one-shot means one. Most teams stop here, in his account.
    - **Prompt tuning.** Learn a vector to put in front of the prompt. He expected more use of it and sees little.
    - **Parameter-efficient fine-tuning (PEFT).** Update few parameters, or add a small layer. LoRA (low-rank adaptation) freezes the base model and learns an added low-rank component. Less compute, and probably less data.
    - **Full fine-tuning.** Update all the weights. It needs much data and compute, and he says few customers do it.
-   - **Distillation.** Train a small **student** model to reproduce the answers of a large **teacher**. The idea appears in Gokturk's slides and again in Chapados's case study.
+   - **Distillation.** A large **teacher** model labels the training data, even with soft labels (a probability per option instead of one answer), and a small **student** learns to reproduce them. That avoids manual labeling, and costs less latency and money ([44:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=2640), [46:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=2760)). Chapados's case study applies it.
 6. **Add the control points.** Function calling lets the model act, not only answer. Each action needs permissions, an approval threshold and a log.
 7. **Evaluate.** Gokturk points to automatic side-by-side evaluation, with the largest model as the rater, because human raters are scarce ([58:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=3480)). For workflow agents, check the end state, as the ServiceNow team does.
 8. **Manage prompts and models.** Gokturk lists what teams ask for: a prompt management system with storage, revision history, and the ability to convert a prompt from one model to another ([58:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=3480)).
@@ -55,34 +55,34 @@ The two lectures describe the same system from two seats.
 | Record | Prompt management with history | The **tape**: a structured, granular, semantic-level log |
 | Evaluation | Automatic side-by-side with a large model as rater | Benchmarks on real workplace tasks |
 
-The tape deserves a sentence more. TapeAgents, the ServiceNow framework, is built around that log. In the map of the lecture, the optimization loops take the tapes produced during execution as their input: the trace is not only an audit record but also the data for the next model.
+The tape deserves more. TapeAgents rests on one abstraction: the **tape**, a structured log of every agent's thoughts and actions and the environment's replies. It is data: agents can read tapes that other agents produced, for debugging and for optimization ([20:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=1200), [24:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=1440)).
 
 ## What the practitioners say
 
 ### Gokturk: what companies ask for
 
-He describes his lecture as a view of the market, not of algorithms. He reports six trends ([15:57](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=957), [30:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=1800)):
+He reports six trends ([16:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=960)):
 
-1. AI is moving much faster.
-2. Technical trends in the models: his slides ask where models are headed and name separate models for different tasks, dense models and single-modality models.
-3. The choice of platform matters.
-4. The cost of API calls is approaching zero.
-5. Search, because the model and search need each other.
-6. The enterprise search tool or assistant, including tools for employees' own productivity. He names Glean and ChatGPT Enterprise.
+1. **AI is moving much faster.** A new product used to find one or two enterprise pilots; now thousands ask to try.
+2. **Model trends.** He expected one model per domain and was partly wrong: the next base model soon beats it. Models went from dense to sparse, which lowers latency and cost, and single-modality models are merging ([20:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=1200), [22:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=1320)).
+3. **The platform, not the model.** New models appear every few weeks, and a production application must return results almost always ([24:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=1440), [26:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=1560)).
+4. **API cost is approaching zero.** Running a paid small model cost his teams less than running an open-source model themselves ([26:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=1560)).
+5. **Search.** A model is trained in the past, hallucinates several percent of the time and cannot name its source. Search can cite ([28:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=1680)).
+6. **Assistants for employees' productivity.** He names Glean and ChatGPT Enterprise ([30:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=1800)).
 
-His slides list a slide on minimizing hallucinations as three problems, of which the available excerpt spells out only the first ("right context"). A slide on function calling says it "is all about developer control and flexibility".
+**Why grounding is needed.** His remedies: put the right context in the prompt, from private documents or web search, and check the citations afterwards; train more factual models, which costs some reasoning ability; show the user where each result comes from ([48:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=2880), [50:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=3000)).
 
-He also tells a story from his PhD. A small medical data set of 50 patients trained in 42 seconds, so he built intuition fast. Large models take weeks per run, and his worry is that intuition now arrives more slowly. The lesson for agents: keep the feedback loop short enough to learn from.
+He also tells a story from his PhD. Training on about 50 patients took 42 seconds, so he built intuition fast. Training a large model takes days, weeks or months, and he worries that intuition now arrives more slowly ([2:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=120)). The lesson for agents: keep the feedback loop short enough to learn from.
 
 ### Chapados: what deployment looks like
 
 He frames the question by people, not by models: who the users are, what role they have, what work they do, and in which context the agent should help ([0:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=0)). ServiceNow, he says, has 25,000 employees and sells a platform for enterprise workflows in IT, human resources and customer support. He groups trustworthiness, governance, safety and security with deployment: all are needed for an agent to succeed in practice.
 
-His slides add three points that are available only as slide titles:
+His lecture adds three points.
 
-- Two kinds of LLM agents, the first labeled API agents.
-- A case study of an inexpensive assistant that finds the right form for a user and helps complete it; its slide is titled "Student is 330x Cheaper".
-- An assessment of impact both top-down and bottom-up, next to a slide saying that technology adoption takes time and that uncertainty about generative AI adoption remains high.
+- **Two kinds of agents.** An API-calling agent uses tools with a formal specification. A web agent points and clicks as a person does ([8:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=480)).
+- **The long tail.** Big, predictable workflows were automated long ago, with scripting or robotic process automation. The opportunity for agents is tasks that never occur twice in the same way: tiny one by one, huge in aggregate ([12:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=720), [14:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=840)).
+- **The case study.** An agent that helps users fill in complex forms, built on a 405-billion-parameter Llama model, recorded its tapes. From them the team fine-tuned an 8-billion-parameter model. The large agents cost about 30,000 to 40,000 dollars per million conversation turns; the small one matched their score at more than 300 times cheaper ([28:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=1680), [30:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=1800)).
 
 ## Pitfalls
 
@@ -155,8 +155,8 @@ Stretch goal: run 20 past cases through a draft-only agent and measure how often
 
 ## Sources
 
-- **Lecture:** Burak Gokturk, "Enterprise trends for generative AI, and key components of building successful agents/applications", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=Sy1psHS3w3I), used at [feedback-loop anecdote](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=120), [trends and success factors](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=1800), [adaptation ladder](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=2280), [prompt management and evaluation](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=3480)
-- **Lecture:** Nicolas Chapados, "AI Agents for Enterprise Workflows", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=-yf-e-9FvOc), used at [framing](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=0), [help-desk example](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=120), [end-state checks](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=2400)
+- **Lecture:** Burak Gokturk, "Enterprise trends for generative AI, and key components of building successful agents/applications", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=Sy1psHS3w3I), used at [feedback-loop anecdote](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=120), [search is fundamental](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=720), [trends](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=960), [success factors and grounding](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=1800), [adaptation ladder](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=2280), [distillation](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=2640), [grounding remedies](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=2880), [prompt management and evaluation](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=3480)
+- **Lecture:** Nicolas Chapados, "AI Agents for Enterprise Workflows", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=-yf-e-9FvOc), used at [framing](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=0), [help-desk example](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=120), [agent types](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=480), [automation levels](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=720), [tapes](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=1200), [case study](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=1800), [end-state checks](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=2400)
 
 ## Next
 

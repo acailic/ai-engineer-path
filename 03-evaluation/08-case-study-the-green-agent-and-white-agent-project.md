@@ -13,7 +13,7 @@ The project is a compact specification of what an evaluator must do. This chapte
 
 ## The project in one paragraph
 
-The course is CS 294/194-196, *Agentic AI*, Fall 2025, taught by Dawn Song. In the lecture of October 6, 2025, two members of the course staff introduced Phase 1 of the project: building a **green agent**. Their analogy: "Like math exams are designed by math teachers and physics exams by physics teachers" ([64:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3840)). Each subject has its own examiners. Each evaluation should have its own hosting agent.
+The course is CS 294/194-196, *Agentic AI*, Fall 2025, taught by Dawn Song. In the lecture of October 6, 2025, the course staff introduced Phase 1 of the project: building a **green agent**. Their analogy: "Like math exams are designed by math teachers and physics exams by physics teachers" ([64:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3840)). Each subject has its own examiners. Each evaluation should have its own hosting agent.
 
 | Term | Meaning in the course |
 |---|---|
@@ -23,7 +23,7 @@ The course is CS 294/194-196, *Agentic AI*, Fall 2025, taught by Dawn Song. In t
 | **A2A** | The Agent2Agent protocol, an open convention for agents to exchange tasks and messages over the network. |
 | **MCP** | The Model Context Protocol, an open convention through which a server exposes tools to a model. |
 
-The colors have a history, which the lecture gives. In early work on safety benchmarks the team used red-team and blue-team setups. To name the judges and the other participants it introduced more colors, green and gray. "Green agent" stayed as the name of the host, and everyone else became a "white agent".
+The colors have a history, which the lecture gives. In early work on safety benchmarks the team used red-team and blue-team setups. To name the judges and the other participants it introduced more colors, green and gray. Green agent stayed as the name of the host, and all the others were folded into white agents (slide 66).
 
 **One point of precision.** In this lecture the white agent is the agent under test. It is not an attacker, and it is not a monitor. The only link to adversarial testing is the naming history.
 
@@ -37,9 +37,9 @@ The lecture lists five responsibilities ([66:00](https://www.youtube.com/watch?v
 4. Verify the environment.
 5. Report back to the platform.
 
-The lecturer's image is the technician at a repair shop, who runs the whole inspection. The green agent also designs and implements the metrics. It talks to the platform through MCP, A2A or plain APIs, can request permissions and resources, and submits results at the end.
+The lecturer's image is the technician at a repair shop, who runs the whole inspection. The green agent also designs and implements the metrics. It talks to the platform through MCP, A2A or plain APIs, can request permissions and resources, and submits results at the end ([68:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=4080)).
 
-An assessment runs in four steps:
+An assessment runs in four steps ([68:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=4080)):
 
 1. The platform checks that every agent taking part, the green agent included, is online and has been reset.
 2. It hands the green agent a task together with the addresses of the white agents to be assessed.
@@ -65,17 +65,17 @@ The white agent receives tasks over A2A and attempts them with the tools and env
 | Goal | Adapt a published benchmark into a green agent on AgentBeats | Create a benchmark where none exists |
 | Examples named | SWE-bench Verified, Terminal-Bench | Organizing a calendar, scheduling meetings, managing to-dos |
 | Metrics | Reuse the benchmark's own | Design them; automatic checks or light human checks |
-| Scope for one unit | Same | Prompt design and simple data generation |
-| Scope for more units | Same | Also evaluation rubrics and multi-round setups |
+| Scope for one unit | Often a prompt-based agent from the toolkit | Prompt design and simple data generation |
+| Scope for more units | Mostly hand-coded ([72:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=4320)) | Also evaluation rubrics and multi-round setups |
 | Distinctive demand | A quality analysis of the original benchmark | Realistic tasks that need reasoning; multi-agent tasks encouraged |
 
 **Type 1 has three steps** ([74:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=4440)):
 
 1. **Integration.** Convert the problem format to A2A, implement dataset loaders and interfaces, and add quality checks for correctness and reproducibility.
-2. **Benchmark quality analysis.** Sample tasks and check correctness, clarity and difficulty by hand. Confirm that the metrics and judges match real task success. Write down biases and limitations.
-3. **Correction and expansion.** Fix errors you found, and extend the benchmark where its coverage is thin.
+2. **Benchmark quality analysis.** Sample tasks and check correctness, clarity and difficulty by hand. Confirm that the metrics and judges match real task success. Write down biases and limitations ([76:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=4560)).
+3. **Correction and expansion.** Fix errors you found, and extend the benchmark where its coverage is thin ([78:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=4680)).
 
-The lecture's proof that step 2 matters is SWE-bench Verified, described in [the first chapter](01-evaluation-is-the-product.md): most of the original tasks were filtered out on review, and the cleaned set gave a different picture of model ability.
+The lecture's proof that step 2 matters is SWE-bench Verified, described in [the first chapter](01-evaluation-is-the-product.md): most of the original tasks were filtered out on review, and the cleaned set gave a different picture of model ability ([78:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=4680)).
 
 **Type 2** asks for useful, realistic daily tasks that showcase reasoning. Students were encouraged to build multi-agent benchmarks, for instance one agent that proposes solutions and another that analyzes them ([84:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=5040)).
 
@@ -115,7 +115,7 @@ The timeline ran as follows: proposal released September 27 and due October 8; d
 
 ## What makes it hard
 
-The lecture's last section walks through the course's own τ-bench integration. It shows where the difficulty sits.
+The lecture's last slides cover the course's own τ-bench integration, shown around [92:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=5520). The lecturer did not walk through them. The checklist was too concrete for the time left, he said, and the platform's creator would give a live example instead ([84:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=5040)). The slides still show where the difficulty sits.
 
 **The interface has to serve two masters.** A human should be able to solve the task when it is presented the same way. The procedure should also be as agent-friendly as possible. The staff's examples: give a browsing agent a URL rather than raw actions; give a coding agent an environment rather than only a repository.
 

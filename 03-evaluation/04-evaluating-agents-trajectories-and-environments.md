@@ -37,7 +37,11 @@ Fake data plus the tools that change it. Keep it small enough to read in one scr
 
 ### 3. Add a user simulator
 
-A **user simulator** is a model that plays the customer from a short instruction: who it is, what it wants, what it knows. Bavor describes personas such as a customer who is angry and confused because their phone plan was switched off ([32:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1920)). In some problems the user must also act, for example by toggling a switch on their router. τ²-bench, a benchmark from Sierra's research team, gives the simulated user its own tools for this reason.
+A **user simulator** is a model that plays the customer from a short instruction: who it is, what it wants, what it knows. Bavor describes personas such as a customer who is angry and confused because their phone plan was switched off ([32:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1920)). In some problems the user must also act. In Bavor's example the agent talks a caller through toggling a switch on a cable modem, which changes the world on the caller's side ([34:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=2040)). τ²-bench, a benchmark from Sierra's research team, gives the simulated user its own tools for this reason.
+
+**Why simulate at all.** Agents do not behave the same way twice, Bavor says, so a unit test or an integration test is not enough: they have to be tested in scenarios as close to the real one as possible ([30:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1800)). A realistic test, in his list, has a simulated user who types with typos, tools the agent can act with, a check that policies and guardrails hold, and several turns ([32:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1920)). τ-bench, whose name stands for tool-agent-user, packages those pieces for telecom, retail and airline customer service, with hundreds of scenarios and a policy document per domain. One such rule: no order return until the customer has verified an order number and an e-mail address.
+
+**Sierra's first simulator could not hang up.** In May 2023 Bavor built a prototype agent that answered questions about 1099 tax forms, and a second agent to play the user, so that the two could test each other while he was at lunch. He had given neither a way to end the conversation. He came back to about a hundred messages in which each thanked the other for its thanks ([30:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1800)). The lesson: a simulator needs a stop condition, and it belongs in the design of the environment, not in the good manners of a model.
 
 Keep the simulator less capable than the agent. The τ²-bench paper calls this the *complexity asymmetry*: if the user can solve the problem alone, the task stops testing the agent.
 
@@ -47,7 +51,7 @@ A **sandbox** is an isolated space where an attempt cannot touch anything real. 
 
 ### 5. Grade the outcome from the state
 
-Compare the final state with the goal state. τ-bench decides success this way, by comparing the final database state with the annotated goal state, with no judge involved ([50:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3000)). τ²-bench adds four kinds of assertions: on the environment, on the communication, on the user's natural-language instructions, and on the actions taken.
+Compare the final state with the goal state. τ-bench decides success this way, by comparing the final database state with the annotated goal state, with no judge involved ([50:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3000)). τ²-bench adds four kinds of assertions: on the environment, on the communication, on the user's natural-language instructions, and on the actions taken ([54:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3240)).
 
 ### 6. Grade the trajectory
 
@@ -59,7 +63,7 @@ Some rules read directly off the recorded calls: required calls, forbidden calls
 
 ### 8. Report reliability, and the simulator's health
 
-Report pass^k, the chance that all `k` attempts succeed, not only the average. Bavor's argument is that a business runs millions of conversations, so "can it do it once" is the wrong question ([34:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=2040)). He illustrates it with an agent that succeeds 95% of the time and says the chance of 20 straight successes is approaching zero. The arithmetic is more modest: 0.95 to the 20th is about 0.36, and 0.95 to the 100th is about 0.006. The point stands.
+Report pass^k, the chance that all `k` attempts succeed, not only the average. Bavor's argument is that a business runs millions of conversations, so "can it do it once" is the wrong question ([34:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=2040)). He illustrates it with an agent that succeeds 95% of the time and says the chance of 20 straight successes is approaching zero. The arithmetic is more modest: 0.95 to the 20th is about 0.36, and 0.95 to the 100th is about 0.006. The point stands. He adds, as a vendor, that OpenAI, Anthropic and Google all use τ-bench to evaluate their frontier models.
 
 ## Worked example
 
@@ -111,7 +115,7 @@ What to observe:
 
 ## Simulation at industrial scale
 
-Bavor describes Sierra's product simulations as a hardened version of τ-bench. Customers configure synthetic databases and tools, and mock user personas that include an emotional state. The whole voice pipeline can be simulated ([36:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=2160)).
+Bavor describes Sierra's product simulations as a hardened version of τ-bench. Customers configure synthetic databases and tools, and mock user personas that include an emotional state. The whole voice pipeline can be simulated ([36:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=2160)). He plays a minute of it in class: a simulated caller and the agent, both in voice, with accents and background noise. In one call the caller reads out an ID number, then corrects it, and the agent has to cope. In another, an angry traveler calls from a noisy airport ([38:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=2280)). His conclusion, for voice as for chat, is that nothing replaces an environment with real messiness in it: poor phone lines, noise, several speakers.
 
 A Sierra blog post of September 11, 2025 describes **Voice Sims**, simulated phone calls used to test voice agents before launch. The conditions are the point:
 
@@ -132,12 +136,12 @@ A **benchmark** is a dataset plus an environment plus a scoring procedure that m
 
 **Saturation** means every system scores near the top, so the benchmark stops separating them. **Contamination** means the test examples were in the models' training data, so a high score can come from memory instead of ability.
 
-CyberGym's answer to contamination is instructive ([48:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=2880)). It also evaluates agents only on vulnerabilities discovered after a model's **knowledge cutoff**, the date after which the model saw no training data. A model cannot have memorized those.
+CyberGym's answer to contamination is instructive ([46:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=2760)). It also scores agents on the subset of vulnerabilities that were found after a model's **knowledge cutoff**, the date after which the model saw no training data. A model cannot have memorized those. Comparing that score with the score on the full set shows how severe contamination is ([48:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=2880)).
 
 Two data pipelines show how tasks get built:
 
 - **τ-bench** ([50:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3000)): people design the schemas, APIs and policies. A model helps generate the data. People polish it and run many agent attempts to check that each task has one unique end state.
-- **τ²-bench**: a program composes tasks from small atomic scenarios, each defined by an initialization, a solution and an assertion. That gives provable task correctness and control over complexity.
+- **τ²-bench** ([52:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3120)): a program composes tasks from small atomic scenarios, each defined by an initialization, a solution and an assertion. That gives provable task correctness and control over complexity.
 
 **Trust the simulator only as far as you have measured it.** The τ²-bench paper reports that its telecom user simulator failed on 16% of annotated runs, 6% of them critically. The original retail simulator failed on 40%, 12% critically. Every one of the eight annotated telecom errors was the same mistake: the simulated user ended the conversation before the agent had finished. It also reports pass^1 of 34% for GPT-4.1, 42% for o4-mini and 49% for Claude 3.7 Sonnet on new telecom tasks, and a drop of about 20 points when agents moved from controlling all tools to guiding a user. These figures are the paper's, from June 2025.
 

@@ -54,7 +54,7 @@ In practice, teams slice by whatever fields happen to exist. Kästner argues thi
 
 ### 2. Write slicing functions
 
-A metadata slice is a filter. A behavior slice needs a classifier that decides membership, which takes real work. For text, an LLM can label inputs with properties such as "contains a complaint and a question". Treat those labels as noisy until you have checked a sample by hand.
+A metadata slice is a filter on a recorded field. A slice chosen for a requirement or for a debugging hypothesis often has no such field, and Kästner warns that building it can take substantial work (chapter 15): the examples may have to be picked out by hand, or by a special-purpose classifier, such as a model that decides whether a scan was taken from an unusual angle. For natural language he names Errudite, a tool meant to make slicing functions easier to write. In practice an LLM can also label inputs with properties such as "contains a complaint and a question". Treat those labels as noisy until you have checked a sample by hand.
 
 ### 3. Report accuracy and size together
 
@@ -62,13 +62,13 @@ Never report a slice's accuracy without its size. "0 percent on two tickets" is 
 
 ### 4. Search automatically
 
-Manual slicing finds what you already suspect. An automatic search finds what you do not. The procedure:
+Manual slicing finds what you already suspect. A search over many slices finds what you do not. The book describes two tools for this (chapter 15). **SliceFinder** explores many slices and their intersections and applies statistical tests, so that it can flag the underperforming ones with some confidence; the further readings add that it covers every feature of the test data and uses statistics to cope with the noise of very small slices. **Zeno** is interactive: testers visualize the differences across slices, open the examples in each one, and deliberately analyze intersections. The book gives no step-by-step search. The procedure below is used in the worked example and follows the same ideas:
 
-1. Enumerate every single attribute value, then every pair, and stop at depth two or three.
+1. Enumerate every single attribute value, then every pair, and stop at depth two or three. When interactions multiply, combinatorial testing and decision tables from software testing help choose which ones to explore (chapter 15).
 2. Drop slices below a minimum size. A few hundred examples is a common floor for trust; the book cites Hulten's rule of thumb that hundreds give a quick check and thousands give confidence (chapter 15).
 3. For each remaining slice, compute its error rate.
 4. Rank by **extra mistakes**: the slice's mistakes minus the mistakes the overall error rate predicts for a group of that size.
-5. Confirm the top slices on data the search did not use.
+5. Apply a statistical test to the top slices, and confirm them on data the search did not use.
 
 Step 5 matters because of **multiple comparisons**. If you test two hundred slices with a test that is wrong 5 percent of the time, about ten will look bad by pure chance. The more you search, the more false alarms you get. A statistical test and a second look on fresh data separate real failures from luck.
 
@@ -167,7 +167,7 @@ What to observe:
 - **Slices should come from requirements.** Slicing by available features is common, he writes, but the better source is your understanding of the problem: important inputs, rare inputs, groups you worry about for fairness, and specific behaviors (chapter 15).
 - **Debugging is hypothesis-driven.** If reports say young children's cancers go undetected, build slices by cancer type and age group to test whether a few reports reflect a wider pattern (chapter 15).
 - **Small slices need more data.** Accuracy on a tiny slice is unreliable. If the slice matters, collect more test data for it (chapter 15).
-- **Tools exist for the search.** He cites SliceFinder, which explores many slices and intersections and uses statistical tests to flag underperforming ones, and Zeno, which lets testers visualize slices and inspect their examples (chapter 15).
+- **A slice can express a worry, not only a field.** His examples of slices chosen from requirements: shopping-related voice commands, because they are more profitable; rare cancers, because a miss is costly; and images that require telling cancer from lymph nodes, because that is a behavior the model must have learned (chapter 15).
 - **Overton at Apple.** Developers write slicing functions for hard subsets, such as nutrition-related queries or queries with complex disambiguation. They improve one slice at a time, usually by adding labeled training data through **weak supervision**, meaning labels produced by rules instead of hand. Kästner credits the approach with making progress tractable and visible (chapter 15).
 - **The software parallel.** He maps slicing onto equivalence class testing: a weak design tests each class once, a strong one tests each combination of classes. Combinatorial testing and decision tables help when combinations multiply (chapter 15).
 

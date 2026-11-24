@@ -87,7 +87,7 @@ For k-means, his example stores 16 weights with 2-bit indices: a 4-byte index ma
 - *Per-channel:* one scale per output channel. Han's slide 14 shows the weight ranges of different channels in MobileNetV2 differing by more than 100 times. One scale cannot fit them all.
 - *Group:* one scale per small block of weights. Han calls this important at 4 bits and below ([6:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=360)). The cost is storage for the scales: a 4-bit scale per 16 weights gives an effective width of 4 + 4/16 = 4.25 bits (his VS-Quant slide). Formats such as MX4 and MX6 share one exponent per block of 16 (slide 26).
 
-**Clipping: where to cut the range.** A single large value, an **outlier**, forces a large scale and therefore coarse steps for all the other values. Activations change with every input, so their range has to be collected first: by tracking a moving average during training, or by calibrating on a few hundred sample inputs ([24:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=1440)). Cutting the range below the maximum is a trade-off, and Han mentions KL-divergence calibration as a widely used way to choose it ([30:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=1800)).
+**Clipping: where to cut the range.** A single large value, an **outlier**, forces a large scale and therefore coarse steps for all the other values. Activations change with every input, so their range has to be collected first: by tracking an exponential moving average of the minimum and maximum during training, or by gathering statistics from sample inputs before deployment ([24:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=1440)). Cutting the range below the maximum is a trade-off. Han's example is an activation distribution that reaches about 400 with a long tail, while most values sit below 40: cutting the range near 50 clips the whole tail onto one value. He names KL-divergence calibration as a widely used way to choose the cut, because it minimizes the information lost between the distributions before and after quantization ([30:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=1800)).
 
 **Rounding.** Round to nearest is the default. Alternatives are stochastic rounding and learned rounding, where the network learns whether each weight should round up or down (Han mentions AdaRound at [38:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=2280)).
 
@@ -102,7 +102,7 @@ The procedure:
 
 #### Outliers in language models: the SmoothQuant idea
 
-Large language models have a few activation channels with much larger values than the rest. Quantizing those activations to 8 bits with one scale fails. In Lecture 1, Han describes the fix that came out of a course project: the matrix multiply is linear, so you can divide those activation channels by a factor and multiply the matching weights by the same factor without changing the result ([34:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2040)).
+Large language models have a few activation channels with much larger values than the rest. Quantizing those activations to 8 bits with one scale fails. In Lecture 1, Han describes the fix that came out of a course project: the outliers sit in the activations, and since matrix multiplication is linear, you can scale the weights and the activations so that the two are equalized and smoothed, which makes both easier to quantize over the full dynamic range ([34:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2040)).
 
 The SmoothQuant paper picks the factor per input channel so that both sides end up with the same maximum:
 
@@ -114,7 +114,7 @@ Worked numbers: activation column `j` peaks at 20, weight column `j` peaks at 0.
 
 ### 4. Quantization-aware training
 
-**Quantization-aware training** (QAT) fine-tunes the model with the quantization in place, so that the weights adapt to it. Han notes that even with every post-training technique, small models such as MobileNet still lost accuracy in his experiments, which is where QAT starts (Lecture 6, [40:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=2400)).
+**Quantization-aware training** (QAT) fine-tunes the model with the quantization in place, so that the weights adapt to it. Han notes that even with every post-training technique, small models such as MobileNet still lost accuracy in his experiments, which is where QAT starts (Lecture 6, [40:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=2400)). The reverse holds for language models: since they are very costly to train, he says, the goal there is post-training quantization with no fine-tuning at all ([46:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=2760)).
 
 1. Keep a full-precision copy of every weight.
 2. In the forward pass, quantize and immediately dequantize, so the next layer sees rounded values.
@@ -123,7 +123,7 @@ Worked numbers: activation column `j` peaks at 20, weight column `j` peaks at 0.
 
 ### 5. Mixed precision
 
-Not every layer needs the same bit width. Han's advice (Lecture 6, [66:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3960)): cheap or memory-bound layers can stay in FP16 or FP32; compute-bound layers should go lower if they are not sensitive. Choosing per layer gives higher accuracy at the same latency.
+Not every layer needs the same bit width. Han's advice (Lecture 6, [66:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3960)): cheap or memory-bound layers can stay in FP16 or FP32; compute-bound layers should go lower if they are not sensitive. Choosing per layer gives higher accuracy at the same latency, or the same accuracy at a lower latency, and the choice can be made automatically: the same hardware-aware search, Han says, can target model size, latency or energy.
 
 ### What each option costs and when to choose it
 

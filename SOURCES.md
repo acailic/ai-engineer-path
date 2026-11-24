@@ -137,6 +137,8 @@ Course page: <https://hanlab.mit.edu/courses/2024-fall-65940>
 
 Course page: <https://cs336.stanford.edu/>
 
+The Spring 2026 schedule also lists a guest lecture by Daniel Selsam (June 1, 2026). It is not in the playlist used here.
+
 | Lecture | Speaker(s) | Links | Used in |
 |---|---|---|---|
 | Overview, tokenization |  | [video](https://www.youtube.com/watch?v=JuoVZkPBiKk) | [01-the-language-modeling-pipeline-and-tokenization](10-llm-internals/01-the-language-modeling-pipeline-and-tokenization.md) |

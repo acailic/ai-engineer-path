@@ -78,9 +78,9 @@ The original MLP is `max(0, xW1) W2`: project up to a wider space, apply ReLU (`
 | Hyperparameter | Rule of thumb | How forgiving |
 |---|---|---|
 | Head dimension | Number of heads × head dimension = model width | Wide basin: many splits work |
-| Aspect ratio | Model width ÷ number of layers, roughly 100 | Critical: fix it, then scale everything |
-| MLP width | 4 × model width; about 8/3 × when gated | Standard |
-| Vocabulary size | About 100,000 tokens for Llama-family models | Trade-off between compression and embedding cost |
+| Aspect ratio | Model width ÷ number of layers, roughly 100 | Fix it, then scale everything; systems concerns favor width |
+| MLP width | 4 × model width; about 8/3 × when gated | Standard; near-optimal for any factor from 1 to 10 |
+| Vocabulary size | 30,000 to 50,000 for monolingual models (Llama 1 and 2: 32,000); 100,000 to 250,000 for multilingual and production systems | Trade-off between compression and embedding cost |
 
 **Multi-head attention** splits the query, key and value vectors into several heads, each with its own smaller dimension. The convention is that the heads' dimensions add up to the model width, so each head has dimension `d_model / n_heads`.
 
@@ -109,7 +109,7 @@ What to observe:
 
 ## What the practitioners say
 
-Tatsu Hashimoto calls architecture a subject he has always found "pretty inscrutable". His method is a survey. The best way to learn is to train your own models. The second best is to learn from what others released, and that is what the lecture does ([0:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=0)). He counts 19 new dense model releases the year before and notes that most new releases are now mixtures of experts ([2:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=120)).
+Tatsu Hashimoto admits he has always found architecture inscrutable. His method is a survey. The best way to learn is to train your own models. The second best is to learn from what others released, and that is what the lecture does ([0:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=0)). He counts 19 new dense model releases the year before ([2:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=120)); this year most new releases are mixtures of experts ([4:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=240)).
 
 His framing of the job: an architecture has to generalize, has to train efficiently on GPUs, and has to not blow up ([4:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=240)).
 
@@ -119,17 +119,25 @@ On RMSNorm, he gives the reason that runs through the whole course. LayerNorm is
 
 On position, he stresses that attention by itself is a set operation: "They're just inner products. So you can just shuffle them and attention would be the same" without a position embedding ([30:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=1800)).
 
-On hyperparameters, he ranks them. The head split is "a forgiving hyperparameter" with a wide basin around the convention, T5 being a notable exception. The aspect ratio is one of the most critical, because it controls the entire depth-to-width trade-off as models grow. Anywhere near 100 is, in his words, "a pretty safe bet" ([50:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=3000), [54:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=3240)).
+On hyperparameters, he ranks them. The head split is forgiving, with a wide basin around the convention; T5 and LaMDA are the exceptions ([50:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=3000)). The aspect ratio is one of the most critical, because it controls the entire depth-to-width trade-off as models grow. Most models sit near 100, about 100 units of width per layer, GPT-3 and Llama included. His explanation is a compromise between two pressures: systems reasons to go wide, because width slices easily across GPUs, and expressiveness reasons to go deep ([52:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=3120)). Anywhere near 100 is a safe bet ([54:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=3240)). The Kaplan sweep he shows softens this: as depth and width trade off, FLOPs explain most of the difference, not the ratio.
 
-Finally, inference pushes back on architecture. To generate cheaply, a model keeps a **KV cache**, a stored copy of the keys and values of all previous tokens. That cache grows with sequence length. **Multi-query attention** shares one key and value across all heads and shrinks the cache a lot, but, he warns, "you do, in fact, lose significant expressive power". **Grouped-query attention** keeps several key and value heads, fewer than the query heads, and the trade-off is "quite favorable" ([80:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=4800)). Chapter 08 does this arithmetic.
+On regularization, he notes that nobody uses dropout any more, because it interacts badly with optimization. Newer models keep only weight decay, which may allow a higher learning rate ([64:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=3840)).
 
-Two more ideas complete the picture. **QK-norm** normalizes the queries and keys inside each attention head before the dot product, which keeps the attention scores from growing during training. And models built for long context now alternate expensive global attention layers with cheap ones, either sliding-window layers that see only nearby tokens or state-space layers. Hashimoto describes these hybrids as the past year's main answer to long-context performance ([88:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=5280)); Chapter 04 covers them.
+Finally, inference pushes back on architecture. To generate cheaply, a model keeps a **KV cache**, a stored copy of the keys and values of all previous tokens. That cache grows with sequence length. **Multi-query attention** shares one key and value across all heads and shrinks the cache a lot, but, he warns, it does lose significant expressive power. **Grouped-query attention** keeps several key and value heads, fewer than the query heads, and the trade-off is quite favorable ([80:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=4800)). Chapter 08 does this arithmetic.
+
+Stability is the third lens. As runs get more expensive, Hashimoto says, a loss that spikes can leave a model that is poor or unrecoverable. His first suspects are the two softmaxes, at the output and in attention, because each combines an exponential with a division ([66:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=3960)). Three fixes follow:
+
+- **Z-loss** adds a penalty on the squared log of the output softmax's normalizer, which is zero when the numbers are well behaved. Devlin introduced it in 2014, and DCLM and Olmo brought it back ([68:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=4080)).
+- **QK-norm** normalizes the queries and keys just before their dot product, so the attention softmax sees inputs of roughly unit scale. It came from multimodal models, costs no visible performance in his reading, and is now standard ([70:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=4200)).
+- **Logit soft-capping** limits the logits with a tanh, a harder intervention that some teams apply ([72:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=4320)).
+
+Long context pulls in another direction. Models built for it alternate expensive global attention layers with cheap ones: sliding-window layers that see only nearby tokens, as GPT-3 already did ([84:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=5040)), or state-space layers. Hashimoto describes these hybrids as the past year's main answer to long-context performance ([88:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=5280)); Chapter 04 covers them.
 
 ## Pitfalls
 
 1. **Putting the norm inside the residual stream in a new model.** Post-norm needs learning-rate warmup and spikes more. Fix: start from pre-norm.
 2. **Assuming low FLOPs means fast.** A norm costs almost no arithmetic and still takes time, because it reads and writes memory. Fix: count bytes moved, not only FLOPs.
-3. **Breaking the aspect ratio when scaling.** Making a model deeper without widening it can cost quality. Fix: scale width, depth and heads together.
+3. **Going very deep to gain expressiveness.** An extremely deep model has to be split along its depth, which means pipeline parallelism that most people, Hashimoto says, do not want to deal with, while width splits easily ([52:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=3120)). Fix: stay near the common ratios, about 100, and scale width, depth and heads together.
 4. **Keeping the 4× MLP width after switching to gating.** That inflates parameters. Fix: use about 8/3 × the model width.
 5. **Counting embedding parameters like the rest.** They behave differently. Fix: report them separately, as the counter above does.
 6. **Treating a survey as proof.** The table shows what worked for the teams that released models, under their budgets. Fix: test on your own small runs before you rely on a choice.
@@ -153,7 +161,7 @@ You are done when:
 - A Transformer block adds attention and MLP results to a residual stream. Almost everything else is a design choice.
 - The consensus: pre-norm outside the stream, RMSNorm, no bias terms, a gated MLP, serial blocks, RoPE.
 - RMSNorm wins not on FLOPs but on memory traffic. FLOPs are not runtime.
-- The aspect ratio, width divided by depth, is the hyperparameter to fix before scaling. About 100 is a safe value.
+- The aspect ratio, width divided by depth, is the hyperparameter to fix before scaling. About 100 is a safe value, and stability tricks (z-loss, QK-norm) keep a long run from spiking.
 - Inference needs shape architecture: smaller KV caches through grouped-query attention, and hybrids of global and cheap layers for long context.
 
 ## Self-check

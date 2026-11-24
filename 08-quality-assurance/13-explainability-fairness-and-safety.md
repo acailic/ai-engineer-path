@@ -1,6 +1,6 @@
 # 13. Explainability, Fairness and Safety
 
-**Level:** Practitioner · **Reading time:** 20 min · **Exercise:** 75 min
+**Level:** Practitioner · **Reading time:** 26 min · **Exercise:** 75 min
 **Prerequisites:** [Slicing: Finding Where the Model Fails](03-slicing.md)
 
 > **In one sentence:** After this chapter you can pick an explanation tool that fits your question, compute and justify one fairness criterion for your feature, and run a four-step hazard analysis on the system around a model.
@@ -35,7 +35,7 @@ The first is about **explainability**, the second about **fairness**, the third 
 | What would change it? | **Counterfactual** | Find a small change to the input that flips the result |
 | What is odd in the training data? | Prototypes and criticisms | Typical examples, and outliers poorly covered by them |
 
-Most of these work without access to the model's internals (chapter 25), which is why outside auditors use surrogates on models available only through an API.
+Most of these work without access to the model's internals (chapter 25), which is why outside auditors use surrogates on models available only through an API. Two details from the book help in practice. **LIME** learns a small linear model of the decision boundary near one input. Its influence values are known to be unstable, and **SHAP**, built on Shapley values, has largely replaced it as the more stable choice. Every prediction has many counterfactuals, so a tool must choose among them, usually the smallest change or the change to the fewest features (chapter 25).
 
 Kästner's running example is a commercial tool that scores a defendant's risk of re-offending. Journalists at ProPublica found that Black defendants were almost twice as likely as white defendants to be labeled high risk without then re-offending. The model's internals were not open to inspection. Researchers have trained a simple points-based scorecard on the same data, with similar accuracy, that a judge can read in full and audit (chapter 25).
 
@@ -45,7 +45,7 @@ For an LLM system, add one rule. The reasons a model writes for its own answer a
 
 ## Fairness: choose a criterion and defend it
 
-Kästner measures fairness over **protected attributes**, the features that divide the demographic groups of concern. He describes three model-level criteria (chapter 26):
+Kästner measures fairness over **protected attributes**, the features that divide the demographic groups of concern. His legal overview lists the characteristics that federal anti-discrimination law protects in the US, among them race, religion, national origin, sex, sexual orientation and gender identity, age from forty, and pregnancy, with further rules for domains such as housing, credit, and employment (chapter 26). He describes three model-level criteria (chapter 26):
 
 | Criterion | It requires | Weakness |
 |---|---|---|
@@ -55,17 +55,26 @@ Kästner measures fairness over **protected attributes**, the features that divi
 
 Anti-classification can be audited with the invariant tests from [Testing Without Oracles](04-testing-without-oracles.md): flip the attribute in every input and assert that no output changes. One violation proves the criterion broken (chapter 26).
 
-For group fairness, the book notes a rule of thumb from US employment-law discourse: the group that is worse off should be selected at least four fifths as often as the other group (chapter 26).
+For group fairness, the book also notes a rule of thumb from US employment-law discourse: the selection rate of the disadvantaged group should be at least 80 percent of the other group's (chapter 26).
+
+Kästner's example makes the weakness plain (chapter 26). A bank can satisfy group fairness by approving the safest 20 percent of one group's applications and a random 20 percent of the other group's. The approval rates match, and the two groups are served very differently.
 
 The three criteria can be mutually exclusive. Choosing among them is a requirements problem, and Kästner describes it as political, because stakeholders disagree (chapter 26). For the triage feature, a defensible starting point is equalized odds by language: the model should be wrong equally often for every group of customers.
 
+A criterion is measured, and then worked on at four places in the pipeline (chapter 26):
+
+- **Inference.** Replace the protected attribute with a constant to enforce anti-classification. For the other two criteria, choose a separate decision threshold per group, so that positive rates or error rates line up.
+- **Training data.** Remove the attribute and the features that stand in for it, and drop or correct examples known to carry a historical bias.
+- **Data collection.** In Kästner's view this often has the most leverage, because unequal error rates usually trace back to groups with less, or worse, training data.
+- **Toolkits.** IBM's AI Fairness 360 and Microsoft's Fairlearn compute the common measures and fit into test infrastructure.
+
 Three further points from chapter 26:
 
-- **It is a system concern.** The hard problems lie in requirements, interface design, monitoring, and process, not only in the model.
-- **Document the results.** A **model card** records intended use, intended users, the demographic factors considered, accuracy per subpopulation, the evaluation data, and limitations.
-- **Monitor it.** Fairness in production needs the protected attributes in telemetry and drifts over time. [Testing and Experimenting in Production](09-testing-and-experimenting-in-production.md) supplies the machinery.
+- **It is a system concern.** Fairness requirements belong in the system requirements and are broken down into requirements for each component, with the protected attributes and the chosen criterion written down. Teams negotiate them across their interfaces.
+- **Document the results.** A **model card** records intended use, intended users, the demographic factors considered, accuracy per subpopulation, the evaluation data, and limitations. Kästner pairs it with a **datasheet** for the training data, which records how the data was collected and which subpopulations it represents.
+- **Monitor it.** Group fairness is cheap to watch in production, because it needs no labels: alert when positive rates diverge between groups. Equalized odds is hard, because a missed case is difficult to observe. Also watch for a spike in complaints from one group, and prepare an incident response plan that can shut a feature down (chapter 26). [Testing and Experimenting in Production](09-testing-and-experimenting-in-production.md) supplies the machinery.
 
-Kästner reports that study after study finds most teams do little about fairness, and that what gets done is usually pushed by individuals without institutional support. His advice is to start early, when requirements and data collection are still open, and to use a checklist such as Microsoft's AI Fairness Checklist (chapter 26).
+Kästner reports that what fairness work gets done is usually pushed by individuals acting as internal activists, almost always without institutional support. His advice is to start early, when requirements and data collection are still open, and to use a checklist such as Microsoft's AI Fairness Checklist (chapter 26).
 
 ## Safety: reliability is not safety
 
@@ -77,14 +86,14 @@ By the same reasoning, a more accurate model is a step toward safety and not saf
 
 Kästner describes safety engineering in four steps (chapter 27):
 
-1. **Identify hazards and safety requirements.** A **hazard** is a condition in which an accident can happen. It makes harm possible, not certain.
-2. **Find the root causes** of each hazard.
-3. **Design a mitigation for each one.** Most mitigations work by adding independent conditions that must all hold before the hazard can occur.
-4. **Provide evidence** that the mitigations work.
+1. **Identify hazards and safety requirements.** A **hazard** is a condition in which an accident can happen. It makes harm possible, not certain. His example is a sidewalk delivery robot that goes too fast while failing to recognize pedestrians. Analysis can run forward, from the ways a model's prediction can be wrong to the hazards that follow, or backward, from a hazard to the mistakes that could cause it. Fault tree analysis, failure mode and effects analysis, and hazard and operability studies are the named techniques. Rank hazards by likelihood times severity.
+2. **Find the root causes** of each hazard. The same robot hazard could come from a wrong speed estimate, a missed detection, a bug in the speed controller, or a hardware fault.
+3. **Design a mitigation for each one.** Most mitigations make harm less likely by adding independent conditions that must all hold before the hazard can occur. The book's list: keep a human in the loop, make actions undoable and decisions appealable, add guardrails outside the model, install an independent check that detects mistakes, use redundancy, and contain a component's mistakes so they do not spread.
+4. **Provide evidence** that the mitigations work. There are two kinds: safe behavior in the field, as when autonomous vehicles move from simulation to test tracks to public roads, and evidence of a rigorous engineering process.
 
-Safety cannot be guaranteed, he writes. Teams demonstrate an acceptable level of it and record claims and evidence in a structured **assurance case**. He warns against checkbox compliance, where a team fills in a hazard table with problems it has already solved. What he asks for instead is a safety culture: the team takes the safer path when a deadline pushes the other way (chapter 27).
+Safety cannot be guaranteed, he writes. Teams demonstrate an acceptable level of it and record claims and evidence in a structured **assurance case**, which breaks one safety claim into subclaims and attaches evidence to each. The autonomous-vehicle company Aurora has published such a structure (chapter 27). He warns against checkbox compliance, where a team goes through the motions to produce paperwork. What he asks for instead is a safety culture: the team takes the safer path when a deadline pushes the other way, and treats a reported concern as something to be thanked for rather than blamed (chapter 27).
 
-Finally, he frames the **alignment problem**, an automated system achieving its assigned objective with unintended consequences, as a requirements problem. An objective that captures part of the task is met exactly and still misbehaves: a sidewalk robot told only to arrive quickly drives too fast (chapter 27). The remedy is on the requirements page. Write the negative requirements too, "must never" statements, and test them.
+Finally, he frames the **alignment problem**, an automated system achieving its assigned objective with unintended consequences, as a requirements problem. An objective that captures only part of the task is met exactly and still misbehaves, because learning algorithms are good at finding such loopholes, a pattern called **reward hacking** (chapter 27). He expects it to matter little for ordinary products with ML components, whose safety concerns yield to hazard analysis. The remedy is still on the requirements page. Write the negative requirements too, "must never" statements, and test them.
 
 ## Pitfalls
 

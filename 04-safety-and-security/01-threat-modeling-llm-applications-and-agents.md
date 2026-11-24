@@ -13,7 +13,7 @@ A **threat model** answers three questions about a system before anyone builds a
 
 ## The core idea
 
-An LLM application is not one program with a new library. Dawn Song calls it a **hybrid system**, or compound system: ordinary code, which she calls **symbolic components**, joined to a **neural component**, the model, that turns text into text ([4:00], Fall 2025). Her reason for treating it as a whole: "the overall agent AI system safety and security is much more complex than just the model level" ([4:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=240)).
+An LLM application is not one program with a new library. Dawn Song calls it a **hybrid system**, or compound system: ordinary code, which she calls **symbolic components**, joined to a **neural component**, the model, that turns text into text ([4:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=240), [6:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=360), Fall 2025). Her reason for treating it as a whole: "the overall agent AI system safety and security is much more complex than just the model level" ([4:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=240)).
 
 Three definitions carry the rest.
 
@@ -35,7 +35,19 @@ Draw five boxes: user, application code, model, tools, and the outside world. Ma
                      └──── tool results, web pages, files, saved memory ────────┘
 ```
 
-Song walks a hybrid system in seven steps ([22:00], Spring 2025): the host deploys the model, the user sends a request, the system assembles the prompt and calls the model, the model interacts with the rest of the system, the system touches the outside world, the system answers the user, and the system keeps running for long tasks. She then asks of each step, "what could go wrong?".
+Song walks a hybrid system in seven steps and asks of each one what could go wrong (slide and [22:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=1320), Spring 2025). Her questions are already a first threat model:
+
+| Step | What she asks |
+|------|---------------|
+| 1. Host prepares the models and deploys the system | What if the model is flawed, for example poisoned or malicious after a supply chain attack? |
+| 2. User sends a request | What if the request is malicious, or contains untrusted data? |
+| 3. System processes the request and calls the model | What if validation and sanitization are insufficient? |
+| 4. Model interacts with the rest of the system | What if the model's output is used to attack the system? |
+| 5. System interacts with the outside world | What if the system attacks or harms it? |
+| 6. System answers the user | What if the output harms the user? |
+| 7. System keeps running for long tasks | What if resources run out and it becomes unavailable? |
+
+A hybrid system sometimes also talks to another hybrid system, which adds multi-agent communication as one more entry point.
 
 ### 2. List the assets
 
@@ -45,7 +57,7 @@ Start with the classic three goals, the **CIA triad**:
 - **Integrity**: the system and its data are not altered, on purpose or by accident, and stay accurate.
 - **Availability**: authorized users get reliable and timely access.
 
-Song adds what an LLM system has to protect beyond ordinary data ([16:00], Spring 2025): the API key for the model service, the secret system prompt, the users' prompts, the conversation history, the model's own parameters, and the availability of the model service. To these, an agent adds what its tools can reach: the mailbox, the calendar, the wallet.
+Song adds what an LLM system has to protect beyond ordinary data ([16:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=960), [18:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=1080), Spring 2025): the API key for the model service, the secret prompt, the users' prompts, the conversation history, the model's own parameters, and the availability of the model service. Integrity now covers the model itself, so a poisoned model file is an integrity failure. She also names, per goal, how the model widens the attack surface ([18:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=1080), [20:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=1200)): its output can reveal sensitive information, its prompt can carry untrusted data from the user or the outside world, and it can be denied service itself. To these, an agent adds what its tools can reach: the mailbox, the calendar, the wallet.
 
 ### 3. Name the attackers and what they control
 
@@ -138,13 +150,14 @@ What to observe: row 1 is the prompt-injection path, and it has an asset and a c
 
 Dawn Song gave versions of this lecture in three terms, and the frame grew each time.
 
-- **Fall 2024: harms.** She organized agent safety around four questions (who causes harm, who is harmed, accident or purpose, which kind of harm) and listed the kinds: loss of utility or denial of service, information leakage, resource hijack such as crypto mining, harmful content, and financial loss ([36:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=2160)).
+- **Fall 2024: harms.** She organized agent safety around four questions (who causes harm, who is harmed, accident or purpose, which kind of harm) and listed the kinds: loss of utility or denial of service, information leakage, resource hijack such as crypto mining, harmful content, and financial loss ([36:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=2160), [38:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=2280)).
 - **Spring 2025: the system.** She added the hybrid-system view, the CIA goals with the new assets, the seven-step walkthrough, the five uses of the output, and the model security levels ([14:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=840)). She separated model misuse from system misuse: the system can amplify a model's risk, and a well-designed one can keep a model misuse from turning into a system misuse ([36:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=2160)). Her verdict on the state of defense: very little existed for hybrid systems, which motivates a secure agent framework ([76:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=4560)).
-- **Fall 2025: more surfaces.** She kept the frame and left model-level risks out ([4:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=240)). The examples moved from résumés to calendar entries ([44:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2640)) and fake re-authentication prompts ([50:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=3000)). She stressed that classic bugs such as SQL injection and remote code execution are now reachable through model output ([26:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=1560)).
+- **Fall 2025: more surfaces.** She kept the frame and left model-level risks out ([4:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=240)). Her examples ran from an injected résumé ([34:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2040)) through a planted calendar entry ([44:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2640)) to a fake re-authentication prompt ([50:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=3000)). She stressed that classic bugs such as SQL injection and remote code execution are now reachable through model output ([26:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=1560)).
 
 She also draws the line between **safety** and **security**. Security protects the system from outsiders. Safety means the system does no harm to the outside world. Safety has to assume adversaries, she says, because a compromised system cannot keep its own safety promises ([2:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=120)).
 
 Teams that already use the MITRE ATT&CK knowledge base for conventional systems can look at its companion for AI systems, [MITRE ATLAS](https://atlas.mitre.org/).
+
 ## Pitfalls
 
 - **The threat model is one line.** "Prompt injection" names a technique, not an asset. For each path, write who attacks, through what, to reach which asset.
@@ -195,9 +208,9 @@ You are done when every tool and every outside data source appears in at least o
 
 ## Sources
 
-- **Lecture:** Dawn Song, "Towards building safe and secure agentic AI", UC Berkeley Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=ti6yPE2VPZc), used at [CIA goals and new assets](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=840), [seven-step walkthrough](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=1320), [uses of the output](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=1680), [security levels](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=1920), [misuse](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=2160), [little defense for hybrid systems](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=4560)
-- **Lecture:** Dawn Song, "Agentic AI Safety & Security", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=CvZDJxd4LKM), used at [hybrid systems](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=240), [classic bugs through model output](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=1560), [calendar example](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2640), [re-authentication example](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=3000)
-- **Lecture:** Dawn Song, "Towards Building Safe & Trustworthy AI Agents and A Path for Science- and Evidence-based AI Policy", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=QAgR4uQ15rc), used at [safety and security](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=120), [four questions and kinds of harm](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=2160)
+- **Lecture:** Dawn Song, "Towards building safe and secure agentic AI", UC Berkeley Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=ti6yPE2VPZc), used at [CIA goals](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=840), [new assets](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=960), [wider attack surface](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=1080), [seven-step walkthrough](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=1320), [uses of the output](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=1680), [security levels](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=1920), [misuse](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=2160), [little defense for hybrid systems](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=4560)
+- **Lecture:** Dawn Song, "Agentic AI Safety & Security", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=CvZDJxd4LKM), used at [hybrid systems](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=240), [symbolic and neural components](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=360), [classic bugs through model output](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=1560), [résumé example](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2040), [calendar example](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2640), [re-authentication example](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=3000)
+- **Lecture:** Dawn Song, "Towards Building Safe & Trustworthy AI Agents and A Path for Science- and Evidence-based AI Policy", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=QAgR4uQ15rc), used at [safety and security](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=120), [four questions](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=2160), [kinds of harm](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=2280)
 - **Web:** OWASP Gen AI Security Project, "OWASP Top 10 for LLM Applications 2025": [list](https://genai.owasp.org/llm-top-10/), opened 2026-11-24
 - **Web:** OWASP Gen AI Security Project, "OWASP Top 10 For Agentic Applications 2026": [list](https://genai.owasp.org/top-10-for-agentic-applications-2026/), opened 2026-11-24
 

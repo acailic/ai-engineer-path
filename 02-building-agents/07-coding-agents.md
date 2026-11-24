@@ -37,7 +37,7 @@ The **action space** is the set of moves the agent can make. Coding agents use t
 | Code actions | Writing code or shell commands that do several things at once | Fast, flexible | Each step is harder to check |
 | Specialized tools | Purpose-built commands to view, search and edit | Matches what editing needs | You must design them |
 
-Neubig presents the second style through CodeAct, which acts by writing code and, in his account, resolves tasks faster and with higher success than direct tool use ([22:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1320)). The third style is the subject of the next subsection.
+Neubig presents the second style through CodeAct, which acts by writing code and, in his account, resolves tasks faster and with higher success than direct tool use ([24:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1440)). The third style is the subject of the next subsection.
 
 ### 3. Context
 
@@ -58,11 +58,11 @@ Tests, a linter (a tool that flags suspicious code), and a compiler tell the age
 
 ### 6. Safety
 
-Neubig lists three mitigations, each borrowed from ordinary software security: the sandbox, credentials that follow the **principle of least privilege** (the agent gets only the permissions its task needs), and an audit of the agent's actions after they happen. His examples of harm are plain: an agent pushes to the main branch by accident, or, told to "make the tests pass", deletes the tests ([51:51](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3111)). The details belong to [Part 04](../04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md).
+Neubig lists three mitigations, each borrowed from ordinary software security: the sandbox, credentials that follow the **principle of least privilege** (the agent gets only the permissions its task needs), and an audit of the agent's actions after they happen ([54:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3240), [56:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3360)). In the audit, each action is generated first and checked, by a language model or by static analysis tools; if it is judged harmful it is not executed, and the agent gets a message saying so. His examples of harm are plain: an agent pushes to the main branch by accident, or, told that the tests need to pass, deletes the tests ([52:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3120)). He also warns of the opposite failure: an agent sandboxed with no access to anything can do nothing but work as a calculator ([56:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3360)). The details belong to [Part 04](../04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md).
 
 ### The agent-computer interface
 
-The SWE-agent project, from a team at Princeton, made the third style a design principle: the **agent-computer interface (ACI)**, the set of commands an agent uses to work with a computer. Its 2024 paper argues that these commands matter as much as the model. Neubig's slide on SWE-agent makes the same point in one line: define specialized tools that make it efficient to explore repositories and edit code ([25:55](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1555)).
+The SWE-agent project, from a team at Princeton, made the third style a design principle: the **agent-computer interface (ACI)**, the set of commands an agent uses to work with a computer. Its 2024 paper argues that these commands matter as much as the model. Neubig makes the same point about SWE-agent: it defines specialized tools that make it efficient to explore repositories and edit code, giving the model commands designed to be friendly to it and feedback in the same style ([26:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1560)). In his walkthrough, a command that shows a file around a given line returns a window of lines, so a file of thousands of lines can be read without spending the whole context; the model then writes a thought and calls an edit command on a range of lines ([28:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1680)).
 
 The interface treats the model as what it is: a program that reads a limited amount of text, cannot count reliably, and learns nothing between calls. So every command is built to keep its output small and to stop a mistake before it happens.
 - The file viewer shows line numbers and at most 100 lines per call. Edits then quote lines the model has actually seen.
@@ -75,10 +75,9 @@ The paper reports 12.5% of SWE-bench solved with GPT-4 Turbo, and large drops wh
 
 ### OpenHands
 
-OpenHands is the open-source coding agent Neubig maintains; it was first released under the name OpenDevin. Its design, as he presents it ([28:59](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1739)):
+OpenHands is the open-source coding agent Neubig maintains; it was first released under the name OpenDevin. In his account it combines CodeAct with SWE-agent's editing and observation commands: every action is executed as code, so one loop can apply an edit at ten places that a search found ([28:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1680)). His slide adds the rest of the design (slide 27):
 
 - An **event stream**: a single, ordered log in which every action and every observation is an event, covering coding, command execution and browsing. The agent, the sandbox and the user interface all read and write this one log.
-- Actions are mostly code actions in the CodeAct style.
 - SWE-agent-style commands are available as **agent skills**: named bundles of instructions and tools the agent can call.
 - All execution happens in a Docker sandbox.
 
@@ -166,7 +165,11 @@ General evaluation methods are in [Part 03](../03-evaluation/06-evaluating-capab
 
 ## What the practitioners say
 
-Graham Neubig is a professor at CMU and the maintainer of OpenHands. His Fall 2024 lecture makes four further points.
+Graham Neubig is a professor at CMU and the maintainer of OpenHands. His Fall 2024 lecture makes seven further points.
+
+- **Copilots already pay off.** He cites GitHub's study of 95 developers: those with Copilot finished the task 56% faster ([8:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=480)).
+- **Recovery from errors is weak.** GPT-4o, he says, would try a fix, fail, and repeat the same fix in a loop until the turns ran out, while Claude was better at trying different approaches. He calls training models to recover from errors a big research topic ([50:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3000)).
+- **Better training comes next.** His first future direction is agentic training: training on agent-style data so that models follow agent formats, plan better and recover from errors better ([58:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3480)).
 
 - **Coding is a small part of the job.** He cites a 2019 study where developers spent 15% of their time coding, 36% communicating and 17% on other things ([2:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=120)). Real development also touches issue trackers, documents and chat tools, while test sets cover only code ([10:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=600)).
 - **Fixed processes compete.** Many top systems on the SWE-bench leaderboard, he says, hard-code their process. Agentless is cheap and effective, and cannot decide to read documentation online ([46:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2760)).
@@ -236,8 +239,11 @@ Take a small open-source project with a failing test. Run an open-source coding 
 
 ## Sources
 
-- **Lecture:** Graham Neubig, "Agents for Software Development", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=f9L9Fkq-8K4), used at [how developers spend time](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=120), [environments](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=600), [benchmarks](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=720), [SWE-bench and its limits](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=960), [leakage](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1156), [CodeAct](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1320), [OpenHands](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1739), [localization](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2280), [safety](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3240), [conclusion](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3480)
-- **Reading:** John Yang, Carlos E. Jimenez, et al., "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering" (2024): [link](https://arxiv.org/abs/2405.15793)- **Reading:** Xingyao Wang, Boxuan Li, et al., "OpenHands: An Open Platform for AI Software Developers as Generalist Agents" (2024): [link](https://arxiv.org/abs/2407.16741)- **Reading:** Chunqiu Steven Xia, Yinlin Deng, et al., "Agentless: Demystifying LLM-based Software Engineering Agents" (2024): [link](https://arxiv.org/abs/2407.01489)- **Reading:** Carlos E. Jimenez, John Yang, et al., "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?" (2023): [link](https://arxiv.org/abs/2310.06770)
+- **Lecture:** Graham Neubig, "Agents for Software Development", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=f9L9Fkq-8K4), used at [how developers spend time](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=120), [the Copilot study](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=480), [environments](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=600), [benchmarks](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=720), [SWE-bench and its limits](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=960), [leakage](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1156), [CodeAct](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1440), [SWE-agent's commands](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1560), [OpenHands](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1680), [localization](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2280), [error recovery](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3000), [safety](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3240), [conclusion](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3480)
+- **Reading:** John Yang, Carlos E. Jimenez, et al., "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering" (2024): [link](https://arxiv.org/abs/2405.15793)
+- **Reading:** Xingyao Wang, Boxuan Li, et al., "OpenHands: An Open Platform for AI Software Developers as Generalist Agents" (2024): [link](https://arxiv.org/abs/2407.16741)
+- **Reading:** Chunqiu Steven Xia, Yinlin Deng, et al., "Agentless: Demystifying LLM-based Software Engineering Agents" (2024): [link](https://arxiv.org/abs/2407.01489)
+- **Reading:** Carlos E. Jimenez, John Yang, et al., "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?" (2023): [link](https://arxiv.org/abs/2310.06770)
 ## Next
 
 → [08. Training Models for Agentic Tasks](08-training-models-for-agentic-tasks.md), because the loop, the tools and the environment in this chapter also define what a model must be trained to use.

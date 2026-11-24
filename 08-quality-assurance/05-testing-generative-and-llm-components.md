@@ -198,7 +198,7 @@ What to observe:
 
 ## What the practitioners say
 
-Kästner's chapter 15 is the source, and it predates most current judge practice.
+Kästner's chapter 15 is the book behind this chapter, and it has almost nothing on rubrics or on one model grading another: it predates most current judge practice. The steps above, the judge calibration, the handling of flakiness, the cost estimate and the CI tiers are engineering guidance built on its three strategies, not content from the book.
 
 - **Three ways to judge generated output.** He lists similarity to a reference, human judgment, and property evaluation (chapter 15).
 - **Similarity is a weak fit.** Word-overlap measures such as BLEU and ROUGE compare word sequences. Embedding distance captures meaning better. He notes both are hard to choose for a new task, and of little use when many answers would be acceptable (chapter 15).

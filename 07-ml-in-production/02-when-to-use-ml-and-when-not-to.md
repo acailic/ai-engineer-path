@@ -23,8 +23,8 @@ A hand-written rule is like a recipe: exact steps that anyone can follow and che
 
 Drawing on that chapter, ML earns its place when all four hold:
 
-1. **The problem is hard to specify by hand.** Geoff Hulten, whose classification Kästner follows, calls these *intrinsically hard problems*. They tend to mirror human perception: understanding language, recognizing speech and images, predicting what music someone likes. Attempts to program them with rules made limited progress.
-2. **Mistakes are tolerable or can be contained.** A model is an unreliable function. The product must survive its wrong answers. Kästner's warning: even a harmless-looking prediction can harm. Music recommendations that systematically sideline LGBTQ+ artists are a wrong answer with real effects.
+1. **Rules cannot do the job, or cannot keep doing it.** Kästner follows Geoff Hulten's three classes of problems. *Intrinsically hard problems* mirror human perception: understanding language, recognizing speech and images, predicting what music someone likes. Attempts to program them with rules made limited progress. *Big problems* could be written by hand but would be too large to maintain: a rule for every artist and track, or the hand-curated web directories that search engines replaced. *Time-changing problems* have inputs and answers that keep moving, as music trends do, so fixed rules need constant edits.
+2. **Mistakes are tolerable or can be contained.** A model is an unreliable function. The product must survive its wrong answers. Kästner's warning: even a harmless-looking prediction can harm. Music recommendations that systematically sideline LGBTQ+ artists are a wrong answer with real effects. Where the stakes are higher, non-ML steps must contain the mistake. His example is a cancer prognosis model whose output a radiologist oversees, with a biopsy to confirm it before any surgery. Where correct behavior can be specified exactly, such as accounting totals or control signals in an airplane, ML is the wrong tool.
 3. **You have data, ideally arriving continuously.** You need examples with the right answer, to train on and to evaluate against. Data is a common bottleneck and a major cost.
 4. **The benefits outweigh the costs.** Both sides are hard to estimate before you build.
 
@@ -37,9 +37,11 @@ Kästner borrows a framing from *Prediction Machines* (Agrawal, Gans and Goldfar
 - Which decision does this prediction improve?
 - What new things become worth doing once that prediction is cheap?
 
+A prediction is not a decision. Turning one into the other takes **judgment**: weighing the cost of a false alarm against the cost of a miss, as a doctor does after a model flags cancer in an image. People usually supply that judgment, though a system with enough data can learn to imitate it, which is the step to full automation. In this framing, cheap predictions either replace an expensive expert, like the record-store clerk who suggests music, or make something affordable at scale. Kästner repeats an example from the book: a shop that ships products a model predicts a customer will like, where the hits must pay for the return shipping of the misses.
+
 ### The ladder of alternatives
 
-The four conditions come from the book. The ladder below is this repository's own, and it is the practical form of "avoid ML when you can". Start at the bottom and climb only as far as the evidence forces you.
+The four conditions come from the book. So does the habit of trying simpler options first. On the music service, Kästner tries a plain heuristic (recommend the platform's most popular songs by artists the subscriber already played) and a semi-manual solution (a few experts curate twenty playlists, and the system picks the one that overlaps most with recently played songs). He also asks what the product looks like without the feature, and advises being ready to stop the project if the costs outweigh the benefits. The ladder below is this repository's own, and it is the practical form of that advice. Start at the bottom and climb only as far as the evidence forces you.
 
 | Rung | What it is | Use it when | Ongoing cost |
 |---|---|---|---|
@@ -75,7 +77,7 @@ Use this procedure on one candidate feature. It takes an hour for a small featur
 | Oversight | Training reviewers | People who check or handle the uncertain cases |
 | Operation | Monitoring and alerting setup | On-call, incident response |
 
-Kästner lists the same items in chapter 4: data acquisition, model building, deployment or API fees, hardware and energy in operation, and humans who oversee the system. A rules-based feature has the integration row and little else.
+Kästner names most of these in chapter 4: data acquisition, model building, deployment or API fees, hardware and energy in operation, and humans who oversee the system. A rules-based feature has the integration row and little else.
 
 ## Worked example
 
@@ -160,9 +162,9 @@ Agents raise the stakes on every rung. An **agent** lets the model decide which 
 ## What the practitioners say
 
 - **Hype is a poor reason.** Kästner observes that adoption is sometimes driven by interest in the technology or by marketing, not by a problem. ML brings complexity, cost and risk, and needs expertise to build, evaluate and integrate ([chapter 4](https://mlip-cmu.github.io/book/04-when-to-use-machine-learning.html)).
-- **Hand-coded first.** If hand-coded algorithms can solve the problem, avoiding ML is very often a good idea. ML is worth the effort for classes of problems he takes from Hulten, of which the first is intrinsically hard ones.
-- **Tolerance for mistakes is a precondition.** ML should be used only where the application can tolerate mistakes.
-- **Continuous data is an advantage.** He describes the ML **flywheel**: more users produce more data, better models attract more users. A music service can watch what subscribers play and which recommendations they skip, and feed that back into the model.
+- **Hand-coded first.** If hand-coded algorithms can solve the problem, avoiding ML is very often a good idea. ML is worth the effort, he writes, for three classes of problems he takes from Hulten: intrinsically hard, big and time-changing.
+- **Tolerance for mistakes is a precondition.** ML should be used only where the application can tolerate mistakes, or where mechanisms around the model bring the risk down to an acceptable level. Those mechanisms can cost so much that they undo the benefit of automation. Then the right decision is not to build.
+- **Continuous data is an advantage.** He describes the ML **flywheel**: more users produce more data, better models attract more users. A music service can watch what subscribers play and which recommendations they skip, and feed that back into the model. For a problem that keeps changing, it might even suggest new songs to random subscribers just to learn who likes them.
 - **Costs and benefits are both hard to estimate.** How much do recommendations contribute to keeping subscribers? What will operation cost before it is built? He notes that many start-ups simply wager on a large future payoff.
 - **Benefits can be large.** For a music streaming service, recommendations are a useful feature. For TikTok, he argues, recommendations created a new kind of social-media experience.
 
@@ -196,7 +198,7 @@ Include:
 ## Key takeaways
 
 - ML buys a function you could not write by hand. You pay in complexity, cost and risk.
-- It earns its place when the problem is hard to specify, mistakes are tolerable, data exists and the benefits beat the costs.
+- It earns its place when the problem is intrinsically hard, too big for hand-written rules, or changing over time; mistakes are tolerable; data exists; and the benefits beat the costs.
 - Climb the ladder one rung at a time: workflow, rules, known algorithm, pretrained model, trained model.
 - Always measure the simplest version against real, labeled examples before building anything smarter.
 - The decision depends on volume, languages and the cost of a mistake. The same feature can justify opposite answers.
@@ -220,7 +222,7 @@ Include:
 
 <details><summary>Show answers</summary>
 
-1. The problem cannot be specified by hand; mistakes can be tolerated or contained; data for training and evaluation is available; the benefits outweigh the costs.
+1. The problem is intrinsically hard, too big to hand-code, or changing over time; mistakes can be tolerated or contained; data for training and evaluation is available; the benefits outweigh the costs.
 2. A. Examples written by the author of the rule, while looking at the rule, repeat its assumptions. Real production tickets, held out from tuning, are the test.
 3. An evaluation set: labeled real examples with expected outputs, large enough to trust, run on every change to prompt, model or settings.
 4. B. Retraining and re-evaluation exist only with a learned component. The other three apply to both versions.

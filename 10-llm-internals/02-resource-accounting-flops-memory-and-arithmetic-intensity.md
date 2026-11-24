@@ -20,7 +20,7 @@ Each tensor sits in memory. Each operation reads some tensors, computes, and wri
 - **Compute**: how many floating-point operations per second the chip can do.
 - **Memory**: how many bytes the chip holds, and how many bytes per second it can move.
 
-The analogy is a very fast assembly worker who must fetch every part from a warehouse with one slow forklift. The analogy breaks in one place: the forklift can deliver the next parts while the worker assembles, so a job takes as long as the slower of the two, not the sum.
+The analogy is a very fast assembly worker who must fetch every part from a warehouse with one slow forklift. The analogy breaks in one place: the forklift can deliver the next parts while the worker assembles. Liang assumes the two overlap, so a job takes as long as the slower of the two, not the sum ([44:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=2640)).
 
 ## How it works, step by step
 
@@ -36,7 +36,7 @@ Memory for one tensor is its number of values times the bytes per value. A **dat
 | fp8 | 1 | Standardized in 2022 for machine learning |
 | fp4 | 0.5 | 16 possible values, with a separate scale per block |
 
-A 4 × 8 fp32 matrix is 32 values × 4 bytes = 128 bytes. One feedforward matrix in GPT-3 takes about 2.3 GB, as the lecture notes.
+A 4 × 8 fp32 matrix is 32 values × 4 bytes = 128 bytes. One feedforward matrix in GPT-3 takes about 2.3 GB, Liang notes ([6:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=360)).
 
 **Mixed-precision training** uses two types: bf16 for parameters, activations and gradients, and fp32 for optimizer state. PyTorch's automatic mixed precision (AMP) library casts an operation to bf16 when that is safe, as for matrix multiplications, and leaves others such as exponentiation in fp32.
 
@@ -62,7 +62,7 @@ One **FLOP** is one addition or one multiplication. Two acronyms look alike and 
 
 For a matrix product of `X` (B × D) with `W` (D × F), each of the B × F outputs needs D multiplications and D additions: 2·B·D·F FLOPs.
 
-For a training step, the backward pass costs twice the forward pass, because each layer computes two gradients: one for its inputs and one for its weights.
+For the backward pass, the cost is twice the forward pass, because each layer computes two gradients: one for its inputs and one for its weights. That is Liang's derivation on screen: each gradient is a matrix product over the same dimensions as the forward one ([64:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=3840)).
 
 | Pass | FLOPs |
 |---|---|
@@ -70,33 +70,34 @@ For a training step, the backward pass costs twice the forward pass, because eac
 | Backward | 4 · (number of data points) · (number of parameters) |
 | Total | 6 · (number of data points) · (number of parameters) |
 
-This is exact for stacks of linear layers. For Transformers it is a good approximation at short sequence lengths, because the attention part adds a cost that grows with length.
+This is exact for stacks of linear layers. For Transformers it is a good approximation as long as the context length is not too large; a long context adds a term that grows with its square and sits outside this accounting ([66:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=3960)).
 
 ### 4. Compare with the hardware: MFU
 
-The **model FLOPs utilization** (MFU) is the FLOP/s your run achieves divided by the peak FLOP/s of the chip. The lecture's rule: 0.5 or above is quite good.
+The **model FLOPs utilization** (MFU) is the FLOP/s your run achieves divided by the peak FLOP/s of the chip. Liang's rule: about 0.5 on a modern model is something to be happy with ([36:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=2160)).
 
 ### 5. Find the bottleneck: arithmetic intensity
 
 - **Arithmetic intensity** of an operation: FLOPs divided by the bytes it moves.
-- **Accelerator intensity** of a chip: peak FLOP/s divided by memory bandwidth. For an H100 in bf16, about 989.5 trillion ÷ 3.3 trillion, which is roughly 300 FLOPs per byte.
+- **Accelerator intensity** of a chip: peak FLOP/s divided by memory bandwidth. For an H100 in bf16, about 989.5 trillion ÷ 3.3 trillion, which is 295 on Liang's spec sheet, so roughly 300 FLOPs per byte ([46:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=2760)).
 
 An operation is **memory-bound** when its arithmetic intensity is below the chip's, and **compute-bound** when it is above. The MFU you can reach is `min(1, arithmetic intensity ÷ accelerator intensity)`.
 
 | Operation (bf16) | Arithmetic intensity | Verdict |
 |---|---|---|
 | ReLU on a tensor of n values: read 2n bytes, write 2n bytes, n FLOPs | 0.25 | Memory-bound |
-| Matrix × one vector: 2·D·F FLOPs, 2·D·F bytes of weights | 1 | Memory-bound. This is generation |
+| GeLU on the same tensor: about 20 FLOPs per value | About 5 | Still memory-bound |
+| Matrix × one vector: 2·D·F FLOPs, 2·D·F bytes of weights | About 1 | Memory-bound. This is generation |
 | Matrix × B rows, B = 256, D = F = 4096 | 228 | Memory-bound |
-| Matrix × B rows, B = 4,096 | About 3,800 | Compute-bound |
+| Matrix × B rows, B = 4,096 | About 1,400 | Compute-bound |
 
-The last two rows are the reason training is efficient and generation is not.
+The last two rows are the reason training is efficient and generation is not. Liang's intuition for two square n × n matrices: you move n² numbers and compute with n³, so the intensity grows with the matrix size, roughly n/3 ([52:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=3120)). Two things follow. Shrinking an operation that is already memory-bound saves no time. And a Transformer is, to him, essentially large matrix multiplications with a few other operations in between, built to have high arithmetic intensity. Generation is the exception: it produces one token at a time, so each step is a matrix-vector product ([52:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=3120)).
 
 ### 6. Count memory for training
 
-With Adam, the optimizer state is two statistics per parameter in fp32: 8 bytes. Add 2 bytes for the bf16 parameter and 2 for its gradient: 12 bytes per parameter. AdaGrad keeps one statistic, 4 bytes.
+With Adam, the optimizer state is two statistics per parameter in fp32: 8 bytes. Add 2 bytes for the bf16 parameter and 2 for its gradient: 12 bytes per parameter. AdaGrad keeps one statistic, 4 bytes. Liang demonstrates with AdaGrad, an optimizer from 2011 that predates Adam: in his framing, AdaGrad looks at the second moment of the gradient, momentum at the first, and Adam combines the two ([66:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=3960)).
 
-Activations are the other cost. Training must keep the activations of every layer for the backward pass. Inference keeps only the current layer's. Two tools trade memory for compute:
+Activations are the other cost. Training must keep the activations of every layer for the backward pass; his figure is batch size × model dimension × 2 bytes × number of layers ([72:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=4320)). Inference keeps only the current layer's. Two tools trade memory for compute:
 
 - **Gradient accumulation**: split a batch into micro-batches, add up their gradients without zeroing them, and update once per full batch.
 - **Activation checkpointing** (also called gradient checkpointing or rematerialization): keep only some layers' activations and recompute the rest in the backward pass.
@@ -140,11 +141,11 @@ The habit he wants is the mindset from Lecture 1: whenever you write a line of c
 
 He notes that fp32 matrix multiplications run "really, really slow" on current chips, because the hardware is built around bf16 and fp8 ([40:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=2400)). He explains the **roofline plot**, which puts arithmetic intensity on one axis and achieved FLOP/s on the other: performance rises with intensity until the chip saturates, then flattens ([56:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=3360)).
 
-One consequence he draws surprised the class: GeLU does more arithmetic per byte than ReLU, yet is no faster in isolation. Both are memory-bound, so the extra arithmetic is free and the saving is nil.
+One consequence he draws surprised the class: GeLU does more arithmetic per byte than ReLU, about 20 FLOPs per value and an intensity near 5, yet is no faster in isolation, because 5 is still far below 295 ([48:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=2880)). Both are memory-bound, so the extra arithmetic is free and the saving is nil.
 
-He closes with the rule to remember: "matrix multiplications are compute bound, basically everything else is memory bound" ([76:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=4560)). Matrix-vector products, which is what generation does, are the memory-bound case. And gradient accumulation is, in his words, "a very simple code change" ([72:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=4320)).
+He closes with the rule to remember: "matrix multiplications are compute bound, basically everything else is memory bound" ([76:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=4560)). Matrix-vector products, which is what generation does, are the memory-bound case. And gradient accumulation is, he says, a very simple code change ([72:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=4320)).
 
-For scale, the lecture's notes list GPT-3 training at 3.14 × 10²³ FLOPs and GPT-4 speculated at 2 × 10²⁵.
+For scale, GPT-3 training took 3.14 × 10²³ FLOPs and GPT-4 is speculated at 2 × 10²⁵.
 
 ## Pitfalls
 

@@ -39,8 +39,8 @@ Yann Dubois lists five steps on his slides: tokenize, forward, predict the proba
 
 1. **Tokenize.** A program called the **tokenizer** cuts your text into tokens from the vocabulary and gives each an ID. Tokenizers are usually trained with **byte pair encoding**: start with one token per character, repeatedly merge the pair of adjacent tokens that appears most often, and stop when the vocabulary reaches the wanted size. Dubois gives the reasons for tokens of this size in his appendix slides: they make shorter sequences than characters, and they handle unseen words and typos better than whole words do.
 2. **Embed.** Each token ID is replaced by its vector. Dubois describes the intuition as points in space, where words with similar meanings lie close together ([20:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1200)). Nobody assigns the coordinates. Training moves them.
-3. **Attend.** A transformer is a stack of many identical layers. In each layer, every token looks back at the earlier tokens and weighs how relevant each one is to it. That step is called **attention**. Then the token's vector is updated with what it found. Consider "she sat on the bank of the river" and "she walked to the bank to withdraw money". The word "bank" starts with the same vector in both. After a few layers its vectors differ, because the neighbors differ.
-4. **Score.** After the last layer, the model turns the final token's vector into one score per vocabulary entry. A function called **softmax** turns the scores into probabilities that add up to 1.
+3. **Combine.** The vectors go through a neural network. Dubois keeps his description plain: the network is a nonlinear aggregator that merges the vectors into a new one, and its key property is that it is differentiable, so training can adjust it ([22:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1320)). He even notes that a plain average would already count as such a network. In current LLMs the aggregator is a **transformer**, a stack of many identical layers. In each layer, every token looks back at the earlier tokens and weighs how relevant each one is to it. That step is called **attention**. Consider "she sat on the bank of the river" and "she walked to the bank to withdraw money". The word "bank" starts with the same vector in both. After a few layers its vectors differ, because the neighbors differ.
+4. **Score.** His concrete numbers: a 768-number vector times a 768 by 20,000 matrix gives one score for each of the 20,000 words in the vocabulary ([24:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1440)). A function called **softmax** turns the scores into probabilities that add up to 1. He calls it the usual trick for turning any vector into a probability distribution.
 5. **Sample, then repeat.** One token is chosen according to those probabilities (more on how in [Chapter 04](04-using-llms-tokens-context-and-sampling.md)), converted back to text, appended to the input, and the whole function runs again. It stops when the model emits a special end-of-output token or hits a limit.
 
 Step 3 is where "looking up" breaks down as a picture. Attention blends information from many tokens into a weighted average. There is no table of sentences to search.
@@ -51,8 +51,8 @@ Pre-training is the optimization loop you met in [Chapter 01](01-machine-learnin
 
 1. **The function with blanks** is the transformer, with billions of parameters.
 2. **The examples** come from cleaned text, cut into chunks of a few thousand tokens.
-3. **The loss** is low when the model gives a high probability to the token that actually comes next, at every position in the chunk.
-4. **Training** nudges every parameter a little in the direction that lowers that loss, then moves to the next chunk.
+3. **The loss** is low when the model gives a high probability to the token that actually comes next, at every position in the chunk. Dubois names it, the cross-entropy loss.
+4. **Training** nudges every parameter a little in the direction that lowers that loss, then moves to the next chunk. In his description, training pushes the true next token's probability up a little and every other one down, then backpropagates through the whole network, embeddings included ([24:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1440)).
 
 No labeling step is needed. The next token is already in the text, so the text supplies its own labels. That is why pre-training can run on the whole web, and why its cost is measured in data and compute rather than in annotators.
 
@@ -60,25 +60,25 @@ No labeling step is needed. The next token is already in the text, so the text s
 
 Dubois's recipe, as he presents it in his Fall 2025 lecture:
 
-1. Download pages. He names **Common Crawl**, a public snapshot of the web with about 250 billion pages.
-2. Extract text from the HTML. Math and page furniture are hard.
+1. Download pages. He names **Common Crawl**, a public snapshot of the web with about 250 billion pages ([26:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1560)).
+2. Extract text from the HTML. Math and page furniture are hard, and at this scale the extraction itself is expensive.
 3. Filter unwanted content, such as personal information.
-4. Deduplicate. Headers, footers and menus repeat on every page of a forum.
+4. Deduplicate. Headers, footers and menus repeat on every page of a forum. Dubois says deduplication can run by document, by line or by paragraph ([28:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1680)).
 5. Apply heuristic filters. Drop very short or very long documents and pages full of rare tokens ([30:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1800)).
 6. Apply model-based filters. One method he likes: train a classifier that predicts whether Wikipedia would link to a page, then keep the pages it scores highly (same moment).
 7. Set the **data mix**. Classify pages by domain and re-weight them. His example: a coding model may raise the share of code from about 5% to about 50% ([32:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1920)).
 
-The funnel is steep. The FineWeb pipeline he shows goes from 200 billion pages to 15 billion (his slide, numbers as reported in the lecture). After the main run comes **mid-training**: continued training on under a trillion tokens of higher-quality data, with more code, science or multilingual text and a longer context ([36:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2160)).
+The funnel is steep. In the FineWeb pipeline he shows, blocklists and simple document filters take 200 billion pages to 36 billion, deduplication to 20 billion, and a last round that removes more JavaScript and placeholder text to 15 billion (his slide; he walks through the last rounds at [36:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2160)). After the main run comes **mid-training**: continued training on under a trillion tokens of higher-quality data, with more code, science or multilingual text and a longer context ([36:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2160)).
 
 He argues that this work is the decisive part: processing data well is "basically the key for training LLMs" ([40:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2400)). He also notes that labs keep their data secret, for competitive reasons and because of copyright risk.
 
 ### Pre-training compute
 
-- **Scale drives quality.** Dubois's claim, as an empirical observation: for any model and data, the most important factor is how much compute training uses.
+- **Scale drives quality.** Dubois's claim, as an empirical observation: for any model and data, the most important factor is how much compute training uses ([40:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2400)).
 - **Scaling laws** make that predictable. Loss falls smoothly as data, parameters and compute grow, so you can run small experiments and extrapolate. Dubois contrasts the old approach (train about 30 full candidates and pick the best) with the new one (tune on small models, fit the law, spend about 90% of the compute on one final run) ([44:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2640)).
 - **Data and parameters must grow together.** The Chinchilla rule of thumb is about 20 training tokens per parameter. He notes that it ignores the cost of serving the model, so labs train smaller models on more tokens than that ([48:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2880)).
 
-His slides give a worked estimate for LLaMA 3 405B, as reported in the lecture. Training cost is roughly 6 × tokens × parameters floating-point operations (**FLOPs**). For 15.6 trillion tokens and 405 billion parameters that is about 3.8 × 10²⁵ FLOPs. On 16,000 H100 **GPUs** (the processors built for this kind of math), that is about 26 million GPU-hours, 70 days, roughly $52 million of rented compute and about 4,400 tons of CO₂. This is why only a few organizations pre-train, and why you will start from an existing base model.
+Dubois walks through a worked estimate for LLaMA 3 405B ([50:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=3000)). Training cost is roughly 6 × tokens × parameters floating-point operations (**FLOPs**). For 15.6 trillion tokens and 405 billion parameters that is about 3.8 × 10²⁵ FLOPs, roughly half the 10²⁶ threshold at which, he notes, an executive order asks for more care. His slides complete the arithmetic: on 16,000 H100 **GPUs** (the processors built for this kind of math), about 26 million GPU-hours and 70 days, roughly $52 million at $2 per GPU-hour, and about 4,400 tons of CO₂. In the lecture he gives the cost as a range, $15 million to $80 million, depending on the price of compute, and compares the emissions to about 2,000 return flights from New York to London. This is why only a few organizations pre-train, and why you will start from an existing base model.
 
 ## Worked example
 
@@ -123,7 +123,7 @@ Dubois names both problems at [20:00](https://www.youtube.com/watch?v=r1qZpYAmqm
 
 The result of pre-training is a **base model**. It is an excellent text-continuer, and that is all it was trained to be.
 
-Dubois describes the gap with a GPT-3 example ([54:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=3240)). Asked to explain the moon landing to a six-year-old, the model answered with more questions of the same kind, such as asking to explain gravity to a six-year-old. On the web, a question like that is often followed by more questions, so that is the likely continuation. In his words at [2:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=120), it is "a model that knows everything about the world, but it doesn't actually know how to interact with a human".
+Dubois describes the gap with a GPT-3 example ([52:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=3120), [54:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=3240)). Asked to explain the moon landing to a six-year-old, the model answered with more questions of the same kind, such as asking to explain gravity to a six-year-old. On the web, a question like that is often followed by more questions, so that is the likely continuation. In his words at [2:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=120), it is "a model that knows everything about the world, but it doesn't actually know how to interact with a human".
 
 | A base model is | A base model is not |
 |---|---|
@@ -143,9 +143,9 @@ Three of his points are worth keeping:
 
 - **The bitter lesson.** He endorses Richard Sutton's 2019 argument: methods that make the best use of growing compute win in the long run, so do the simple thing and scale it ([48:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2880)). This is his position, not a settled fact.
 - **Size has orders of magnitude.** As he reports them, pre-training takes more than 10 trillion tokens and months. LLaMA 2 used about 2 trillion tokens, LLaMA 3 about 15 trillion, LLaMA 4 between 20 and 40 trillion ([40:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2400)).
-- **Efficiency is part of the design.** His slides explain that a training run rarely reaches the processor's theoretical speed. The share it does reach is the **model FLOP utilization**, and 50% is an excellent result. Techniques such as lower-precision arithmetic and fused operations push it up.
+- **Efficiency is part of the design.** A training run rarely reaches a processor's theoretical speed. The share it does reach is the **model FLOP utilization (MFU)**, the ratio of observed to theoretical throughput ([94:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=5640)). Dubois treats 50% as very good, and says even big companies may be working to get past 15 or 20% ([96:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=5760)). Two techniques push it up: lower-precision arithmetic, with matrix multiplications in 16-bit rather than 32-bit numbers, and fusing operations so that data moves less between slow and fast memory.
 
-His slides also introduce **perplexity**, the standard pre-training score. It is the model's loss on unseen text, converted into "the number of tokens it hesitates between". Lower is better. Between 2017 and 2023, as his slides report, models went from hesitating among about 70 tokens to fewer than 10.
+His slides also introduce **perplexity**, the standard pre-training score. It is the model's loss on unseen text, converted into "the number of tokens it hesitates between". Lower is better. Between 2017 and 2023, as his slides report, models went from hesitating among about 70 tokens to fewer than 10. The same slides add that it is no longer used for academic benchmarks but still matters during development.
 
 ## Pitfalls
 
@@ -229,7 +229,7 @@ Grow the counting model until it breaks. That failure is the reason LLMs exist.
 
 ## Sources
 
-- **Lecture:** Yann Dubois, "Introduction to training LLMs for AI agents", LLM Agents MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=r1qZpYAmqmg), used at [pre-training](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=0), [the base-model gap](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=120), [counting versus neural models](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1200), [data filtering](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1800), [scaling laws](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2640), [a base model's behavior](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=3240)
+- **Lecture:** Yann Dubois, "Introduction to training LLMs for AI agents", LLM Agents MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=r1qZpYAmqmg), used at [pre-training](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=0), [the base-model gap](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=120), [counting versus neural models](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1200), [neural language models](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1320), [data filtering](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1800), [scaling laws](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2640), [the cost of one run](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=3000), [a base model's behavior](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=3120), [utilization](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=5640)
 
 ## Next
 

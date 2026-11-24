@@ -1,6 +1,6 @@
 # 06. Data Quality
 
-**Level:** Practitioner · **Reading time:** 24 min · **Exercise:** 60 min
+**Level:** Practitioner · **Reading time:** 30 min · **Exercise:** 60 min
 **Prerequisites:** [Measuring Model Quality](02-measuring-model-quality.md)
 
 > **In one sentence:** After this chapter you can write data tests for the inputs of a model-based feature, tell a hard schema failure from a soft plausibility warning, and set up guards that notice when the data drifts.
@@ -23,16 +23,18 @@ Everything else is a judgment of **plausibility**. Is a refund of four million e
 
 The analogy is a type checker and a linter. Type errors stop the build. Linter warnings are heuristics that need judgment. The analogy breaks at the fix: you can silence a linter without harm, while a data warning ignored means the model trains or predicts on garbage.
 
-Six dimensions cover most problems. Four of them, completeness, consistency, accuracy, and precision, are the problems the book lists as typical in production data (chapter 16).
+Kästner's running example is inventory software for a supermarket. He lists five criteria for judging data (chapter 16). The table gives each one with its supermarket example and a ticket example, and adds a sixth, precision, because he warns separately about random noise.
 
-| Dimension | Question | Triage example |
-|---|---|---|
-| Validity | Does each field have the right type, format, and range? | `created_at` parses as a timestamp. |
-| Completeness | Is anything missing or filled with a placeholder? | An open ticket has no closing date. |
-| Consistency | Do fields and sources agree with each other? | A ticket closed before it was created. |
-| Accuracy | Does the data match the real world? | The label matches what an agent would choose. |
-| Precision | How noisy are the values? | Timestamps rounded to the day. |
-| Timeliness | Is the data current? | Yesterday's tickets arrive today. |
+| Criterion | Question | Supermarket example | Triage example |
+|---|---|---|---|
+| Accuracy | Was the value recorded correctly? | The wrong number of items for a shipment | The label differs from what an agent would choose |
+| Completeness | Was everything relevant recorded? | A whole shipment is forgotten | An open ticket has no closing date |
+| Uniqueness | Is each entry recorded once? | The same shipment is entered twice | The same message is imported twice |
+| Consistency | Does the data agree with itself? | Two tables hold different prices for one item | A ticket closes before it was created |
+| Currentness | Is the data kept up to date? | A delivery is entered a day late | Yesterday's tickets arrive today |
+| Precision | How noisy are the values? | A scale that jitters at every weighing | Timestamps rounded to the day |
+
+Later problems cost more. Data-quality problems barely show in offline accuracy scores, and the later one is found, the more it costs to fix, because faulty assumptions are already built into the system (chapter 16).
 
 ## How it works, step by step
 
@@ -42,11 +44,11 @@ Six dimensions cover most problems. Four of them, completeness, consistency, acc
 
 ### 2. Write the schema
 
-Turn what you learned into hard rules. Fail loudly on violations.
+Turn what you learned into hard rules. Fail loudly on violations. Kästner names **Great Expectations** as a popular library for schema-style checks on data frames, and formats such as Protocol Buffers, Apache Avro and Apache Parquet, which combine schema enforcement with explicit schema versions, so that a change between a producer and a consumer is detected automatically (chapter 16). Where nobody wants to write a schema, tools can infer one from sample data, which is easier to refine than to start from scratch.
 
 ### 3. Add plausibility checks
 
-Kästner describes these as **data linting**: heuristics for suspicious encodings, learned from past problems (chapter 16). His examples of suspicious patterns:
+Kästner describes these as **data linting**: heuristics for suspicious encodings, developed from experience with past problems (chapter 16). His examples of suspicious patterns:
 
 - placeholder values standing in for missing data, such as 999 or the date 1/1/1970;
 - numbers or dates stored as strings;
@@ -54,22 +56,25 @@ Kästner describes these as **data linting**: heuristics for suspicious encoding
 - ambiguous date formats and unknown units;
 - duplicates.
 
+A linter earns its keep where no schema exists, or where the schema is wrong or too weak for the use. Not every warning is a real problem, and at the time of writing he knew of lists of common problems and academic prototypes but no broadly adopted data-linting tool (chapter 16).
+
 **Anomaly detection** goes one step further and learns the usual distribution. The book's example is a shipment of 80,000 kg of bananas in a system where weekly sales rarely exceed 2,000 kg (chapter 16). Flagged rows go to a human, or get dropped from training. Tune the checks so that they do not drown reviewers in false alarms.
 
 ### 4. Encode your assumptions about change
 
-**Drift** means the data, or your assumptions about it, change over time. If the assumptions are never written down, nobody notices. Kästner warns that drift usually shows up as a slow downward trend in accuracy, which a model update reverses only temporarily (chapter 16).
+**Drift** means the data, or your assumptions about it, change over time. If the assumptions are never written down, checked, or monitored, nobody notices. Every form of drift degrades accuracy over time, which monitoring shows as a downward trend that a model update reverses only for a while (chapter 16).
 
-A common way to tell the kinds apart:
+Kästner distinguishes three forms, because they have different causes and different repairs (chapter 16):
 
-| Kind of drift | What changes | Triage example |
-|---|---|---|
-| Input drift | What customers write | A new product brings new vocabulary |
-| Label mix drift | How common each answer is | A billing incident makes most tickets billing |
-| Concept drift | The right answer for the same input | Refunds move to a new queue |
-| Schema drift | The shape of the data itself | The warehouse renames `lang` to `locale` |
+| Kind of drift | What changes | Example in the book | How you notice |
+|---|---|---|---|
+| Data drift, also called covariate shift | The distribution of the inputs | The self-checkout camera meets an heirloom cucumber unlike any in training | Compare current inputs with the training data or with past inputs |
+| Concept drift | The right answer for the same input | A fad diet makes cucumbers sell in winter, so the month no longer predicts demand | Inputs look normal while accuracy falls, so this needs labels or telemetry |
+| Schema drift | The format, or what a value means | A terminal records kilograms instead of pounds after an update | A sudden rise in ill-formed inputs, or an abrupt change in a distribution |
 
-A guard for each is a test run on every new batch against a reference window.
+For tickets: a new product brings new vocabulary (data drift), refunds move to a new queue (concept drift), and the warehouse renames `lang` to `locale` (schema drift). The repairs differ. Data drift calls for fresh training data, and the old data usually stays valid. Concept drift calls for relabeled or newly labeled data. Schema drift is a technical fault between components and is fixed like any other bug.
+
+A guard for each is a test run on every new batch against a reference window. Kästner lists what to watch: the distance between today's inputs and the reference distribution, the number of outliers and low-confidence predictions, the count of ill-formed inputs and automatic repairs, and the number of wrong predictions where it can be observed. He names Evidently as one open-source tool and warns that the hard part is the threshold at which a change deserves a human's attention (chapter 16).
 
 ### 5. Fix the data at its source
 
@@ -77,7 +82,7 @@ Cleaning has less leverage than collecting well. According to a 2019 study the b
 
 ### 6. Document the data
 
-Write down the purpose, the origin, how it was collected, which checks passed, the distribution of subpopulations, and the known limitations.
+Write down the purpose, the origin, how it was collected, which checks passed, the distribution of subpopulations, and the known limitations. Kästner points to the **datasheets for datasets** template, which asks 57 questions about a data set's motivation, composition, collection, uses, and maintenance, and to data catalogs that index an organization's data sets with their schemas attached (chapter 16).
 
 ### 7. For an LLM feature, widen what counts as data
 
@@ -143,7 +148,8 @@ What to observe:
 ## What the practitioners say
 
 - **Cleaning eats the job.** According to the reports Kästner cites, data scientists spend more than half their time cleaning data and rarely enjoy it (chapter 16).
-- **Noise and bias are different problems.** **Imprecise** data has random noise. **Inaccurate** data has a systematic error. The second is worse, because it biases the model in one direction (chapter 16).
+- **Noise and bias are different problems.** **Imprecise** data has random noise, which most learning methods tolerate, especially with a lot of data. **Inaccurate** data has a systematic error: a miscalibrated scale that underreports banana sales makes the model order too few bananas. More data does not help if it all has the same bias, and Kästner adds that systematic bias, not noise, is the source of most fairness issues (chapter 16).
+- **Most problems are avoidable.** A Google study he cites, titled "Everyone Wants to Do the Model Work, Not the Data Work", found that catching data-quality problems early would have prevented most of them. It also found that data scientists underestimate how messy their data is and tend to assume it will stay stable (chapter 16).
 - **Integrity is strict, and it is not enough.** Schema enforcement is well established and covers only format and internal consistency (chapter 16).
 - **Beyond the schema, you check plausibility.** His position is that most checks identify suspicious data rather than clear violations (chapter 16).
 - **Expected distributions are learned, not written.** Teams learn them from data and then tune detection to surface useful problems (chapter 16).

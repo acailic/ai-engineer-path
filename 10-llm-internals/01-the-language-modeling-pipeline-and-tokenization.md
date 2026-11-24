@@ -23,7 +23,7 @@ Text is not integers. A Python `str` is a sequence of Unicode characters, and th
 
 The analogy is the lexer in a compiler, which turns characters into tokens such as keywords and identifiers. The analogy breaks in two places. A lexer's token kinds are fixed by the language grammar, while a tokenizer's vocabulary is learned from a corpus. And a lexer throws whitespace away, while a tokenizer keeps it: the space before a word is part of a token.
 
-Why translate at all, if bytes are already integers? Because of cost. The work a model does per token is roughly fixed, but attention, the mechanism that lets each token look at the others, costs more as sequences get longer. Lecture 1 puts it as "attention is quadratic in sequence length", meaning doubling the length roughly quadruples that part of the work. A modern tokenizer packs about 1,000 bytes into 250 tokens. That is four times less sequence for the model to process. Tokenization is an efficiency decision.
+Why translate at all, if bytes are already integers? Because of cost. The work a model does per token is roughly fixed, but attention, the mechanism that lets each token look at the others, costs more as sequences get longer. Liang's reason, in Lecture 1, is that attention is quadratic in the sequence length, so a shorter sequence is cheaper ([66:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3960)). On screen he converts a 20-byte string into 8 tokens, 2.5 bytes per token. A modern tokenizer packs about 1,000 bytes into 250 tokens. That is four times less sequence for the model to process. He names a second, subtler benefit: common stretches of many bytes collapse into one token, while rare or interesting parts stay as several tokens, so the model spends more computation where it matters ([28:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=1680)). Tokenization is an efficiency decision.
 
 ## How CS336 frames the whole pipeline
 
@@ -50,9 +50,9 @@ Four ways to choose the atoms are worth comparing. The measure that matters is t
 | One token per word | No fixed limit, in the millions | High | Rare words are learned badly; new words have no token |
 | Byte-pair encoding (BPE) | You choose it | High | Adds a separate component with its own file to ship |
 
-The character and byte schemes sit at opposite ends. The Lecture 1 notes call the character version "the worst of both worlds": a huge vocabulary and little compression. The byte version has a tiny vocabulary but, in the same notes, a "terrible" compression ratio.
+The character and byte schemes sit at opposite ends, and Liang builds both in Lecture 1. The character version offers about 150,000 tokens, but many characters are rare, which makes it an inefficient use of a vocabulary ([68:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=4080)). The byte version has 256 tokens and a compression ratio of exactly 1, so its sequences can be very long. His verdict on both is blunt: really bad ([70:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=4200)).
 
-Words look better. Each token means something, because people invented words. The cost is an open-ended vocabulary. A word seen three times in training teaches the model almost nothing. And a word that never appeared has to become a special `UNK` token, which the notes warn can distort **perplexity**, the model's average uncertainty about the next token (lower is better). Perplexity is counted per token, so two models with different tokenizers are not comparable on it.
+Words look better. Each token means something, because humans invented words and words keep a stable meaning. The cost is an open-ended vocabulary: at test time a word the tokenizer has never seen has to become a special `UNK` token, which Liang calls really ugly and says can mess up **perplexity** calculations ([70:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=4200)). Perplexity is the model's average uncertainty about the next token (lower is better), counted per token, so two models with different tokenizers are not comparable on it.
 
 ## How it works, step by step
 
@@ -74,9 +74,9 @@ Encoding new text:
 
 Decoding: each ID stands for a byte string (a raw byte for 0 to 255, the two merged strings joined for the rest). Join the byte strings and decode them as UTF-8.
 
-Real tokenizers add three things, which is also what CS336's first assignment asks for beyond the basic version:
+Liang's own example is `the cat and the hat`. The most frequent pair is the two bytes of `th`, which becomes token 256; the next merges produce `the` (257) and one more token (258), so the sequence shrinks while the vocabulary grows ([74:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=4440)). The code he shows works, he says, but is extremely slow, and making it fast is part of the first assignment. Real tokenizers add three things ([76:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=4560)):
 
-- **Pre-tokenization**: splitting text first with a regular expression, as the GPT-2 tokenizer does, so merges never cross a word or punctuation boundary.
+- **Pre-tokenization**: splitting text into chunks first, with a regular expression as the GPT-2 tokenizer does, so merges never cross a word or punctuation boundary.
 - **Special tokens**: strings such as `<|endoftext|>` that mark document boundaries. The tokenizer must detect them and never split them.
 - **Speed**: when encoding, loop only over the merges that can actually apply, not over all of them.
 
@@ -153,16 +153,16 @@ Percy Liang opens the course with a claim about what a small-scale course can te
 
 His organizing lens is efficiency, and he applies it to every unit, including data: "We don't want to waste time updating gradients on a bunch of redundant bad data" ([64:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3840)). With a fixed compute budget, time spent on bad data is time not spent on good data.
 
-His advice for someone with an application has three steps, in order: prompt a model, fine-tune a model, and only as a last resort pretrain your own, because pretraining "is a pain and it's also expensive". He adds that watching lectures is not enough: "you learn really by doing the assignments" ([22:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=1320)).
+His advice for someone with an application has three steps, in order: prompt a model, fine-tune a model, and only as a last resort pretrain your own, because pretraining is a pain and expensive. He adds that watching lectures is not enough: "you learn really by doing the assignments" ([22:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=1320)).
 
-On tokenization itself, the Lecture 1 notes ([65:06](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3906)) make four points:
+On tokenization itself, Lecture 1 makes four points:
 
-- Growing the vocabulary raises the compression ratio, but it also makes the model's use of the vocabulary sparser.
-- BPE was introduced by Philip Gage in 1994 for data compression, later adapted to neural machine translation, and then used by GPT-2.
-- BPE is a data-driven heuristic that works well. Character, byte and word tokenization are all "highly suboptimal".
-- The long-term goal is a tokenizer-free model that reads bytes directly. Such models are promising but, in his words at the time, have not been scaled to the frontier.
+- You can raise the compression ratio by growing the vocabulary, and multilingual tokenizers now have 100,000 to 200,000 tokens, but you then run into sparsity, because every element of the vocabulary is treated as a distinct element ([66:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3960)).
+- BPE was introduced for data compression, long before language models, and entered NLP through neural machine translation. The first language model paper to use it was GPT-2 ([72:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=4320)).
+- BPE is a data-driven heuristic that works well. Character, byte and word tokenization are each "highly suboptimal" in their own way ([76:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=4560)).
+- The dream is a model that operates on bytes end to end. Recent work such as H-Net looks promising, but none of it has been scaled to the frontier, so the course still teaches tokenizers ([28:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=1680)).
 
-Liang closes with two properties any replacement must have ([78:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=4680)): the model should operate on chunks, not on raw units, which matters even more for video or DNA than for text, and chunks should vary in size, so that more model capacity goes to the interesting parts of the input.
+Liang closes with two properties any replacement must have ([78:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=4680)): the model should operate on chunks, not on raw units, which matters even more for video or DNA than for text, and chunks should vary in size, because not all bytes deserve the same computation.
 
 ## Pitfalls
 
@@ -237,11 +237,11 @@ You are done when:
 
 ## Sources
 
-- **Lecture:** Percy Liang, "Lecture 1: Overview, Tokenization", Stanford CS336 Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=JuoVZkPBiKk), used at [three kinds of knowledge](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=360), [learn by doing](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=1320), [efficiency lens](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3840), [tokenization notes](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3906), [what replaces tokenization](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=4680)
+- **Lecture:** Percy Liang, "Lecture 1: Overview, Tokenization", Stanford CS336 Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=JuoVZkPBiKk), used at [three kinds of knowledge](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=360), [learn by doing](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=1320), [efficiency lens](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3840), [tokenization](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3960), [what replaces tokenization](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=4680)
 - **Course:** Stanford CS336, [course page](https://cs336.stanford.edu/)
 - **Reading:** Philip Gage, "A New Algorithm for Data Compression" (1994), where BPE was introduced
 - **Reading:** Rico Sennrich, Barry Haddow and Alexandra Birch, "Neural Machine Translation of Rare Words with Subword Units" (2016): [arXiv](https://arxiv.org/abs/1508.07909)
-- **Reading:** Andrej Karpathy, "Let's build the GPT Tokenizer" (2024), the video the lecture notes recommend: [video](https://www.youtube.com/watch?v=zduSFxRajkE)
+- **Reading:** Andrej Karpathy, "Let's build the GPT Tokenizer" (2024), the video Liang recommends in Lecture 1 ([64:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3840)): [video](https://www.youtube.com/watch?v=zduSFxRajkE)
 ## Next
 
 → [Resource Accounting: FLOPs, Memory and Arithmetic Intensity](02-resource-accounting-flops-memory-and-arithmetic-intensity.md), because the efficiency argument for tokenization only makes sense once you can count what a model spends. When you are ready for the model itself, continue with [Transformer Architectures and Hyperparameters](03-transformer-architectures-and-hyperparameters.md), and see [Building Your Own](13-building-your-own-a-roadmap-through-the-assignments.md) for how the tokenizer fits into the first assignment.

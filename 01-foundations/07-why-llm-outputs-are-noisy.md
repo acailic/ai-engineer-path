@@ -58,11 +58,11 @@ Because the noise is predictable, you can answer the question "can this evaluati
 
 ### 3. Compare on the same questions
 
-Run both models or both prompts on identical questions and analyze the difference question by question. Miller's recommendation is to test the paired differences, not the two summary scores. The difficulty of each question appears in both results and cancels. Wang reports that three methods agree in practice: the direct calculation, resampling the data (the **bootstrap**), and the **sign test**, which asks how often one model wins on the questions where they disagree ([28:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=1680)).
+Run both models or both prompts on identical questions and analyze the difference question by question. Miller's recommendation is to test the paired differences, not the two summary scores. The difficulty of each question appears in both results and cancels. Wang reports that three methods agree in practice, as long as the two models are not far apart: the direct calculation, resampling the data (the **bootstrap**), and the **sign test**, which treats every question where they disagree as a coin flip ([28:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=1680)). He gives one concrete size. HumanEval has 164 questions, so one model's standard error is about 4 points. To reach the usual 5% threshold, an unpaired comparison needs about a 10-point gap and a paired one about 8 points. Both are larger than the gains many papers report ([22:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=1320)).
 
 ### 4. Know what repeated answers buy
 
-Ask each question K times and average. Miller shows that this shrinks only the sampling part. In his worked example, two answers per question remove one third of the variance. Beyond a handful of repeats, almost nothing improves, because the remaining noise comes from the questions. His other warning: do not pool K × n answers as if they were independent observations.
+Ask each question K times and average. Miller shows that this shrinks only the sampling part. In his worked example, a second answer per question removes some of the variance, and each further answer adds a smaller gain, because the remaining noise comes from the questions. His other warning: do not pool K × n answers as if they were independent observations.
 
 ### 5. Do not turn the temperature down
 
@@ -72,17 +72,17 @@ It is tempting to set the sampling temperature to zero and get "stable" numbers.
 
 Benchmarks are shrinking as they get harder. Wang's slides list the sizes: MNIST 10,000, ImageNet 100,000, MMLU about 10,000, HumanEval 164, SWE-bench Verified 500, τ-bench 80 ([2:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=120)).
 
-The counter-argument is that each question now carries a long generation, so it is more informative. Wang tested this. He plotted many models against many questions, with each cell showing the model's pass rate over ten or more samples, and found "a lot of inconsistency" ([10:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=600)). The best model fails easy items. Weak models solve some hard ones. If a model has a 30% chance on a "hard" item, he argues, raising that to 90% is less impressive than getting the first 1%.
+The counter-argument is that each question now carries a long generation, so it is more informative. Wang tested this. He sorted the models by their average score and the questions from easiest to hardest, and colored each cell with the model's pass rate on that question, over several draws where he had them ([6:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=360), [8:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=480)). The result was "a lot of inconsistency" ([10:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=600)). The best model fails easy items. Weak models solve some hard ones. If a model has a 30% chance on a "hard" item, he argues, the first percent of improvement is worth more: once a model has a decent chance and a verifier exists, it can simply try again ([14:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=840)).
 
-He also measured how much signal each benchmark carries, relative to its noise ([42:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2520)). His signal is the gain from doubling a model's size. On his ratio scale, MMLU scores 13.2, GSM8K 7.1, HumanEval 1.1 and HumanEval+ 0.50. Below 2, a benchmark cannot detect that gain, and that holds for most code benchmarks, as he reports it.
+He also measured how much signal each benchmark carries, relative to its noise ([42:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2520)). His signal is the gain from doubling a model's size, and his noise is the spread implied by statistical testing. On his slide's ratio scale, MMLU scores 13.2, GSM8K 7.1, HumanEval 1.1 and HumanEval+ 0.50. Below 2, a benchmark cannot reliably detect that gain, and that holds for most code benchmarks. In his words, MMLU can reliably tell a model from the next larger one, while code benchmarks such as HumanEval cannot even detect a doubling in size (same moment).
 
-His explanation is uncomfortable for benchmark builders. The models are less consistent than the benchmarks. His team tried to repair noisy sets by filtering and reweighting questions and got no measurable gain (his slide 36).
+His explanation is uncomfortable for benchmark builders. The models are less consistent than the benchmarks. His team tried to repair noisy sets by filtering and reweighting questions and got no measurable gain (his slide 36). On that slide he adds that HumanEval+ and MBPP+ score no better than the originals they were meant to improve.
 
 ### 7. Use Wang's shortcuts
 
 - **Per-question pass rates follow a pattern.** Across models, they fit a Beta distribution, a flexible distribution for values between 0 and 1. This lets you predict the noise of a data set from its accuracy alone ([36:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2160)).
-- **Three levels of effort.** Read the standard error from his table. Or read it from his curve at your accuracy. Or export your question-level results and run his tool, Eval-Arena, which tests every pair of models on a benchmark ([38:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2280)).
-- **Do not improvise the statistics.** In his experience, hand-rolled tests are error-prone. And estimates from a few random seeds understate the noise.
+- **Three levels of effort.** Read the standard error from his table. Or read it from his curve at your accuracy. Or export your question-level results and run his code, which places your comparison among all the other model pairs, so that a strange result stands out at once ([38:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2280)). The tool is called Eval-Arena.
+- **Do not improvise the statistics.** In his experience, hand-rolled tests are error-prone, and he has seen many examples of the bootstrap done incorrectly in the literature ([28:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=1680)). Estimates from a few random seeds understate the noise ([38:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2280)).
 
 ## Worked example
 
@@ -124,7 +124,7 @@ Wang's lecture is a researcher's audit of his own field. Two of his images are w
 - **The kettle.** His kettle broke. He photographed the part and asked a model, which said it looked like a robot vacuum. He trusted its later advice less. His point: hard tasks have many steps, and with a fixed chance of error per step, the chance of going wrong somewhere grows with the number of steps ([14:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=840)). For a product, keep chains short and check intermediate results.
 - **Complicated evaluations invite mistakes.** When an evaluation needs 100,000 tokens to describe, he says, few people look at the details, and errors survive (his slide 41, which links to a bug report on SWE-bench).
 
-His advice to benchmark builders is to publish question-level results, so that others can compute the statistics themselves. His advice to everyone else is to report on more than one benchmark.
+His method for auditing a benchmark is to look for questions on which better models do worse. On MBPP several of those turned out to be real errors, later corrected in MBPP+. Models that reproduce the wrong answers are then suspects for having trained on the test data ([40:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2400)).
 
 Miller's paper closes the loop with reporting practice from other sciences: print the number of questions next to each score, and the standard error in parentheses.
 

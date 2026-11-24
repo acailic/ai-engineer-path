@@ -13,30 +13,33 @@ Your agent works. Someone asks whether it can now be given the keys to productio
 
 **Capability evaluation** measures what a model or an agent can do, including the things you do not want it to do. A **dangerous-capability evaluation** measures whether a system has crossed the line from "could not help with serious harm" to "could".
 
-Ben Mann, a co-founder of Anthropic, gave a lecture on this at Berkeley on November 25, 2024. His first point was that measurement is very hard because of **elicitation**: the choice of prompts and techniques that draws a capability out of a model ([2:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=120)). Chain of thought, telling the model to reason step by step, is one such technique. A small change in prompting can change the output a great deal. A claim about a level of capability has to hold even if somebody later finds "some breakthrough new technique for elicitation". Otherwise a measurement of what the model did is mistaken for a measurement of what it can do.
+Ben Mann, a co-founder of Anthropic, gave a lecture on this at Berkeley on November 25, 2024. His first point was that measurement is very hard because of **elicitation**: the choice of prompts and techniques that draws a capability out of a model ([2:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=120)). Chain of thought, telling the model to reason step by step, is one such technique. A small change in prompting can change the output a great deal. He grades models by it: GPT-2 like a preschooler, GPT-3 like an elementary schooler unless you elicited it well, GPT-4 like a smart high-school student ([6:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=360)). A claim about a level of capability has to hold even if somebody later finds "some breakthrough new technique for elicitation". Otherwise a measurement of what the model did is mistaken for a measurement of what it can do.
 
-His second point was that the answer is to measure early and to commit in advance. That is the **Responsible Scaling Policy (RSP)**, which he describes as Anthropic's public commitment that model capability will not outstrip the company's ability to build effective guardrails for that capability.
+His second point was that the answer is to measure early and to commit in advance. That is the **Responsible Scaling Policy (RSP)**, which he describes as Anthropic's public commitment that model capability will not outstrip the company's ability to build effective guardrails for that capability ([10:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=600)).
 
 > **Since the lecture.** This chapter describes the policy as Mann presented it on 2024-11-25. Anthropic has revised it several times since. When this was checked on 2026-11-24, the policy page showed version 3.4, effective 2026-07-08, still using the ASL labels and the term *Required Safeguards*. Read the current text before you rely on any level definition: [Responsible Scaling Policy](https://www.anthropic.com/responsible-scaling-policy).
 
-**The analogy, and where it breaks.** The RSP is modeled on **biosafety levels**, the rules that decide which precautions a laboratory needs for a given pathogen, from a lab coat up to a sealed suit. Mann makes the comparison himself ([12:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=720)). He also names where it fails ([22:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=1320)). The dangerous pathogens already exist. The AI capabilities that would warrant the highest precautions do not exist yet, so the levels have to be forecast.
+**The analogy, and where it breaks.** The RSP is modeled on **biosafety levels**, the rules that decide which precautions a laboratory needs for a given pathogen; in his example a hazmat suit and sign-in and sign-out procedures. Mann makes the comparison himself ([12:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=720)). He also names where it breaks ([22:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=1320)). The dangerous pathogens already exist. The AI capabilities that would warrant the highest precautions do not exist yet, so the levels have to be forecast. And software copies itself as a physical material does not, he notes, which opens the possibility of rapid recursive improvement ([20:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=1200)).
 
 ## How it works, step by step
 
 ### 1. Name the levels
 
-Mann presented four **AI Safety Levels (ASL)**, as of his lecture:
+Mann presented four **AI Safety Levels (ASL)** on his slide and sketched a fifth in speech, as of his lecture ([14:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=840), [18:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=1080)):
 
 | Level | As presented in the lecture | Examples he gave |
 |---|---|---|
 | ASL-1 | Smaller models, with no meaningful risk of harm to society | GPT-1, GPT-2, small Llama models |
 | ASL-2 | Present large models, with early signs of potentially dangerous capabilities | Frontier models of the time: some information relevant to biological weapons, but not enough to raise the risk above using a search engine, or reachable only with expert knowledge |
-| ASL-3 | Significantly higher risk: the model could significantly increase the risk of misuse | "We are preparing for ASL-3" |
-| ASL-4 | Speculative | None yet |
+| ASL-3 | Significantly higher risk: the model could significantly increase the risk of misuse | Attacks made easier, or new kinds of attack; early signs that the model could copy itself and spread online. The level he said Anthropic was preparing for |
+| ASL-4 | Speculative, not fully defined | A model that runs the key steps of a research process on its own, or that would be very costly even for a nation state to contain |
+| ASL-5 | Also undefined | Systems that surpass the most capable people and organizations and pursue goals over years. His example of the risk: an agent that hoards resources for more computing power and stops caring about people |
 
 ### 2. Set the triggers
 
-Two things move a model toward a new level: a capability threshold, shown by an evaluation, and a training-compute threshold. Mann says Anthropic hired biologists with the relevant expertise to help evaluate the models, and testified before the United States Senate about the models' biological capabilities ([14:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=840)).
+Two things move a model toward a new level: a capability threshold, shown by an evaluation, and a training-compute threshold. In his account the compute trigger was four times the compute of the previous level ([14:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=840)). Mann says Anthropic hired biologists with the relevant expertise to help evaluate the models, and testified before the United States Senate about the models' biological capabilities ([14:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=840)).
+
+The evaluations run in stages. **Yellow line** tests come first. If one trips, Anthropic must run the **red line** tests and possibly the full suite for the next level ([20:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=1200)). At the time, he placed Claude 3.5 Sonnet near the edge of ASL-2 and called it quite possible that the next model generation would cross the yellow line toward ASL-3.
 
 ### 3. Require the safeguards first
 
@@ -44,11 +47,11 @@ When a model approaches a new level, the policy requires the safety and security
 
 ### 4. Publish and revise
 
-Each new model ships with a report on the testing. Mann describes the goals as structure for hard decisions, public accountability, learning in public, and a template for policymakers ([12:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=720)). He compares the commitment to Odysseus tying himself to the mast. A lab with a finished model and no prior commitment may be tempted to deploy it without proper testing. An update published on October 15, 2024, as he describes it, lengthened the testing window after training from three to six months and added more testing at capability thresholds, even below the compute trigger ([14:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=840)).
+Each new model ships with a report on the testing. Mann describes the goals as structure for hard decisions, public accountability, learning in public, and a template for policymakers ([12:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=720)). He compares the commitment to Odysseus tying himself to the mast. A lab with a finished model and no prior commitment may be tempted to deploy it without proper testing. An update published on October 15, 2024, as he describes it, lengthened the testing window after training from three to six months and added more testing at capability thresholds, even below the compute trigger ([14:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=840)). In the same passage he says that OpenAI, Google and DeepMind published similar policies afterwards.
 
 ### 5. Forecast the lag
 
-If capabilities reach a level in two years and the safeguards take three, deployment waits a year. In an extreme case, safety falls so far behind that development pauses until it catches up ([28:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=1680)).
+If capabilities reach a level in two years and the safeguards take three, deployment waits a year ([26:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=1560)). In an extreme case, safety falls so far behind that development pauses until it catches up ([28:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=1680)). Mann also uses the levels to pose risk scenarios: a well-funded lab, perhaps in another country, that ignores the constraints and races to ASL-4, or uneven progress in which language ability runs ahead of robotics.
 
 ## Why capability evaluation is harder than ordinary evaluation
 
@@ -86,6 +89,7 @@ Rules that follow from the lecture:
 - Write the threshold before you see the result.
 - Keep "it did not" apart from "it could not".
 - Re-run on every model upgrade and every new tool.
+- Evaluate the agent you will ship, not the one you have. Built for today's capability, Mann warns, the product and the test problems both come out different ([24:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=1440)).
 - Write down what you did not test.
 
 ## Pitfalls

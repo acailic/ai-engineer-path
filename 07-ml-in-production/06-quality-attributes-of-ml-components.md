@@ -31,14 +31,14 @@ A **quality attribute** is a measurable quality of a component: its latency, its
 
 Two rules follow.
 
-**System qualities become component qualities.** Kästner's example is a fraud-detection service that has to follow new fraud patterns within days. That is a system quality. A model that takes weeks to retrain cannot serve it, however accurate it is. Training latency, a quality of the component, is then disqualifying.
+**System qualities become component qualities.** Kästner's running example in chapter 9 is a fraud-detection service sold to banks for a small fee per transaction. It has to follow new fraud patterns within days. That is a system quality. A model that takes weeks to retrain cannot serve it, however accurate it is. Training latency, a quality of the component, is then disqualifying. His two other examples pair a system quality with the component quality that fights it: a shopping site that must answer at once cannot use a ranking model that takes minutes, and a voice assistant that must protect privacy and hold down operating cost cannot use monitoring that ships every recording to the cloud. The way out he names for the fraud service is staging: a fast screening model reads every transaction, and an expensive model reads only what it flags. The reverse holds too. If no model can meet the quality targets, the whole design comes back to the table.
 
 **No component excels at everything.** So you trade. Kästner's vocabulary for trading makes the argument shorter:
 
 - The **design space** is every combination of choices: algorithm, settings, hardware, extra data.
 - A **hard constraint** is a limit you cannot negotiate. It cuts the space. Kästner's examples: fraud detection that must cost under $0.001 per prediction, and video analysis at 25 frames per second, which allows 40 ms per frame.
 - A **dominated design** is worse than another design on every quality. Drop it without discussion.
-- The remaining designs lie on the **Pareto front**: each is better than the others on at least one quality and worse on at least one. Choosing among them takes negotiation and judgment.
+- The remaining designs lie on the **Pareto front**: each is better than the others on at least one quality and worse on at least one. Choosing among them takes negotiation and judgment. Kästner's example question for the fraud service: is a little more accuracy, or more explainability, worth $0.0002 more per prediction?
 
 This is like choosing a laptop by screen size, weight, price and battery life. A model that is heavier, dearer and shorter-lived than another is out. What is left is a matter of taste. The comparison breaks in one place. Laptop specifications are published and stable. For an ML component, you must measure every quality yourself, on your own data, and the measurements change as the data changes.
 
@@ -64,7 +64,7 @@ Model size is easy to underestimate. The book's example: a small three-layer net
 
 ### The attributes of the learning process
 
-When a model is retrained regularly, the qualities of training matter as much as the qualities of the model.
+When a model is retrained regularly, the qualities of training matter as much as the qualities of the model. Kästner applies the same thinking to the monitoring infrastructure: how much data it produces, whether it anonymizes private data, how sensitive its instruments are and how quickly it reports an anomaly.
 
 | Attribute | Definition | Why it matters |
 |---|---|---|
@@ -165,11 +165,11 @@ For an **agent**, per-step qualities multiply. If each of five steps succeeds 95
 
 ## What the practitioners say
 
-- **Cost per prediction includes training.** Kästner warns that training cost can dominate when predictions are few or retraining is frequent. For scale, he cites an estimate that one training run of GPT-3 cost between 4 and 12 million US dollars, about 355 GPU-years ([chapter 9](https://mlip-cmu.github.io/book/09-quality-attributes-of-ml-components.html)).
+- **Cost per prediction includes training.** Kästner warns that training cost can dominate when predictions are few or retraining is frequent. For scale, he cites an estimate that one training run of GPT-3 cost between 4 and 12 million US dollars, about 355 GPU-years ([chapter 9](https://mlip-cmu.github.io/book/09-quality-attributes-of-ml-components.html)). Even that can be amortized, he adds, if the model serves many predictions and is not retrained often, as with most foundation models. Training cost also sets how much experimentation a team can afford, and so how often it can retrain.
 - **Inference cost can sink a product.** The book quotes a press report that Microsoft was losing, on average, $20 per user per month on its $10 GitHub Copilot subscription. Treat it as a report, not an audited figure.
 - **Accuracy gains are often not worth the engineering effort.** He quotes Netflix's engineers on the winning entries of its recommendation contest: the extra accuracy did not justify the work of running them in production. He adds that many organizations now choose smaller, faster LLMs for the same reason.
 - **Trade-offs cross team boundaries.** His examples: will the front-end team accept less explainability for more accuracy? Will engineers accept a less accurate model if it is calibrated? Can operations retrain daily and still leave room for experiments?
-- **Write the contract.** He argues that quality requirements for each component should be documented as an agreement between teams, to be renegotiated when one team cannot deliver.
+- **Write the contract.** He argues that quality requirements for each component should be documented as an agreement between teams, to be renegotiated when one team cannot deliver. He adds that this rarely happens in practice today.
 
 Kästner's checklist for an ML component, paraphrased from chapter 9: set a minimum accuracy and a baseline; estimate the prediction volume, the latency need and the cost budget; know what data exists, in quantity, quality, format and origin; know how often the model must change and what the training budget is; state explainability needs; name the protected groups and fairness concerns; state the security, privacy and legal constraints.
 

@@ -32,7 +32,7 @@ Kästner separates four layers (chapter 5). Here they are for the triage feature
 
 For a company, the organizational goal is almost always money, now or later. That goal is far away and hard to observe today. So teams watch **leading indicators**: easier-to-observe measures that they expect to move with future success. Kästner's example is the number of attorneys licensing the company's chatbot, and the ratio of new to canceled licenses. A **proxy** is any measure that stands in for something you cannot observe directly.
 
-The layers are like an org chart: each one exists to serve the level above. The picture breaks at one point. An org chart stays aligned because someone has authority over each level. Goals do not. The model layer can improve while the top layer gets worse.
+The layers are like an org chart: each exists to serve the level above. Unlike an org chart, they have no one with authority over every level, so the model layer can improve while the top layer gets worse.
 
 ### The layers pull apart
 
@@ -60,12 +60,16 @@ Kästner borrows a distinction called "the World and the Machine" (chapter 6). A
 | Kind | About | Example for triage |
 |---|---|---|
 | **REQ**, a requirement | The world: the state you want | A customer with a billing problem gets an answer from the billing team within one business day |
-| **ASM**, an assumption | The world: what you rely on | Customers describe their problem in their own words. The list of teams changes at most once a quarter |
+| **ASM**, an assumption | The link between them: how inputs and outputs correspond to things in the world | The ticket text reflects the customer's real problem. The category the model returns is a team that exists and takes the ticket |
 | **SPEC**, a specification | The software: what it must do | Given ticket text, return one category from the current list and a confidence, in under 200 ms |
 
-The software can satisfy the requirement only while the assumptions hold. If the world breaks an assumption, no change to the code fixes the failure.
+Kästner writes the link as a formula: the assumptions and the specification together must entail the requirement (ASM ∧ SPEC ⊨ REQ). The software can satisfy the requirement only while the assumptions hold. If the world breaks an assumption, no change to the code fixes the failure.
 
-Kästner's example is Lufthansa Flight 2904, which overran the runway at Warsaw in 1993. The software had one safety requirement: never engage the thrust reversers while the plane is in the air. After touchdown the crew could not engage them in time. The software had to infer "on the ground" from sensors, and on that runway the inference failed.
+He adds a fourth part, the **implementation** (IMPL): the code that is meant to match the specification. Things then go wrong in five places. The requirement itself is wrong. An assumption is incorrect, changing or missing. The specification is wrong. The parts contradict each other. The implementation differs from the specification. Engineers concentrate on the last one, he observes, because testing tools make it easy to find. In questions of safety, security, fairness and feedback loops, he finds faulty assumptions the more pressing problem.
+
+Kästner's example is Lufthansa Flight 2904, which overran the runway at Warsaw in 1993. The requirement was never to engage the thrust reversers while the plane is in the air. The software cannot see whether a plane is in the air, so it relied on an assumption: the plane is on the ground if each landing gear carries at least 6.3 tons, or if the wheels turn faster than 72 knots. In rain and strong wind, water on the runway kept the wheels slow and the wind unloaded one gear, so neither condition held for several seconds after touchdown. The code did exactly what it was specified to do and blocked the reversers. Requirement and implementation were fine. The assumption was wrong.
+
+For a feature with a model, he names four more kinds of assumption to question. People give unreliable feedback: an embarrassed wearer denies a fall, so a true alarm is recorded as a false one and turns into wrong training data. Training data drifts: falls recorded in senior homes differ from falls on a plush carpet at home. Feedback loops: after false alarms, wearers leave the watch off, so data is missing for exactly those situations. Attacks: someone shakes the watch on a nightstand to trigger a call.
 
 ### Behavioral and quality requirements
 
@@ -118,13 +122,14 @@ Kästner's test for a precise measure: imagine arguing in front of a judge that 
 ### Two traps
 
 - **The streetlight effect.** People measure what is easy to observe, the way a drunkard looks for his keys under the streetlight instead of where he dropped them. Kästner's example: counting chat messages as a proxy for client satisfaction, because the logs have them.
-- **Goodhart's law.** "When a measure becomes a target, it ceases to be a good measure" ([chapter 5](https://mlip-cmu.github.io/book/05-setting-and-measuring-goals.html)). Reward developers for fixing bugs and some will write bugs to fix. Kästner's advice is to set goals with measures and never to use them as incentives.
+- **Goodhart's law.** In management, this is the rule that once a measure is made a target, it stops being a good measure ([chapter 5](https://mlip-cmu.github.io/book/05-setting-and-measuring-goals.html)). Reward developers for fixing bugs and some will write bugs to fix. Kästner's advice is to set goals with measures and never to use them as incentives.
 
 ### Bringing the stakeholders in
 
 Kästner defines a **stakeholder** as anyone with an interest in the system or affected by it, including people who never use it: regulators, responders, competitors. His advice for gathering requirements (chapter 6):
 
 - Interview stakeholders about the problems they have, not only the solution they imagine. Users often change their mind once they see mistakes: people who wanted the fall-detecting watch to call for help automatically reversed that after it mistook a hand gesture for a fall.
+- Show, do not only ask. Interviews work better with pictures, storyboards or prototypes. In a **wizard-of-oz experiment** a person does the model's job behind the scenes, so users can try the product before the ML problem is solved.
 - Ask about trade-offs directly. Is a more accurate answer worth a longer wait or a higher price?
 - Negotiate conflicts by choosing one option, a compromise or a setting. His example: call for help after 30 seconds unless the wearer presses "I'm fine".
 - Write the result as "shall" statements, including assumptions and the responsibilities of things that are not software.

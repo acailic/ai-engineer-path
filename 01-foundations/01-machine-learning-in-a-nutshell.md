@@ -53,7 +53,7 @@ Kästner breaks the work into steps that look like a software life cycle:
 7. **Deployment.** Put it behind an API that other code calls.
 8. **Monitoring.** Keep measuring it in production.
 
-The loop is iterative, like a dev cycle. A bad evaluation sends you back to the data, the hyperparameters or the choice of algorithm. Kästner also notes that most steps contain little code: a few lines that call a library. The work, and the value, sit in the data.
+The loop is iterative, like a dev cycle. A bad evaluation sends you back to the data, the hyperparameters or the choice of algorithm. Kästner also notes that training itself typically takes very few lines of code that call a library, though deployment and monitoring can require substantial infrastructure. Much of the work, and the value, sits in the data.
 
 ### Three data splits
 
@@ -168,7 +168,7 @@ Kästner's chapter draws three distinctions that prevent confusion later:
 - **Parameter versus hyperparameter.** Parameters are the values the training finds, such as the thresholds in a decision tree or the values of the matrices in a neural network. Hyperparameters are the settings you choose, including the network's architecture. The book counts these as hyperparameters too.
 - **Two kinds of determinism.** For many algorithms the learning process is non-deterministic. The learned model itself is a pure, deterministic function. (When you call an LLM as a service, sampling adds randomness on top. [Chapter 04](04-using-llms-tokens-context-and-sampling.md) explains this.)
 
-He also warns that ML terminology is inconsistent. "Model" usually means something a person designed, as in "data model". Hence his term "machine-learned model".
+He also warns that ML terminology is not used consistently: different authors use different words for the same concept, and the same word for different concepts. "Model" is one of the words with several meanings, hence his term "machine-learned model".
 
 Yann Dubois shows the same loop at the scale of LLMs, in his Fall 2025 lecture *Introduction to training LLMs for AI agents*. The stages are the same: data, a training objective, then evaluation. The numbers are different. As he reports them, pre-training reads more than 10 trillion tokens, takes months and costs more than $10 million per run. Classic post-training uses on the order of 100,000 problems and takes days ([0:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=0), [2:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=120)).
 

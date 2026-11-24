@@ -50,7 +50,7 @@ If the words *model*, *training* and *prediction* are new, chapter 01 defines th
 
 ## Source
 
-The part is synthesized from Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapters 1, 2 and 4 to 13: [free online edition](https://mlip-cmu.github.io/book/). The book is licensed CC BY-NC-ND 4.0. Every chapter paraphrases and links to the chapter it draws on, and marks the places where the source was not available in full.
+The part is synthesized from Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapters 1, 2 and 4 to 13: [free online edition](https://mlip-cmu.github.io/book/). The book is licensed CC BY-NC-ND 4.0. Every chapter paraphrases and links to the chapters of the book it draws on, and was checked against their full text.
 
 Kästner's own running examples are a transcription service, a fraud detector and smart glasses. This part retells three of them where they are the clearest illustration: the toaster, the legal chatbot and the smart glasses. Everything else uses the support-ticket feature.
 

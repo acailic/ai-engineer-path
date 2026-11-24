@@ -6,7 +6,7 @@
 
 ## Why this matters
 
-A web agent that clicks the wrong button retries. A warehouse robot that grips the wrong way drops the crate, and the only feedback arrives when someone cleans the floor. Peter Stone's group and Jim Fan's team both hit that wall: real-world experience is scarce. Fan puts a number on one slide: 24 hours of robot data per robot-day. The question this chapter answers: how do you train an agent when experience is that expensive, and what does the answer have to do with agents that only touch software?
+A web agent that clicks the wrong button retries. A warehouse robot that grips the wrong way drops the crate, and the only feedback arrives when someone cleans the floor. Peter Stone's group and Jim Fan's team both hit that wall: real-world experience is scarce. Fan puts a number on it: real robot data is capped at 24 hours per robot per day ([10:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=600)). The question this chapter answers: how do you train an agent when experience is that expensive, and what does the answer have to do with agents that only touch software?
 
 ## The core idea
 
@@ -14,38 +14,40 @@ An **embodied agent** acts through a body, physical or simulated. Stone defines 
 
 **Reinforcement learning (RL)** is trial-and-error learning. The agent acts, receives a **reward**, a number that scores how well it is doing, and changes its behavior to earn more. A **policy** is the function from what the agent senses to the action it takes. A **simulator** is a program that imitates an environment so that trials are cheap.
 
-The analogy is a CI loop with a coverage score: run, measure, adjust, repeat. It breaks in two places. A test run is free and repeatable; a robot trial costs time and can break hardware. And code coverage is given, while a reward is something you must design. Stone's racing agent shows both failure directions: without penalties it pushed rival cars off the track, and with too heavy a penalty it braked and let a human pass ([56:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=3360)).
+The analogy is a CI loop with a coverage score: run, measure, adjust, repeat. It breaks twice: a robot trial costs time and hardware, and a reward, unlike coverage, must be designed. Stone's racing agent shows both failure directions: without penalties it pushed rival cars off the track, and with too heavy a penalty it braked and let a human pass ([56:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=3360)).
 
 ## How it works, step by step
 
 Fan's lecture (November 2024) reads as a recipe for one robot skill.
 
 1. **Describe the skill in words.** His running example is spinning a pen with a robotic hand.
-2. **Let a language model write candidate reward functions.** In Eureka (Ma et al., ICLR 2024) a coding model proposes several, and agents are trained against each in simulation ([44:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=2640), [46:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=2760)).
-3. **Scale trial and error in simulation.** RoboCasa generates many scenes; MimicGen turns one human demonstration into many successful trajectories across them ([38:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=2280)). A **trajectory** is one full record of what the robot sensed and did.
-4. **Randomize the physics.** DrEureka varies gravity, friction, weight and size, so the policy cannot depend on one simulated world ([46:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=2760)).
+2. **Let a language model write candidate reward functions.** In Eureka (Ma et al., ICLR 2024) each candidate is tested by training agents against it in simulation: 10,000 copies on a single GPU, a loop of about 15 minutes. The results go back to the model, which reflects, debugs and rewrites ([44:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=2640)). Fan describes two loops: an outer one in which a large model reasons and an inner one that trains a small network for motor control ([50:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=3000)).
+3. **Scale trial and error in simulation.** Fan's bet is that "it's easier to simulate a problem than to solve it" ([16:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=960)): the whole game of Go can be simulated in perhaps 500 lines of Python ([18:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=1080)). RoboCasa has models generate the objects, textures, layouts and task code of kitchen scenes, a hundred thousand of them; MimicGen then replays one human demonstration, which takes a person minutes to give, across those scenes ([26:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=1560), [28:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=1680), [38:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=2280)). A **trajectory** is one full record of what the robot sensed and did.
+4. **Randomize the physics.** Domain randomization varies gravity, friction, weight and size across simulated worlds, trading compute for physical accuracy, so the policy cannot depend on one world ([46:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=2760)). DrEureka has the same language model write those ranges, and the resulting policies moved to real hardware with no fine-tuning: a walking robot dog, a hand turning a cube, and a dog on a yoga ball ([48:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=2880)).
 5. **Move the policy to the robot.** In Fan's blueprint the model takes a description of the body plus a natural-language instruction and returns actions ([52:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=3120)).
 
-**Voyager-style open-ended agents.**Voyager (Wang et al., 2023) plays Minecraft with no fixed goal. It has three parts: an automatic curriculum, meaning the model proposes the next task from what the player already has; a skill library, where each learned behavior is saved as executable code and retrieved by its description; and iterative refinement, where errors and environment feedback go back into the next prompt. Fan co-authored that work. His later lecture moves the same idea on: language models stop generating code for skills and start generating the data that trains them.
+**Voyager-style open-ended agents.** Voyager (Wang et al., 2023), which Fan co-authored, plays Minecraft with no fixed goal: the model proposes the next task, saves each learned behavior as executable code in a skill library, and feeds errors back into the next prompt. Fan's example of a world that is simple to simulate and hard to master is Minecraft itself, a few hundred megabytes of program in which players have built a castle and a working CPU. From there he asks how to generate data in such a world ([18:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=1080)).
 
 ## What the practitioners say
 
 ### Peter Stone (December 2025): agents are older than the buzzword
 
-- Agents have been studied for about three decades, long before "agentic AI" ([0:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=0)).
-- **Rewards from people.** He shows a person giving evaluative feedback while an agent plays Tetris, and an extension to video games with Garrett Warnell ([20:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=1200), [22:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=1320)).
-- **Real-world RL.** His group trains a skill on a real robot from about 40 minutes of interaction, with no hand-written reward ([42:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=2520)).
-- **GT Sophy**, a racing agent trained with RL inside a driving game ([54:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=3240)):
-  - *Training:* experience replay (store each step and reuse it) and n-step returns (score an action by several later rewards, not one). Data from different tracks was mixed by hand for each mini-batch, later by an automated method.
-  - *Emergent skills:* the slipstream pass, a defensive skill and a double crossover pass. None was programmed or rewarded on its own.
-  - *Result, as he recounts it:* humans won in July. After months of fixes, the agents finished first and second in an eight-car race, four against four humans, in October. Driver Emily Jones said she learned from watching them ([58:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=3480)).
+- Agents have been studied for at least three decades, longer than "agentic AI" has been a buzzword ([2:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=120)).
+- **Robot soccer.** RoboCup aims at a humanoid team that beats the world champions by 2050. In 2025 Stone played alongside the robots against people, who still win too easily; one robot kicked the ball between the RoboCup president's legs. Progress with physical systems, he says, is much harder than in software ([8:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=480), [10:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=600)).
+- **Navigation.** Off-the-shelf navigation stacks have opaque parameters that a roboticist must tune for each place. His group treats the stack as a black box and learns only a parameter policy, from a teleoperated demonstration, a person stepping in when the robot errs, or good-move and bad-move feedback ([24:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=1440)).
+- **Rewards from people.** In TAMER a person says good move or bad move while an agent plays Tetris. Within two or three games it clears hundreds of lines, where plain reinforcement learning needs hundreds of thousands. It learns faster but ends up weaker, so a follow-up learns from both; Deep TAMER, with Garrett Warnell, adds images, and Stone calls it the first reinforcement learning from human feedback ([20:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=1200), [22:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=1320)).
+- **Real-world RL.** A robot first explores a crude simulator with no reward and learns a small action space: one input each for base, arm and camera. The task is then learned on the real robot in about 40 minutes; four such skills each trained in under an hour, with fewer safety violations than methods that train in the raw action space ([34:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=2040), [40:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=2400), [42:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=2520)).
+- **GT Sophy**, a racing agent trained end to end with RL inside the driving game Gran Turismo, rewarded for going fast:
+  - *Training:* after about a day on a bank of PlayStations it beat the best human lap times on an empty track, after about a week in races ([14:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=840)). The ingredients include experience replay (store each step and reuse it), n-step returns (score an action by several later rewards, not one) and a critic that learns how likely very good and very bad outcomes are, which cut almost a second off a lap ([48:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=2880), [50:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=3000)). On one track its lap times were compared with the hundred best reported by people worldwide; after 24 hours it beat almost all of them ([50:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=3000)).
+  - *Data curation:* being faster was not enough. The team put twenty cars on the track and staged one car behind one, two, three or seven others, so that the agent met traffic, and mixed scenarios into each mini-batch by hand, later by an automated method. The slipstream pass, a defensive line and a double crossover pass emerged; none was programmed or rewarded on its own ([52:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=3120), [54:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=3240)).
+  - *Result, as he recounts it:* humans won in July 2021. After months of fixes, the agents beat four top drivers that October and finished first and second in an eight-car race against four humans. They are now a permanent opponent in the game, with an adjustable skill level. Driver Emily Jones said she learned from watching them ([14:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=840), [56:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=3360), [58:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=3480)).
 
 ### Jim Fan (November 2024): data is the bottleneck
 
 - **Two kittens.** In Held and Hein's 1963 experiment, two kittens got the same visual experience, but only the one that moved itself developed normal vision. His punchline: today's "passive kitten" is ChatGPT ([0:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=0)). His stated belief is that the future belongs to embodied AI ([2:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=120)).
 - **Why humanoids**, in his argument: the human shape already does the valuable physical work, coworkers can predict it, and the world is built for it ([2:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=120)).
 - **The diagnosis.** He names data as the culprit ([10:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=600)), and a slide makes the bet: "It's easier to simulate a problem than to solve it" ([9:19](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=559)).
-- **MimicGen.** Vary the object positions, keep the motion, and each replay is still a success, so that, in his phrasing, machines teach machines ([32:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=1920)). His arithmetic: RoboCasa turns one demonstration into n scenes and MimicGen into n × n trajectories ([38:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=2280)).
+- **MimicGen.** Vary the object positions, keep the motion, and each replay is still a success: machines teach machines, in his phrasing ([32:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=1920)).
 - **Sim to real.** A model that masters many randomized worlds "may very well generalize to the 10,000 and first reality, which is the physical world that we live in" ([46:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=2760)).
 - **Three computers.** One generates data (OVX), one trains the model (DGX), one runs it on the robot (AGX) ([52:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=3120)).
 
@@ -56,7 +58,6 @@ Fan's lecture (November 2024) reads as a recipe for one robot skill.
 3. **One fixed simulator.** Fix: randomize what you cannot model exactly.
 4. **Collecting every example by hand.** Fix: take a few good demonstrations and generate variations.
 5. **Trusting a model-written reward because the code reads well.** Fix: keep the candidate whose trained agent performs best.
-6. **Expecting prompting alone to cross the gap.** Fan's whole argument is that data, not prompts, is the limit.
 
 ## Try it
 
@@ -85,7 +86,7 @@ def reward_a(state, action, next_state):  # candidate a model wrote for you
 
 ## Key takeaways
 
-- Robot agents that reached expert level combined scaled trial and error, grounded feedback and a curriculum of problems.
+- Trial and error in a faithful simulator works: GT Sophy went from random driving to lap times better than the best humans' on an empty track in about a day.
 - Real-world data is the bottleneck, so teams generate data in simulation and randomize it.
 - Language models help most where the bottleneck is language: writing rewards, curricula and variations of demonstrations.
 - The reward is a specification. Both aggression and timidity in GT Sophy were reward-design problems.
@@ -93,9 +94,8 @@ def reward_a(state, action, next_state):  # candidate a model wrote for you
 ## What this means for someone building agents
 
 1. Treat every metric as a reward. Agents exploit it, so test both failure directions; see [LLM-as-a-judge and rubrics](../03-evaluation/03-llm-as-a-judge-and-rubrics.md).
-2. When feedback is slow, build a fast stand-in with the same check. For a software agent that is a test suite; for a robot it is a simulator. Sandboxes play this role too: [agent infrastructure](../05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md).
-3. Let the model propose and let a measurement decide. Candidate rewards, candidate plans and candidate patches all work this way; see [planning, search and decision making](../02-building-agents/03-planning-search-and-decision-making.md).
-4. Save what works as reusable code or tools, as Voyager's skill library does; see [tool design and function calling](../02-building-agents/02-tool-design-and-function-calling.md).
+2. When feedback is slow, build a fast stand-in with the same check: a test suite for a software agent, a simulator for a robot. See [agent infrastructure](../05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md).
+3. Let the model propose and let a measurement decide, as Eureka does with rewards; see [planning, search and decision making](../02-building-agents/03-planning-search-and-decision-making.md).
 
 ## Self-check
 

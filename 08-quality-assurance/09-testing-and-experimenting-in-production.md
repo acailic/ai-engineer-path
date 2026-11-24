@@ -20,7 +20,7 @@ This chapter answers one question: how do you learn from real traffic without be
 - **Observing.** **Telemetry** is the data a running system records about its own behavior. It answers "how well is the feature doing?".
 - **Intervening.** An **experiment** shows a change to a small, randomly chosen group of users and compares them with everyone else. It answers "is the change better?".
 
-Kästner's case for it is that production data is the ultimate unseen test set. It is representative by definition, it was not available at training time, and it always reflects the latest drift (chapter 19). His case against relying on it alone is that quality problems reach users directly.
+Kästner's case for it is that production data is the ultimate unseen test set. It is representative by definition, it was not available at training time, and so it avoids several pitfalls of offline evaluation (chapter 19). His case against relying on it alone is that quality problems reach users directly.
 
 The four standard patterns differ in who sees the change and what question they answer:
 
@@ -79,7 +79,7 @@ Kästner's example makes the point (chapter 19). Fifteen percent of 2,158 users 
 
 ### 7. Build the way back before you need it
 
-Automate the rollback. Kästner warns against relying on an on-call engineer who must find the right shell script at three in the morning (chapter 19).
+Automate the rollback. Kästner warns against relying on on-call operators who must work out which shell script to run, and may create a larger mess by changing or deleting the wrong files (chapter 19).
 
 ### 8. Experiment responsibly
 

@@ -134,21 +134,23 @@ Never let the program retry a tool with side effects unless you know the first c
 
 **Graham Neubig (Fall 2024)** builds coding agents, and coding agents live or die by their tools.
 
-- **Actions can be code.** Traditional agents call one tool and get one result per step. CodeAct, he explains, acts by writing code that can run shell or notebook commands, and he reports faster resolution and higher success than direct tool use ([22:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1320)). His own platform OpenHands uses this style. The trade: one block of code can chain many steps, but each step is harder to check.
+- **Actions can be code.** Traditional agents call one tool and get one result per step. CodeAct, he explains, acts by writing code that can run shell or notebook commands ([22:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1320)). His example: to find the cheapest country to buy one phone model, a tool-calling agent may need some 15 API calls, one per lookup, where CodeAct writes a single loop over the countries. A failed loop still returns an error, so the model gets feedback, but at a coarser step. He reports that the original work found faster resolution and a higher success rate than direct tool use ([24:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1440)). His own platform OpenHands combines this with the editing commands of SWE-agent: every action is a call to code, so ten search hits can be edited by one loop ([28:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1680)).
 - **Finding where to act is a tool problem.** He says file localization, finding the right files for a request, "might even be the biggest problem in coding agents nowadays" ([38:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2280)). One fix is a search tool, as in SWE-agent, but search alone is "not like the equivalent to going in and opening all the cabinets before you start" ([42:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2520)). Two other designs: Aider builds a tree-shaped map of the repository up front, and Agentless runs a search that narrows from the whole repository down to files and then functions ([42:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2520)).
 - **Context assembly is part of the tool.** He cites a write-up of how GitHub Copilot builds its prompt: text before and after the cursor, the 20 most recently used files in the same language, imported files, path and language metadata. In his view agents had not yet invested as much in this kind of prompt engineering ([38:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2280)).
-- **Fix from error messages.** One of his slides lists repairing code based on error messages as a recovery method (slide 45, [48:04](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2884)). That only works if the error reaches the model in a form it can use.
+- **Fix from error messages.** One of his slides lists repairing code based on error messages as a recovery method, citing InterCode (slide 45, [50:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3000)). That only works if the error reaches the model in a form it can use.
 
-**Yangqing Jia (Fall 2025)** comes from infrastructure and makes a narrower point: what matters is retrieval-augmented generation and "accurate data processing pipelines" ([68:00](https://www.youtube.com/watch?v=xqRAS6rAouo&t=4080)). A tool is only as good as the pipeline behind it.
+**Yangqing Jia (Fall 2025)** comes from infrastructure and makes a narrower point. Asked about orchestration, he names retrieval-augmented generation and "accurate data processing pipelines" as what matters ([68:00](https://www.youtube.com/watch?v=xqRAS6rAouo&t=4080)). A tool is only as good as the pipeline behind it.
 
 ### Lessons from agent-computer interface research
 
-The SWE-agent paper gave the design of an agent's tools a name: the **agent-computer interface**, or ACI. It argues that the commands an agent uses to view, search and edit files matter as much as the model.The interface they built includes:
+The SWE-agent paper gave the design of an agent's tools a name: the **agent-computer interface**, or ACI. It argues that the commands an agent uses to view, search and edit files matter as much as the model. The interface they built includes:
 
 - A file viewer that shows line numbers and at most 100 lines per call, so edits can quote exact lines and long files do not flood the context.
 - Search commands with a capped number of results.
 - An edit command that refuses to touch a file the agent has not viewed, and that runs a syntax check after each edit and undoes the edit if the check fails.
 - A guard that interrupts the agent when it repeats the same action, and a history that drops the text of old file views.
+
+Neubig walks through the same idea in his lecture ([26:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1560)). SWE-agent gives the model a set of commands designed to be friendly to it and returns feedback in the same style. A command that shows a file around one line returns a window of lines, not the whole file, so a file of thousands of lines can be read without spending the whole context; an edit command then replaces a range of lines ([28:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1680)).
 
 The paper reports that GPT-4 Turbo with this interface solved 12.5% of SWE-bench, a benchmark of real GitHub issues, and that removing the line limit, the search tools or the syntax check each lowered the result sharply.
 
@@ -210,9 +212,10 @@ Design three tools for an agent that answers questions about a folder of meeting
 
 ## Sources
 
-- **Lecture:** Graham Neubig, "Agents for Software Development", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=f9L9Fkq-8K4), used at [acting through code](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1320), [file localization and context assembly](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2280), [search tools and repository maps](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2520), [fixing from error messages](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2884)
+- **Lecture:** Graham Neubig, "Agents for Software Development", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=f9L9Fkq-8K4), used at [acting through code](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1320), [CodeAct's loop example](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1440), [file localization and context assembly](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2280), [search tools and repository maps](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2520), [agent-friendly commands](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1560), [fixing from error messages](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3000)
 - **Lecture:** Yangqing Jia, "Evolution of System Designs from an AI Engineer Perspective", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=xqRAS6rAouo), used at [accurate data pipelines](https://www.youtube.com/watch?v=xqRAS6rAouo&t=4080)
-- **Reading:** John Yang, Carlos E. Jimenez, et al., "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering" (2024): [link](https://arxiv.org/abs/2405.15793)- **Reading:** Xingyao Wang, Yangqiao Song, et al., "Executable Code Actions Elicit Better LLM Agents" (2024): [link](https://arxiv.org/abs/2402.01030)
+- **Reading:** John Yang, Carlos E. Jimenez, et al., "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering" (2024): [link](https://arxiv.org/abs/2405.15793)
+- **Reading:** Xingyao Wang, Yangqiao Song, et al., "Executable Code Actions Elicit Better LLM Agents" (2024): [link](https://arxiv.org/abs/2402.01030)
 ## Next
 
 → [03. Planning, Search and Decision-Making](03-planning-search-and-decision-making.md), because once an agent can act, the next question is how it decides what to do next.

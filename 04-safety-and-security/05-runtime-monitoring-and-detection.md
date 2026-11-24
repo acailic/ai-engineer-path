@@ -21,11 +21,11 @@ Three definitions sort them.
 - A **detector** is the rule or model that decides whether an observation is a problem.
 - An **audit trail** is the record of events that lets you reconstruct a run afterwards.
 
-The main design choice is where a check sits. The framing in this section and the next two is engineering judgment, not lecture content.
+Song places the layers in a fixed order (Spring 2025): input sanitization, model-level defense, policy enforcement on actions, and last monitoring and anomaly detection, so that even if everything before fails, something still watches the run ([78:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=4680)). Her slide on monitoring and detection asks for two things: proper monitoring and log auditing, and anomaly detection applied in real time or for log analysis. That gives the main design choice: where a check sits. The three positions below organize the mechanisms she names. The labels are this repository's.
 
-- **Inline**: on the path between the model and its effect. It can block. It adds its own latency to every step. Input guards and policy enforcement are inline.
-- **Out of band**: beside the path. It sees everything and blocks nothing in time. It costs almost no latency. Anomaly detection over an audit trail is out of band.
-- **Human**: the slowest and most expensive inline check. Reserve it for actions that cannot be undone.
+- **Inline**: on the path between the model and its effect. It can block. It adds its own latency to every step. Input guards and policy enforcement are inline, and the policy check runs before each tool call.
+- **Out of band**: beside the path. It reads the record of a run. It blocks nothing in time and costs almost no latency. Anomaly detection over an audit trail is out of band.
+- **Human**: the slowest and most expensive inline check. Song reserves it for critical and high-impact actions ([94:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5640)).
 
 The analogy is a building. The turnstile at the door is inline. The cameras are out of band. The person who reviews the footage is the human check. The analogy breaks in one place. A camera cannot be lied to by what it films. A detector built on a language model reads the same untrusted text as the agent, so it can be deceived by the same text.
 
@@ -42,19 +42,29 @@ Everything else depends on the audit trail. One record per event, with at least:
 - the policy decision and its reason,
 - latency and token counts.
 
-Provenance is the part teams skip. The model does not receive it. Your log is the only place where it survives, and it is what turns an incident into a diagnosis.
+Provenance is the part teams skip. The model does not receive it. Your log is the only place where it survives, and it is what turns an incident into a diagnosis. The trail has a price. Song names the large volume of input and generated text as the reason auditability has to be balanced against storage cost ([106:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6360)). So record actions and provenance first, and decide separately how much raw text to keep.
 
 ### 2. Keep the hard checks inline
 
-An **input guard** runs before the model. **Policy enforcement** runs before each tool call. Song describes Progent's enforcement component as a component that monitors the agent's actions from its outputs and enforces the policies on them ([88:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5280)). In Spring 2025 she described the loop: the enforcement point observes each tool call, allows it, or blocks it and gives a reason ([96:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5760)). Each decision, with its reason, lands in the audit trail.
+An **input guard** runs before the model. **Policy enforcement** runs before each tool call. Song describes Progent's enforcement component as a component that monitors the agent's actions from its outputs and enforces the policies on them ([88:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5280)). In Spring 2025 she described the loop ([94:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5640), [96:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5760)):
+
+1. The user's query arrives. A human-written baseline policy is already loaded.
+2. A model generates task-specific policies that extend the baseline.
+3. The agent plans and calls tools.
+4. The enforcement point observes each tool call, allows it, or blocks it and gives a reason.
+5. The results from the environment update the policies again.
+
+Her banking example shows why step 5 matters. The default policy allowed the tool `send money`. After the query and one lookup, the updated policy allowed sending only to one account, Apple's. A transaction description then carried an injected instruction to send money to the attacker's account. The enforcement point blocked that call and allowed the payment to Apple ([88:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5280), [90:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5400), [92:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5520)). Her reading: the original policy was too loose, and the update made it strict and accurate.
+
+Each decision, with its reason, lands in the audit trail. She describes the enforcement as efficient and real time, and as giving deterministic guarantees over the properties written in the policies ([94:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5640), [96:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5760)).
 
 ### 3. Track untrusted data
 
-**Information flow control**, or **taint tracking**, labels data that came from an untrusted source and follows it through the system. Song names two problems: over-tainting, when too much is labeled, and runtime overhead ([92:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5520)).
+**Information flow control**, or **taint tracking**, labels data that came from an untrusted source and follows it through the system. Song gives it two jobs: untrusted data must not influence control-critical behavior, and sensitive data must not leak to untrusted entities ([92:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5520)). She names two problems: over-tainting, when too much is labeled, and runtime overhead. Her Spring 2025 slide adds three open questions: how to keep the tracking across tool boundaries such as a plugin or API, how to write policies that evolve with the conversation, and how to test a system for leaks with adversarial tests ([108:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6480)).
 
 ### 4. Run anomaly detection out of band
 
-**Anomaly detection** flags behavior that differs from the normal pattern. A runtime monitor can watch the agent's behavior and the execution of the whole system, to find anomalies and unsafe actions ([92:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5520)). Four families of signal:
+**Anomaly detection** flags behavior that differs from the normal pattern. A runtime monitor can watch the agent's behavior and the execution of the whole system, to find anomalies and unsafe actions ([92:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5520)). Her example of a learned detector is DataSentinel, a fine-tuned detector for prompt injection (IEEE Security and Privacy 2025). She expects other detectors for other attacks and for suspicious behavior, and her open question is how to make anomaly detection work in many different settings ([106:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6360), [108:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6480)). Four families of signal, which are this repository's:
 
 | Signal | Example |
 |--------|---------|
@@ -85,10 +95,10 @@ This table is engineering judgment, not lecture content.
 
 ### Cost, latency, and false positives
 
-These trade-offs are also engineering judgment.
+These trade-offs are engineering judgment, except where a bullet cites the lecture.
 
-- **Cost.** A check on structured events is nearly free. A guard built on a language model is one more model call per step, so it roughly doubles the number of calls. Its token cost is the monitor's tokens per step divided by the task's tokens per step.
-- **Latency.** A rule adds microseconds. A model-based guard adds a delay comparable to the step it checks, and it adds it to every step.
+- **Cost.** A deterministic check on a tool call is nearly free. Song describes Progent's policy enforcement as efficient and real time ([94:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5640)). A guard built on a language model is one more model call per step, so it roughly doubles the number of calls. Its token cost is the monitor's tokens per step divided by the task's tokens per step.
+- **Latency.** A rule adds microseconds. A model-based guard adds a delay comparable to the step it checks, and it adds it to every step. Song's group still treats such guards as a baseline defense. PromptArmor uses a model to detect and remove injected text, and she reports that strong models, prompted well, catch many malicious inputs, while no input guard is foolproof against adaptive attacks ([84:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5040), [86:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5160)).
 - **False positives.** A blocked benign step costs a user's time and trust. An alert that turns out to be harmless costs a reviewer's attention, and enough of them teach people to ignore the monitor.
 - **False negatives.** A detector tuned on yesterday's attacks misses today's.
 
@@ -155,7 +165,8 @@ Dawn Song treats monitoring as one mechanism among several, in both lectures.
 - **Spring 2025: a mechanism with open questions.** She lists eight defense mechanism families, monitoring and detection among them, and says they work best in conjunction as layers ([106:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6360)). Monitoring, in her description, observes system behavior including outputs and applies anomaly detection. Her open questions: how to audit systems that read and write enormous amounts of text, how to "balance full auditability and storage costs" (her slide), and how to make anomaly detection work in many different settings ([106:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6360)). She closes with information flow tracking across tool boundaries, and with the difficulty of writing formal specifications for a model ([108:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6480)).
 - **Fall 2025: part of runtime protection.** She groups monitoring with input guards, output guards, and the human in the loop as runtime protections ([84:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5040)). A runtime monitoring system, she says, watches the agent's behavior and the execution of the whole system, for anomaly detection and for unsafe actions ([92:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5520)).
 
-Neither lecture describes a monitor built on a second agent, and the slides of the Fall 2025 lecture are not publicly available. The positions, the signals, and the trade-offs in this chapter are the authors' own, built on the mechanisms she names.
+Neither lecture describes a monitor built on a second agent. The positions, the signals, and the trade-offs in this chapter are this repository's own engineering judgment, built on the mechanisms she names.
+
 ## Pitfalls
 
 - **Logging answers, not actions.** The expensive failure is a tool call. Log every call with its arguments.
@@ -183,7 +194,7 @@ You are done when you have those three numbers in writing, each rule has a docum
 - Inline checks block and cost latency. Out-of-band checks cost little and block nothing in time. A human is the costliest inline check.
 - Provenance survives only in your log. It is what makes an incident diagnosable.
 - On long runs, small false-positive rates become certain false alerts. Block only what is rare and irreversible.
-- Monitoring is one layer. Its findings are worth nothing until they become a policy, a rule, or a test.
+- Monitoring is the last layer in Song's defense in depth. Its findings are worth nothing until they become a policy, a rule, or a test.
 
 ## Self-check
 
@@ -205,8 +216,8 @@ You are done when you have those three numbers in writing, each rule has a docum
 
 ## Sources
 
-- **Lecture:** Dawn Song, "Agentic AI Safety & Security", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=CvZDJxd4LKM), used at [runtime protections](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5040), [policy enforcement on actions](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5280), [runtime monitoring and taint tracking](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5520), [human in the loop](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5640)
-- **Lecture:** Dawn Song, "Towards building safe and secure agentic AI", UC Berkeley Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=ti6yPE2VPZc), used at [the enforcement loop](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5760), [monitoring as one layer and its open questions](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6360), [information flow tracking](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6480)
+- **Lecture:** Dawn Song, "Agentic AI Safety & Security", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=CvZDJxd4LKM), used at [runtime protections](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5040), [policy enforcement on actions](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5280), [runtime monitoring and taint tracking](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5520), [human in the loop](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5640), [model-based guards](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5160)
+- **Lecture:** Dawn Song, "Towards building safe and secure agentic AI", UC Berkeley Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=ti6yPE2VPZc), used at [order of the layers](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=4680), [banking example](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5280), [enforcement properties](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5640), [the enforcement loop](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5760), [monitoring as one layer and its open questions](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6360), [information flow tracking](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6480)
 
 ## Next
 

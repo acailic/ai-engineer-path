@@ -52,8 +52,8 @@ Each level answers a different question, costs a different amount, and catches a
 The sources slice the same idea three ways:
 
 - Kästner sorts tests by granularity: unit tests for one unit, integration tests for units that work together, system tests for the whole system end to end, and acceptance tests from the user's point of view (chapter 14).
-- A 2025 survey by Asaf Yehudai and colleagues notes that each agent ability, such as planning or tool use, "can be evaluated in isolation or as part of a full agent workflow" ([survey](https://arxiv.org/abs/2503.16416)). The Berkeley lecture builds a taxonomy from that survey: a specific capability, a specific application, or a general set of applications ([28:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=1680)).
-- The lecture also sorts tasks by how you score them. Close-ended tasks have few possible answers and can be graded automatically. Open-ended tasks split into verifiable ones, which have an **oracle** (a cheap, trusted procedure that says whether a result is correct, such as running a program), and non-verifiable ones, such as storytelling, which need a human or a judge.
+- A 2025 survey by Asaf Yehudai and colleagues notes that each agent ability, such as planning or tool use, "can be evaluated in isolation or as part of a full agent workflow" ([survey](https://arxiv.org/abs/2503.16416)). The Berkeley lecture builds a taxonomy from that survey: a specific capability, a specific application, or a general set of applications ([24:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=1440)).
+- The lecture also sorts tasks by how you score them. Close-ended tasks have few possible answers and can be graded automatically ([8:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=480)). Open-ended tasks split into verifiable ones, which have an **oracle** (a cheap, trusted procedure that says whether a result is correct, such as running a program), and non-verifiable ones, such as storytelling, which need a human or a judge.
 
 **Why use several levels.** Cheap levels tell you *where* it broke. Expensive levels tell you *whether it matters*. Neither implies the other. A system can pass every component check and fail the user's goal. It can also reach the right outcome by a forbidden route.
 
@@ -90,19 +90,19 @@ What to observe: the same attempt passes two checks and fails one. An outcome-on
 
 ## What the practitioners say
 
-**Evaluation grows harder with agents.** The lecture's slides (around [6:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=360)) contrast static text-to-text models with agents that add planning, tool use, memory and multi-step reasoning in dynamic environments. Close-ended tasks are easy to grade but limited to simpler problems, with metrics such as accuracy, precision (of the answers the system flagged as hits, the share that really were) and recall (of the real hits, the share the system found).
+**Evaluation grows harder with agents.** The lecture's slides (around [6:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=360)) contrast static text-to-text models with agents that add planning, tool use, memory and multi-step reasoning in dynamic environments. Close-ended tasks are easy to grade but limited to a few simpler kinds of task, because most real tasks are open-ended ([10:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=600)), with metrics such as accuracy, precision (of the answers the system flagged as hits, the share that really were) and recall (of the real hits, the share the system found).
 
 **Two kinds of validity.** Drawing on a paper about building rigorous agent benchmarks (arXiv 2507.02825), the lecturers separate two questions ([28:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=1680)):
 
 - **Task validity:** does success at the task demonstrate the capability you meant to measure? This is about the task and the environment.
 - **Outcome validity:** does the evaluator's verdict faithfully reflect whether the task succeeded? This is about the grader.
 
-**Four ways an evaluation goes wrong.** The lecture lists these failures with a fix for each (slides around [28:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=1680)):
+**Four ways an evaluation goes wrong.** The lecture lists these failures with a fix for each ([38:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=2280)):
 
 | Problem | What it looks like | Fix named in the lecture |
 |---|---|---|
 | Noisy or biased data | Expected answers are wrong or unrepresentative | Make the test data accurate and diverse enough |
-| Not practical | Tasks nobody has, or a setup real users could not use | Think about the practitioner's real needs |
+| Not practical | The evaluation tests toy examples | Think about the practitioner's real needs |
 | Not challenging | Every model scores near the top | Design hard cases |
 | Shortcuts | A model can score well without solving the task | Look for the shortcuts your evaluation probably has |
 

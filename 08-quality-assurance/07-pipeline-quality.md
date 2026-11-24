@@ -1,6 +1,6 @@
 # 07. Pipeline Quality
 
-**Level:** Practitioner · **Reading time:** 22 min · **Exercise:** 60 min
+**Level:** Practitioner · **Reading time:** 28 min · **Exercise:** 60 min
 **Prerequisites:** none. [Data Quality](06-data-quality.md) covers the data these pipelines move.
 
 > **In one sentence:** After this chapter you can turn a notebook script into pipeline code that is tested, makes its failures loud, and cannot break for a week without anyone noticing.
@@ -24,6 +24,12 @@ Two habits matter more here than elsewhere:
 1. **Make it testable.** Small functions, with data and external services passed in as arguments.
 2. **Make failures loud.** At every point where something can go wrong, decide whether to recover or to raise an error. Then test that decision.
 
+Kästner gives three reasons pipeline failures stay quiet (chapter 17):
+
+1. **Learning algorithms are built to be robust.** They still produce a model when the data was not cleaned, normalized, or updated as intended. It is a weaker model, and nothing says so.
+2. **The seams are untested.** A pipeline talks to data collection, storage, labeling, training infrastructure, and deployment. Those interactions are rarely specified or tested well.
+3. **Scripts limp along.** A pipeline is often a chain of steps, and it can appear to work when one step fails and the next one works with incomplete results, or with leftovers from the previous run.
+
 The analogy is a shell pipeline without `set -o pipefail`. A command in the middle fails, the next one reads an empty stream, and the last one exits with status zero. The analogy breaks on evidence: a shell pipeline at least has an exit status to inspect. A broken ML pipeline emits a plausible number or a model file, and the only symptom is worse quality weeks later.
 
 ## How it works, step by step
@@ -38,7 +44,7 @@ Pass the model call, the database connection, or the file contents as arguments.
 
 ### 3. Decide the error handling, point by point
 
-Kästner recommends being explicit about every failure scenario a pipeline can meet (chapter 17). For each, choose to recover or to raise.
+Kästner recommends being explicit about every failure scenario a pipeline can meet (chapter 17). His own questions: what if the training data misses some values, if a whole column is absent during feature engineering, if an external inference service times out, if the upload of the trained model fails? There is no single right answer. For each, choose to recover or to raise, then document and test the decision.
 
 | Situation | Recover | Or raise |
 |---|---|---|
@@ -48,19 +54,19 @@ Kästner recommends being explicit about every failure scenario a pipeline can m
 | The model reply cannot be parsed | Never return an empty result silently | Raise with the raw reply attached |
 | Uploading the result fails | Retry once | Raise if it still fails |
 
-Whatever you choose, Kästner advises monitoring how often recoveries and exceptions are triggered (chapter 17). A retry that fires on every run is a broken dependency wearing a disguise.
+Whatever you choose, Kästner advises monitoring how often recoveries and exceptions are triggered (chapter 17). A retry that fires on every run is a broken dependency wearing a disguise. His warning example is a training pipeline that filled gaps from a weather service with default values, to ride out short outages. When the payment for that service expired, every request was rejected, the defaults replaced the weather entirely, and the pipeline kept producing a weaker model that nobody questioned (chapter 17).
 
 ### 4. Test the failure paths with stubs
 
-Pass a stub that times out. Pass a reply with the wrong shape. Pass an empty input. Assert the behavior you decided on.
+Pass a stub that times out. Pass a reply with the wrong shape. Pass an empty input. Assert the behavior you decided on. The book's pattern is a connection stub that fails a set number of times: with no failures the call succeeds, with a few it recovers through retries, and after the third failed attempt it raises (chapter 17).
 
 ### 5. Test your code, not the libraries
 
-You can assume that pandas and scikit-learn compute a mean correctly (chapter 17). Test your own transformations, your glue, and your parsing.
+You can assume that pandas and scikit-learn compute a mean correctly (chapter 17). Test your own transformations, your glue, and your parsing. His example is code from a data competition that turns download counts such as "10k" and "100M" into numbers. One version went wrong on an uppercase "K"; another was not written for a decimal point, as in "100.5M". Both failed silently, and a test with three values would have caught the first. Training code deserves a run on a tiny data set, which exposes most misuse of the library and most mismatched tensor shapes (chapter 17).
 
-### 6. Put data checks at the boundaries
+### 6. Put data checks at the boundaries, and test the checks
 
-Run the schema and plausibility tests from [Data Quality](06-data-quality.md) where data enters the pipeline.
+Any code that receives data should check it, and the check is code too (chapter 17). **Detection** usually returns true or false, so test it with valid and invalid examples. **Repair** returns corrected data, so test that broken input comes out as intended. If repair is impossible, or problems become frequent, the pipeline should raise.
 
 ### 7. Wire it into the process
 
@@ -143,8 +149,9 @@ What to observe:
 - **Review less while exploring, more when shipping.** Reviewing every change in an exploratory notebook is not worth it. Once the pipeline is production-bound, review the whole thing once and every change after that (chapter 17).
 - **Modularity is the precondition for testing.** Each `if` can double the paths through a program, so small units with few decisions and few external interactions are the ones that can be tested (chapter 17).
 - **Isolate tests from dependencies.** A database that is sometimes slow makes tests flaky although the code is fine (chapter 17).
-- **Tooling for data code is thin.** At the time of writing, he found few static-analysis tools aimed at data-science code, and recommends generic ones such as Flake8 (chapter 17).
-- **A maturity score exists.** The chapter's further readings point to the ML Test Score paper by Breck and colleagues (2017), which lists 28 concerns around an ML pipeline that can be tested automatically and scores a team by how many it covers.
+- **Tooling for data code is thin.** At the time of writing, he found few ready-to-use static-analysis tools aimed at data-science code, and points to generic ones such as Flake8 for style issues and simple bug patterns. The academic tools he lists each target one problem: Pythia checks tensor shapes in TensorFlow programs, Leakage Analysis finds places where training and test data are not strictly separate, PySmell detects code smells in data-science code, and mlint checks that a project uses version control, dependency management, and tests (chapter 17).
+- **A maturity score exists.** A group at Google proposed an ML test score: twenty-eight concerns around a pipeline, grouped under feature tests, model tests, infrastructure tests, and production monitoring. A team earns a point for each concern it tests and a second point when that test is automated. Examples are whether a feature benefits the model, canary releases, and monitoring for training-serving skew (chapter 17). Kästner cautions that the list may not fit every project, and sees it as a starting point for agreeing what a team must track.
+- **Plan the effort.** Quality assurance belongs in the milestone that releases a model, and it is a prerequisite for letting a pipeline run and deploy on a schedule without a developer in the loop. Managers should allocate time and name who delivers it (chapter 17).
 
 ## Pitfalls
 

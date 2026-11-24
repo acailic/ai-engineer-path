@@ -1,10 +1,12 @@
+"""Three tools in the style of an agent-computer interface, each with a guardrail.
+No model and no disk: a short script stands in for the agent."""
+
 REPO = {
     "app.py": "def mean(prices):\n    return sum(prices) / (len(prices) - 1)\n",
     "app_test.py": "from app import mean\n\n\ndef test_mean():\n    assert mean([2, 4]) == 3\n",
 }
 WINDOW, MAX_HITS = 100, 10
 viewed = set()                       # files the agent has looked at in this run
-
 
 def view(path: str, start: int = 1) -> str:
     """Show one window of a file, with line numbers."""
@@ -18,7 +20,6 @@ def view(path: str, start: int = 1) -> str:
     body = "".join(f"{start + i}  {line}\n" for i, line in enumerate(shown))
     return body + f"[Showing lines {start}-{start + len(shown) - 1} of {len(lines)}]\n"
 
-
 def search(word: str) -> str:
     """Find lines containing a word; return at most MAX_HITS of them."""
     hits = [f"{path}:{n}" for path in sorted(REPO)
@@ -27,7 +28,6 @@ def search(word: str) -> str:
         return f"0 hits for {word!r}."
     return ("\n".join(hits[:MAX_HITS])
             + f"\n[{min(len(hits), MAX_HITS)} of {len(hits)} hits shown, max {MAX_HITS} per call]\n")
-
 
 def edit(path: str, line: int, new_line: str) -> str:
     """Replace one line. Refuse unviewed files; undo edits that break the syntax."""
@@ -43,7 +43,6 @@ def edit(path: str, line: int, new_line: str) -> str:
         return f"Error: edit not applied, syntax error: {exc.msg}. The file is unchanged."
     REPO[path] = "\n".join(candidate) + "\n"
     return f"Edited line {line} of {path!r}."
-
 
 if __name__ == "__main__":
     print(edit("app.py", 2, "    return sum(prices) / len(prices)"))    # refused: not viewed

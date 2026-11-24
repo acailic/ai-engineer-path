@@ -7,15 +7,15 @@
 
 ## Why this matters
 
-A stakeholder asks for an agent that buys the cheapest color photo printer and ships it to "the address on the photo". Three things break at once. A text-only agent cannot see that the photo is upside down. An agent that reads the page's source code drowns in markup. An agent that sees only pixels cannot tell which small gray box is the Add to cart button. The failure is silent, too: it buys the wrong item, or quits after two clicks and says the task cannot be done.
+A stakeholder asks for an agent that buys the cheapest color photo printer and ships it to "the address on the photo". Three things break at once. A text-only agent cannot see that the photo is upside down. An agent that reads the page's source code drowns in markup. An agent that sees only pixels cannot tell which small gray box is the Add to cart button.
 
-Ruslan Salakhutdinov opens his lecture with almost exactly this task ([8:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=480)). The question this chapter answers: how is an agent measured on this kind of work, and what makes it better?
+Ruslan Salakhutdinov demonstrates almost exactly this task, with the address in a photo that he shows upside down on purpose ([8:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=480)). The question this chapter answers: how is an agent measured on this kind of work, and what makes it better?
 
 ## The core idea
 
 A **multimodal agent** is an agent that reads more than text. Here it reads screenshots as well as page source, and it acts by clicking and typing. A **vision-language model (VLM)** is a language model that also accepts images. **Grounding** is linking a phrase in the instruction ("the cheapest printer") to the thing on screen it refers to. **Execution-based evaluation** scores a run by checking the final state of the environment, not by comparing the agent's steps with one reference path.
 
-The analogy is a unit test: a fixture sets up the state, the code under test acts, an assertion checks the result. The analogy breaks twice. A unit test is deterministic and takes milliseconds; a computer environment is slow, and one click changes everything after it. And the assertion must accept every valid route to the same end state, not only the route its author had in mind.
+The analogy is a unit test: a fixture sets up the state, the code under test acts, an assertion checks the result. It breaks twice: the environment is slow and one click changes everything after it, and the assertion must accept every valid route to the same end state.
 
 ## How it works, step by step
 
@@ -27,23 +27,23 @@ The analogy is a unit test: a fixture sets up the state, the code under test act
 | Accessibility tree | The operating system's list of interface elements with roles and names | Short and structured | Differs per platform; misses purely visual content |
 | Screenshot | Pixels | One format on every platform; keeps layout and images | Hard to map words to pixels; small text vanishes at low resolution |
 
-Xiong also shows a hybrid, Set-of-Mark: a screenshot with numbered labels drawn on elements taken from the accessibility tree ([16:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=960)).
+Salakhutdinov lists three representations in use: the HTML source, **Set-of-Mark**, a bounding box with an ID around each clickable element, so the agent acts by naming an ID, and raw coordinates; he expects a combination ([16:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=960), [18:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=1080)). Xiong draws his from a screenshot plus labels from the accessibility tree ([16:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=960)).
 
 ### 2. Give every task a resettable start state
 
-In OSWorld, the computer-use benchmark Xiong presents, each task ships with two configuration files: one that creates a **virtual machine (VM)**, a simulated computer, and puts its apps into the starting state, and one that says how to score it. A ruined state costs one reset.
+In OSWorld, the computer-use benchmark Xiong presents, each task has a configuration: an instruction, a setup file that puts files and apps into the starting state, and an evaluation part that says how to score it. OSWorld then starts a **virtual machine (VM)**, a simulated computer, from that setup, so a ruined state costs one reset and nothing real can be damaged ([12:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=720), [14:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=840)).
 
 ### 3. Let the agent act
 
-The agent emits actions as short code strings that move the mouse and keyboard. The VM runs them and returns a new observation. The loop stops when the agent emits a termination action or hits a step limit.
+The agent emits actions as short code strings that move the mouse and keyboard. The VM runs them and returns a new observation. The loop stops when the task is done or has failed, or at a step limit, 15 in Xiong's experiments ([18:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=1080)).
 
 ### 4. Score by execution
 
-An evaluation script inspects the VM: does the spreadsheet contain the new rows, is the file in the right folder? OSWorld has 134 scripts for its 369 tasks ([24:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=1440)).
+A script inspects the final state. Salakhutdinov's verifiers look for an exact answer, a yes-or-no visual question or a price inside a range ([16:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=960)). Xiong writes a custom script per task, 134 for 369 tasks, because no single metric fits all ([20:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=1200), [24:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=1440)); a partly finished task scores between 0 and 1 ([18:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=1080)).
 
 ### 5. Spend more compute after a failure
 
-Salakhutdinov describes two test-time methods. Search by repeated sampling runs several complete attempts and keeps one that passes, which he likens to rejection sampling ([34:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=2040)). Tree search branches in the middle of a run and asks an LLM to judge how promising each intermediate state is ([38:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=2280)). Both need the check from step 4.
+Salakhutdinov describes two test-time methods. Search by repeated sampling runs several complete attempts and keeps one that passes, which he likens to rejection sampling ([34:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=2040)). Tree search scores each intermediate state with a **value function**, here a multimodal LLM, GPT-4o on his slide, acting as judge; when the score drops, it backtracks and tries another action ([38:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=2280)). Asked for a polo shirt in one color, his example agent lands on a page listing only another color and gives up; with backtracking it finds the shirt ([42:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=2520)). Both methods need the check from step 4, and search is slow ([44:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=2640)).
 
 ### Benchmarks to know
 
@@ -68,9 +68,9 @@ Salakhutdinov describes two test-time methods. Search by repeated sampling runs 
 ### Caiming Xiong (March 2025): the environment, the data, a vision-only agent
 
 - **Why a new benchmark.** In his account, each Mind2Web task has one demonstration and no executable environment, so the benchmark assumes a single solution ([6:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=360)).
-- **What OSWorld showed.** Higher screenshot resolution improves results; a longer text history improves results, where screenshot-only history does not; raising the step limit from 15 to 50 helps ([38:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=2280)).
-- **AgentTrek.** A **trajectory** is one full record of observations, actions and reasoning for a task, and none can be crawled for free. His team turns web tutorials into trajectories: collect tutorials; paraphrase each into a structured tutorial with prerequisites, step-by-step instructions and an expected outcome; let a VLM agent replay it; let a VLM evaluator score the recording and drop weak ones ([50:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=3000)).
-- **AGUVIS.** Text representations differ per platform, action formats differ, and closed models grounded poorly; most agents emit an action with no reasoning ([72:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=4320)). AGUVIS uses screenshots only, one action format, and an **inner monologue**, a short piece of reasoning written before each action. Its first training stage uses one million grounding examples ([82:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=4920)), and his slide reports that the monologue helps on harder tasks. He closes: improve grounding, not only reasoning ([88:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=5280)).
+- **What OSWorld showed.** Humans score about 72 percent. Claude rose from roughly 15 percent to 22 percent between versions 3.5 and 3.7, and OpenAI's computer-use agent Operator reached 38 percent, but with up to 200 steps, where most tasks need 15 to 20; raising the limit from 15 to 50 also helps ([36:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=2160), [38:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=2280)). Higher screenshot resolution helps, and a longer text history helps, where a screenshot-only history does not ([32:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=1920)).
+- **AgentTrek.** A **trajectory** is one full record of observations, actions and reasoning for a task. His team turns web tutorials into trajectories: collect tutorials; paraphrase each into a structured tutorial with prerequisites, step-by-step instructions and an expected outcome; let a VLM agent replay it; let a VLM evaluator score the recording and drop weak ones ([50:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=3000)).
+- **AGUVIS.** Existing GUI agents use text representations that differ per platform, ground weakly and act without reasoning ([70:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=4200), [72:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=4320)). AGUVIS uses screenshots only, one action format, and an **inner monologue**, a short piece of reasoning written before each action. Training has two stages: one million grounding examples, then 35,000 multi-step trajectories with the monologue ([82:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=4920)), and his slide reports that the monologue helps most on harder tasks. He closes: improve grounding, not only reasoning ([88:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=5280)).
 
 ## Pitfalls
 
@@ -100,10 +100,9 @@ Build a five-task harness for one web app you control.
 
 ## What this means for someone building agents
 
-1. Write the check before the agent. An end-state check turns a vague demo into a number, and it is the same check that powers retries and search; see [planning, search and decision making](../02-building-agents/03-planning-search-and-decision-making.md).
+1. Write the check before the agent. An end-state check turns a vague demo into a number, and it powers retries and search; see [planning, search and decision making](../02-building-agents/03-planning-search-and-decision-making.md).
 2. Treat the observation format as a design decision with a cost: HTML is exact but long, screenshots are universal but hard to ground.
 3. Keep a text log of past actions even when the agent is vision-based.
-4. Retries only pay when failures are independent; detect loops first, then resample.
 
 ## Self-check
 

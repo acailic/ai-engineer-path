@@ -23,11 +23,13 @@ The template he gives has three steps:
 
 Chapter 11 fills in the three steps. SFT covers the case where the good response is written for the model. RLHF scores with humans through a reward model. RLVR scores with a program. The course's fifth assignment is RLVR with GRPO on math problems, with instruction tuning and safety fine-tuning as an optional supplement.
 
-Liang's own preference, stated in Lecture 1, is to stay with full supervision as long as possible and turn to reinforcement learning last, because it is unstable and needs new infrastructure. He also warns that alignment data is scarce and messy, in contrast to the well-documented systems of earlier units.
+Liang's own preference, stated in Lecture 1, is to stay with full supervision as long as possible and turn to reinforcement learning last, because RL algorithms are unstable and hard to tune, and RL at scale brings systems challenges of its own ([60:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3600)).
+
+Lecture 15 puts content into "good". InstructGPT asked its raters to judge outputs on three axes, helpful, truthful and harmless, and raters had to balance all three ([Lecture 15, 46:00](https://www.youtube.com/watch?v=2oH6PWPrYFo&t=2760)). It also puts safety on post-training. Pretraining can stay in an ivory tower of compressing the world, while the post-training team is the last line of defense against misuse, and refusing malicious inputs is the de facto control ([Lecture 15, 28:00](https://www.youtube.com/watch?v=2oH6PWPrYFo&t=1680)). That control is cheap to install. With a capable model, the lecturer says, as few as 500 examples of unsafe requests paired with refusals cut the rate of following malicious instructions dramatically, because the model already has a safe and an unsafe side after pretraining. Fine-grained distinctions still need large data collection ([Lecture 15, 32:00](https://www.youtube.com/watch?v=2oH6PWPrYFo&t=1920)).
 
 ## Part two: the core idea of multimodality
 
-A **token** in this course is a semantic unit: a piece of a word. A pixel is not. The lecturer's phrase at [2:00](https://www.youtube.com/watch?v=26FtD08ZpOU&t=120) is that Transformers "speak tokens", discrete or continuous, and that each token should carry some semantic unit of information. So every other modality has to be turned into tokens first, the way Chapter 01 turned bytes into word pieces.
+A **token** in this course is a semantic unit: a piece of a word. A pixel is not. The lecturer's phrase at [2:00](https://www.youtube.com/watch?v=26FtD08ZpOU&t=120) is that Transformers speak tokens, discrete or continuous, and that each token should carry some semantic unit of information. So every other modality has to be turned into tokens first, the way Chapter 01 turned bytes into word pieces.
 
 Two questions follow:
 
@@ -47,11 +49,11 @@ Lecture 17 spends almost all its time on the first. The long-term target is an *
 3. Score each image against every caption in the batch.
 4. Train so that each image prefers its own caption, and each caption its own image.
 
-Trained on 400 million pairs, CLIP classifies ImageNet better without labels than a ResNet-50 trained on ImageNet's 1.2 million labeled images. Two limits matter later. The training objective is about choosing between captions, so the image embedding captures meaning, not fine detail. And the softmax runs across the whole batch, which pushes batch sizes very high.
+Trained on 400 million pairs ([8:00](https://www.youtube.com/watch?v=26FtD08ZpOU&t=480)), CLIP classifies ImageNet better without labels than a ResNet trained on ImageNet's 1.2 million labeled images ([16:00](https://www.youtube.com/watch?v=26FtD08ZpOU&t=960)). Two limits matter later. The training objective is about choosing between captions, so the image embedding captures meaning, not fine detail. And the softmax runs across the whole batch, which pushes batch sizes very high.
 
 ### 2. SigLIP: the same idea with a cheaper loss
 
-**SigLIP** replaces the comparison across the batch with a yes-or-no question for every image-caption pair: do they match? Batch size no longer sets the difficulty. In the figures quoted in the lecture, CLIP took 10 days on 256 TPUv3 chips and SigLIP 5 days on 32 TPUv4.
+**SigLIP** replaces the comparison across the batch with a yes-or-no question for every image-caption pair: do they match? Batch size no longer sets the difficulty. In the figures quoted in the lecture, CLIP took 10 days on 256 TPUv3 chips and SigLIP 5 days on 32 TPUv4 ([24:00](https://www.youtube.com/watch?v=26FtD08ZpOU&t=1440)).
 
 ### 3. The standard recipe: encoder, projector, language model
 
@@ -61,27 +63,27 @@ Trained on 400 million pairs, CLIP classifies ImageNet better without labels tha
 | Projector | Maps those vectors into the language model's embedding space | One linear layer |
 | Language model | Reads the vectors as if they were tokens | Vicuna, a fine-tuned Llama |
 
-**LLaVA** built its training data by prompting GPT-4 with image captions to write 158,000 conversations, then paired them with the images. Training has two stages: first only the projector, with both large parts frozen, then the projector and the language model together.
+**LLaVA** built its training data by prompting GPT-4 with image captions to write 158,000 conversations ([30:00](https://www.youtube.com/watch?v=26FtD08ZpOU&t=1800)), then paired them with the images. Training has two stages: first only the projector, with both large parts frozen ([32:00](https://www.youtube.com/watch?v=26FtD08ZpOU&t=1920)), then the projector and the language model together.
 
 ### 4. Resolution
 
 CLIP resizes and crops every image to 336 by 336 pixels. A document shrunk that far cannot be read. The lecturer's example is OCR, reading text from images: "otherwise a J looks like an I" ([36:00](https://www.youtube.com/watch?v=26FtD08ZpOU&t=2160)).
 
-**AnyRes** is the fix. Split a large image into tiles, each at the encoder's resolution, encode each, and concatenate. If that yields too many tokens, downsample. LLaVA OneVision goes further and balances input types on purpose: a single image gets high resolution, each image of a set gets the base resolution, and each video frame gets less.
+**AnyRes** is the fix. Split a large image into tiles, each at the encoder's resolution, encode each, and concatenate. If that yields too many tokens, downsample. LLaVA OneVision goes further and balances input types on purpose: a single image gets high resolution, each image of a set gets the base resolution, and each video frame gets less. Skills also transfer between input types: in the lecturer's example, OCR learned on single images helped the same model describe a series of screenshots, which is what a GUI agent needs ([44:00](https://www.youtube.com/watch?v=26FtD08ZpOU&t=2640)).
 
 ### 5. The Qwen vision-language line
 
 Three ideas from the Qwen-VL models, as summarized in the lecture:
 
 - **Dynamic resolution**: every 224 by 224 block of the image costs a fixed 66 tokens, whatever the image size.
-- **Multimodal RoPE**: position is tracked along three axes, time, width and height, instead of one. Qwen3-VL interleaves the three and adds explicit timestamp tokens for video.
+- **Multimodal RoPE**: position is tracked along three axes, time, width and height, instead of one. Qwen3-VL interleaves the three so every axis sees both low and high frequencies, and adds explicit timestamp tokens for video ([54:00](https://www.youtube.com/watch?v=26FtD08ZpOU&t=3240)).
 - **A square-root-normalized loss**: long video examples would otherwise dominate training. Normalizing each example's loss by the square root of its token count keeps text and video in balance.
 
 ### 6. Generation
 
 Making an image is a different problem from reading one. Two routes exist:
 
-- **Discrete tokens.** Train a **VQ-VAE**, a small network that compresses an image into a list of codes from a fixed codebook and reconstructs it. Chameleon turns a 512 by 512 image into 1,024 tokens from 8,192 codes, then trains one Transformer on text and image tokens alike. The model can then generate images with the same machinery it uses for text. The cost is information: discretization loses detail, which hurts exactly the fine-grained tasks such as OCR. Training is also unstable, because text tokens are predictable and image tokens are not. The fixes are QK-norm and a z-loss (Chapter 03).
+- **Discrete tokens.** Train a **VQ-VAE**, a small network that compresses an image into a list of codes from a fixed codebook and reconstructs it. Chameleon turns a 512 by 512 image into 1,024 tokens from 8,192 codes, then trains one Transformer on text and image tokens alike. The model can then generate images with the same machinery it uses for text. The cost is information: discretization loses detail, which hurts exactly the fine-grained tasks such as OCR. Training is also unstable, because text tokens are predictable and image tokens are not. The fixes are QK-norm and a z-loss (Chapter 03), which is what Chameleon used to control the growth of the norms ([72:00](https://www.youtube.com/watch?v=26FtD08ZpOU&t=4320)).
 - **Continuous vectors plus a diffusion model.** The language model plans, and a separate network trained to remove noise renders the image.
 
 | Route | Understanding | Generation | Main weakness |
@@ -194,7 +196,9 @@ You are done when:
 
 ## Sources
 
-- **Lecture:** Stanford CS336, "Lecture 17: Alignment - Multimodality", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=26FtD08ZpOU), used at [tokens](https://www.youtube.com/watch?v=26FtD08ZpOU&t=120), [OCR](https://www.youtube.com/watch?v=26FtD08ZpOU&t=2160), [closing](https://www.youtube.com/watch?v=26FtD08ZpOU&t=4560)- **Lecture:** Percy Liang, "Lecture 1: Overview, Tokenization" (alignment unit): [video](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3600)
+- **Lecture:** Stanford CS336, "Lecture 17: Alignment - Multimodality", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=26FtD08ZpOU), used at [tokens](https://www.youtube.com/watch?v=26FtD08ZpOU&t=120), [OCR](https://www.youtube.com/watch?v=26FtD08ZpOU&t=2160), [closing](https://www.youtube.com/watch?v=26FtD08ZpOU&t=4560)
+- **Lecture:** Stanford CS336, "Lecture 15: Mid/Post-Training" (what "good" means): [video](https://www.youtube.com/watch?v=2oH6PWPrYFo&t=2760)
+- **Lecture:** Percy Liang, "Lecture 1: Overview, Tokenization" (alignment unit): [video](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3600)
 - **Reading:** Alec Radford et al., "Learning Transferable Visual Models From Natural Language Supervision" (2021): [arXiv](https://arxiv.org/abs/2103.00020)
 - **Reading:** Xiaohua Zhai et al., "Sigmoid Loss for Language Image Pre-Training" (2023): [arXiv](https://arxiv.org/abs/2303.15343)
 - **Reading:** Haotian Liu, Chunyuan Li, Qingyang Wu and Yong Jae Lee, "Visual Instruction Tuning" (2023): [arXiv](https://arxiv.org/abs/2304.08485)

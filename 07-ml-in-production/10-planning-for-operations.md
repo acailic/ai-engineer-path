@@ -49,7 +49,7 @@ A **service-level objective (SLO)** is a target for an operational quality of th
 | Time to detect a bad model | Under 24 hours | Alert log |
 | Time to roll back | Under 10 minutes | Rehearsal |
 
-Three of Kästner's points from chapter 13:
+Kästner's running example in chapter 13 is a blogging platform with fifty thousand authors and a spam filter powered by a fine-tuned large language model of fifty billion parameters. Three of his points:
 
 - **Write SLOs for the system and for each component.** They are not the same. His blogging platform keeps meeting its SLO while its spam filter is down, because comments wait in a queue.
 - **Negotiate the numbers.** Raising availability from 99.9 to 99.99 percent cuts the allowed downtime from about nine hours a year to fifty-two minutes. For many products the extra infrastructure is not worth it. He describes operations as risk management, not the avoidance of all risk.
@@ -59,9 +59,11 @@ Three of Kästner's points from chapter 13:
 
 **Observability** is how well you can tell what a system is doing from what it reports about itself. The reports are **telemetry**: log lines, counts and measurements. Kästner splits the work in three:
 
-1. **Instrument**: add the code that produces telemetry, with logging or a metrics library.
-2. **Collect**: gather the telemetry from every instance into one place.
-3. **Analyze**: show trends on a dashboard and raise **alerts** when a value crosses a threshold.
+1. **Instrument**: add the code that produces telemetry, with logging or a metrics library. Much arrives without effort: web servers log every request, and libraries for calls between services record who called whom and how slowly. Kästner names Prometheus and OpenTelemetry for counting requests and tracking latency.
+2. **Collect**: gather the telemetry from every instance into one place. Prometheus pulls metrics on a schedule, statsd receives pushed ones, and Flume and LogStash gather logs from many sources.
+3. **Analyze**: show trends on a dashboard and raise **alerts** when a value crosses a threshold. Grafana is his example for both. One of his alerts calls a developer's phone if the whole service is unreachable for more than three minutes.
+
+His design advice is to pick infrastructure with observability built in from the start, because retrofitting it later is a large project.
 
 A server dashboard is not enough for a model. Watch four signals:
 
@@ -83,6 +85,8 @@ One rule holds the signals together: every alert names a person and an action.
 - A **canary release** shows the new model to a few users first, and watches telemetry to decide whether to continue or to revert.
 - **Rollback** returns to the previous version. With containers, an isolated package of code and dependencies, it is a switch to the previous package.
 - A **kill switch** is a flag that turns the model's action off while the rest of the system keeps running. The fallback from [chapter 04](04-planning-for-mistakes.md) takes over: tickets go to the general queue.
+- **Infrastructure as code** keeps server and network configuration in scripts under version control, with tools such as Ansible, Puppet or Terraform. In Kästner's example, replacing the model's API key must not leave half the spam-filter instances failing on an outdated one.
+- **Orchestration** decides how many copies of each container to run and where. Kubernetes, his main example, restarts containers that stop answering and scales them with load. He advises adopting it only when you truly need many machines, while designing from the start so that machines can be added.
 
 ### Step 4: Write the incident response plan
 
@@ -98,7 +102,7 @@ An **incident response plan** is a written plan for the kinds of trouble you can
 | Investigation | A review after each incident | A written review within a week, with changes assigned |
 | Public communication | Who speaks to users and to the public | The support lead writes to affected customers |
 
-**On-call** is the rotation of people who answer alerts outside working hours. A **runbook** is the short page that says what to do when a specific alert fires.
+**On-call** is the rotation of people who answer alerts outside working hours. A **runbook** is the short page that says what to do when a specific alert fires. Kästner adds that automation speeds up a response, and that mistakes in that automation can cause the incident in the first place.
 
 ### Step 5: Run a launch review
 
@@ -198,7 +202,9 @@ Kästner presents DevOps and MLOps as a set of principles rather than a tool lis
 
 He cites an interview study of MLOps practitioners (Shankar and colleagues, 2022) that names three goals: **velocity**, fast iteration through automation; **validation**, automated testing, monitoring and quick feedback; and **versioning**, keeping several versions of models and data to recover from problems.
 
-Two of his cautions apply to every team. The tools are secondary to the collaboration they support. And MLOps practice fits some projects better than others: it suits web systems that change quickly and depend on experiments, and it fits autonomous trains or models inside phone apps poorly.
+He also surveys the tool market ([chapter 13](https://mlip-cmu.github.io/book/13-planning-for-operations.html)). Airflow, Luigi, Kubeflow and DVC automate pipelines. Great Expectations and DeepChecks validate data, and Alibi Detect looks for drift. MLflow, Neptune and Weights and Biases track experiments and model versions. Fiddler, Aporia and Arize watch models in production. Data engineers, he writes, deserve a place on the team. Their tools catch problems such as a small change to cleaning code that silently discards 90 percent of a spam detector's test data.
+
+Two of his cautions apply to every team. The tools are secondary to the collaboration they support. And MLOps practice fits some projects better than others: it suits web systems that change quickly and depend on experiments, and it fits autonomous trains or models inside phone apps poorly. At a certain scale, his advice is to bring in specialists, such as site reliability engineers, data engineers and MLOps engineers.
 
 ## Pitfalls
 

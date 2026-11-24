@@ -1,6 +1,6 @@
 # 10. Process Models: Planning and Iteration
 
-**Level:** Practitioner · **Reading time:** 16 min · **Exercise:** 45 min
+**Level:** Practitioner · **Reading time:** 22 min · **Exercise:** 45 min
 **Prerequisites:** none. [Measuring Model Quality](02-measuring-model-quality.md) helps for the baseline step.
 
 > **In one sentence:** After this chapter you can plan a model-based feature so that the uncertain model work and the predictable engineering work are scheduled separately, with decision points agreed in advance.
@@ -17,7 +17,9 @@ The plan treated research as if it were construction. This chapter is about plan
 
 Two professions with different habits build every ML product. Data scientists work by **exploration**: try a model, measure it, change something, measure again. Software engineers work by **process**: gather requirements, design, implement, test, deploy, maintain. Kästner's point is that both are reasonable and that they clash when nobody names the difference (chapter 20).
 
-The difference is what an iteration produces.
+Software engineering has named its trade-offs. The **waterfall model**, from Royce's 1970 paper, orders development as requirements, design, implementation, and testing. Even its first version allowed a loop back from design to requirements and a pass through the whole sequence to build a prototype. The **spiral model** repeats those steps to build increasingly complete prototypes, starting with the riskiest parts. **Agile methods** work in short sprints, typically two weeks or thirty days, with daily stand-up meetings and replanning after each sprint. All of them trade up-front planning against iteration: aerospace software leans toward waterfall, a social network or a start-up toward agile, and Kästner expects many, though not all, ML products to fall on the agile side (chapter 20).
+
+The difference is what an iteration produces. Kästner contrasts model work with two of these models, line by line (chapter 20):
 
 | | Iteration in software | Iteration in model work |
 |---|---|---|
@@ -25,6 +27,10 @@ The difference is what an iteration produces.
 | Can it be scheduled? | Mostly, for known work | The time can be capped. The result cannot be promised. |
 | How progress looks | Steady, roughly linear | Long flat stretches, then a jump |
 | When you are done | The requirement is met | When quality is good enough, or time runs out |
+| Why loop back, in the spiral model | To prove the riskiest part first | Work does not split neatly into risky and safe parts, and nobody can say whether a target accuracy is reachable |
+| Why loop back, in agile work | To clarify vague requirements and react to change | The goal is usually clear. The open question is whether a model can meet it |
+| Splitting work | Design supports divide and conquer, so people work in parallel | Model work is hard to decompose into independent pieces |
+| Dead ends | Rare, outside highly experimental projects | Common: many iterations change nothing |
 
 Kästner describes data-science work as a science mindset and notes that it is nearly impossible to say up front how long model development will take or what accuracy it will reach (chapter 20).
 
@@ -38,7 +44,10 @@ The analogy is a walk versus a search. Building a known feature is a walk: you k
 - **Projects take different trajectories.** Some start from a goal and then collect data for it. Others start from data they already have and look for a use, as a hotel-booking company might when mining its records (chapter 20, citing Martínez-Plumed and colleagues).
 - **Software engineers plan for a reason.** Decades of evidence show that fixing requirements and design late is very expensive, so time for design, quality assurance, and maintenance belongs in the plan (chapter 20).
 - **No integrated best practice exists.** Kästner knows of no accepted workflow that combines the two. His sketch is to decompose the system into components with their own requirements, give each the process that suits it, and let iteration happen at the component level and at the system level (chapter 20).
-- **Start-ups often go model-first.** A transcription start-up treats the model as the main risk and builds the product around it later. That is defensible, he writes, provided system design, fairness, safety, and cost get serious attention once the model works (chapter 20).
+- **Three predictable conflicts.** Engineers object to notebook code, but Kästner notes that abstraction and documentation add little value while code is still exploratory. Estimates: data scientists can rarely say how long a quality target will take, or whether it is reachable at all. And managers or engineers with a superficial grasp of the work ask for impossible things, such as a model with no false positives. In one study he cites, engineers without data-science training skipped data exploration when a first model disappointed and jumped straight to more data or to deep learning (chapter 20).
+- **Model-first or system-first.** In model-first projects, data scientists establish what a model can do before anyone designs the system around it. Kästner sees this often where the model is the core of the product, as in a transcription service or a demand forecast that produces daily reports. Its strength is that it avoids heavy engineering on a project that may be infeasible. Its reported weakness is that the model then fails the product: latency is unacceptable, users do not trust it, or explainability and safety were never considered. In system-first projects, about half of those he has seen, the product is planned up front and the model receives concrete requirements for latency, fairness, and explainability. This is common when a model is added to an existing product, such as an audit-risk score in tax software, and advisable in regulated or safety-critical domains such as banking, hiring, drones, and medical software. Here the risk is the opposite: requirements that no model can meet (chapter 20).
+- **Neither extreme works.** His advice is to mix them: some thought about how the model will be used, even in a model-first project, and some early experimentation by the data scientists during system planning. Fully parallel development of system and model is realistic only in a small team that can renegotiate interfaces constantly (chapter 20).
+- **Choose by stakes.** His examples: a transcription start-up goes model-first. A hotel site explores its logs before building a recommendation feature. A notes app built on off-the-shelf language models goes system-first, with prompts prototyped alongside. A recidivism tool for judges calls for a system-first, waterfall-like approach, because fairness and explainability rules constrain everything downstream (chapter 20).
 
 ## How to plan under uncertainty
 

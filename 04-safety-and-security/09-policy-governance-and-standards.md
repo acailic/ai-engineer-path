@@ -58,12 +58,12 @@ You do not train frontier models, and the pattern still applies. It has three pa
 The lecture is from December 2024. Regulation moves faster than any course. The table lists what could be verified as of November 2026. Check the current text before you rely on an entry.
 | Instrument | Kind | Date | What it asks of a team |
 |-----------|------|------|------------------------|
-| NIST AI Risk Management Framework 1.0 and its Generative AI Profile | Voluntary framework, US | January 2023; profile July 2024 (general knowledge) | Organizes the work in four functions: govern, map, measure, manage. |
-| ISO/IEC 42001 | Certifiable management-system standard | 2023 (general knowledge) | An auditor checks that you have documented roles, risk assessment, and reviews. It audits the process, not the model. |
+| NIST AI Risk Management Framework 1.0 and its Generative AI Profile | Voluntary framework, US | January 2023; profile July 2024 | Organizes the work in four functions: govern, map, measure, manage. |
+| ISO/IEC 42001 | Certifiable management-system standard | 2023 | An auditor checks that you have documented roles, risk assessment, and reviews. It audits the process, not the model. |
 | OWASP Top 10 for LLM Applications 2025 | Community risk list | 2025; a 2026 edition is listed as of November 2026 | Shared names for threats, for threat models and tests. |
 | OWASP Top 10 for Agentic Applications 2026 | Community risk list | 2026 | Shared names for agent threats, from goal hijack to rogue agents. |
-| EU AI Act (Regulation (EU) 2024/1689) | Binding law | In force August 2024, obligations in stages from February 2025 (general knowledge) | Duties depend on the use's risk class and on whether you provide or deploy the system. |
-| US Executive Order 14110 | Federal executive order | Signed October 2023, rescinded January 2025 (general knowledge) | The lecture's example of a compute threshold. No longer in force. |
+| EU AI Act (Regulation (EU) 2024/1689) | Binding law | In force August 2024, obligations in stages from February 2025 | Duties depend on the use's risk class and on whether you provide or deploy the system. |
+| US Executive Order 14110 | Federal executive order | Signed October 2023, rescinded January 2025 | The lecture's example of a compute threshold. No longer in force. |
 
 Two entries deserve a comment.
 
@@ -99,7 +99,7 @@ What to observe: every level is defined by a measurement that someone can repeat
 
 Dawn Song gave the policy part as the closing section of her Fall 2024 lecture.
 
-- **Law arrived before evidence.** She counts about 120 AI bills at the US federal level, and about 600 bills introduced in at least 45 states in the 2024 session, and describes heated disagreement in the field, with California's SB 1047 as her example. The bill was vetoed. Her summary of the problem: "Technical solution alone is necessary but insufficient." ([96:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=5760))
+- **Law arrived before evidence.** She counts about 120 AI bills in progress at the US federal level, and about 600 bills introduced in at least 45 states, and describes heated disagreement in the field, with California's SB 1047 as her example. The bill was vetoed. Her summary of the problem: "Technical solution alone is necessary but insufficient." ([96:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=5760))
 - **The proposal.** Policy for AI, her slide argues, has to rest on a scientific grasp of the risks and of ways to reduce them, and today that grasp is thin. She lists the five priorities at [100:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=6000).
 - **A blueprint written in advance.** She calls for a map from future conditions, such as a capability level or a demonstrated harm, to candidate policy responses, agreed before anyone knows which condition will occur. That, she argues, sidesteps arguments about when a risk will materialize. About 200 institutions volunteered to contribute after the launch, as she reports at [102:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=6120).- **Marginal risk differs by domain.** Her slide from that lecture puts the marginal risk of AI for social engineering high, and for software exploits low, at the time. In the same lecture she states a forecast, as her own belief: in the near term AI will help attackers more than defenders ([94:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=5640)). The findings in [AI for Cyber Defense](08-ai-for-cyber-defense-and-vulnerability-detection.md) are the other side of that forecast.
 

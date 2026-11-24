@@ -32,14 +32,18 @@ Kästner names four places:
 | Inference | Requests per second, each holding hardware | Many copies of a stateless service behind a load balancer |
 | Training | Days of accelerator time for one job | Splitting one job across machines |
 
-For scale, his reference point is Google Photos, which reported in 2020 that it held more than 4 trillion photos for over a billion users and received 28 billion new photos a week, about 46 thousand uploads a second. You will probably never need that. The ideas are the same at any size.
+For scale, his reference point is Google Photos, which reported in 2020 that it held more than 4 trillion photos for over a billion users and received 28 billion new photos a week, about 46 thousand uploads a second. His back-of-envelope arithmetic shows why one machine cannot serve that. At 3 megabytes per photo, uploads arrive at 135 gigabytes per second. A disk writes about 100 megabytes per second, so storing them alone takes about 1,400 disks at once. A fast object-detection model needs 20 to 50 milliseconds per image, so keeping up takes at least 2,780 parallel processes. Run an updated model over all stored photos with one process and the job lasts 2,536 years. You will probably never need that scale. The ideas are the same at any size.
 
 ### The building blocks to recognize
 
-**Storage.** The book names three common forms of data: relational data, in tables with a fixed shape that you query in SQL; document data; and unstructured data. Two ideas distribute any of them:
+**Storage.** The book names three common forms of data ([chapter 12](https://mlip-cmu.github.io/book/12-scaling-the-system.html)). Relational data sits in tables with a fixed shape, described by a schema, and is queried in SQL. Document data sits in key-value collections, often as JSON, with nested objects and little enforced structure. Unstructured data is plain files such as logs, with no index, so finding something means reading everything. Two ideas distribute any of them:
 
 - **Partitioning** splits the data, so that different parts sit on different machines.
-- **Replication** stores the same data on several machines, so that one can fail.
+- **Replication** stores the same data on several machines, so that one can fail. Its hard part is writing. Replicas can receive a change late or in a different order, and a user of the photo service may see a deleted photo reappear. The usual design names one replica the leader and lets only it accept writes, as MySQL and MongoDB do.
+
+Kästner's observation for ML is that slightly stale or inconsistent data is usually acceptable as noise, which makes scaling much easier.
+
+Two storage designs are worth recognizing. A **data warehouse** is a separate database that holds data cleaned into one uniform shape for analysis. It is updated in batches, say nightly, and mostly read. Filling it is called **extract, transform, load** (ETL). A **data lake** keeps raw data as it arrived, on the bet that it will be useful later in ways nobody can predict yet. Without notes on what is there, a lake becomes what Kästner calls a data swamp or a data graveyard.
 
 **Processing.** Four strategies cover most needs:
 
@@ -50,15 +54,17 @@ For scale, his reference point is Google Photos, which reported in 2020 that it 
 | Stream | Processes events from a queue as they arrive | Throughput with little delay | Scoring each new comment within seconds |
 | Lambda architecture | Batch recomputes everything on a schedule. Stream keeps the results fresh in between. Services answer queries | Both | A weekly full retrain, with small updates between runs |
 
-**Training.** Training a large model is a distributed job in its own right. For GPT-3, released in 2020, Kästner reports an estimate of 355 years of sequential training, done instead on a cluster with 285,000 CPU cores and 10,000 GPUs, at an estimated cost of nearly 5 million US dollars for one run.
+Three ideas in the book explain the shape of this table. Batch jobs move the computation to the data, because moving a model is cheaper than moving petabytes. A stream cannot promise that every event is handled exactly once. The developer chooses at-least-once, which may repeat work, or at-most-once, which may lose events. Tagging a photo twice is harmless. Charging a print order twice is not. And the speed layer of the lambda architecture works with approximations. Kästner notes that a model updated incrementally can be worse than one retrained from scratch, because it is hard to unlearn a changed training example. It is still better than a stale model.
 
-**Caching.** A **cache** keeps the result of an expensive computation and reuses it. Three caches are common in ML features: predictions for inputs that repeat ([chapter 07](07-deploying-a-model.md)), feature vectors (the feature store in the same chapter), and upstream results such as the numerical form of a stored document. A cache goes stale the moment the model changes. So every cache needs an invalidation rule, such as the model version in the cache key.
+**Training.** Training a large model is a distributed job in its own right. For GPT-3, released in 2020, Kästner reports an estimate of 355 years of sequential training, done instead on a cluster with 285,000 CPU cores and 10,000 GPUs, at an estimated cost of nearly 5 million US dollars for one run. Kästner's picture of distributed training is the **parameter server**. Each worker machine learns from a slice of the data. A central server collects and merges the adjustments. Workers send only the changes above a threshold, because all of GPT-3's parameters would amount to 700 gigabytes after every batch. Merging partial updates adds noise, one reason training is not reproducible ([chapter 06](06-quality-attributes-of-ml-components.md)).
+
+**Caching.** A **cache** keeps the result of an expensive computation and reuses it. Kästner uses it in three places: predictions for inputs that repeat ([chapter 07](07-deploying-a-model.md)), feature vectors (the feature store in the same chapter), and values derived from a data lake, such as aggregates, kept in a database so that the raw data is not processed again ([chapter 12](https://mlip-cmu.github.io/book/12-scaling-the-system.html)). A feature built on an LLM caches the same way, for example the numerical form of a stored document. A cache goes stale the moment the model changes. So every cache needs an invalidation rule, such as the model version in the cache key.
 
 ## How it works, step by step
 
 **Capacity planning** is estimating the load, the cost per unit and the needed resources before you build.
 
-1. **Write the load**: the average and the peak, per second.
+1. **Write the load**: the average and the peak, per second. Then write, for each function, how late its result may be. In the photo service a user expects an upload to appear at once and will not notice if search lags for a new image, so only the first needs a service.
 2. **Measure the cost of one unit** on one copy: requests per second, memory, bytes per logged event.
 3. **Multiply into budgets** for compute, storage and network.
 4. **Find the bottleneck.** Kästner notes that it is often the database.

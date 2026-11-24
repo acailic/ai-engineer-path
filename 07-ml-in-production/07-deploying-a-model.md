@@ -186,11 +186,11 @@ Those requirements rule out sending every frame to the cloud. He then lists the 
 - A Bluetooth round trip takes 40 to 200 ms.
 - Bluetooth carries up to 3 megabits per second. Video needs 4 to 10.
 
-The design that follows is a hybrid. Image stabilization runs on the glasses, so the text stays glued to the sign without a network trip. Translation runs only when new text appears, which makes caching effective, and it goes to the server. A smaller model on the device covers offline use ([chapter 10](https://mlip-cmu.github.io/book/10-deploying-a-model.html)).
+The design he explores is a hybrid, and he stops short of a final recommendation until the models run on the real hardware. Image stabilization runs on the glasses, so the text stays glued to the sign without a network trip. Translation runs only when new text appears, which makes caching effective, and it goes to the server. A smaller model on the device covers offline use ([chapter 10](https://mlip-cmu.github.io/book/10-deploying-a-model.html)).
 
 **Updates are the hidden constraint.** On the server, you replace the model behind the API and every user has it. On a device, the book lists three designs: never update, which suits cheap toys and leaves you no feedback; ship the model inside the application, so only tested pairs of app and model exist; or download models separately, which saves data but lets app and model drift apart. He reports that Facebook settled on updating its mobile apps once every two weeks while its server-side models changed far more often.
 
-**Document the model for the team that calls it.** Kästner finds that inference interfaces are usually documented by data types only. He recommends also stating the intended use, the inputs the model supports, the expected accuracy and how it was measured, including results by group, and the ethical considerations. Two templates exist: **model cards** (Mitchell et al., 2019), one or two pages per model, and fact sheets (Arnold et al., 2019). He observes that both are rarely used in practice.
+**Document the model for the team that calls it.** Kästner finds that inference interfaces are usually documented by data types only. He recommends also stating the intended use, the inputs the model supports (the **target distribution**, which plays the part a precondition plays in ordinary code), the expected accuracy and how it was measured, including results by group, and the ethical considerations. Two templates exist: **model cards** (Mitchell et al., 2019), one or two pages per model, and fact sheets (Arnold et al., 2019). He observes that both are rarely used in practice.
 
 ## Pitfalls
 

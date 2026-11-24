@@ -40,17 +40,17 @@ Han spends the first half of Lecture 7 on the blocks a search space is built fro
 
 - **Cell-level.** Design two small cells, a normal one and a downsampling one, and repeat them. Han's example has five operator choices, two ways to combine them and several blocks per cell, which gives on the order of 10¹¹ candidates ([38:00](https://www.youtube.com/watch?v=3W146_T8eCs&t=2280)).
 - **Network-level.** Let every stage differ. His objection to repeating one cell: deep and shallow layers behave differently, so one cell for the whole depth is unlikely to be optimal.
-- **Fit the space to the resource.** With a few hundred kilobytes of memory, most of a standard space cannot run at all. TinyNAS, from his microcontroller work, first scales resolution and width to the memory budget and only then searches inside the remaining space (Lecture 10, [18:00](https://www.youtube.com/watch?v=uR1KKhIhHEk&t=1080)). Han's summary of the reason: with the same memory constraint, a well-chosen space fits more useful computation (Lecture 7, [48:00](https://www.youtube.com/watch?v=3W146_T8eCs&t=2880)).
+- **Fit the space to the resource.** With a few hundred kilobytes of memory, most of a standard space cannot run at all. TinyNAS, from his microcontroller work, first scales resolution and width to the memory budget and only then searches inside the remaining space (Lecture 10, [18:00](https://www.youtube.com/watch?v=uR1KKhIhHEk&t=1080)). Han's summary of the reason: with the same memory constraint, a well-chosen space fits more useful computation, and computation is cheap while memory access is expensive (Lecture 7, [48:00](https://www.youtube.com/watch?v=3W146_T8eCs&t=2880)). His test is a plot of the cumulative share of a space's models against their FLOPs: the space that fits more computation under the same memory budget produced a best model at 78.7% accuracy, against 74% for the other. The heuristic behind the test is that more FLOPs means more capacity, and a space's median FLOPs tracks its accuracy almost linearly ([50:00](https://www.youtube.com/watch?v=3W146_T8eCs&t=3000)). What he wants from all of this is a push-button method: given a new memory or latency target, find the architecture without a human expert.
 
 ### Step 3: Choose a search algorithm
 
 | Strategy | How it moves | Han's remark |
 |---|---|---|
-| Grid search | try every combination | candidates can be eliminated before training (Lecture 7, [54:00](https://www.youtube.com/watch?v=3W146_T8eCs&t=3240)) |
-| Random search | sample at random | seems trivial, works well ([56:00](https://www.youtube.com/watch?v=3W146_T8eCs&t=3360)) |
-| Reinforcement learning | a controller learns to propose high-reward architectures | a recurrent network proposes, a reward comes back |
+| Grid search | try every combination | easy to implement, slow to evaluate one by one; throw out the designs that break the constraint before training any of them (Lecture 7, [54:00](https://www.youtube.com/watch?v=3W146_T8eCs&t=3240)) |
+| Random search | sample at random | run it first as a sanity check: if the reward does not improve after a few iterations, something is wrong with the search space, the search, the evaluation or the reward ([56:00](https://www.youtube.com/watch?v=3W146_T8eCs&t=3360)) |
+| Reinforcement learning | a controller learns to propose high-reward architectures | tricky and not easy to use in practice; the controller proposes an architecture with probability `P`, a child network is trained for a reward `R`, and the controller is updated with the gradient of `P` scaled by `R` ([56:00](https://www.youtube.com/watch?v=3W146_T8eCs&t=3360)) |
 | Gradient descent | relax the choices to weights and optimize them | differentiable |
-| Evolutionary search | mutate and recombine a population | see below |
+| Evolutionary search | mutate and recombine a population | the fitness function selects on latency, accuracy, throughput, memory or energy ([62:00](https://www.youtube.com/watch?v=3W146_T8eCs&t=3720)) |
 
 An evolutionary loop:
 
@@ -75,9 +75,9 @@ Han's version of the definition: "Mutation takes one input, crossover takes two 
 
 Han's slides 20 to 22 of Lecture 8 carry one headline: MACs are not real hardware efficiency. Architectures with similar FLOPs can have very different latency. Three fixes:
 
-- Search on the **target task and hardware** instead of a proxy. ProxylessNAS is his example; its specialized model was 1.83 times faster than the non-specialized one on mobile (slides 17 to 19 and 33).
-- Measure each operator **once** on the device and build a **latency table**. The latency of a candidate is the sum over its layers (Lecture 8, [24:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=1440)).
-- Search the **mapping** too. His accelerator work searches the network, the hardware design and the loop order together (Lecture 8, [60:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=3600)).
+- Search on the **target task and hardware** instead of a proxy. ProxylessNAS is his example; its specialized model was 1.83 times faster than the non-specialized one on mobile (slides 17 to 19 and 33). The reason is device-dependent behaviour: shrinking a model's hidden dimension cuts latency on a Raspberry Pi and does nothing on a GPU, which has parallelism to spare ([20:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=1200)). After the search, the model built for a CPU uses no 7 × 7 kernel at all, only 3 × 3 and 5 × 5, while the GPU model becomes wider and shallower, with fewer kernel calls ([28:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=1680)).
+- Measure each operator **once** on the device and build a **latency table**. The latency of a candidate is the sum over its layers (Lecture 8, [24:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=1440)). Han's caveat: on a GPU the inference engine may fuse two layers into one kernel, so the sum overestimates. His rule of thumb: fusing two compute-bound layers does not help; a matrix multiplication followed by a memory-bound nonlinearity that shares data with it can be fused.
+- Search the **mapping** too. His accelerator work searches the network, the hardware design and the mapping (which loops run in parallel in space, and in which order) together, all by evolutionary search, for the lowest energy-delay product (Lecture 8, [60:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=3600)). Non-numerical choices such as loop order are turned into numbers by ranking the loop dimensions by importance: the top two run in parallel and the most important runs outermost ([58:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=3480)).
 
 ### Step 6: Train once for many devices: once-for-all
 

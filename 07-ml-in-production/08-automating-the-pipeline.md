@@ -33,6 +33,8 @@ Three more terms belong here:
 - **Continuous delivery (CD)** keeps every change that passes those checks ready to release through an automated process.
 - **Infrastructure as code** describes servers, containers and pipeline steps in files under version control, instead of setting them up by hand.
 
+Kästner does not use these three names in chapter 11. He defines continuous integration, continuous deployment and infrastructure as code in his chapter on operations, [chapter 13](https://mlip-cmu.github.io/book/13-planning-for-operations.html). In chapter 11 he states the same discipline in plainer words: pipeline code gets the quality steps of any other software, which he lists as unit tests, integration tests, static analysis and code review.
+
 ## How it works, step by step
 
 ### The stages
@@ -47,6 +49,8 @@ Three more terms belong here:
 | Deployment | Put the model behind the API | Automatic upload, **canary release**, rollback | A new model overwrites the last good one |
 | Monitoring | Watch inputs, outputs and outcomes | Alerts, and a trigger for the next run | Customers find the problems first |
 
+Kästner's running example in chapter 11 is a real-estate site that estimates home values from past sales. Its model is anything but static, and neither is its data. He names three forms of data collection, and each needs non-ML design. Data can be typed in: realtors fill long forms because the form advertises their listing, while nurses asked to retype blood-test results into a spreadsheet will not keep it up for long. It can be pulled from external APIs, which need watching for outages and format changes before they reach the model. Or it can be recorded as telemetry, such as the site's own web logs. Evaluation, in his description, is usually automated on withheld labeled data, and is often joined by curated sets for specific groups, tests of the model together with the rest of the system, and tests in production.
+
 A canary release sends the new model to a small share of the traffic first. If quality drops for those users, the model is rolled back before anyone else receives it.
 
 ### From notebook to pipeline
@@ -54,8 +58,8 @@ A canary release sends the new model to a small share of the traffic first. If q
 1. **Turn each group of cells into a function** with explicit inputs and outputs, one module per stage.
 2. **Make every stage read and write only declared places.** No hidden files.
 3. **Test each stage alone against dirty data**: missing values, wrong formats, empty input.
-4. **Run the tests on every change.** Pipeline code gets the same gates as any other code: unit tests, integration tests, static analysis, code review.
-5. **Describe the order in one place.** Which stages run in sequence, what is retried, who is told when a stage fails. A run can start by hand, on a schedule, or from a monitoring alert.
+4. **Run the tests on every change.** Pipeline code gets the same gates as any other code: unit tests, integration tests, static analysis, code review. Keep each experiment in a branch or behind a feature flag, Kästner advises, not in copied cells, and merge it or delete it when it ends.
+5. **Describe the order in one place.** Which stages run in sequence, what is retried, who is told when a stage fails. Kästner names the two error-handling strategies as retrying the stage or informing a developer. Orchestration tools such as Airflow, Metaflow or Kubeflow Pipelines force the stages apart so that they can be scheduled. A run can start by hand, on a schedule, or from a monitoring alert.
 6. **Deploy automatically, only after the gate passes.** Use a canary and keep the previous model.
 7. **Close the loop.** Let monitoring start the next run.
 
@@ -169,9 +173,12 @@ For an agent, infrastructure as code covers the tool definitions, the sandbox co
 - **Train once and forget is an antipattern.** Kästner opens chapter 11 with it. A production model must be updated, and automation is what makes updates routine.
 - **Bad pipelines have names.** He uses *pipeline jungles* and the *big-ass script architecture* for pipelines whose steps are ad hoc scripts, and *undeclared consumers* for scripts that depend on files nobody remembers creating. His summary adds *dead experimental paths* ([chapter 11](https://mlip-cmu.github.io/book/11-automating-the-pipeline.html)).
 - **The step from notebook to pipeline is hard.** He cites experience reports: organizations struggle to turn exploratory code into pipelines that re-execute, take new data unchanged and run on a schedule. It takes an engineering stance, new infrastructure and a learning curve, and it may not pay off in the short term.
-- **Cleaning bugs hide.** Researchers have found subtle bugs in data transformations. They are hard to notice because the code does not crash. The model only becomes less accurate.
-- **Labeling is a process, not an event.** His example of labeling inside another task is a security check that asks users to transcribe hard-to-read words.
+- **Cleaning bugs hide.** Chenyang Yang and colleagues found many subtle bugs in public notebook code for data transformations (2021), cited in chapter 11. They are hard to notice because the code does not crash. The model only becomes less accurate.
+- **Labeling is a process, not an event.** His example of labeling inside another task is ReCAPTCHA, a security check that asks users to transcribe hard-to-read words.
+- **Labels can come from code.** In *weak supervision*, domain experts write **labeling functions**, short pieces of code that give partial labels, such as "text with these keywords is probably negative". A system such as Snorkel estimates how reliable each function is and merges them. Kästner reports that for many tasks, more data with noisier labels beats less data with expert labels.
+- **Human labelers need design too.** A model may suggest a label for a person to confirm, but the interface must stop people from confirming everything. Ask several labelers, and treat frequent disagreement as a sign that the task is hard or the instructions unclear.
 - **Monitoring can start the pipeline.** A system that notices poor estimates for one region can trigger a retraining run or alert the data scientists.
+- **The investment pays back in experiments.** Orchestration systems also schedule offline experiments with several model versions, and monitoring and A/B testing infrastructure give data scientists quick feedback from production data.
 
 ## Pitfalls
 
@@ -238,6 +245,7 @@ Include:
 ## Sources
 
 - **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 11: [Automating the Pipeline](https://mlip-cmu.github.io/book/11-automating-the-pipeline.html)
+- **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 13: [Planning for Operations](https://mlip-cmu.github.io/book/13-planning-for-operations.html), for continuous integration, continuous deployment and infrastructure as code
 - **Reading:** Katie O'Leary and Makoto Uchida, "Common Problems with Creating Machine Learning Pipelines from Existing Code" (MLSys 2020), cited in chapter 11.
 
 ## Next

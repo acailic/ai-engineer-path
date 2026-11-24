@@ -47,7 +47,7 @@ Defending the model itself is covered in [Defenses and Guardrails](../04-safety-
 
 1. **Attacker goals and capabilities.** Teenagers trying to bypass a filter for bragging rights and a state-backed team with patience and budget call for different defenses. The more likely attacker may deserve more attention than the stronger one.
 2. **System structure.** Draw a data-flow diagram that includes every store, the training and serving components, and monitoring. Show how training and inference data can be influenced, including by the people who label it.
-3. **Threats.** Inspect every component and connection against a checklist. The book names STRIDE, a method from Microsoft with six threat categories.
+3. **Threats.** Inspect every component and connection against a checklist. The book names STRIDE, a method from Microsoft with six categories: spoofing an identity, tampering with data, repudiation, in which a user denies an action, information disclosure, denial of service, and elevation of privilege (chapter 28).
 4. **Risk.** Rate each threat by likelihood and by damage if it succeeds, on rough scales, and rank by the product. The absolute scores do not matter. The order does.
 5. **Implement and test defenses.** Prefer proven standards and libraries over new security ideas, and bring in experts (chapter 28).
 
@@ -71,14 +71,14 @@ Intrusion detection watches for unusual behavior. Kästner notes that the 2017 E
 
 ### 6. Be transparent, and name who is accountable
 
-The outline of chapter 29 separates transparency about the model's *existence* from transparency about *how it works*. Four practices follow:
+Kästner separates transparency about the model's *existence* from transparency about *how it works* (chapter 29). In a 2015 study he cites, 62 percent of surveyed Facebook users did not know that an algorithm curated their feed rather than showing every post, and many reacted with surprise and anger when told. He also cites reports of managers who did not know that an automated tool had discarded applicants before they saw them.
 
-1. **Say that a model is involved**, where it affects people.
-2. **Explain at a useful level.** For a decision a person can change, a counterfactual helps: what would have led to a different result (see [chapter 13](13-explainability-fairness-and-safety.md)). Show sources next to generated claims.
-3. **Keep oversight real and allow appeals.** Kästner asks in chapter 18 whether users form an accurate idea of when not to trust a system. The principle lists in chapter 23 include human alternatives and human oversight.
-4. **Assign an owner to each decision type**, and keep the records from [chapter 12](12-responsible-engineering-versioning-and-reproducibility.md), so that any decision can be reconstructed.
-
-One caution follows from the outline's heading on gaming. The more a system reveals about how it decides, the easier it is to exploit, as anyone who has met search-engine optimization knows. Decide deliberately how much to publish.
+1. **Say that a model is involved**, where it affects people. Hiding it removes the chance to appeal, and users feel deceived when they find out.
+2. **Explain at a useful level.** Users form a mental model of how a system decides, correct or not, and they need some understanding to point out a mistake. For high-stakes decisions such as loans, hiring, or housing, Kästner considers explicit explanations and a stated level of certainty important. For low-stakes ones, such as spelling correction, automation without explanation can be acceptable (chapter 29). Show sources next to generated claims.
+3. **Weigh the risk of gaming.** A counterfactual helps a person change what they can (see [chapter 13](13-explainability-fairness-and-safety.md)). It also tells a customer to park money in an account before a credit check, or a spammer which words to avoid. Models built on robust, causally related features invite the behavior you want. Models built on weak proxies invite gaming, and hiding their workings is only security by obscurity (chapter 29).
+4. **Keep oversight real and allow appeals.** Reviewing every decision is too expensive at scale, and even a complaints team can be costly. Kästner's test: if oversight costs too much to afford, the product may not be viable in its planned form (chapter 29). The principle lists in chapter 23 include human alternatives and human oversight.
+5. **Assign an owner to each decision type**, and keep the records from [chapter 12](12-responsible-engineering-versioning-and-reproducibility.md), so that any decision can be reconstructed.
+6. **Blame a decision, not "the algorithm".** Harm traces back to human choices about the system's design, evaluation, and safeguards. A producer that integrates third-party models or data is responsible for the whole product, as a car maker is for defective tires (chapter 29).
 
 ## What the practitioners say
 
@@ -121,7 +121,7 @@ You are done when the threats are ranked, when each mitigation has a test with h
 2. Why rank threats by a product of two rough scores if the scores are made up?
 3. A model-driven agent has access to every internal tool. Which principle is violated?
 4. A system is secure and still breaks privacy. How?
-5. What two things does transparency about a model cover, according to the outline of the book's chapter 29?
+5. What two things does transparency about a model cover, according to the book's chapter 29?
 
 <details><summary>Show answers</summary>
 
@@ -136,8 +136,8 @@ You are done when the threats are ranked, when each mitigation has a test with h
 ## Sources
 
 - **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 28: [link](https://mlip-cmu.github.io/book/28-security-and-privacy.html)
-- **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 29 (section outline consulted): [link](https://mlip-cmu.github.io/book/29-transparency-and-accountability.html)
-- **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapters 18 and 23, for the points cited above: [chapter 18](https://mlip-cmu.github.io/book/18-system-quality.html), [chapter 23](https://mlip-cmu.github.io/book/23-responsible-engineering.html)
+- **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 29: [link](https://mlip-cmu.github.io/book/29-transparency-and-accountability.html)
+- **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 23, for the principle lists cited above: [chapter 23](https://mlip-cmu.github.io/book/23-responsible-engineering.html)
 
 ## Next
 

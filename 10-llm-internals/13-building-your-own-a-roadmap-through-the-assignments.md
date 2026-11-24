@@ -8,7 +8,7 @@
 
 The course's method is understanding by building. Watching the lectures gives the map. The assignments are the territory.
 
-The territory is steep. The Lecture 1 notes quote a course evaluation: the first assignment alone was about the work of all five assignments plus the final project of the NLP course. Enrolled students get a cluster, a teaching staff and deadlines. You have none of those, so you need three things this chapter supplies: an order, a realistic idea of the compute, and the traps the handouts themselves warn about.
+The territory is steep. Lecture 1's outline quotes a Spring 2024 course evaluation: the first assignment alone was about the work of all five assignments plus the final project of the NLP course. Enrolled students get a cluster, a teaching staff and deadlines. You have none of those, so you need three things this chapter supplies: an order, a realistic idea of the compute, and the traps the handouts themselves warn about.
 
 ## The core idea
 
@@ -28,7 +28,7 @@ The analogy is a test-driven project at work: the tests are written, the impleme
 
 Two course policies matter for self-study:
 
-- **AI tools.** The handouts allow them for conceptual questions and for documentation such as library signatures. They forbid them for implementing any part of an assignment, including autocomplete. Percy Liang's reason, from Lecture 1: a coding agent can solve all the assignments, "but you won't learn anything".
+- **AI tools.** The handouts allow them for conceptual questions and for documentation such as library signatures. They forbid them for implementing any part of an assignment, including autocomplete. Percy Liang's reason, from Lecture 1: coding agents have become so good that they can solve all the assignments, and then plainly nobody learns anything ([24:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=1440)).
 - **Low-resource advice.** The handouts carry boxes with tips for working with few or no GPUs, and the course page advises "debugging correctness of your implementation on CPU first".
 
 ## The five assignments
@@ -123,7 +123,7 @@ What to observe:
 
 Lecture 1 describes how the course works. There is no scaffolding code, but unit tests keep you from working blind for weeks on an unverified guess. Much of each assignment can be done on a laptop, and the cluster is for benchmarking speed and accuracy ([22:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=1320)).
 
-The last lecture is a guest talk by Dan Fu. Only its outline was available, so the topics are reported rather than the details. She contrasts synthetic benchmarks with real request traces, walks through the two stages of serving and the KV cache, including spilling it to CPU memory, and shows scheduling across a rack of 72 GPUs. The outline also lists a set of production bugs and a lesson on reading profiler timelines, and ends with early scaling results for recurrent-style models. The useful takeaway for a self-learner is the gap it exposes: an assignment ends when the tests pass. A serving system begins there.
+The last lecture is a guest talk by Dan Fu. Her one hoped-for takeaway: if you understand inference, the inference engines and the GPU kernels underneath them, you can innovate across the whole stack, algorithms included ([Lecture 18, 6:00](https://www.youtube.com/watch?v=9EEm4iMAF5s&t=360)). She contrasts synthetic benchmarks with real request traces, then follows a request through a serving system. Prefill resembles training, heavy in FLOPs. Decode is heavy in memory bandwidth, because every step loads all the weights, so engines now run the two on separate workers and tune each ([Lecture 18, 20:00](https://www.youtube.com/watch?v=9EEm4iMAF5s&t=1200)). When the KV cache outgrows GPU memory it spills to CPU memory and then to disk, one reason CPU and SSD speed matter ([Lecture 18, 26:00](https://www.youtube.com/watch?v=9EEm4iMAF5s&t=1560)). A rack of 72 fast-linked GPUs raises the questions of how to split a trillion-parameter model across it and what to do when one GPU fails ([Lecture 18, 30:00](https://www.youtube.com/watch?v=9EEm4iMAF5s&t=1800)). The outline also lists a set of production bugs and a lesson on reading profiler timelines, and ends with early scaling results for recurrent-style models. The useful takeaway for a self-learner is the gap it exposes: an assignment ends when the tests pass. A serving system begins there.
 
 ## Pitfalls
 
@@ -200,7 +200,7 @@ You are done when:
 
 - **Course:** Stanford CS336, course page, fetched 2026-11-24: [cs336.stanford.edu](https://cs336.stanford.edu/)
 - **Lecture:** Percy Liang, "Lecture 1: Overview, Tokenization", Stanford CS336 Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=JuoVZkPBiKk), used at [assignments](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=1214), [learning by doing](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=1320)
-- **Lecture:** Dan Fu, "Guest Lecture", Stanford CS336 Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=9EEm4iMAF5s) (outline only)
+- **Lecture:** Dan Fu, "Guest Lecture", Stanford CS336 Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=9EEm4iMAF5s), used at [takeaway](https://www.youtube.com/watch?v=9EEm4iMAF5s&t=360), [prefill and decode](https://www.youtube.com/watch?v=9EEm4iMAF5s&t=1200), [KV cache tiers](https://www.youtube.com/watch?v=9EEm4iMAF5s&t=1560)
 - **Assignments:** Stanford CS336, Spring 2026 handouts and READMEs: [assignment1-basics](https://github.com/stanford-cs336/assignment1-basics), [assignment2-systems](https://github.com/stanford-cs336/assignment2-systems), [assignment3-scaling](https://github.com/stanford-cs336/assignment3-scaling), [assignment4-data](https://github.com/stanford-cs336/assignment4-data), [assignment5-alignment](https://github.com/stanford-cs336/assignment5-alignment)
 
 ## Next

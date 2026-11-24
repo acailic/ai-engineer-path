@@ -24,16 +24,16 @@ The cost problem is attention. With `N` patches, the attention table has `N²` e
 - 224 × 224 image, 16 × 16 patches: 196 tokens, 38,416 entries.
 - 1,024 × 1,024 image, same patches: 4,096 tokens, 16.8 million entries.
 
-An image 4.6 times larger on each side costs 21 times more tokens and 436 times more attention. Han makes the same point when he raises resolution in the lecture ([8:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=480)).
+An image 4.6 times larger on each side costs 21 times more tokens and 436 times more attention. Han makes the same point when he raises resolution in the lecture: tokens grow with the square of the resolution and attention with the square of the token count, so a vision transformer's computation grows with the fourth power, much faster than a convolutional network's ([8:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=480)). His example of the gain is segmentation on a Jetson Orin at FP16 and batch size one: from 1.6 to 21 frames per second at the same accuracy.
 
 | Move | Idea | What you pay |
 |---|---|---|
-| Window attention | each patch attends only inside a local window; cost grows linearly with image size | long-range relations need several layers |
-| Shifted or balanced windows | let neighboring windows exchange information; equal-size groups are hardware-friendly (Han, [16:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=960)) | bookkeeping |
-| Linear attention | change the order of multiplication so the cost is linear in `N` (Han, [18:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=1080)) | an approximation of softmax attention |
-| Sparse windows | prune unimportant windows; his SparseViT keeps the first layer dense and later layers sparser ([28:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=1680)) | a search for which windows |
+| Window attention | each patch attends only inside a local window; cost grows linearly with image size. Han's example uses 7 × 7 windows, so each holds a fixed number of tokens ([10:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=600)) | long-range relations need several layers |
+| Shifted or balanced windows | let neighboring windows exchange information; equal-size groups are hardware-friendly, and on a Jetson Orin they run faster than other transformer models and even than convolutional ones (Han, [16:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=960)) | bookkeeping |
+| Linear attention | change the order of multiplication, as in `(A × B) × C = A × (B × C)`, so the cost is linear in `N` (Han, [18:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=1080)) | on its own, a large accuracy drop: it cannot produce the sharp, local attention of softmax. Han's fix adds a small convolution branch, which costs little, restores the accuracy and gives about 5.8 times the speed with higher accuracy on segmentation on a mobile chip ([20:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=1200)) |
+| Sparse windows | prune unimportant windows; his SparseViT keeps the first layer dense and later layers sparser, because a pruned token cannot recover, and finds the per-layer sparsity by evolutionary search ([28:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=1680)) | a search for which windows |
 
-His EfficientViT results cover segmentation on Cityscapes, super-resolution and Segment Anything, which is where [Chapter 01](01-why-efficiency-matters.md) got its 182 images per second example.
+His EfficientViT results cover segmentation on Cityscapes, super-resolution and Segment Anything, which is where [Chapter 01](01-why-efficiency-matters.md) got its 182 images per second example. He reports latency on an Orin, an edge chip serving one user, and throughput on an A100, a cloud chip serving many ([24:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=1440)).
 
 One more finding is relevant to efficiency. In his lecture on post-training, Han reports for the VILA vision-language model that the original image resolution matters more than the number of tokens (Lecture 14, [54:00](https://www.youtube.com/watch?v=OCdwWfVoQ-Q&t=3240)). More tokens are not automatically better, and they are never cheap.
 
@@ -47,14 +47,14 @@ A **generative model** produces images, video or 3D content instead of a label.
 | Diffusion | a large network runs once per denoising step, dozens of steps per image | fewer steps, fewer tokens, cheaper attention, skip unchanged regions |
 | Autoregressive image models | one network pass per visual token | predict many tokens per step |
 
-A **GAN** has a generator and a discriminator that learn against each other (Han, Lecture 17, [2:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=120)). His GAN Compression result from Lecture 1 cut a CycleGAN model from 56.8 to 3.5 billion MACs and raised its speed from 12.1 to 40 frames per second on a Jetson Xavier GPU. Anycost GANs train one generator that can run at several resolutions, the once-for-all idea from [Chapter 05](05-neural-architecture-search.md).
+A **GAN** has a generator and a discriminator that learn against each other (Han, Lecture 17, [2:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=120)). Only the generator runs at inference, so that is the part to compress (same block). His GAN Compression result cut a CycleGAN model from 56.8 to 3.5 billion MACs and raised its speed from 12.1 to 40 frames per second on a Jetson Xavier GPU (Lecture 17, [8:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=480)). Anycost GANs train one generator that runs at several resolutions and channel widths, the once-for-all idea from [Chapter 05](05-neural-architecture-search.md). Han's finding: one discriminator cannot give useful feedback to every sub-generator, so it is conditioned on the generator's configuration ([16:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=960)).
 
 A **diffusion model** learns to remove noise step by step. Starting from pure noise, it produces an image after many steps. Total cost = steps × cost per step. Han's Lecture 18 covers four ways to reduce it:
 
 1. **Fewer steps.** Deterministic samplers (DDIM) and progressive distillation.
 2. **Fewer tokens per step.** Latent diffusion runs in a compressed space. Han's deep compression autoencoder shrinks an image 64 times instead of the usual 8, so a model diffuses 64 tokens where it used to diffuse about 4,000 ([40:00](https://www.youtube.com/watch?v=LXrqmQrscf0&t=2400)).
 3. **Cheaper attention.** His Sana model uses linear attention in the diffusion transformer.
-4. **Skip work.** When editing part of an image, SIGE recomputes only the edited region. SVDQuant quantizes the model and absorbs outliers in a small low-rank branch: as reported on the slides, 3.5 times faster with 3.6 times less memory.
+4. **Skip work.** When editing part of an image, SIGE recomputes only the edited region: Han's demo changes 3% of the pixels and runs more than 4 times faster at the same quality ([60:00](https://www.youtube.com/watch?v=LXrqmQrscf0&t=3600)). Quantization needs another recipe. Weight-only quantization speeds up a language model, which is bound by memory bandwidth, but a diffusion model is bound by compute, so Han says weights and activations must both go to 4 bits for a measured speed-up (same block).
 
 Worked numbers: 50 steps on 16,384 tokens is 819,200 token-steps per image. 20 steps on 256 tokens is 5,120. That is 160 times less work, before any change to the network itself.
 
@@ -64,7 +64,7 @@ For video, his Temporal Shift Module moves part of the channels from one frame t
 
 ## Distributed training basics
 
-Two reasons to train on several machines: the data is too large for one, or the model does not fit. Han's motivating figure: on a single GPU, the training of GPT-3 would take 355 years (Lecture 19, [2:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=120)). His slide adds the practical reason: a developer's time is worth more than hardware.
+Two reasons to train on several machines: the data is too large for one, or the model does not fit. Han's motivating figure: on a single GPU, the training of GPT-3 would take 355 years (Lecture 19, [2:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=120)). His practical reason is the developer's time: a job of 10 GPU-days on one GPU takes about 40 minutes on 1,024 GPUs.
 
 | Parallelism | What is split | Memory per GPU | Communication |
 |---|---|---|---|
@@ -75,11 +75,11 @@ Two reasons to train on several machines: the data is too large for one, or the 
 
 **Data parallelism** in Han's five steps (Lecture 19, slides 34 to 41): replicate the model to each GPU, split the data, compute gradients, aggregate them, update. The aggregation uses **all-reduce**, an operation in which every GPU ends up with the sum; his slides compare a naive version with a ring ([26:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=1560)).
 
-Data parallelism saves time and no memory. For memory, ZeRO and FSDP shard the optimizer state, the gradients and the weights across GPUs ([38:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=2280)). Worked numbers for the 7-billion-parameter model from [Chapter 09](09-llm-post-training-and-on-device-training.md): 112 GB before activations on one GPU, about 14 GB per GPU on eight.
+Data parallelism saves time and no memory. For memory, ZeRO and FSDP shard the optimizer state, the gradients and the weights across GPUs ([38:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=2280)). On Han's slide, with 64 GPUs, the first stage leaves 4.2 bytes per parameter and fits 19 billion parameters on one 80 GB GPU; the last, which also shards the weights, fits about 320 billion ([36:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=2160)). Worked numbers for the 7-billion-parameter model from [Chapter 09](09-llm-post-training-and-on-device-training.md): 112 GB before activations on one GPU, about 14 GB per GPU on eight.
 
-Large runs combine the methods into 3D parallelism: data, pipeline and tensor (Lecture 20, [8:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=480)). Alpa searches the partitioning automatically ([12:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=720)).
+Large runs combine the methods into 3D parallelism: tensor parallelism stays inside one server because it is the most communication-heavy, pipeline parallelism splits the layers, and sharded data parallelism runs across servers (Lecture 20, [8:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=480)). Alpa searches the partitioning automatically, first between operators, then within them ([12:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=720)).
 
-Communication is the remaining bottleneck. To send fewer bytes: send only the largest gradients, with a correction for momentum; send a low-rank approximation; or quantize gradients to one bit. Latency is harder: Han's slide title reads "Bandwidth is Easy to Improve, Latency is Hard" (Lecture 20, slides 62 to 64).
+Communication is the remaining bottleneck: computation is cheap, data movement is expensive, and synchronous training exchanges gradients after every iteration (Lecture 20, [12:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=720)). To send fewer bytes, prune small gradients and keep them locally until they grow past a threshold. An early version lost 1% accuracy on ResNet; Han traces that to momentum, so his deep gradient compression accumulates momentum rather than raw gradients ([20:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=1200)). Latency is harder: his slides are titled "High Network Latency Slows Distributed Training" and show delayed gradient averaging as the remedy (Lecture 20, slides 19 to 22).
 
 The details are in [parallelism](../10-llm-internals/06-parallelism.md).
 

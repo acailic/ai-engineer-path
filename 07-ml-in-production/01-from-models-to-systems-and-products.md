@@ -76,7 +76,7 @@ Consequences also come back as **feedback loops**: the system's predictions chan
 
 ## How it works, step by step
 
-The book argues for a system view. The procedure below turns that argument into something you can do in an afternoon for one feature.
+The procedure below turns the book's argument into an afternoon's work for one feature.
 
 1. **Write the system goal in product terms.** Not "classify tickets with 90 percent accuracy" but "route tickets to the right team on first attempt, without anyone waiting more than a day". The second sentence tells you what to measure and what "good enough" means.
 2. **List every component and mark it ML or non-ML.** Include the boring ones: upload, queue, storage, the page that shows the result, the log.
@@ -94,7 +94,7 @@ For each automated decision, pick one of three patterns:
 | Automated, with an appeal path | Acts, then lets a person reverse it | Fraud detection on an auction site: take the listing down, let the seller appeal |
 | Human confirms | Proposes, and waits for a person | Audit-risk estimate in tax software: show it, ask the user what to do |
 
-Kästner's warning is that people are poor monitors of a system that is right most of the time. A human who clicks "approve" on two hundred correct suggestions will approve the wrong one too. Human review is a design decision, not a safety guarantee.
+Kästner's warning is that humans are generally poor at monitoring systems and may have no chance of checking a prediction even if they try. A human who clicks "approve" on two hundred correct suggestions will approve the wrong one too. Human review is a design decision, not a safety guarantee.
 
 ### Know your role
 
@@ -203,11 +203,11 @@ Christian Kästner wrote *Machine Learning in Production* to argue that ML produ
 
 He is careful to add that none of these is wholly new. Formal specifications were always rare. Software without ML has hurt people. Data pipelines and cloud operation predate ML.
 
-**ML projects drift toward the risky end.** His stated conjecture is that teams use ML for ambitious ideas, often without planning for wrong or biased predictions. So teams get away with sloppy engineering less often and should invest more in requirements, risk analysis and testing. He presents this as an opinion in an open debate.
+**ML projects drift toward the risky end.** His stated conjecture is that teams use ML for ambitious ideas, often without planning for wrong or biased predictions. So teams get away with sloppy engineering less often and should invest more in requirements, risk analysis and testing. He labels it a conjecture, not a finding. The open debate he mentions is a different question: whether ML needs entirely new engineering practices, tailored old ones, or only more discipline.
 
 **Most projects do not reach production.** The book opens with two figures from consultants: 87 percent of ML projects fail (a 2019 VentureBeat report) and 53 percent never make it from prototype to production (a Gartner press release from 2020). Neither source defines "fail" in the book, so read them as a warning about scale, not as a measurement.
 
-**The ideas outlast the tools.** Writing as LLMs arrived, Kästner argues that each wave, from deep learning to foundation models, adds tools without replacing the old ones. He lists five durable ideas: knowing the customer's tolerance for mistakes, designing safe systems from unreliable components, trading off accuracy against cost, latency and time to release, planning a responsible test strategy, and building systems that update quickly and are monitored. The rest of this part follows them.
+**The ideas outlast the tools.** Writing as LLMs arrived, Kästner argues that each wave, from deep learning to foundation models, adds tools without replacing the old ones. He lists five durable ideas: knowing the customer's tolerance for mistakes, designing safe systems from unreliable components, trading off accuracy against cost, latency and time to release, planning a responsible test strategy, and building systems that update quickly and are monitored.
 
 ## Pitfalls
 

@@ -8,13 +8,13 @@
 
 A leaderboard says model A scores higher than model B. You must pick one for a customer-support bot, and you have a week. Is the score about knowledge, about writing style, about solving problems with tools? Was the test set public when the models were trained? Did anyone ask questions like your customers ask?
 
-CS336's evaluation lecture starts from a plain claim: evaluation looks mechanical. Write prompts, get responses, compute accuracy. It is not mechanical, because "good" is an abstract idea and a benchmark is one concrete stand-in for it.
+CS336's evaluation lecture starts from a plain claim: evaluation looks mechanical. Write prompts, get responses, compute accuracy. It is not mechanical, because "good" is an abstract idea and a benchmark is one concrete stand-in for it ([0:00](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=0)).
 
 ## The core idea
 
 Evaluation turns an abstract construct, such as "good at conversation", into a concrete metric. Every step of that translation is a choice, and each choice fits some questions and misleads others.
 
-The lecture's first takeaway is that there is no single true evaluation. It depends on what you want to know:
+The lecture's first takeaway is that there is no single true evaluation. It depends on what you want to know ([76:00](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=4560)):
 
 | Why you evaluate | What you need |
 |---|---|
@@ -52,7 +52,7 @@ Multiple-choice exams give control over subject and difficulty and are easy to g
 | GPQA | Questions written by 61 PhD-level contractors | PhD experts 65%, non-experts with web access 34%, GPT-4 39% |
 | Humanity's Last Exam | 2,500 questions, several formats, filtered by frontier models | $500K in prizes for question authors |
 
-The trend is toward harder questions as models saturate the old ones.
+The trend is toward harder questions as models saturate the old ones, and the treadmill shows in the numbers. For MMLU-Pro, noisy and trivial questions were removed and four options became ten, with chain of thought expected. Accuracy fell to 33% and has since climbed back to nearly 90%, which in the lecturer's view makes this benchmark a little too easy as well ([22:00](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=1320)). GPQA's test of a good question: if you can solve it by searching the web, it is too easy, because the model was trained on the web. Its questions came from 61 PhD-level contractors and went through expert validation ([24:00](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=1440)).
 
 ### Open-ended chat
 
@@ -61,7 +61,7 @@ Nobody asks an assistant multiple-choice questions. For free-form answers there 
 - **Human preference.** Chatbot Arena shows each visitor two anonymous responses to their own prompt and records which one wins. Ratings are combined into an **Elo** score, the rating method from chess: `p(A beats B) = 1 / (1 + 10^((Elo_B − Elo_A) / 400))`.
 - **Model as judge.** AlpacaEval scores a model's win rate against a reference model, with a strong LLM as the judge. WildBench takes prompts from real conversations and gives the judge a checklist to work through.
 
-Both have known biases. Voters are whoever showed up. A binary preference mixes style with correctness. Judges favor longer answers, which led to gaming on AlpacaEval until version 2.0 corrected for length.
+Both have known biases. Voters are whoever showed up: the lecturer calls Arena a wild west, with possible spammers and self-interested teams. A binary preference mixes style with correctness, which makes Elo cleaner for chess, where only winning matters, than for answers. Voters ask a question because they do not know the answer, and sycophancy rewards pleasing answers over honest ones. The strength of Elo is that not every model has to answer the same prompts. A sparse sample suffices as long as the comparisons form a connected graph ([36:00](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=2160)). Judges favor longer answers, which led to gaming on AlpacaEval until version 2.0 corrected for length.
 
 ### Agents
 
@@ -69,7 +69,7 @@ An **agent** is a model plus a **scaffold**, the code that decides when the mode
 
 ### Reasoning, safety and real work
 
-- **Reasoning** apart from knowledge: ARC-AGI, whose puzzles are solvable by people, unique enough that memorization does not help. Pretrained models "didn't move the needle" on it; reasoning models did.
+- **Reasoning** apart from knowledge: ARC-AGI, whose puzzles are solvable by people, unique enough that memorization does not help. Pretrained models made no progress on it at all, as its creators intended; reasoning models did ([56:00](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=3360)).
 - **Safety**: HarmBench (510 harmful behaviors) and AIR-Bench (314 risk categories, 5,694 prompts). Safety is contextual, and tools such as capable cybersecurity agents are dual-use.
 - **Real work**: GDPVal (44 occupations), MedHELM (121 clinical tasks), and Clio, which analyzes real usage. The lecture notes that realism and privacy are often at odds.
 
@@ -77,10 +77,10 @@ An **agent** is a model plus a **scaffold**, the code that decides when the mode
 
 **Contamination** is the quiet failure. Four routes from the lecture:
 
-1. Infer the overlap from the model's own behavior.
-2. Expect providers to report overlap, as they report confidence intervals.
-3. Use fresh evaluations built from newly scraped material (LiveCodeBench, UncheatableEval).
-4. Use private evaluations: internal code, or your own writing.
+1. Infer the overlap from the model's own behavior. A model that consistently prefers one option order, in line with the benchmark, probably trained on it.
+2. Expect providers to report overlap, as they report confidence intervals. The lecturer argues for a norm: a claimed GPQA score should come with justification that the test set was not trained on ([70:00](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=4200)).
+3. Use fresh evaluations built from newly scraped material (LiveCodeBench, UncheatableEval), past the models' cutoff. His caveat: timestamps are not always safe, since new code can be derived from an old repository ([70:00](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=4200)).
+4. Use private evaluations: internal code, or your own writing. His example is a folder of rejected papers never put online. He adds that private data suits perplexity evaluation well, because it needs only a good dataset and log probabilities ([72:00](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=4320)).
 
 Dataset quality is the other half. SWE-bench was repaired into SWE-bench Verified; other benchmarks have "Platinum" versions. Agentic benchmarks fail in their own ways: too few test cases, or tasks a trivial agent can solve.
 
@@ -117,9 +117,9 @@ What to observe:
 
 The lecturer's framing is that evaluation shapes the field, because it sets the goals everyone then optimizes: "Evaluation sets North Stars" ([0:00](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=0)).
 
-On perplexity, the lecture labels the faith in it "more faith than science" ([10:00](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=600)). The argument is that the best achievable perplexity belongs to the true distribution of text, and a model that reached it could solve any task. The lecturer credits that belief with sustaining scaling work before the payoff was obvious, before GPT-3, while also noting that perplexity scores more than you need.
+On perplexity, a slide in the lecture sums up the faith in it as more faith than science, and the lecturer presents the argument as a strong driver of scaling work rather than as settled ([10:00](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=600)). The argument is that the best achievable perplexity belongs to the true distribution of text, and a model that reached it could solve any task. The lecturer credits that belief with sustaining scaling work before the payoff was obvious, before GPT-3, while also noting that perplexity scores more than you need.
 
-On exams, the stated problem is that they do not capture real usage ([30:00](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=1800)). On human and model judges, the lesson is that pairwise comparisons between similar answers carry more signal than absolute scores, and that a checklist improves reliability for either kind of judge.
+On exams, the stated problem is that they do not capture real usage ([30:00](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=1800)). On human and model judges, the lesson is that pairwise comparisons between similar answers carry more signal than absolute scores, and that a checklist improves reliability for either kind of judge ([44:00](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=2640)).
 
 The closing advice has two parts. First, "there's no one true evaluation, choose what you're trying to measure" ([76:00](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=4560)). Second, a warning about trade-offs: "It's hard to have really real and difficult and ecologically valid and no training test contamination" ([78:00](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=4680)). Something has to give, and the question you are asking decides what.
 
@@ -197,7 +197,8 @@ You are done when:
 
 ## Sources
 
-- **Lecture:** Stanford CS336, "Lecture 12: Evaluation", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=JpAxdTWQJxM), used at [goals](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=0), [perplexity](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=600), [exams](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=1800), [closing](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=4560)- **Reading:** Percy Liang et al., "Holistic Evaluation of Language Models" (2022): [arXiv](https://arxiv.org/abs/2211.09110)
+- **Lecture:** Stanford CS336, "Lecture 12: Evaluation", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=JpAxdTWQJxM), used at [goals](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=0), [perplexity](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=600), [exams](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=1800), [closing](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=4560)
+- **Reading:** Percy Liang et al., "Holistic Evaluation of Language Models" (2022): [arXiv](https://arxiv.org/abs/2211.09110)
 - **Reading:** Lianmin Zheng et al., "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena" (2023): [arXiv](https://arxiv.org/abs/2306.05685)
 - **Reading:** David Rein et al., "GPQA: A Graduate-Level Google-Proof Q&A Benchmark" (2023): [arXiv](https://arxiv.org/abs/2311.12022)
 - **Reading:** Carlos Jimenez et al., "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?" (2023): [arXiv](https://arxiv.org/abs/2310.06770)

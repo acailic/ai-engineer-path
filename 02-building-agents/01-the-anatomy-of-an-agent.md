@@ -79,6 +79,7 @@ No framework and no network: the model is a deterministic stub."""
 import json
 from dataclasses import dataclass
 
+
 # ---------- 1. Tools: a function plus the text the model sees ----------
 @dataclass(frozen=True)
 class Tool:
@@ -97,11 +98,14 @@ class Tool:
         except Exception as exc:                 # tool errors go back to the model
             return "Error: %s: %s" % (type(exc).__name__, exc)
 
+
 def add(a: float, b: float) -> float:
     return a + b
 
+
 def divide(a: float, b: float) -> float:
     return a / b
+
 
 TOOLS = [
     Tool("add", "Add two numbers.",
@@ -109,6 +113,7 @@ TOOLS = [
     Tool("divide", "Divide a by b.",
          {"type": "object", "required": ["a", "b"]}, divide),
 ]
+
 
 # ---------- 2. The model: the loop sees only this interface ----------
 class Model:
@@ -120,6 +125,7 @@ class Model:
     def step(self, messages: list, tools: list) -> dict:
         raise NotImplementedError
 
+
 class ScriptedModel(Model):
     """Deterministic stand-in for an LLM: replays a fixed list of decisions."""
 
@@ -130,6 +136,7 @@ class ScriptedModel(Model):
         decision = self.script[min(self.i, len(self.script) - 1)]
         self.i += 1
         return decision
+
 
 # ---------- 3. The agent loop ----------
 def run_agent(model: Model, tools: list, task: str,
@@ -155,6 +162,7 @@ def run_agent(model: Model, tools: list, task: str,
         log("loop  -> %s" % result)
         messages.append({"role": "tool", "content": result})      # 6. show it to the model
     return "Stopped: step limit reached before a final answer."
+
 
 if __name__ == "__main__":
     script = [
@@ -192,7 +200,7 @@ class HttpModel(Model):
 A real adapter calls a paid API. Each step sends the whole history, so a 10-step run whose context grows to about 3,000 tokens costs roughly 15,000 input tokens plus a few hundred output tokens: a fraction of a cent to a few cents on small hosted models. Check the current price page.
 ## What the practitioners say
 
-Graham Neubig teaches coding agents at CMU and maintains the open-source coding agent OpenHands. In his Fall 2024 lecture he puts the environment first: "one of the things that defines agents is how they can interact with the environment" ([10:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=600)). His list of the problems in a coding agent reads like a table of contents for building any agent ([10:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=600)):
+Graham Neubig teaches coding agents at CMU and maintains the open-source coding agent OpenHands. In his Fall 2024 lecture he puts the environment first: "one of the things that defines agents is how they can interact with the environment" ([10:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=600)). His list of the problems in a coding agent reads like a table of contents for building any agent ([8:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=480), [10:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=600)):
 
 | His problem | In this part |
 |---|---|
@@ -205,9 +213,9 @@ Graham Neubig teaches coding agents at CMU and maintains the open-source coding 
 
 Three more of his points apply here.
 
-- **Automation comes in levels.** He borrows the self-driving scale and separates *development copilots*, which work synchronously with a developer, from *development agents*, which take a whole task ([3:46](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=226)). A copilot is one model call per action, with a human as the loop.
+- **Automation comes in levels.** He borrows the self-driving scale and separates *development copilots*, which work synchronously with a developer, from *development agents*, which take a whole task ([4:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=240)). A copilot is one model call per action, with a human as the loop.
 - **A fixed process often wins.** He describes Agentless, a system with three hard-coded steps that generates several patches, checks them, and keeps the best. It is cheap and scores well, he says, but it is inflexible: it cannot decide to read documentation online ([46:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2760)). That is the workflow-versus-agent trade from the table above.
-- **The environment is bigger than a shell.** Real development also touches issue trackers, documents and chat tools, while most test environments cover only code ([10:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=600)).
+- **The environment is bigger than a shell.** Real development also touches issue trackers, documents and chat tools, and his slides add that testing environments are mostly focused on coding ([10:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=600)).
 
 Yangqing Jia, who founded an AI infrastructure company that NVIDIA later acquired, adds the application-side view. In his Fall 2025 lecture he describes Duolingo using models to produce course content faster: the product improved because better models were combined with the company's own language-teaching knowledge, not because of the model alone ([32:00](https://www.youtube.com/watch?v=xqRAS6rAouo&t=1920)). The lesson for an agent builder: the model is one part. The tools, the environment and the data you connect are where your system differs from everyone else's.
 
@@ -265,7 +273,7 @@ Turn the stub into a real agent over a folder of notes.
 
 ## Sources
 
-- **Lecture:** Graham Neubig, "Agents for Software Development", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=f9L9Fkq-8K4), used at [what defines agents](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=600), [copilots versus agents](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=226), [hard-coded processes](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2760)
+- **Lecture:** Graham Neubig, "Agents for Software Development", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=f9L9Fkq-8K4), used at [what defines agents](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=600), [copilots versus agents](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=240), [hard-coded processes](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2760)
 - **Lecture:** Yangqing Jia, "Evolution of System Designs from an AI Engineer Perspective", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=xqRAS6rAouo), used at [models and applications reinforce each other](https://www.youtube.com/watch?v=xqRAS6rAouo&t=1920)
 - **Reading:** Anthropic, "Building effective agents" (2024): [link](https://www.anthropic.com/engineering/building-effective-agents)
 ## Next

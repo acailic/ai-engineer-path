@@ -1,6 +1,6 @@
 # 11. Teams and Technical Debt
 
-**Level:** Practitioner · **Reading time:** 16 min · **Exercise:** 60 min
+**Level:** Practitioner · **Reading time:** 25 min · **Exercise:** 60 min
 **Prerequisites:** [Process Models: Planning and Iteration](10-process-models-planning-and-iteration.md)
 
 > **In one sentence:** After this chapter you can map who owns what across a model-based feature, and you can keep a register of technical debt that says what each shortcut costs and who repays it.
@@ -15,17 +15,15 @@ Two things produced this. The team was split into groups that each did their own
 
 ### Teams
 
-No single person is expert in modeling, software engineering, product, and the domain. A team needs all four, so it needs several people who can talk to each other. A useful shape is the **T-shaped** person: deep in one specialty and able to follow the others. Kästner uses the term in chapter 26 as the standard a reader should aim for on any one of these subjects.
+No single person is expert in modeling, software engineering, product, and the domain. Job discussions sometimes ask for a **unicorn**, a developer who combines all of these. Kästner's judgment is that such people are rare or may not exist, are hard and expensive to hire, and would not be enough anyway: every product beyond toy size needs a division of labor (chapter 21). So a team needs several people who can talk to each other. A useful shape is the **T-shaped** person: deep in one specialty and able to follow the others. A data scientist need not be a privacy lawyer, but should grasp the principles well enough to understand the lawyer's concern (chapter 21). Kästner uses the term again in chapter 26 as the standard a reader should aim for on any one of these subjects.
 
-Kästner observes in chapter 20 that ML products are built by interdisciplinary teams whose habits differ, and that conflicts follow when members do not understand each other's process. The conflicts are structural. They do not come from difficult people, and they do not go away with goodwill alone.
+Conflicts are normal in such teams. They arise inside a team when goals clash or members do not understand each other, and between teams when responsibilities are unclear or teams are siloed by role (chapter 21). In one organization Kästner describes, four data scientists build a model that the customer's engineers, with little ML experience, must integrate. In another, a single data scientist sits in a team of eight, feels isolated, and has little idea how the model fits the larger system (chapter 21). The conflicts are structural. They do not come from difficult people, and they do not go away with goodwill alone.
 
 ### Technical debt
 
-**Technical debt** is the future cost of a shortcut taken today. The metaphor is Ward Cunningham's, from 1992. A quick fix is a loan. Each later change that works around it pays interest.
+**Technical debt** is the future cost of a shortcut taken today. The metaphor is Ward Cunningham's, from 1992. A quick fix is a loan. Each later change that works around it pays interest. Kästner values the metaphor for its plainness: it lets a developer explain to a manager why time for infrastructure and maintenance is worth spending now (chapter 22).
 
-The analogy breaks on visibility. A loan comes with a statement that shows the balance and the rate. Debt in a system shows up only when someone touches the shortcut, and often nobody can say what it costs.
-
-The book's outline for chapter 22 has a section on debt that is **deliberate and prudent**. A prudent shortcut is chosen, recorded, and has a repayment plan. That is the difference between borrowing and losing track.
+He follows Martin Fowler's quadrant, which sorts debt along two dimensions (chapter 22). **Deliberate** debt is a known trade. His example is a team that ships an obstacle-detection model for sidewalk delivery robots by copying data by hand and running a notebook, instead of building an automated pipeline first. **Inadvertent** debt comes from not knowing better, and shows only when hours go to copying files. Debt is **prudent** when the shortcut serves a real gain, as when a company deploys many robots early to reach a market first and pays for human oversight of weak navigation models. It is **reckless** when it risks the project, as when safety testing of the same perception models is skipped to save time. Borrowing well is deliberate and prudent. Losing track is inadvertent and reckless.
 
 | Debt common in an LLM feature | How you notice it | Repayment |
 |---|---|---|
@@ -40,19 +38,35 @@ The book's outline for chapter 22 has a section on debt that is **deliberate and
 ### Structure the team
 
 1. **List the roles the feature needs.** Model, software, data, product, domain, operations. Name the gaps instead of looking for one person who covers all of them.
-2. **Write down the interfaces.** For each boundary, record what one side provides and what the other may assume. Kästner calls for documenting expectations and assurances at the interfaces between teams, and treats it as a recurring theme of the book (chapter 26).
-3. **Agree on vocabulary.** He avoids the word "performance" because data scientists read it as prediction accuracy and software engineers as speed (chapter 15). One term for one thing prevents many false arguments.
-4. **Review across specialties.** Review spreads knowledge: a data scientist learns another's techniques and catches a bad transformation (chapter 17).
-5. **Bring in outside eyes.** Kästner sees value in dedicated testers for an independent view late in a project (chapter 14), and in security experts for design and testing (chapter 28).
-6. **Review without blame.** He recommends retrospectives and avoiding blame as part of building a quality culture (chapter 14). A team that punishes bad news stops hearing it.
+2. **Draw team boundaries where the component boundaries are.** People working on one component must coordinate daily, so they should sit in one team. Kästner cites this as **Conway's law**, and counts the cost of ignoring it: communication links grow with n(n−1)/2, so seven people have 21 links until they split into teams that talk through representatives (chapter 21).
+3. **Write down the interfaces, and expect them to move.** The classic way to limit communication is information hiding: an interface stands for a component, and others need nothing more. Kästner warns that ML projects strain it. Data science is exploratory, so interfaces change. No good formalism describes what a model can do and where it fails. And qualities such as safety, usability, fairness, and operational efficiency emerge from the interaction of components, so each team assumes another one owns them. For fairness he asks teams to negotiate and to document expectations and assurances at the interface (chapter 26).
+4. **Add awareness where interfaces cannot be stable.** The opposite strategy is to broadcast: cross-team meetings, mailing lists, a chat channel, an issue tracker people subscribe to. Informal contacts depend on personal relationships and break when people leave, so write down whom to contact for which issue (chapter 21).
+5. **Make goals visible and negotiate them.** Operators want small, fast models. Designers want reliable confidence scores and explanations. Lawyers and data scientists may disagree about which data may be analyzed at all. Kästner asks each member to state what they aim for and how they measure success, and treats the resulting conflict as useful input to a goal for the whole project (chapter 21).
+6. **Guard against groupthink.** A team can minimize conflict by not exploring alternatives, suppressing dissent, and shutting out outside views. He sees this with hyped technology, such as reaching for a well-known commercial LLM without considering other techniques, and with risks such as safety and fairness that nobody raises before a deadline. The remedies he lists: hire for diversity, involve outside experts, ask every member for an opinion, let high-status members speak last, moderate meetings, and always explore a second solution (chapter 21).
+7. **Decide where specialists sit.** In a **matrix organization** experts belong to departments that lend them to projects, which spreads knowledge across projects and builds deep expertise. In a **project organization** they belong to one team, which gives focus but invites duplicate work. A common hybrid keeps rare experts, in privacy law or security, in a department that every team consults (chapter 21).
+8. **Agree on vocabulary, and review across specialties.** DevOps did this for developers and operators, who used to blame each other for unstable code and slow releases, with shared goals, shared terms, and shared tools. MLOps extends it to data scientists and operators (chapter 21). One term for one thing prevents many false arguments: Kästner avoids the word "performance" because data scientists read it as prediction accuracy and software engineers as speed (chapter 15). Review spreads knowledge: a data scientist learns another's techniques and catches a bad transformation (chapter 17).
+9. **Bring in outside eyes.** Kästner sees value in dedicated testing teams for an independent perspective in later stages, focused on system testing, security audits, penetration testing, and fairness audits (chapter 14).
+10. **Review without blame.** He recommends retrospectives and avoiding blame as part of building a quality culture (chapter 14). A team that punishes bad news stops hearing it.
 
 ### Manage the debt
 
-1. **Walk the system and list what you would rather not touch.** Each item is a candidate.
-2. **Record each one with its interest and its owner.** The interest is how it slows work today.
+Kästner's list of where ML projects incur debt is a good place to look for candidates (chapter 22):
+
+- **Using ML where a rule would do.** The problem looked quick to solve with ML and carries maintenance costs nobody priced.
+- **Data debt.** Nobody checks or monitors the data the model depends on.
+- **Infrastructure debt.** Models are moved from a notebook to production by hand, so updates are rare and robots end up on mismatched versions.
+- **Versioning debt.** Results cannot be reproduced, and a regression cannot be traced to a change in data or code.
+- **Observability debt.** There is no monitoring, so each production problem is investigated by guesswork.
+- **Code quality debt, architectural debt, and test debt.** Dead experiments, glued scripts, and models stacked on models with no integration tests. The team can only guess which of five recently updated models sends robots into bike lanes.
+- **Requirements debt.** A skipped analysis lets a feedback loop loose, as when a robot optimized for speed makes pedestrians dodge, which rewards even more speed.
+
+Then repay in this order:
+
+1. **Record each debt with its cost and its owner.** Kästner asks for more than an issue: a named person responsible, the extra maintenance cost watched, and a goal for whether and when to pay it back. Some teams set aside fix-it days (chapter 22).
+2. **Fix design debt first.** Debt in requirements and design is much harder to repay than debt in code quality or missing automation. A robot built without redundant sensors cannot be patched. Monitoring can be added later (chapter 22).
 3. **Add tests before you change it.** Refactoring untested pipeline code trades one debt for a bug (chapter 17).
 4. **Repay in small steps, next to related work.** Fix the prompt duplication when you next edit a prompt.
-5. **Measure what is covered.** The ML Test Score paper, listed in chapter 17, scores a team by how many of 28 testable concerns it covers.
+5. **Measure what is covered.** The ML Test Score, described in chapter 17 of the book, scores a team by how many of 28 testable concerns it covers.
 6. **Take debt on purpose or not at all.** Under deadline, a recorded shortcut with a date is a decision. An unrecorded one is a surprise for someone else.
 
 ## What the practitioners say
@@ -60,9 +74,9 @@ The book's outline for chapter 22 has a section on debt that is **deliberate and
 - **The people who make the data are strangers.** The people who gather, type in and label data often sit apart from the people who use it, and few teams count them as members (chapter 16).
 - **Documentation is coordination.** Data usually crosses team boundaries, so documenting its meaning and quality matters and is often neglected (chapter 16).
 - **Culture needs management.** A quality culture takes time and money and buy-in from managers and the whole team, not rules imposed from above (chapter 14).
-- **Specialists without power accomplish little.** In fairness work, Kästner finds that most teams do nothing concrete, that individuals push what gets done without institutional support, and that central teams for responsible ML are often research-focused with little influence on product teams (chapter 26).
-- **Security shows the same pattern.** Managers must plan time for it, contributions must be valued, and steps must not be skipped under deadline pressure (chapter 28).
-- **Debt grows silently.** Chapter 15 notes that frequent evaluation wears out a test set, and chapter 19 that a fast rollback depends on rigorous versioning. Both are habits that decay unless someone owns them.
+- **Specialists without power accomplish little.** In fairness work, Kästner finds that what gets done is pushed by individuals acting as internal activists, almost always without institutional support, and that central teams for responsible ML are often research-focused and rarely have the power to influence product teams (chapter 26).
+- **Rare specialists are an old problem.** He compares fairness, privacy, usability, and operations experts in ML teams with security experts twenty years earlier: all want to be involved early, no team can afford each of them full time, and training is often seen as a distraction or a compliance exercise (chapter 21).
+- **Debt grows silently.** Chapter 15 notes that frequent evaluation wears out a test set. Chapter 22 names versioning debt: results that cannot be reproduced and a regression that cannot be traced to a change in data or code. Both are habits that decay unless someone owns them.
 
 ## Pitfalls
 
@@ -109,8 +123,8 @@ You are done when no cell in the map says "nobody", and when every entry in the 
 
 ## Sources
 
-- **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 21 (section outline consulted): [link](https://mlip-cmu.github.io/book/21-interdisciplinary-teams.html)
-- **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 22 (section outline consulted): [link](https://mlip-cmu.github.io/book/22-technical-debt.html)
+- **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 21: [link](https://mlip-cmu.github.io/book/21-interdisciplinary-teams.html)
+- **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 22: [link](https://mlip-cmu.github.io/book/22-technical-debt.html)
 - **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapters 14 to 20, 26 and 28, for the points cited above: [chapter 14](https://mlip-cmu.github.io/book/14-quality-assurance-basics.html), [chapter 26](https://mlip-cmu.github.io/book/26-fairness.html)
 - **Reading:** Ward Cunningham, "The WyCash Portfolio Management System" (1992), the origin of the debt metaphor: [link](https://c2.com/doc/oopsla92.html)
 

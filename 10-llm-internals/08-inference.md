@@ -15,7 +15,7 @@ So the questions are practical. How fast can one user's reply arrive? How many u
 
 ## The core idea
 
-The model produces a probability for every token in its vocabulary as the next token. Generation repeats that: pick a token, append it, ask again. That loop is why output varies. **Greedy decoding** always takes the most likely token and is deterministic. **Sampling** draws from the distribution, and settings like **temperature** (flattening or sharpening it) and **top-p** (keeping only the most likely tokens that together reach probability p) control how random the draw is.
+The model produces a probability for every token in its vocabulary as the next token. Generation repeats that: pick a token, append it, ask again. How the token is picked is background that Lecture 10 does not cover, but the vocabulary is needed later in this part. **Greedy decoding** always takes the most likely token and is deterministic. **Sampling** draws from the distribution, and settings like **temperature** (flattening or sharpening it) and **top-p** (keeping only the most likely tokens that together reach probability p) control how random the draw is.
 
 The loop has two stages with opposite bottlenecks:
 
@@ -46,29 +46,29 @@ With B requests in a batch, the weights are read once and used B times. Intensit
 | Small | Better | Worse: weights are re-read for few requests |
 | Large | Worse: larger KV cache to read | Better, until memory fills |
 
-**Latency** is seconds per token for one request. **Throughput** is tokens per second across all requests. **Time to first token** is mostly the prefill time of the prompt.
+**Latency** is seconds per token for one request. **Throughput** is tokens per second across all requests. **Time to first token** is mostly the prefill time of the prompt. Liang's reading of the three: time to first token and latency matter for interactive use, throughput for batch jobs, where it does not matter whether one query finishes sooner ([4:00](https://www.youtube.com/watch?v=EfM546A79aM&t=240), [6:00](https://www.youtube.com/watch?v=EfM546A79aM&t=360)). His formulas for the table: latency is linear in B, because the KV cache grows with it, and throughput is B divided by that, which rises and then flattens ([40:00](https://www.youtube.com/watch?v=EfM546A79aM&t=2400)).
 
 ### 3. Shrink the KV cache
 
 | Technique | Idea | Lecture's figure or finding |
 |---|---|---|
-| Grouped-query attention (GQA) | Several query heads share one key-value head | Cache shrinks by the ratio of query to key-value heads |
-| Multi-query attention (MQA) | All heads share one key-value head | "which no one uses because it's really bad" |
-| Multi-head latent attention (MLA) | Cache one compressed vector per token, expand when needed | DeepSeek v2: 16,384 dimensions down to 512, plus 64 for position |
-| Cross-layer attention | Adjacent layers share keys and values | Better accuracy for a given cache size |
-| Sliding-window layers | Attend only to nearby tokens | Cache size independent of length; interleave with global layers |
-| Sparse selection | A cheap indexer picks which tokens to read | Used in DeepSeek v4 for 1M-token context |
+| Grouped-query attention (GQA) | Several query heads share one key-value head | Cache shrinks by the ratio of query to key-value heads. In his example a 1-to-5 ratio lets a batch of 256 fit where it ran out of memory, at some cost in latency ([48:00](https://www.youtube.com/watch?v=EfM546A79aM&t=2880), [50:00](https://www.youtube.com/watch?v=EfM546A79aM&t=3000)) |
+| Multi-query attention (MQA) | All heads share one key-value head | "which no one uses because it's really bad" ([46:00](https://www.youtube.com/watch?v=EfM546A79aM&t=2760)) |
+| Multi-head latent attention (MLA) | Cache one compressed vector per token, expand when needed | DeepSeek v2: 16,384 dimensions down to 512 ([52:00](https://www.youtube.com/watch?v=EfM546A79aM&t=3120)), plus 64 for position |
+| Cross-layer attention | Adjacent layers share keys and values | Better accuracy for a given cache size ([54:00](https://www.youtube.com/watch?v=EfM546A79aM&t=3240), [56:00](https://www.youtube.com/watch?v=EfM546A79aM&t=3360)) |
+| Sliding-window layers | Attend only to nearby tokens | Cache size independent of length; can be mixed with a global layer or spaced out ([58:00](https://www.youtube.com/watch?v=EfM546A79aM&t=3480)) |
+| Sparse selection | A cheap indexer picks which tokens to read | Also used in place of sliding-window attention ([58:00](https://www.youtube.com/watch?v=EfM546A79aM&t=3480), [60:00](https://www.youtube.com/watch?v=EfM546A79aM&t=3600)) |
 
 ### 4. Use smaller numbers
 
 **Quantization** stores weights in fewer bits. bf16 at 2 bytes per value is the default for inference. fp8 and int8 take 1 byte, int4 half a byte. Two routes exist:
 
 - **Quantization-aware training**: simulate quantization during training. Better accuracy, expensive.
-- **Post-training quantization**: quantize a trained model using a small sample of data to set scales. Cheap. GPTQ adjusts remaining weights to compensate. AWQ keeps the 0.1% to 1% of weights that matter most in high precision, and reports 4× less memory and a 3.2× speedup from fp16 to int3.
+- **Post-training quantization**: quantize a trained model using a small sample of data to set scales. Cheap. GPTQ quantizes layer by layer and keeps track of the error, carrying it into the weights not yet quantized. AWQ keeps the 0.1% to 1% of weights that matter most in high precision: those that interact with large activation channels. It reports 4× less memory and a 3.2× speedup from fp16 to int3 ([66:00](https://www.youtube.com/watch?v=EfM546A79aM&t=3960)).
 
 ### 5. Use a smaller model
 
-Pruning removes unimportant layers, heads or dimensions, then distillation trains the smaller model to imitate the original.
+Pruning removes unimportant layers, heads or dimensions, then distillation trains the smaller model to imitate the original. Liang's description: rip pieces out of a large model and fix it up. Crude, he says, but it works; an NVIDIA paper assembles the smaller model and repairs it with distillation ([66:00](https://www.youtube.com/watch?v=EfM546A79aM&t=3960), [68:00](https://www.youtube.com/watch?v=EfM546A79aM&t=4080)).
 
 ### 6. Check instead of generate: speculative sampling
 
@@ -78,19 +78,19 @@ Generation is slow because it is memory-bound. Checking is fast, because prefill
 2. The large **target model** scores all of them in one parallel pass.
 3. Tokens are accepted where the draft's choice agrees with the target's distribution. At least one new token is always produced.
 
-The output is an exact sample from the target model, as if the target had generated it alone. The lecture's example sizes: a 70B target with an 8B draft, or an 8B target with a 1B draft. Speedup depends on how often the draft is right.
+The output is an exact sample from the target model, as if the target had generated it alone. Liang's version is modified rejection sampling: accept a drafted token with probability `min(1, q/p)`, where p is the draft's probability and q the target's, and otherwise sample from the difference of the two distributions ([74:00](https://www.youtube.com/watch?v=EfM546A79aM&t=4440)). Unlike plain rejection sampling, a rejection still yields a token. The setup is balanced on purpose. The draft is small, so generating one token at a time is cheap for it. The target is large, but it checks the drafts in one parallel pass, which is its fast mode ([72:00](https://www.youtube.com/watch?v=EfM546A79aM&t=4320)). The number of draft tokens has a sweet spot around three or four: too few wastes the target's parallel pass, too many raises rejections ([74:00](https://www.youtube.com/watch?v=EfM546A79aM&t=4440)). Speedup depends on how often the draft is right, and the draft should be as close to the target as its size allows ([76:00](https://www.youtube.com/watch?v=EfM546A79aM&t=4560)).
 
 ### 7. Run a server, not a loop
 
 Live traffic arrives at different times and lengths. Three systems ideas, borrowed from operating systems:
 
-- **Continuous batching**: add new requests to the batch as they arrive, instead of waiting for a whole batch to finish.
-- **Selective batching**: run attention per sequence, and concatenate all sequences for everything else.
-- **Paging** (PagedAttention in vLLM): split each sequence's KV cache into non-contiguous blocks, as an operating system pages memory. Blocks are shared between requests with the same prefix and copied only when they diverge. A shared system prompt, or several samples of one prompt, is computed once.
+- **Continuous batching**: decode one token for every sequence in the batch each step, evict finished sequences and add new requests as they arrive, instead of waiting for a whole batch to finish ([78:00](https://www.youtube.com/watch?v=EfM546A79aM&t=4680)).
+- **Selective batching**: run attention per sequence, and concatenate all sequences into one long sequence for the MLP layers, which hold most of the FLOPs ([78:00](https://www.youtube.com/watch?v=EfM546A79aM&t=4680)).
+- **Paging** (PagedAttention in vLLM): split each sequence's KV cache into non-contiguous blocks, as an operating system pages memory. It removes two kinds of waste: reserving room for a request's maximum length, and gaps between requests too small to use. Requests with the same prefix share blocks, which are copied only when they diverge. A shared system prompt, or several samples of one prompt, is computed once ([80:00](https://www.youtube.com/watch?v=EfM546A79aM&t=4800), [82:00](https://www.youtube.com/watch?v=EfM546A79aM&t=4920)).
 
-As of the lecture, the named tools are vLLM, SGLang, TensorRT-LLM and llama.cpp.
+The engines he names: vLLM as the go-to, SGLang for agentic workloads, NVIDIA's TensorRT as fast but narrower, and llama.cpp for running on a CPU ([4:00](https://www.youtube.com/watch?v=EfM546A79aM&t=240)).
 
-Generating several answers and picking the best costs n times the output tokens, and the paging trick above makes the n samples share the prompt's cache. Spending compute on search and on reasoning chains is a separate topic: see [reasoning in LLMs](../01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md).
+What the lectures say about spending compute at inference time is short. Lecture 10 raises one case only: when the same prompt needs several responses, the responses share the prompt's cache ([82:00](https://www.youtube.com/watch?v=EfM546A79aM&t=4920)). Lecture 1 lists test-time compute among the reasons inference matters ([Lecture 1, 42:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=2520)), and Lecture 16 uses a best-of-k filter on sampled solutions to select training data ([Lecture 16, 42:00](https://www.youtube.com/watch?v=dIFAi87Ws4E&t=2520)). None of them covers decoding strategies, best-of-n selection or search, which are treated in [reasoning in LLMs](../01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md).
 
 ## Worked example
 
@@ -109,20 +109,20 @@ decode_limits(13e9, kv, 4096, 3.3e12)       # about 8.9 ms, 112 tokens per secon
 
 What to observe:
 
-- The first call moves only the weights: 26 GB at 3.3 TB/s, the bandwidth quoted in Lecture 2. The ceiling is about 127 tokens per second for one request on one H100.
+- The first call moves only the weights: 26 GB at 3.3 TB/s, the bandwidth quoted in Lecture 2. The ceiling is about 127 tokens per second for one request on one H100. Liang's live calculation for the same model on the same chip gives 8 ms and 124 tokens per second at batch size 1 ([40:00](https://www.youtube.com/watch?v=EfM546A79aM&t=2400)).
 - At a 4,096-token context the KV cache adds about 3.4 GB, and the ceiling drops to 112 tokens per second.
 - These are ceilings. Real servers fall short of them, and they say nothing about throughput with many requests.
 - With 8 key-value heads instead of 40 (grouped-query attention), the cache term shrinks five times.
 
 ## What the practitioners say
 
-Lecture 10 works the arithmetic in full. The matrix multiply of weights by B rows is compute-bound only when B exceeds about 295 on an H100. At B = 1 the intensity is 1, and Liang notes that "this is basically what happens with inference". The script summarizes the stages in one line: prefill is compute-bound, generation is memory-bound. It also lists the generation-time intensity of attention as below 1, "impossible to improve" by batching.
+Lecture 10 works the arithmetic in full. The matrix multiply of weights by B rows is compute-bound only when B exceeds about 295 on an H100 ([16:00](https://www.youtube.com/watch?v=EfM546A79aM&t=960)), and in generation B is 1. His summary of the stages in one line: prefill is compute-bound, generation is memory-bound ([34:00](https://www.youtube.com/watch?v=EfM546A79aM&t=2040)). The root difference from training is that training sees every token at once and can parallelize over the sequence, while inference has to generate one at a time ([6:00](https://www.youtube.com/watch?v=EfM546A79aM&t=360)).
 
 At [28:00](https://www.youtube.com/watch?v=EfM546A79aM&t=1680) he explains why batch size is awkward in live serving: in generation, B is the number of concurrent requests, which for a chatbot is the number of users at that moment, unpredictable and changing. That is what continuous batching addresses.
 
 On the KV cache ([46:00](https://www.youtube.com/watch?v=EfM546A79aM&t=2760)): it can grow larger than the parameters themselves at a big enough batch size, which is why the first fix is to shrink it, carefully, without losing accuracy. On MLA ([52:00](https://www.youtube.com/watch?v=EfM546A79aM&t=3120)) he adds that the idea conflicts with rotary position embeddings, which is why extra dimensions are reserved for position.
 
-He offers one opinion about architecture. State-space models, linear attention and diffusion models have, in his view, a great deal of room for improvement, because the KV cache and the way attention is built "fundamentally makes it an inference unfriendly kind of architecture" ([84:00](https://www.youtube.com/watch?v=EfM546A79aM&t=5040)). That is a forecast, not a result. He also recommends the Google-authored book *How to Scale Your Model*, from which several of the lecture's figures are taken.
+He offers one opinion about architecture. State-space models, linear attention and diffusion models have, in his view, a great deal of room for improvement, because the KV cache and the way attention is built "fundamentally makes it an inference unfriendly kind of architecture" ([84:00](https://www.youtube.com/watch?v=EfM546A79aM&t=5040)). That is a forecast, not a result. For more, he points to the inference chapter of *How to Scale Your Model* ([44:00](https://www.youtube.com/watch?v=EfM546A79aM&t=2640)).
 
 ## Pitfalls
 
