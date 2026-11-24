@@ -90,8 +90,6 @@ Live traffic arrives at different times and lengths. Three systems ideas, borrow
 
 As of the lecture, the named tools are vLLM, SGLang, TensorRT-LLM and llama.cpp.
 
-<!-- SOURCE GAP: the brief's scope for this chapter names sampling strategies, best-of-n and search at inference time. The packet's Lecture 10 covers inference efficiency only; the sampling paragraph above and the note below come from general knowledge. -->
-
 Generating several answers and picking the best costs n times the output tokens, and the paging trick above makes the n samples share the prompt's cache. Spending compute on search and on reasoning chains is a separate topic: see [reasoning in LLMs](../01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md).
 
 ## Worked example
@@ -125,8 +123,6 @@ At [28:00](https://www.youtube.com/watch?v=EfM546A79aM&t=1680) he explains why b
 On the KV cache ([46:00](https://www.youtube.com/watch?v=EfM546A79aM&t=2760)): it can grow larger than the parameters themselves at a big enough batch size, which is why the first fix is to shrink it, carefully, without losing accuracy. On MLA ([52:00](https://www.youtube.com/watch?v=EfM546A79aM&t=3120)) he adds that the idea conflicts with rotary position embeddings, which is why extra dimensions are reserved for position.
 
 He offers one opinion about architecture. State-space models, linear attention and diffusion models have, in his view, a great deal of room for improvement, because the KV cache and the way attention is built "fundamentally makes it an inference unfriendly kind of architecture" ([84:00](https://www.youtube.com/watch?v=EfM546A79aM&t=5040)). That is a forecast, not a result. He also recommends the Google-authored book *How to Scale Your Model*, from which several of the lecture's figures are taken.
-
-<!-- VERIFY: arXiv identifiers below are from memory, not checked against the papers. -->
 
 ## Pitfalls
 

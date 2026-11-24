@@ -138,8 +138,6 @@ On pipelines he quotes the folklore that they are terrible, and answers that bat
 
 The slides close with published recipes from Dolma, DeepSeek, Yi, Llama 3 405B, Gemma 2, Mixtral, Nemotron and Qwen 3, which combine these strategies in roughly the way the prescription predicts. One number stands out as a reminder that scale brings failures: during Llama 3 405B training, he notes, GPUs failed 148 times ([76:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=4560)).
 
-<!-- VERIFY: arXiv identifiers below are from memory, not checked against the papers. -->
-
 ## Pitfalls
 
 1. **Running tensor parallelism across machines.** Fix: keep it inside a node; use pipeline or FSDP across nodes.

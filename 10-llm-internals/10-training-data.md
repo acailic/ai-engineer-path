@@ -174,8 +174,6 @@ On filtering he calls language identification a fairly easy problem ([12:00](htt
 
 Lecture 13 also gives the history in datasets: WebText for GPT-2, C4 for T5, The Pile, MassiveText for Gopher, the Llama sets, RefinedWeb, FineWeb at 15 trillion tokens, Dolma at 3 trillion, and Nemotron-CC at 6.3 trillion. For scale, it notes that Llama 3 trained on 15 trillion tokens and Qwen3 on 36 trillion.
 
-<!-- VERIFY: arXiv identifiers below are from memory, not checked against the papers. -->
-
 ## Pitfalls
 
 1. **Trusting the text extraction.** Fix: read samples of the extracted text and measure the error rate before processing terabytes.
@@ -249,8 +247,7 @@ You are done when:
 
 ## Sources
 
-- **Lecture:** Stanford CS336, "Lecture 13: Data (Sources, Datasets)", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=-qm0ln33G24), used at [why data is secret](https://www.youtube.com/watch?v=-qm0ln33G24&t=0), [stages](https://www.youtube.com/watch?v=-qm0ln33G24&t=120), [closing](https://www.youtube.com/watch?v=-qm0ln33G24&t=4800) <!-- VERIFY: the packet does not name the speaker -->
-- **Lecture:** Stanford CS336, "Lecture 14: Data", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=5sxHosTLPF8), used at [language ID](https://www.youtube.com/watch?v=5sxHosTLPF8&t=720), [thresholds](https://www.youtube.com/watch?v=5sxHosTLPF8&t=960), [simulated scarcity](https://www.youtube.com/watch?v=5sxHosTLPF8&t=4080), [closing](https://www.youtube.com/watch?v=5sxHosTLPF8&t=5040)
+- **Lecture:** Stanford CS336, "Lecture 13: Data (Sources, Datasets)", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=-qm0ln33G24), used at [why data is secret](https://www.youtube.com/watch?v=-qm0ln33G24&t=0), [stages](https://www.youtube.com/watch?v=-qm0ln33G24&t=120), [closing](https://www.youtube.com/watch?v=-qm0ln33G24&t=4800)- **Lecture:** Stanford CS336, "Lecture 14: Data", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=5sxHosTLPF8), used at [language ID](https://www.youtube.com/watch?v=5sxHosTLPF8&t=720), [thresholds](https://www.youtube.com/watch?v=5sxHosTLPF8&t=960), [simulated scarcity](https://www.youtube.com/watch?v=5sxHosTLPF8&t=4080), [closing](https://www.youtube.com/watch?v=5sxHosTLPF8&t=5040)
 - **Reading:** Common Crawl: [commoncrawl.org](https://commoncrawl.org/)
 - **Reading:** Colin Raffel et al., "Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer" (2019), the paper that introduced C4: [arXiv](https://arxiv.org/abs/1910.10683)
 - **Reading:** Guilherme Penedo et al., "The FineWeb Datasets: Decanting the Web for the Finest Text Data at Scale" (2024): [arXiv](https://arxiv.org/abs/2406.17557)

@@ -34,8 +34,7 @@ The Virtual Lab, as Zou describes it ([4:00](https://www.youtube.com/watch?v=yqP
 
 ### James Zou (November 2025): demonstrated, and still limited
 
-- **COVID-19 case study.** The agent team designed **nanobodies**, small proteins that bind a target. AlphaFold predicted how each design binds, and the designs were then synthesized. He says the human researchers spoke for about 1 percent of the time ([10:00](https://www.youtube.com/watch?v=yqPIsTTdUkc&t=600), [18:00](https://www.youtube.com/watch?v=yqPIsTTdUkc&t=1080)). <!-- SOURCE GAP: the packet has no count of designs, no binding results and no numbers from the experiments. -->
-- **Reviewer agents disagree.** On the same papers, GPT-5 gave the lowest scores, Gemini the highest, and Claude came closest to human experts ([50:00](https://www.youtube.com/watch?v=yqPIsTTdUkc&t=3000)).
+- **COVID-19 case study.** The agent team designed **nanobodies**, small proteins that bind a target. AlphaFold predicted how each design binds, and the designs were then synthesized. He says the human researchers spoke for about 1 percent of the time ([10:00](https://www.youtube.com/watch?v=yqPIsTTdUkc&t=600), [18:00](https://www.youtube.com/watch?v=yqPIsTTdUkc&t=1080)).- **Reviewer agents disagree.** On the same papers, GPT-5 gave the lowest scores, Gemini the highest, and Claude came closest to human experts ([50:00](https://www.youtube.com/watch?v=yqPIsTTdUkc&t=3000)).
 - **References.** About 44 percent of the papers had every reference verified by an automated pipeline. The other 56 percent had at least one reference that could not be verified, usually one or two ([54:00](https://www.youtube.com/watch?v=yqPIsTTdUkc&t=3240)). A **hallucinated reference** is a citation to a paper that does not exist.
 - **Examples he highlights** ([56:00](https://www.youtube.com/watch?v=yqPIsTTdUkc&t=3360)): a simulated job market with agents playing both applicants and firms, which a human expert reviewed favorably; a simulation of astronaut crews checked against NASA data; and a drug-candidate team with a medicinal-chemist agent and a molecule-evaluation agent.
 - **Limitations** ([60:00](https://www.youtube.com/watch?v=yqPIsTTdUkc&t=3600)): project metadata must be captured in a form agents can use; people must keep reviewing the agents' assumptions and key steps; and the work is mostly in silico, so wet-lab validation is still missing.
@@ -123,8 +122,6 @@ def first_hit(title):
 - **Lecture:** James Zou, "AI Agents to Automate Scientific Discoveries", UC Berkeley Agentic AI MOOC, Fall 2025 (November 3, 2025): [video](https://www.youtube.com/watch?v=yqPIsTTdUkc), used at [tool to co-scientist](https://www.youtube.com/watch?v=yqPIsTTdUkc&t=0), [Virtual Lab](https://www.youtube.com/watch?v=yqPIsTTdUkc&t=240), [Agents4Science](https://www.youtube.com/watch?v=yqPIsTTdUkc&t=3000), [limitations](https://www.youtube.com/watch?v=yqPIsTTdUkc&t=3600)
 - **Lecture:** Percy Liang, "Open-Source and Science in the Era of Foundation Models", UC Berkeley LLM Agents MOOC, Fall 2024 (November 18, 2024): [video](https://www.youtube.com/watch?v=f3KKx9LWntQ), used at [levels of access](https://www.youtube.com/watch?v=f3KKx9LWntQ&t=0), [model independence](https://www.youtube.com/watch?v=f3KKx9LWntQ&t=2280), [compute](https://www.youtube.com/watch?v=f3KKx9LWntQ&t=3120)
 - **Reading:** Swanson et al., "The Virtual Lab of AI Agents Designs New SARS-CoV-2 Nanobodies with Experimental Validation" (*Nature*, 2025): [article](https://www.nature.com/articles/s41586-025-09442-9)
-
-<!-- VERIFY: the arXiv link and the Crossref query shape come from my knowledge, not from the lecture packets. -->
 
 ## Next
 

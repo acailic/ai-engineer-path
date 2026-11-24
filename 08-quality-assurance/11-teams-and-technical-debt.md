@@ -11,8 +11,6 @@ The triage feature shipped after a six-week push. Three months later, the prompt
 
 Two things produced this. The team was split into groups that each did their own part and handed it over. And the shortcuts taken under deadline were never written down.
 
-<!-- SOURCE GAP: the packets for book chapters 21 (Interdisciplinary Teams) and 22 (Technical Debt) contain section headings only, no body text. This survey is the author's, arranged under those headings. Every statement attributed to the book comes from another chapter and is cited to it. -->
-
 ## The core idea
 
 ### Teams

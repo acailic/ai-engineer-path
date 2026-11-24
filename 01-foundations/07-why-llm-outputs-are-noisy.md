@@ -22,8 +22,6 @@ An evaluation score is a measurement, and every measurement has an error bar. Fo
 
 "Semantic noise" is this chapter's name for the second kind. Sida Wang, in his Fall 2025 lecture *Predictable Noise in LLM Benchmarks*, makes the point without the label: resampling a model is "a remarkable ability", and treating that as the only kind of noise is "a common confusion" (his slide 22).
 
-<!-- SOURCE GAP: the term "semantic noise" does not appear in the packet. The two-way split follows Wang's slide and the variance decomposition in Miller's paper. -->
-
 His title has a second half that matters more: the noise is **predictable**. You can estimate its size from two numbers, the accuracy and the number of questions. You can do it before the evaluation runs.
 
 An analogy is an opinion poll. A poll of 100 people reports a margin of error of about ±10 points, and nobody reports a 3-point lead on such a poll. The analogy breaks in one useful way. You cannot ask each person the same question ten times. You can ask a model, which lets you shrink one part of the noise.

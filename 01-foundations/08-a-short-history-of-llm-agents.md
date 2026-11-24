@@ -46,8 +46,6 @@ Most real systems sit between the two:
 
 Dawn Song's Fall 2025 course-introduction slides use the phrase "agent workflow" and list what such workflows make possible: decomposing a task, assigning subtasks to specialized modules, dividing labor, and letting several agents generate answers together. The table above sharpens that wording into a scale. It is this repository's own synthesis, not a framework from the lectures.
 
-<!-- SOURCE GAP: no packet states a workflow-to-agent spectrum. The two definitions and the table are the author's, built on Song's "agent workflow" slide and common industry usage. -->
-
 A quick test for any system: **who decides?** If you can draw the sequence of model calls as a flowchart before anything runs, it is a workflow. If the sequence depends on what the model says at run time, it is an agent. Start at the left of the table. Move right only when the steps of the task cannot be written down in advance.
 
 ## A short history

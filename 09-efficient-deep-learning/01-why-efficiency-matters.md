@@ -86,11 +86,7 @@ These are rules of thumb from engineering practice, not course content:
 | Phone battery | Roughly 15–20 Wh; a sustained load of a few watts drains it in hours |
 | Coin-cell sensor battery | Under 1 Wh; the processor must average milliwatts or less |
 
-<!-- VERIFY: the battery and latency figures above are rules of thumb from general engineering practice, not from the lecture, and were not checked against a source. -->
-
 Energy follows memory. Moving a number from main memory costs far more energy than multiplying two numbers; chip-design measurements commonly put the gap at two orders of magnitude or more. So "fewer bytes moved" is the same lever for battery life as for speed.
-
-<!-- VERIFY: the energy gap between a DRAM access and an arithmetic operation (often cited from Horowitz, ISSCC 2014) is stated here from memory and was not checked. -->
 
 ## What the practitioners say
 

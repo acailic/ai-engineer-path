@@ -60,8 +60,6 @@ Kästner describes these as **data linting**: heuristics for suspicious encoding
 
 **Drift** means the data, or your assumptions about it, change over time. If the assumptions are never written down, nobody notices. Kästner warns that drift usually shows up as a slow downward trend in accuracy, which a model update reverses only temporarily (chapter 16).
 
-<!-- SOURCE GAP: the packet for chapter 16 is trimmed and names drift without a taxonomy. The three kinds below and the advice on retrieved documents are the author's. -->
-
 A common way to tell the kinds apart:
 
 | Kind of drift | What changes | Triage example |

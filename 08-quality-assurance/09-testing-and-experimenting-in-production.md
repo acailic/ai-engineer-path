@@ -33,8 +33,6 @@ The four standard patterns differ in who sees the change and what question they 
 
 The canary takes its name from the birds miners once carried underground, which reacted to gas before the miners did (chapter 19). The analogy holds for early warning. It breaks on remedy: a dead canary told miners to leave. A bad canary release tells you to roll back, which works only if you built the way back in advance.
 
-<!-- SOURCE GAP: the book covers the four patterns above and does not mention interleaving. The paragraph on interleaving is the author's. -->
-
 One more pattern is common in search and recommendation. In an **interleaving experiment**, each user sees one list that mixes results from two ranking models, instead of seeing only one model's list. The model whose results get clicked more wins. It needs far fewer users than an A/B test, and it applies only where the output is a ranking.
 
 ## How it works, step by step

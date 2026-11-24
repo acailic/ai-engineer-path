@@ -125,8 +125,6 @@ Lecture 1 describes how the course works. There is no scaffolding code, but unit
 
 The last lecture is a guest talk by Dan Fu. Only its outline was available, so the topics are reported rather than the details. She contrasts synthetic benchmarks with real request traces, walks through the two stages of serving and the KV cache, including spilling it to CPU memory, and shows scheduling across a rack of 72 GPUs. The outline also lists a set of production bugs and a lesson on reading profiler timelines, and ends with early scaling results for recurrent-style models. The useful takeaway for a self-learner is the gap it exposes: an assignment ends when the tests pass. A serving system begins there.
 
-<!-- SOURCE GAP: cs336-18 was available as a two-minute outline only; the summary above stays at that level. Exact hardware requirements for Assignment 2's distributed parts are not in the packet. -->
-
 ## Pitfalls
 
 1. **Letting an agent write the code.** The handouts prohibit it, and the learning is the point. Fix: use AI to explain, never to implement.

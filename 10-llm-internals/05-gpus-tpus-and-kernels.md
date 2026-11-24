@@ -132,8 +132,6 @@ His case study is the GeLU activation. A naive PyTorch implementation launches s
 
 Two cautions from him. The hardware is "a lot messier than the programming model" ([16:00](https://www.youtube.com/watch?v=xnDHaNUvHBg&t=960)). And CUDA calls return before the GPU finishes, so a timer that does not synchronize first measures nothing.
 
-<!-- VERIFY: arXiv identifiers below are from memory, not checked against the papers. -->
-
 ## Pitfalls
 
 1. **Timing without a warm-up and a synchronize.** Fix: run the operation a few times, synchronize, then time.

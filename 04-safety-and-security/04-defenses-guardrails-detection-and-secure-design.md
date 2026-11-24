@@ -39,7 +39,7 @@ Her caution: strong models, prompted well, detect and sanitize many malicious in
 
 ### 2. Spotlight the data
 
-**Spotlighting** marks where untrusted data begins and ends, so that the model can tell it from instructions. <!-- The name "spotlighting" is from general knowledge (Hines et al., 2024); the techniques are on Song's Fall 2024 slide. --> The prompt-level techniques on her Fall 2024 slide, from Liu et al. (2024), are:
+**Spotlighting** marks where untrusted data begins and ends, so that the model can tell it from instructions.The prompt-level techniques on her Fall 2024 slide, from Liu et al. (2024), are:
 
 - **Delimiters**: enclose the data in markers.
 - **Sandwich prevention**: repeat the instruction after the data, so that the nearest text before the answer is yours.
@@ -125,12 +125,10 @@ A policy gate in plain Python: the Progent idea in miniature. It needs no model.
 # policy_gate.py: check every tool call against a per-task policy, in code.
 from dataclasses import dataclass
 
-
 @dataclass(frozen=True)
 class Call:
     name: str
     args: dict
-
 
 # Rules per task. Your code derives the task from the request.
 POLICIES = {
@@ -139,7 +137,6 @@ POLICIES = {
                                             and not args.get("attachments")},
 }
 SENSITIVE_TOOLS = {"pay", "delete_email", "shell"}
-
 
 def enforce(task: str, call: Call) -> tuple:
     """Allow only what the task's policy permits. Unknown tasks allow nothing."""
@@ -151,7 +148,6 @@ def enforce(task: str, call: Call) -> tuple:
     if not rule(call.args):
         return False, f"arguments of {call.name} violate the policy"
     return True, "allowed"
-
 
 if __name__ == "__main__":
     print(enforce("summarize_email", Call("read_email", {})))

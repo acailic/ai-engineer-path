@@ -123,8 +123,6 @@ On exams, the stated problem is that they do not capture real usage ([30:00](htt
 
 The closing advice has two parts. First, "there's no one true evaluation, choose what you're trying to measure" ([76:00](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=4560)). Second, a warning about trade-offs: "It's hard to have really real and difficult and ecologically valid and no training test contamination" ([78:00](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=4680)). Something has to give, and the question you are asking decides what.
 
-<!-- VERIFY: arXiv identifiers below are from memory, not checked against the papers. -->
-
 ## Pitfalls
 
 1. **Choosing a benchmark by habit.** Fix: write down the decision the evaluation supports, then pick.
@@ -199,8 +197,7 @@ You are done when:
 
 ## Sources
 
-- **Lecture:** Stanford CS336, "Lecture 12: Evaluation", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=JpAxdTWQJxM), used at [goals](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=0), [perplexity](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=600), [exams](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=1800), [closing](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=4560) <!-- VERIFY: the packet does not name the speaker -->
-- **Reading:** Percy Liang et al., "Holistic Evaluation of Language Models" (2022): [arXiv](https://arxiv.org/abs/2211.09110)
+- **Lecture:** Stanford CS336, "Lecture 12: Evaluation", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=JpAxdTWQJxM), used at [goals](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=0), [perplexity](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=600), [exams](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=1800), [closing](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=4560)- **Reading:** Percy Liang et al., "Holistic Evaluation of Language Models" (2022): [arXiv](https://arxiv.org/abs/2211.09110)
 - **Reading:** Lianmin Zheng et al., "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena" (2023): [arXiv](https://arxiv.org/abs/2306.05685)
 - **Reading:** David Rein et al., "GPQA: A Graduate-Level Google-Proof Q&A Benchmark" (2023): [arXiv](https://arxiv.org/abs/2311.12022)
 - **Reading:** Carlos Jimenez et al., "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?" (2023): [arXiv](https://arxiv.org/abs/2310.06770)

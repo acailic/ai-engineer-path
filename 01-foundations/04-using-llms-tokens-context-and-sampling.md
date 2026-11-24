@@ -54,8 +54,6 @@ At each step the model has a probability for every token in its vocabulary, and 
 
 For classification, extraction and JSON, use a low temperature. For brainstorming, or for the multiple samples that self-consistency needs ([Chapter 06](06-reasoning-in-llms-from-chain-of-thought-to-search.md)), use a higher one. Change one of the two parameters and leave the other at its default.
 
-<!-- VERIFY: the definitions, ranges and defaults of temperature and top_p were not visible on the fetched documentation page. The two descriptions above are general knowledge and parameter names vary by provider. -->
-
 ### 4. Cap the output with max tokens
 
 The maximum-tokens parameter stops generation after a set number of output tokens. Anthropic's Messages API reference defines it as "The maximum number of tokens to generate before stopping". The model may stop earlier, the limit depends on the model, and as of November 24, 2026 the page also documents that setting it to 0 fills the prompt cache without generating a response ([reference](https://platform.claude.com/docs/en/api/messages)).

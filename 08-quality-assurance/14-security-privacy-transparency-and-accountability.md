@@ -15,8 +15,6 @@ Three more questions arrive in the same month.
 
 The first is **security**. The second is **privacy**. The third is **transparency and accountability**.
 
-<!-- SOURCE GAP: the packet for chapter 28 is trimmed (intro and the first two paragraphs of each section). The packet for chapter 29 (Transparency and Accountability) contains headings only, so the transparency and accountability procedure below is the author's, arranged under those headings, with points from other chapters cited. -->
-
 ## The core idea
 
 **Security** protects a system from people who intend to harm it. Requirements fall into three classes, the **CIA triad**: confidentiality (only authorized people read sensitive data), integrity (data and decisions are not tampered with), and availability (the service keeps running). Kästner notes that ML adds new things to protect: training data, models, prompts, and telemetry (chapter 28).
@@ -81,8 +79,6 @@ The outline of chapter 29 separates transparency about the model's *existence* f
 4. **Assign an owner to each decision type**, and keep the records from [chapter 12](12-responsible-engineering-versioning-and-reproducibility.md), so that any decision can be reconstructed.
 
 One caution follows from the outline's heading on gaming. The more a system reveals about how it decides, the easier it is to exploit, as anyone who has met search-engine optimization knows. Decide deliberately how much to publish.
-
-<!-- VERIFY: transparency duties for AI systems, such as telling users they are interacting with AI and labeling synthetic content, are regulated in some jurisdictions as of 2026-11-24. Confirm the current rules for your market. -->
 
 ## What the practitioners say
 

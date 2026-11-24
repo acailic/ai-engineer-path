@@ -15,8 +15,6 @@ Three questions reach you in the same week, after the triage feature goes live.
 
 The first is about **explainability**, the second about **fairness**, the third about **safety**. Each has tools, and none has a single right answer.
 
-<!-- SOURCE GAP: the packets for chapters 25, 26 and 27 are trimmed (intro and the first two paragraphs of each section). the paragraphs on LLM rationales are the author's. -->
-
 ## The core idea
 
 **Explainability** is how far a person can understand how a model works, or why it made one prediction. Kästner makes three cautions (chapter 25). Explanations are usually partial. Several different partial explanations of one prediction can all be correct. And an explanation shows how the model used its inputs, not why the answer is right. He adds that people rarely explain their own decisions exactly either. They give a justification after the fact.

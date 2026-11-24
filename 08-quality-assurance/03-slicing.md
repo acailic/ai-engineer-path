@@ -72,8 +72,6 @@ Manual slicing finds what you already suspect. An automatic search finds what yo
 
 Step 5 matters because of **multiple comparisons**. If you test two hundred slices with a test that is wrong 5 percent of the time, about ten will look bad by pure chance. The more you search, the more false alarms you get. A statistical test and a second look on fresh data separate real failures from luck.
 
-<!-- SOURCE GAP: the book names SliceFinder, Zeno, Errudite and Overton, and says SliceFinder uses statistical tests to find underperforming slices and intersections, but it does not describe how automatic slice search works. The five-step procedure, the multiple-comparison warning and the worked example below are the author's, not the book's. -->
-
 ### 5. Read the errors in the worst slice
 
 A slice names *where*. It rarely explains *why*. Open the misrouted tickets. The fix depends on the cause, and the cause is often one of four:

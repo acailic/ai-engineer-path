@@ -112,8 +112,6 @@ His list of where muP breaks is practical. It fails with learnable gains in RMSN
 
 Two limits come from Lecture 9's slides. Scaling laws "can 'break' if you blindly apply" them, and they are lower bounds on what is achievable: a better recipe can beat the curve. A caveat from Lecture 1 applies to the 20-tokens-per-parameter rule: it ignores inference cost. A model that will be served to millions is worth training smaller and longer.
 
-<!-- VERIFY: arXiv identifiers below are from memory, not checked against the papers. -->
-
 ## Pitfalls
 
 1. **Fitting on unconverged runs.** A run whose learning rate never decayed is not on the curve. Fix: use the same schedule shape at every scale, and WSD to get converged points cheaply.

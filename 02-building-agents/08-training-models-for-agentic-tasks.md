@@ -5,8 +5,6 @@
 
 > **In one sentence:** After this chapter you can describe what changes when a model is trained for agent work rather than chat (the examples, the environments, the reward, the training loop and the infrastructure) and separate what is publicly documented from what one practitioner reports.
 
-<!-- SOURCE GAP: the brief lists f25-03 as a second source for this chapter, but no packet for it was part of the reading batches. The chapter rests on f25-05, whose packet holds 24% of the transcript, on two remarks from other lecturers, and on general knowledge marked as such. -->
-
 ## Why this matters
 
 Every fix in this part so far was made around the model: better tools, a cleaner context, a plan, a sandbox. Some failures do not yield to scaffolding. The agent gives up after one failed test. It ignores the tool named in the prompt. It writes thousands of tokens of deliberation before its first action. Then a new model release does better, and nobody on the team changed a line.
@@ -46,8 +44,6 @@ The analogy is onboarding a new engineer through a ticket queue and a continuous
 6. **Guard the reward.** See the next subsection. This step has no counterpart in chat training.
 7. **Update the policy.** The policy is the model in its role as the part that chooses actions. Fine-tune on the passing trajectories, then run RL. His slide outline lists LoRA, low-rank adaptation, which trains a small set of added weights instead of all of them, as a way to cut RL cost ([44:45](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=2685)).
 8. **Control length.** His slides state that solution length sets sampling efficiency and that a million tokens is still not enough for long tasks ([38:17](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=2297)).
-
-<!-- SOURCE GAP: steps 3, 7 and 8 rest on slide titles in the packet; the matching transcript passages were not included. -->
 
 ### Why the reward needs a guard
 
@@ -127,7 +123,7 @@ Run it. The pass rate starts at a few percent, because a random policy rarely en
 | Claim | Status |
 |---|---|
 | RL with programmatic verifiers improves math and code reasoning | Public. Open technical reports since early 2025 describe it, for example the DeepSeek-R1 report |
-| Large-scale synthesis of tools and simulated environments for agentic RL | Public in outline. At least one open report from 2025 describes it (Kimi K2) <!-- VERIFY: details come from memory of the reports --> |
+| Large-scale synthesis of tools and simulated environments for agentic RL | Public in outline. At least one open report from 2025 describes it (Kimi K2)|
 | Simulators run mostly on CPU, with at least ten times more CPUs than GPUs | Chen's account of his team's setup |
 | Tests are hidden during rollouts and restored for grading | Chen's account of his team's practice |
 | Half of daily work goes to data and graders | Chen's estimate; he questions the number himself |
@@ -192,9 +188,7 @@ Break the corridor example on purpose, then repair it.
 - **Lecture:** Weizhu Chen, "Training Agentic Models", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=xNxrBHZPDvM), used at [a training run](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=120), [what agentic training must produce](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=240), [graders and cheating](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=1680), [countermeasures and efficiency](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=1800), [exploration and tools](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=2280), [wider and longer](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=3240)
 - **Lecture:** Graham Neubig, "Agents for Software Development", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=f9L9Fkq-8K4), used at [agentic training as a next step](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3480)
 - **Lecture:** Yu Su, "Reasoning, Memory and Planning of Language Agents", UC Berkeley Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=zvI4UN2_i-w), used at [a hypothesis about reasoning models](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=2640)
-- **Reading:** DeepSeek-AI, "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning" (2025): [link](https://arxiv.org/abs/2501.12948) <!-- VERIFY -->
-- **Reading:** Kimi Team, "Kimi K2: Open Agentic Intelligence" (2025): [link](https://arxiv.org/abs/2507.20534) <!-- VERIFY -->
-
+- **Reading:** DeepSeek-AI, "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning" (2025): [link](https://arxiv.org/abs/2501.12948)- **Reading:** Kimi Team, "Kimi K2: Open Agentic Intelligence" (2025): [link](https://arxiv.org/abs/2507.20534)
 ## Next
 
 → [Evaluation Is the Product](../03-evaluation/01-evaluation-is-the-product.md), because none of the loops in this part can be improved faster than it can be measured.

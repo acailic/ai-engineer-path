@@ -133,8 +133,6 @@ An **agent** changes who controls the flow. In a normal system, your code decide
 - **ML adds qualities to plan for.** Beyond the usual ones, he lists accuracy, training and inference cost, training and inference latency, reproducibility, data provenance, fairness and explainability.
 - **The Twitter redesign.** As a non-ML illustration, he recounts how Twitter began as a single Ruby on Rails application with one database, built by three friends. As it grew, it became slow, patches made it harder to maintain, and hardware spending became unsustainable. After 2010 the company rewrote the system, which Kästner calls a rare last resort, with four quality goals: lower latency and operating cost, reliability through isolating failures, maintainability through clearer module boundaries, and modifiability so small teams could ship features quickly.
 
-<!-- SOURCE GAP: the copy of book chapter 8 used for this chapter was trimmed to its introduction, headings and the first two paragraphs of each section. The four contrasted example systems, most of the common system structures and the pattern examples were not available; client-server and the three-tier layout are the only structures the source shows. -->
-
 ## Pitfalls
 
 1. **Designing for features, not qualities.** Fix: start every design discussion with the quality requirements that constrain the shape.

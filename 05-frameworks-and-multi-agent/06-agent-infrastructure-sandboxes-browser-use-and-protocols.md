@@ -31,8 +31,6 @@ A **sandbox** is an isolated environment with its own file system, processes, ne
 - The code needs dependencies and a working directory that survive from one step to the next.
 - Runaway loops need limits on time, memory and money.
 
-<!-- SOURCE GAP: the packet for f24-07 covers web agents, not sandboxes. This section is the author's, and the third web fetch (the sandbox vendor's documentation) returned only a redirect, so no product claim here was checked against a primary page. -->
-
 | Level | What it is | Isolation | Typical start time | Use it for |
 |---|---|---|---|---|
 | None | Code runs inside the agent's own process | None | None | Never with model-written code |
@@ -50,8 +48,6 @@ Six questions select a sandbox:
 4. **Network.** Open internet, an allow-list through a proxy, or none.
 5. **Observability.** Logs of every command, every file change, every exit code.
 6. **Cost model.** Pay per second, or keep capacity reserved.
-
-<!-- VERIFY: product names and current capabilities for hosted sandboxes (for example E2B, Modal, Daytona) and for vendor code-execution tools were not opened. https://e2b.dev/docs redirects to https://docs.e2b.dev/ and was not followed, to stay within the fetch budget. -->
 
 ### Part 2: Browser and computer use
 
@@ -91,13 +87,9 @@ That introduction does not define the roles. The definitions below come from the
 - A **transport** carries the messages: `stdio` for a local program that reads and writes its standard input and output, and an HTTP-based transport for remote servers.
 - On connecting, the two sides negotiate capabilities.
 
-<!-- VERIFY: host/client/server roles, the three server primitives, JSON-RPC 2.0, stdio and Streamable HTTP transports, and client-side features (sampling, roots, elicitation) follow the 2025-06-18 and 2025-11-25 revisions as remembered; only the documentation introduction was opened (November 24, 2026). The links on that page point to revision 2026-07-28, whose changes I could not read. -->
-
 What MCP changes is the arithmetic. Without a standard, M applications each integrate N tools: M times N connectors. With one, each side implements the protocol once: M plus N. What it costs is one more moving part, a protocol that is revised often, and a security boundary you must draw yourself. A third-party server is someone else's code, and its tool descriptions are untrusted text that the model reads. Start from [threat modeling](../04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md) before you connect one.
 
 Other protocols exist for other boundaries. Agent-to-agent protocols, such as the Agent2Agent protocol that Google announced in April 2025, carry messages between agents from different vendors. Protocols between an agent and a user interface carry what the agent wants to show. Most applications need none of them: one model with a handful of functions is enough, as in chapter 02. Reach for a protocol when several applications must share the same tools, or several teams own them.
-
-<!-- VERIFY: the current state of the Agent2Agent protocol and of other agent protocols was not opened for this edition. -->
 
 ## Worked example
 
@@ -198,8 +190,6 @@ Two deliverables.
 You are done when the sandboxed process prints `None` for the secret, fails to reach the website, can write under `work` and cannot write elsewhere; and when your server answers both requests as shown and returns an error object for the unknown method.
 
 Stretch goal: rewrite the server with the official MCP SDK for your language and connect it to a real client. This exercise calls no model API and costs nothing.
-
-<!-- VERIFY: the Docker command was not run for this edition; the expected behavior follows from the flags --network none and --read-only. -->
 
 ## Key takeaways
 

@@ -137,7 +137,6 @@ class Response:
     tokens_in: int = 0
     tokens_out: int = 0
 
-
 class StubModel:
     """Deterministic stand-in for an LLM agent, with the interface a real client needs.
 
@@ -168,23 +167,19 @@ class StubModel:
         tokens_out = p["think"] + 15 * len(calls)
         return Response(text, calls, max(1, len(prompt) // 4), tokens_out)
 
-
 # --------------------------------------------------------------- 3. Graders
 def normalize(text):
     return " ".join(re.findall(r"[a-z0-9]+", text.lower()))
-
 
 def grade_exact(response, task):
     """1 if the answer equals an accepted answer (case and punctuation ignored), else 0."""
     said = normalize(response.text)
     return float(any(said == normalize(a) for a in task["accept"]))
 
-
 def grade_partial(response, task):
     """Fraction of the key facts that appear in the answer."""
     said = f" {normalize(response.text)} "
     return sum(1 for fact in task["facts"] if f" {normalize(fact)} " in said) / len(task["facts"])
-
 
 def process_violations(response, task):
     """Required calls that are missing or out of order, plus forbidden calls."""
@@ -194,7 +189,6 @@ def process_violations(response, task):
         problems.append(f"calls {called} instead of {task['must_call']}")
     problems += [f"forbidden '{c}'" for c in response.calls if c in task["forbid_call"]]
     return problems
-
 
 # --------------------------------------------------------------- 4. Runner
 def run(model, dataset, samples_per_task=4, price=(3.0, 15.0)):
@@ -214,23 +208,19 @@ def run(model, dataset, samples_per_task=4, price=(3.0, 15.0)):
             })
     return records
 
-
 # --------------------------------------------------------------- 5. Metrics
 def pass_at_k(scores, n, k):
     """Chance that at least 1 of k independent attempts succeeds."""
     c = int(sum(scores))
     return 1.0 if n - c < k else 1.0 - math.comb(n - c, k) / math.comb(n, k)
 
-
 def pass_pow_k(scores, n, k):
     """Chance that all k independent attempts succeed: the reliability metric."""
     c = int(sum(scores))
     return math.prod((c - i) / (n - i) for i in range(k)) if c >= k else 0.0
 
-
 def mean(xs):
     return sum(xs) / len(xs)
-
 
 def summarize(records, k=4):
     """Aggregate attempts into one metric dict. Scores are averaged per task first,
@@ -253,7 +243,6 @@ def summarize(records, k=4):
         "cost": mean([r["cost"] for r in records]),
     }
 
-
 # --------------------------------------------------------------- 6. Report
 def print_report(results):
     print(f"{'model':10}{'exact match (SE)':>20}{'pass@4':>8}{'pass^4':>8}"
@@ -262,7 +251,6 @@ def print_report(results):
         cell = f"{m['exact_match']:.2f} (SE {m['se']:.2f})"
         print(f"{name:10}{cell:>20}{m['pass@k']:>8.2f}{m['pass^k']:>8.2f}"
               f"{m['partial_credit']:>9.2f}{m['process_ok']:>9.2f}{m['cost']:>13.5f}")
-
 
 def print_model(name, records):
     print(f"\n== {name}: score of each attempt (1 = exact) and process violations ==")
@@ -276,12 +264,10 @@ def print_model(name, records):
         if r["exact"] < 1 or r["violations"]:
             print(f"    {r['task']:15} {r['text'][:30]!r:34} {r['violations'] or ''}")
 
-
 def regressions(old, new):
     """Metrics where `new` is worse than `old`; an empty list means safe to merge."""
     worse = [m for m in ("exact_match", "pass^k", "process_ok") if new[m] < old[m]]
     return worse + (["cost"] if new["cost"] > old["cost"] else [])
-
 
 # --------------------------------------------------------------- 7. Main
 PROFILES = {
@@ -290,7 +276,6 @@ PROFILES = {
     "tuned": {"trivia": {"correct": 0.9, "partial": 0.5, "skip_check": 0.0, "think": 90},
               "support": {"correct": 0.9, "partial": 0.5, "skip_check": 0.1, "think": 90}},
 }
-
 
 def main():
     runs = {name: run(StubModel(name, profile), DATASET) for name, profile in PROFILES.items()}
@@ -303,7 +288,6 @@ def main():
         print_model(name, rs)
     old, new = (summarize(runs[n]) for n in ("baseline", "tuned"))
     print("\nRegressions in 'tuned' relative to 'baseline':", regressions(old, new) or "none")
-
 
 if __name__ == "__main__":
     main()

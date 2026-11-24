@@ -54,8 +54,6 @@ Salakhutdinov describes two test-time methods. Search by repeated sampling runs 
 | VisualWebArena | 2024 | The same style, with tasks that need images | Execution-based; screenshots allowed |
 | OSWorld | 2024 | 369 tasks on a real desktop operating system | Execution-based scripts on a VM |
 
-<!-- VERIFY: task and website counts for Mind2Web, the years, and the arXiv links below come from my knowledge of the papers, not from the lectures. -->
-
 ## What the practitioners say
 
 ### Ruslan Salakhutdinov (March 2025): the gap, the failures, the fixes
@@ -73,8 +71,6 @@ Salakhutdinov describes two test-time methods. Search by repeated sampling runs 
 - **What OSWorld showed.** Higher screenshot resolution improves results; a longer text history improves results, where screenshot-only history does not; raising the step limit from 15 to 50 helps ([38:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=2280)).
 - **AgentTrek.** A **trajectory** is one full record of observations, actions and reasoning for a task, and none can be crawled for free. His team turns web tutorials into trajectories: collect tutorials; paraphrase each into a structured tutorial with prerequisites, step-by-step instructions and an expected outcome; let a VLM agent replay it; let a VLM evaluator score the recording and drop weak ones ([50:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=3000)).
 - **AGUVIS.** Text representations differ per platform, action formats differ, and closed models grounded poorly; most agents emit an action with no reasoning ([72:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=4320)). AGUVIS uses screenshots only, one action format, and an **inner monologue**, a short piece of reasoning written before each action. Its first training stage uses one million grounding examples ([82:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=4920)), and his slide reports that the monologue helps on harder tasks. He closes: improve grounding, not only reasoning ([88:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=5280)).
-
-<!-- SOURCE GAP: the packets hold about a fifth of each transcript. Salakhutdinov's tree-search results and Xiong's OSWorld scores for Anthropic's and OpenAI's agents are on slides without text, so no numbers are given here. -->
 
 ## Pitfalls
 

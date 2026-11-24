@@ -27,8 +27,6 @@ The colors have a history, which the lecture gives. In early work on safety benc
 
 **One point of precision.** In this lecture the white agent is the agent under test. It is not an attacker, and it is not a monitor. The only link to adversarial testing is the naming history.
 
-<!-- SOURCE GAP: The brief for this part lists "the kinds of attacks the white agent must catch" as a topic of this chapter. Neither the f25-04 lecture packet nor the Fall 2025 course page describes attacks between agents or any attack category, and in both sources the white agent is the agent under test. No attack content could be written from the sources. -->
-
 ## What the green agent must do
 
 The lecture lists five responsibilities ([66:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3960)):
@@ -209,8 +207,6 @@ This chapter's reading of all that: the hard part is not the tasks. It is that t
 
 - **Lecture:** Berkeley course staff, "LLM Agent Evaluations & Project Overview", UC Berkeley Agentic AI MOOC, Fall 2025: [video](https://www.youtube.com/watch?v=VfOA2a0dj4w), used at [green and white agents](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3840), [the two project types](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=4440), [the checklist](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=5280), [the grading rubric](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=5520).
 - **Reading:** UC Berkeley, "CS294/194-196: Agentic AI, Fall 2025", [course page](https://rdi.berkeley.edu/agentic-ai/f25): syllabus, grading and project timeline.
-
-<!-- VERIFY: Add the URL of the Fall 2025 course page to the source above. The archived copy used here contains no URL. -->
 
 ## Next
 

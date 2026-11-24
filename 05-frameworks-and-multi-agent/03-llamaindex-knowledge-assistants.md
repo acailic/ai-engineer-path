@@ -133,8 +133,6 @@ Observe three things:
 
 In the lecture's terms, this file is still plain retrieval: no agent, no reasoning. Step 5 would wrap `retrieve` in a loop that lets a model call it several times.
 
-<!-- VERIFY: the LlamaIndex class and method names (readers, index, query engine, workflow) were not checked against the documentation for this edition, so no library API is shown. -->
-
 ## What the practitioners say
 
 Jerry Liu leads LlamaIndex, which he describes as an open-source toolkit for building agents over your data. His half of the lecture is a use case his company works on: a multimodal knowledge assistant ([37:04](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2224)).

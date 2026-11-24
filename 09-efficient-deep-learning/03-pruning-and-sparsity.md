@@ -154,10 +154,6 @@ What to observe:
 - He puts a number on why memory matters: a 32-bit addition costs under 1 picojoule and a DRAM access more than 600 ([2:00](https://www.youtube.com/watch?v=EjsB0WgIfUM&t=120)).
 - Pruning, low-rank approximation, quantization and distillation are orthogonal: they can be combined (Lecture 3, [56:00](https://www.youtube.com/watch?v=EjsB0WgIfUM&t=3360)).
 
-<!-- VERIFY: the "90% of parameters" figure is a general remark by the lecturer, not tied to a named model in the transcript; do not present it as a benchmark result. -->
-
-<!-- VERIFY: the MLPerf hardware description in the transcript is garbled ("a single Nvidia H200 GPU" for a 70B model); only the token rates and the layer counts are used here. -->
-
 ## Pitfalls
 
 1. **Pruning and expecting a speed-up on a GPU.** Fix: use structural pruning or a hardware-supported pattern, or accept storage savings only.

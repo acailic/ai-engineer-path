@@ -45,8 +45,6 @@ Hubert's slides list four steps (section at [56:54](https://www.youtube.com/watc
 - **Expected.** Hubert's stated bet is that "perfect verification will, in the long run, be the most important property for mathematics" ([38:00](https://www.youtube.com/watch?v=3gaEMscOMAU&t=2280)). He also wants a method not tuned to the IMO ([68:00](https://www.youtube.com/watch?v=3gaEMscOMAU&t=4080)).
 - **Not yet.** Mathlib covers about 80 percent of undergraduate curricula in his estimate ([10:00](https://www.youtube.com/watch?v=3gaEMscOMAU&t=600)), has gaps such as geometry, and research mathematics needs new objects and theories ([70:00](https://www.youtube.com/watch?v=3gaEMscOMAU&t=4200)). His slide puts Lean adoption at 0.1 to 1 percent of mathematicians (section at [11:06](https://www.youtube.com/watch?v=3gaEMscOMAU&t=666)).
 
-<!-- VERIFY: the 28 of 42 result and DeepMind's announcement date come from my knowledge; the packet lists only the three problems AlphaProof solved. -->
-
 ## What the practitioners say
 
 Four lectures, four ways to use the same checker:
@@ -134,8 +132,6 @@ theorem wrong (a b : Nat) : a + b = b - a := by rfl   -- rejected: not true
 - **Lecture:** Swarat Chaudhuri, "Abstraction and Discovery with Large Language Model Agents", UC Berkeley Advanced LLM Agents MOOC, Spring 2025 (April 21, 2025): [video](https://www.youtube.com/watch?v=IHc0TEMrEdY), used at [proof search](https://www.youtube.com/watch?v=IHc0TEMrEdY&t=1440)
 - **Reading:** Yang et al., "Formal Mathematical Reasoning: A New Frontier in AI" (2024): [arXiv](https://arxiv.org/abs/2412.16075)
 - **Reading:** DeepMind, "AI solves IMO problems at silver-medal level" (July 2024): [post](https://deepmind.google/discover/blog/ai-solves-imo-problems-at-silver-medal-level/)
-
-<!-- VERIFY: the Lean snippet, the DeepMind post URL and the attribution of 28/42 were not checked against sources; the Lean code was not run. -->
 
 ## Next
 

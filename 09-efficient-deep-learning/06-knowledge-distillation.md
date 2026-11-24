@@ -228,7 +228,7 @@ Distill a small image classifier.
 - **Reading:** Jianping Gou, Baosheng Yu, Stephen J. Maybank, Dacheng Tao, "Knowledge Distillation: A Survey" (IJCV 2021): [arXiv](https://arxiv.org/abs/2006.05525)
 - **Reading:** Tommaso Furlanello, Zachary Lipton, Michael Tannenbaum, et al., "Born-Again Neural Networks" (ICML 2018): [arXiv](https://arxiv.org/abs/1805.04770)
 - **Reading:** Adriana Romero, Nicolas Ballas, Samira Ebrahimi Kahou, et al., "FitNets: Hints for Thin Deep Nets" (ICLR 2015): [arXiv](https://arxiv.org/abs/1412.6550)
-- **Reading:** Han Cai, Chuang Gan, Song Han, "Network Augmentation for Tiny Deep Learning" (ICLR 2022): [arXiv](https://arxiv.org/abs/2110.08268)
+Han Cai, Chuang Gan, Ji Lin and Song Han, "Network Augmentation for Tiny Deep Learning" (ICLR 2022): [arXiv](https://arxiv.org/abs/2110.08890)
 
 ## Next
 

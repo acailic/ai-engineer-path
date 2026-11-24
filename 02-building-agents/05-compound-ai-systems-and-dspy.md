@@ -54,8 +54,7 @@ Three families of optimizers appear in the lecture:
 
 ## Worked example
 
-A two-step question-answering program in DSPy style. The API is the one shown in the October 2024 lecture; DSPy changes often, so treat this as illustrative pseudocode and check the current documentation. <!-- VERIFY: DSPy API as of 2026-11 -->
-
+A two-step question-answering program in DSPy style. The API is the one shown in the October 2024 lecture; DSPy changes often, so treat this as illustrative pseudocode and check the current documentation.
 ```python
 import dspy
 
@@ -85,8 +84,7 @@ The last line is what replaces manual prompt editing. Khattab describes what a b
 4. Put the kept traces into the prompts as worked examples.
 5. Try several subsets of examples on a small validation set and keep the best.
 
-Compiling calls a paid API many times: each training example, times several candidate programs, times the number of steps. Expect hundreds to a few thousand calls for a training set of 50 examples, which is typically cents to a few US dollars on a small hosted model. Log the count. <!-- VERIFY: call volume and prices -->
-
+Compiling calls a paid API many times: each training example, times several candidate programs, times the number of steps. Expect hundreds to a few thousand calls for a training set of 50 examples, which is typically cents to a few US dollars on a small hosted model. Log the count.
 ## What the practitioners say
 
 Khattab's Fall 2024 lecture makes five points.
@@ -162,10 +160,7 @@ Build and optimize a two-step program on a task with known answers.
 ## Sources
 
 - **Lecture:** Omar Khattab, "Compound AI Systems and the DSPy Framework", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=JEMYuzrKLUw), used at [why compound systems](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=120), [stringly-typed prompts](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=1692), [results](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=1680), [metric and traces](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=1920), [bootstrapping](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2520), [grounding](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2880), [findings](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3360), [lessons](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3480)
-- **Reading:** Omar Khattab, Arnav Singhvi, et al., "DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines" (2023): [link](https://arxiv.org/abs/2310.03714) <!-- VERIFY -->
-- **Reading:** Krista Opsahl-Ong, Michael Ryan, et al., "Optimizing Instructions and Demonstrations for Multi-Stage Language Model Programs" (2024): [link](https://arxiv.org/abs/2406.11695) <!-- VERIFY -->
-- **Reading:** Matei Zaharia, Omar Khattab, et al., "The Shift from Models to Compound AI Systems" (2024): [link](https://bair.berkeley.edu/blog/2024/02/18/compound-ai-systems/) <!-- VERIFY -->
-- **Documentation:** DSPy: [dspy.ai](https://dspy.ai)
+- **Reading:** Omar Khattab, Arnav Singhvi, et al., "DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines" (2023): [link](https://arxiv.org/abs/2310.03714)- **Reading:** Krista Opsahl-Ong, Michael Ryan, et al., "Optimizing Instructions and Demonstrations for Multi-Stage Language Model Programs" (2024): [link](https://arxiv.org/abs/2406.11695)- **Reading:** Matei Zaharia, Omar Khattab, et al., "The Shift from Models to Compound AI Systems" (2024): [link](https://bair.berkeley.edu/blog/2024/02/18/compound-ai-systems/)- **Documentation:** DSPy: [dspy.ai](https://dspy.ai)
 
 ## Next
 

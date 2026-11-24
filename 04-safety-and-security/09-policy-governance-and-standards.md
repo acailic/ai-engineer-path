@@ -46,8 +46,7 @@ The proposal names five priorities. The right column translates each instrument 
 
 ### 3. Adopt the pattern of a responsible scaling policy
 
-A **responsible scaling policy** is a public commitment by a model developer. It names capability thresholds and the safety and security measures the company will meet before it trains or deploys a model above each one. Anthropic published the first in 2023, and OpenAI and Google DeepMind followed with similar frameworks in 2023 and 2024. All have been revised since. <!-- VERIFY: these companies, years and the claim about revisions are from general knowledge, not from the lecture or a page opened for this chapter; check the current versions. -->
-
+A **responsible scaling policy** is a public commitment by a model developer. It names capability thresholds and the safety and security measures the company will meet before it trains or deploys a model above each one. Anthropic published the first in 2023, and OpenAI and Google DeepMind followed with similar frameworks in 2023 and 2024. All have been revised since.
 You do not train frontier models, and the pattern still applies. It has three parts:
 
 1. **Thresholds written before the capability arrives.** The rule is fixed while nobody has an incentive to bend it.
@@ -56,8 +55,7 @@ You do not train frontier models, and the pattern still applies. It has three pa
 
 ### 4. Know the landscape, with dates
 
-The lecture is from December 2024. Regulation moves faster than any course. The table lists what could be verified as of November 2026. Check the current text before you rely on an entry. <!-- VERIFY: rows marked (general knowledge) were not opened for this chapter. -->
-
+The lecture is from December 2024. Regulation moves faster than any course. The table lists what could be verified as of November 2026. Check the current text before you rely on an entry.
 | Instrument | Kind | Date | What it asks of a team |
 |-----------|------|------|------------------------|
 | NIST AI Risk Management Framework 1.0 and its Generative AI Profile | Voluntary framework, US | January 2023; profile July 2024 (general knowledge) | Organizes the work in four functions: govern, map, measure, manage. |
@@ -103,8 +101,7 @@ Dawn Song gave the policy part as the closing section of her Fall 2024 lecture.
 
 - **Law arrived before evidence.** She counts about 120 AI bills at the US federal level, and about 600 bills introduced in at least 45 states in the 2024 session, and describes heated disagreement in the field, with California's SB 1047 as her example. The bill was vetoed. Her summary of the problem: "Technical solution alone is necessary but insufficient." ([96:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=5760))
 - **The proposal.** Policy for AI, her slide argues, has to rest on a scientific grasp of the risks and of ways to reduce them, and today that grasp is thin. She lists the five priorities at [100:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=6000).
-- **A blueprint written in advance.** She calls for a map from future conditions, such as a capability level or a demonstrated harm, to candidate policy responses, agreed before anyone knows which condition will occur. That, she argues, sidesteps arguments about when a risk will materialize. About 200 institutions volunteered to contribute after the launch, as she reports at [102:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=6120). <!-- SOURCE GAP: the packet has no transcript for 96-100 minutes; the first priority and the risk-assessment questions are from the slides only. -->
-- **Marginal risk differs by domain.** Her slide from that lecture puts the marginal risk of AI for social engineering high, and for software exploits low, at the time. In the same lecture she states a forecast, as her own belief: in the near term AI will help attackers more than defenders ([94:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=5640)). The findings in [AI for Cyber Defense](08-ai-for-cyber-defense-and-vulnerability-detection.md) are the other side of that forecast.
+- **A blueprint written in advance.** She calls for a map from future conditions, such as a capability level or a demonstrated harm, to candidate policy responses, agreed before anyone knows which condition will occur. That, she argues, sidesteps arguments about when a risk will materialize. About 200 institutions volunteered to contribute after the launch, as she reports at [102:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=6120).- **Marginal risk differs by domain.** Her slide from that lecture puts the marginal risk of AI for social engineering high, and for software exploits low, at the time. In the same lecture she states a forecast, as her own belief: in the near term AI will help attackers more than defenders ([94:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=5640)). The findings in [AI for Cyber Defense](08-ai-for-cyber-defense-and-vulnerability-detection.md) are the other side of that forecast.
 
 From Fall 2024 to Spring 2025 the framing stayed and the shared evidence base grew. In Spring 2025 she opens the same lecture by citing an International AI Safety Report led by Yoshua Bengio and written with about 100 researchers from 30 countries ([0:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=0)). Her outline still lists the policy path, and she runs out of time before it ([108:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6480)).
 

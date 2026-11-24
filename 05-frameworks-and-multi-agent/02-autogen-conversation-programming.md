@@ -44,9 +44,6 @@ The two-minute map of the lecture shows Wang moving from a writer and a critic a
 
 One more pattern belongs here: **StateFlow**. The idea, as the AutoGen team published it, is to encode a finite state machine (a set of states and the allowed moves between them) as a group chat. Each state becomes an agent. When a state-agent speaks, it does that state's work and names the next state, and the chat manager hands the turn to that agent. The conversation can then move only along the transitions you drew, while a model still does the work inside each state. It is the constrained end of the spectrum from chapter 01, built out of conversation parts.
 
-<!-- SOURCE GAP: the packet skips the lecture stretch (about 12 to 20 minutes) in which Wang defines agent and conversation programming, and it holds no StateFlow passage. The StateFlow paragraph follows the AutoGen team's published description, not the lecture. -->
-<!-- VERIFY: the AutoGen StateFlow blog post and its URL were not opened for this edition. -->
-
 All four patterns share the same engine, and it is small: a rule that picks the next speaker, and a rule that says the conversation is over. The next section builds it.
 
 ## Worked example

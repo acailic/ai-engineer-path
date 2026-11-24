@@ -30,8 +30,6 @@ Drawing on that chapter, ML earns its place when all four hold:
 
 Kästner compresses this into one line: ML may solve problems that are intrinsically hard, big and time-changing, as long as the risks are tolerable, the data exists and the benefits beat the costs.
 
-<!-- SOURCE GAP: the copy of book chapter 4 available for this chapter was trimmed to its introduction, headings and the first two paragraphs of each section. Only the first class of Hulten's problem types ("intrinsically hard") was visible; the others are not covered. -->
-
 ### The business angle: cheaper predictions
 
 Kästner borrows a framing from *Prediction Machines* (Agrawal, Gans and Goldfarb, 2018). ML makes **predictions** cheaper. A prediction is a best guess that reduces uncertainty, using past data. Predictions feed decisions, whether a person or a program makes them. Two questions follow:
@@ -106,7 +104,6 @@ LABELED = [
 BILLING_WORDS = ("invoice", "refund", "charged", "credit card")
 TECH_WORDS = ("log in", "crash", "error", "export", "sync", "bug")
 
-
 def rule(subject: str) -> str:
     s = subject.lower()
     if any(word in s for word in BILLING_WORDS):
@@ -115,10 +112,8 @@ def rule(subject: str) -> str:
         return "technical"
     return "other"
 
-
 def accuracy(predict) -> float:
     return sum(predict(s) == truth for s, truth in LABELED) / len(LABELED)
-
 
 if __name__ == "__main__":
     most_common = Counter(truth for _, truth in LABELED).most_common(1)[0][0]

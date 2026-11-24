@@ -12,60 +12,60 @@ Everything in this repository is synthesized from the open course material liste
 
 ## UC Berkeley LLM Agents MOOC (Fall 2024)
 
-Course page: <https://rdi.berkeley.edu/llm-agents/f24/>
+Course page: <https://rdi.berkeley.edu/llm-agents/f24>
 
 | Lecture | Speaker(s) | Links | Used in |
 |---|---|---|---|
-| LLM Reasoning | Denny Zhou (Google DeepMind) | [video](https://www.youtube.com/watch?v=QL-FS_Zcmyo) | — |
-| LLM agents: brief history and overview | Shunyu Yao (OpenAI) | [video](https://www.youtube.com/watch?v=RM6ZArd2nVc) | — |
-| Agentic AI Frameworks & AutoGen + Building a Multimodal Knowledge Assistant | Chi Wang (AutoGen-AI); Jerry Liu (LlamaIndex) | [video](https://www.youtube.com/watch?v=OOdtmCMSOo4) | — |
-| Enterprise trends for generative AI, and key components of building successful agents/applications | Burak Gokturk (Google) | [video](https://www.youtube.com/watch?v=Sy1psHS3w3I) | — |
-| Compound AI Systems & the DSPy Framework | Omar Khattab (Databricks) | [video](https://www.youtube.com/watch?v=JEMYuzrKLUw) | — |
-| Agents for Software Development | Graham Neubig (CMU) | [video](https://www.youtube.com/watch?v=f9L9Fkq-8K4) | — |
-| AI Agents for Enterprise Workflows | Nicolas Chapados (ServiceNow) | [video](https://www.youtube.com/watch?v=-yf-e-9FvOc) | — |
-| Towards a unified framework of Neural and Symbolic Decision Making | Yuandong Tian (Meta AI, FAIR) | [video](https://www.youtube.com/watch?v=wm9-7VBpdEo) | — |
-| Project GR00T: A Blueprint for Generalist Robotics | Jim Fan (NVIDIA) | [video](https://www.youtube.com/watch?v=Qhxr0uVT2zs) | — |
-| Open-Source and Science in the Era of Foundation Models | Percy Liang (Stanford) | [video](https://www.youtube.com/watch?v=f3KKx9LWntQ) | — |
-| Measuring Agent capabilities and Anthropic's RSP | Ben Mann (Anthropic) | [video](https://www.youtube.com/watch?v=6y2AnWol7oo) | [06-evaluating-capabilities-and-risks](../03-evaluation/06-evaluating-capabilities-and-risks.md) |
-| Towards Building Safe & Trustworthy AI Agents and A Path for Science- and Evidence-based AI Policy | Dawn Song (UC Berkeley) | [video](https://www.youtube.com/watch?v=QAgR4uQ15rc) | — |
+| LLM Reasoning | Denny Zhou (Google DeepMind) | [video](https://www.youtube.com/watch?v=QL-FS_Zcmyo) | [04-using-llms-tokens-context-and-sampling](01-foundations/04-using-llms-tokens-context-and-sampling.md)<br>[05-prompting-and-in-context-learning](01-foundations/05-prompting-and-in-context-learning.md)<br>[06-reasoning-in-llms-from-chain-of-thought-to-search](01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md)<br>[08-a-short-history-of-llm-agents](01-foundations/08-a-short-history-of-llm-agents.md) |
+| LLM agents: brief history and overview | Shunyu Yao (OpenAI) | [video](https://www.youtube.com/watch?v=RM6ZArd2nVc) | [05-prompting-and-in-context-learning](01-foundations/05-prompting-and-in-context-learning.md)<br>[08-a-short-history-of-llm-agents](01-foundations/08-a-short-history-of-llm-agents.md) |
+| Agentic AI Frameworks & AutoGen + Building a Multimodal Knowledge Assistant | Chi Wang (AutoGen-AI); Jerry Liu (LlamaIndex) | [video](https://www.youtube.com/watch?v=OOdtmCMSOo4) | [01-the-agent-framework-landscape](05-frameworks-and-multi-agent/01-the-agent-framework-landscape.md)<br>[02-autogen-conversation-programming](05-frameworks-and-multi-agent/02-autogen-conversation-programming.md)<br>[03-llamaindex-knowledge-assistants](05-frameworks-and-multi-agent/03-llamaindex-knowledge-assistants.md) |
+| Enterprise trends for generative AI, and key components of building successful agents/applications | Burak Gokturk (Google) | [video](https://www.youtube.com/watch?v=Sy1psHS3w3I) | [07-agents-in-the-enterprise](05-frameworks-and-multi-agent/07-agents-in-the-enterprise.md) |
+| Compound AI Systems & the DSPy Framework | Omar Khattab (Databricks) | [video](https://www.youtube.com/watch?v=JEMYuzrKLUw) | [05-compound-ai-systems-and-dspy](02-building-agents/05-compound-ai-systems-and-dspy.md) |
+| Agents for Software Development | Graham Neubig (CMU) | [video](https://www.youtube.com/watch?v=f9L9Fkq-8K4) | [01-the-anatomy-of-an-agent](02-building-agents/01-the-anatomy-of-an-agent.md)<br>[02-tool-design-and-function-calling](02-building-agents/02-tool-design-and-function-calling.md)<br>[07-coding-agents](02-building-agents/07-coding-agents.md)<br>[08-training-models-for-agentic-tasks](02-building-agents/08-training-models-for-agentic-tasks.md) |
+| AI Agents for Enterprise Workflows | Nicolas Chapados (ServiceNow) | [video](https://www.youtube.com/watch?v=-yf-e-9FvOc) | [06-agent-infrastructure-sandboxes-browser-use-and-protocols](05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md)<br>[07-agents-in-the-enterprise](05-frameworks-and-multi-agent/07-agents-in-the-enterprise.md) |
+| Towards a unified framework of Neural and Symbolic Decision Making | Yuandong Tian (Meta AI, FAIR) | [video](https://www.youtube.com/watch?v=wm9-7VBpdEo) | [03-planning-search-and-decision-making](02-building-agents/03-planning-search-and-decision-making.md) |
+| Project GR00T: A Blueprint for Generalist Robotics | Jim Fan (NVIDIA) | [video](https://www.youtube.com/watch?v=Qhxr0uVT2zs) | [02-embodied-agents-and-robotics](06-frontier-applications/02-embodied-agents-and-robotics.md)<br>[05-what-frontier-domains-teach-about-agents](06-frontier-applications/05-what-frontier-domains-teach-about-agents.md) |
+| Open-Source and Science in the Era of Foundation Models | Percy Liang (Stanford) | [video](https://www.youtube.com/watch?v=f3KKx9LWntQ) | [03-agents-for-scientific-discovery](06-frontier-applications/03-agents-for-scientific-discovery.md)<br>[05-what-frontier-domains-teach-about-agents](06-frontier-applications/05-what-frontier-domains-teach-about-agents.md) |
+| Measuring Agent capabilities and Anthropic's RSP | Ben Mann (Anthropic) | [video](https://www.youtube.com/watch?v=6y2AnWol7oo) | [06-evaluating-capabilities-and-risks](03-evaluation/06-evaluating-capabilities-and-risks.md) |
+| Towards Building Safe & Trustworthy AI Agents and A Path for Science- and Evidence-based AI Policy | Dawn Song (UC Berkeley) | [video](https://www.youtube.com/watch?v=QAgR4uQ15rc) | [01-threat-modeling-llm-applications-and-agents](04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md)<br>[02-jailbreaks-and-prompt-injection](04-safety-and-security/02-jailbreaks-and-prompt-injection.md)<br>[04-defenses-guardrails-detection-and-secure-design](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md)<br>[07-trustworthiness-beyond-injection](04-safety-and-security/07-trustworthiness-beyond-injection.md)<br>[08-ai-for-cyber-defense-and-vulnerability-detection](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md)<br>[09-policy-governance-and-standards](04-safety-and-security/09-policy-governance-and-standards.md) |
 
 ## UC Berkeley Advanced LLM Agents MOOC (Spring 2025)
 
-Course page: <https://rdi.berkeley.edu/adv-llm-agents/sp25/>
+Course page: <https://rdi.berkeley.edu/adv-llm-agents/sp25>
 
 | Lecture | Speaker(s) | Links | Used in |
 |---|---|---|---|
-| Inference-Time Techniques for LLM Reasoning | Xinyun Chen (Google DeepMind) | [video](https://www.youtube.com/watch?v=g0Dwtf3BH-0) | — |
-| Learning to reason with LLMs | Jason Weston (Meta) | [video](https://www.youtube.com/watch?v=_MNlLhU33H0) | — |
-| On Reasoning, Memory, and Planning of Language Agents | Yu Su (Ohio State University) | [video](https://www.youtube.com/watch?v=zvI4UN2_i-w) | — |
-| Open Training Recipes for Reasoning in Language Models | Hanna Hajishirzi (University of Washington) | [video](https://www.youtube.com/watch?v=cMiu3A7YBks) | — |
-| Coding Agents and AI for Vulnerability Detection | Charles Sutton (Google DeepMind) | [video](https://www.youtube.com/watch?v=JCk6qJtaCSU) | — |
-| Multimodal Autonomous AI Agents | Ruslan Salakhutdinov (CMU / Meta) | [video](https://www.youtube.com/watch?v=RPINOYM12RU) | — |
-| Multimodal Agents: From Perception to Action | Caiming Xiong (Salesforce AI Research) | [video](https://www.youtube.com/watch?v=n__Tim8K2IY) | — |
-| AlphaProof: when reinforcement learning meets formal mathematics | Thomas Hubert (Google DeepMind) | [video](https://www.youtube.com/watch?v=3gaEMscOMAU) | — |
-| Language models for autoformalization and theorem proving | Kaiyu Yang (Meta FAIR) | [video](https://www.youtube.com/watch?v=cLhWEyMQ4mQ) | — |
-| Bridging Informal and Formal Mathematical Reasoning | Sean Welleck (CMU) | [video](https://www.youtube.com/watch?v=Gy5Nm17l9oo) | — |
-| Abstraction and Discovery with Large Language Model Agents | Swarat Chaudhuri (UT Austin) | [video](https://www.youtube.com/watch?v=IHc0TEMrEdY) | — |
-| Towards building safe and secure agentic AI | Dawn Song (UC Berkeley) | [video](https://www.youtube.com/watch?v=ti6yPE2VPZc) | — |
+| Inference-Time Techniques for LLM Reasoning | Xinyun Chen (Google DeepMind) | [video](https://www.youtube.com/watch?v=g0Dwtf3BH-0) | [05-prompting-and-in-context-learning](01-foundations/05-prompting-and-in-context-learning.md)<br>[06-reasoning-in-llms-from-chain-of-thought-to-search](01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) |
+| Learning to reason with LLMs | Jason Weston (Meta) | [video](https://www.youtube.com/watch?v=_MNlLhU33H0) | [03-from-base-model-to-assistant-post-training](01-foundations/03-from-base-model-to-assistant-post-training.md)<br>[06-reasoning-in-llms-from-chain-of-thought-to-search](01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) |
+| On Reasoning, Memory, and Planning of Language Agents | Yu Su (Ohio State University) | [video](https://www.youtube.com/watch?v=zvI4UN2_i-w) | [03-planning-search-and-decision-making](02-building-agents/03-planning-search-and-decision-making.md)<br>[04-memory-and-knowledge-for-agents](02-building-agents/04-memory-and-knowledge-for-agents.md)<br>[08-training-models-for-agentic-tasks](02-building-agents/08-training-models-for-agentic-tasks.md) |
+| Open Training Recipes for Reasoning in Language Models | Hanna Hajishirzi (University of Washington) | [video](https://www.youtube.com/watch?v=cMiu3A7YBks) | [03-from-base-model-to-assistant-post-training](01-foundations/03-from-base-model-to-assistant-post-training.md) |
+| Coding Agents and AI for Vulnerability Detection | Charles Sutton (Google DeepMind) | [video](https://www.youtube.com/watch?v=JCk6qJtaCSU) | [08-ai-for-cyber-defense-and-vulnerability-detection](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
+| Multimodal Autonomous AI Agents | Ruslan Salakhutdinov (CMU / Meta) | [video](https://www.youtube.com/watch?v=RPINOYM12RU) | [01-multimodal-agents-web-and-computer-use](06-frontier-applications/01-multimodal-agents-web-and-computer-use.md)<br>[05-what-frontier-domains-teach-about-agents](06-frontier-applications/05-what-frontier-domains-teach-about-agents.md) |
+| Multimodal Agents: From Perception to Action | Caiming Xiong (Salesforce AI Research) | [video](https://www.youtube.com/watch?v=n__Tim8K2IY) | [01-multimodal-agents-web-and-computer-use](06-frontier-applications/01-multimodal-agents-web-and-computer-use.md)<br>[05-what-frontier-domains-teach-about-agents](06-frontier-applications/05-what-frontier-domains-teach-about-agents.md) |
+| AlphaProof: when reinforcement learning meets formal mathematics | Thomas Hubert (Google DeepMind) | [video](https://www.youtube.com/watch?v=3gaEMscOMAU) | [04-agents-for-formal-mathematics](06-frontier-applications/04-agents-for-formal-mathematics.md)<br>[05-what-frontier-domains-teach-about-agents](06-frontier-applications/05-what-frontier-domains-teach-about-agents.md) |
+| Language models for autoformalization and theorem proving | Kaiyu Yang (Meta FAIR) | [video](https://www.youtube.com/watch?v=cLhWEyMQ4mQ) | [04-agents-for-formal-mathematics](06-frontier-applications/04-agents-for-formal-mathematics.md)<br>[05-what-frontier-domains-teach-about-agents](06-frontier-applications/05-what-frontier-domains-teach-about-agents.md) |
+| Bridging Informal and Formal Mathematical Reasoning | Sean Welleck (CMU) | [video](https://www.youtube.com/watch?v=Gy5Nm17l9oo) | [04-agents-for-formal-mathematics](06-frontier-applications/04-agents-for-formal-mathematics.md)<br>[05-what-frontier-domains-teach-about-agents](06-frontier-applications/05-what-frontier-domains-teach-about-agents.md) |
+| Abstraction and Discovery with Large Language Model Agents | Swarat Chaudhuri (UT Austin) | [video](https://www.youtube.com/watch?v=IHc0TEMrEdY) | [04-agents-for-formal-mathematics](06-frontier-applications/04-agents-for-formal-mathematics.md)<br>[05-what-frontier-domains-teach-about-agents](06-frontier-applications/05-what-frontier-domains-teach-about-agents.md) |
+| Towards building safe and secure agentic AI | Dawn Song (UC Berkeley) | [video](https://www.youtube.com/watch?v=ti6yPE2VPZc) | [01-threat-modeling-llm-applications-and-agents](04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md)<br>[02-jailbreaks-and-prompt-injection](04-safety-and-security/02-jailbreaks-and-prompt-injection.md)<br>[03-agent-specific-attacks](04-safety-and-security/03-agent-specific-attacks.md)<br>[04-defenses-guardrails-detection-and-secure-design](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md)<br>[05-runtime-monitoring-and-detection](04-safety-and-security/05-runtime-monitoring-and-detection.md)<br>[06-red-teaming-and-safety-evaluation](04-safety-and-security/06-red-teaming-and-safety-evaluation.md)<br>… 2 more |
 
 ## UC Berkeley Agentic AI MOOC (Fall 2025)
 
-Course page: <https://rdi.berkeley.edu/agentic-ai/f25/>
+Course page: <https://rdi.berkeley.edu/agentic-ai/f25>
 
 | Lecture | Speaker(s) | Links | Used in |
 |---|---|---|---|
-| LLM Agents Overview | Yann Dubois (OpenAI) | [video](https://www.youtube.com/watch?v=r1qZpYAmqmg) | — |
-| Evolution of system designs from an AI engineer perspective | Yangqing Jia (NVIDIA) | [video](https://www.youtube.com/watch?v=xqRAS6rAouo) | — |
-| Post-Training Verifiable Agents | Jiantao Jiao (NVIDIA) | [video](https://www.youtube.com/watch?v=3l0Zxus34es) | — |
-| Agent Evaluation & Project Overview | Berkeley course staff | [video](https://www.youtube.com/watch?v=VfOA2a0dj4w) | [01-evaluation-is-the-product](../03-evaluation/01-evaluation-is-the-product.md)<br>[02-a-minimal-eval-harness](../03-evaluation/02-a-minimal-eval-harness.md)<br>[03-llm-as-a-judge-and-rubrics](../03-evaluation/03-llm-as-a-judge-and-rubrics.md)<br>[04-evaluating-agents-trajectories-and-environments](../03-evaluation/04-evaluating-agents-trajectories-and-environments.md)<br>[05-statistics-for-evals](../03-evaluation/05-statistics-for-evals.md)<br>[08-case-study-the-green-agent-and-white-agent-project](../03-evaluation/08-case-study-the-green-agent-and-white-agent-project.md) |
-| Some Challenges and Lessons from Training Agentic Models | Weizhu Chen (Microsoft) | [video](https://www.youtube.com/watch?v=xNxrBHZPDvM) | — |
-| Multi-Agent AI | Noam Brown (OpenAI) | [video](https://www.youtube.com/watch?v=SrLcGdVOb9w) | — |
-| Predictable Noise in LLM | Sida Wang (Meta) | [video](https://www.youtube.com/watch?v=HV8pugcFVO0) | [05-statistics-for-evals](../03-evaluation/05-statistics-for-evals.md) |
-| AI Agents to Automate Scientific Discoveries | James Zou (Stanford) | [video](https://www.youtube.com/watch?v=yqPIsTTdUkc) | — |
-| Practical Lessons from Deploying Real-World AI Agents | Clay Bavor (Sierra) | [video](https://www.youtube.com/watch?v=sfJM4LaiYsM) | [04-evaluating-agents-trajectories-and-environments](../03-evaluation/04-evaluating-agents-trajectories-and-environments.md)<br>[07-evals-in-production](../03-evaluation/07-evals-in-production.md) |
-| Multi-Agent Systems in the Era of LLMs | Oriol Vinyals (Google DeepMind) | [video](https://www.youtube.com/watch?v=ntjOxjZMaac) | — |
-| Autonomous Agents: Embodiment, Interaction, and Learning | Peter Stone (UT Austin / Sony AI) | [video](https://www.youtube.com/watch?v=iDhzzugMOLA) | — |
-| Agentic AI Safety & Security | Dawn Song (UC Berkeley) | [video](https://www.youtube.com/watch?v=CvZDJxd4LKM) | — |
+| LLM Agents Overview | Yann Dubois (OpenAI) | [video](https://www.youtube.com/watch?v=r1qZpYAmqmg) | [01-machine-learning-in-a-nutshell](01-foundations/01-machine-learning-in-a-nutshell.md)<br>[02-how-large-language-models-are-trained](01-foundations/02-how-large-language-models-are-trained.md)<br>[03-from-base-model-to-assistant-post-training](01-foundations/03-from-base-model-to-assistant-post-training.md)<br>[04-using-llms-tokens-context-and-sampling](01-foundations/04-using-llms-tokens-context-and-sampling.md)<br>[05-prompting-and-in-context-learning](01-foundations/05-prompting-and-in-context-learning.md)<br>[08-a-short-history-of-llm-agents](01-foundations/08-a-short-history-of-llm-agents.md) |
+| Evolution of system designs from an AI engineer perspective | Yangqing Jia (NVIDIA) | [video](https://www.youtube.com/watch?v=xqRAS6rAouo) | [01-the-anatomy-of-an-agent](02-building-agents/01-the-anatomy-of-an-agent.md)<br>[02-tool-design-and-function-calling](02-building-agents/02-tool-design-and-function-calling.md)<br>[04-memory-and-knowledge-for-agents](02-building-agents/04-memory-and-knowledge-for-agents.md)<br>[06-how-agent-system-designs-evolve](02-building-agents/06-how-agent-system-designs-evolve.md) |
+| Post-Training Verifiable Agents | Jiantao Jiao (NVIDIA) | [video](https://www.youtube.com/watch?v=3l0Zxus34es) | [03-from-base-model-to-assistant-post-training](01-foundations/03-from-base-model-to-assistant-post-training.md) |
+| Agent Evaluation & Project Overview | Berkeley course staff | [video](https://www.youtube.com/watch?v=VfOA2a0dj4w) | [01-evaluation-is-the-product](03-evaluation/01-evaluation-is-the-product.md)<br>[02-a-minimal-eval-harness](03-evaluation/02-a-minimal-eval-harness.md)<br>[03-llm-as-a-judge-and-rubrics](03-evaluation/03-llm-as-a-judge-and-rubrics.md)<br>[04-evaluating-agents-trajectories-and-environments](03-evaluation/04-evaluating-agents-trajectories-and-environments.md)<br>[05-statistics-for-evals](03-evaluation/05-statistics-for-evals.md)<br>[08-case-study-the-green-agent-and-white-agent-project](03-evaluation/08-case-study-the-green-agent-and-white-agent-project.md) |
+| Some Challenges and Lessons from Training Agentic Models | Weizhu Chen (Microsoft) | [video](https://www.youtube.com/watch?v=xNxrBHZPDvM) | [08-training-models-for-agentic-tasks](02-building-agents/08-training-models-for-agentic-tasks.md) |
+| Multi-Agent AI | Noam Brown (OpenAI) | [video](https://www.youtube.com/watch?v=SrLcGdVOb9w) | [04-multi-agent-systems-i-games-and-self-play](05-frameworks-and-multi-agent/04-multi-agent-systems-i-games-and-self-play.md)<br>[05-multi-agent-systems-ii-the-llm-era](05-frameworks-and-multi-agent/05-multi-agent-systems-ii-the-llm-era.md) |
+| Predictable Noise in LLM | Sida Wang (Meta) | [video](https://www.youtube.com/watch?v=HV8pugcFVO0) | [07-why-llm-outputs-are-noisy](01-foundations/07-why-llm-outputs-are-noisy.md)<br>[05-statistics-for-evals](03-evaluation/05-statistics-for-evals.md) |
+| AI Agents to Automate Scientific Discoveries | James Zou (Stanford) | [video](https://www.youtube.com/watch?v=yqPIsTTdUkc) | [03-agents-for-scientific-discovery](06-frontier-applications/03-agents-for-scientific-discovery.md)<br>[05-what-frontier-domains-teach-about-agents](06-frontier-applications/05-what-frontier-domains-teach-about-agents.md) |
+| Practical Lessons from Deploying Real-World AI Agents | Clay Bavor (Sierra) | [video](https://www.youtube.com/watch?v=sfJM4LaiYsM) | [04-evaluating-agents-trajectories-and-environments](03-evaluation/04-evaluating-agents-trajectories-and-environments.md)<br>[07-evals-in-production](03-evaluation/07-evals-in-production.md) |
+| Multi-Agent Systems in the Era of LLMs | Oriol Vinyals (Google DeepMind) | [video](https://www.youtube.com/watch?v=ntjOxjZMaac) | [05-multi-agent-systems-ii-the-llm-era](05-frameworks-and-multi-agent/05-multi-agent-systems-ii-the-llm-era.md)<br>[06-agent-infrastructure-sandboxes-browser-use-and-protocols](05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md) |
+| Autonomous Agents: Embodiment, Interaction, and Learning | Peter Stone (UT Austin / Sony AI) | [video](https://www.youtube.com/watch?v=iDhzzugMOLA) | [02-embodied-agents-and-robotics](06-frontier-applications/02-embodied-agents-and-robotics.md)<br>[05-what-frontier-domains-teach-about-agents](06-frontier-applications/05-what-frontier-domains-teach-about-agents.md) |
+| Agentic AI Safety & Security | Dawn Song (UC Berkeley) | [video](https://www.youtube.com/watch?v=CvZDJxd4LKM) | [01-threat-modeling-llm-applications-and-agents](04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md)<br>[02-jailbreaks-and-prompt-injection](04-safety-and-security/02-jailbreaks-and-prompt-injection.md)<br>[03-agent-specific-attacks](04-safety-and-security/03-agent-specific-attacks.md)<br>[04-defenses-guardrails-detection-and-secure-design](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md)<br>[05-runtime-monitoring-and-detection](04-safety-and-security/05-runtime-monitoring-and-detection.md)<br>[06-red-teaming-and-safety-evaluation](04-safety-and-security/06-red-teaming-and-safety-evaluation.md)<br>… 1 more |
 
 ## Carnegie Mellon University — Machine Learning in Production (Christian Kästner)
 
@@ -73,35 +73,35 @@ Christian Kästner, *Machine Learning in Production: From Models to Products*. M
 
 | Chapter | Title | Used in |
 |---|---|---|
-| 01 | [Introduction](https://mlip-cmu.github.io/book/01-introduction.html) | 0 chapter(s) |
-| 02 | [From Models to Systems](https://mlip-cmu.github.io/book/02-from-models-to-systems.html) | 0 chapter(s) |
-| 03 | [Machine Learning for Software Engineers, in a Nutshell](https://mlip-cmu.github.io/book/03-machine-learning-for-software-engineers-in-a-nutshell.html) | 0 chapter(s) |
-| 04 | [When to use Machine Learning](https://mlip-cmu.github.io/book/04-when-to-use-machine-learning.html) | 0 chapter(s) |
-| 05 | [Setting and Measuring Goals](https://mlip-cmu.github.io/book/05-setting-and-measuring-goals.html) | 0 chapter(s) |
-| 06 | [Gathering Requirements](https://mlip-cmu.github.io/book/06-gathering-requirements.html) | 0 chapter(s) |
-| 07 | [Planning for Mistakes](https://mlip-cmu.github.io/book/07-planning-for-mistakes.html) | 0 chapter(s) |
-| 08 | [Thinking like a Software Architect](https://mlip-cmu.github.io/book/08-thinking-like-a-software-architect.html) | 0 chapter(s) |
-| 09 | [Quality Attributes of ML Components](https://mlip-cmu.github.io/book/09-quality-attributes-of-ml-components.html) | 0 chapter(s) |
-| 10 | [Deploying a Model](https://mlip-cmu.github.io/book/10-deploying-a-model.html) | 0 chapter(s) |
-| 11 | [Automating the Pipeline](https://mlip-cmu.github.io/book/11-automating-the-pipeline.html) | 0 chapter(s) |
-| 12 | [Scaling the System](https://mlip-cmu.github.io/book/12-scaling-the-system.html) | 0 chapter(s) |
-| 13 | [Planning for Operations](https://mlip-cmu.github.io/book/13-planning-for-operations.html) | 0 chapter(s) |
-| 14 | [Quality Assurance Basics](https://mlip-cmu.github.io/book/14-quality-assurance-basics.html) | 3 chapter(s): `01-evaluation-is-the-product`, `03-llm-as-a-judge-and-rubrics`, `07-evals-in-production` |
-| 15 | [Model Quality](https://mlip-cmu.github.io/book/15-model-quality.html) | 2 chapter(s): `02-a-minimal-eval-harness`, `03-llm-as-a-judge-and-rubrics` |
-| 16 | [Data Quality](https://mlip-cmu.github.io/book/16-data-quality.html) | 0 chapter(s) |
-| 17 | [Pipeline Quality](https://mlip-cmu.github.io/book/17-pipeline-quality.html) | 0 chapter(s) |
-| 18 | [System Quality](https://mlip-cmu.github.io/book/18-system-quality.html) | 0 chapter(s) |
-| 19 | [Testing and Experimenting in Production](https://mlip-cmu.github.io/book/19-testing-and-experimenting-in-production.html) | 0 chapter(s) |
-| 20 | [Data Science and Software Engineering Process Models](https://mlip-cmu.github.io/book/20-data-science-and-software-engineering-process-models.html) | 0 chapter(s) |
-| 21 | [Interdisciplinary Teams](https://mlip-cmu.github.io/book/21-interdisciplinary-teams.html) | 0 chapter(s) |
-| 22 | [Technical Debt](https://mlip-cmu.github.io/book/22-technical-debt.html) | 0 chapter(s) |
-| 23 | [Responsible Engineering](https://mlip-cmu.github.io/book/23-responsible-engineering.html) | 0 chapter(s) |
-| 24 | [Versioning, Provenance, and Reproducibility](https://mlip-cmu.github.io/book/24-versioning-provenance-and-reproducibility.html) | 0 chapter(s) |
-| 25 | [Explainability](https://mlip-cmu.github.io/book/25-explainability.html) | 0 chapter(s) |
-| 26 | [Fairness](https://mlip-cmu.github.io/book/26-fairness.html) | 0 chapter(s) |
-| 27 | [Safety](https://mlip-cmu.github.io/book/27-safety.html) | 0 chapter(s) |
-| 28 | [Security and Privacy](https://mlip-cmu.github.io/book/28-security-and-privacy.html) | 0 chapter(s) |
-| 29 | [Transparency and Accountability](https://mlip-cmu.github.io/book/29-transparency-and-accountability.html) | 0 chapter(s) |
+| 01 | [Introduction](https://mlip-cmu.github.io/book/01-introduction.html) | 1 chapter(s): `01-from-models-to-systems-and-products` |
+| 02 | [From Models to Systems](https://mlip-cmu.github.io/book/02-from-models-to-systems.html) | 1 chapter(s): `01-from-models-to-systems-and-products` |
+| 03 | [Machine Learning for Software Engineers, in a Nutshell](https://mlip-cmu.github.io/book/03-machine-learning-for-software-engineers-in-a-nutshell.html) | 1 chapter(s): `01-machine-learning-in-a-nutshell` |
+| 04 | [When to use Machine Learning](https://mlip-cmu.github.io/book/04-when-to-use-machine-learning.html) | 1 chapter(s): `02-when-to-use-ml-and-when-not-to` |
+| 05 | [Setting and Measuring Goals](https://mlip-cmu.github.io/book/05-setting-and-measuring-goals.html) | 1 chapter(s): `03-goals-and-requirements` |
+| 06 | [Gathering Requirements](https://mlip-cmu.github.io/book/06-gathering-requirements.html) | 1 chapter(s): `03-goals-and-requirements` |
+| 07 | [Planning for Mistakes](https://mlip-cmu.github.io/book/07-planning-for-mistakes.html) | 1 chapter(s): `04-planning-for-mistakes` |
+| 08 | [Thinking like a Software Architect](https://mlip-cmu.github.io/book/08-thinking-like-a-software-architect.html) | 1 chapter(s): `05-architecture-for-ml-systems` |
+| 09 | [Quality Attributes of ML Components](https://mlip-cmu.github.io/book/09-quality-attributes-of-ml-components.html) | 1 chapter(s): `06-quality-attributes-of-ml-components` |
+| 10 | [Deploying a Model](https://mlip-cmu.github.io/book/10-deploying-a-model.html) | 1 chapter(s): `07-deploying-a-model` |
+| 11 | [Automating the Pipeline](https://mlip-cmu.github.io/book/11-automating-the-pipeline.html) | 1 chapter(s): `08-automating-the-pipeline` |
+| 12 | [Scaling the System](https://mlip-cmu.github.io/book/12-scaling-the-system.html) | 1 chapter(s): `09-scaling-the-system` |
+| 13 | [Planning for Operations](https://mlip-cmu.github.io/book/13-planning-for-operations.html) | 1 chapter(s): `10-planning-for-operations` |
+| 14 | [Quality Assurance Basics](https://mlip-cmu.github.io/book/14-quality-assurance-basics.html) | 4 chapter(s): `01-evaluation-is-the-product`, `03-llm-as-a-judge-and-rubrics`, `07-evals-in-production`, `01-quality-assurance-basics-and-the-oracle-problem` |
+| 15 | [Model Quality](https://mlip-cmu.github.io/book/15-model-quality.html) | 7 chapter(s): `02-a-minimal-eval-harness`, `03-llm-as-a-judge-and-rubrics`, `01-quality-assurance-basics-and-the-oracle-problem`, `02-measuring-model-quality`, `03-slicing`, `04-testing-without-oracles`, `05-testing-generative-and-llm-components` |
+| 16 | [Data Quality](https://mlip-cmu.github.io/book/16-data-quality.html) | 1 chapter(s): `06-data-quality` |
+| 17 | [Pipeline Quality](https://mlip-cmu.github.io/book/17-pipeline-quality.html) | 2 chapter(s): `07-pipeline-quality`, `10-process-models-planning-and-iteration` |
+| 18 | [System Quality](https://mlip-cmu.github.io/book/18-system-quality.html) | 2 chapter(s): `08-system-quality-end-to-end-tests-and-guardrails`, `09-testing-and-experimenting-in-production` |
+| 19 | [Testing and Experimenting in Production](https://mlip-cmu.github.io/book/19-testing-and-experimenting-in-production.html) | 1 chapter(s): `09-testing-and-experimenting-in-production` |
+| 20 | [Data Science and Software Engineering Process Models](https://mlip-cmu.github.io/book/20-data-science-and-software-engineering-process-models.html) | 1 chapter(s): `10-process-models-planning-and-iteration` |
+| 21 | [Interdisciplinary Teams](https://mlip-cmu.github.io/book/21-interdisciplinary-teams.html) | 1 chapter(s): `11-teams-and-technical-debt` |
+| 22 | [Technical Debt](https://mlip-cmu.github.io/book/22-technical-debt.html) | 1 chapter(s): `11-teams-and-technical-debt` |
+| 23 | [Responsible Engineering](https://mlip-cmu.github.io/book/23-responsible-engineering.html) | 1 chapter(s): `12-responsible-engineering-versioning-and-reproducibility` |
+| 24 | [Versioning, Provenance, and Reproducibility](https://mlip-cmu.github.io/book/24-versioning-provenance-and-reproducibility.html) | 1 chapter(s): `12-responsible-engineering-versioning-and-reproducibility` |
+| 25 | [Explainability](https://mlip-cmu.github.io/book/25-explainability.html) | 1 chapter(s): `13-explainability-fairness-and-safety` |
+| 26 | [Fairness](https://mlip-cmu.github.io/book/26-fairness.html) | 1 chapter(s): `13-explainability-fairness-and-safety` |
+| 27 | [Safety](https://mlip-cmu.github.io/book/27-safety.html) | 1 chapter(s): `13-explainability-fairness-and-safety` |
+| 28 | [Security and Privacy](https://mlip-cmu.github.io/book/28-security-and-privacy.html) | 1 chapter(s): `14-security-privacy-transparency-and-accountability` |
+| 29 | [Transparency and Accountability](https://mlip-cmu.github.io/book/29-transparency-and-accountability.html) | 1 chapter(s): `14-security-privacy-transparency-and-accountability` |
 
 ## MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024)
 
@@ -109,29 +109,29 @@ Course page: <https://hanlab.mit.edu/courses/2024-fall-65940>
 
 | Lecture | Speaker(s) | Links | Used in |
 |---|---|---|---|
-| Introduction | Song Han (MIT) | [video](https://www.youtube.com/watch?v=U7EPZv8Kh9w) | — |
-| Basics of Deep Learning | Song Han (MIT) | [video](https://www.youtube.com/watch?v=I0nKjPpZmMU) | — |
-| Pruning and Sparsity (Part I) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=EjsB0WgIfUM) | — |
-| Pruning and Sparsity (Part II) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=upaZrpXkELc) | — |
-| Quantization (Part I) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=ymAzUz3qlIA) | — |
-| Quantization (Part II) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=wrcgWm_nUeE) | — |
-| Neural Architecture Search (Part I) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=3W146_T8eCs) | — |
-| Neural Architecture Search (Part II) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=5ty12mNV4Sg) | — |
-| Knowledge Distillation | Song Han (MIT) | [video](https://www.youtube.com/watch?v=Ubj3QXv4rjw) | — |
-| MCUNet: TinyML on Microcontrollers | Song Han (MIT) | [video](https://www.youtube.com/watch?v=uR1KKhIhHEk) | — |
-| TinyEngine and Parallel Processing | Song Han (MIT) | [video](https://www.youtube.com/watch?v=wl1UEnIOVek) | — |
-| Transformer and LLM | Song Han (MIT) | [video](https://www.youtube.com/watch?v=EV6xb4xY708) | — |
-| Efficient LLM Deployment | Song Han (MIT) | [video](https://www.youtube.com/watch?v=sTz2tXG1T0c) | — |
-| LLM Post Training | Song Han (MIT) | [video](https://www.youtube.com/watch?v=OCdwWfVoQ-Q) | — |
-| Long Context LLM | Song Han (MIT) | [video](https://www.youtube.com/watch?v=kgTWKjbnrBA) | — |
-| Vision Transformer | Song Han (MIT) | [video](https://www.youtube.com/watch?v=v0jYDgaVzlk) | — |
-| GAN, Video, and Point Cloud | Song Han (MIT) | [video](https://www.youtube.com/watch?v=o_60Yhb79W8) | — |
-| Diffusion Model | Song Han (MIT) | [video](https://www.youtube.com/watch?v=LXrqmQrscf0) | — |
-| Distributed Training (Part I) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=LcOM-nZdqxw) | — |
-| Distributed Training (Part II) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=lOVcPooetrM) | — |
-| On-Device Training and Transfer Learning | Song Han (MIT) | [video](https://www.youtube.com/watch?v=1YuD_5UQxsA) | — |
-| Course Summary + Quantum Machine Learning I | Song Han (MIT) | [video](https://www.youtube.com/watch?v=svjjD2uthhQ) | — |
-| Quantum Machine Learning II | Song Han (MIT) | [video](https://www.youtube.com/watch?v=ZDk-GsyInt8) | — |
+| Introduction | Song Han (MIT) | [video](https://www.youtube.com/watch?v=U7EPZv8Kh9w) | [01-why-efficiency-matters](09-efficient-deep-learning/01-why-efficiency-matters.md)<br>[02-neural-network-basics-for-efficiency](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md)<br>[04-quantization](09-efficient-deep-learning/04-quantization.md) |
+| Basics of Deep Learning | Song Han (MIT) | [video](https://www.youtube.com/watch?v=I0nKjPpZmMU) | [02-neural-network-basics-for-efficiency](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
+| Pruning and Sparsity (Part I) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=EjsB0WgIfUM) | [03-pruning-and-sparsity](09-efficient-deep-learning/03-pruning-and-sparsity.md) |
+| Pruning and Sparsity (Part II) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=upaZrpXkELc) | [03-pruning-and-sparsity](09-efficient-deep-learning/03-pruning-and-sparsity.md) |
+| Quantization (Part I) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=ymAzUz3qlIA) | [04-quantization](09-efficient-deep-learning/04-quantization.md) |
+| Quantization (Part II) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=wrcgWm_nUeE) | [04-quantization](09-efficient-deep-learning/04-quantization.md) |
+| Neural Architecture Search (Part I) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=3W146_T8eCs) | [05-neural-architecture-search](09-efficient-deep-learning/05-neural-architecture-search.md) |
+| Neural Architecture Search (Part II) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=5ty12mNV4Sg) | [05-neural-architecture-search](09-efficient-deep-learning/05-neural-architecture-search.md) |
+| Knowledge Distillation | Song Han (MIT) | [video](https://www.youtube.com/watch?v=Ubj3QXv4rjw) | [06-knowledge-distillation](09-efficient-deep-learning/06-knowledge-distillation.md) |
+| MCUNet: TinyML on Microcontrollers | Song Han (MIT) | [video](https://www.youtube.com/watch?v=uR1KKhIhHEk) | [05-neural-architecture-search](09-efficient-deep-learning/05-neural-architecture-search.md)<br>[07-tinyml-microcontrollers-and-tinyengine](09-efficient-deep-learning/07-tinyml-microcontrollers-and-tinyengine.md) |
+| TinyEngine and Parallel Processing | Song Han (MIT) | [video](https://www.youtube.com/watch?v=wl1UEnIOVek) | [07-tinyml-microcontrollers-and-tinyengine](09-efficient-deep-learning/07-tinyml-microcontrollers-and-tinyengine.md) |
+| Transformer and LLM | Song Han (MIT) | [video](https://www.youtube.com/watch?v=EV6xb4xY708) | [08-efficient-llm-inference-and-deployment](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
+| Efficient LLM Deployment | Song Han (MIT) | [video](https://www.youtube.com/watch?v=sTz2tXG1T0c) | [08-efficient-llm-inference-and-deployment](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
+| LLM Post Training | Song Han (MIT) | [video](https://www.youtube.com/watch?v=OCdwWfVoQ-Q) | [09-llm-post-training-and-on-device-training](09-efficient-deep-learning/09-llm-post-training-and-on-device-training.md)<br>[10-efficient-vision-generative-models-and-distributed-training](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
+| Long Context LLM | Song Han (MIT) | [video](https://www.youtube.com/watch?v=kgTWKjbnrBA) | [08-efficient-llm-inference-and-deployment](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
+| Vision Transformer | Song Han (MIT) | [video](https://www.youtube.com/watch?v=v0jYDgaVzlk) | [10-efficient-vision-generative-models-and-distributed-training](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
+| GAN, Video, and Point Cloud | Song Han (MIT) | [video](https://www.youtube.com/watch?v=o_60Yhb79W8) | [10-efficient-vision-generative-models-and-distributed-training](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
+| Diffusion Model | Song Han (MIT) | [video](https://www.youtube.com/watch?v=LXrqmQrscf0) | [10-efficient-vision-generative-models-and-distributed-training](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
+| Distributed Training (Part I) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=LcOM-nZdqxw) | [10-efficient-vision-generative-models-and-distributed-training](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
+| Distributed Training (Part II) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=lOVcPooetrM) | [10-efficient-vision-generative-models-and-distributed-training](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
+| On-Device Training and Transfer Learning | Song Han (MIT) | [video](https://www.youtube.com/watch?v=1YuD_5UQxsA) | [09-llm-post-training-and-on-device-training](09-efficient-deep-learning/09-llm-post-training-and-on-device-training.md) |
+| Course Summary + Quantum Machine Learning I | Song Han (MIT) | [video](https://www.youtube.com/watch?v=svjjD2uthhQ) | [11-course-summary-and-outlook](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
+| Quantum Machine Learning II | Song Han (MIT) | [video](https://www.youtube.com/watch?v=ZDk-GsyInt8) | [11-course-summary-and-outlook](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
 
 ## Stanford CS336 Language Modeling from Scratch (Spring 2026)
 
@@ -139,21 +139,21 @@ Course page: <https://cs336.stanford.edu/>
 
 | Lecture | Speaker(s) | Links | Used in |
 |---|---|---|---|
-| Overview, tokenization |  | [video](https://www.youtube.com/watch?v=JuoVZkPBiKk) | — |
-| PyTorch (einops), resource accounting (FLOPs, memory, arithmetic intensity) |  | [video](https://www.youtube.com/watch?v=kuYAsz7zspQ) | — |
-| Architectures, hyperparameters |  | [video](https://www.youtube.com/watch?v=lVynu4bo1rY) | — |
-| Attention alternatives and mixture of experts |  | [video](https://www.youtube.com/watch?v=cKSwj_qZ8Jg) | — |
-| GPUs, TPUs |  | [video](https://www.youtube.com/watch?v=izZba4UA7iY) | — |
-| Kernels, Triton |  | [video](https://www.youtube.com/watch?v=xnDHaNUvHBg) | — |
-| Parallelism I |  | [video](https://www.youtube.com/watch?v=SzpOcwdIL0Y) | — |
-| Parallelism II |  | [video](https://www.youtube.com/watch?v=6-cXp-aOmdg) | — |
-| Scaling laws I |  | [video](https://www.youtube.com/watch?v=Q15rhEWZPQ4) | — |
-| Inference |  | [video](https://www.youtube.com/watch?v=EfM546A79aM) | — |
-| Scaling laws II |  | [video](https://www.youtube.com/watch?v=vTfEyOyzV9E) | — |
-| Evaluation |  | [video](https://www.youtube.com/watch?v=JpAxdTWQJxM) | — |
-| Data: sources, datasets |  | [video](https://www.youtube.com/watch?v=-qm0ln33G24) | — |
-| Data: filtering, deduplication, mixing, synthetic data |  | [video](https://www.youtube.com/watch?v=5sxHosTLPF8) | — |
-| Mid/post-training (SFT/RLHF) |  | [video](https://www.youtube.com/watch?v=2oH6PWPrYFo) | — |
-| Post-training: RLVR |  | [video](https://www.youtube.com/watch?v=dIFAi87Ws4E) | — |
-| Alignment: multimodality |  | [video](https://www.youtube.com/watch?v=26FtD08ZpOU) | — |
-| Guest lecture: Dan Fu |  | [video](https://www.youtube.com/watch?v=9EEm4iMAF5s) | — |
+| Overview, tokenization |  | [video](https://www.youtube.com/watch?v=JuoVZkPBiKk) | [01-the-language-modeling-pipeline-and-tokenization](10-llm-internals/01-the-language-modeling-pipeline-and-tokenization.md) |
+| PyTorch (einops), resource accounting (FLOPs, memory, arithmetic intensity) |  | [video](https://www.youtube.com/watch?v=kuYAsz7zspQ) | [02-resource-accounting-flops-memory-and-arithmetic-intensity](10-llm-internals/02-resource-accounting-flops-memory-and-arithmetic-intensity.md) |
+| Architectures, hyperparameters |  | [video](https://www.youtube.com/watch?v=lVynu4bo1rY) | [03-transformer-architectures-and-hyperparameters](10-llm-internals/03-transformer-architectures-and-hyperparameters.md) |
+| Attention alternatives and mixture of experts |  | [video](https://www.youtube.com/watch?v=cKSwj_qZ8Jg) | [04-attention-alternatives-and-mixture-of-experts](10-llm-internals/04-attention-alternatives-and-mixture-of-experts.md) |
+| GPUs, TPUs |  | [video](https://www.youtube.com/watch?v=izZba4UA7iY) | [05-gpus-tpus-and-kernels](10-llm-internals/05-gpus-tpus-and-kernels.md) |
+| Kernels, Triton |  | [video](https://www.youtube.com/watch?v=xnDHaNUvHBg) | [05-gpus-tpus-and-kernels](10-llm-internals/05-gpus-tpus-and-kernels.md) |
+| Parallelism I |  | [video](https://www.youtube.com/watch?v=SzpOcwdIL0Y) | [06-parallelism](10-llm-internals/06-parallelism.md) |
+| Parallelism II |  | [video](https://www.youtube.com/watch?v=6-cXp-aOmdg) | [06-parallelism](10-llm-internals/06-parallelism.md) |
+| Scaling laws I |  | [video](https://www.youtube.com/watch?v=Q15rhEWZPQ4) | [07-scaling-laws](10-llm-internals/07-scaling-laws.md) |
+| Inference |  | [video](https://www.youtube.com/watch?v=EfM546A79aM) | [08-inference](10-llm-internals/08-inference.md) |
+| Scaling laws II |  | [video](https://www.youtube.com/watch?v=vTfEyOyzV9E) | [07-scaling-laws](10-llm-internals/07-scaling-laws.md) |
+| Evaluation |  | [video](https://www.youtube.com/watch?v=JpAxdTWQJxM) | [09-evaluating-language-models](10-llm-internals/09-evaluating-language-models.md) |
+| Data: sources, datasets |  | [video](https://www.youtube.com/watch?v=-qm0ln33G24) | [10-training-data](10-llm-internals/10-training-data.md) |
+| Data: filtering, deduplication, mixing, synthetic data |  | [video](https://www.youtube.com/watch?v=5sxHosTLPF8) | [10-training-data](10-llm-internals/10-training-data.md) |
+| Mid/post-training (SFT/RLHF) |  | [video](https://www.youtube.com/watch?v=2oH6PWPrYFo) | [11-post-training-sft-rlhf-and-rlvr](10-llm-internals/11-post-training-sft-rlhf-and-rlvr.md) |
+| Post-training: RLVR |  | [video](https://www.youtube.com/watch?v=dIFAi87Ws4E) | [11-post-training-sft-rlhf-and-rlvr](10-llm-internals/11-post-training-sft-rlhf-and-rlvr.md) |
+| Alignment: multimodality |  | [video](https://www.youtube.com/watch?v=26FtD08ZpOU) | [12-alignment-and-multimodality](10-llm-internals/12-alignment-and-multimodality.md) |
+| Guest lecture: Dan Fu |  | [video](https://www.youtube.com/watch?v=9EEm4iMAF5s) | [13-building-your-own-a-roadmap-through-the-assignments](10-llm-internals/13-building-your-own-a-roadmap-through-the-assignments.md) |

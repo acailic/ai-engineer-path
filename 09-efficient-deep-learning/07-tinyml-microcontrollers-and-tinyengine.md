@@ -101,7 +101,7 @@ def first_layer_per_patch(c_in, c_out, k, patch):
     return weights, live
 
 # (output channels, kernel, stride, groups), starting from a 96x96 RGB image
-layers = [(16, 3, 2, 1), (32, 3, 1, 16), (32, 1, 1, 1), (64, 3, 2, 64), (64, 1, 1, 1)]
+layers = [(16, 3, 2, 1), (32, 3, 1, 16), (32, 1, 1, 1), (64, 3, 2, 32), (64, 1, 1, 1)]
 
 w, p = whole_image(layers, 3, 96)
 print(f"whole image:    weights {w / 1024:5.1f} KB, peak SRAM {p / 1024:6.1f} KB")

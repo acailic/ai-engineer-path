@@ -124,10 +124,8 @@ import sys
 
 from eval_harness import DATASET, PROFILES, StubModel, regressions, run, summarize
 
-
 def metrics(system):
     return summarize(run(system, DATASET))
-
 
 # In real use, `baseline` is a metrics file saved from the main branch and
 # `candidate` is the system that the pull request builds.
@@ -160,8 +158,6 @@ What to observe:
 **Use AI to check AI, then add deterministic rules.** Bavor's belief is that "the solution to most problems with AI is more AI" ([40:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=2400)). He describes a supervisor agent that watches whether the main agent stays on task and grounds its answers in the knowledge base. He also describes asking open questions of the transcripts, such as what drives low customer satisfaction or why calls escalate. He says the agents handle between 60% and 90% of incoming inquiries and hand the rest to people. These are his figures about his company's deployments. For attacks, he layers deterministic input checks, supervising models, internal rules, and output checks that end a session when the agent starts revealing its prompt ([44:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=2640)). Systems of record are reached only through ordinary deterministic software with access controls.
 
 **Kästner's caution.** Quality practices help only if they are used. Enforcement by tooling works better than good intentions (chapter 14). Part 8 covers production experiments in depth: [testing and experimenting in production](../08-quality-assurance/09-testing-and-experimenting-in-production.md).
-
-<!-- SOURCE GAP: The brief lists chapter 19 of the CMU book (Testing and Experimenting in Production) as a source for this chapter, but that chapter was not in the reading packets. The book content here comes from chapter 14, from its sections on continuous integration and testing in production. -->
 
 ## Pitfalls
 

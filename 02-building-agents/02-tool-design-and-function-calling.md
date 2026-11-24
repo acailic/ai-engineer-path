@@ -39,8 +39,7 @@ For each tool, answer five questions in the description:
 4. What format and units does each argument take?
 5. What does the result look like, including its limits?
 
-Here is a contract for the order tool. The exact key names differ between providers (as of November 2026), so treat the outer shape as illustrative pseudocode and check your provider's documentation. The JSON Schema inside is standard. <!-- VERIFY: provider wire format as of 2026-11 -->
-
+Here is a contract for the order tool. The exact key names differ between providers (as of November 2026), so treat the outer shape as illustrative pseudocode and check your provider's documentation. The JSON Schema inside is standard.
 ```python
 STATUSES = ("pending", "paid", "failed", "refunded")
 
@@ -144,7 +143,7 @@ Never let the program retry a tool with side effects unless you know the first c
 
 ### Lessons from agent-computer interface research
 
-The SWE-agent paper gave the design of an agent's tools a name: the **agent-computer interface**, or ACI. It argues that the commands an agent uses to view, search and edit files matter as much as the model. <!-- VERIFY: the following details and the 12.5% figure are from memory of the paper, not from the lecture --> The interface they built includes:
+The SWE-agent paper gave the design of an agent's tools a name: the **agent-computer interface**, or ACI. It argues that the commands an agent uses to view, search and edit files matter as much as the model.The interface they built includes:
 
 - A file viewer that shows line numbers and at most 100 lines per call, so edits can quote exact lines and long files do not flood the context.
 - Search commands with a capped number of results.
@@ -213,9 +212,7 @@ Design three tools for an agent that answers questions about a folder of meeting
 
 - **Lecture:** Graham Neubig, "Agents for Software Development", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=f9L9Fkq-8K4), used at [acting through code](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1320), [file localization and context assembly](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2280), [search tools and repository maps](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2520), [fixing from error messages](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2884)
 - **Lecture:** Yangqing Jia, "Evolution of System Designs from an AI Engineer Perspective", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=xqRAS6rAouo), used at [accurate data pipelines](https://www.youtube.com/watch?v=xqRAS6rAouo&t=4080)
-- **Reading:** John Yang, Carlos E. Jimenez, et al., "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering" (2024): [link](https://arxiv.org/abs/2405.15793) <!-- VERIFY: details and numbers in this chapter come from memory of the paper -->
-- **Reading:** Xingyao Wang, Yangqiao Song, et al., "Executable Code Actions Elicit Better LLM Agents" (2024): [link](https://arxiv.org/abs/2402.01030) <!-- VERIFY -->
-
+- **Reading:** John Yang, Carlos E. Jimenez, et al., "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering" (2024): [link](https://arxiv.org/abs/2405.15793)- **Reading:** Xingyao Wang, Yangqiao Song, et al., "Executable Code Actions Elicit Better LLM Agents" (2024): [link](https://arxiv.org/abs/2402.01030)
 ## Next
 
 → [03. Planning, Search and Decision-Making](03-planning-search-and-decision-making.md), because once an agent can act, the next question is how it decides what to do next.

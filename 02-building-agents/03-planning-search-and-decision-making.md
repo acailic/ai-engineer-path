@@ -26,8 +26,6 @@ The patterns below are like the difference between writing straight-line code, c
 
 ## How it works: six patterns
 
-<!-- SOURCE GAP: the two packets for this chapter contain no lecture passage on ReAct, plan-and-execute or reflection prompts. Patterns 2 to 4 below are standard practice described from general knowledge. -->
-
 | # | Pattern | What happens in one step | Main cost | Use it when |
 |---|---|---|---|---|
 | 1 | Reactive | The model picks the next action and takes it | Cheapest | Steps are cheap to undo and the goal is near |
@@ -148,11 +146,7 @@ Build a 5 by 5 grid world in Python: a start cell, a goal cell, walls, and moves
 
 - **Lecture:** Yu Su, "Reasoning, Memory and Planning of Language Agents", UC Berkeley Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=zvI4UN2_i-w), used at [reasoning as an action](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=480), [a definition of planning](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=4560), [reactive planning and search](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=4920), [world models](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=5040), [WebDreamer](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=5160), [takeaways](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=5280)
 - **Lecture:** Yuandong Tian, "Towards a unified framework of Neural and Symbolic Decision Making", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=wm9-7VBpdEo), used at [the travel planning problem](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=120), [three options](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=600), [model plus solver](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=720), [Searchformer](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=1440), [DualFormer](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=2040)
-- **Reading:** Shunyu Yao, Jeffrey Zhao, et al., "ReAct: Synergizing Reasoning and Acting in Language Models" (2022): [link](https://arxiv.org/abs/2210.03629) <!-- VERIFY -->
-- **Reading:** Bo Liu, Yuqian Jiang, et al., "LLM+P: Empowering Large Language Models with Optimal Planning Proficiency" (2023): [link](https://arxiv.org/abs/2304.11477) <!-- VERIFY -->
-- **Reading:** Yu Gu, Boyuan Zheng, et al., "Is Your LLM Secretly a World Model of the Internet? Model-based Planning for Web Agents" (2024): [link](https://arxiv.org/abs/2411.06559) <!-- VERIFY -->
-- **Reading:** Lucas Lehnert, Sainbayar Sukhbaatar, et al., "Beyond A*: Better Planning with Transformers via Search Dynamics Bootstrapping" (2024): [link](https://arxiv.org/abs/2402.14083) <!-- VERIFY -->
-
+- **Reading:** Shunyu Yao, Jeffrey Zhao, et al., "ReAct: Synergizing Reasoning and Acting in Language Models" (2022): [link](https://arxiv.org/abs/2210.03629)- **Reading:** Bo Liu, Yuqian Jiang, et al., "LLM+P: Empowering Large Language Models with Optimal Planning Proficiency" (2023): [link](https://arxiv.org/abs/2304.11477)- **Reading:** Yu Gu, Boyuan Zheng, et al., "Is Your LLM Secretly a World Model of the Internet? Model-based Planning for Web Agents" (2024): [link](https://arxiv.org/abs/2411.06559)- **Reading:** Lucas Lehnert, Sainbayar Sukhbaatar, et al., "Beyond A*: Better Planning with Transformers via Search Dynamics Bootstrapping" (2024): [link](https://arxiv.org/abs/2402.14083)
 ## Next
 
 → [04. Memory and Knowledge for Agents](04-memory-and-knowledge-for-agents.md), because a plan and the observations it produces all have to fit somewhere.

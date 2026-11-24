@@ -1,7 +1,7 @@
 # 10. Efficient Vision, Generative Models and Distributed Training
 
 **Level:** Practitioner · **Reading time:** 15 min · **Exercise:** 30 min
-**Prerequisites:** [Neural Network Basics for Efficiency](02-neual-network-basics-for-efficiency.md), [Efficient LLM Inference and Deployment](08-efficient-llm-inference-and-deployment.md) for the cost of attention
+**Prerequisites:** [Neural Network Basics for Efficiency](02-neural-network-basics-for-efficiency.md), [Efficient LLM Inference and Deployment](08-efficient-llm-inference-and-deployment.md) for the cost of attention
 
 > **In one sentence:** After this chapter you can name the standard efficiency move for vision transformers, for generative models and for training across many machines, and estimate what each one saves.
 
@@ -24,7 +24,7 @@ The cost problem is attention. With `N` patches, the attention table has `N²` e
 - 224 × 224 image, 16 × 16 patches: 196 tokens, 38,416 entries.
 - 1,024 × 1,024 image, same patches: 4,096 tokens, 16.8 million entries.
 
-A 5 times larger image costs 21 times more tokens and 436 times more attention. Han makes the same point when he raises resolution in the lecture ([8:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=480)).
+An image 4.6 times larger on each side costs 21 times more tokens and 436 times more attention. Han makes the same point when he raises resolution in the lecture ([8:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=480)).
 
 | Move | Idea | What you pay |
 |---|---|---|

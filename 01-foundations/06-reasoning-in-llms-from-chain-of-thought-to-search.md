@@ -72,8 +72,6 @@ Her example is the game of 24, where four numbers must be combined into 24. It s
 
 Zhou's slides name a more systematic alternative for problems where the steps get long: calling an external search tool such as **Monte Carlo tree search (MCTS)**, a search algorithm that grows a tree of moves by repeatedly picking a promising node, simulating a completion, and pushing the score back up the path.
 
-<!-- SOURCE GAP: MCTS is only named on one of Zhou's slides, without explanation. The description in this paragraph is the author's own. -->
-
 A chess engine is a good mental picture. It looks several moves ahead, scores each position and backs out of bad lines. The picture breaks on the scoring. A chess engine evaluates positions exactly. In tree search with an LLM, the same noisy model writes the moves and judges them.
 
 ### 4. Ordering effects

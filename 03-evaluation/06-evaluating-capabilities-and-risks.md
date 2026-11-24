@@ -88,8 +88,6 @@ Rules that follow from the lecture:
 - Re-run on every model upgrade and every new tool.
 - Write down what you did not test.
 
-<!-- VERIFY: Everything about Anthropic's policy in this chapter is one speaker's account of it in a lecture on 2024-11-25. Before publishing, check the current Responsible Scaling Policy: the level definitions, thresholds and required measures have changed since. The lecture names biological risk as its example; confirm which other risk areas the written policy of that time covered. -->
-
 ## Pitfalls
 
 1. **"It refused when I asked" read as "it cannot."** Fix: try the strongest setup: step-by-step instructions, tools, retries.

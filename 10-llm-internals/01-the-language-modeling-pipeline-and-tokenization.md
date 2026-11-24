@@ -241,8 +241,7 @@ You are done when:
 - **Course:** Stanford CS336, [course page](https://cs336.stanford.edu/)
 - **Reading:** Philip Gage, "A New Algorithm for Data Compression" (1994), where BPE was introduced
 - **Reading:** Rico Sennrich, Barry Haddow and Alexandra Birch, "Neural Machine Translation of Rare Words with Subword Units" (2016): [arXiv](https://arxiv.org/abs/1508.07909)
-- **Reading:** Andrej Karpathy, "Let's build the GPT Tokenizer" (2024), the video the lecture notes recommend: [video](https://www.youtube.com/watch?v=zduSFxRajkE) <!-- VERIFY: video ID taken from memory, not checked -->
-
+- **Reading:** Andrej Karpathy, "Let's build the GPT Tokenizer" (2024), the video the lecture notes recommend: [video](https://www.youtube.com/watch?v=zduSFxRajkE)
 ## Next
 
 → [Resource Accounting: FLOPs, Memory and Arithmetic Intensity](02-resource-accounting-flops-memory-and-arithmetic-intensity.md), because the efficiency argument for tokenization only makes sense once you can count what a model spends. When you are ready for the model itself, continue with [Transformer Architectures and Hyperparameters](03-transformer-architectures-and-hyperparameters.md), and see [Building Your Own](13-building-your-own-a-roadmap-through-the-assignments.md) for how the tokenizer fits into the first assignment.

@@ -144,8 +144,7 @@ Dawn Song gave versions of this lecture in three terms, and the frame grew each 
 
 She also draws the line between **safety** and **security**. Security protects the system from outsiders. Safety means the system does no harm to the outside world. Safety has to assume adversaries, she says, because a compromised system cannot keep its own safety promises ([2:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=120)).
 
-Teams that already use the MITRE ATT&CK knowledge base for conventional systems can look at its companion for AI systems, [MITRE ATLAS](https://atlas.mitre.org/). <!-- VERIFY: MITRE ATLAS was not opened for this chapter. -->
-
+Teams that already use the MITRE ATT&CK knowledge base for conventional systems can look at its companion for AI systems, [MITRE ATLAS](https://atlas.mitre.org/).
 ## Pitfalls
 
 - **The threat model is one line.** "Prompt injection" names a technique, not an asset. For each path, write who attacks, through what, to reach which asset.

@@ -79,8 +79,6 @@ Rules of thumb for a 7-billion-parameter model with 16-bit weights and the AdamW
 | Optimizer state | 84 GB | 0.24 GB | 0.24 GB |
 | Total before activations | 112 GB | 14.3 GB | 3.8 GB |
 
-<!-- VERIFY: the 2 + 12 bytes per trainable parameter rule (FP32 moments and master copy) is a common approximation, stated from general knowledge and not from the lecture. -->
-
 The optimizer state dominates full fine-tuning, and it almost vanishes with adapters. QLoRA then cuts the weights by four.
 
 ## What the practitioners say
@@ -148,7 +146,7 @@ Adapt a small open model to a narrow task on your own machine.
 - **Reading:** Edward J. Hu, Yelong Shen, Phillip Wallis, et al., "LoRA: Low-Rank Adaptation of Large Language Models" (ICLR 2022): [arXiv](https://arxiv.org/abs/2106.09685)
 - **Reading:** Tim Dettmers, Artidoro Pagnoni, Ari Holtzman, Luke Zettlemoyer, "QLoRA: Efficient Finetuning of Quantized LLMs" (NeurIPS 2023): [arXiv](https://arxiv.org/abs/2305.14314)
 - **Reading:** Ligeng Zhu, Zhijian Liu, Song Han, "Deep Leakage from Gradients" (NeurIPS 2019): [arXiv](https://arxiv.org/abs/1906.08935)
-- **Reading:** Han Cai, Chuang Gan, Ligeng Zhu, Song Han, "TinyTL: Reduce Memory, Not Parameters for Efficient On-Device Learning" (NeurIPS 2020): [arXiv](https://arxiv.org/abs/2006.09659)
+Han Cai, Chuang Gan, Ligeng Zhu and Song Han, "TinyTL: Reduce Activations, Not Trainable Parameters for Efficient On-Device Learning" (NeurIPS 2020): [arXiv](https://arxiv.org/abs/2007.11622)
 - **Reading:** Ji Lin, Ligeng Zhu, Wei-Ming Chen, et al., "On-Device Training Under 256KB Memory" (NeurIPS 2022): [arXiv](https://arxiv.org/abs/2206.15472)
 
 ## Next

@@ -120,11 +120,7 @@ A concrete risk comes from Yu Su's own study. He describes language models as "h
 - **HippoRAG adds that kind of index.** His slides present it as a state-of-the-art retriever, with gains listed as 8.2 and 7.3 over two baselines; the unit is not stated in the lecture passage used here. Earlier structured retrievers did well only on the multi-hop test sets they were built for and poorly on ordinary questions, he says, so nobody could drop them in. HippoRAG 2, which he hoped to release soon at the time, was comparable or better than the best embedding models across the board in his tests ([40:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=2400)).
 - **His summary:** memory is central to learning, non-parametric memory is the practical route, and the trend is to add structure to embeddings, as HippoRAG and GraphRAG, a related method from Microsoft, do, to improve **sensemaking** (reading large, uncertain contexts) and **associativity** (connecting scattered pieces) ([40:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=2400)).
 
-<!-- SOURCE GAP: the mechanism of HippoRAG is in a skipped part of the transcript. The packet contains only the slides and the passages cited. -->
-
 **Yangqing Jia (Fall 2025)** makes one point from the infrastructure side: retrieval and accurate data-processing pipelines are what matter ([68:00](https://www.youtube.com/watch?v=xqRAS6rAouo&t=4080)). The hard part of moving AI workloads is data locality, getting the data next to the machines that read it ([70:00](https://www.youtube.com/watch?v=xqRAS6rAouo&t=4200)). For an agent, the knowledge store is infrastructure: where it lives, how fast it can be read, and how it is kept accurate.
-
-<!-- SOURCE GAP: Jia's lecture has a section titled "Context length and hallucinations" (66:50) with no transcript in the packet, so his view on long contexts is not reported. -->
 
 ## Pitfalls
 
@@ -182,10 +178,7 @@ Add memory to the agent from [Chapter 01](01-the-anatomy-of-an-agent.md).
 
 - **Lecture:** Yu Su, "Reasoning, Memory and Planning of Language Agents", UC Berkeley Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=zvI4UN2_i-w), used at [non-parametric memory](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=1320), [receptivity to evidence](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=1440), [limits of embedding retrieval](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=1560), [hippocampal indexing](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=1680), [pattern completion](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=1800), [HippoRAG and takeaways](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=2400)
 - **Lecture:** Yangqing Jia, "Evolution of System Designs from an AI Engineer Perspective", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=xqRAS6rAouo), used at [retrieval pipelines](https://www.youtube.com/watch?v=xqRAS6rAouo&t=4080), [data locality](https://www.youtube.com/watch?v=xqRAS6rAouo&t=4200)
-- **Reading:** Bernal Jiménez Gutiérrez, Yiheng Shu, et al., "HippoRAG: Neurobiologically Inspired Long-Term Memory for Large Language Models" (2024): [link](https://arxiv.org/abs/2405.14831) <!-- VERIFY -->
-- **Reading:** Jian Xie, Kai Zhang, et al., "Adaptive Chameleon or Stubborn Sloth: Revealing the Behavior of Large Language Models in Knowledge Conflicts" (2023): [link](https://arxiv.org/abs/2305.13300) <!-- VERIFY -->
-- **Reading:** Nelson F. Liu, Kevin Lin, et al., "Lost in the Middle: How Language Models Use Long Contexts" (2023): [link](https://arxiv.org/abs/2307.03172) <!-- VERIFY -->
-
+- **Reading:** Bernal Jiménez Gutiérrez, Yiheng Shu, et al., "HippoRAG: Neurobiologically Inspired Long-Term Memory for Large Language Models" (2024): [link](https://arxiv.org/abs/2405.14831)- **Reading:** Jian Xie, Kai Zhang, et al., "Adaptive Chameleon or Stubborn Sloth: Revealing the Behavior of Large Language Models in Knowledge Conflicts" (2023): [link](https://arxiv.org/abs/2305.13300)- **Reading:** Nelson F. Liu, Kevin Lin, et al., "Lost in the Middle: How Language Models Use Long Contexts" (2023): [link](https://arxiv.org/abs/2307.03172)
 ## Next
 
 → [05. Compound AI Systems and DSPy](05-compound-ai-systems-and-dspy.md), because tools, planning and memory turn a single prompt into a pipeline, and pipelines need a way to be written and tuned.

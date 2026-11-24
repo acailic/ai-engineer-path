@@ -123,8 +123,6 @@ On hyperparameters, he ranks them. The head split is "a forgiving hyperparameter
 
 Finally, inference pushes back on architecture. To generate cheaply, a model keeps a **KV cache**, a stored copy of the keys and values of all previous tokens. That cache grows with sequence length. **Multi-query attention** shares one key and value across all heads and shrinks the cache a lot, but, he warns, "you do, in fact, lose significant expressive power". **Grouped-query attention** keeps several key and value heads, fewer than the query heads, and the trade-off is "quite favorable" ([80:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=4800)). Chapter 08 does this arithmetic.
 
-<!-- SOURCE GAP: Lecture 3 slides after slide 31 are not in the packet, so the regularization and stability material below comes from general knowledge, not from the lecture. -->
-
 Two more ideas complete the picture. **QK-norm** normalizes the queries and keys inside each attention head before the dot product, which keeps the attention scores from growing during training. And models built for long context now alternate expensive global attention layers with cheap ones, either sliding-window layers that see only nearby tokens or state-space layers. Hashimoto describes these hybrids as the past year's main answer to long-context performance ([88:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=5280)); Chapter 04 covers them.
 
 ## Pitfalls

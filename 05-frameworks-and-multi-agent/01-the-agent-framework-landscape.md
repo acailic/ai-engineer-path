@@ -124,8 +124,6 @@ Chi Wang (then at AutoGen-AI) and Jerry Liu (LlamaIndex) shared the lecture of S
 
 The AutoGen status in this chapter comes from its documentation page, opened on November 24, 2026. The current status of LangGraph, CrewAI and the other frameworks was not re-checked for this edition; treat them as examples of a layer, not as a buying guide.
 
-<!-- VERIFY: current status (November 2026) of LangGraph, CrewAI, LlamaIndex Workflows, OpenAI Agents SDK, Microsoft Agent Framework was not opened; only the AutoGen documentation page was fetched. -->
-
 ## Pitfalls
 
 1. **Adopting before you can write the loop.** Without a baseline you cannot tell a framework bug from a prompt bug. Fix: write the 150-line version first.

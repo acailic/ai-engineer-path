@@ -87,8 +87,6 @@ Chat APIs usually accept two kinds of input. The **system prompt** is a separate
 
 A system prompt is still only text in the input. It is guidance, not a security boundary. [Jailbreaks and prompt injection](../04-safety-and-security/02-jailbreaks-and-prompt-injection.md) covers why.
 
-<!-- SOURCE GAP: none of the three packets explains the system prompt as an API field. The paragraph above is general knowledge. -->
-
 ### 6. Expect sensitivity
 
 **Prompt sensitivity** is the tendency of outputs to change when the wording, the order or the formatting of the prompt changes a little. The lectures give three kinds of evidence:

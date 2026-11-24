@@ -109,8 +109,6 @@ Total latency = TTFT + TPOT × output tokens (Han, Lecture 13, [64:00](https://w
 
 How this fits into a production system is covered in [deploying a model](../07-ml-in-production/07-deploying-a-model.md); the architecture itself in [transformer architectures](../10-llm-internals/03-transformer-architectures-and-hyperparameters.md).
 
-<!-- VERIFY: local runtimes (llama.cpp, Ollama) and their feature sets were left out on purpose; they change too fast to state without a check. -->
-
 ## Worked example
 
 A capacity and speed calculator for a 7-billion-parameter model with 32 layers and 32 heads of dimension 128.

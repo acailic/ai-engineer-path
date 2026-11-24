@@ -64,8 +64,7 @@ Neubig lists three mitigations, each borrowed from ordinary software security: t
 
 The SWE-agent project, from a team at Princeton, made the third style a design principle: the **agent-computer interface (ACI)**, the set of commands an agent uses to work with a computer. Its 2024 paper argues that these commands matter as much as the model. Neubig's slide on SWE-agent makes the same point in one line: define specialized tools that make it efficient to explore repositories and edit code ([25:55](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1555)).
 
-The interface treats the model as what it is: a program that reads a limited amount of text, cannot count reliably, and learns nothing between calls. So every command is built to keep its output small and to stop a mistake before it happens. <!-- VERIFY: SWE-agent details and the 12.5% result come from the paper as remembered, not from the lecture packet -->
-
+The interface treats the model as what it is: a program that reads a limited amount of text, cannot count reliably, and learns nothing between calls. So every command is built to keep its output small and to stop a mistake before it happens.
 - The file viewer shows line numbers and at most 100 lines per call. Edits then quote lines the model has actually seen.
 - Search returns a capped number of results.
 - The edit command refuses a file the agent has not viewed, and runs a syntax check after each edit. If the check fails, the edit is undone.
@@ -83,8 +82,6 @@ OpenHands is the open-source coding agent Neubig maintains; it was first release
 - SWE-agent-style commands are available as **agent skills**: named bundles of instructions and tools the agent can call.
 - All execution happens in a Docker sandbox.
 
-<!-- SOURCE GAP: the packet has no transcript for the lecture sections on code editing tools (25:55) and on the OpenHands architecture (28:59) beyond slide text. The explanation of the event stream above adds general knowledge. -->
-
 ## Worked example
 
 Three tools in the ACI style, each with one guardrail. The repository is a dictionary, so the file runs without a model or a disk. The file is also in the repository as [`examples/agent_computer_interface.py`](../examples/agent_computer_interface.py).
@@ -100,7 +97,6 @@ REPO = {
 WINDOW, MAX_HITS = 100, 10
 viewed = set()                       # files the agent has looked at in this run
 
-
 def view(path: str, start: int = 1) -> str:
     """Show one window of a file, with line numbers."""
     if path not in REPO:
@@ -113,7 +109,6 @@ def view(path: str, start: int = 1) -> str:
     body = "".join(f"{start + i}  {line}\n" for i, line in enumerate(shown))
     return body + f"[Showing lines {start}-{start + len(shown) - 1} of {len(lines)}]\n"
 
-
 def search(word: str) -> str:
     """Find lines containing a word; return at most MAX_HITS of them."""
     hits = [f"{path}:{n}" for path in sorted(REPO)
@@ -122,7 +117,6 @@ def search(word: str) -> str:
         return f"0 hits for {word!r}."
     return ("\n".join(hits[:MAX_HITS])
             + f"\n[{min(len(hits), MAX_HITS)} of {len(hits)} hits shown, max {MAX_HITS} per call]\n")
-
 
 def edit(path: str, line: int, new_line: str) -> str:
     """Replace one line. Refuse unviewed files; undo edits that break the syntax."""
@@ -138,7 +132,6 @@ def edit(path: str, line: int, new_line: str) -> str:
         return f"Error: edit not applied, syntax error: {exc.msg}. The file is unchanged."
     REPO[path] = "\n".join(candidate) + "\n"
     return f"Edited line {line} of {path!r}."
-
 
 if __name__ == "__main__":
     print(edit("app.py", 2, "    return sum(prices) / len(prices)"))    # refused: not viewed
@@ -244,11 +237,7 @@ Take a small open-source project with a failing test. Run an open-source coding 
 ## Sources
 
 - **Lecture:** Graham Neubig, "Agents for Software Development", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=f9L9Fkq-8K4), used at [how developers spend time](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=120), [environments](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=600), [benchmarks](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=720), [SWE-bench and its limits](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=960), [leakage](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1156), [CodeAct](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1320), [OpenHands](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1739), [localization](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2280), [safety](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3240), [conclusion](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3480)
-- **Reading:** John Yang, Carlos E. Jimenez, et al., "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering" (2024): [link](https://arxiv.org/abs/2405.15793) <!-- VERIFY -->
-- **Reading:** Xingyao Wang, Boxuan Li, et al., "OpenHands: An Open Platform for AI Software Developers as Generalist Agents" (2024): [link](https://arxiv.org/abs/2407.16741) <!-- VERIFY -->
-- **Reading:** Chunqiu Steven Xia, Yinlin Deng, et al., "Agentless: Demystifying LLM-based Software Engineering Agents" (2024): [link](https://arxiv.org/abs/2407.01489) <!-- VERIFY -->
-- **Reading:** Carlos E. Jimenez, John Yang, et al., "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?" (2023): [link](https://arxiv.org/abs/2310.06770) <!-- VERIFY -->
-
+- **Reading:** John Yang, Carlos E. Jimenez, et al., "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering" (2024): [link](https://arxiv.org/abs/2405.15793)- **Reading:** Xingyao Wang, Boxuan Li, et al., "OpenHands: An Open Platform for AI Software Developers as Generalist Agents" (2024): [link](https://arxiv.org/abs/2407.16741)- **Reading:** Chunqiu Steven Xia, Yinlin Deng, et al., "Agentless: Demystifying LLM-based Software Engineering Agents" (2024): [link](https://arxiv.org/abs/2407.01489)- **Reading:** Carlos E. Jimenez, John Yang, et al., "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?" (2023): [link](https://arxiv.org/abs/2310.06770)
 ## Next
 
 → [08. Training Models for Agentic Tasks](08-training-models-for-agentic-tasks.md), because the loop, the tools and the environment in this chapter also define what a model must be trained to use.

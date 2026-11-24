@@ -19,8 +19,6 @@ It is like the history of web front ends, from static pages to server rendering 
 
 ## A short history
 
-<!-- SOURCE GAP: the f25-02 packet (48% of the lecture) covers models, applications and infrastructure, and contains no walk-through of agent design history. The timeline below is the author's synthesis from the public record, not lecture content. Dates are approximate. -->
-
 | Period | Dominant design | What you built | The failure it exposed |
 |---|---|---|---|
 | Late 2022 to 2023 | Wrapper | A prompt and one model call behind an API | Confident wrong answers, stale knowledge |
@@ -29,8 +27,6 @@ It is like the history of web front ends, from static pages to server rendering 
 | 2024 | Fixed pipeline | Three or four hard-coded steps, each a model call | Works only for tasks you understood in advance |
 | 2024 to 2025 | Coding agent and harness | A shell, an editor, a sandbox, tests as feedback | Context growth in long sessions, safety, environment setup |
 | 2025 on | Context engineering, sandboxes, protocols | Manage what enters the context; isolate the agent; standard tool connections | Cost and evaluation at scale, still open |
-
-<!-- VERIFY: dates and product claims in this table and the paragraphs below are from the author's knowledge of the public record and were not checked against a source in this build. -->
 
 **Wrappers.** The first useful products were thin: a system prompt, one call, the answer back. They failed on facts the model never learned and on events after its training data ended.
 
@@ -120,10 +116,7 @@ Review one LLM feature, your own or a public one, in one page.
 ## Sources
 
 - **Lecture:** Yangqing Jia, "Evolution of System Designs from an AI Engineer Perspective", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=xqRAS6rAouo), used at [fluid application landscape](https://www.youtube.com/watch?v=xqRAS6rAouo&t=1422), [new algorithms](https://www.youtube.com/watch?v=xqRAS6rAouo&t=960), [AI compute as a workload](https://www.youtube.com/watch?v=xqRAS6rAouo&t=2280), [developer versus infrastructure efficiency](https://www.youtube.com/watch?v=xqRAS6rAouo&t=2640), [best practices](https://www.youtube.com/watch?v=xqRAS6rAouo&t=2760), [interruptible work](https://www.youtube.com/watch?v=xqRAS6rAouo&t=3600), [token economics](https://www.youtube.com/watch?v=xqRAS6rAouo&t=3728), [retrieval pipelines](https://www.youtube.com/watch?v=xqRAS6rAouo&t=4080)
-- **Reading:** Anthropic, "Building effective agents" (2024): [link](https://www.anthropic.com/engineering/building-effective-agents) <!-- VERIFY: URL -->
-- **Reading:** Chunqiu Steven Xia, Yinlin Deng, et al., "Agentless: Demystifying LLM-based Software Engineering Agents" (2024): [link](https://arxiv.org/abs/2407.01489) <!-- VERIFY -->
-- **Reading:** Nelson F. Liu, Kevin Lin, et al., "Lost in the Middle: How Language Models Use Long Contexts" (2023): [link](https://arxiv.org/abs/2307.03172) <!-- VERIFY -->
-
+- **Reading:** Anthropic, "Building effective agents" (2024): [link](https://www.anthropic.com/engineering/building-effective-agents)- **Reading:** Chunqiu Steven Xia, Yinlin Deng, et al., "Agentless: Demystifying LLM-based Software Engineering Agents" (2024): [link](https://arxiv.org/abs/2407.01489)- **Reading:** Nelson F. Liu, Kevin Lin, et al., "Lost in the Middle: How Language Models Use Long Contexts" (2023): [link](https://arxiv.org/abs/2307.03172)
 ## Next
 
 → [07. Coding Agents](07-coding-agents.md), because coding agents are where every design in this timeline is in use at once.

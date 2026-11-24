@@ -110,14 +110,12 @@ from dataclasses import dataclass
 
 CATEGORIES = ("billing", "technical", "other")
 
-
 @dataclass
 class Decision:
     ticket_id: str
     category: str
     route: str      # "auto" or "human_review"
     reason: str
-
 
 # The ML component: in production this calls a trained model.
 # Here a small stand-in plays that role, including a shaky prediction.
@@ -129,7 +127,6 @@ def predict_category(subject: str) -> tuple[str, float]:
         return "technical", 0.55
     return "other", 0.30
 
-
 # Non-ML code: the system decides what to DO with a prediction.
 def triage(ticket_id: str, subject: str, predict=predict_category) -> Decision:
     category, confidence = predict(subject)
@@ -139,23 +136,19 @@ def triage(ticket_id: str, subject: str, predict=predict_category) -> Decision:
         return Decision(ticket_id, category, "human_review", "low confidence")
     return Decision(ticket_id, category, "auto", "confident prediction")
 
-
 def test_confident_prediction_is_automated():
     d = triage("t1", "I was charged twice")
     assert (d.category, d.route) == ("billing", "auto")
 
-
 def test_uncertain_prediction_goes_to_a_human():
     d = triage("t2", "I cannot log in")
     assert (d.category, d.route) == ("technical", "human_review")
-
 
 def test_system_survives_a_broken_model():
     def broken(subject):
         return "REFUND-NOW", -1.0                  # garbage output
     d = triage("t3", "I was charged twice", predict=broken)
     assert d.route == "human_review"
-
 
 if __name__ == "__main__":
     for name, obj in sorted(globals().items()):

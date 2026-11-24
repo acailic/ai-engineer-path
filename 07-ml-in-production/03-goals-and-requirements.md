@@ -65,9 +65,7 @@ Kästner borrows a distinction called "the World and the Machine" (chapter 6). A
 
 The software can satisfy the requirement only while the assumptions hold. If the world breaks an assumption, no change to the code fixes the failure.
 
-Kästner's example is Lufthansa Flight 2904, which overran the runway at Warsaw in 1993. The software had one safety requirement: never engage the thrust reversers while the plane is in the air. After touchdown the crew could not engage them in time. The software had to infer "on the ground" from sensors, and on that runway the inference failed. <!-- VERIFY: the sensor detail is from general knowledge, not from the book chapter, whose copy was trimmed. -->
-
-<!-- SOURCE GAP: the copy of book chapter 6 used here was trimmed. Its full definitions of REQ, ASM and SPEC, and the rest of the Lufthansa account, were not available. The table above applies the visible labels to my own example. -->
+Kästner's example is Lufthansa Flight 2904, which overran the runway at Warsaw in 1993. The software had one safety requirement: never engage the thrust reversers while the plane is in the air. After touchdown the crew could not engage them in time. The software had to infer "on the ground" from sensors, and on that runway the inference failed.
 
 ### Behavioral and quality requirements
 
@@ -149,7 +147,6 @@ ROUTING_LOG = [
     {"ticket": "t-103", "auto": False, "at": "2026-11-12T10:00:00"},  # nine days later
 ]
 
-
 def first_time_right_rate(log, window=timedelta(days=7)):
     """Share of automatically routed tickets that no human re-routes
     within `window` of the automatic routing."""
@@ -164,7 +161,6 @@ def first_time_right_rate(log, window=timedelta(days=7)):
                 re_routed.add(event["ticket"])
     assert first_auto, "no automatically routed tickets in the log"
     return 1 - len(re_routed) / len(first_auto)
-
 
 print(f"{first_time_right_rate(ROUTING_LOG):.0%}")   # 2 of 3 tickets: 67%
 ```

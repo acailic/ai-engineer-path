@@ -67,9 +67,6 @@ Diplomacy is a seven-player game of conquering First World War Europe, introduce
 
 Planning and reasoning about other minds enter here. Brown's slides carry no architecture details, so the next sentence is not from the lecture. In the published CICERO design, a strategic planner represents what the other players seem to intend, and the language model writes messages consistent with those intentions. That is theory of mind in its plain sense: reasoning about what others believe and want.
 
-<!-- SOURCE GAP: the brief names werewolf-style games for this chapter. The packet for f25-06 holds no passage about them or about theory of mind, so they are not covered beyond the CICERO sentence above. The transcript also skips 30 to 32 minutes (the self-play answer in the ultimatum game) and 34 to 40 minutes (the Diplomacy experiment). -->
-<!-- VERIFY: the CICERO architecture sentence follows the Meta AI paper in Science (2022); the paper was not opened for this edition. -->
-
 ## Worked example
 
 Fictitious play on rock-paper-scissors, in about 25 lines. Two identical players, no human data, no model.
@@ -212,8 +209,6 @@ Stretch goal: implement regret matching for the first game and compare the explo
 
 - **Lecture:** Noam Brown, "Multi-Agent AI", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=SrLcGdVOb9w), used at [AlphaGo analogy](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=0), [two answers](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=120), [exploitability](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=240), [self-play](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=600), [imperfect information](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=720), [fictitious play](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1080), [central claim](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1533), [ultimatum game](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1560), [Diplomacy](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1920), [CICERO results](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2400)
 - **Reading:** Anton Bakhtin, David Wu, Adam Lerer, Noam Brown, "Mastering the Game of No-Press Diplomacy via Human-Regularized Reinforcement Learning and Search" (NeurIPS 2021): [arXiv](https://arxiv.org/abs/2210.05492). Allan Dafoe et al., "Cooperative AI: machines must learn to find common ground" (Nature comment, 2021), cited on the lecture's slides.
-
-<!-- VERIFY: the arXiv link follows from memory of the paper named on slide 35; it was not opened. -->
 
 ## Next
 

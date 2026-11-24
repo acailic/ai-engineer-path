@@ -78,17 +78,14 @@ The same three calculations, using only the standard library:
 ```python
 import math
 
-
 def bernoulli_se(p, n):
     """Standard error of an accuracy p estimated on n independent questions."""
     return math.sqrt(p * (1 - p) / n)
-
 
 def unpaired_z(acc_a, acc_b, n):
     """z-score of the gap between two accuracies measured on separate samples of n questions."""
     se = math.sqrt(bernoulli_se(acc_a, n) ** 2 + bernoulli_se(acc_b, n) ** 2)
     return (acc_a - acc_b) / se
-
 
 def paired_z(a, b):
     """(difference, standard error, z) when both models answered the SAME questions.
@@ -98,7 +95,6 @@ def paired_z(a, b):
     diff = sum(d) / n
     se = math.sqrt(sum((x - diff) ** 2 for x in d) / (n - 1) / n)
     return diff, se, diff / se
-
 
 for n in (100, 1000, 10000):
     print(f"n={n:>5}  SE = {bernoulli_se(0.70, n):.4f}")
@@ -178,8 +174,6 @@ Wang also measures **signal to noise**. His signal is the score gain from doubli
 His example uses two fictional models. On MATH, with 5,000 questions, they score 65.5% (SE 0.7%) and 63.0% (SE 0.7%). On HumanEval, with 164 questions, they score 83.6% (SE 3.2%) and about 87%. By that unpaired arithmetic the 2.5-point gap on MATH is evidence and the larger gap on HumanEval is not, because its standard errors are above three points each. Pairing the two models question by question, as this chapter recommends, could only make the MATH gap look stronger.
 
 **The Berkeley course staff, October 2025.** A judge or a model gives different output from run to run, so they advise repeating the run several times and averaging, or taking a majority vote ([18:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=1080)). Repetition is how you see the noise in the first place.
-
-<!-- SOURCE GAP: the middle sections of Miller's paper, including his worked paired comparisons and power analysis, are trimmed out of the course packet. The paired arithmetic in this chapter is worked from first principles and checked with the code above. -->
 
 ## Pitfalls
 

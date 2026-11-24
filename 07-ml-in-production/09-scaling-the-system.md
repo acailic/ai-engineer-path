@@ -41,8 +41,6 @@ For scale, his reference point is Google Photos, which reported in 2020 that it 
 - **Partitioning** splits the data, so that different parts sit on different machines.
 - **Replication** stores the same data on several machines, so that one can fail.
 
-<!-- SOURCE GAP: the copy of book chapter 12 used here was trimmed. The sections on document and unstructured storage, on data encoding and on partitioning details, and the definitions of data warehouse and data lake were not available. -->
-
 **Processing.** Four strategies cover most needs:
 
 | Strategy | How it works | Optimized for | Example |

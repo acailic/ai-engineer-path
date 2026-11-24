@@ -136,8 +136,6 @@ What to observe: kappa is (0.775 − 0.5075) / (1 − 0.5075) = 0.54. Under a wi
 
 **Biases research has named.** The lecture does not catalog them, so these come from the research literature rather than from the course: *position bias* (the first of two outputs wins more often), *verbosity bias* (longer outputs score higher when they add nothing) and *self-preference* (a model rates its own output higher). Lianmin Zheng and colleagues documented the first two, and a self-enhancement bias, for pairwise judging in 2023.
 
-<!-- VERIFY: The bias names are from general knowledge. The citation is Zheng et al., "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena" (2023), arXiv:2306.05685; confirm the identifier and that the paper names position, verbosity and self-enhancement bias before publishing. -->
-
 **Kästner on generative output.** Many different outputs can be right, he writes in chapter 15, so the question is not "is it correct" but how often the output is satisfactory for the task. He also describes **red teaming**, experts who attack a system creatively to find failures. Red teaming finds failures you did not think of. It does not measure a rate. Use it to extend the rubric, not to replace calibration. Part 8 has more: [testing generative and LLM components](../08-quality-assurance/05-testing-generative-and-llm-components.md).
 
 ## When not to use a judge

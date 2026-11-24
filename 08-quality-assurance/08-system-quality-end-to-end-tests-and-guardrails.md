@@ -52,8 +52,6 @@ For each model in the product, write down how it can fail and what the failure c
 
 ### 3. Build guardrails in layers
 
-<!-- SOURCE GAP: the book argues for testing composed systems and safeguards and gives the train-door and ensemble examples. The layered guardrail design for an LLM product below is the author's. For guardrails against adversarial input, see part 04. -->
-
 | Layer | Mechanism | How to test it |
 |---|---|---|
 | Input | Allow only the fields and formats the step needs | Schema tests |

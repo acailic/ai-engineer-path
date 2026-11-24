@@ -25,8 +25,6 @@ A **judge** is whatever answers those questions. Three kinds exist, and you shou
 
 The analogy is a linter, a junior reviewer, and a senior reviewer. A linter never tires and never understands intent. A junior reviewer with a checklist catches most violations and makes mistakes of their own. A senior reviewer audits the junior. The analogy breaks on consistency: a human junior gives the same answer twice, while an LLM judge can grade the same output differently on two runs, so its results are a rate.
 
-<!-- SOURCE GAP: the book covers human judgment against stated criteria, property checks, and LLM-generated test data. The rubric pipeline below, the judge calibration, flakiness handling, cost estimate and CI tiering are the author's, not the book's. Judge design and judge biases are treated in part 03. -->
-
 ## How it works, step by step
 
 ### 1. Write the rubric

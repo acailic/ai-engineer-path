@@ -30,8 +30,6 @@ Kästner describes data-science work as a science mindset and notes that it is n
 
 The analogy is a walk versus a search. Building a known feature is a walk: you know the route and can estimate the time. Finding a model that works is a search: you can decide how long you will look, not what you will find. The analogy breaks on the map: a search through model designs gives partial results along the way, which often turn out to be good enough to ship.
 
-<!-- SOURCE GAP: the packet for chapter 20 is trimmed. It has no text on named process models such as waterfall, no list of the differences between the two kinds of iteration, and no text under "model-first versus system-first development". The table above and the procedure below are the author's, built on the paragraphs the packet does contain. -->
-
 ## What the practitioners say
 
 - **Model work is exploratory.** A pipeline diagram looks sequential. In practice a data scientist loops back to collect different data, clean it, engineer features, try other models, or tune prompts and hyperparameters, and discards what does not help (chapter 20).

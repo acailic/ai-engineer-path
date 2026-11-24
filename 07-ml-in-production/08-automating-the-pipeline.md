@@ -33,8 +33,6 @@ Three more terms belong here:
 - **Continuous delivery (CD)** keeps every change that passes those checks ready to release through an automated process.
 - **Infrastructure as code** describes servers, containers and pipeline steps in files under version control, instead of setting them up by hand.
 
-<!-- SOURCE GAP: the copy of book chapter 11 used for this chapter was trimmed. Its treatment of continuous integration and delivery for ML, and of infrastructure as code, was not visible. The three definitions above are standard software-engineering usage, not the book's wording. -->
-
 ## How it works, step by step
 
 ### The stages

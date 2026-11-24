@@ -109,7 +109,6 @@ import json
 LIMITS = {"tool_calls": 12, "reads_per_send": 50}
 KNOWN_DOMAINS = {"example.com"}
 
-
 def findings(path: str) -> list:
     calls = reads = sends = 0
     odd = []
@@ -131,7 +130,6 @@ def findings(path: str) -> list:
     if sends and reads / sends > LIMITS["reads_per_send"]:
         out.append(f"{reads} reads for {sends} sends: possible mass export")
     return out + odd
-
 
 if __name__ == "__main__":
     print("\n".join(findings("audit.jsonl")) or "no findings")
@@ -157,8 +155,7 @@ Dawn Song treats monitoring as one mechanism among several, in both lectures.
 - **Spring 2025: a mechanism with open questions.** She lists eight defense mechanism families, monitoring and detection among them, and says they work best in conjunction as layers ([106:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6360)). Monitoring, in her description, observes system behavior including outputs and applies anomaly detection. Her open questions: how to audit systems that read and write enormous amounts of text, how to "balance full auditability and storage costs" (her slide), and how to make anomaly detection work in many different settings ([106:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6360)). She closes with information flow tracking across tool boundaries, and with the difficulty of writing formal specifications for a model ([108:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6480)).
 - **Fall 2025: part of runtime protection.** She groups monitoring with input guards, output guards, and the human in the loop as runtime protections ([84:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5040)). A runtime monitoring system, she says, watches the agent's behavior and the execution of the whole system, for anomaly detection and for unsafe actions ([92:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5520)).
 
-Neither lecture describes a monitor built on a second agent, and the slides of the Fall 2025 lecture are not publicly available. The positions, the signals, and the trade-offs in this chapter are the authors' own, built on the mechanisms she names. <!-- SOURCE GAP: the f25-12 packet contains no slides and no description of a monitoring agent. -->
-
+Neither lecture describes a monitor built on a second agent, and the slides of the Fall 2025 lecture are not publicly available. The positions, the signals, and the trade-offs in this chapter are the authors' own, built on the mechanisms she names.
 ## Pitfalls
 
 - **Logging answers, not actions.** The expensive failure is a tool call. Log every call with its arguments.

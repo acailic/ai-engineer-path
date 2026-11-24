@@ -148,8 +148,6 @@ On RLHF's ceiling, he recalls the early hope that thumbs-up and thumbs-down data
 
 On what counts as verifiable, he is careful. Kimi K1.5 used a model to judge answer equivalence in math, and proof checkers accept strings that should not pass: "the notion of verifiable rewards is actually much trickier than many of you might initially think" ([68:00](https://www.youtube.com/watch?v=dIFAi87Ws4E&t=4080)). He closes with three things to know: it is all about the reward, GRPO is the tool most open work is built on, and task-specific gains, such as one 3-billion-active-parameter model reaching 70.6% on SWE-bench in the lecture's example, do not guarantee general improvement.
 
-<!-- VERIFY: arXiv identifiers below are from memory, not checked against the papers. -->
-
 ## Pitfalls
 
 1. **SFT on mismatched formats.** Fix: use one chat template for training and serving, and mask the loss on prompt tokens.
@@ -223,8 +221,7 @@ You are done when:
 
 ## Sources
 
-- **Lecture:** Stanford CS336, "Lecture 15: Mid/Post-Training", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=2oH6PWPrYFo), used at [control](https://www.youtube.com/watch?v=2oH6PWPrYFo&t=0), [pretraining first](https://www.youtube.com/watch?v=2oH6PWPrYFo&t=120), [SFT scale](https://www.youtube.com/watch?v=2oH6PWPrYFo&t=1800), [PPO](https://www.youtube.com/watch?v=2oH6PWPrYFo&t=4080), [DPO](https://www.youtube.com/watch?v=2oH6PWPrYFo&t=4440), [calibration](https://www.youtube.com/watch?v=2oH6PWPrYFo&t=4680) <!-- VERIFY: the packet does not name the speaker -->
-- **Lecture:** Stanford CS336, "Lecture 16: Post-Training: Reinforcement Learning from Verifiable Rewards", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=dIFAi87Ws4E), used at [motivation](https://www.youtube.com/watch?v=dIFAi87Ws4E&t=120), [length penalty](https://www.youtube.com/watch?v=dIFAi87Ws4E&t=2880), [verifiability](https://www.youtube.com/watch?v=dIFAi87Ws4E&t=4080)
+- **Lecture:** Stanford CS336, "Lecture 15: Mid/Post-Training", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=2oH6PWPrYFo), used at [control](https://www.youtube.com/watch?v=2oH6PWPrYFo&t=0), [pretraining first](https://www.youtube.com/watch?v=2oH6PWPrYFo&t=120), [SFT scale](https://www.youtube.com/watch?v=2oH6PWPrYFo&t=1800), [PPO](https://www.youtube.com/watch?v=2oH6PWPrYFo&t=4080), [DPO](https://www.youtube.com/watch?v=2oH6PWPrYFo&t=4440), [calibration](https://www.youtube.com/watch?v=2oH6PWPrYFo&t=4680)- **Lecture:** Stanford CS336, "Lecture 16: Post-Training: Reinforcement Learning from Verifiable Rewards", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=dIFAi87Ws4E), used at [motivation](https://www.youtube.com/watch?v=dIFAi87Ws4E&t=120), [length penalty](https://www.youtube.com/watch?v=dIFAi87Ws4E&t=2880), [verifiability](https://www.youtube.com/watch?v=dIFAi87Ws4E&t=4080)
 - **Reading:** Long Ouyang et al., "Training Language Models to Follow Instructions with Human Feedback" (2022): [arXiv](https://arxiv.org/abs/2203.02155)
 - **Reading:** Rafael Rafailov et al., "Direct Preference Optimization: Your Language Model is Secretly a Reward Model" (2023): [arXiv](https://arxiv.org/abs/2305.18290)
 - **Reading:** Zhihong Shao et al., "DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models" (2024), the paper that introduced GRPO: [arXiv](https://arxiv.org/abs/2402.03300)

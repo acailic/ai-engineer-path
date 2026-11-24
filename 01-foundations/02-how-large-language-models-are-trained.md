@@ -147,8 +147,6 @@ Three of his points are worth keeping:
 
 His slides also introduce **perplexity**, the standard pre-training score. It is the model's loss on unseen text, converted into "the number of tokens it hesitates between". Lower is better. Between 2017 and 2023, as his slides report, models went from hesitating among about 70 tokens to fewer than 10.
 
-<!-- SOURCE GAP: the packet's transcript excerpts skip 22:00-30:00, so the attention explanation in this chapter is the author's own. The LLaMA 3 cost, perplexity and utilization figures come from slides without a transcript passage. -->
-
 ## Pitfalls
 
 1. **Thinking the model looks answers up.** It computes a probability distribution. It can produce sentences no one wrote, and confident sentences that are false. *Fix:* treat every factual claim as unverified unless the context supports it.

@@ -13,8 +13,6 @@ Since then the prompt changed twice, the model was updated, and the retrieval in
 
 Responsible engineering begins with a modest ability: being able to account for what your system did.
 
-<!-- SOURCE GAP: the packet for chapter 23 is trimmed (intro and the first two paragraphs of each section). The packet for chapter 24 (Versioning, Provenance, and Reproducibility) contains headings only, so the versioning procedure and the record format below are the author's, arranged under those headings. -->
-
 ## The core idea
 
 ### Responsibility
@@ -44,8 +42,6 @@ The analogy breaks for LLM systems at the last step. Sampling and provider-side 
 - **Principle lists converge.** As he reports them, the lists from Microsoft, Google, the European Commission, and the US White House all include some notion of fairness, safety, and privacy. They differ on transparency, human oversight, and accountability (chapter 23). They are statements of intent, not rules.
 - **Critics see "ethics washing".** In their view, corporate principles and funded ethics research serve to hold off regulation (chapter 23).
 - **One early signal.** He notes that in April 2021 the US Federal Trade Commission said it read its prohibition on unfair and deceptive practices as covering racially biased algorithms (chapter 23).
-
-<!-- VERIFY: the book was written when the EU AI Act was a proposal. As of 2026-11-24 the Act is in force and most of its obligations apply, by the author's recollection. Confirm the timeline before relying on it. -->
 
 ## How it works, step by step
 

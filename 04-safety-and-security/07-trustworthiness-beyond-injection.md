@@ -27,8 +27,7 @@ An analogy: injection is a burglar, trustworthiness is the plumbing. The analogy
 
 ### 1. Privacy: find out what a model remembers
 
-A **training data extraction attack** makes a model print a piece of its training data. A **membership inference attack** is the weaker version: it only learns whether a given record was in the training data. Song's group published tests for both problems. <!-- The membership-inference definition comes from the papers' background section; the lecture itself covers extraction. -->
-
+A **training data extraction attack** makes a model print a piece of its training data. A **membership inference attack** is the weaker version: it only learns whether a given record was in the training data. Song's group published tests for both problems.
 **Canary test** (from *The Secret Sharer*, 2019). Use it when you control training or fine-tuning.
 
 1. Generate random strings that cannot appear in real data, such as "the random number is 8193-xtq". These are **canaries**.
@@ -112,11 +111,9 @@ TEMPLATES = [  # extend to at least 30 before you trust the numbers
 GROUP_A = ["James", "Oliver", "Harry"]   # markers for one group
 GROUP_B = ["Olivia", "Emma", "Sophia"]   # markers for the other
 
-
 def complete(prompt: str) -> str:
     """Call your chat model here. Use the lowest randomness setting it offers."""
     raise NotImplementedError
-
 
 def decision(name: str, template: str):
     """True for ACCEPT, False for REJECT, None for anything else."""
@@ -126,7 +123,6 @@ def decision(name: str, template: str):
     if reply.startswith("REJECT"):
         return False
     return None  # an unusable answer: count it, do not drop it silently
-
 
 def run():
     accepted = {"A": 0, "B": 0}
@@ -145,7 +141,6 @@ def run():
     print(f"accept rate A={accepted['A'] / pairs:.1%} B={accepted['B'] / pairs:.1%}")
     print(f"decision flips={flips} ({flips / pairs:.1%} of pairs)")
 
-
 if __name__ == "__main__":
     run()
 ```
@@ -163,10 +158,8 @@ What to observe:
 Dawn Song gave this material in the last lecture of the Fall 2024 Berkeley agents course.
 
 - **Privacy grew with model size.** Her group showed that language models leak training data, including personal information such as email addresses from GPT-3.5 and GPT-4 ([8:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=480)). Other researchers got a production chatbot to emit training data from a prompt that repeated one word. In the Pythia model family, trained on the same data in the same order, larger models leaked more ([12:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=720)).
-- **DecodingTrust scores a model in benign and adversarial environments** for eight trustworthiness perspectives and won a NeurIPS 2023 outstanding paper award and the US National Security Agency's best scientific cybersecurity paper award for 2024, as she states in her Spring 2025 lecture ([62:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=3720)). <!-- VERIFY: the eight perspectives themselves are not listed in either packet. -->
-- **Defenses lag attacks.** Her slide after the guardrail survey is titled "Adversarial Defenses Have Made Very Little Progress", while thousands of papers on attacks appear each year ([52:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=3120)).
-- **Reading and controlling the inside.** She describes representation engineering as a top-down approach to interpretability ([56:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=3360)): start from a behavior, find where it lives in the model's internal numbers, then act on it. Her slides show two halves, representation reading (detect the behavior from the inside) and representation control (change it), with a case study that reduced the political leaning of Llama-3.1 models in 8-billion and 70-billion-parameter sizes (Potter et al., 2024). She calls control at inference time an important capability, and immediately adds that she wants stronger guarantees than that: a new initiative on quantitative AI safety ([60:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=3600)). <!-- SOURCE GAP: the packet has no transcript for 52-60 minutes, so the method is explained here from first principles only. -->
-
+- **DecodingTrust scores a model in benign and adversarial environments** for eight trustworthiness perspectives and won a NeurIPS 2023 outstanding paper award and the US National Security Agency's best scientific cybersecurity paper award for 2024, as she states in her Spring 2025 lecture ([62:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=3720)).- **Defenses lag attacks.** Her slide after the guardrail survey is titled "Adversarial Defenses Have Made Very Little Progress", while thousands of papers on attacks appear each year ([52:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=3120)).
+- **Reading and controlling the inside.** She describes representation engineering as a top-down approach to interpretability ([56:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=3360)): start from a behavior, find where it lives in the model's internal numbers, then act on it. Her slides show two halves, representation reading (detect the behavior from the inside) and representation control (change it), with a case study that reduced the political leaning of Llama-3.1 models in 8-billion and 70-billion-parameter sizes (Potter et al., 2024). She calls control at inference time an important capability, and immediately adds that she wants stronger guarantees than that: a new initiative on quantitative AI safety ([60:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=3600)).
 What representation control means in plain words: while the model reads, every chunk of text becomes a vector. Some directions in that space line up with a property of the answer, such as whether it is honest. Reading means training a small classifier that looks at the vector and predicts the property before the answer exists. Control means adding a vector along that direction, which shifts the answer toward or away from the property. The analogy is a mixing desk: you find the slider for one instrument and move it. The analogy breaks because the sliders were not designed by anyone. Moving one can change other things too, and nobody promises it will hold under attack.
 
 For an application builder this is context, not a tool. It requires access to the model's internal numbers, which an API usually does not expose. Its practical message is that safety behaviors are tendencies of the model, not rules enforced on it, which is the reason the other chapters put enforcement outside the model (see [Defenses](04-defenses-guardrails-detection-and-secure-design.md)).
@@ -222,8 +215,7 @@ You are done when the report has both settings, states the number of pairs behin
 - **Lecture:** Dawn Song, "Towards building safe and secure agentic AI", UC Berkeley Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=ti6yPE2VPZc), used at [DecodingTrust awards](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=3720)
 - **Reading:** Nicholas Carlini, Chang Liu, Úlfar Erlingsson, Jernej Kos, and Dawn Song, "The Secret Sharer: Evaluating and Testing Unintended Memorization in Neural Networks" (USENIX Security 2019): [paper](https://www.usenix.org/conference/usenixsecurity19/presentation/carlini)
 - **Reading:** Nicholas Carlini, Florian Tramèr, Eric Wallace, and others, "Extracting Training Data from Large Language Models" (USENIX Security 2021): [paper](https://www.usenix.org/conference/usenixsecurity21/presentation/carlini-extracting)
-- **Reading:** Boxin Wang, Weixin Chen, and others, "DecodingTrust: A Comprehensive Trustworthiness Evaluation Benchmark for Language Models" (NeurIPS 2023): [benchmark](https://decodingtrust.github.io/) <!-- VERIFY: author list and exact title are from general knowledge; the lecture slides give the short title and the link. -->
-
+- **Reading:** Boxin Wang, Weixin Chen, and others, "DecodingTrust: A Comprehensive Trustworthiness Evaluation Benchmark for Language Models" (NeurIPS 2023): [benchmark](https://decodingtrust.github.io/)
 ## Next
 
 → [Policy, Governance and Standards](09-policy-governance-and-standards.md), for the process side of the same lecture: how risks are assessed, reported, and regulated.

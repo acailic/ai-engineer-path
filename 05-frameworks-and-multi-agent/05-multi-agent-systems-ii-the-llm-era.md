@@ -107,8 +107,6 @@ Observe:
 
 The scaling is the same outside the toy. In a June 2025 engineering report on its multi-agent research system, Anthropic wrote that agentic search used about four times the tokens of a chat, and the multi-agent system about fifteen times. Cognition, the company behind Devin, published an engineering note the same month arguing against splitting a task across agents, because each agent makes decisions the others cannot see. Those are practitioners' reports on their own systems, not measurements you can copy. They bracket the trade: separate contexts buy focus and parallelism, and they cost tokens and shared understanding.
 
-<!-- VERIFY: the Anthropic (June 2025) token figures and the Cognition post's date and argument are cited from memory; neither page was opened for this edition. -->
-
 ## What the practitioners say
 
 ### Vinyals: why a population helps, at training time
@@ -219,8 +217,6 @@ Stretch goal: keep the multi-agent design but replace the critic's model with a 
 
 - **Lecture:** Oriol Vinyals, "Multi-Agent Systems in the Era of LLMs", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=ntjOxjZMaac), used at [policy collapse](https://www.youtube.com/watch?v=ntjOxjZMaac&t=1680), [kinds of attack](https://www.youtube.com/watch?v=ntjOxjZMaac&t=2160), [non-transitivity](https://www.youtube.com/watch?v=ntjOxjZMaac&t=2280), [the league](https://www.youtube.com/watch?v=ntjOxjZMaac&t=2760), [users](https://www.youtube.com/watch?v=ntjOxjZMaac&t=3240), [forecast](https://www.youtube.com/watch?v=ntjOxjZMaac&t=3480)
 - **Lecture:** Noam Brown, "Multi-Agent AI", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=SrLcGdVOb9w), used at [best-of-N](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2880), [latency](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2921), [run-time collaboration](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=3240)
-
-<!-- SOURCE GAP: neither packet covers debate or other run-time collaboration patterns; the patterns table and the decision procedure are the author's, not lecture content. Brown quotes an unnamed person at 54:00; the packet does not identify them. -->
 
 ## Next
 

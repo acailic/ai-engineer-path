@@ -70,7 +70,7 @@ He describes his lecture as a view of the market, not of algorithms. He reports 
 5. Search, because the model and search need each other.
 6. The enterprise search tool or assistant, including tools for employees' own productivity. He names Glean and ChatGPT Enterprise.
 
-His slides list a slide on minimizing hallucinations as three problems, of which the packet shows only the first, "right context". A slide on function calling says it "is all about developer control and flexibility".
+His slides list a slide on minimizing hallucinations as three problems, of which the available excerpt spells out only the first ("right context"). A slide on function calling says it "is all about developer control and flexibility".
 
 He also tells a story from his PhD. A small medical data set of 50 patients trained in 42 seconds, so he built intuition fast. Large models take weeks per run, and his worry is that intuition now arrives more slowly. The lesson for agents: keep the feedback loop short enough to learn from.
 
@@ -78,13 +78,11 @@ He also tells a story from his PhD. A small medical data set of 50 patients trai
 
 He frames the question by people, not by models: who the users are, what role they have, what work they do, and in which context the agent should help ([0:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=0)). ServiceNow, he says, has 25,000 employees and sells a platform for enterprise workflows in IT, human resources and customer support. He groups trustworthiness, governance, safety and security with deployment: all are needed for an agent to succeed in practice.
 
-His slides add three points for which the packet has only the titles:
+His slides add three points that are available only as slide titles:
 
 - Two kinds of LLM agents, the first labeled API agents.
 - A case study of an inexpensive assistant that finds the right form for a user and helps complete it; its slide is titled "Student is 330x Cheaper".
 - An assessment of impact both top-down and bottom-up, next to a slide saying that technology adoption takes time and that uncertainty about generative AI adoption remains high.
-
-<!-- SOURCE GAP: the packet holds 22% of each transcript. For f24-04 the slides' "3 problems" for hallucinations are cut after "Right context". For f24-07 the comparison behind "Student is 330x Cheaper" (which two systems, at what accuracy) lies in the skipped 30 minutes; do not read the number as more than a slide title. -->
 
 ## Pitfalls
 

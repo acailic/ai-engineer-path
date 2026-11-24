@@ -82,11 +82,9 @@ class Shop:
         self.log.append(("refund", order_id))
         self.orders[order_id]["status"] = "refunded"
 
-
 def check_end_state(shop, goal):
     """Outcome: does the final state equal the goal state?"""
     return all(shop.orders[i]["status"] == status for i, status in goal.items())
-
 
 def check_policy(shop):
     """Trajectory rule: every refund follows a successful authentication."""
@@ -97,7 +95,6 @@ def check_policy(shop):
         elif entry[0] == "refund" and entry[1] not in verified:
             return False
     return True
-
 
 shop = Shop()
 shop.reset()

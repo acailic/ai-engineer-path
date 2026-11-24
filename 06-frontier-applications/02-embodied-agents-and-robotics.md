@@ -26,7 +26,7 @@ Fan's lecture (November 2024) reads as a recipe for one robot skill.
 4. **Randomize the physics.** DrEureka varies gravity, friction, weight and size, so the policy cannot depend on one simulated world ([46:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=2760)).
 5. **Move the policy to the robot.** In Fan's blueprint the model takes a description of the body plus a natural-language instruction and returns actions ([52:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=3120)).
 
-**Voyager-style open-ended agents.** <!-- SOURCE GAP: the chapter scope names Voyager, but the f24-09 packet never mentions it; this paragraph is from general knowledge. --> Voyager (Wang et al., 2023) plays Minecraft with no fixed goal. It has three parts: an automatic curriculum, meaning the model proposes the next task from what the player already has; a skill library, where each learned behavior is saved as executable code and retrieved by its description; and iterative refinement, where errors and environment feedback go back into the next prompt. Fan co-authored that work. His later lecture moves the same idea on: language models stop generating code for skills and start generating the data that trains them.
+**Voyager-style open-ended agents.**Voyager (Wang et al., 2023) plays Minecraft with no fixed goal. It has three parts: an automatic curriculum, meaning the model proposes the next task from what the player already has; a skill library, where each learned behavior is saved as executable code and retrieved by its description; and iterative refinement, where errors and environment feedback go back into the next prompt. Fan co-authored that work. His later lecture moves the same idea on: language models stop generating code for skills and start generating the data that trains them.
 
 ## What the practitioners say
 
@@ -39,8 +39,6 @@ Fan's lecture (November 2024) reads as a recipe for one robot skill.
   - *Training:* experience replay (store each step and reuse it) and n-step returns (score an action by several later rewards, not one). Data from different tracks was mixed by hand for each mini-batch, later by an automated method.
   - *Emergent skills:* the slipstream pass, a defensive skill and a double crossover pass. None was programmed or rewarded on its own.
   - *Result, as he recounts it:* humans won in July. After months of fixes, the agents finished first and second in an eight-car race, four against four humans, in October. Driver Emily Jones said she learned from watching them ([58:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=3480)).
-
-<!-- VERIFY: Stone says GT Sophy is permanently deployed in the game. Product status changes; confirm before restating as fact. -->
 
 ### Jim Fan (November 2024): data is the bottleneck
 
@@ -129,8 +127,6 @@ def reward_a(state, action, next_state):  # candidate a model wrote for you
 - **Reading:** Wang et al., "Voyager: An Open-Ended Embodied Agent with Large Language Models" (2023): [arXiv](https://arxiv.org/abs/2305.16291)
 - **Reading:** Wurman et al., "Outracing champion Gran Turismo drivers with deep reinforcement learning", *Nature* (2022): [DOI](https://doi.org/10.1038/s41586-021-04357-7)
 - **Reading:** Held and Hein, "Movement-produced stimulation in the development of visually guided behavior" (1963): [DOI](https://doi.org/10.1037/h0040546)
-
-<!-- VERIFY: the three DOI and arXiv links and the 1963 paper title come from my knowledge, not from the lecture packets. -->
 
 ## Next
 

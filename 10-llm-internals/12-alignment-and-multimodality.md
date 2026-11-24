@@ -11,8 +11,6 @@ The course builds a model that maps text to text. Every frontier model also read
 
 Before that question, the course places one more. A pretraining run teaches a model to predict text, not to be useful or safe. CS336 calls the work that closes that gap **alignment**, and it is the fifth and last unit.
 
-<!-- SOURCE GAP: the packet for Lecture 17 covers multimodality only. The alignment section below is assembled from Lectures 1, 15 and 16 and the assignment handouts. -->
-
 ## Part one: what CS336 means by alignment
 
 Percy Liang frames the unit in Lecture 1 as a change in supervision. Pretraining is full supervision: every token has one right answer, the next one. Alignment moves to weak supervision, because "it's easier to critique than it is to generate" ([60:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3600)). You may not be able to write the ideal response to a prompt, but you can say which of two responses is better.
@@ -124,8 +122,6 @@ His closing position on generation: comprehension wants semantics, generation wa
 
 Lecture 1 gives the context for why this is one lecture. Liang listed multimodality among the topics the course does not cover in depth ([22:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=1320)).
 
-<!-- VERIFY: arXiv identifiers below are from memory, not checked against the papers. -->
-
 ## Pitfalls
 
 1. **Shrinking every image to the encoder's size.** Fix: tile at high resolution when detail matters.
@@ -198,8 +194,7 @@ You are done when:
 
 ## Sources
 
-- **Lecture:** Stanford CS336, "Lecture 17: Alignment - Multimodality", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=26FtD08ZpOU), used at [tokens](https://www.youtube.com/watch?v=26FtD08ZpOU&t=120), [OCR](https://www.youtube.com/watch?v=26FtD08ZpOU&t=2160), [closing](https://www.youtube.com/watch?v=26FtD08ZpOU&t=4560) <!-- VERIFY: the packet does not name the speaker -->
-- **Lecture:** Percy Liang, "Lecture 1: Overview, Tokenization" (alignment unit): [video](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3600)
+- **Lecture:** Stanford CS336, "Lecture 17: Alignment - Multimodality", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=26FtD08ZpOU), used at [tokens](https://www.youtube.com/watch?v=26FtD08ZpOU&t=120), [OCR](https://www.youtube.com/watch?v=26FtD08ZpOU&t=2160), [closing](https://www.youtube.com/watch?v=26FtD08ZpOU&t=4560)- **Lecture:** Percy Liang, "Lecture 1: Overview, Tokenization" (alignment unit): [video](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3600)
 - **Reading:** Alec Radford et al., "Learning Transferable Visual Models From Natural Language Supervision" (2021): [arXiv](https://arxiv.org/abs/2103.00020)
 - **Reading:** Xiaohua Zhai et al., "Sigmoid Loss for Language Image Pre-Training" (2023): [arXiv](https://arxiv.org/abs/2303.15343)
 - **Reading:** Haotian Liu, Chunyuan Li, Qingyang Wu and Yong Jae Lee, "Visual Instruction Tuning" (2023): [arXiv](https://arxiv.org/abs/2304.08485)
