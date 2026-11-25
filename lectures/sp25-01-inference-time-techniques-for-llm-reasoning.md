@@ -69,7 +69,7 @@ Without an oracle, a model that judges its own answers often turns a correct one
 
 ### [1:19:23–1:22:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4763) Conclusion and the Bitter Lesson
 
-The three families correspond to better prompts, more width and more depth, and their right combination depends on the model's capability and on the task. She closes with Richard Sutton's essay The Bitter Lesson. As she reads it, the methods worth building go on improving as computation grows and succeed by teaching a model how to discover things, not by handing it what people already know. She expects the principle to hold for training techniques as well.
+The right combination of the three families depends on the model's capability and on the task. She closes with Richard Sutton's essay The Bitter Lesson. As she reads it, the methods worth building go on improving as computation grows and succeed by teaching a model how to discover things, not by handing it what people already know. She expects the principle to hold for training techniques as well.
 **In this book:** nothing beyond this guide; nearest: [Reasoning in LLMs: From Chain-of-Thought to Search › What the practitioners say](../01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md#what-the-practitioners-say).
 
 ## What to take away

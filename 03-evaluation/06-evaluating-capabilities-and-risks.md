@@ -183,7 +183,7 @@ Rules that follow from the lecture:
 
 ## Sources
 
-- **Lecture:** Ben Mann, "Measuring Agent Capabilities and Anthropic's RSP", UC Berkeley LLM Agents MOOC, Fall 2024: [video](https://www.youtube.com/watch?v=6y2AnWol7oo), used at [elicitation](https://www.youtube.com/watch?v=6y2AnWol7oo&t=120), [the policy and its levels](https://www.youtube.com/watch?v=6y2AnWol7oo&t=720), [benchmarks do not last](https://www.youtube.com/watch?v=6y2AnWol7oo&t=1440).
+- **Lecture:** Ben Mann, "Measuring Agent Capabilities and Anthropic's RSP", UC Berkeley LLM Agents MOOC, Fall 2024: [video](https://www.youtube.com/watch?v=6y2AnWol7oo) · [guide](../lectures/f24-11-measuring-agent-capabilities-and-anthropics-rsp.md), used at [elicitation](https://www.youtube.com/watch?v=6y2AnWol7oo&t=120), [the policy and its levels](https://www.youtube.com/watch?v=6y2AnWol7oo&t=720), [benchmarks do not last](https://www.youtube.com/watch?v=6y2AnWol7oo&t=1440).
 
 ## Next
 

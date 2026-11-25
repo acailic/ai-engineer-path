@@ -222,7 +222,7 @@ This chapter's reading of all that: the hard part is not the tasks. It is that t
 
 ## Sources
 
-- **Lecture:** Berkeley course staff, "LLM Agent Evaluations & Project Overview", UC Berkeley Agentic AI MOOC, Fall 2025: [video](https://www.youtube.com/watch?v=VfOA2a0dj4w), used at [green and white agents](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3840), [the two project types](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=4440), [the checklist](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=5280), [the grading rubric](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=5520).
+- **Lecture:** Berkeley course staff, "LLM Agent Evaluations & Project Overview", UC Berkeley Agentic AI MOOC, Fall 2025: [video](https://www.youtube.com/watch?v=VfOA2a0dj4w) · [guide](../lectures/f25-04-agent-evaluation-and-project-overview.md), used at [green and white agents](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3840), [the two project types](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=4440), [the checklist](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=5280), [the grading rubric](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=5520).
 - **Reading:** UC Berkeley, "CS294/194-196: Agentic AI, Fall 2025", [course page](https://rdi.berkeley.edu/agentic-ai/f25): syllabus, grading and project timeline.
 
 ## Next

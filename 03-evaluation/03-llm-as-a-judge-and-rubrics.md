@@ -244,7 +244,7 @@ What to observe: kappa is (0.775 − 0.5075) / (1 − 0.5075) = 0.54. Under a wi
 
 ## Sources
 
-- **Lecture:** Berkeley course staff, "LLM Agent Evaluations & Project Overview", UC Berkeley Agentic AI MOOC, Fall 2025: [video](https://www.youtube.com/watch?v=VfOA2a0dj4w), used at [judge issues and fixes](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=1080), [testing the evaluator](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=5280).
+- **Lecture:** Berkeley course staff, "LLM Agent Evaluations & Project Overview", UC Berkeley Agentic AI MOOC, Fall 2025: [video](https://www.youtube.com/watch?v=VfOA2a0dj4w) · [guide](../lectures/f25-04-agent-evaluation-and-project-overview.md), used at [judge issues and fixes](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=1080), [testing the evaluator](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=5280).
 - **Reading:** Lianmin Zheng et al., "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena" (2023): [link](https://arxiv.org/abs/2306.05685).
 - **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapters 14 and 15: [link](https://mlip-cmu.github.io/book/15-model-quality.html).
 

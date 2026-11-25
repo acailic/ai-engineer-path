@@ -265,7 +265,7 @@ His example uses two fictional models. On MATH, with 5,000 questions, they score
 ## Sources
 
 - **Lecture:** Sida Wang, "Predictable Noise in LLM Benchmarks", UC Berkeley Agentic AI MOOC, Fall 2025: [video](https://www.youtube.com/watch?v=HV8pugcFVO0), used at [inconsistency between models and questions](https://www.youtube.com/watch?v=HV8pugcFVO0&t=600), [simple estimators](https://www.youtube.com/watch?v=HV8pugcFVO0&t=1680), [reporting advice](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2280).
-- **Lecture:** Berkeley course staff, "LLM Agent Evaluations & Project Overview", UC Berkeley Agentic AI MOOC, Fall 2025: [video](https://www.youtube.com/watch?v=VfOA2a0dj4w), used at [repeat and average](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=1080).
+- **Lecture:** Berkeley course staff, "LLM Agent Evaluations & Project Overview", UC Berkeley Agentic AI MOOC, Fall 2025: [video](https://www.youtube.com/watch?v=VfOA2a0dj4w) · [guide](../lectures/f25-04-agent-evaluation-and-project-overview.md), used at [repeat and average](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=1080).
 - **Reading:** Evan Miller, "Adding Error Bars to Evals: A Statistical Approach to Language Model Evaluations" (2024): [link](https://arxiv.org/abs/2411.00640).
 
 ## Next

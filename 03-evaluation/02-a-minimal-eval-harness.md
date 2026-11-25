@@ -433,7 +433,7 @@ Copy the program and run it.
 
 ## Sources
 
-- **Lecture:** Berkeley course staff, "LLM Agent Evaluations & Project Overview", UC Berkeley Agentic AI MOOC, Fall 2025: [video](https://www.youtube.com/watch?v=VfOA2a0dj4w), used at [how τ-bench scores reliability](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3000), [cost and efficiency](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3720).
+- **Lecture:** Berkeley course staff, "LLM Agent Evaluations & Project Overview", UC Berkeley Agentic AI MOOC, Fall 2025: [video](https://www.youtube.com/watch?v=VfOA2a0dj4w) · [guide](../lectures/f25-04-agent-evaluation-and-project-overview.md), used at [how τ-bench scores reliability](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3000), [cost and efficiency](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3720).
 - **Reading:** Shunyu Yao et al., "τ-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains" (ICLR 2025): [link](https://arxiv.org/abs/2406.12045). Mark Chen et al., "Evaluating Large Language Models Trained on Code" (2021): [link](https://arxiv.org/abs/2107.03374).
 - **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 15: [link](https://mlip-cmu.github.io/book/15-model-quality.html).
 

@@ -246,7 +246,7 @@ Two data pipelines show how tasks get built:
 
 ## Sources
 
-- **Lecture:** Berkeley course staff, "LLM Agent Evaluations & Project Overview", UC Berkeley Agentic AI MOOC, Fall 2025: [video](https://www.youtube.com/watch?v=VfOA2a0dj4w), used at [how CyberGym and τ-bench are built and scored](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=2760), [the evaluator checklist](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=5160).
+- **Lecture:** Berkeley course staff, "LLM Agent Evaluations & Project Overview", UC Berkeley Agentic AI MOOC, Fall 2025: [video](https://www.youtube.com/watch?v=VfOA2a0dj4w) · [guide](../lectures/f25-04-agent-evaluation-and-project-overview.md), used at [how CyberGym and τ-bench are built and scored](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=2760), [the evaluator checklist](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=5160).
 - **Lecture:** Clay Bavor, "Practical Lessons from Deploying Real-World AI Agents", UC Berkeley Agentic AI MOOC, Fall 2025: [video](https://www.youtube.com/watch?v=sfJM4LaiYsM) · [guide](../lectures/f25-09-practical-lessons-from-deploying-real-world-ai.md), used at [what to verify](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=2040), [simulation](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=2160).
 - **Reading:** Victor Barres et al., "τ²-Bench: Evaluating Conversational Agents in a Dual-Control Environment" (2025): [link](https://arxiv.org/abs/2506.07982).
 - **Reading:** Kumar Pandya and Sachi Shah, "Voice Sims: test agents in real world conditions before they talk to your customers", Sierra blog (September 11, 2025): [link](https://sierra.ai/blog/voice-sims-test-agents-in-real-world-conditions-before-they-talk-to-your-customers).

@@ -200,7 +200,7 @@ Pick one user goal of a system you can run: your own agent, or a script that cal
 
 ## Sources
 
-- **Lecture:** Berkeley course staff, "LLM Agent Evaluations & Project Overview", UC Berkeley Agentic AI MOOC, Fall 2025: [video](https://www.youtube.com/watch?v=VfOA2a0dj4w), used at [why evaluation matters](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=120), [task and outcome validity](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=1680), [the SWE-bench Verified example](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=4680).
+- **Lecture:** Berkeley course staff, "LLM Agent Evaluations & Project Overview", UC Berkeley Agentic AI MOOC, Fall 2025: [video](https://www.youtube.com/watch?v=VfOA2a0dj4w) · [guide](../lectures/f25-04-agent-evaluation-and-project-overview.md), used at [why evaluation matters](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=120), [task and outcome validity](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=1680), [the SWE-bench Verified example](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=4680).
 - **Reading:** Asaf Yehudai et al., "A Survey on Evaluation of LLM-based Agents" (arXiv, revised April 2026): [link](https://arxiv.org/abs/2503.16416).
 - **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 14: [link](https://mlip-cmu.github.io/book/14-quality-assurance-basics.html).
 
