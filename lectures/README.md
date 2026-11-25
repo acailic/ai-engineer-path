@@ -1,6 +1,6 @@
 # Lecture guides
 
-One guide per lecture of the four courses: 58 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
+One guide per lecture of the four courses: 59 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
 
 Every part heading links to the moment in the video where the part begins.
 
@@ -81,5 +81,6 @@ Every part heading links to the moment in the video where the part begins.
 | 20 | Distributed Training (Part II) | Song Han (MIT) | 1:00:00 | 16 | 10 | [open](mit-20-distributed-training-part-ii.md) |
 | 21 | On-Device Training and Transfer Learning | Song Han (MIT) | 1:06:00 | 16 | 1 | [open](mit-21-on-device-training-and-transfer-learning.md) |
 | 22 | Course Summary + Quantum Machine Learning I | Song Han (MIT) | 1:24:00 | 19 | 18 | [open](mit-22-course-summary-quantum-machine-learning-i.md) |
+| 23 | Quantum Machine Learning II | Song Han (MIT) | 1:14:00 | 20 | 20 | [open](mit-23-quantum-machine-learning-ii.md) |
 
-In all: 900 parts, of which 204 (23%) teach something no chapter teaches; 126,174 words.
+In all: 920 parts, of which 224 (24%) teach something no chapter teaches; 128,898 words.
