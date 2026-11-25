@@ -1,6 +1,6 @@
 # Lecture guides
 
-One guide per lecture of the four courses: 41 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
+One guide per lecture of the four courses: 42 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
 
 Every part heading links to the moment in the video where the part begins.
 
@@ -64,5 +64,6 @@ Every part heading links to the moment in the video where the part begins.
 | 3 | Pruning and Sparsity (Part I) | Song Han (MIT) | 58:00 | 15 | 1 | [open](mit-03-pruning-and-sparsity-part-i.md) |
 | 4 | Pruning and Sparsity (Part II) | Song Han (MIT) | 1:10:00 | 19 | 2 | [open](mit-04-pruning-and-sparsity-part-ii.md) |
 | 5 | Quantization (Part I) | Song Han (MIT) | 1:08:00 | 17 | 0 | [open](mit-05-quantization-part-i.md) |
+| 6 | Quantization (Part II) | Song Han (MIT) | 1:10:00 | 19 | 4 | [open](mit-06-quantization-part-ii.md) |
 
-In all: 595 parts, of which 130 (22%) teach something no chapter teaches; 83,154 words.
+In all: 614 parts, of which 134 (22%) teach something no chapter teaches; 85,742 words.

@@ -114,7 +114,7 @@ Course page: <https://hanlab.mit.edu/courses/2024-fall-65940>
 | Pruning and Sparsity (Part I) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=EjsB0WgIfUM) · [guide](lectures/mit-03-pruning-and-sparsity-part-i.md) | [03-pruning-and-sparsity](09-efficient-deep-learning/03-pruning-and-sparsity.md) |
 | Pruning and Sparsity (Part II) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=upaZrpXkELc) · [guide](lectures/mit-04-pruning-and-sparsity-part-ii.md) | [03-pruning-and-sparsity](09-efficient-deep-learning/03-pruning-and-sparsity.md) |
 | Quantization (Part I) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=ymAzUz3qlIA) · [guide](lectures/mit-05-quantization-part-i.md) | [04-quantization](09-efficient-deep-learning/04-quantization.md) |
-| Quantization (Part II) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=wrcgWm_nUeE) | [04-quantization](09-efficient-deep-learning/04-quantization.md) |
+| Quantization (Part II) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=wrcgWm_nUeE) · [guide](lectures/mit-06-quantization-part-ii.md) | [04-quantization](09-efficient-deep-learning/04-quantization.md) |
 | Neural Architecture Search (Part I) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=3W146_T8eCs) | [05-neural-architecture-search](09-efficient-deep-learning/05-neural-architecture-search.md) |
 | Neural Architecture Search (Part II) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=5ty12mNV4Sg) | [05-neural-architecture-search](09-efficient-deep-learning/05-neural-architecture-search.md) |
 | Knowledge Distillation | Song Han (MIT) | [video](https://www.youtube.com/watch?v=Ubj3QXv4rjw) | [06-knowledge-distillation](09-efficient-deep-learning/06-knowledge-distillation.md) |
