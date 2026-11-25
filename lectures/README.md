@@ -1,6 +1,6 @@
 # Lecture guides
 
-One guide per lecture of the four courses: 55 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
+One guide per lecture of the four courses: 56 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
 
 Every part heading links to the moment in the video where the part begins.
 
@@ -78,5 +78,6 @@ Every part heading links to the moment in the video where the part begins.
 | 17 | GAN, Video, and Point Cloud | Song Han (MIT) | 1:12:00 | 17 | 10 | [open](mit-17-gan-video-and-point-cloud.md) |
 | 18 | Diffusion Model | Song Han (MIT) | 1:12:00 | 18 | 11 | [open](mit-18-diffusion-model.md) |
 | 19 | Distributed Training (Part I) | Song Han (MIT) | 1:10:00 | 17 | 2 | [open](mit-19-distributed-training-part-i.md) |
+| 20 | Distributed Training (Part II) | Song Han (MIT) | 1:00:00 | 16 | 10 | [open](mit-20-distributed-training-part-ii.md) |
 
-In all: 849 parts, of which 175 (21%) teach something no chapter teaches; 118,713 words.
+In all: 865 parts, of which 185 (21%) teach something no chapter teaches; 120,933 words.
