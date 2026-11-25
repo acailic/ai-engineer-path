@@ -1,6 +1,6 @@
 # Lecture guides
 
-One guide per lecture of the four courses: 16 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
+One guide per lecture of the four courses: 17 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
 
 Every part heading links to the moment in the video where the part begins.
 
@@ -8,6 +8,7 @@ Every part heading links to the moment in the video where the part begins.
 
 | # | Lecture | Lecturer | Length | Parts | Guide only | Guide |
 |---|---|---|---|---|---|---|
+| 1 | LLM Reasoning | Denny Zhou (Google DeepMind) | 1:04:00 | 18 | 3 | [open](f24-01-llm-reasoning.md) |
 | 4 | Enterprise trends for generative AI, and key components of building successful agents/applications | Burak Gokturk (Google) | 1:04:00 | 17 | 3 | [open](f24-04-enterprise-trends-for-generative-ai-and-key.md) |
 | 6 | Agents for Software Development | Graham Neubig (CMU) | 1:02:00 | 13 | 4 | [open](f24-06-agents-for-software-development.md) |
 | 7 | AI Agents for Enterprise Workflows | Nicolas Chapados (ServiceNow) | 1:12:00 | 14 | 4 | [open](f24-07-ai-agents-for-enterprise-workflows.md) |
@@ -35,4 +36,4 @@ Every part heading links to the moment in the video where the part begins.
 | 7 | Predictable Noise in LLM | Sida Wang (Meta) | 44:00 | 9 | 3 | [open](f25-07-predictable-noise-in-llm.md) |
 | 9 | Practical Lessons from Deploying Real-World AI Agents | Clay Bavor (Sierra) | 48:00 | 16 | 8 | [open](f25-09-practical-lessons-from-deploying-real-world-ai.md) |
 
-In all: 192 parts, of which 52 (27%) teach something no chapter teaches; 23,214 words.
+In all: 210 parts, of which 55 (26%) teach something no chapter teaches; 24,638 words.
