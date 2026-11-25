@@ -236,7 +236,7 @@ You are done when:
 
 ## Sources
 
-- **Lecture:** Percy Liang, "Lecture 2: PyTorch (einops), resource accounting (FLOPs, memory, arithmetic intensity)", Stanford CS336 Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=kuYAsz7zspQ), used at [two questions](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=120), [mindset](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=240), [fp32 is slow](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=2400), [roofline](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=3360), [summary](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=4560)
+- **Lecture:** Percy Liang, "Lecture 2: PyTorch (einops), resource accounting (FLOPs, memory, arithmetic intensity)", Stanford CS336 Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=kuYAsz7zspQ) · [guide](../lectures/cs336-02-pytorch-einops-resource-accounting-flops-memory.md), used at [two questions](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=120), [mindset](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=240), [fp32 is slow](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=2400), [roofline](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=3360), [summary](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=4560)
 - **Reading:** einops documentation: [link](https://einops.rocks/)
 - **Reading:** PyTorch, "Automatic Mixed Precision": [link](https://pytorch.org/docs/stable/amp.html)
 - **Reading:** Vijay Anand Korthikanti, Jared Casper, et al., "Reducing Activation Recomputation in Large Transformer Models" (2022): [arXiv](https://arxiv.org/abs/2205.05198)
