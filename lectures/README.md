@@ -1,6 +1,6 @@
 # Lecture guides
 
-One guide per lecture of the four courses: 49 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
+One guide per lecture of the four courses: 50 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
 
 Every part heading links to the moment in the video where the part begins.
 
@@ -72,5 +72,6 @@ Every part heading links to the moment in the video where the part begins.
 | 11 | TinyEngine and Parallel Processing | Song Han (MIT) | 1:12:00 | 15 | 0 | [open](mit-11-tinyengine-and-parallel-processing.md) |
 | 12 | Transformer and LLM | Song Han (MIT) | 1:18:00 | 20 | 2 | [open](mit-12-transformer-and-llm.md) |
 | 13 | Efficient LLM Deployment | Song Han (MIT) | 1:18:00 | 20 | 2 | [open](mit-13-efficient-llm-deployment.md) |
+| 14 | LLM Post Training | Song Han (MIT) | 1:18:00 | 17 | 1 | [open](mit-14-llm-post-training.md) |
 
-In all: 743 parts, of which 146 (20%) teach something no chapter teaches; 103,544 words.
+In all: 760 parts, of which 147 (19%) teach something no chapter teaches; 106,165 words.
