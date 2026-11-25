@@ -1,6 +1,6 @@
 # Lecture guides
 
-One guide per lecture of the four courses: 23 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
+One guide per lecture of the four courses: 27 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
 
 Every part heading links to the moment in the video where the part begins.
 
@@ -26,6 +26,8 @@ Every part heading links to the moment in the video where the part begins.
 | 2 | Learning to reason with LLMs | Jason Weston (Meta) | 1:18:00 | 11 | 6 | [open](sp25-02-learning-to-reason-with-llms.md) |
 | 3 | On Reasoning, Memory, and Planning of Language Agents | Yu Su (Ohio State University) | 1:34:00 | 11 | 4 | [open](sp25-03-on-reasoning-memory-and-planning-of-language.md) |
 | 4 | Open Training Recipes for Reasoning in Language Models | Hanna Hajishirzi (University of Washington) | 1:22:00 | 13 | 3 | [open](sp25-04-open-training-recipes-for-reasoning-in-language.md) |
+| 6 | Multimodal Autonomous AI Agents | Ruslan Salakhutdinov (CMU / Meta) | 1:18:00 | 16 | 3 | [open](sp25-06-multimodal-autonomous-ai-agents.md) |
+| 7 | Multimodal Agents: From Perception to Action | Caiming Xiong (Salesforce AI Research) | 1:30:00 | 19 | 6 | [open](sp25-07-multimodal-agents-from-perception-to-action.md) |
 | 12 | Towards building safe and secure agentic AI | Dawn Song (UC Berkeley) | 1:52:00 | 10 | 2 | [open](sp25-12-towards-building-safe-and-secure-agentic-ai.md) |
 
 ## UC Berkeley Agentic AI MOOC (Fall 2025)
@@ -39,7 +41,9 @@ Every part heading links to the moment in the video where the part begins.
 | 5 | Some Challenges and Lessons from Training Agentic Models | Weizhu Chen (Microsoft) | 1:06:00 | 18 | 4 | [open](f25-05-some-challenges-and-lessons-from-training.md) |
 | 6 | Multi-Agent AI | Noam Brown (OpenAI) | 56:00 | 18 | 2 | [open](f25-06-multi-agent-ai.md) |
 | 7 | Predictable Noise in LLM | Sida Wang (Meta) | 44:00 | 9 | 3 | [open](f25-07-predictable-noise-in-llm.md) |
+| 8 | AI Agents to Automate Scientific Discoveries | James Zou (Stanford) | 1:02:00 | 11 | 0 | [open](f25-08-ai-agents-to-automate-scientific-discoveries.md) |
 | 9 | Practical Lessons from Deploying Real-World AI Agents | Clay Bavor (Sierra) | 48:00 | 16 | 8 | [open](f25-09-practical-lessons-from-deploying-real-world-ai.md) |
+| 11 | Autonomous Agents: Embodiment, Interaction, and Learning | Peter Stone (UT Austin / Sony AI) | 1:02:00 | 15 | 2 | [open](f25-11-autonomous-agents-embodiment-interaction-and.md) |
 | 12 | Agentic AI Safety & Security | Dawn Song (UC Berkeley) | 1:50:00 | 10 | 3 | [open](f25-12-agentic-ai-safety-and-security.md) |
 
-In all: 299 parts, of which 79 (26%) teach something no chapter teaches; 35,765 words.
+In all: 360 parts, of which 90 (25%) teach something no chapter teaches; 44,562 words.
