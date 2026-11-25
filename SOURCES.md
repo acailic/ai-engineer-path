@@ -155,7 +155,7 @@ The Spring 2026 schedule also lists a guest lecture by Daniel Selsam (June 1, 20
 | Evaluation |  | [video](https://www.youtube.com/watch?v=JpAxdTWQJxM) · [guide](lectures/cs336-12-evaluation.md) | [09-evaluating-language-models](10-llm-internals/09-evaluating-language-models.md) |
 | Data: sources, datasets |  | [video](https://www.youtube.com/watch?v=-qm0ln33G24) · [guide](lectures/cs336-13-data-sources-datasets.md) | [10-training-data](10-llm-internals/10-training-data.md) |
 | Data: filtering, deduplication, mixing, synthetic data |  | [video](https://www.youtube.com/watch?v=5sxHosTLPF8) · [guide](lectures/cs336-14-data-filtering-deduplication-mixing-synthetic.md) | [10-training-data](10-llm-internals/10-training-data.md) |
-| Mid/post-training (SFT/RLHF) |  | [video](https://www.youtube.com/watch?v=2oH6PWPrYFo) | [11-post-training-sft-rlhf-and-rlvr](10-llm-internals/11-post-training-sft-rlhf-and-rlvr.md) |
+| Mid/post-training (SFT/RLHF) |  | [video](https://www.youtube.com/watch?v=2oH6PWPrYFo) · [guide](lectures/cs336-15-midpost-training-sftrlhf.md) | [11-post-training-sft-rlhf-and-rlvr](10-llm-internals/11-post-training-sft-rlhf-and-rlvr.md) |
 | Post-training: RLVR |  | [video](https://www.youtube.com/watch?v=dIFAi87Ws4E) | [11-post-training-sft-rlhf-and-rlvr](10-llm-internals/11-post-training-sft-rlhf-and-rlvr.md) |
 | Alignment: multimodality |  | [video](https://www.youtube.com/watch?v=26FtD08ZpOU) | [12-alignment-and-multimodality](10-llm-internals/12-alignment-and-multimodality.md) |
 | Guest lecture: Dan Fu |  | [video](https://www.youtube.com/watch?v=9EEm4iMAF5s) | [13-building-your-own-a-roadmap-through-the-assignments](10-llm-internals/13-building-your-own-a-roadmap-through-the-assignments.md) |
