@@ -65,6 +65,19 @@ The part is synthesized from six lectures of the UC Berkeley LLM Agents and Agen
 
 Each chapter cites the moments it uses.
 
+## Lecture guides for this part
+
+Each guide maps one lecture from its first minute to its last and says where this book teaches each piece. Where no chapter teaches a part of the lecture, the guide explains it itself; the table counts those parts.
+
+| Lecture | Lecturer | Length | Parts no chapter teaches | Guide |
+|---|---|---|---|---|
+| Evolution of system designs from an AI engineer perspective | Yangqing Jia (NVIDIA) | 1:20:00 | 2 of 9 | [open guide](../lectures/f25-02-evolution-of-system-designs-from-an-ai-engineer.md) |
+| Compound AI Systems & the DSPy Framework | Omar Khattab (Databricks) | 1:06:00 | 5 of 16 | [open guide](../lectures/f24-05-compound-ai-systems-and-the-dspy-framework.md) |
+| Agents for Software Development | Graham Neubig (CMU) | 1:02:00 | 4 of 13 | [open guide](../lectures/f24-06-agents-for-software-development.md) |
+| On Reasoning, Memory, and Planning of Language Agents | Yu Su (Ohio State University) | 1:34:00 | 4 of 11 | [open guide](../lectures/sp25-03-on-reasoning-memory-and-planning-of-language.md) |
+| Some Challenges and Lessons from Training Agentic Models | Weizhu Chen (Microsoft) | 1:06:00 | 4 of 18 | [open guide](../lectures/f25-05-some-challenges-and-lessons-from-training.md) |
+| Towards a unified framework of Neural and Symbolic Decision Making | Yuandong Tian (Meta AI, FAIR) | 1:10:00 | 7 of 16 | [open guide](../lectures/f24-08-towards-a-unified-framework-of-neural-and.md) |
+
 ## Where to go next
 
 → [Part 03: Evaluation](../03-evaluation/01-evaluation-is-the-product.md). An agent you cannot measure is an agent you cannot improve.

@@ -1,6 +1,6 @@
 # Lecture guides
 
-One guide per lecture of the four courses: 19 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
+One guide per lecture of the four courses: 23 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
 
 Every part heading links to the moment in the video where the part begins.
 
@@ -11,8 +11,10 @@ Every part heading links to the moment in the video where the part begins.
 | 1 | LLM Reasoning | Denny Zhou (Google DeepMind) | 1:04:00 | 18 | 3 | [open](f24-01-llm-reasoning.md) |
 | 2 | LLM agents: brief history and overview | Shunyu Yao (OpenAI) | 1:10:00 | 11 | 3 | [open](f24-02-llm-agents-brief-history-and-overview.md) |
 | 4 | Enterprise trends for generative AI, and key components of building successful agents/applications | Burak Gokturk (Google) | 1:04:00 | 17 | 3 | [open](f24-04-enterprise-trends-for-generative-ai-and-key.md) |
+| 5 | Compound AI Systems & the DSPy Framework | Omar Khattab (Databricks) | 1:06:00 | 16 | 5 | [open](f24-05-compound-ai-systems-and-the-dspy-framework.md) |
 | 6 | Agents for Software Development | Graham Neubig (CMU) | 1:02:00 | 13 | 4 | [open](f24-06-agents-for-software-development.md) |
 | 7 | AI Agents for Enterprise Workflows | Nicolas Chapados (ServiceNow) | 1:12:00 | 14 | 4 | [open](f24-07-ai-agents-for-enterprise-workflows.md) |
+| 8 | Towards a unified framework of Neural and Symbolic Decision Making | Yuandong Tian (Meta AI, FAIR) | 1:10:00 | 16 | 7 | [open](f24-08-towards-a-unified-framework-of-neural-and.md) |
 | 9 | Project GR00T: A Blueprint for Generalist Robotics | Jim Fan (NVIDIA) | 58:00 | 11 | 3 | [open](f24-09-project-gr00t-a-blueprint-for-generalist.md) |
 | 11 | Measuring Agent capabilities and Anthropic's RSP | Ben Mann (Anthropic) | 46:00 | 6 | 2 | [open](f24-11-measuring-agent-capabilities-and-anthropics-rsp.md) |
 
@@ -34,8 +36,10 @@ Every part heading links to the moment in the video where the part begins.
 | 2 | Evolution of system designs from an AI engineer perspective | Yangqing Jia (NVIDIA) | 1:20:00 | 9 | 2 | [open](f25-02-evolution-of-system-designs-from-an-ai-engineer.md) |
 | 3 | Post-Training Verifiable Agents | Jiantao Jiao (NVIDIA) | 1:18:00 | 15 | 1 | [open](f25-03-post-training-verifiable-agents.md) |
 | 4 | Agent Evaluation & Project Overview | Berkeley course staff | 1:36:00 | 12 | 2 | [open](f25-04-agent-evaluation-and-project-overview.md) |
+| 5 | Some Challenges and Lessons from Training Agentic Models | Weizhu Chen (Microsoft) | 1:06:00 | 18 | 4 | [open](f25-05-some-challenges-and-lessons-from-training.md) |
+| 6 | Multi-Agent AI | Noam Brown (OpenAI) | 56:00 | 18 | 2 | [open](f25-06-multi-agent-ai.md) |
 | 7 | Predictable Noise in LLM | Sida Wang (Meta) | 44:00 | 9 | 3 | [open](f25-07-predictable-noise-in-llm.md) |
 | 9 | Practical Lessons from Deploying Real-World AI Agents | Clay Bavor (Sierra) | 48:00 | 16 | 8 | [open](f25-09-practical-lessons-from-deploying-real-world-ai.md) |
 | 12 | Agentic AI Safety & Security | Dawn Song (UC Berkeley) | 1:50:00 | 10 | 3 | [open](f25-12-agentic-ai-safety-and-security.md) |
 
-In all: 231 parts, of which 61 (26%) teach something no chapter teaches; 27,327 words.
+In all: 299 parts, of which 79 (26%) teach something no chapter teaches; 35,765 words.
