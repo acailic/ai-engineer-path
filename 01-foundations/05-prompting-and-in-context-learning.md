@@ -59,9 +59,9 @@ Ticket: <the new ticket>
 Answer:
 ```
 
-The model imitates two things at once: the surface format and the decision boundary between the labels.
+The model imitates two things at once: the surface format and the decision boundary between the labels, meaning where one label ends and the next begins.
 
-Denny Zhou opens his Fall 2024 lecture with a sharper version. The task is to take the last letter of each word in a name and join them: "Elon Musk" gives `nk`. With examples that show only the answers, the model struggles. With one example that spells out the steps (the last letter of "Elon" is "n", the last letter of "Musk" is "k", joined they give "nk"), one demonstration was enough for perfect accuracy on that task, as he reports it ([18:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=1080)). He then walks through the research line behind this, from training on worked solutions in 2017 to prompting with them in 2022, and draws one conclusion: it does not matter whether the steps arrive through training, fine-tuning or prompting. The intermediate steps are what help ([22:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=1320)).
+Denny Zhou shows a sharper version in his Fall 2024 lecture. The task is to take the last letter of each word in a name and join them: "Elon Musk" gives `nk`. With examples that show only the answers, the model struggles. With one example that spells out the steps (the last letter of "Elon" is "n", the last letter of "Musk" is "k", joined they give "nk"), one demonstration was enough for perfect accuracy on that task, as he reports it ([18:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=1080)). He then walks through the research line behind this, from training on worked solutions in 2017 to prompting with them in 2022, and draws one conclusion: it does not matter whether the steps arrive through training, fine-tuning or prompting. The intermediate steps are what help ([22:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=1320)).
 
 ### 3. Ask for reasoning on multi-step tasks
 
@@ -69,7 +69,7 @@ For arithmetic, logic or planning, have the model write its steps before the ans
 
 - **Few-shot CoT:** the exemplars contain the steps.
 - **Zero-shot CoT:** add one line, "Let's think step by step". Zhou admits he took the paper for a joke when it came out ([32:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=1920)). The method is usually worse than few-shot CoT. Xinyun Chen puts it more precisely: it beats plain zero-shot clearly, but remains much worse than few-shot CoT ([20:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=1200)).
-- **Decomposition:** split the problem into subquestions and answer them easiest first. Zhou calls this **least-to-most prompting**. For "Mia buys 4 pencils at 2 euros each and pays with a 20-euro note", the model first answers "What did she spend?" and only then "What is her change?".
+- **Decomposition:** split the problem into subquestions and answer them easiest first. Zhou calls this **least-to-most prompting** ([26:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=1560)). For "Mia buys 4 pencils at 2 euros each and pays with a 20-euro note", the model first answers "What did she spend?" and only then "What is her change?".
 
 Why does writing steps help? Each generated token gives the network more computation before it commits to an answer. Zhou cites a theory result for this: a transformer of fixed depth can solve problems that need one step after another, as long as it writes enough intermediate steps, while a transformer that must answer directly may need impractical depth ([30:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=1800)).
 
@@ -79,12 +79,12 @@ Reasoning steps are not free. They cost tokens and latency on every call, and th
 
 ### 4. Let the model supply the examples
 
-Writing exemplars by hand does not scale. **Analogical prompting**, a method Zhou and Xinyun Chen published together, instructs the model to first recall a relevant solved problem, then solve the new one. Because the examples are generated per question, they fit its topic. On math, code generation and BIG-Bench it beat both zero-shot CoT and few-shot CoT with hand-written examples ([24:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=1440)). Two findings from Chen's lecture keep it honest:
+Writing exemplars by hand does not scale. **Analogical prompting**, a method Zhou and Xinyun Chen published together, instructs the model to first recall a relevant solved problem, then solve the new one. Because the examples are generated per question, they fit its topic. On math, code generation and BIG-Bench, a collection of reasoning tasks, it beat both zero-shot CoT and few-shot CoT with hand-written examples ([24:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=1440)). Two findings from Chen's lecture keep it honest:
 
 - **The self-made examples are imperfect.** For math, about 70% were accurate and relevant. The rest were irrelevant or contained wrong calculations, and the model still gained ([24:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=1440)).
 - **It needs a strong model.** Weaker models benefit less. From a certain size up, the method overtakes few-shot CoT with hand-written examples and beats retrieved examples too ([24:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=1440), [26:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=1560)).
 
-A model can also write the prompt itself. In her setup one LLM proposes instructions and an evaluator scores each on a small held-out set of tens of examples. With PaLM 2 as the model, the loop started from `Let's solve the problem`, at about 61% on the GSM8K math set, and found `Take a deep breath and work on this problem step-by-step`. That scored about 8 points above `Let's think step by step` and matched few-shot CoT with human-written examples. Nothing is trained ([30:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=1800), [32:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=1920)).
+A model can also write the prompt itself. In her setup one LLM proposes instructions and an evaluator scores each on a held-out set of examples. With PaLM 2 as the model, the loop started from `Let's solve the problem`, at about 61% on GSM8K, a grade-school math test set, and found `Take a deep breath and work on this problem step-by-step`. That scored about 8 points above `Let's think step by step` and matched few-shot CoT with human-written examples. Nothing is trained ([30:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=1800), [32:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=1920)).
 
 ### 5. Put the stable rules in the system prompt
 
@@ -96,7 +96,7 @@ A system prompt is still only text in the input. It is guidance, not a security 
 
 **Prompt sensitivity** is the tendency of outputs to change when the wording, the order or the formatting of the prompt changes a little. The lectures give three kinds of evidence:
 
-- **Irrelevant information distracts.** Zhou shows a bank-balance problem with one added sentence about another person's rent. The model subtracted the rent ([52:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3120)). His slides report a drop of over 20 points on the GSM8K math set when such sentences are added. He adds two observations. Telling the model to ignore irrelevant context fixes his example, and even filler sentences such as "the sky is blue and the grass is green" lower the score (same moment).
+- **Irrelevant information distracts.** Zhou shows a bank-balance problem with one added sentence about another person's rent. The model subtracted the rent ([52:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3120)). His slides report a drop of over 20 points on the GSM8K math set when such sentences are added. He adds two observations. Telling the model to ignore irrelevant context fixes his example, and even filler sentences such as "the sky is blue and the grass is green" lower the score ([52:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3120)).
 - **Order matters.** He reports about 10 points lost across frontier models when the sentences of a problem are reordered ([58:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3480)).
 - **Models differ in taste.** Chen notes that some models prefer clear guidelines, some an interactive discussion, and some one long detailed instruction ([44:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=2640)).
 
@@ -114,7 +114,23 @@ Yann Dubois's slides describe prompting as the art of asking the model for what 
 6. **Review prompts.** A second reader catches ambiguity and accidental bias in the examples.
 7. **Validate the output in code.** Check the type and the allowed values. Retry or fall back when the check fails. [Chapter 04](04-using-llms-tokens-context-and-sampling.md) shows how.
 
-Chen offers two criteria for prompts meant to make a model reason: they should draw out longer thinking as the task gets harder, and they should support the reasoning strategy the task needs (same moment, [44:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=2640)).
+**Figure 1.** The prompt-engineering loop: each turn changes one thing and is judged on the same evaluation set.
+
+```mermaid
+flowchart TD
+    E["Evaluation set of real inputs"] --> P["Write the simplest prompt"]
+    P --> C["Change one thing"]
+    C --> M["Run the version several times"]
+    M --> Q["Score better than before"]
+    Q -->|"no"| C
+    Q -->|"yes, not good enough"| K["Commit prompt with its results"]
+    K --> C
+    Q -->|"yes, good enough"| D["Validate the output in code and ship"]
+```
+
+The loop ends when the score on the evaluation set is good enough, and every turn of it leaves a committed version behind.
+
+Chen offers two criteria for prompts meant to make a model reason: they should draw out longer thinking as the task gets harder, and they should support the reasoning strategy the task needs ([44:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=2640)).
 
 ## Worked example
 
@@ -209,16 +225,16 @@ Shunyu Yao makes a related point about exemplars in his Fall 2024 lecture. Showi
    - D. The number of layers that run
 
 2. What does a chain-of-thought exemplar contain that a standard one lacks?
-   - A. The steps that lead to the answer
-   - B. The answer without any explanation
+   - A. The answer without any explanation
+   - B. The steps that lead to the answer
    - C. A list of tools the model should call
    - D. A second copy of the task text
 
 3. Swapping two exemplars moved accuracy by eight points. What is the best next step?
    - A. Restore the old order and ship it
-   - B. Test several orders and report the spread
-   - C. Rewrite the whole prompt from scratch
-   - D. Move the task to a larger model
+   - B. Rewrite the whole prompt from scratch
+   - C. Move the task to a larger model
+   - D. Test several orders and report the spread
 
 4. For which task are written reasoning steps the least worthwhile?
    - A. Multi-step arithmetic word problems
@@ -228,30 +244,30 @@ Shunyu Yao makes a related point about exemplars in his Fall 2024 lecture. Showi
 
 5. What belongs in the system prompt rather than in a user message?
    - A. One particular ticket to classify
-   - B. Rules and output format for every request
-   - C. A follow-up question from the user
+   - B. A follow-up question from the user
+   - C. Rules and output format for every request
    - D. The answer the user expects to get
 
 6. Why does few-shot prompting work without any training?
    - A. The provider fine-tunes a private copy per request
-   - B. The model continues the pattern the examples set
-   - C. The examples are appended to the model file
-   - D. The examples enlarge the model's parameter count
+   - B. The examples are appended to the model file
+   - C. The examples enlarge the model's parameter count
+   - D. The model continues the pattern the examples set
 
 <details><summary>Show answers</summary>
 
 1. A. The parameters are frozen. In-context learning happens entirely in the input.
-2. A. The reasoning steps come before the final answer, and the model imitates them.
-3. B. Order is a variable like any other. Measure it over several runs before deciding.
+2. B. The reasoning steps come before the final answer, and the model imitates them.
+3. D. Order is a variable like any other. Measure it over several runs before deciding.
 4. B. A three-way label needs no intermediate computation. Reasoning steps add cost and parsing problems.
-5. B. The system prompt carries what applies to the whole conversation. The ticket goes in the user message.
-6. B. The model predicts what comes next, and the examples make the wanted format and decision look likely to continue.
+5. C. The system prompt carries what applies to the whole conversation. The ticket goes in the user message.
+6. D. The model predicts what comes next, and the examples make the wanted format and decision look likely to continue.
 
 </details>
 
 ## Sources
 
-- **Lecture:** Denny Zhou, "LLM Reasoning: Key Ideas and Limitations", LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=QL-FS_Zcmyo), used at [exemplars with steps](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=1080), [why steps matter](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=1320), [a theory of intermediate steps](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=1800), [zero-shot CoT](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=1920), [probabilistic models](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2520), [irrelevant context](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3120), [premise order](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3480)
+- **Lecture:** Denny Zhou, "LLM Reasoning: Key Ideas and Limitations", LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=QL-FS_Zcmyo), used at [exemplars with steps](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=1080), [why steps matter](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=1320), [a theory of intermediate steps](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=1800), [least-to-most prompting](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=1560), [zero-shot CoT](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=1920), [probabilistic models](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2520), [irrelevant context](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3120), [premise order](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3480)
 - **Lecture:** Xinyun Chen, "Inference-Time Techniques for LLM Reasoning", Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=g0Dwtf3BH-0), used at [zero-shot and analogical prompting](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=1200), [prompt optimization](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=1800), [variable computation](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=2082), [prompt styles and criteria](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=2640)
 - **Lecture:** Shunyu Yao, "LLM agents: brief history and overview", LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=RM6ZArd2nVc), used at [exemplars as trajectories](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=960)
 - **Lecture:** Yann Dubois, "Introduction to training LLMs for AI agents", LLM Agents MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=r1qZpYAmqmg), used for the slide that compares prompting with fine-tuning

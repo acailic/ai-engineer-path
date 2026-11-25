@@ -13,7 +13,7 @@ The question of this chapter: how do you find these failures before your users d
 
 ## The core idea
 
-Prompt injection is about an outsider steering the model. Trustworthiness is about what the model does on its own, and how it degrades under pressure. Dawn Song's Fall 2024 lecture lists the concerns in this second group: privacy, robustness, hallucination, fairness, toxicity, stereotypes, and ethics. She also joins the two groups. If the system is compromised, she says, "it could compromise its AI safety mechanisms" ([2:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=120)).
+Prompt injection is about an outsider steering the model. Trustworthiness is about what the model does on its own, and how it degrades under pressure. Dawn Song's Fall 2024 lecture lists the concerns in this second group: privacy, robustness, hallucination, fairness, and toxicity, among others. She also joins the two groups. If the system is compromised, she says, "it could compromise its AI safety mechanisms" ([2:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=120)).
 
 Three ideas carry the chapter.
 
@@ -28,7 +28,7 @@ An analogy: injection is a burglar, trustworthiness is the plumbing. The analogy
 ### 1. Privacy: find out what a model remembers
 
 A **training data extraction attack** makes a model print a piece of its training data. A **membership inference attack** is the weaker version: it only learns whether a given record was in the training data. Song's group published tests for both problems.
-**Canary test** (from *The Secret Sharer*, 2019). Use it when you control training or fine-tuning.
+**Canary test** (from *The Secret Sharer*, 2019). Use it when you control training, or fine-tuning, which continues the training of a ready-made model on your own data.
 
 1. Generate random strings that cannot appear in real data, such as "the random number is 8193-xtq". These are **canaries**.
 2. Insert each canary a known number of times in the training data: one canary once, another ten times, and so on.
@@ -36,7 +36,7 @@ A **training data extraction attack** makes a model print a piece of its trainin
 4. For each canary, compare how probable the model makes the canary with how probable it makes a random string it never saw. The ratio, on a log scale, is the canary's **exposure**.
 5. At equal accuracy, prefer the training recipe with the lowest exposure.
 
-The paper's findings: memorization shows up early in training, not only when a model overtrains; early stopping and dropout do not remove it; larger models and larger batch sizes memorize more; and only differentially private training removed it, at a cost in accuracy. On a model trained on the Enron email dataset, which contains real card numbers, the authors could extract credit card numbers.
+The paper's findings: memorization shows up early in training, not only when a model overtrains; early stopping (training for fewer steps) and dropout (randomly switching off parts of the model during training) do not remove it; larger models and larger batches (more examples per step) memorize more; and only differentially private training removed it, at a cost in accuracy. On a model trained on the Enron email dataset, which contains real card numbers, the authors could extract credit card numbers.
 
 **Extraction attack** (from *Extracting Training Data from Large Language Models*, 2021). Use it to check a model you are about to release.
 
@@ -45,7 +45,7 @@ The paper's findings: memorization shows up early in training, not only when a m
 3. Remove duplicates.
 4. Read the highest-scoring samples by hand and look them up.
 
-Of 1,800 candidates, over 600 were verbatim training text. The best configuration was right 67% of the time. The extracted text included names, phone numbers, email addresses, chat logs, and code, each from a single document. The model was GPT-2, whose training loss was only about 10% lower than its test loss. A model does not need to overfit to leak.
+Of 1,800 candidates, over 600 were verbatim training text. The best configuration was right 67% of the time. The extracted text included names, phone numbers, email addresses, chat logs, and code, each from a single document. The model was GPT-2, whose training loss was only about 10% lower than its test loss. The loss is the model's error on a set of examples: training loss on the data it learned from, test loss on data it never saw. A model does not need to overfit, that is, fit the training data far better than new data, to leak.
 
 **What this means if you do not train models.** You still fine-tune, and you still send data to a provider.
 
@@ -59,7 +59,7 @@ Of 1,800 candidates, over 600 were verbatim training text. The best configuratio
 
 ### 2. Robustness: the same failure, with a push
 
-An **adversarial example** is an input changed just enough to flip the output. In vision, Song's group was among the first to show it in the physical world: a stop sign with a constructed perturbation that an image classifier read as a 45-mile-per-hour speed limit sign, from different distances and angles (Eykholt et al., 2018; [22:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=1320)). In language models, the push is text: an **adversarial suffix** is a string of odd tokens that, appended to a request, makes an aligned model comply (Zou et al.). A hostile system prompt or hostile in-context examples work the same way.
+An **adversarial example** is an input changed just enough to flip the output. In vision, Song's group was among the first to show it in the physical world: a stop sign with a constructed perturbation that an image classifier read as a 45-mile-per-hour speed limit sign, from different distances and angles (Eykholt et al., 2018; [22:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=1320)). In language models, the push is text: an **adversarial suffix** is a string of odd tokens that, appended to a request, makes an aligned model, one with safety training, comply (Zou et al.). A hostile system prompt or hostile in-context examples work the same way.
 
 Song's lecture makes three points here.
 
@@ -159,9 +159,22 @@ Dawn Song gave this material in the last lecture of the Fall 2024 Berkeley agent
 
 - **Privacy grew with model size.** Her group showed that language models leak training data, including personal information such as email addresses from GPT-3.5 and GPT-4 ([8:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=480)). Other researchers got a production chatbot to emit training data from a prompt that repeated one word. In the Pythia model family, whose models are trained with the same data and schedule, larger models had higher accuracy and also leaked more ([12:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=720)).
 - **DecodingTrust scores a model in benign and adversarial environments** for eight trustworthiness perspectives and won a NeurIPS 2023 outstanding paper award and the US National Security Agency's best scientific cybersecurity paper award for 2024, as she states in her Fall 2024 lecture ([24:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=1440)) and repeats in Spring 2025 ([62:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=3720)).
-- **Defenses lag attacks.** Her slide after the guardrail survey is titled "Adversarial Defenses Have Made Very Little Progress": thousands of papers on attacks appear each year, and most of the progress, she says, has been on the attack side ([52:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=3120), [54:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=3240)).
+- **Defenses lag attacks.** Her slide after the guardrail survey says that adversarial defenses have made very little progress: thousands of papers on attacks appear each year, and most of the progress, she says, has been on the attack side ([52:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=3120), [54:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=3240)).
 - **Reading and controlling the inside.** She describes representation engineering as a top-down approach to interpretability ([56:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=3360)): start from a behavior, find where it lives in the model's internal numbers, then act on it. Her slides show two halves, representation reading (detect the behavior from the inside) and representation control (change it), with a case study that reduced the political leaning of Llama-3.1 models in 8-billion and 70-billion-parameter sizes (Potter et al., 2024). She calls control at inference time an important capability, and immediately adds that she wants stronger guarantees than that: a new initiative on quantitative AI safety ([60:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=3600)).
 What representation control means in plain words: while the model reads, every chunk of text becomes a vector. Some directions in that space line up with a property of the answer, such as whether it is honest. Reading means training a small classifier that looks at the vector and predicts the property before the answer exists. Control means adding a vector along that direction, which shifts the answer toward or away from the property. The analogy is a mixing desk: you find the slider for one instrument and move it. The analogy breaks because the sliders were not designed by anyone. Moving one can change other things too, and nobody promises it will hold under attack.
+
+**Figure 1.** Representation engineering: the same internal vectors can be read to predict a behavior or shifted to change it.
+
+```mermaid
+flowchart LR
+    T["Prompt tokens"] --> V["Vectors inside the model"]
+    V --> A["Answer the model would give"]
+    V --> R["Reading: a small classifier predicts the property"]
+    V -->|"Control: add a vector along the direction of the property"| S["Shifted vectors"]
+    S --> B["Answer moved toward or away from the property"]
+```
+
+Reading only reports what the model is about to do. Control changes it, and nothing guarantees the shift leaves other behaviors alone.
 
 For an application builder this is context, not a tool. It requires access to the model's internal numbers, which an API usually does not expose. Its practical message is that safety behaviors are tendencies of the model, not rules enforced on it, which is the reason the other chapters put enforcement outside the model (see [Defenses](04-defenses-guardrails-detection-and-secure-design.md)).
 
@@ -217,6 +230,7 @@ You are done when the report has both settings, states the number of pairs behin
 - **Reading:** Nicholas Carlini, Chang Liu, Úlfar Erlingsson, Jernej Kos, and Dawn Song, "The Secret Sharer: Evaluating and Testing Unintended Memorization in Neural Networks" (USENIX Security 2019): [paper](https://www.usenix.org/conference/usenixsecurity19/presentation/carlini)
 - **Reading:** Nicholas Carlini, Florian Tramèr, Eric Wallace, and others, "Extracting Training Data from Large Language Models" (USENIX Security 2021): [paper](https://www.usenix.org/conference/usenixsecurity21/presentation/carlini-extracting)
 - **Reading:** Boxin Wang, Weixin Chen, and others, "DecodingTrust: A Comprehensive Trustworthiness Evaluation Benchmark for Language Models" (NeurIPS 2023): [benchmark](https://decodingtrust.github.io/)
+
 ## Next
 
 → [Policy, Governance and Standards](09-policy-governance-and-standards.md), for the process side of the same lecture: how risks are assessed, reported, and regulated.

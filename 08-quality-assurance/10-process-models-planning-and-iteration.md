@@ -38,7 +38,7 @@ The analogy is a walk versus a search. Building a known feature is a walk: you k
 
 ## What the practitioners say
 
-- **Model work is exploratory.** A pipeline diagram looks sequential. In practice a data scientist loops back to collect different data, clean it, engineer features, try other models, or tune prompts and hyperparameters, and discards what does not help (chapter 20).
+- **Model work is exploratory.** A pipeline diagram looks sequential. In practice a data scientist loops back to collect different data, clean it, engineer features, try other models, or tune prompts and hyperparameters, the settings of the training itself, and discards what does not help (chapter 20).
 - **Progress is uneven.** The book cites a study in which several participants built a handwritten-digit model over four hours. All produced weak models quickly, then improved in uneven steps with long gaps, and they ended at very different accuracies (Patel et al., 2008, as described in chapter 20).
 - **Notebooks suit exploration.** Software engineers criticize them for global variables, missing abstraction, no tests, and inconsistent state from running cells out of order. Kästner's view is that they support exploration well, in the tradition of literate programming, where code and explanation sit together (chapter 20).
 - **Projects take different trajectories.** Some start from a goal and then collect data for it. Others start from data they already have and look for a use, as a hotel-booking company might when mining its records (chapter 20, citing Martínez-Plumed and colleagues).
@@ -47,7 +47,7 @@ The analogy is a walk versus a search. Building a known feature is a walk: you k
 - **Three predictable conflicts.** Engineers object to notebook code, but Kästner notes that abstraction and documentation add little value while code is still exploratory. Estimates: data scientists can rarely say how long a quality target will take, or whether it is reachable at all. And managers or engineers with a superficial grasp of the work ask for impossible things, such as a model with no false positives. In one study he cites, engineers without data-science training skipped data exploration when a first model disappointed and jumped straight to more data or to deep learning (chapter 20).
 - **Model-first or system-first.** In model-first projects, data scientists establish what a model can do before anyone designs the system around it. Kästner sees this often where the model is the core of the product, as in a transcription service or a demand forecast that produces daily reports. Its strength is that it avoids heavy engineering on a project that may be infeasible. Its reported weakness is that the model then fails the product: latency is unacceptable, users do not trust it, or explainability and safety were never considered. In system-first projects, about half of those he has seen, the product is planned up front and the model receives concrete requirements for latency, fairness, and explainability. This is common when a model is added to an existing product, such as an audit-risk score in tax software, and advisable in regulated or safety-critical domains such as banking, hiring, drones, and medical software. Here the risk is the opposite: requirements that no model can meet (chapter 20).
 - **Neither extreme works.** His advice is to mix them: some thought about how the model will be used, even in a model-first project, and some early experimentation by the data scientists during system planning. Fully parallel development of system and model is realistic only in a small team that can renegotiate interfaces constantly (chapter 20).
-- **Choose by stakes.** His examples: a transcription start-up goes model-first. A hotel site explores its logs before building a recommendation feature. A notes app built on off-the-shelf language models goes system-first, with prompts prototyped alongside. A recidivism tool for judges calls for a system-first, waterfall-like approach, because fairness and explainability rules constrain everything downstream (chapter 20).
+- **Choose by stakes.** His examples: a transcription start-up goes model-first. A hotel site explores its logs before building a recommendation feature. A notes app built on off-the-shelf language models goes system-first, with prompts prototyped alongside. A recidivism tool for judges, one that estimates whether a person will offend again, calls for a system-first, waterfall-like approach, because fairness and explainability rules constrain everything downstream (chapter 20).
 
 ## How to plan under uncertainty
 
@@ -74,11 +74,28 @@ Give the simplest approach a fixed short time: a few rules, a small model, or a 
 
 ### 5. Agree on the interface between the tracks
 
-Fix the model's input, output, latency, and cost limits as a contract. The system track then builds against a stub, and the model track can change freely underneath.
+Fix the model's input, output, latency, and cost limits as a contract. The system track then builds against a stub, a stand-in that returns fixed answers, and the model track can change freely underneath.
 
 ### 6. Set decision points in advance
 
 At each gate, decide with criteria written before the work started: continue, change approach, narrow the scope, or stop. An example: "If the spike is not above the baseline by Friday, we route these tickets by rules."
+
+**Figure 1.** A plan in two tracks: the measurement and the time-boxed spike come first, the interface contract joins the tracks, and each track is planned its own way.
+
+```mermaid
+flowchart TD
+    G["Goal and minimum useful quality"] --> M["Measurement: labeled set, baseline, one scoring command"]
+    M --> S["Time-boxed spike: is the problem tractable"]
+    S -->|"promising"| C["Interface contract: input, output, latency, cost"]
+    S -->|"not promising"| N["Change approach, narrow the scope, or stop"]
+    C --> MT["Model track: time-boxed experiments, result not promised"]
+    C --> ST["System track: estimated tasks, reviews, and tests"]
+    MT -->|"meets the minimum quality"| X["Exploration becomes reviewed, tested pipeline code"]
+    ST --> X
+    X --> R["Release"]
+```
+
+The two tracks can run at the same time only because the contract fixes what the model will hand over, whatever the model track finds.
 
 ### 7. Decide when exploration becomes engineering
 

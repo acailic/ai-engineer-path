@@ -1,7 +1,7 @@
 # 12. Alignment and Multimodality
 
 **Level:** Professional · **Reading time:** 14 min · **Exercise:** 45 min
-**Prerequisites:** [Post-Training: SFT, RLHF and RLVR](11-post-training-sft-rlhf-and-rlvr.md), for SFT, RLHF and GRPO, and [The Language Modeling Pipeline and Tokenization](01-the-language-modeling-pipeline-and-tokenization.md), for what a token is.
+**Prerequisites:** [Post-Training: SFT, RLHF and RLVR](11-post-training-sft-rlhf-and-rlvr.md), for SFT, RLHF and GRPO, and [The Language Modeling Pipeline and Tokenization](01-the-language-modeling-pipeline-and-tokenization.md), for what a token is, and [Transformer Architectures and Hyperparameters](03-transformer-architectures-and-hyperparameters.md), for RoPE.
 
 > **In one sentence:** After this chapter you can state what CS336 means by alignment, and explain how an image becomes tokens that a language model can read, and why generating images calls for a different tool.
 
@@ -49,7 +49,7 @@ Lecture 17 spends almost all its time on the first. The long-term target is an *
 3. Score each image against every caption in the batch.
 4. Train so that each image prefers its own caption, and each caption its own image.
 
-Trained on 400 million pairs ([8:00](https://www.youtube.com/watch?v=26FtD08ZpOU&t=480)), CLIP classifies ImageNet better without labels than a ResNet trained on ImageNet's 1.2 million labeled images ([16:00](https://www.youtube.com/watch?v=26FtD08ZpOU&t=960)). Two limits matter later. The training objective is about choosing between captions, so the image embedding captures meaning, not fine detail. And the softmax runs across the whole batch, which pushes batch sizes very high.
+Trained on 400 million pairs ([8:00](https://www.youtube.com/watch?v=26FtD08ZpOU&t=480)), CLIP classifies ImageNet better without labels than a ResNet, the standard image classifier of that time, trained on ImageNet's 1.2 million labeled images ([16:00](https://www.youtube.com/watch?v=26FtD08ZpOU&t=960)). Two limits matter later. The training objective is about choosing between captions, so the image embedding captures meaning, not fine detail. And the softmax runs across the whole batch, which pushes batch sizes very high.
 
 ### 2. SigLIP: the same idea with a cheaper loss
 
@@ -64,6 +64,21 @@ Trained on 400 million pairs ([8:00](https://www.youtube.com/watch?v=26FtD08ZpOU
 | Language model | Reads the vectors as if they were tokens | Vicuna, a fine-tuned Llama |
 
 **LLaVA** built its training data by prompting GPT-4 with image captions to write 158,000 conversations ([30:00](https://www.youtube.com/watch?v=26FtD08ZpOU&t=1800)), then paired them with the images. Training has two stages: first only the projector, with both large parts frozen ([32:00](https://www.youtube.com/watch?v=26FtD08ZpOU&t=1920)), then the projector and the language model together.
+
+**Figure 1.** A vision-language model: the image arrives through an encoder and a projector, is read as tokens next to the text, and can leave as text or, through a separate diffusion model, as an image.
+
+```mermaid
+flowchart LR
+    I["Image"] --> E["Vision encoder turns it into vectors"]
+    E --> P["Projector maps them into the token space of the LM"]
+    T["Text tokens"] --> L["Language model reads both as tokens"]
+    P --> L
+    L --> O["Text answer"]
+    L --> D["Diffusion model removes noise step by step"]
+    D --> G["Image"]
+```
+
+The projector is the only bridge between the two modalities: everything to its right is an ordinary language model working on tokens.
 
 ### 4. Resolution
 
@@ -107,7 +122,7 @@ image_tokens()          # 576
 
 What to observe:
 
-- One image through CLIP's ViT-L/14 is 576 tokens, more than a long paragraph.
+- One image through CLIP's ViT-L/14, a vision Transformer that cuts the image into 14-pixel patches, is 576 tokens, more than a long paragraph.
 - Tiling a document into an overview and four details costs 2,880 tokens, roughly the size of 2,000 words of text.
 - The same 672 by 672 image under Qwen2-VL's rule: nine blocks of 66 tokens, about 594. The budget depends on the design, not only on the image.
 - A video at two frames per second multiplies the problem by its length. That is why frames are sampled sparsely and losses are normalized.
@@ -160,12 +175,12 @@ You are done when:
 
 1. What does a vision encoder contribute in a vision-language model?
    - A. It generates the final image
-   - B. It turns an image into vectors the projector can pass to the language model
+   - B. It turns the image into vectors for the projector
    - C. It tokenizes the user's prompt
    - D. It stores the KV cache
 2. How does SigLIP differ from CLIP?
    - A. It uses a larger vision network
-   - B. It judges each image-caption pair on its own instead of across the batch
+   - B. It scores each image-caption pair on its own
    - C. It generates images from text
    - D. It removes the need for captions
 3. Why does AnyRes split an image into tiles?

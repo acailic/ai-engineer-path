@@ -151,7 +151,7 @@ Estimate, then measure.
 
 1. Pick a board and write down its flash and SRAM sizes.
 2. Quantize a small image or keyword model to 8-bit.
-3. Compile it with a TinyML inference framework and its documentation.
+3. Compile it with a TinyML inference framework, for example TensorFlow Lite Micro, Edge Impulse or STM32Cube.AI, following its documentation.
 4. Record flash used, peak RAM, latency per inference, and energy if your board can measure it.
 5. Compare the two memory numbers with your own estimate from the functions above.
 

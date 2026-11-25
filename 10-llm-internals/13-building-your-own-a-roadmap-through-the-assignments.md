@@ -74,6 +74,21 @@ Time and cost figures below are estimates for a self-learner, not course stateme
 
 Do them in order. Each one reuses the last: the model from 1 is profiled in 2, the training script in 4 descends from 1, and 5 needs a trained model to improve.
 
+**Figure 1.** The five assignments in order, with the three things later assignments reuse from the first.
+
+```mermaid
+flowchart TD
+    A1["1 Basics: tokenizer, Transformer, training loop"] --> A2["2 Systems: profiling, kernels, distributed training"]
+    A2 --> A3["3 Scaling: fits that pick the model size"]
+    A3 --> A4["4 Data: extraction, filtering, deduplication"]
+    A4 --> A5["5 Alignment: RL with verifiable rewards"]
+    A1 -->|"model to profile"| A2
+    A1 -->|"training script"| A4
+    A1 -->|"trained model"| A5
+```
+
+Assignment 1 feeds all the others, which is why doing it first matters more than the order of the rest.
+
 For enrolled students, the course page's Spring 2026 deadlines gave about two and a half weeks to Assignment 1, two weeks to Assignment 2, one week to Assignment 3, two to Assignment 4 and two to Assignment 5, inside a ten-week quarter. For self-study, plan on roughly twice that, about twenty weeks at ten hours a week, and treat Assignment 1 as the half-way mark in effort.
 
 Three shortcuts are reasonable:
@@ -116,7 +131,7 @@ What to observe:
 
 - Forty GPU hours cost between about $200 and $270 at the listed prices.
 - The hours are guesses. Assignment 2 can triple them if you chase a fast kernel, and shrink them if one GPU is enough for you.
-- Modal's monthly credit covers about five hours a month. Over twenty weeks that is a quarter of the bill.
+- Modal's monthly credit covers about five hours a month. Twenty weeks is about five months, so it pays $150 of the $250 bill.
 - Nothing here includes the full student budgets of Assignment 3, 60 B200 hours on their own.
 
 ## What the practitioners say
@@ -162,7 +177,7 @@ You are done when:
 
 1. How do the assignments tell you your code is right?
    - A. By comparing against a hidden reference model
-   - B. Through a provided test suite that calls your code via adapters
+   - B. Through a provided test suite
    - C. By a leaderboard alone
    - D. By a grader reading the source
 2. What may AI tools be used for under the handouts' policy?

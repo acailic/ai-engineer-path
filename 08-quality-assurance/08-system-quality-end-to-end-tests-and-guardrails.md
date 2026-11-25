@@ -25,7 +25,7 @@ Three terms describe tests above the unit level:
 
 Kästner draws the last distinction with the vocabulary from chapter 01 (chapter 18). System testing *verifies*: did we build the system right? Acceptance testing *validates*: did we build the right system?
 
-His argument for why these tests matter more with ML is that each component can be wrong (chapter 18). Practitioners state the consequence as the **CACE principle**, "changing anything changes everything": a new training set, a model update, or a new prompt can shift the behavior of the whole. He cites an image-captioning system built from three models in sequence, where experiments showed that making one component more accurate could make the final caption worse (Nushi et al., 2017, as cited in chapter 18).
+His argument for why these tests matter more with ML is that each component can be wrong (chapter 18). Practitioners state the consequence as the **CACE principle**, "changing anything changes everything": a new training set or a model update can shift the behavior of the whole. He cites an image-captioning system built from three models in sequence, where experiments showed that making one component more accurate could make the final caption worse (Nushi et al., 2017, as cited in chapter 18).
 
 A **guardrail** answers the problem from the other side. It is a check in the ordinary code around the model that stops a dangerous output or action before it reaches a user or another system. Guardrails do not make the model better. They assume it will sometimes be wrong and limit what a mistake can do.
 
@@ -56,11 +56,28 @@ For each model in the product, write down how it can fail and what the failure c
 |---|---|---|
 | Input | Allow only the fields and formats the step needs | Schema tests |
 | Tool access | Give the model the fewest tools and the smallest scope that suffice | Assert that a disallowed tool is not callable |
-| Action limits | Plain code enforces caps, totals, and allow-lists | Unit tests with hostile replies |
+| Action limits | Plain code enforces caps, totals, and allow-lists, lists of the only values or tools permitted | Unit tests with hostile replies |
 | Human approval | Irreversible actions above a threshold wait for a person | System tests with a stubbed approver |
 | Output | Validate structure, and check citations against their sources | Rubric and property tests (see [chapter 05](05-testing-generative-and-llm-components.md)) |
 
 The strong layers are made of deterministic code. A second model call can help sort or flag, but it should never be the only thing between a wrong prediction and an irreversible action.
+
+**Figure 1.** Guardrails in layers: a hostile model reply must pass limits written in plain code before it can become an action.
+
+```mermaid
+flowchart TD
+    U["User request"] --> I["Input layer: only expected fields and formats"]
+    I -->|"rejected"| S["Stopped, and logged"]
+    I --> M["Model call, with the fewest tools it needs"]
+    M --> R["Model reply"]
+    R --> A["Action limits in plain code: caps and allow-lists"]
+    A -->|"within limits"| E["Irreversible action"]
+    A -->|"above limit or malformed"| H["Human approval"]
+    H -->|"approved"| E
+    H -->|"rejected"| S
+```
+
+Only the layers written in plain code are exact: each one either passes the reply or stops it, and each can be tested with a hostile reply.
 
 ### 4. Test the safeguard by making the model fail
 

@@ -44,7 +44,7 @@ Six questions select a sandbox:
 
 1. **Worst case.** What could the code reach if it escaped: secrets, the internal network, customer data?
 2. **State.** Must files survive between steps? Between sessions? Look for pause and resume.
-3. **Latency budget.** A cold start of two seconds matters when a task has 40 steps and not when it has one.
+3. **Latency budget.** A cold start (the delay before a fresh sandbox is ready) of two seconds matters when a task has 40 steps and not when it has one.
 4. **Network.** Open internet, an allow-list through a proxy, or none.
 5. **Observability.** Logs of every command, every file change, every exit code.
 6. **Cost model.** Pay per second, or keep capacity reserved.
@@ -77,11 +77,11 @@ Safety is not an extra here. A browser session logged in as a user *is* that use
 
 The base layer is **function calling**: the model returns a structured request (a function name and arguments) and your code executes it. Every tool protocol builds on that.
 
-The **Model Context Protocol (MCP)** standardizes the other end: how an AI application discovers and calls what an external system offers. Its documentation, as of November 2026, introduces it as "an open-source standard for connecting AI applications to external systems" and compares it to a USB-C port: one connector for data sources (local files, databases), tools (search engines, calculators) and workflows (specialized prompts). The same page lists support in Claude, ChatGPT, VS Code, Cursor and other clients, and links to guides for building servers, building clients, and building interactive apps that run inside AI clients.
+The **Model Context Protocol (MCP)** standardizes the other end: how an AI application discovers and calls what an external system offers. Its documentation, as of November 2026, introduces it as "an open-source standard for connecting AI applications to external systems" and compares it to a USB-C port: one connector for data sources (local files, databases), tools (search engines, calculators) and workflows (specialized prompts).
 
 That introduction does not define the roles. The definitions below come from the protocol's architecture page, which on November 24, 2026 documented the revision of July 28, 2026:
 
-- A **host** is the AI application. A **client** lives inside the host and holds one connection. A **server** is a small program, local or remote, that provides context.
+- A **host** is the AI application. A **client** lives inside the host and holds one connection. A **server** is a program, local or remote, that provides context.
 - Servers offer three kinds of primitives: **tools** (functions the model may call), **resources** (data the application reads) and **prompts** (templates users pick).
 - Messages use **JSON-RPC**: a request and its reply are JSON objects with a method name, parameters and an ID.
 - A **transport** carries the messages: `stdio` for a local program that reads and writes its standard input and output, and an HTTP-based transport (Streamable HTTP) for remote servers.
@@ -90,7 +90,7 @@ That introduction does not define the roles. The definitions below come from the
 
 What MCP changes is the arithmetic. Without a standard, M applications each integrate N tools: M times N connectors. With one, each side implements the protocol once: M plus N. What it costs is one more moving part, a protocol that is revised often, and a security boundary you must draw yourself. A third-party server is someone else's code, and its tool descriptions are untrusted text that the model reads. Start from [threat modeling](../04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md) before you connect one.
 
-Other protocols exist for other boundaries. Agent-to-agent protocols, such as the Agent2Agent protocol that Google announced in April 2025, carry messages between agents from different vendors. Protocols between an agent and a user interface carry what the agent wants to show. Most applications need none of them: one model with a handful of functions is enough, as in chapter 02. Reach for a protocol when several applications must share the same tools, or several teams own them.
+Other protocols exist for other boundaries. Agent-to-agent protocols, such as the Agent2Agent protocol that Google announced in April 2025, carry messages between agents from different vendors. Most applications need none of them: one model with a handful of functions is enough, as in chapter 02. Reach for a protocol when several applications must share the same tools, or several teams own them.
 
 ## Worked example
 
@@ -145,25 +145,47 @@ Output:
 {"jsonrpc": "2.0", "id": 3, "result": {"content": [{"type": "text", "text": "5"}], "isError": false}}
 ```
 
-Observe what the protocol adds over a plain function. The server *describes* its tool with a name, a description and an input schema (a JSON description of the arguments), so a host that has never seen this server can offer the tool to a model. The server never talks to a model. It only answers requests, which is why the same server works with any host.
+Observe what the protocol adds over a plain function. The server *describes* its tool with a name, a description and an input schema (a JSON description of the arguments), so a host that has never seen this server can offer the tool to a model.
+
+**Figure 1.** Who talks to whom in MCP: the host's client asks the server, and the model sees only the host.
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant H as Host application
+    participant M as Model
+    participant S as Server
+    U->>H: Request
+    H->>S: List the tools
+    S-->>H: Tool descriptions
+    H->>M: Prompt with the tool descriptions
+    M-->>H: Tool call
+    H->>S: Call the tool with arguments
+    S-->>H: Result
+    H->>M: Result added to the prompt
+    M-->>H: Final answer
+    H-->>U: Answer
+```
+
+The server never talks to the model; it only answers the host's client, which is why one server works with any host.
 
 ## What the practitioners say
 
 Nicolas Chapados of ServiceNow gave the first part of the lecture of October 21, 2024 (chapter 07 uses it). A colleague gave the second part, on web agents.
 
 - **A web agent is small.** Goal, observation and action space go into a prompt; the model answers with actions; Playwright applies them. He shows a GPT-4-based agent solving a toy task from the MiniWoB++ data set: type "Enola" into a text box and press submit ([34:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=2040)).
-- **Judge the end, not the path.** His advice is "instead of checking the trace of actions, you actually just check if the database is in the correct state" ([40:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=2400)). That allows other valid paths and leaves no public traces to memorize.
-- **Two kinds of benchmark.** WebArena runs on local copies of open-source sites such as Reddit and GitLab: reproducible, but limited to open-source software and complex to install. Benchmarks on the open web are more realistic (real latency) and less reliable ([40:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=2400)).
+- **Judge the end, not the path.** His advice is "instead of checking the trace of actions, you actually just check if the database is in the correct state" ([40:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=2400)). That allows other valid paths and lowers the chance of memorization, because no traces are stored in a public repository.
+- **Two kinds of benchmark.** WebArena runs on local copies of open-source sites such as Reddit and GitLab: easy to run in parallel, but limited to open-source software and complex to install. Benchmarks on the open web are more realistic (real latency) and less reliable ([40:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=2400)).
 - **WorkArena.** A benchmark of 600 workplace tasks on the ServiceNow product, as of the lecture: open-source benchmark, closed product. The simplest tasks sort or filter a list, search a knowledge base and read a dashboard. A back-end API checks the result ([42:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=2520)). His slides say the harder WorkArena++ set was far from solved.
-- **Reproducibility.** AgentLab stores standardized traces (records of observations and actions) in public repositories, with package versions and dates, so old results can be re-checked while the web changes ([54:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=3240)).
+- **Reproducibility.** AgentLab, work in progress in his account, is meant to store standardized traces (records of observations and actions) in public repositories, with package versions and dates, so old results can be re-checked while the web changes ([54:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=3240)).
 - **Five open difficulties** ([56:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=3360)):
   1. Long context: web pages run to tens or hundreds of thousands of tokens, even as accessibility trees, and little of it matters.
   2. Long-term planning: what lies two or three pages ahead is invisible from the current page.
   3. Learning from mistakes: he cites Agent Q, which combines tree search with a fine-tuning method called DPO.
-  4. Multimodality: tasks such as "order me a shirt like this one" need vision.
+  4. Multimodality: tasks such as ordering a shirt like one shown in a picture need vision.
   5. Cost and speed: the demo videos were sped up. Shrinking the context is one way forward.
 
-One remark from a different lecture fits here. Oriol Vinyals notes that AlphaStar's in-game actions were API calls with typed arguments, emitted one argument at a time by a hand-built network, and calls that "strikingly close to tool use"; he names MCP, the protocol of Part 3, as one such interface ([16:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=960)). The difference is that a language model can learn any tool interface from its description.
+Vinyals, in a different lecture, notes that AlphaStar's in-game actions were API calls with typed arguments, emitted one at a time by a hand-built network, and calls that "strikingly close to tool use"; he names MCP as one such interface ([16:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=960)). As engineering judgment, the difference is that a language model can learn a tool interface from its description.
 
 ## Pitfalls
 
@@ -179,7 +201,7 @@ One remark from a different lecture fits here. Oriol Vinyals notes that AlphaSta
 
 Two deliverables.
 
-1. **A sandbox.** Put a Python executor in a container with no network and a read-only file system, except for one working directory. From inside, try to read an environment variable, reach a website, write a file in the working directory, and write a file elsewhere.
+1. **A sandbox.** Put a Python executor in a container with no network and a read-only file system, except for one working directory. From inside, try to read an environment variable, reach a website, write a file in the working directory, and write a file elsewhere. Then run a script that writes `a.txt` under `/work` and under `/tmp`.
 
    ```bash
    docker run --rm --network none --read-only -v "$PWD/work:/work" python:3.12-slim \

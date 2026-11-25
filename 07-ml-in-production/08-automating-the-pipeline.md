@@ -11,7 +11,7 @@ Retraining the triage model took three days. The computation took forty minutes.
 
 One month the export had an extra column and nobody noticed. Nobody could say which data had produced the model in production. The next month a new product launched, and for three weeks the model kept routing its tickets to "other", because nobody had scheduled a retrain.
 
-Kästner has a name for training a model once and walking away: *set and forget*. He lists it among the antipatterns.
+Kästner has a name for training a model once and walking away: *set and forget*. He lists it among the **antipatterns**, common practices that look helpful and cause harm.
 
 ## The core idea
 
@@ -53,13 +53,28 @@ Kästner's running example in chapter 11 is a real-estate site that estimates ho
 
 A canary release sends the new model to a small share of the traffic first. If quality drops for those users, the model is rolled back before anyone else receives it.
 
+**Figure 1.** The pipeline as a loop: the gate stops a weak model, and monitoring starts the next run.
+
+```mermaid
+flowchart TD
+    M["Monitoring sees drift or falling quality"] -->|"starts the next run"| C["Collect fresh data"]
+    C --> L["Label and clean"]
+    L --> T["Train"]
+    T --> G["Evaluation gate on held-out data"]
+    G -->|"below the minimum"| S["Run stops and the previous model stays"]
+    G -->|"passes"| D["Canary release to a small share of traffic"]
+    D --> M
+```
+
+A weak model never passes the gate, and a deployed model is watched, so the next run starts from monitoring instead of from someone's memory.
+
 ### From notebook to pipeline
 
 1. **Turn each group of cells into a function** with explicit inputs and outputs, one module per stage.
 2. **Make every stage read and write only declared places.** No hidden files.
 3. **Test each stage alone against dirty data**: missing values, wrong formats, empty input.
-4. **Run the tests on every change.** Pipeline code gets the same gates as any other code: unit tests, integration tests, static analysis, code review. Keep each experiment in a branch or behind a feature flag, Kästner advises, not in copied cells, and merge it or delete it when it ends.
-5. **Describe the order in one place.** Which stages run in sequence, what is retried, who is told when a stage fails. Kästner names the two error-handling strategies as retrying the stage or informing a developer. Orchestration tools such as Airflow, Metaflow or Kubeflow Pipelines force the stages apart so that they can be scheduled. A run can start by hand, on a schedule, or from a monitoring alert.
+4. **Run the tests on every change.** Pipeline code gets the same gates as any other code: unit tests, integration tests, static analysis, code review. Keep each experiment in a branch or behind a feature flag (a switch that turns new code on for selected users), Kästner advises, not in copied cells, and merge it or delete it when it ends.
+5. **Describe the order in one place.** Which stages run in sequence, what is retried, who is told when a stage fails. Kästner names the two error-handling strategies as retrying the stage or informing a developer. Orchestration tools such as Airflow, Luigi or Kubeflow force the stages apart so that they can be scheduled. A run can start by hand, on a schedule, or from a monitoring alert.
 6. **Deploy automatically, only after the gate passes.** Use a canary and keep the previous model.
 7. **Close the loop.** Let monitoring start the next run.
 
@@ -172,13 +187,13 @@ For an agent, infrastructure as code covers the tool definitions, the sandbox co
 
 - **Train once and forget is an antipattern.** Kästner opens chapter 11 with it. A production model must be updated, and automation is what makes updates routine.
 - **Bad pipelines have names.** He uses *pipeline jungles* and the *big-ass script architecture* for pipelines whose steps are ad hoc scripts, and *undeclared consumers* for scripts that depend on files nobody remembers creating. His summary adds *dead experimental paths* ([chapter 11](https://mlip-cmu.github.io/book/11-automating-the-pipeline.html)).
-- **The step from notebook to pipeline is hard.** He cites experience reports: organizations struggle to turn exploratory code into pipelines that re-execute, take new data unchanged and run on a schedule. It takes an engineering stance, new infrastructure and a learning curve, and it may not pay off in the short term.
+- **The step from notebook to pipeline is hard.** He cites an experience report on how organizations struggle to adopt a pipeline-oriented mindset, the habit of turning exploratory code into a pipeline that re-runs unchanged.
 - **Cleaning bugs hide.** Chenyang Yang and colleagues found many subtle bugs in public notebook code for data transformations (2021), cited in chapter 11. They are hard to notice because the code does not crash. The model only becomes less accurate.
 - **Labeling is a process, not an event.** His example of labeling inside another task is ReCAPTCHA, a security check that asks users to transcribe hard-to-read words.
 - **Labels can come from code.** In *weak supervision*, domain experts write **labeling functions**, short pieces of code that give partial labels, such as "text with these keywords is probably negative". A system such as Snorkel estimates how reliable each function is and merges them. Kästner reports that for many tasks, more data with noisier labels beats less data with expert labels.
 - **Human labelers need design too.** A model may suggest a label for a person to confirm, but the interface must stop people from confirming everything. Ask several labelers, and treat frequent disagreement as a sign that the task is hard or the instructions unclear.
 - **Monitoring can start the pipeline.** A system that notices poor estimates for one region can trigger a retraining run or alert the data scientists.
-- **The investment pays back in experiments.** Orchestration systems also schedule offline experiments with several model versions, and monitoring and A/B testing infrastructure give data scientists quick feedback from production data.
+- **The investment pays back in experiments.** Orchestration systems also schedule offline experiments with several model versions, and monitoring and [A/B testing](../GLOSSARY.md) infrastructure give data scientists quick feedback from production data.
 
 ## Pitfalls
 
@@ -226,7 +241,7 @@ Include:
 4. A script in the pipeline reads a file that nobody remembers creating. Which antipattern is this, and what is the fix?
    - A. Set and forget: retrain the model on a fixed schedule instead of once.
    - B. Dead experimental path: delete every branch that is not on the main path.
-   - C. Undeclared consumer: let each stage read only what an earlier stage declares as its output.
+   - C. Undeclared consumer: let each stage read only what an earlier stage declares.
    - D. Pipeline jungle: split the code into more scripts with shorter names.
 5. Define continuous integration and name one thing it adds to an ML pipeline.
 6. What are the three things that can start a pipeline run?

@@ -27,12 +27,12 @@ SE = sqrt( p * (1 - p) / n )
 
 `p` is the score and `n` the number of tasks. With p = 0.70 and n = 100: p(1 − p) = 0.21, divided by 100 is 0.0021, and the square root is 0.046. The estimate is 70% give or take about 4.6 points.
 
-A **95% confidence interval** is a range built so that, if you repeated the whole evaluation many times, it would contain the true value in 95% of them. The usual shortcut is the score plus or minus 1.96 standard errors: 70% ± 8.9 points, or 61% to 79%.
+A **95% confidence interval** is a range built so that, if you repeated the whole evaluation many times, it would contain the true value in 95% of them. The usual shortcut is the score plus or minus 1.96 standard errors: 70% ± 9.0 points, or 61% to 79%.
 
 | Tasks (n) | Standard error | 95% interval around 70% |
 |---|---|---|
 | 100 | 4.6 points | 61% to 79% |
-| 1,000 | 1.4 points | 67% to 72% |
+| 1,000 | 1.4 points | 67% to 73% |
 | 10,000 | 0.5 points | 69% to 71% |
 
 Ten times the tasks shrink the error by a factor of about 3.2, the square root of ten.
@@ -70,6 +70,20 @@ Each task now has a difference `d` of +1 (15 tasks), −1 (4 tasks) or 0 (81 tas
 - z-score: 0.11 / 0.042 = 2.59. Above 2, so the gap is significant.
 
 **Why paired is tighter.** The 81 tasks where both versions agree cancel out. Only the 19 disagreements carry noise, and 15 of them favor A. A quick check agrees: if the versions were equal, each disagreement would be a coin flip, and 15 of 19 is rare.
+
+**Figure 1.** The same 100 tasks and the same 11-point gap, compared two ways.
+
+```mermaid
+flowchart TD
+    D["Two versions on the same 100 tasks, an 11-point gap"] --> U["Unpaired: two separate scores"]
+    D --> P["Paired: compare task by task"]
+    U --> U1["Combine the two standard errors to 6.5 points"]
+    U1 --> U2["z is 1.70, under 2: cannot tell"]
+    P --> P1["81 tasks agree and cancel, 19 disagree"]
+    P1 --> P2["Standard error 4.2 points, z is 2.59: a real gap"]
+```
+
+Only the paired route uses the fact that both versions met the same tasks, and that is where the extra certainty comes from.
 
 ## In code
 
@@ -128,11 +142,11 @@ The [harness](02-a-minimal-eval-harness.md) runs each of its 6 tasks 4 times. Po
 The attempts on one task all depend on the same task. They are a **cluster**. Two fixes work:
 
 - Average the attempts of each task first, then treat the task means as the observations. This is what `summarize` does.
-- Compute **clustered standard errors**, which treat each cluster as one source of evidence. Miller's paper gives the formula. In his examples, the clustered error was up to three times the naive one. One example is MGSM, where the same 250 math problems are translated into ten languages: 2,500 questions, but only 250 independent ones.
+- Compute **clustered standard errors**, which treat each cluster as one source of evidence. Miller's paper gives the formula. In his example tables the clustered error is clearly larger: on MGSM, where the same 250 math problems appear in ten languages, there are 2,500 questions but only 250 clusters, and the standard error is 1.6 points instead of 0.9.
 
 **What repeating a task buys.** Miller splits the variance into two parts: the variance between questions and the variance within one question. Running each question `k` times shrinks the second part to one `k`-th of its size. It leaves the first part alone. Only more questions shrink that one.
 
-**Do not use the temperature to hide the noise.** **Temperature** is the setting that controls how randomly a model picks its next token. Lowering it makes runs more repeatable. Miller advises against doing this to shrink error bars, unless the lower temperature is the one you deploy at. It changes what the model does, and it moves the noise into a form you can no longer reduce.
+**Do not use the temperature to hide the noise.** **Temperature** is the setting that controls how randomly a model picks its next token. Lowering it makes runs more repeatable. Miller advises against doing this to shrink error bars, unless the purpose is to study the model at that temperature. It changes what the model does, and it moves the noise into a form you can no longer reduce.
 
 ## How many tasks do you need?
 
@@ -151,7 +165,7 @@ So a 3-point gap on 100 tasks is never evidence, and a claim of a 1-point improv
 ## When a difference is not evidence
 
 1. It is smaller than about two standard errors of the difference.
-2. There are too few tasks. Sida Wang's slides list HumanEval at 164 questions and SWE-bench Verified at 500, against 10,000 for MNIST.
+2. There are too few tasks. Sida Wang's slides list HumanEval, a coding benchmark, at 164 questions and SWE-bench Verified at 500, against 10,000 images for MNIST, the digit-recognition dataset.
 3. You ran once. He recommends several runs with different seeds.
 4. You pooled repeated attempts as if they were tasks.
 5. You picked it after the fact, by comparing many metrics or slices and reporting the one that moved.
@@ -161,11 +175,11 @@ So a 3-point gap on 100 tasks is never evidence, and a claim of a 1-point improv
 
 ## What the practitioners say
 
-**Sida Wang (Meta), October 2025.** Benchmarks are getting harder and smaller, he says: from MNIST's 10,000 images to coding benchmarks in the hundreds ([2:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=120)). His slide's verdict is that 2.5% on HumanEval is not statistically significant. Looking at a table of models against questions sorted by difficulty, he concludes that "there's a lot of inconsistency" ([10:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=600)). A weak model that solves one very hard question is not evidence that it is strong, because with about a thousand tries it still had a fair chance. He also warns that multi-step tasks multiply errors: his own kitchen story is a model that identified his broken kettle as a robot vacuum, after which he trusted its later advice less ([14:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=840)).
+**Sida Wang (Meta), October 2025.** Benchmarks are getting harder and smaller, he says: from MNIST's 10,000 images to coding benchmarks in the hundreds ([2:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=120)). His slide's verdict is that 2.5% on HumanEval is not statistically significant. Looking at a table of models against questions sorted by difficulty, he concludes that "there's a lot of inconsistency" ([10:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=600)). A weak model that solves one very hard question is not evidence that it is strong: sampled a thousand times on the same question, some of the worst models still had a fair chance of getting it right ([12:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=720)). He also warns that multi-step tasks multiply errors: his own kitchen story is a model that identified his broken kettle as a robot vacuum, after which he trusted its later advice less ([14:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=840)).
 
-On method, Wang keeps it simple ([28:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=1680)). Plain variance and mean estimates are enough. Bootstrapping, resampling your own results over and over, is fine in principle but often done wrong, and it gives about the same answer. A sign test on the disagreements gives about the same answer too. His recommendations for reporting, in his order of increasing effort: read the noise level off a published table; share question-level results so others can check your claims; and be careful with your own tests, which he calls "fairly error prone" ([38:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2280)).
+On method, Wang keeps it simple ([28:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=1680)). Plain variance and mean estimates are enough. Bootstrapping, resampling your own results over and over, is fine in principle but often done wrong, and it gives about the same answer. A sign test, which only counts how often one version wins the disagreements, gives about the same answer too. His recommendations for reporting, in his order of increasing accuracy: read the noise level off a published table; share question-level results so others can check your claims; and be careful with your own tests, which he calls "fairly error prone" ([38:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2280)).
 
-Wang also measures **signal to noise**. His signal is the score gain from doubling a model's size. His noise is the standard error of a difference. On his slide, MMLU scores 13.2 and GSM8K 7.1, while HumanEval scores 1.1. His summary: below 2, a benchmark "cannot reliably measure the improvement from doubling model size", which he says is true of most code benchmarks. He tried to improve benchmarks by filtering and reweighting questions and reports that it did not help, because the models are a bigger source of inconsistency than the benchmarks are.
+Wang also measures **signal to noise**. His signal is the score gain from doubling a model's size. His noise is the standard error of a difference. On his slide, MMLU, a multiple-choice knowledge test, scores 13.2 and GSM8K, school math, 7.1, while HumanEval scores 1.1 ([42:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2520)). His summary: below 2, a benchmark "cannot reliably measure the improvement from doubling model size", which he says is true of most code benchmarks. He tried to improve benchmarks by filtering and reweighting questions and reports that it did not help: the models, his slide on that attempt says, are a bigger source of inconsistency than the benchmarks are.
 
 **Evan Miller (Anthropic), November 2024.** His paper opens with the idea that "fundamentally, evaluations are experiments". It makes five recommendations:
 
@@ -193,7 +207,7 @@ His example uses two fictional models. On MATH, with 5,000 questions, they score
 
 **Deliverable:** a significance note for your last comparison between two versions.
 
-1. Run both versions on the same 30 or more tasks, four attempts each.
+1. Run both versions on the same 30 or more tasks, three attempts each. Count a task as passed when at least two of its three attempts pass.
 2. Build the four-cell table of agreements and disagreements.
 3. Compute the unpaired and the paired z-score, with the code above.
 
@@ -218,33 +232,33 @@ His example uses two fictional models. On MATH, with 5,000 questions, they score
    A. Twice the tasks  B. Four times the tasks  C. Ten times the tasks  D. Two attempts per task
 3. Two versions agree on 81 of 100 tasks. A wins 15 and B wins 4. Why is the paired test tighter?
    A. It removes wrong answers
-   B. The 81 agreements cancel, so only 19 disagreements carry noise
-   C. It doubles the number of tasks
-   D. It removes the mean
+   B. It doubles the number of tasks
+   C. It removes the mean
+   D. The 81 agreements cancel, so only 19 disagreements carry noise
 4. You ran each of 100 tasks five times and pooled 500 attempts. What is wrong?
-   A. Nothing
-   B. Attempts on one task are not independent, so the standard error is too small
+   A. Attempts on one task are not independent, so the standard error is too small
+   B. Nothing
    C. The mean is wrong
    D. pass@k no longer works
-5. What does repeating each task more times *not* reduce?
+5. Which variance does repeating each task more times leave unchanged?
    A. Variance from the model's randomness
-   B. Variance from which questions were drawn
-   C. The cost of the evaluation
+   B. The cost of the evaluation
+   C. Variance from which questions were drawn
    D. Noise in a single sample
 6. A gap of 1.5 points has a standard error of 2 points. What can you conclude?
-   A. The new version is better
-   B. The new version is worse
-   C. You cannot tell whether there is a difference
+   A. You cannot tell whether there is a difference
+   B. The new version is better
+   C. The new version is worse
    D. The versions are identical
 
 <details><summary>Show answers</summary>
 
 1. C. sqrt(0.7 × 0.3 / 100) = 0.046.
 2. B. The error falls with the square root of n, so a factor of 2 needs a factor of 4.
-3. B. Paired differences are 0 on those 81 tasks. Only the 15 against 4 remain.
-4. B. Five attempts of one task are one cluster. Average per task first or use clustered errors.
-5. B. Repeating shrinks the variance within a question. The variance between questions needs more questions.
-6. C. The z-score is 0.75, far below 2. The result is compatible with no difference.
+3. D. Paired differences are 0 on those 81 tasks. Only the 15 against 4 remain.
+4. A. Five attempts of one task are one cluster. Average per task first or use clustered errors.
+5. C. Repeating shrinks the variance within a question. The variance between questions needs more questions.
+6. A. The z-score is 0.75, far below 2. The result is compatible with no difference.
 
 </details>
 

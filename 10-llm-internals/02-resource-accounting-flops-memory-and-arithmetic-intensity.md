@@ -83,17 +83,17 @@ The **model FLOPs utilization** (MFU) is the FLOP/s your run achieves divided by
 
 An operation is **memory-bound** when its arithmetic intensity is below the chip's, and **compute-bound** when it is above. The MFU you can reach is `min(1, arithmetic intensity ÷ accelerator intensity)`.
 
-ReLU and GeLU are activation functions, applied to each value on its own: ReLU sets negative values to zero and GeLU is a smooth version of it.
+ReLU and GeLU are activation functions, applied to each value alone: ReLU zeroes negative values and GeLU is a smooth version of it.
 
 | Operation (bf16) | Arithmetic intensity | Verdict |
 |---|---|---|
 | ReLU on a tensor of n values: read 2n bytes, write 2n bytes, n FLOPs | 0.25 | Memory-bound |
 | GeLU on the same tensor: about 20 FLOPs per value | About 5 | Still memory-bound |
 | Matrix × one vector: 2·D·F FLOPs, 2·D·F bytes of weights | About 1 | Memory-bound. This is generation |
-| Matrix × B rows, with D = F = 4096 and B = 256: 2·B·D·F FLOPs, 2·D·F + 4·B·D bytes of weights, input and output | 228 | Memory-bound |
+| Matrix × B rows, D = F = 4096, B = 256: 2·B·D·F FLOPs, 2·D·F + 4·B·D bytes of weights, input and output | 228 | Memory-bound |
 | The same product with B = 4,096 | About 1,400 | Compute-bound |
 
-**Figure 1.** Where the time goes: an operation is limited by whichever resource, compute or memory traffic, takes longer.
+**Figure 1.** Where the time goes: an operation takes as long as the slower of compute and memory traffic.
 
 ```mermaid
 flowchart TD
@@ -107,13 +107,13 @@ flowchart TD
     M -->|"compute time"| CB["Compute-bound: speed can approach the peak"]
 ```
 
-The cap on the left is the roofline: below an intensity of 295 an operation runs no faster than intensity ÷ 295 of peak, so extra arithmetic costs nothing and saved arithmetic saves nothing.
+This cap is the roofline: below an intensity of 295, an operation runs no faster than intensity ÷ 295 of peak.
 
 The last two rows are the reason training is efficient and generation is not. Liang's intuition for two square n × n matrices: you move n² numbers and compute with n³, so the intensity grows with the matrix size, roughly n/3 ([52:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=3120)). Two things follow. Shrinking an operation that is already memory-bound saves no time. And a Transformer is, to him, essentially large matrix multiplications with a few other operations in between, built to have high arithmetic intensity. Generation is the exception: it produces one token at a time, so each step is a matrix-vector product ([52:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=3120)).
 
 ### 6. Count memory for training
 
-With Adam, the optimizer state is two statistics per parameter in fp32: 8 bytes. Add 2 bytes for the bf16 parameter and 2 for its gradient: 12 bytes per parameter. AdaGrad keeps one statistic, 4 bytes. Liang demonstrates with AdaGrad, an optimizer from 2011 that predates Adam: in his framing, AdaGrad looks at the second moment of the gradient (the average of its squares), momentum at the first (its average), and Adam combines the two ([66:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=3960)).
+With Adam, the optimizer state is two statistics per parameter in fp32: 8 bytes. Add 2 bytes for the bf16 parameter and 2 for its gradient: 12 bytes per parameter. AdaGrad keeps one statistic, 4 bytes. Liang demonstrates with AdaGrad, an optimizer from 2011 that predates Adam: in his framing, AdaGrad looks at the second moment of the gradient (its average square), momentum at the first (its average), and Adam combines the two ([66:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=3960)).
 
 Activations are the other cost. Training must keep the activations of every layer for the backward pass; his figure is batch size × model dimension × 2 bytes × number of layers ([72:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=4320)). Inference keeps only the current layer's. Two tools trade memory for compute:
 
@@ -163,7 +163,7 @@ One consequence he draws surprised the class: GeLU does more arithmetic per byte
 
 He closes with the rule to remember: "matrix multiplications are compute bound, basically everything else is memory bound" ([76:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=4560)). Matrix-vector products, which is what generation does, are the memory-bound case. And gradient accumulation is, he says, a very simple code change ([72:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=4320)).
 
-For scale, the GPT-3 paper reports 3.14 × 10²³ FLOPs for training, and outside estimates put GPT-4 near 2 × 10²⁵.
+For scale, the GPT-3 paper reports 3.14 × 10²³ training FLOPs, and outside estimates put GPT-4 near 2 × 10²⁵.
 
 ## Pitfalls
 
@@ -184,9 +184,9 @@ You are done when:
 
 - Your script reproduces the lecture's 143 days and 53 billion within 1%.
 - For each configuration you report days at MFU 0.3, 0.5 and 0.7, and the number of 80 GB GPUs needed for parameters, gradients and optimizer state.
-- You compute the arithmetic intensity of a bf16 matrix product with D = F = 4096 at batch sizes 16, 256 and 4,096, counting weights, input and output, and label each as memory-bound or compute-bound.
+- You compute the arithmetic intensity of the bf16 matrix product above at batch sizes 16, 256 and 4,096, counting weights, input and output, and label each memory-bound or compute-bound.
 
-**Stretch:** estimate activation memory for the 7B run at a batch of 256 sequences of 2,048 tokens, with 32 layers of width 4,096 and each token position counted as one row of the batch. Say how many 80 GB GPUs it needs together with the 84 GB for parameters, gradients and optimizer state.
+**Stretch:** estimate activation memory for the 7B run at a batch of 256 sequences of 2,048 tokens, with 32 layers of width 4,096, each token position counting as one row of the batch. Say how many 80 GB GPUs it needs with the 84 GB of parameters, gradients and optimizer state.
 
 ## Key takeaways
 

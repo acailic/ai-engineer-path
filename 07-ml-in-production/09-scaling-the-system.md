@@ -11,7 +11,7 @@ The head of support asks: "Can triage handle ten times the volume?"
 
 The honest answer needs arithmetic, not a purchase order. Ten times 50,000 tickets a day is still under six requests a second at peak. One copy of the classifier handles that.
 
-The same question about the LLM version has a different answer. Each request holds an accelerator chip for about a second. This chapter shows how to reach both answers with numbers.
+The same question about the LLM version has a different answer. Each request holds an accelerator chip, a processor built for model arithmetic, for about a second. This chapter shows how to reach both answers with numbers.
 
 ## The core idea
 
@@ -55,6 +55,20 @@ Two storage designs are worth recognizing. A **data warehouse** is a separate da
 | Lambda architecture | Batch recomputes everything on a schedule. Stream keeps the results fresh in between. Services answer queries | Both | A weekly full retrain, with small updates between runs |
 
 Three ideas in the book explain the shape of this table. Batch jobs move the computation to the data, because moving a model is cheaper than moving petabytes. A stream cannot promise that every event is handled exactly once. The developer chooses at-least-once, which may repeat work, or at-most-once, which may lose events. Tagging a photo twice is harmless. Charging a print order twice is not. And the speed layer of the lambda architecture works with approximations. Kästner notes that a model updated incrementally can be worse than one retrained from scratch, because it is hard to unlearn a changed training example. It is still better than a stale model.
+
+**Figure 1.** The lambda architecture: a batch layer and a speed layer feed one serving layer.
+
+```mermaid
+flowchart LR
+    D["New data"] --> Q["Queue of all events"]
+    Q --> B["Batch layer recomputes everything on a schedule"]
+    Q --> S["Speed layer updates results with approximations"]
+    B --> M["Serving layer holds both results"]
+    S --> M
+    M --> A["Services answer queries"]
+```
+
+A query is answered from two results merged: the exact batch result and the approximate stream result for whatever arrived since the last batch run.
 
 **Training.** Training a large model is a distributed job in its own right. For GPT-3, released in 2020, Kästner reports an estimate of 355 years of sequential training, done instead on a cluster with 285,000 CPU cores and 10,000 GPUs, at an estimated cost of nearly 5 million US dollars for one run. Kästner's picture of distributed training is the **parameter server**. Each worker machine learns from a slice of the data. A central server collects and merges the adjustments. Workers send only the changes above a threshold, because all of GPT-3's parameters would amount to 700 gigabytes after every batch. Merging partial updates adds noise, one reason training is not reproducible ([chapter 06](06-quality-attributes-of-ml-components.md)).
 
@@ -118,9 +132,9 @@ For an **agent**, one task can last minutes and make dozens of model calls. A si
 
 ## What the practitioners say
 
-- **Scaling knowledge is not specific to ML.** Kästner's stated goal for chapter 12 is a working knowledge of the concepts and their trade-offs, enough to choose among existing infrastructure. Teams almost always build on existing abstractions instead of writing their own.
+- **Scaling knowledge is not specific to ML.** Kästner's aim in chapter 12 is a basic understanding of the key concepts and their trade-offs, enough to select appropriate techniques. Teams almost always build on existing abstractions instead of writing their own.
 - **Use all three options, in order.** Better algorithms and faster machines help first. Distribution carries the rest.
-- **Distribution happens for two reasons.** Systems need it for scale, and also because the application runs on distributed hardware such as phones.
+- **Distribution happens for two reasons.** Systems need it for scale, and also because the application runs on distributed hardware such as mobile apps.
 - **Planning varies.** Some teams estimate workloads and simulate designs, with queueing theory. More build on scalable infrastructure and deal with scale when it arrives. Kästner accepts that this can be prudent technical debt.
 - **Distribution has a price.** His summary is that distributed systems bring substantial engineering challenges, and that knowing the basic concepts is what lets a team choose well.
 

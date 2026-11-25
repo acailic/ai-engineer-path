@@ -21,7 +21,7 @@ Three different things are called "multi-agent". They have different costs and d
 | Test-time sampling | Several answers are sampled in parallel and one is kept: best-of-N, consensus | One agent, run N times |
 | Run-time collaboration | Role-specialized agents exchange messages while doing the task | A system of agents |
 
-Oriol Vinyals's lecture is about the first kind. Noam Brown's is about the first and the second. Product teams spend most of their money on the third, and the two lectures say least about it. Keep the three apart: evidence for one does not transfer to the others.
+Oriol Vinyals's lecture is about the first kind. Noam Brown's is about the first two, with a short look at the third. Product teams spend most of their money on the third, and the two lectures say least about it. Keep the three apart: evidence for one does not transfer to the others.
 
 What run-time collaboration buys, in engineering terms, is **separate contexts**. Each agent has its own context window (the text a model can consider in one call) and its own instructions. That gives you:
 
@@ -112,7 +112,7 @@ The scaling is the same outside the toy. In a June 2025 engineering report on it
 ### Vinyals: why a population helps, at training time
 
 - **Why StarCraft was hard.** He describes it as chess in which you do not see the whole board: the game is partially observable, it runs in real time, and the action space mixes strategy with the control of single units. AlphaStar trained one neural network to issue every command and reached grandmaster status, which he puts at about the top 100 players per region ([6:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=360), [8:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=480)).
-- **Imitation first.** Reinforcement learning alone did not get far. A random policy achieves little. It did find a way to beat the hardest built-in AI, by sending all its workers to attack, which works until an opponent defends it. So the team used human games: more than one million replays, which they released, plus metadata about what the players built, given to the network as a conditioning signal. He calls that a little like cheating, because it uses information from the end of the game. He compares it to prompting: tell the agent which units to build, or to play like a professional or a novice. His listed differences from LLMs: about 5 billion training tokens against more than a trillion, and instructions encoded as vectors, not language ([20:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=1200), [22:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=1320), [24:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=1440)).
+- **Imitation first.** Reinforcement learning alone did not get far. A random policy (a rule that picks actions) achieves little. It did find a way to beat the hardest built-in AI, by sending all its workers to attack, which works until an opponent defends it. So the team used human games: more than one million replays, which they released, plus metadata about what the players built, given to the network as a conditioning signal (an extra input that tells it which style to play). He calls that a little like cheating, because it uses information from the end of the game. He compares it to prompting: tell the agent which units to build, or to play like a professional or a novice. His listed differences from LLMs: about 5 billion training tokens against more than a trillion, and instructions encoded as vectors, not language ([20:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=1200), [22:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=1320), [24:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=1440)).
 - **Non-transitivity.** Strength is one axis, measured by Elo (a rating in which a fixed gap means a fixed win chance) or by a leaderboard score. Within one slice of strength, agents can beat each other in cycles, as in rock-paper-scissors. Three models at the same score may each beat the next. Weak agents are highly non-transitive; at the very top a dominant strategy appears ([38:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=2280)).
 - **A cycle from the game.** His concrete case is three StarCraft units. A Void Ray is an air unit. An Immortal is a strong ground unit that cannot attack air. A Stalker can attack air. Void Ray beats Immortal, Immortal beats Stalker and Stalker beats Void Ray. In early training, plain self-play started from human games and drifted until every policy built Void Rays. It played well against itself and had no answer to anything else; he calls the agent delusional ([42:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=2520), [44:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=2640)). Naive self-play in rock-paper-scissors moves the same way, he says: it oscillates around the center and is at each moment strong on one pure strategy, which makes convergence hard ([40:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=2400)).
 - **Kinds of attack.** An adversarial attack is specific to one network's weights. An **exploiter** is specific to one opponent. **Cheese**, a cheap trick that wins if the opponent is unprepared, tends to generalize. He likens weaknesses shared by many companies' models, such as miscounting letters in "strawberry", to cheese ([36:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=2160)).
@@ -123,15 +123,30 @@ The scaling is the same outside the toy. In a June 2025 engineering report on it
 - **What differs for LLMs.** "users are in general collaborative", he says, not zero-sum, though adversarial users exist ([54:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=3240)). Rewards cannot be fully specified ([28:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=1680)); "write me a nice poem" is his example ([30:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=1800)), and prompts are unbounded ([56:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=3360)).
 - **His forecast.** LLM post-training is in its infancy next to AlphaStar: thousands of training steps, he says, against 10 to the 10th in the AlphaStar League. He expects a scalability breakthrough in multi-agent reinforcement learning within a few years ([58:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=3480)).
 
+**Figure 1.** The exploiter loop in the AlphaStar League: the exploiter trains in secret, then joins the population.
+
+```mermaid
+flowchart LR
+    M["Main agent settles on one tactic"] --> E["Exploiter trains against a frozen copy"]
+    E --> H["Exploiter win rate"]
+    H -->|"Still low"| E
+    H -->|"High"| S["Exploiter joins the population"]
+    S --> L["Main agent learns an answer"]
+    L --> R["Exploiter starts over"]
+    R --> M
+```
+
+Each round leaves the main agent with an answer to one more tactic, which is how the league builds robustness.
+
 ### Brown: what parallel sampling buys
 
-- **Latency.** Chain of thought is serial, so latency eventually becomes a bottleneck. Best-of-N and consensus are parallel: lower latency, less compute-efficient ([46:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2760), [48:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2880)).
+- **Latency.** Chain of thought is serial, so latency eventually becomes a bottleneck. best-of-N (sample several answers and keep the one that passes a check) and consensus (keep the most common answer) are parallel: lower latency, less compute-efficient ([46:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2760), [48:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2880)).
 - **Best-of-N needs a checker.** In many ways it works better than consensus, but it needs a problem whose solution is easy to verify ([48:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2880)).
 - **Diversity.** Use the best model for the particular query. He argues that routing is already a form of multi-agent AI: a model looks at the query and hands it to the model best suited to it. His analogy: nobody multiplies 15-digit numbers by hand, so a model should use a calculator ([48:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2880), [50:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=3000)).
 
 ### Brown: on run-time collaboration
 
-He quotes a comparison he agrees with: when two engineers' changes conflict, they talk the differences out. Agents today, the quoted passage says, are not quite able to hold such long, proactive discourse with much more reliability than a single agent gives. He relays its closing view: the technology is moving fast, agents are close to it, and now is the right time to work on multi-agent systems ([54:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=3240)). His own assessment of LLM cooperation is that it is less impressive than it could be: many scaffolds are heavily engineered and brittle ([50:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=3000)).
+From the Cognition note he reads a comparison he agrees with: when two engineers' changes conflict, they talk the differences out. Agents today, the quoted passage says, are not quite able to hold such long, proactive discourse with much more reliability than a single agent gives. He relays its closing view: the technology is moving fast, agents are close to it, and now is the right time to work on multi-agent systems ([52:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=3120), [54:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=3240)). His own assessment of LLM cooperation is that it is less impressive than it could be: many scaffolds, the hand-written code around the models, are heavily engineered and brittle ([50:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=3000)).
 
 ### So, when do several agents beat one?
 

@@ -63,7 +63,7 @@ Kästner borrows a distinction called "the World and the Machine" (chapter 6). A
 | **ASM**, an assumption | The link between them: how inputs and outputs correspond to things in the world | The ticket text reflects the customer's real problem. The category the model returns is a team that exists and takes the ticket |
 | **SPEC**, a specification | The software: what it must do | Given ticket text, return one category from the current list and a confidence, in under 200 ms |
 
-Kästner writes the link as a formula: the assumptions and the specification together must entail the requirement (ASM ∧ SPEC ⊨ REQ). The software can satisfy the requirement only while the assumptions hold. If the world breaks an assumption, no change to the code fixes the failure.
+Kästner writes the link as a formula, ASM ∧ SPEC ⊨ REQ: together they must entail the requirement. The software can satisfy the requirement only while the assumptions hold. If the world breaks an assumption, no change to the code fixes the failure.
 
 He adds a fourth part, the **implementation** (IMPL): the code that is meant to match the specification. Things then go wrong in five places. The requirement itself is wrong. An assumption is incorrect, changing or missing. The specification is wrong. The parts contradict each other. The implementation differs from the specification. Engineers concentrate on the last one, he observes, because testing tools make it easy to find. In questions of safety, security, fairness and feedback loops, he finds faulty assumptions the more pressing problem.
 
@@ -119,7 +119,7 @@ Kästner's test for a precise measure: imagine arguing in front of a judge that 
 
 **Noise or bias?** For measurements, Kästner separates two properties that share names with classifier metrics but mean something else. The **accuracy of a measure** is how close its values lie, on average, to the true value. Its **precision** is how reliably it gives the same value when you repeat it.
 
-- Low precision is noise. You can see it, and it averages out over many observations.
+- Low precision is noise: visible, and it averages out over many observations.
 - Low accuracy is systematic. The measure is quietly wrong every time, so no statistic reveals it. Kästner's example is a revenue count that includes expired subscriptions.
 
 **Does it measure what you meant?** Kästner's minimum: plot the distribution of the values and inspect a sample by hand. For important measures he names three questions:
@@ -196,7 +196,7 @@ The layers stay the same. What changes is the bottom layer and the nature of the
 
 The model goal is no longer plain accuracy. It is a score on an evaluation set that you wrote: labeled examples with expected outputs. Helpfulness ratings from users are proxies with known bias, since happy users rate less often than angry ones. Treat evaluation as the product's test suite: [Evaluation Is the Product](../03-evaluation/01-evaluation-is-the-product.md).
 
-The same input can produce different outputs on two runs. A measure taken from one run is noisy by construction. Run each evaluation several times and report a range, not a number.
+The same input can produce different outputs on two runs, so a measure from one run is noisy. Run each evaluation several times and report a range, not a number.
 
 Two quality requirements move to the front. Cost per request, in tokens, is now a first-class number in the spec. So is resistance to hostile input: "a ticket containing instructions does not change the system's behavior" is a quality requirement you can test, as in [Threat Modeling LLM Applications and Agents](../04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md).
 

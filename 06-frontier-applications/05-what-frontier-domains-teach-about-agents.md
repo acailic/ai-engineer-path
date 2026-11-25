@@ -1,6 +1,7 @@
 # 05. What Frontier Domains Teach About Agents
 
 **Level:** Practitioner · **Reading time:** 10 min · **Exercise:** 30 min
+**Prerequisites:** chapters 01 to 04 of this part, and [The Anatomy of an Agent](../02-building-agents/01-the-anatomy-of-an-agent.md) (the observe, decide, act loop)
 
 > **In one sentence:** After this chapter you can compare web, robotics, science and mathematics agents on five axes, environment, verifier, search, tools and evaluation, and apply the pattern to an ordinary software agent.
 

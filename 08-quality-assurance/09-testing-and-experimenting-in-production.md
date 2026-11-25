@@ -18,7 +18,7 @@ This chapter answers one question: how do you learn from real traffic without be
 **Testing in production** evaluates a running system in real conditions, on real users and real data. It is older than machine learning, and Kästner expects most systems with ML components to do it at some point (chapter 19). It has two halves.
 
 - **Observing.** **Telemetry** is the data a running system records about its own behavior. It answers "how well is the feature doing?".
-- **Intervening.** An **experiment** shows a change to a small, randomly chosen group of users and compares them with everyone else. It answers "is the change better?".
+- **Intervening.** An **experiment** shows a change to a small, randomly chosen group of users, the **treatment group**, and compares them with the **control group**, which keeps the old version. It answers "is the change better?".
 
 Kästner's case for it is that production data is the ultimate unseen test set. It is representative by definition, it was not available at training time, and so it avoids several pitfalls of offline evaluation (chapter 19). His case against relying on it alone is that quality problems reach users directly.
 
@@ -33,7 +33,7 @@ The four standard patterns differ in who sees the change and what question they 
 
 The canary takes its name from the birds miners once carried underground, which reacted to gas before the miners did (chapter 19). The analogy holds for early warning. It breaks on remedy: a dead canary told miners to leave. A bad canary release tells you to roll back, which works only if you built the way back in advance.
 
-One more pattern is common in search and recommendation. In an **interleaving experiment**, each user sees one list that mixes results from two ranking models, instead of seeing only one model's list. The model whose results get clicked more wins. It needs far fewer users than an A/B test, and it applies only where the output is a ranking.
+From practice outside the book: one more pattern is common in search and recommendation. In an **interleaving experiment**, each user sees one list that mixes results from two ranking models, instead of seeing only one model's list. The model whose results get clicked more wins. It needs far fewer users than an A/B test, and it applies only where the output is a ranking.
 
 ## How it works, step by step
 
@@ -55,7 +55,7 @@ The hard problem is that production data has no labels. Kästner describes seven
 | Observe reactions | Infer quality from behavior | Agents stop reading the suggestion | Indirect |
 | Shadow execution | The model predicts, nobody sees it | New prompt runs silently next to the old | Infrastructure |
 
-Each design trades accuracy, reliability, cost, and latency against the others (chapter 19). Track several of them. A proxy such as a correction rate is not comparable with an offline accuracy score, but it shows trends and ranks two versions against each other.
+Each design trades accuracy, reliability, cost, and latency against the others (chapter 19). Track several of them. A proxy, an indirect stand-in for quality, such as a correction rate is not comparable with an offline accuracy score, but it shows trends and ranks two versions against each other.
 
 ### 3. Define each measure in three parts
 
@@ -67,7 +67,23 @@ Kästner follows a three-step pattern for every measure (chapter 19):
 
 ### 4. Put the change behind a feature flag
 
-A **feature flag** is a boolean option that switches between two code paths. Assign users with a stable hash of the user ID, so the same agent always sees the same version. Tag every telemetry event with the variant.
+A **feature flag** is a boolean option that switches between two code paths. Assign users with a stable hash of the user ID, a number computed from the ID that always comes out the same, so the same agent always sees the same version. Tag every telemetry event with the variant.
+
+**Figure 1.** How one request lands in a group and how the result comes back: the feature flag assigns the user, and every telemetry event carries the group name.
+
+```mermaid
+flowchart TD
+    R["Request from a user"] --> F["Feature flag: hash the user ID"]
+    F -->|"in the small share"| T["Treatment group: new version"]
+    F -->|"everyone else"| C["Control group: old version"]
+    T --> L["Telemetry event tagged treatment"]
+    C --> L2["Telemetry event tagged control"]
+    L --> D["Dashboard compares the two groups"]
+    L2 --> D
+    D --> O["Roll out, keep running, or roll back"]
+```
+
+Because the same ID always hashes to the same group, each user sees one version for the whole experiment, which keeps the two groups clean.
 
 ### 5. Choose the pattern and the exposure
 
@@ -79,11 +95,11 @@ Kästner's example makes the point (chapter 19). Fifteen percent of 2,158 users 
 
 ### 7. Build the way back before you need it
 
-Automate the rollback. Kästner warns against relying on on-call operators who must work out which shell script to run, and may create a larger mess by changing or deleting the wrong files (chapter 19).
+Automate the **rollback**, the switch back to the previous version. Kästner warns against relying on on-call operators who must work out which shell script to run, and may create a larger mess by changing or deleting the wrong files (chapter 19).
 
 ### 8. Experiment responsibly
 
-You are experimenting on people. Kästner advises keeping the treatment group as small as the question allows, testing offline first, and measuring a diverse set of outcomes, including user goals (chapter 19). An experiment on engagement alone will happily confirm an addictive design. He points to the Belmont Report's principles for research on humans: respect for persons, beneficence, and justice.
+You are experimenting on people. Kästner advises keeping the treatment group as small as the question allows, testing offline first, and measuring a diverse set of outcomes, including user goals (chapter 19). An experiment on engagement alone will happily confirm an addictive design. He points to the Belmont Report's principles for research on humans: respect for persons, beneficence, meaning do good and avoid harm, and justice.
 
 Telemetry has its own privacy cost. Logs of user edits contain user content. The book cites the backlash over voice recordings kept by a voice assistant and a video-conferencing company that withdrew terms allowing training on customer data (chapter 19). Collect the minimum, and sample or aggregate where you can.
 
@@ -128,7 +144,7 @@ What to observe:
 - Both experiments show the same correction rate in the treatment group: 10 percent, against about 15 percent in the control group.
 - With two thousand treated users, the difference is about five standard errors from zero. With twenty, it is well inside the range that chance produces. As a rough rule, a `z` beyond about positive or negative 1.96 is unlikely to be chance at the 5 percent level.
 - A lower correction rate is good here. The sign of `z` tells you which group did better only if you remember which group you listed first.
-- This test is an approximation and ignores run time, repeated looks at the data, and many comparisons. [Statistics in part 03](../03-evaluation/02-a-minimal-eval-harness.md) treats experiment design properly.
+- This test is an approximation and ignores run time, repeated looks at the data, and many comparisons. [Statistics for Evals in part 03](../03-evaluation/05-statistics-for-evals.md) treats experiment design properly.
 
 ## What the practitioners say
 

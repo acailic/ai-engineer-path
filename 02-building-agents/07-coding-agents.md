@@ -19,7 +19,7 @@ A **coding agent** can. It is the agent loop from [Chapter 01](01-the-anatomy-of
 | An automatic checker | Tests and compilers report success with no human in the loop | Any cheap, automatic test of the result |
 | State is visible as files | The agent can re-read anything it forgot | A place to look things up instead of remembering them |
 
-Because tests exist, a coding agent can try, fail, read the error, and try again. That feedback loop, more than any model ability, is what makes long tasks finish.
+Because tests exist, a coding agent can try, fail, read the error, and try again. In practice, that feedback loop is what lets a long task finish.
 
 ## How it works, step by step
 
@@ -58,18 +58,36 @@ Tests, a linter (a tool that flags suspicious code), and a compiler tell the age
 
 ### 6. Safety
 
-Neubig lists three mitigations, each borrowed from ordinary software security: the sandbox, credentials that follow the **principle of least privilege** (the agent gets only the permissions its task needs), and an audit of the agent's actions after they happen ([54:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3240), [56:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3360)). In the audit, each action is generated first and checked, by a language model or by static analysis tools; if it is judged harmful it is not executed, and the agent gets a message saying so. His examples of harm are plain: an agent pushes to the main branch by accident, or, told that the tests need to pass, deletes the tests ([52:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3120)). He also warns of the opposite failure: an agent sandboxed with no access to anything can do nothing but work as a calculator ([56:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3360)). The details belong to [Part 04](../04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md).
+Neubig lists three mitigations, each borrowed from ordinary software security: the sandbox, credentials that follow the **principle of least privilege** (the agent gets only the permissions its task needs), and an audit of each action after it is generated and before it runs ([54:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3240), [56:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3360)). In the audit, the action is checked by a language model or by static analysis tools, programs that inspect code without running it; if it is judged harmful it is not executed, and the agent gets a message saying so. His examples of harm are plain: an agent pushes to the main branch by accident, or, told that the tests need to pass, deletes the tests ([52:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3120)). He also warns of the opposite failure: an agent sandboxed with no access to anything can do nothing but work as a calculator ([56:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3360)). The details belong to [Part 04](../04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md).
 
 ### The agent-computer interface
 
 The SWE-agent project, from a team at Princeton, made the third style a design principle: the **agent-computer interface (ACI)**, the set of commands an agent uses to work with a computer. Its 2024 paper argues that these commands matter as much as the model. Neubig makes the same point about SWE-agent: it defines specialized tools that make it efficient to explore repositories and edit code, giving the model commands designed to be friendly to it and feedback in the same style ([26:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1560)). In his walkthrough, a command that shows a file around a given line returns a window of lines, so a file of thousands of lines can be read without spending the whole context; the model then writes a thought and calls an edit command on a range of lines ([28:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1680)).
 
 The interface treats the model as what it is: a program that reads a limited amount of text, cannot count reliably, and learns nothing between calls. So every command is built to keep its output small and to stop a mistake before it happens.
+
 - The file viewer shows line numbers and at most 100 lines per call. Edits then quote lines the model has actually seen.
 - Search returns a capped number of results.
 - The edit command refuses a file the agent has not viewed, and runs a syntax check after each edit. If the check fails, the edit is undone.
 - A guard interrupts the agent when it repeats the same action.
 - Old file views are dropped from the history to keep it short.
+
+**Figure 1.** The two guards of the edit command: every refusal comes back as a message the model can act on.
+
+```mermaid
+flowchart TD
+    E["Proposed edit"] --> V{"Was the file viewed"}
+    V -->|"No"| R1["Refused: the message says to view first"]
+    V -->|"Yes"| S{"Does the file still compile"}
+    S -->|"No"| R2["Edit undone: the message says why"]
+    S -->|"Yes"| A["Edit applied"]
+    R1 --> M["Message goes back to the model"]
+    R2 --> M
+    A --> M
+    M --> N["Next model decision"]
+```
+
+A refused edit changes nothing and tells the model what to do next, so the next attempt can succeed.
 
 The paper reports 12.5% of SWE-bench solved with GPT-4 Turbo, and large drops when the line limit, the search tools or the syntax check were removed.
 
@@ -150,7 +168,7 @@ Neubig walks through a ladder of test sets. Each step adds realism ([12:00](http
 | Test set | The task | What it adds | What it leaves out |
 |---|---|---|---|
 | HumanEval, MBPP | Small functions from a docstring | Nothing: a first sanity check | Software engineering. Neubig compares it to interview puzzles |
-| CoNaLa, ODEX | Answers mined from Stack Overflow | Many libraries | Works only if the code is easy to run |
+| CoNaLa, ODEX | Answers mined from Stack Overflow | Many libraries | Short snippets, not whole programs |
 | ARCADE | Data-science notebooks | Context and incremental work | Small scale |
 | SWE-bench | A real GitHub issue, scored by the tests added with the fix | A whole repository, a precise change | Refactoring, features, documentation |
 | Design2Code | Reproduce a web page from a screenshot | Visual input and output | Anything but front ends |
@@ -159,7 +177,7 @@ Three cautions from the lecture:
 
 - **Bias.** SWE-bench keeps only issues whose fix came with new tests, which skews it toward bug fixes ([16:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=960)).
 - **Leakage.** Models train on public code, so some test problems were seen during training. He cites ARCADE, where new notebooks were harder than published ones, and LiveCodeBench, which exists to measure this gap ([19:16](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1156)).
-- **The metric.** The common measure is **pass@k**: the chance that at least one of *k* generated samples passes the tests. To estimate it without noise, the HumanEval authors generate *n* larger than *k* samples, count the *c* that pass, and compute 1 − C(n−c, k) / C(n, k). Text-overlap scores such as BLEU, which measures shared word sequences between two texts, exist but ignore whether the code runs.
+- **The metric.** The common measure is **pass@k**: the chance that at least one of *k* generated samples passes the tests. To estimate it without noise, the HumanEval authors generate *n* larger than *k* samples, count the *c* that pass, and compute 1 − C(n−c, k) / C(n, k), where C(a, b) is the number of ways to choose b items out of a. Text-overlap scores such as BLEU, which measures shared word sequences between two texts, exist but ignore whether the code runs.
 
 General evaluation methods are in [Part 03](../03-evaluation/06-evaluating-capabilities-and-risks.md).
 
@@ -197,9 +215,9 @@ The lecture is from October 2024. Product names and benchmark scores have moved 
 
 ## Try it
 
-Take a small open-source project with a failing test. Run an open-source coding agent on it inside a container with a throwaway token.
+Take a small open-source project with a failing test. Run an open-source coding agent on it, for example OpenHands or Aider, inside a container with a throwaway token, an API key with a small spending limit. Follow the agent's current installation documentation, which names the container runtime it needs, such as Docker.
 
-1. Save the full trace: every action and observation.
+1. Save the full trace: every action and observation. The agent's own session log is enough.
 2. Mark each time the agent searched, read, edited, and ran a check.
 3. Count the errors the agent caused itself and repaired from a message.
 
@@ -232,8 +250,8 @@ Take a small open-source project with a failing test. Run an open-source coding 
 2. So that the edit quotes line numbers the model has actually seen. Without the rule the model invents line numbers and the edit lands in the wrong place.
 3. Finding the files that a request is about. Any two of: let the user name them; give the agent a search tool; build a map of the repository up front; narrow in stages from repository to files to functions.
 4. It keeps only issues whose fix arrived with new tests, because it needs tests to score the fix. Such fixes are mostly bug fixes.
-5. Generate n samples, more than k. Count the c that pass. Compute one minus the number of ways to choose k failing samples out of n−c, divided by the number of ways to choose k out of n.
-6. Sandboxing the execution environment, giving the agent least-privilege credentials, and auditing its actions after they happen.
+5. Generate n samples, more than k. Count the c that pass. Compute one minus the number of ways to choose k samples out of the n−c failing ones, divided by the number of ways to choose k out of n.
+6. Sandboxing the execution environment, giving the agent least-privilege credentials, and auditing each action after it is generated and before it runs.
 
 </details>
 
@@ -244,6 +262,7 @@ Take a small open-source project with a failing test. Run an open-source coding 
 - **Reading:** Xingyao Wang, Boxuan Li, et al., "OpenHands: An Open Platform for AI Software Developers as Generalist Agents" (2024): [link](https://arxiv.org/abs/2407.16741)
 - **Reading:** Chunqiu Steven Xia, Yinlin Deng, et al., "Agentless: Demystifying LLM-based Software Engineering Agents" (2024): [link](https://arxiv.org/abs/2407.01489)
 - **Reading:** Carlos E. Jimenez, John Yang, et al., "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?" (2023): [link](https://arxiv.org/abs/2310.06770)
+
 ## Next
 
 → [08. Training Models for Agentic Tasks](08-training-models-for-agentic-tasks.md), because the loop, the tools and the environment in this chapter also define what a model must be trained to use.

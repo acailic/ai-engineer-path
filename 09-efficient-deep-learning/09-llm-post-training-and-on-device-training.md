@@ -37,10 +37,25 @@ Han's slides list the options (Lecture 14, slides 13 to 42):
 
 **LoRA**, short for low-rank adaptation, leaves the weight matrix `W` alone and learns an update as a product of two small matrices.
 
-1. Pick a rank `r`, for example 8.
+1. Pick a rank `r` (the width of the two small matrices), for example 8.
 2. Add `A` with shape `r × d_in` and `B` with shape `d_out × r`, initialized so that `B × A` starts at zero.
 3. Train only `A` and `B`.
 4. At deployment, add `B × A` into `W`. The model has the same shape as before.
+
+**Figure 1.** LoRA: a small trained branch beside the frozen weights, merged into them at deployment.
+
+```mermaid
+flowchart LR
+    X["Input"] --> W["Frozen weight matrix W"]
+    X --> A["Small matrix A, trained"]
+    A --> B["Small matrix B, trained, starts at zero"]
+    W --> S["Sum of both paths"]
+    B --> S
+    S --> O["Output"]
+    S --> M["At deployment B times A is added into W"]
+```
+
+Only `A` and `B` are trained; after the merge the model has exactly the shape and the cost of the original.
 
 Worked numbers for one 4,096 × 4,096 weight matrix:
 
@@ -51,7 +66,7 @@ Worked numbers for one 4,096 × 4,096 weight matrix:
 
 ### Training on the device
 
-**On-device training** adapts a model where the data is created. Han gives the reason in his Fall 2024 lecture on the subject: a gradient is not safe to share. His **deep leakage from gradients** slides show input images and text reconstructed from gradients alone, for vision models and for BERT (Lecture 21, [10:00](https://www.youtube.com/watch?v=1YuD_5UQxsA&t=600)). His slide concludes that a shared gradient can be as revealing as the users' raw data. Adding noise as a defense also disrupts the model, he says: only very strong noise stops the leak ([12:00](https://www.youtube.com/watch?v=1YuD_5UQxsA&t=720)). So even federated learning, where devices send updates instead of data ([2:00](https://www.youtube.com/watch?v=1YuD_5UQxsA&t=120)), has a privacy hole. His repair is the compression from the previous lecture: prune the gradients before sending. In his test, 99% of the gradients could be pruned without hurting accuracy, and beyond about 70% there was nothing left to match, so the leak stopped (same block).
+**On-device training** adapts a model where the data is created. Han gives the reason in his Fall 2024 lecture on the subject: a gradient is not safe to share. His **deep leakage from gradients** slides show input images and text reconstructed from gradients alone, for vision models and for BERT, a language model (Lecture 21, [10:00](https://www.youtube.com/watch?v=1YuD_5UQxsA&t=600)). His slide concludes that, if training data can be recovered this way, sharing the gradient is not safe. Adding noise as a defense also disrupts the model, he says: only very strong noise stops the leak ([12:00](https://www.youtube.com/watch?v=1YuD_5UQxsA&t=720)). So even federated learning, where devices send updates instead of data ([2:00](https://www.youtube.com/watch?v=1YuD_5UQxsA&t=120)), has a privacy hole. His repair is the compression from the previous lecture: prune the gradients before sending. In his test, 99% of the gradients could be pruned without hurting accuracy, and beyond about 70% there was nothing left to match, so the leak stopped (same block).
 
 The obstacle is memory. Training keeps every intermediate activation for the backward pass. Four of Han's remedies:
 
@@ -69,7 +84,7 @@ A procedure for adapting a model on a laptop:
 
 ## Worked example: sizing three training runs
 
-Rules of thumb for a 7-billion-parameter model with 16-bit weights and the AdamW optimizer: 2 bytes of gradient and about 12 bytes of optimizer state per trainable parameter. Assume 20 million adapter parameters.
+Rules of thumb from engineering practice, not course content, for a 7-billion-parameter model with 16-bit weights and the AdamW optimizer: 2 bytes of gradient and about 12 bytes of optimizer state per trainable parameter. Assume 20 million adapter parameters.
 
 | | Full fine-tuning | LoRA | QLoRA |
 |---|---|---|---|
@@ -147,7 +162,7 @@ Adapt a small open model to a narrow task on your own machine.
 - **Reading:** Edward J. Hu, Yelong Shen, Phillip Wallis, et al., "LoRA: Low-Rank Adaptation of Large Language Models" (ICLR 2022): [arXiv](https://arxiv.org/abs/2106.09685)
 - **Reading:** Tim Dettmers, Artidoro Pagnoni, Ari Holtzman, Luke Zettlemoyer, "QLoRA: Efficient Finetuning of Quantized LLMs" (NeurIPS 2023): [arXiv](https://arxiv.org/abs/2305.14314)
 - **Reading:** Ligeng Zhu, Zhijian Liu, Song Han, "Deep Leakage from Gradients" (NeurIPS 2019): [arXiv](https://arxiv.org/abs/1906.08935)
-Han Cai, Chuang Gan, Ligeng Zhu and Song Han, "TinyTL: Reduce Activations, Not Trainable Parameters for Efficient On-Device Learning" (NeurIPS 2020): [arXiv](https://arxiv.org/abs/2007.11622)
+- **Reading:** Han Cai, Chuang Gan, Ligeng Zhu and Song Han, "TinyTL: Reduce Activations, Not Trainable Parameters for Efficient On-Device Learning" (NeurIPS 2020): [arXiv](https://arxiv.org/abs/2007.11622)
 - **Reading:** Ji Lin, Ligeng Zhu, Wei-Ming Chen, et al., "On-Device Training Under 256KB Memory" (NeurIPS 2022): [arXiv](https://arxiv.org/abs/2206.15472)
 
 ## Next

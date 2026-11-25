@@ -85,7 +85,7 @@ flowchart LR
     E -->|"target reached"| S["Keep the model"]
 ```
 
-Each turn of the loop removes only a little, which is what lets the final sparsity go higher than one large cut.
+Each turn removes only a little, which lets the final sparsity exceed what one large cut allows.
 
 One round of pruning plus fine-tuning is one iteration (Han's Lecture 4, slides 46 to 53). For aggressive targets, go in steps. Han reports that gradual pruning beats pruning 70% in one shot and then fine-tuning everything (Lecture 4, [26:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=1560)). The same example lifted AlexNet's pruning ratio from 5× to 9×. He also adds regularization during fine-tuning, L1 or L2, to push unimportant weights toward zero; in his experience there is little to choose between the two (his 2015 paper used L2, Network Slimming used L1), so compare them ([26:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=1560)).
 
@@ -157,7 +157,7 @@ What to observe:
 
 - Magnitude pruning beats random pruning at every sparsity (about 0.17 against 0.70 with half the weights kept).
 - With half the weights gone, removing whole neurons (0.37) costs about twice the error of magnitude pruning (0.17): the dropped neurons are the small ones, but each still carries some large weights. At 95% sparsity it sits between the other two, 0.91 against 0.77 and 0.97.
-- At 95% sparsity every method corrupts the output. The last line shows that fine-tuning on this one layer barely helps, 0.47 to 0.46: only the surviving weights move, and real recovery needs the whole network and the task's training data.
+- At 95% sparsity every method corrupts the output. The last line shows that fine-tuning on this one layer barely helps, 0.47 to 0.46: real recovery needs the whole network and the task's training data.
 
 ## What the practitioners say
 
@@ -177,7 +177,7 @@ What to observe:
 
 ## Try it
 
-Prune a small classifier three ways and report. In PyTorch, prune a weight tensor the way the NumPy example does: build a mask, multiply the weight by it, and keep the mask during fine-tuning so that only surviving weights move.
+Prune a small classifier three ways and report. In PyTorch, prune as in the NumPy example: build a mask, multiply the weight by it, and keep it during fine-tuning so that only surviving weights move.
 
 1. Train a small model on a built-in dataset (for example handwritten digits).
 2. Apply fine-grained magnitude pruning at 25%, 50% and 75%, uniformly.

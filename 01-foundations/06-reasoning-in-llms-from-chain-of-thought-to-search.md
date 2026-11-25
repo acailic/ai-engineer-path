@@ -38,7 +38,22 @@ A useful analogy for the first two is getting a second opinion. Ask five colleag
 3. Extract the final answer from each response.
 4. Return the answer that appears most often.
 
-The vote is on final answers, not on reasoning paths. Denny Zhou's example, from his Fall 2024 lecture, is Janet, whose ducks lay 16 eggs a day. She eats 3 and bakes with 4, and sells the rest at $2 each. One sampled path computes $26. Two others compute $18 by different routes. The vote returns 18 ([46:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2760)). Zhou calls the reasoning path a hidden variable: many paths lead to one answer, so the answer is what counts. His slides report that the method beat the state of the art on the GSM8K math set while using only eight exemplars.
+**Figure 1.** Self-consistency: several complete paths, one vote on the final answers.
+
+```mermaid
+flowchart LR
+    Q["Problem with one prompt"] --> A["Sampled path 1 ends in 18"]
+    Q --> B["Sampled path 2 ends in 18"]
+    Q --> C["Sampled path 3 ends in 26"]
+    A --> V["Count the final answers"]
+    B --> V
+    C --> V
+    V --> R["Return the most common answer, 18"]
+```
+
+The two paths that end in 18 count together although their steps differ, and the steps themselves are never compared.
+
+The vote is on final answers, not on reasoning paths. Denny Zhou's example, from his Fall 2024 lecture, is Janet, whose ducks lay 16 eggs a day. She eats 3 and bakes with 4, and sells the rest at $2 each. One sampled path computes $26. Two others compute $18 by different routes. The vote returns 18 ([46:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2760)). Zhou calls the reasoning path a hidden variable: many paths lead to one answer, so the answer is what counts. He adds that the method beat the state of the art of its time.
 
 Three practical limits come from the two lectures:
 
@@ -56,9 +71,9 @@ The intuitive fix for a wrong answer is to ask the model to look again. Zhou's e
 - It also finds imaginary problems in correct answers and changes them to wrong ones. His example is a yogurt problem: the first answer is right, and the revised answer is wrong ([54:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3240)).
 - On three benchmarks, GSM8K, CommonSenseQA and HotpotQA, his team measured no gain from self-correction. Reported gains in other papers came from setups with an oracle: the model was asked to correct only answers already known to be wrong ([54:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3240)).
 
-His summary is that "the model doesn't know if the answer is correct or wrong" ([56:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3360)). He also reports that letting several models debate did not beat self-consistency given the same number of responses. His lesson: self-correction needs oracle feedback, and his self-debugging work gets it from unit tests (same moment).
+His summary is that "the model doesn't know if the answer is correct or wrong" ([56:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3360)). He also reports that letting several models debate did not beat self-consistency given the same number of responses. His lesson: self-correction needs oracle feedback, and his self-debugging work gets it from unit tests ([56:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3360)).
 
-Chen's Spring 2025 lecture reaches the same conclusion from the other direction. Iterative self-improvement works when it has a good external evaluation. Her examples are Reflexion, where the environment returns observations after each action ([66:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3960)), and self-debugging, where running the code supplies the feedback. She compared feedback formats, from a bare pass-or-fail message to unit-test results and a line-by-line trace, and found that more informative feedback debugs better ([70:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4200)). Without such a signal, her study finds the opposite. The model cannot judge its own answers, so it turns correct solutions into wrong ones and gets worse with each round ([72:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4320)).
+Chen's Spring 2025 lecture reaches the same conclusion from the other direction. Iterative self-improvement works when it has a good external evaluation. Her examples are Reflexion, where the environment returns observations after each action ([68:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4080)), and self-debugging, where running the code supplies the feedback. She compared feedback formats, from a bare pass-or-fail message to unit-test results and a line-by-line trace, and found that more informative feedback debugs better ([70:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4200)). Without such a signal, her study finds the opposite. The model cannot judge its own answers, so it turns correct solutions into wrong ones and gets worse with each round ([72:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4320)).
 
 The rule for practice: revise only when something outside the model can say that the answer is wrong. Unit tests, a compiler, a schema check or a database lookup all qualify.
 
@@ -70,6 +85,21 @@ Self-consistency branches only at the start. **Tree search** also branches in th
 2. Let the model compare the resulting partial solutions and choose the most promising.
 3. Continue from that one. Go back to a sibling if the branch fails.
 
+**Figure 2.** Tree search: each step proposes several continuations, and a failed branch returns to a sibling.
+
+```mermaid
+flowchart TD
+    S["Current partial solution"] --> P["Propose several next steps"]
+    P --> E["Evaluate each partial solution"]
+    E -->|"one is promising"| N["Continue from the best one"]
+    N -->|"solution complete"| F["Final answer"]
+    N -->|"branch fails"| B["Go back to a sibling step"]
+    E -->|"none is promising"| B
+    B --> P
+```
+
+Unlike the vote, search spends its tokens only on the branches that still look promising.
+
 Her example is the game of 24, where four numbers must be combined into 24. It suits the method because a partial expression can be judged before it is complete. Chen names the two moves at each step: propose the next steps, here picking two numbers to combine, and evaluate the state, here whether 24 is still reachable. On Game of 24, tree of thought with breadth-first search scales better than standard prompting and chain of thought as the token budget grows ([64:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3840)).
 
 Zhou's slides name a more systematic alternative for problems where the steps get long: calling an external search tool such as **Monte Carlo tree search (MCTS)**, a search algorithm that grows a tree of moves by repeatedly picking a promising node, simulating a completion, and pushing the score back up the path. Chen says later work plugs such algorithms into tree of thought, and she notes the payoff: a search that judges early can drop unpromising branches before spending tokens on them ([64:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3840)).
@@ -80,7 +110,7 @@ A chess engine is a good mental picture. It looks several moves ahead, scores ea
 
 Where information sits in the prompt changes the result. Two findings:
 
-- **Premise order.** Zhou reports that reordering the sentences of some GSM8K problems cost the frontier models about 10 points ([58:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3480)). In a logic task with made-up words, randomly reordering only the rules relevant to the query caused a large drop across all frontier models ([60:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3600)); his slides put it at more than 30 points. His example moves one sentence, about losing 10 bills on the way home, from the middle of the story to the end, and the model's arithmetic changes.
+- **Premise order.** Zhou reports that reordering the sentences of some GSM8K problems cost the frontier models about 10 points ([58:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3480)). In a logic task with made-up words, randomly reordering only the rules relevant to the query caused a significant drop across all frontier models ([60:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3600)). His example moves one sentence, about losing 10 bills on the way home, from the middle of the story to the end, and the model's arithmetic changes.
 - **The first token.** Zhou describes a decoding finding from his group: whether the model's first token is a thought or a direct answer decides the whole path. Asked how many apples he and his father have together, a model that starts with a bare number answers 5. Started on the words "I have three apples" instead, it reasons its way to the right total ([38:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2280)). Asked whether Nicolas Cage was born in an even or an odd year, the direct answer gets a low probability. Once the model has written that he was born in 1964, the probability of the final answer jumps to 98% ([40:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2400)). Exploring the top few first tokens and continuing each one greedily, he says, beats plain greedy decoding ([42:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2520)).
 
 In practice, do not trust a model to be robust to the order of facts in user-written text. Normalize the order in your prompt, and include reordered variants in your evaluation.
@@ -96,7 +126,7 @@ In practice, do not trust a model to be robust to the order of facts in user-wri
 | Iterative refinement | Rounds of revision | An external check such as tests | k× tokens, sequential latency |
 | Self-review without a check | Rounds of revision | Nothing | Avoid for reasoning |
 
-Chen's advice on budget comes from studies of inference scaling: allocate the compute per problem according to its difficulty. Easy problems do not need 16 samples. She also notes that the right model depends on the budget. A small budget favors more samples from a lighter model. A large budget justifies a stronger model for the problems a light model cannot solve at all ([78:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4680)).
+Chen's advice on budget comes from studies of inference scaling: allocate the compute per problem according to its difficulty. Easy problems need few samples. She also notes that the right model depends on the budget. A small budget favors more samples from a lighter model. A large budget justifies a stronger model for the problems a light model cannot solve at all ([78:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4680)).
 
 ## Worked example
 
@@ -131,8 +161,8 @@ for p_right, p_tempting in [(0.30, 0.05), (0.45, 0.05), (0.60, 0.05), (0.35, 0.5
 
 What to observe:
 
-- **Voting lifts a weak plurality into a safe win.** In the first three rows the right path is only 30% to 60% likely, yet a vote over 16 samples is right in nearly all problems. The wrong paths scatter.
-- **Voting can backfire.** In the last row a tempting wrong path is more likely than the right one. The vote falls to well under half of the single-sample rate. Self-consistency amplifies whatever the model finds most plausible.
+- **Voting lifts a weak plurality into a safe win.** In the first three rows the right path is only 30% to 60% likely. One sample is right in 28%, 49% and 62% of the problems, a vote over 16 samples in 78%, 97% and 100%. The wrong paths scatter.
+- **Voting can backfire.** In the last row a tempting wrong path is more likely than the right one. The vote falls from 35% to 26%. Self-consistency amplifies whatever the model finds most plausible.
 
 ## What the practitioners say
 
@@ -145,7 +175,7 @@ Zhou's last word is a warning about the picture you form. These models write ste
 ## Pitfalls
 
 1. **Voting when no answer can be extracted.** *Fix:* use universal self-consistency, or redesign the output so the answer is a short checkable field.
-2. **Using greedy decoding for self-consistency.** Without randomness every sample is the same. *Fix:* sample with a temperature above zero and compare a few settings.
+2. **Using greedy decoding, always taking the most likely token, for self-consistency.** Without randomness every sample is the same. *Fix:* sample with a temperature above zero and compare a few settings.
 3. **Assuming more samples always help.** *Fix:* check agreement on your own problems. If the model agrees on a wrong answer, fix the prompt or the model.
 4. **Adding "review your answer" to a pipeline without an external check.** *Fix:* remove it, or attach a real checker.
 5. **Running self-review or tree search sequentially on a latency budget.** *Fix:* parallel samples add latency only once. Sequential rounds multiply it.
@@ -185,22 +215,22 @@ This calls a paid API 17 times per problem or more. With a small model and short
    - D. The longest response among samples
 
 2. When does self-consistency lower accuracy?
-   - A. When a wrong answer is the most likely one
-   - B. When the sampling temperature is above zero
-   - C. When the model has many billions of parameters
+   - A. When the sampling temperature is above zero
+   - B. When the model has many billions of parameters
+   - C. When a wrong answer is the most likely one
    - D. When the problem takes many steps to solve
 
 3. What happens when a model is asked to review its answer with no extra information?
-   - A. It fixes some wrong answers and breaks some right ones
-   - B. It fixes wrong answers and leaves right ones alone
+   - A. It fixes wrong answers and leaves right ones alone
+   - B. It fixes some wrong answers and breaks some right ones
    - C. It changes nothing in most of the answers
    - D. It refuses to answer until a checker is provided
 
 4. What made iterative improvement work in the lectures?
-   - A. Feedback from outside the model, such as unit tests
-   - B. A longer chain of thought in the first answer
-   - C. Several models debating their answers in turn
-   - D. A larger model reviewing a smaller one
+   - A. A longer chain of thought in the first answer
+   - B. Several models debating their answers in turn
+   - C. A larger model reviewing a smaller one
+   - D. Feedback from outside the model, such as unit tests
 
 5. As reported on Zhou's slides, about how much did shuffling the sentences of GSM8K problems cost frontier models?
    - A. About 10 points
@@ -209,27 +239,27 @@ This calls a paid API 17 times per problem or more. With a small model and short
    - D. Nothing measurable
 
 6. With a small budget per problem, which allocation did Chen's lecture favor?
-   - A. More samples from a lighter model
-   - B. One sample from the strongest model
+   - A. One sample from the strongest model
+   - B. More samples from a lighter model
    - C. A wide tree search with many branches
    - D. Several rounds of debate between agents
 
 <details><summary>Show answers</summary>
 
 1. A. The vote is over extracted final answers. Two different paths that reach 18 count together.
-2. A. Voting amplifies the most plausible answer, right or wrong.
-3. A. Zhou's team measured both effects and no net gain on three benchmarks.
-4. A. Environments that return observations, and code execution with tests. The model alone cannot tell whether it is wrong.
-5. A. About 10 points on GSM8K, and more than 30 points in the logic task with reordered rules.
-6. A. The same budget buys many more samples from a lighter model. Stronger models pay off on hard problems when the budget is large.
+2. C. Voting amplifies the most plausible answer, right or wrong.
+3. B. Zhou's team measured both effects and no net gain on three benchmarks.
+4. D. Environments that return observations, and code execution with tests. The model alone cannot tell whether it is wrong.
+5. A. About 10 points on GSM8K. Reordering the rules of his logic task also cost the frontier models a significant share of their accuracy.
+6. B. The same budget buys many more samples from a lighter model. Stronger models pay off on hard problems when the budget is large.
 
 </details>
 
 ## Sources
 
-- **Lecture:** Denny Zhou, "LLM Reasoning: Key Ideas and Limitations", LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=QL-FS_Zcmyo), used at [first-token decoding](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2280), [self-consistency](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2760), [limits of self-correction](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3240), [premise order](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3480)
-- **Lecture:** Xinyun Chen, "Inference-Time Techniques for LLM Reasoning", Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=g0Dwtf3BH-0), used at [self-consistency](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=2760), [clustering code by outputs](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3240), [universal self-consistency](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3360), [verifiers](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3480), [tree search](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3720), [iterative self-improvement](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3960), [self-debugging](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4200), [budget allocation](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4680), [design principle](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4800)
-- **Lecture:** Jason Weston, "Learning to Self-Improve & Reason with LLMs", Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=_MNlLhU33H0), used at [System 1 and System 2](https://www.youtube.com/watch?v=_MNlLhU33H0&t=120), [from prompting to training](https://www.youtube.com/watch?v=_MNlLhU33H0&t=2040)
+- **Lecture:** Denny Zhou, "LLM Reasoning: Key Ideas and Limitations", LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=QL-FS_Zcmyo), used at [first-token decoding](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2280), [self-consistency](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2760), [limits of self-correction](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3240), [the need for oracle feedback](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3360), [premise order](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3480), [reordered rules](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3600)
+- **Lecture:** Xinyun Chen, "Inference-Time Techniques for LLM Reasoning", Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=g0Dwtf3BH-0), used at [self-consistency](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=2760), [clustering code by outputs](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3240), [universal self-consistency](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3360), [verifiers](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3480), [tree search](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3720), [iterative self-improvement](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3960), [Reflexion](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4080), [self-debugging](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4200), [budget allocation](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4680), [design principle](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4800)
+- **Lecture:** Jason Weston, "Learning to Reason with LLMs", Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=_MNlLhU33H0), used at [System 1 and System 2](https://www.youtube.com/watch?v=_MNlLhU33H0&t=120), [from prompting to training](https://www.youtube.com/watch?v=_MNlLhU33H0&t=2040)
 
 ## Next
 

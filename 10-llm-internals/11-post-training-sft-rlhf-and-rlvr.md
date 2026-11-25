@@ -50,7 +50,7 @@ The algorithm behind step 3 evolved in three moves. A plain **policy gradient** 
 
 `∇ E[R(z)] = E[R(z) · ∇ log p_θ(z)]`
 
-Its variance is too high. The lecturer's progression in Lecture 15: reusing one rollout for several steps leads to importance weighting and a constraint that keeps the step close to the current policy (TRPO), and PPO replaces that constraint with a heuristic clip ([68:00](https://www.youtube.com/watch?v=2oH6PWPrYFo&t=4080)). In practice PPO also needs an experience buffer and a value model ([Lecture 16, 8:00](https://www.youtube.com/watch?v=dIFAi87Ws4E&t=480)).
+Its variance is too high. The lecturer's progression in Lecture 15: reusing one rollout for several steps leads to importance weighting and a constraint that keeps the step close to the current policy (TRPO), and PPO replaces that constraint with a heuristic clip ([68:00](https://www.youtube.com/watch?v=2oH6PWPrYFo&t=4080)). In practice PPO also needs an experience buffer, a store of recent samples, and a value model, a second network that estimates the reward to come at each token ([Lecture 16, 8:00](https://www.youtube.com/watch?v=dIFAi87Ws4E&t=480)).
 
 **Direct preference optimization** (DPO) removes the reward model and the reinforcement learning. It trains directly on the pairs, raising the chosen response's log-probability relative to the rejected one, measured against the reference model. The lecturer's verdict: "DPO is reasonably good. And it's good enough for Llama, it's good enough for me" ([74:00](https://www.youtube.com/watch?v=2oH6PWPrYFo&t=4440)). Llama's recipe alternated DPO with rejection sampling. He warns that comparisons between variants are fragile: papers from the same lab found DPO better than PPO and the reverse.
 
@@ -92,11 +92,26 @@ print(group_advantages([1, 1, 1, 1]))   # [0.0, 0.0, 0.0, 0.0]
 
 The second call shows a property to remember. If every answer in the group scores the same, the prompt teaches nothing. Questions the model always solves or never solves are dead weight.
 
-Two cautions from Lecture 16. Subtracting a baseline keeps a gradient estimate unbiased; dividing by the standard deviation, as GRPO does, breaks that baseline contract. A later analysis (Dr. GRPO) attributes R1-Zero's growth in answer length partly to this bias. And the division inflates the weight of questions where the model is close to a coin flip ([Lecture 16, 22:00](https://www.youtube.com/watch?v=dIFAi87Ws4E&t=1320), [24:00](https://www.youtube.com/watch?v=dIFAi87Ws4E&t=1440)).
+**Figure 1.** One GRPO round: a group of answers to one prompt is scored, and each reward becomes an advantage measured against the group.
+
+```mermaid
+flowchart TD
+    P["One prompt"] --> S["Sample a group of G answers"]
+    S --> C["Score each answer with the checker"]
+    C --> A["Turn each reward into a distance from the group average"]
+    A --> U["One policy-gradient step weighted by the advantages, plus the KL penalty"]
+    U --> P
+    A --> Z{"Do all rewards in the group match?"}
+    Z -->|"yes"| N["Every advantage is zero, so nothing is learned"]
+```
+
+The loop needs no value model: the group's own rewards say whether an answer was better or worse than average, and a group that scores all the same teaches nothing.
+
+Two cautions from Lecture 16. Subtracting a baseline keeps a gradient estimate unbiased; dividing by the standard deviation, as GRPO does, breaks that baseline contract. A later analysis (Dr. GRPO) attributes R1-Zero's growth in answer length partly to this bias. And the division inflates the weight of questions that are too easy or too hard, where the rewards barely vary ([Lecture 16, 22:00](https://www.youtube.com/watch?v=dIFAi87Ws4E&t=1320), [24:00](https://www.youtube.com/watch?v=dIFAi87Ws4E&t=1440)).
 
 ### 5. What the released recipes do
 
-- **DeepSeek R1** (as described in the lecture): start from the base model, apply RL with an accuracy reward and a format reward, and get R1-Zero. Then add a few thousand long reasoning examples as SFT, a reward for writing in one language, and a final SFT and RLHF stage for tasks that have no checker. R1 beats OpenAI's o1 on some measures. The lecture credits it with showing that process supervision, a grader for each step of a proof, was not critical ([Lecture 16, 28:00](https://www.youtube.com/watch?v=dIFAi87Ws4E&t=1680), [32:00](https://www.youtube.com/watch?v=dIFAi87Ws4E&t=1920)).
+- **DeepSeek R1** (as described in the lecture): start from the base model, apply RL with an accuracy reward and a format reward, and get R1-Zero. Then add a small amount of long reasoning examples as SFT, a reward for writing in one language, and a final SFT and RLHF stage for tasks that have no checker. R1-Zero lands only a little below OpenAI's o1 in the lecture's comparison. The lecture credits it with showing that process supervision, a grader for each step of a proof, was not critical ([Lecture 16, 28:00](https://www.youtube.com/watch?v=dIFAi87Ws4E&t=1680), [32:00](https://www.youtube.com/watch?v=dIFAi87Ws4E&t=1920)).
 - **Kimi K1.5**: filter questions by difficulty, keep those the model fails on its best of eight tries, drop multiple-choice questions that reward guessing, and add a length penalty. The penalty is designed so that wrong answers do not collapse to zero length, or the model could never recover on that topic ([48:00](https://www.youtube.com/watch?v=dIFAi87Ws4E&t=2880)). The paper argues from a DPO-style starting point and arrives at a group-normalized baseline like GRPO's ([42:00](https://www.youtube.com/watch?v=dIFAi87Ws4E&t=2520)).
 - Both drop questions the model has mastered, to spend compute where it is not wasted.
 
@@ -135,7 +150,7 @@ print(round(softmax(logits)[correct], 3))    # 1.0 after 60 steps: the policy al
 What to observe:
 
 - No one ever told the policy which answer was right. It learned from the pattern of which of its own samples passed the checker.
-- Change `correct` to a value the policy almost never samples, and progress becomes slow, because early groups are all zeros.
+- Train first, then change `correct` to another answer: the loop stalls, because the policy almost never samples it and every group scores all zeros.
 - The loop is a **bandit**: each answer is scored once, with no steps inside it. Real reasoning has the same shape per response, with a long answer as one action.
 
 ## What the practitioners say
@@ -167,7 +182,7 @@ Run the worked example.
 You are done when:
 
 - The default run ends with a probability above 0.95 on the correct answer.
-- You print the share of groups with all-equal rewards over time, and explain in two sentences why it falls.
+- You print the share of groups with all-equal rewards over time, and explain in two sentences why it rises.
 - You rerun with 4 samples per group and with 64, and report how many steps each needs to pass 0.95.
 - You make the checker wrong on one answer and show the policy learning the wrong behavior.
 
@@ -196,7 +211,7 @@ You are done when:
 3. What does GRPO use instead of a value network?
    - A. The average reward of the whole run
    - B. A second policy as a critic
-   - C. The mean and spread of rewards in a group of samples
+   - C. The rewards of the other samples in its group
    - D. The reward model's uncertainty
 4. What happens with a GRPO group in which every sample scores 1?
    - A. All advantages are positive

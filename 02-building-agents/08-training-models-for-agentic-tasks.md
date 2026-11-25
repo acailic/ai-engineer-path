@@ -22,7 +22,7 @@ Agentic training keeps those stages and changes two things:
 
 Weizhu Chen, a technical fellow at Microsoft who leads generative AI and post-training teams there, lists what agentic training has to produce ([4:00](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=240)): goal-oriented behavior, where the goal carries requirements such as a pull request that passes its tests; tool use over many turns; planning; reasoning about feedback from the environment; and handling interaction with the user.
 
-Jiantao Jiao (NVIDIA, Fall 2025) draws the line at verifiability. Conversation is not verifiable, he says: it has no single correct answer and needs a reward model that scores preferences. Agentic tasks come with clear checks, such as rubrics (written scoring criteria), recorded ground truths, records of the environment's state and unit tests, and these signals feed the usual post-training algorithms ([4:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=240), [6:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=360)). He names three core steps, and calls each hard: good verifiable training data, honest evaluation, and training well. Evaluation is on the list because teams easily test only what their data covers, then see the system break in the wild ([6:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=360), [8:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=480)).
+Jiantao Jiao (NVIDIA, Fall 2025) draws the line at verifiability. Conversation is not verifiable, he says: it has no single correct answer and needs a reward model, a model trained to score answers, to judge preferences. Agentic tasks come with clear checks, such as rubrics (written scoring criteria), recorded ground truths, records of the environment's state and unit tests, and these signals feed the usual post-training algorithms ([4:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=240), [6:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=360)). He names three core steps, and calls each hard: good verifiable training data, honest evaluation, and training well. Evaluation is on the list because teams easily test only what their data covers, then see the system break in the wild ([6:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=360), [8:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=480)).
 
 The analogy is onboarding a new engineer through a ticket queue and a continuous integration system; Jiao compares the work to training a human being ([8:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=480)). It breaks in two places: you run millions of these trainees in parallel, and they will find any way to make the check pass.
 
@@ -31,7 +31,7 @@ The analogy is onboarding a new engineer through a ticket queue and a continuous
 | | Chat post-training | Agentic training |
 |---|---|---|
 | One training example | A prompt and a response | A trajectory of actions and observations |
-| Where examples come from | Written or sampled responses | Rollouts inside executable environments |
+| Where examples come from | Written or sampled responses | Rollouts, complete runs of the model in an environment, inside executable environments |
 | Reward source | Human or model preference | Verifiers: tests, graders, rubrics |
 | Main cost | Training compute | Sampling: long rollouts, environment time |
 | Typical failure | A poor answer | Reward hacking: passing the check without doing the task |
@@ -39,13 +39,27 @@ The analogy is onboarding a new engineer through a ticket queue and a continuous
 **Reward hacking** is finding an input that satisfies the grader while missing the goal. The pipeline below is the general shape. Points marked as Chen's come from his Fall 2025 lecture.
 
 1. **Build environments.** Each task needs a sandbox that can be reset and run thousands of times. For coding, Chen describes simulators that run code and tests at large scale, mostly on CPU, with, in his words, at least ten times as many CPUs as GPUs, the graphics processors that do the numerical work of training ([2:00](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=120)).
-2. **Write the graders.** A slide states that if you know how and what to grade, you have solved half of the problem ([22:20](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=1340)). Real products need several graders with constraints between them. Chen notes that graders can depend on one another, differ in strictness, and sometimes run in parallel ([28:00](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=1680)). Jiao adds that a verifier should not be a single number but a vector: a correct answer that took too many steps or tokens may deserve a penalty ([14:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=840)). His example of verifier quality: asked for the change from a dollar for a 50-cent drink, one half and two fourths are both right, but once the user asks for the simplest form only one is. A wrong verifier is costly, because models now answer easy questions and fail only on hard ones. He wants both false positives and false negatives minimized, and he calls verifier quality what the open-source community most lacks ([18:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=1080), [20:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=1200)).
-3. **Assemble and synthesize tasks.** Chen covers three parts of the data work ([8:00](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=480), [16:00](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=960)). Rubrics are written scoring criteria: for one question, human experts may write 50, each clear enough for a person to read and structured so that an answer scores 1 or 0, because that scoring is how the grader runs during RL. Data mix is where industrial labs spend most of the effort, in his account: start with more easy data and mix in harder data as the model improves. Synthesis fills the categories where the model is weak. Jiao describes a training example through three parts: the environment, meaning its full state including system prompts; the tools, meaning the APIs the model's tokens call, which can read information or change that state; and the verifiers that check the result ([12:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=720)). His rule is coverage: a system tried on few environments with limited verification breaks once it leaves the scope of the data ([16:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=960)). To push exploration, Chen's team changes the tool set between training runs or removes some tools ([38:00](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=2280)).
+2. **Write the graders.** A grader is the verifier of one task: the code that scores a trajectory. Chen says that if you know how and what to grade, you have solved half of the problem ([22:20](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=1340)). Real products need several graders with constraints between them. Chen notes that graders can depend on one another, differ in strictness, and sometimes run in parallel ([28:00](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=1680)). Jiao adds that a verifier should not be a single number but a vector: a correct answer that took too many steps or tokens may deserve a penalty ([14:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=840)). His example of verifier quality: asked for the change from a dollar for a 50-cent drink, one half and two fourths are both right, but once the user asks for the simplest form only one is. A wrong verifier is costly, because models now answer easy questions and fail only on hard ones. He wants both false positives and false negatives minimized, and he calls verifier quality what the open-source community most lacks ([18:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=1080), [20:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=1200)).
+3. **Assemble and synthesize tasks.** Chen covers three parts of the data work ([8:00](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=480), [16:00](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=960)). Rubrics are written scoring criteria: for one question, human experts may write 50, each clear enough for a person to read and structured so that an answer scores 1 or 0, because that scoring is how the grader runs during RL. Data mix is where industrial labs spend most of the effort, in his account: start with more easy data and mix in harder data as the model improves. Synthesis fills the categories where the model is weak. Jiao describes a training example through three parts: the environment, meaning its full state including system prompts; the tools, meaning the APIs the model's tokens call, which can read information or change that state; and the verifiers that check the result ([12:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=720), [14:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=840)). His rule is coverage: a system tried on few environments with limited verification breaks once it leaves the scope of the data ([16:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=960)). To push exploration, Chen's team changes the tool set between training runs or removes some tools ([38:00](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=2280)).
 4. **Roll out.** One rollout is one complete run of the model on a task inside its environment. The current model runs each task many times. This step dominates the cost.
 5. **Score and filter.** The verifier marks each trajectory pass or fail. Passing trajectories become training examples.
 6. **Guard the reward.** See the next subsection. This step has no counterpart in chat training.
 7. **Update the policy.** The policy is the model in its role as the part that chooses actions. Fine-tune on the passing trajectories, then run RL. Chen discusses LoRA, low-rank adaptation, which trains a small set of added weights instead of all of them, for RL, and offers his view that it works there because it acts as a regularization that keeps the change to the weights small ([44:00](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=2640)).
 8. **Control length.** Chen's team asks the model to solve under length constraints and prefers the shorter answer. The penalty needs balance: too low and the model uses unlimited tokens, too high and it stops exploring longer solutions. He also wants evaluation to report rollout length, because pass rates are not comparable unless the lengths are at the same level, and one million tokens, he says, is still not enough for some long cases ([40:00](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=2400), [42:00](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=2520)).
+
+**Figure 1.** The training loop for agentic tasks: a verifier scores the rollouts, and only the passing trajectories update the model.
+
+```mermaid
+flowchart LR
+    E["Task inside an environment"] --> R["Rollout: the model runs the task many times"]
+    R --> V["Verifier scores each trajectory pass or fail"]
+    V -->|"fail"| D["Discard the trajectory"]
+    V -->|"pass"| G["Guard against reward hacking"]
+    G --> U["Update the policy on the kept trajectories"]
+    U -->|"improved model"| R
+```
+
+The expensive part is the rollout step, and the reward guard sits between the scoring and the update.
 
 ### Why the reward needs a guard
 
@@ -60,7 +74,6 @@ His team's countermeasures ([28:00](https://www.youtube.com/watch?v=xNxrBHZPDvM&
 - A second model checks the first model's output.
 - If the model can edit the tests, the tests are hidden during the rollout and restored for grading.
 - Cheating earns a high penalty.
-- Tasks are written so that the model cannot change what it is graded on.
 
 His summary is short: "It's so easy for the model to cheat" ([30:00](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=1800)).
 
@@ -120,7 +133,7 @@ Run it. The pass rate starts at a few percent, because a random policy rarely en
 
 **Jiantao Jiao (NVIDIA, Fall 2025)** describes training as two stages, mapped onto how people learn ([42:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=2520), [44:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=2640)). Supervised fine-tuning is imitation: it maximizes the likelihood of demonstration trajectories that reach a correct result, so that rollouts are not wasted on meaningless attempts. It should be light and its demonstrations diverse, he argues. Heavy fine-tuning that teaches one right answer per question leaves the model unable to find answers on its own and fails on tasks outside the training distribution ([46:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=2760)). Reinforcement learning is where intelligence is truly built: sample meaningful but different action sequences, see which are correct, and update so that the next round produces more of the good ones. He lists three observations about RL that he says still need research ([54:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=3240), [56:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=3360)): train longer, before attempts collapse into the same answer; train on harder prompts, though not so hard that nothing succeeds; and train on more diverse responses with high-quality reward feedback. He also notes that some work, including from NVIDIA, removes the fine-tuning stage and runs more RL, a trend he says several frontier labs show, and that it is still unclear what the correct training algorithm is ([48:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=2880)).
 
-**Two earlier views.** Graham Neubig, in October 2024, named agentic training as the next step: training on agent-style data so that models follow agent formats, plan better and recover from errors ([58:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3480)). Yu Su offers a hypothesis about why reasoning models help agents: a capable base model already has basic reasoning strategies, and RL teaches it which combination to use ([44:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=2640)). Both are the speakers' views, not measurements.
+**Two earlier views.** Graham Neubig, in October 2024, named agentic training as the next step: training on agent-style data so that models follow agent formats, plan better and recover from errors ([58:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3480)). Yu Su offers a hypothesis about how reasoning models emerge: a capable base model already has basic reasoning strategies, and RL with verifiable rewards teaches it which combination to use ([44:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=2640), [46:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=2760)). Both are the speakers' views, not measurements.
 
 ### What is public and what is one team's account
 
@@ -148,15 +161,15 @@ Treat the lower four rows as what works at one organization, reported from exper
 
 Break the corridor example on purpose, then repair it.
 
-1. Add an action `claim_success`. Change the verifier to pass any trajectory that contains it. Record how the pass rate and the true goal rate diverge.
+1. Add an action `claim_success`. Change the verifier to pass any trajectory that contains it, and keep the old end-state check as a separate counter for the true goal rate. Record how the two rates diverge.
 2. Restore a verifier that reads only the environment's end state. Confirm the hack disappears.
-3. Change the reward to 1 minus the number of steps divided by the horizon. Record the pass rate and the average trajectory length.
+3. Make a rollout stop as soon as it reaches the goal, keep only trajectories that arrive in at most four steps, and count passing episodes instead of kept pairs. Record the pass rate and the average length of the kept trajectories.
 
 **Deliverable:** the code and a table with pass rate, true goal rate and average length for each variant.
 
-**You are done when:** in step 1 the reported pass rate exceeds the real success rate; in step 2 the two match again; and in step 3 the average length falls while the pass rate stays high.
+**You are done when:** in step 1 the reported pass rate exceeds the real success rate; in step 2 the two match again; and in step 3 the average length is close to four while the pass rate stays high.
 
-**Stretch goal:** replace the re-fit with a policy gradient update on a small neural policy, and compare how many rollouts each needs.
+**Stretch goal:** replace the re-fit with a [policy gradient](../GLOSSARY.md) update on a small neural policy, and compare how many rollouts each needs.
 
 ## Key takeaways
 
@@ -195,6 +208,7 @@ Break the corridor example on purpose, then repair it.
 - **Lecture:** Jiantao Jiao, "Post-Training Verifiable Agents", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=3l0Zxus34es), used at [what makes agents verifiable](https://www.youtube.com/watch?v=3l0Zxus34es&t=240), [three core steps](https://www.youtube.com/watch?v=3l0Zxus34es&t=360), [environment, tools and verifiers](https://www.youtube.com/watch?v=3l0Zxus34es&t=720), [verifier quality](https://www.youtube.com/watch?v=3l0Zxus34es&t=1080), [two training stages](https://www.youtube.com/watch?v=3l0Zxus34es&t=2520), [light fine-tuning](https://www.youtube.com/watch?v=3l0Zxus34es&t=2760), [open questions in RL](https://www.youtube.com/watch?v=3l0Zxus34es&t=3240)
 - **Reading:** DeepSeek-AI, "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning" (2025): [link](https://arxiv.org/abs/2501.12948)
 - **Reading:** Kimi Team, "Kimi K2: Open Agentic Intelligence" (2025): [link](https://arxiv.org/abs/2507.20534)
+
 ## Next
 
 → [Evaluation Is the Product](../03-evaluation/01-evaluation-is-the-product.md), because none of the loops in this part can be improved faster than it can be measured.

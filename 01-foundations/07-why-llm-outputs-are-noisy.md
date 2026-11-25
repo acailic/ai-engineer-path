@@ -20,6 +20,21 @@ An evaluation score is a measurement, and every measurement has an error bar. Fo
 - **Sampling noise.** The model chooses each token at random from a probability distribution ([Chapter 02](02-how-large-language-models-are-trained.md)). Ask the same question twice and you can get different answers, with different correctness.
 - **Semantic noise.** Your questions are a sample of all the questions users could ask. A different set of 100 tickets would give a different score, because some tickets are harder than others. Wording and order shift results too ([Chapter 05](05-prompting-and-in-context-learning.md)).
 
+**Figure 1.** Two sources of noise in a score, and the lever that acts on each.
+
+```mermaid
+flowchart TD
+    S["Evaluation score"] --> A["Sampling noise: answers are drawn at random"]
+    S --> B["Question noise: the questions are only a sample"]
+    A -->|"shrinks when you"| R["Repeat each question a few times"]
+    B -->|"shrinks only when you"| Q["Add more questions"]
+    R --> N["Narrower interval"]
+    Q --> N
+    T["Lowering the temperature"] -->|"changes the model you measure"| X["Not a fix for noise"]
+```
+
+Repeats and more questions are not interchangeable: each one removes only its own kind of noise.
+
 "Semantic noise" is this chapter's name for the second kind. Sida Wang, in his Fall 2025 lecture *Predictable Noise in LLM Benchmarks*, makes the point without the label: resampling a model is "a remarkable ability", and treating that as the only kind of noise is "a common confusion" (his slide 22).
 
 His title has a second half that matters more: the noise is **predictable**. You can estimate its size from two numbers, the accuracy and the number of questions. You can do it before the evaluation runs.
@@ -50,15 +65,15 @@ This is the formula in Evan Miller's 2024 paper *Adding Error Bars to Evals*, wh
 Two consequences follow from the square root:
 
 - **To halve the interval, quadruple the questions.**
-- **Small sets cannot see small gains.** A 10-point improvement is invisible on 30 questions.
+- **Small sets cannot see small gains.** A 10-point improvement can hide inside the interval of 30 questions.
 
 ### 2. Decide the size before you run
 
-Because the noise is predictable, you can answer the question "can this evaluation test my hypothesis?" in advance. Miller calls the tool **power analysis**. A rough version, by this chapter's own calculation: to trust a 5-point difference between two unpaired runs near 65%, you need on the order of 700 questions per run. Comparing on the same questions needs fewer.
+Because the noise is predictable, you can answer the question "can this evaluation test my hypothesis?" in advance. Miller calls the tool **power analysis**. A rough version, by this chapter's own calculation: to trust a 5-point difference between two unpaired runs, made on different questions, near 65%, you need on the order of 700 questions per run. Comparing on the same questions needs fewer.
 
 ### 3. Compare on the same questions
 
-Run both models or both prompts on identical questions and analyze the difference question by question. Miller's recommendation is to test the paired differences, not the two summary scores. The difficulty of each question appears in both results and cancels. Wang reports that three methods agree in practice, as long as the two models are not far apart: the direct calculation, resampling the data (the **bootstrap**), and the **sign test**, which treats every question where they disagree as a coin flip ([28:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=1680)). He gives one concrete size. HumanEval has 164 questions, so one model's standard error is about 4 points. To reach the usual 5% threshold, an unpaired comparison needs about a 10-point gap and a paired one about 8 points. Both are larger than the gains many papers report ([22:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=1320)).
+Run both models or both prompts on identical questions and analyze the difference question by question. Miller's recommendation is to test the paired differences, not the two summary scores. The difficulty of each question appears in both results and cancels. Wang reports that three methods agree in practice, as long as the two models are not far apart: the direct calculation, resampling the data (the **bootstrap**), and the **sign test**, which treats every question where they disagree as a coin flip ([28:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=1680)). He gives one concrete size. HumanEval, a coding benchmark, has 164 questions, so one model's standard error is about 4 points. To reach the usual 5% threshold, an unpaired comparison needs about a 10-point gap and a paired one about 8 points. Both are larger than the gains many papers report ([22:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=1320)).
 
 ### 4. Know what repeated answers buy
 
@@ -72,11 +87,11 @@ It is tempting to set the sampling temperature to zero and get "stable" numbers.
 
 Benchmarks are shrinking as they get harder. Wang's slides list the sizes: MNIST 10,000, ImageNet 100,000, MMLU about 10,000, HumanEval 164, SWE-bench Verified 500, τ-bench 80 ([2:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=120)).
 
-The counter-argument is that each question now carries a long generation, so it is more informative. Wang tested this. He sorted the models by their average score and the questions from easiest to hardest, and colored each cell with the model's pass rate on that question, over several draws where he had them ([6:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=360), [8:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=480)). The result was "a lot of inconsistency" ([10:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=600)). The best model fails easy items. Weak models solve some hard ones. If a model has a 30% chance on a "hard" item, he argues, the first percent of improvement is worth more: once a model has a decent chance and a verifier exists, it can simply try again ([14:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=840)).
+The counter-argument is that each question now carries a long generation, so it is more informative. Wang tested this. He sorted the models by their average score and the questions from easiest to hardest, and colored each cell with the model's pass rate on that question, over several draws where he had them ([6:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=360), [8:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=480)). The result was "a lot of inconsistency" ([10:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=600)). The best model fails easy items. Weak models solve some hard ones. If a model has a 30% chance on a "hard" item, he argues, the first percent of improvement is worth more: once a model has a decent chance and a verifier exists, it can simply try again ([12:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=720), [14:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=840)).
 
-He also measured how much signal each benchmark carries, relative to its noise ([42:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2520)). His signal is the gain from doubling a model's size, and his noise is the spread implied by statistical testing. On his slide's ratio scale, MMLU scores 13.2, GSM8K 7.1, HumanEval 1.1 and HumanEval+ 0.50. Below 2, a benchmark cannot reliably detect that gain, and that holds for most code benchmarks. In his words, MMLU can reliably tell a model from the next larger one, while code benchmarks such as HumanEval cannot even detect a doubling in size (same moment).
+He also measured how much signal each benchmark carries, relative to its noise ([42:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2520)). His signal is the gain from doubling a model's size, and his noise is the spread implied by statistical testing. On his slide's ratio scale, MMLU scores 13.2, GSM8K 7.1, HumanEval 1.1 and HumanEval+ 0.50. Below 2, a benchmark cannot reliably detect that gain, and that holds for most code benchmarks. In his words, MMLU can reliably tell a model from the next larger one, while code benchmarks such as HumanEval cannot even detect a doubling in size ([42:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2520)).
 
-His explanation is uncomfortable for benchmark builders. The models are less consistent than the benchmarks. His team tried to repair noisy sets by filtering and reweighting questions and got no measurable gain (his slide 36). On that slide he adds that HumanEval+ and MBPP+ score no better than the originals they were meant to improve.
+His explanation is uncomfortable for benchmark builders. The models are less consistent than the benchmarks. His team tried to repair noisy sets by modelling the difficulty and error of each question, and got little signal (his slide 36). The same slide notes that others' attempts to correct benchmark errors brought no measurable improvement.
 
 ### 7. Use Wang's shortcuts
 
@@ -113,7 +128,7 @@ print(f"simulated score: mean {mean:.1%}, spread {spread:.1%}")
 
 What to observe:
 
-- **The first four lines are the table above.** Thirty questions give an interval of ±14 points.
+- **The first five lines are the table above.** Thirty questions give an interval of ±14 points.
 - **The simulation agrees with the formula.** The spread of the 10,000 runs is close to 7.3%.
 - **Some runs land far from 80%.** On 30 questions, two prompts that are equally good will often differ by 10 points or more, in either direction.
 
@@ -172,22 +187,22 @@ This calls a model at least 600 times. With a small model and short inputs, the 
    - D. It cannot be computed in advance
 
 2. Which action shrinks the sampling part of the noise and leaves the question part?
-   - A. Answering each question several times
-   - B. Adding more questions to the set
+   - A. Adding more questions to the set
+   - B. Answering each question several times
    - C. Scoring the model on a second benchmark
    - D. Running both models on the same questions
 
 3. Why compare two models on identical questions?
-   - A. Their shared difficulty cancels in the difference
-   - B. It halves the number of model calls needed
-   - C. It removes the randomness of sampling
+   - A. It halves the number of model calls needed
+   - B. It removes the randomness of sampling
+   - C. Their shared difficulty cancels in the difference
    - D. It makes the two models agree more often
 
 4. What did Wang find when he plotted models against individual questions?
-   - A. Weak models sometimes solve hard items and strong ones fail easy ones
-   - B. Hard items gave more exact measurements than easy ones
-   - C. The noise of a small benchmark could not be estimated
-   - D. Small benchmarks ranked close models more reliably
+   - A. Hard items gave more exact measurements than easy ones
+   - B. The noise of a small benchmark could not be estimated
+   - C. Small benchmarks ranked close models more reliably
+   - D. Weak models sometimes solve hard items and strong ones fail easy ones
 
 5. Why does Miller advise against lowering the temperature during an evaluation?
    - A. It changes the model that is being measured
@@ -196,25 +211,25 @@ This calls a model at least 600 times. With a small model and short inputs, the 
    - D. It breaks the tokenizer of the model
 
 6. Roughly how many questions do you need to halve the width of the interval?
-   - A. About four times as many
-   - B. About twice as many
+   - A. About twice as many
+   - B. About four times as many
    - C. About half as many
    - D. The number of questions makes no difference
 
 <details><summary>Show answers</summary>
 
 1. A. The standard error is sqrt(0.8 × 0.2 / 100) = 4 points, and 1.96 × 4 is about 8.
-2. A. Repeats average out the answer-to-answer variation. The variation between questions stays, so only more questions shrink it.
-3. A. The paired test analyzes the difference on each question, where the question's difficulty appears on both sides.
-4. A. He found a lot of inconsistency, which is why a high pass rate on a "hard" item is less impressive than it looks.
+2. B. Repeats average out the answer-to-answer variation. The variation between questions stays, so only more questions shrink it.
+3. C. The paired test analyzes the difference on each question, where the question's difficulty appears on both sides.
+4. D. He found a lot of inconsistency, which is why a high pass rate on a "hard" item is less impressive than it looks.
 5. A. The temperature changes the model's behavior, can shift variance into a part that repeats cannot fix, and can bias the score.
-6. A. The standard error falls with the square root of n, so four times the questions halve it.
+6. B. The standard error falls with the square root of n, so four times the questions halve it.
 
 </details>
 
 ## Sources
 
-- **Lecture:** Sida Wang, "Predictable Noise in LLM Benchmarks", Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=HV8pugcFVO0), used at [benchmark sizes](https://www.youtube.com/watch?v=HV8pugcFVO0&t=120), [inconsistency](https://www.youtube.com/watch?v=HV8pugcFVO0&t=600), [the kettle](https://www.youtube.com/watch?v=HV8pugcFVO0&t=840), [paired tests](https://www.youtube.com/watch?v=HV8pugcFVO0&t=1680), [predictable noise](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2160), [recommendations](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2280), [signal to noise](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2520)
+- **Lecture:** Sida Wang, "Predictable Noise in LLM Benchmarks", Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=HV8pugcFVO0), used at [benchmark sizes](https://www.youtube.com/watch?v=HV8pugcFVO0&t=120), [inconsistency](https://www.youtube.com/watch?v=HV8pugcFVO0&t=600), [hard items](https://www.youtube.com/watch?v=HV8pugcFVO0&t=720), [the kettle](https://www.youtube.com/watch?v=HV8pugcFVO0&t=840), [paired tests](https://www.youtube.com/watch?v=HV8pugcFVO0&t=1680), [predictable noise](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2160), [recommendations](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2280), [auditing a benchmark](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2400), [signal to noise](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2520)
 - **Reading:** Evan Miller, "Adding Error Bars to Evals: A Statistical Approach to Language Model Evaluations" (2024): [arXiv](https://arxiv.org/abs/2411.00640)
 - **Tool:** Eval-Arena, pairwise statistical tests on public benchmarks (linked from Wang's slides): [project page](https://crux-eval.github.io/); the results page the slides point to no longer resolves
 

@@ -17,13 +17,26 @@ The definition assembles what the Berkeley lecturers say:
 
 - **Agent and environment.** Shunyu Yao, then speaking as a researcher on language agents, opens his Fall 2024 lecture by asking the room for a definition and seeing about three hands. His own is "an intelligent system that can interact with some environment" ([0:00](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=0)). The environment can be physical, such as a robot's surroundings, or digital, such as a game or a phone. If humans count as the environment, a chatbot is a kind of agent too ([2:00](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=120)).
 - **The loop.** Dawn Song describes the same loop in her Fall 2024 introduction: the LLM is used for reasoning and planning, the agent observes the environment, takes actions in it, and uses tools and retrieval along the way ([0:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=0)).
-- **Language in the middle.** Yao sorts agents into three nested levels. A **text agent** is one whose actions and observations are both in language. These existed long before LLMs. An **LLM agent** is a text agent that uses an LLM to act. A **reasoning agent** uses the LLM to reason in order to act (same moment).
+- **Language in the middle.** Yao sorts agents into three nested levels. A **text agent** is one whose actions and observations are both in language. These existed long before LLMs. An **LLM agent** is a text agent that uses an LLM to act. A **reasoning agent** uses the LLM to reason in order to act ([2:00](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=120)).
 
 Three words in the definition do most of the work:
 
 - **Goal.** An end state that something outside the model can check: the order was placed, the tests pass.
 - **Environment.** Whatever the system acts on and observes: a file system, a browser, an API, a database, a simulated shop.
 - **Decides itself.** The model chooses among actions at run time. This is the part that separates an agent from a workflow.
+
+**Figure 1.** The agent loop: the model decides the next action from what it observes, until the goal is met or the budget runs out.
+
+```mermaid
+flowchart LR
+    G["Goal and budget"] --> L["Observe the environment"]
+    L --> D["The model decides the next action"]
+    D --> A["Act on the environment"]
+    A -->|"goal not met, budget left"| L
+    A -->|"goal met or budget used up"| S["Stop and report"]
+```
+
+In a workflow, your code replaces the box where the model decides, and the order of the actions is fixed in advance.
 
 Two things the definition does not say. It does not say "uses an LLM". Rule-based and reinforcement-learning agents qualify, and Yao insists on that history. It also excludes a single prompt-and-answer. One call has no steps and no environment.
 
@@ -69,7 +82,7 @@ Text agents existed from the beginning of AI, Yao notes. The rules of ELIZA and 
 
 LLMs changed the economics: one pre-trained model, many tasks. Yao dates the start of LLM agents to GPT-3 in 2020. People then applied LLMs to two kinds of task, which became two separate paradigms ([14:00](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=840)):
 
-- **Reasoning** means thinking in written steps, as in chain-of-thought. It adds thinking time but no outside knowledge. In Yao's words, "Even the biggest, smartest model in the world does not know the weather in San Francisco today" (same moment).
+- **Reasoning** means thinking in written steps, as in chain-of-thought. It adds thinking time but no outside knowledge. In Yao's words, "Even the biggest, smartest model in the world does not know the weather in San Francisco today" ([14:00](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=840)).
 - **Acting** means calling something outside the model: retrieval, code execution, a tool. It adds knowledge, computation and feedback, but no reasoning.
 
 ### Stage 3: ReAct joins them
@@ -80,9 +93,9 @@ His example is a question from the time: could seven trillion dollars buy Apple,
 
 ### WebShop and what followed
 
-**WebShop** (2022) is a shopping environment built on 1.16 million real Amazon products, as Yao's slides describe it. He created it with co-authors and calls it the first large, complex environment built from real internet data ([46:00](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=2760)). A program scores how well the product the agent finds matches the instruction. He calls it harder than the grid worlds of earlier research, for two reasons: it contains images as well as language, and the agent must plan over a long horizon, perhaps ten searches or products ([48:00](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=2880)). Its importance is that a realistic web task came with automatic scoring. Agent benchmarks before LLM agents were, in his account, synthetic, small-scale and not practical ([44:00](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=2640)).
+**WebShop** (2022) is a shopping environment built on 1.16 million real Amazon products, as Yao's slides describe it. He created it with co-authors ([46:00](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=2760)). A program scores how well the product the agent finds matches the instruction. He calls it harder than the grid worlds of earlier research, for two reasons: it contains images as well as language, and the agent must plan over a long horizon, perhaps ten searches or products ([48:00](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=2880)). Its importance is that a realistic web task came with automatic scoring. Agent benchmarks before LLM agents were, in his account, synthetic, small-scale and not practical ([44:00](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=2640)).
 
-The next year brought benchmarks closer to work. **WebArena** (2023) tests agents on real websites. **SWE-bench** (2023) gives the agent a repository and an issue and expects a code change that fixes it. Yao describes the task as cleanly defined and hard to solve: the agent must explore the code, write tests and run them, "just like a software engineer" ([48:00](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=2880)). His slides also list ChemCrow, an agent that helped plan the synthesis of a new chromophore, a colored compound. Yao likes it because a lab then synthesized the agent's suggestion, so the agent's actions reached into the physical world ([50:00](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=3000)).
+The next year brought benchmarks closer to work. **WebArena** (2023) tests agents on real websites. **SWE-bench** (2023) gives the agent a repository and an issue and expects a code change that fixes it. Yao describes the task as cleanly defined and hard to solve: the agent must explore the code and run tests, he says, like a software engineer ([48:00](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=2880)). His slides also list ChemCrow, an agent that helped plan the synthesis of a new chromophore, a colored compound. Yao likes it because a lab then synthesized the agent's suggestion, so the agent's actions reached into the physical world ([50:00](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=3000)).
 
 Yao's summary of the stage is that the reasoning agent is a new kind of agent. Reasoning became an internal action the agent can take. Around it grew new methods. On memory his examples are Reflexion, which stores the lesson of a failed unit test for the next attempt ([30:00](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=1800)); Voyager, which remembers skills as code; and Generative Agents, whose characters keep a log of events and reflect on it ([32:00](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=1920)). He calls Reflexion a verbal form of reinforcement learning: the feedback is text, and what gets updated is language, not weights.
 
@@ -96,7 +109,7 @@ Her warning is about evaluation. Open agent evaluation, she writes, suffers from
 
 1. **Calling every LLM call an agent.** *Fix:* apply the who-decides test, and say "workflow" when your code decides.
 2. **Starting with an agent.** Agents are costlier and less predictable. *Fix:* begin with a single prompt or a fixed workflow. Move right on the table only when the steps cannot be scripted.
-3. **Assuming the model knows the environment.** *Fix:* give it tools and retrieval, and let observations correct its plan.
+3. **Assuming the model knows the environment.** *Fix:* give it tools and retrieval, a search that puts matching documents into the prompt, and let observations correct its plan.
 4. **Letting the loop run unchecked.** Each step is a model call. *Fix:* set a maximum number of steps, a token budget and a stopping condition.
 5. **Trusting a benchmark score as proof of readiness.** *Fix:* evaluate in your own environment, with your own tasks. [Evaluation is the product](../03-evaluation/01-evaluation-is-the-product.md) starts there.
 
@@ -131,22 +144,22 @@ Take five systems you use or have read about, for example a ticket classifier, a
    - D. The system runs for longer than one minute
 
 2. In Yao's terms, what is a text agent?
-   - A. An agent whose actions and observations use language
-   - B. An agent that answers questions from written documents
-   - C. An agent whose decisions are made by an LLM
+   - A. An agent that answers questions from written documents
+   - B. An agent whose decisions are made by an LLM
+   - C. An agent whose actions and observations use language
    - D. An agent that writes and edits long documents
 
 3. What does ReAct interleave?
-   - A. Thoughts, actions and observations
-   - B. Prompts, fine-tuning and evaluation
+   - A. Prompts, fine-tuning and evaluation
+   - B. Thoughts, actions and observations
    - C. Rewards, parameters and gradients
    - D. Retrieval, caching and compression
 
 4. What made WebShop a step beyond earlier text games?
-   - A. A realistic shopping task on real products, scored automatically
-   - B. It trained a language model with rewards for the first time
-   - C. It removed the need for a separate evaluation
-   - D. It solved the task without any language model
+   - A. It trained a language model with rewards for the first time
+   - B. It removed the need for a separate evaluation
+   - C. It solved the task without any language model
+   - D. A realistic shopping task on real products, scored automatically
 
 5. Which three problems does Dawn Song's 2025 introduction name for open agent evaluation?
    - A. Weak standardization, limited openness, low reproducibility
@@ -157,9 +170,9 @@ Take five systems you use or have read about, for example a ticket classifier, a
 <details><summary>Show answers</summary>
 
 1. A. A workflow connects model calls with code you wrote. An agent lets the model choose the next action.
-2. A. Both sides of the interaction are in language. LLM agents are text agents that use an LLM.
-3. A. The model thinks, acts in the environment, reads the observation, and repeats.
-4. A. It combined real products, images and long horizons with an automatic score for how well the found product matched.
+2. C. Both sides of the interaction are in language. LLM agents are text agents that use an LLM.
+3. B. The model thinks, acts in the environment, reads the observation, and repeats.
+4. D. It combined real products, images and long horizons with an automatic score for how well the found product matched.
 5. A. Agents need manual changes per benchmark, are often closed, and are hard to reproduce.
 
 </details>
@@ -167,6 +180,7 @@ Take five systems you use or have read about, for example a ticket classifier, a
 ## Sources
 
 - **Lecture:** Shunyu Yao, "LLM agents: brief history and overview", LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=RM6ZArd2nVc), used at [definition](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=0), [three levels of agent](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=120), [the storyline](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=360), [reasoning versus acting](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=840), [the ReAct loop](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=960), [hostile observations](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=1080), [WebShop and SWE-bench](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=2880)
+- **Slides:** Dawn Song, "Introduction", Agentic AI MOOC (Fall 2025): [slides](https://rdi.berkeley.edu/agentic-ai/slides/introduction_25.pdf), used at slides 4 (the year of agents), 8 (application areas) and 19 (three problems of open agent evaluation)
 - **Lecture:** Dawn Song, course introduction, in Denny Zhou, "LLM Reasoning", LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=QL-FS_Zcmyo), used at [the agent loop](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=0), [why agents](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=120)
 - **Slides:** Dawn Song, course introduction, UC Berkeley Agentic AI MOOC (Fall 2025), distributed with Yann Dubois, "Introduction to training LLMs for AI agents": [video](https://www.youtube.com/watch?v=r1qZpYAmqmg), used for the year-of-agents, agent-workflow, standards and evaluation slides
 - **Reading:** Shunyu Yao et al., "WebShop: Towards Scalable Real-World Web Interaction with Grounded Language Agents" (2022): [arXiv](https://arxiv.org/abs/2207.01206)

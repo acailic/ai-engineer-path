@@ -7,11 +7,11 @@
 
 ## Why this matters
 
-Saturday, 03:10. The support lead writes in the on-call channel: "Tickets are piling up unrouted."
+Saturday, 03:10. The support lead writes in the channel of the engineer on duty: "Tickets are piling up unrouted."
 
 The on-call backend engineer opens the dashboard. CPU, memory, uptime: all green. The inference service answers in 12 ms.
 
-It is answering "other" for every ticket. A model update went out on Friday afternoon. Nobody had defined what a healthy model looks like, so no alert fired. Nobody knew who to call about a model. Nobody had checked how to switch the model off. The engineer pages the data scientist, who is on a hike.
+It is answering "other" for every ticket. A model update went out on Friday afternoon. Nobody had defined what a healthy model looks like, so no alert fired. Nobody knew who to call about a model. Nobody had checked how to switch the model off. The engineer alerts the data scientist, who is on a hike.
 
 Operating the servers was under control. Operating the model had never been planned.
 
@@ -49,7 +49,7 @@ A **service-level objective (SLO)** is a target for an operational quality of th
 | Time to detect a bad model | Under 24 hours | Alert log |
 | Time to roll back | Under 10 minutes | Rehearsal |
 
-Kästner's running example in chapter 13 is a blogging platform with fifty thousand authors and a spam filter powered by a fine-tuned large language model of fifty billion parameters. Three of his points:
+Kästner's running example in chapter 13 is a blogging platform with fifty thousand authors and a spam filter powered by a fine-tuned large language model, one trained further on the site's own data, of fifty billion parameters. Three of his points:
 
 - **Write SLOs for the system and for each component.** They are not the same. His blogging platform keeps meeting its SLO while its spam filter is down, because comments wait in a queue.
 - **Negotiate the numbers.** Raising availability from 99.9 to 99.99 percent cuts the allowed downtime from about nine hours a year to fifty-two minutes. For many products the extra infrastructure is not worth it. He describes operations as risk management, not the avoidance of all risk.
@@ -103,6 +103,22 @@ An **incident response plan** is a written plan for the kinds of trouble you can
 | Public communication | Who speaks to users and to the public | The support lead writes to affected customers |
 
 **On-call** is the rotation of people who answer alerts outside working hours. A **runbook** is the short page that says what to do when a specific alert fires. Kästner adds that automation speeds up a response, and that mistakes in that automation can cause the incident in the first place.
+
+**Figure 1.** From a prediction in production to an alert, an action and a review that improves the plan.
+
+```mermaid
+flowchart LR
+    P["Predictions in production"] --> T["Telemetry: health, inputs, outputs, outcomes"]
+    T --> A["Alert that names an owner"]
+    A --> R["On-call engineer follows the runbook"]
+    R -->|"caused by a release"| B["Rollback or kill switch"]
+    R -->|"the world changed"| S["Standby rules, then retraining"]
+    B --> V["Review updates the plan and the objectives"]
+    S --> V
+    V --> T
+```
+
+Telemetry opens the loop and the review closes it: what the team learns goes back into the alerts, the runbook and the objectives.
 
 ### Step 5: Run a launch review
 

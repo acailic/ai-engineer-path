@@ -140,7 +140,7 @@ Brown, at OpenAI, opens with the **AlphaGo analogy**. AlphaGo and language model
 
 He is candid about the limits of the old algorithms. Fictitious play, regret matching and hedge perform poorly in single-agent settings, they start from an arbitrary strategy and they converge slowly. He points to newer algorithms, which his slides call last-iterate, that work well in both settings and converge quickly; he expects them to be the future and calls the area one of rapid development ([18:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1080), [22:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1320)).
 
-Everything in the lecture is about training. The agents that talk, negotiate and exploit are training partners for one policy that later plays alone.
+Everything in the lecture up to the Hanabi result is about training: the agents that negotiate and exploit are training partners for one strategy that later plays alone. After that Brown turns to language-model agents that cooperate at run time, the subject of [chapter 05](05-multi-agent-systems-ii-the-llm-era.md).
 
 ### What transfers to LLM systems, and what does not
 
