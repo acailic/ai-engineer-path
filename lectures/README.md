@@ -1,6 +1,6 @@
 # Lecture guides
 
-One guide per lecture of the four courses: 15 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
+One guide per lecture of the four courses: 16 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
 
 Every part heading links to the moment in the video where the part begins.
 
@@ -20,6 +20,7 @@ Every part heading links to the moment in the video where the part begins.
 |---|---|---|---|---|---|---|
 | 1 | Inference-Time Techniques for LLM Reasoning | Xinyun Chen (Google DeepMind) | 1:22:00 | 12 | 3 | [open](sp25-01-inference-time-techniques-for-llm-reasoning.md) |
 | 2 | Learning to reason with LLMs | Jason Weston (Meta) | 1:18:00 | 11 | 6 | [open](sp25-02-learning-to-reason-with-llms.md) |
+| 3 | On Reasoning, Memory, and Planning of Language Agents | Yu Su (Ohio State University) | 1:34:00 | 11 | 4 | [open](sp25-03-on-reasoning-memory-and-planning-of-language.md) |
 | 4 | Open Training Recipes for Reasoning in Language Models | Hanna Hajishirzi (University of Washington) | 1:22:00 | 13 | 3 | [open](sp25-04-open-training-recipes-for-reasoning-in-language.md) |
 | 12 | Towards building safe and secure agentic AI | Dawn Song (UC Berkeley) | 1:52:00 | 10 | 2 | [open](sp25-12-towards-building-safe-and-secure-agentic-ai.md) |
 
@@ -34,4 +35,4 @@ Every part heading links to the moment in the video where the part begins.
 | 7 | Predictable Noise in LLM | Sida Wang (Meta) | 44:00 | 9 | 3 | [open](f25-07-predictable-noise-in-llm.md) |
 | 9 | Practical Lessons from Deploying Real-World AI Agents | Clay Bavor (Sierra) | 48:00 | 16 | 8 | [open](f25-09-practical-lessons-from-deploying-real-world-ai.md) |
 
-In all: 181 parts, of which 48 (27%) teach something no chapter teaches; 21,862 words.
+In all: 192 parts, of which 52 (27%) teach something no chapter teaches; 23,214 words.

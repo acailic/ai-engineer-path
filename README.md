@@ -57,17 +57,17 @@ It does not mean training a frontier model. It does not replace experience with 
 
 One guide per lecture of the four courses, in [`lectures/`](lectures/README.md). A guide maps a whole lecture, part by part, and names for each part the chapter section that teaches the same thing; where no chapter teaches it, the guide explains the part itself.
 
-**Progress on 2026-11-25 15:42: 15 of 77 guides written.** The table is regenerated from the files; a course is complete when both numbers are equal.
+**Progress on 2026-11-25 16:12: 16 of 77 guides written.** The table is regenerated from the files; a course is complete when both numbers are equal.
 
 | Course | Guides written | Of lectures |
 |---|---|---|
 | UC Berkeley LLM Agents MOOC (Fall 2024) | 5 | 12 |
-| UC Berkeley Advanced LLM Agents MOOC (Spring 2025) | 4 | 12 |
+| UC Berkeley Advanced LLM Agents MOOC (Spring 2025) | 5 | 12 |
 | UC Berkeley Agentic AI MOOC (Fall 2025) | 6 | 12 |
 | MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024) | 0 | 23 |
 | Stanford CS336 Language Modeling from Scratch (Spring 2026) | 0 | 18 |
 
-In the guides written so far: 181 parts of lectures, of which 48 (27%) are taught by no chapter and are explained only in the guide.
+In the guides written so far: 192 parts of lectures, of which 52 (27%) are taught by no chapter and are explained only in the guide.
 
 What is checked: each guide passes an automatic check before it is published (the parts cover the lecture end to end, every part links to its moment in the video, every link to a chapter section resolves, no passage is copied from the lecture). What is not checked: nobody has read a guide a second time against the lecture. If a guide and the lecture disagree, the lecture wins.
 
