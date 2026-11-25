@@ -57,9 +57,9 @@ model decides ─▶ policy gate ─▶ tool runs ─▶ monitor check ─▶ re
                  (an action)                (untrusted data)   or a placeholder
 ```
 
-[Runtime monitoring](../04-safety-and-security/05-runtime-monitoring-and-detection.md) separates two positions. An **inline check** sits on the path between the model and its effect. It can block, and it adds latency to every step. An **out-of-band check** sits beside the path. It sees everything and blocks nothing in time.
+[Runtime monitoring](../04-safety-and-security/05-runtime-monitoring-and-detection.md) sorts checks by where they sit. An **inline check** sits on the path between the model and its effect. It can block, and it adds latency to every step. An **out-of-band check** sits beside the path. It sees everything and blocks nothing in time.
 
-Build out of band first, where the monitor only observes and logs. Then move the check of tool results inline, at the fourth box. The policy gate at the second box is code, independent of the monitor, and always inline.
+Build out of band first, where the monitor only observes and logs. Then move the check of tool results inline, at the fourth box. The policy gate at the second box is code, independent of the monitor, and always inline. Give the agent under test one sensitive tool, for example `send_email`, a stretch goal of Capstone 1. The policy gate allows it only when the user's own request names it, so a payload cannot.
 
 **The detectors.**
 

@@ -26,7 +26,7 @@ Path A tells you when you are right. Path B is closer to everyday work.
 
 **How much compute can you buy?** See the table below. Most of the project needs none.
 
-**May an AI tool write the code?** The CS336 handouts allow AI tools for conceptual questions and for documentation. They forbid them for implementing any part of an assignment, autocomplete included. Follow the same rule here. The learning is the point. Percy Liang's reason, from the first lecture of the course: a coding agent can solve all the assignments, "but you won't learn anything".
+**May an AI tool write the code?** The CS336 handouts allow AI tools for conceptual questions and for documentation. They forbid them for implementing any part of an assignment, autocomplete included. Follow the same rule here. The learning is the point. Percy Liang's reason, from the first lecture of the course: coding agents can now solve all the assignments, and a student who feeds one an assignment learns nothing ([Building Your Own](../10-llm-internals/13-building-your-own-a-roadmap-through-the-assignments.md)).
 
 ## The order, and what each stage teaches
 

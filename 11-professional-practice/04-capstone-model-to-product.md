@@ -39,7 +39,7 @@ You finish with a small service and a folder of documents that show why each des
 | Appeal | A "wrong team?" button on every routed ticket |
 | Telemetry | Re-routes per team, fallback rate, latency |
 
-The model can be a logistic regression or a small set of decision trees on text features. The point of the project is everything around it.
+The model can be a logistic regression or a small set of decision trees on text features: for a start, a count of each word in the ticket. The point of the project is everything around it.
 
 ## Milestones
 

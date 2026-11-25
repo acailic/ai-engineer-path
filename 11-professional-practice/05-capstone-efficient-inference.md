@@ -22,7 +22,7 @@ Take one small open model. Measure its latency, memory and quality. Compress it,
 | A | A small open classifier, or another small model you can load | Any laptop | The whole procedure, end to end, with nothing hidden |
 | B | A small open-weights language model | A laptop that can load it. A GPU only for training-based stages | Where the money is: quantizing the weights and the cache of past tokens |
 
-Do track A first. It takes an afternoon. Then do track B. Both are possible on a laptop. Numbers measured on a CPU are real numbers. They are not GPU numbers, and the report says so.
+Do track A first. It takes 8 to 12 hours. Then do track B. Both run on a laptop. Numbers measured on a CPU are real numbers. They are not GPU numbers, and the report says so.
 
 ## What hardware is needed
 

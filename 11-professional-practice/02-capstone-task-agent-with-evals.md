@@ -31,7 +31,7 @@ Build a **task agent**, an agent that carries out small office tasks such as sch
 | Store | Fields | Who writes it |
 |---|---|---|
 | `calendar` | events: day, start, minutes, title, attendees | `create_event` |
-| `todos` | items: title, due day, done | `add_todo`, `complete_todo` |
+| `todos` | items: id, title, due day, done | `add_todo`, `complete_todo` |
 | `contacts` | names and email addresses | nobody |
 | `inbox` | messages: from, subject, body | nobody |
 

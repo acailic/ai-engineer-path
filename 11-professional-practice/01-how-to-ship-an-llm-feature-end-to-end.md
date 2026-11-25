@@ -66,7 +66,7 @@ Before either, measure the simplest baseline, such as the rule that sends every 
 
 [Evaluation Is the Product](../03-evaluation/01-evaluation-is-the-product.md) makes this the core skill of the field. [A Minimal Evaluation Harness](../03-evaluation/02-a-minimal-eval-harness.md) builds the machine in plain Python: a dataset, one interface, a runner, graders, metrics and a report. The listing runs without an API key as [`examples/eval_harness.py`](../examples/eval_harness.py).
 
-Copy 40 real tickets, with personal data removed, into task records. Each record holds the request, the accepted answers, the calls the agent must make (`authenticate`, `lookup_order`), the calls it must never make, and a slice tag.
+Copy 40 real tickets, with personal data removed, into task records. Each record holds the request, the accepted answers, the key phrases (`facts`), the calls the agent must make (`authenticate`, `lookup_order`), the calls it must never make, and a slice tag, the subgroup the task belongs to.
 
 Three rules from the harness chapter apply at once. Run every task several times, and report **pass^k**, the share of tasks that succeed on every one of `k` attempts, next to **pass@k**, the share that succeed at least once. Grade the outcome and the route separately. Print cost next to quality.
 

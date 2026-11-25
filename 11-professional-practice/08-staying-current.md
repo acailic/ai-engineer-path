@@ -36,7 +36,7 @@ Two facts from the chapters show why dates matter. [Building Your Own](../10-llm
 | MIT 6.5940, TinyML and Efficient Deep Learning Computing, Song Han | Lectures on pruning, quantization, distillation, TinyML and efficient inference | Fall 2024 |
 | Stanford CS336, Language Modeling from Scratch, Percy Liang and Tatsunori Hashimoto | Lectures and five assignments on building a language model | The offering whose schedule runs from March 30 to June 3 |
 
-The addresses are in [SOURCES](../SOURCES.md). Three notes, each dated.
+The addresses are in [SOURCES](../SOURCES.md). Three notes. Where a page was opened, the date is given.
 
 - **Later editions.** Berkeley's center ran three editions in two years, the three this course uses. That is a pattern, not a promise. Look for the next one on its site.
 - **CS336.** The course page ([cs336.stanford.edu](https://cs336.stanford.edu/), opened 2026-11-24) names the two instructors, lists lectures from March 30 to June 3 and five assignments, and announces no later offering.

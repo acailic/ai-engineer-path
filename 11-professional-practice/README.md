@@ -26,7 +26,7 @@ Then choose by what you need:
 - **An agent soon.** Do [Capstone 1](02-capstone-task-agent-with-evals.md). It takes 30 to 40 hours.
 - **Something to ship at work.** Do [Capstone 3](04-capstone-model-to-product.md), even if your feature uses an LLM. Its documents transfer unchanged. It takes 35 to 45 hours.
 - **A safer agent.** Do [Capstone 2](03-capstone-monitoring-agent-for-prompt-injection.md) after Capstone 1. It uses that agent. It takes 30 to 40 hours.
-- **A cheaper or a smaller model.** Do [Capstone 4](05-capstone-efficient-inference.md). It takes from 8 hours on a laptop.
+- **A cheaper or a smaller model.** Do [Capstone 4](05-capstone-efficient-inference.md). It takes from 8 hours on a laptop: 8 to 12 for track A, 17 to 25 for track B.
 - **To know how a language model is built.** Start [Capstone 5](06-capstone-train-a-small-language-model.md). It is a roadmap project of about twenty weeks, and its first two stages are a complete project on their own.
 - **Before you move on.** Read [Staying Current](08-staying-current.md).
 

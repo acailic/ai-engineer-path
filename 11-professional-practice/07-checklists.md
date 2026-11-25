@@ -22,7 +22,7 @@ A checklist item earns its place when four things hold:
 
 ### How to keep a checklist usable
 
-- **Keep it short.** Eight to twelve items. Nobody reads a checklist with sixty.
+- **Keep it short.** Around ten items, and twelve at most after you cut. Nobody reads a checklist with sixty.
 - **Copy, then cut.** Copy the five below into your project. Delete what does not apply, and write down why.
 - **A tick names a file.** An item is done when the artifact exists in the repository.
 - **Someone else checks.** The person who did the work does not tick the last box alone. Someone who knows the users reads the result ([Planning for Mistakes](../07-ml-in-production/04-planning-for-mistakes.md)).
