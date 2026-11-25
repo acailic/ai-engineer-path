@@ -122,7 +122,7 @@ def first_hit(title):
 ## Sources
 
 - **Lecture:** James Zou, "AI Agents to Automate Scientific Discoveries", UC Berkeley Agentic AI MOOC, Fall 2025 (November 3, 2025): [video](https://www.youtube.com/watch?v=yqPIsTTdUkc) · [guide](../lectures/f25-08-ai-agents-to-automate-scientific-discoveries.md), used at [tool to co-scientist](https://www.youtube.com/watch?v=yqPIsTTdUkc&t=0), [Virtual Lab](https://www.youtube.com/watch?v=yqPIsTTdUkc&t=240), [Agents4Science](https://www.youtube.com/watch?v=yqPIsTTdUkc&t=3000), [limitations](https://www.youtube.com/watch?v=yqPIsTTdUkc&t=3600)
-- **Lecture:** Percy Liang, "Open-Source and Science in the Era of Foundation Models", UC Berkeley LLM Agents MOOC, Fall 2024 (November 18, 2024): [video](https://www.youtube.com/watch?v=f3KKx9LWntQ), used at [levels of access](https://www.youtube.com/watch?v=f3KKx9LWntQ&t=0), [model independence](https://www.youtube.com/watch?v=f3KKx9LWntQ&t=2280), [compute](https://www.youtube.com/watch?v=f3KKx9LWntQ&t=3120)
+- **Lecture:** Percy Liang, "Open-Source and Science in the Era of Foundation Models", UC Berkeley LLM Agents MOOC, Fall 2024 (November 18, 2024): [video](https://www.youtube.com/watch?v=f3KKx9LWntQ) · [guide](../lectures/f24-10-open-source-and-science-in-the-era-of-foundation.md), used at [levels of access](https://www.youtube.com/watch?v=f3KKx9LWntQ&t=0), [model independence](https://www.youtube.com/watch?v=f3KKx9LWntQ&t=2280), [compute](https://www.youtube.com/watch?v=f3KKx9LWntQ&t=3120)
 - **Reading:** Swanson et al., "The Virtual Lab of AI Agents Designs New SARS-CoV-2 Nanobodies with Experimental Validation" (*Nature*, 2025): [article](https://www.nature.com/articles/s41586-025-09442-9)
 
 ## Next

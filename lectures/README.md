@@ -1,6 +1,6 @@
 # Lecture guides
 
-One guide per lecture of the four courses: 27 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
+One guide per lecture of the four courses: 32 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
 
 Every part heading links to the moment in the video where the part begins.
 
@@ -16,6 +16,7 @@ Every part heading links to the moment in the video where the part begins.
 | 7 | AI Agents for Enterprise Workflows | Nicolas Chapados (ServiceNow) | 1:12:00 | 14 | 4 | [open](f24-07-ai-agents-for-enterprise-workflows.md) |
 | 8 | Towards a unified framework of Neural and Symbolic Decision Making | Yuandong Tian (Meta AI, FAIR) | 1:10:00 | 16 | 7 | [open](f24-08-towards-a-unified-framework-of-neural-and.md) |
 | 9 | Project GR00T: A Blueprint for Generalist Robotics | Jim Fan (NVIDIA) | 58:00 | 11 | 3 | [open](f24-09-project-gr00t-a-blueprint-for-generalist.md) |
+| 10 | Open-Source and Science in the Era of Foundation Models | Percy Liang (Stanford) | 54:00 | 15 | 5 | [open](f24-10-open-source-and-science-in-the-era-of-foundation.md) |
 | 11 | Measuring Agent capabilities and Anthropic's RSP | Ben Mann (Anthropic) | 46:00 | 6 | 2 | [open](f24-11-measuring-agent-capabilities-and-anthropics-rsp.md) |
 
 ## UC Berkeley Advanced LLM Agents MOOC (Spring 2025)
@@ -28,6 +29,10 @@ Every part heading links to the moment in the video where the part begins.
 | 4 | Open Training Recipes for Reasoning in Language Models | Hanna Hajishirzi (University of Washington) | 1:22:00 | 13 | 3 | [open](sp25-04-open-training-recipes-for-reasoning-in-language.md) |
 | 6 | Multimodal Autonomous AI Agents | Ruslan Salakhutdinov (CMU / Meta) | 1:18:00 | 16 | 3 | [open](sp25-06-multimodal-autonomous-ai-agents.md) |
 | 7 | Multimodal Agents: From Perception to Action | Caiming Xiong (Salesforce AI Research) | 1:30:00 | 19 | 6 | [open](sp25-07-multimodal-agents-from-perception-to-action.md) |
+| 8 | AlphaProof: when reinforcement learning meets formal mathematics | Thomas Hubert (Google DeepMind) | 1:16:00 | 17 | 6 | [open](sp25-08-alphaproof-when-reinforcement-learning-meets.md) |
+| 9 | Language models for autoformalization and theorem proving | Kaiyu Yang (Meta FAIR) | 52:00 | 13 | 2 | [open](sp25-09-language-models-for-autoformalization-and.md) |
+| 10 | Bridging Informal and Formal Mathematical Reasoning | Sean Welleck (CMU) | 1:14:00 | 16 | 5 | [open](sp25-10-bridging-informal-and-formal-mathematical.md) |
+| 11 | Abstraction and Discovery with Large Language Model Agents | Swarat Chaudhuri (UT Austin) | 1:28:00 | 17 | 5 | [open](sp25-11-abstraction-and-discovery-with-large-language.md) |
 | 12 | Towards building safe and secure agentic AI | Dawn Song (UC Berkeley) | 1:52:00 | 10 | 2 | [open](sp25-12-towards-building-safe-and-secure-agentic-ai.md) |
 
 ## UC Berkeley Agentic AI MOOC (Fall 2025)
@@ -46,4 +51,4 @@ Every part heading links to the moment in the video where the part begins.
 | 11 | Autonomous Agents: Embodiment, Interaction, and Learning | Peter Stone (UT Austin / Sony AI) | 1:02:00 | 15 | 2 | [open](f25-11-autonomous-agents-embodiment-interaction-and.md) |
 | 12 | Agentic AI Safety & Security | Dawn Song (UC Berkeley) | 1:50:00 | 10 | 3 | [open](f25-12-agentic-ai-safety-and-security.md) |
 
-In all: 360 parts, of which 90 (25%) teach something no chapter teaches; 44,562 words.
+In all: 438 parts, of which 113 (26%) teach something no chapter teaches; 56,728 words.
