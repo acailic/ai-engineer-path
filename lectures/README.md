@@ -1,6 +1,6 @@
 # Lecture guides
 
-One guide per lecture of the four courses: 71 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
+One guide per lecture of the four courses: 72 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
 
 Every part heading links to the moment in the video where the part begins.
 
@@ -99,5 +99,6 @@ Every part heading links to the moment in the video where the part begins.
 | 10 | Inference |  | 1:26:00 | 16 | 0 | [open](cs336-10-inference.md) |
 | 11 | Scaling laws II |  | 1:18:00 | 17 | 0 | [open](cs336-11-scaling-laws-ii.md) |
 | 12 | Evaluation |  | 1:20:00 | 15 | 0 | [open](cs336-12-evaluation.md) |
+| 13 | Data: sources, datasets |  | 1:22:00 | 16 | 0 | [open](cs336-13-data-sources-datasets.md) |
 
-In all: 1121 parts, of which 230 (21%) teach something no chapter teaches; 172,032 words.
+In all: 1137 parts, of which 230 (20%) teach something no chapter teaches; 176,233 words.
