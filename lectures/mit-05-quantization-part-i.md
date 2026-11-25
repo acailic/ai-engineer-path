@@ -24,7 +24,7 @@ An unsigned integer sums powers of two, one per bit. A naive signed version give
 
 ### [4:00–6:00](https://www.youtube.com/watch?v=ymAzUz3qlIA&t=240) Fixed point and floating point
 
-A fixed-point number puts a radix point inside the bits: integer bits above, fraction bits worth one half, one quarter and so on below. It is the same as an integer scaled by a power of two. For a larger range, the IEEE 754 32-bit float spends one bit on the sign, eight on the exponent and 23 on the fraction, also called the mantissa: minus one raised to the sign bit, times one plus the fraction, times two to the power of the stored exponent minus a bias of 127, that is two to the eight minus one, minus one.
+A fixed-point number puts a radix point inside the bits: integer bits above, fraction bits worth one half, one quarter and so on below. It is the same as an integer scaled by a power of two. For a larger range, the IEEE 754 32-bit float spends one bit on the sign, eight on the exponent and 23 on the fraction, also called the mantissa: the value is minus one raised to the sign bit, multiplied by one plus the fraction, and multiplied again by two raised to the stored exponent minus a bias of 127, that is two to the eight minus one, minus one.
 **In this book:** [Quantization › 1. Know the number formats](../09-efficient-deep-learning/04-quantization.md#1-know-the-number-formats).
 
 ### [6:00–10:00](https://www.youtube.com/watch?v=ymAzUz3qlIA&t=360) An example, and subnormal numbers

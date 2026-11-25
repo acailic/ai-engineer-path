@@ -65,4 +65,4 @@ Every part heading links to the moment in the video where the part begins.
 | 4 | Pruning and Sparsity (Part II) | Song Han (MIT) | 1:10:00 | 19 | 2 | [open](mit-04-pruning-and-sparsity-part-ii.md) |
 | 5 | Quantization (Part I) | Song Han (MIT) | 1:08:00 | 17 | 0 | [open](mit-05-quantization-part-i.md) |
 
-In all: 595 parts, of which 130 (22%) teach something no chapter teaches; 83,149 words.
+In all: 595 parts, of which 130 (22%) teach something no chapter teaches; 83,154 words.
