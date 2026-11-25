@@ -39,6 +39,31 @@ A software engineer with no machine-learning background who wants to understand 
 - Chapter 09 explains how a research lab evaluates models. For evaluating an application, start with [evaluation is the product](../03-evaluation/01-evaluation-is-the-product.md).
 - Chapter 11 assumes the overview in [from base model to assistant](../01-foundations/03-from-base-model-to-assistant-post-training.md).
 
+## Lecture guides for this part
+
+Each guide maps one lecture from its first minute to its last and says where this book teaches each piece. Where no chapter teaches a part of the lecture, the guide explains it itself; the table counts those parts.
+
+| Lecture | Lecturer | Length | Parts no chapter teaches | Guide |
+|---|---|---|---|---|
+| Overview, tokenization |  | 1:20:00 | 3 of 14 | [open guide](../lectures/cs336-01-overview-tokenization.md) |
+| Architectures, hyperparameters |  | 1:30:00 | 1 of 20 | [open guide](../lectures/cs336-03-architectures-hyperparameters.md) |
+| Attention alternatives and mixture of experts |  | 1:28:00 | 0 of 20 | [open guide](../lectures/cs336-04-attention-alternatives-and-mixture-of-experts.md) |
+| Scaling laws I |  | 1:18:00 | 0 of 17 | [open guide](../lectures/cs336-09-scaling-laws-i.md) |
+| Inference |  | 1:26:00 | 0 of 16 | [open guide](../lectures/cs336-10-inference.md) |
+| Scaling laws II |  | 1:18:00 | 0 of 17 | [open guide](../lectures/cs336-11-scaling-laws-ii.md) |
+| Evaluation |  | 1:20:00 | 0 of 15 | [open guide](../lectures/cs336-12-evaluation.md) |
+| Data: sources, datasets |  | 1:22:00 | 0 of 16 | [open guide](../lectures/cs336-13-data-sources-datasets.md) |
+| Data: filtering, deduplication, mixing, synthetic data |  | 1:26:00 | 0 of 15 | [open guide](../lectures/cs336-14-data-filtering-deduplication-mixing-synthetic.md) |
+| Mid/post-training (SFT/RLHF) |  | 1:20:00 | 0 of 15 | [open guide](../lectures/cs336-15-midpost-training-sftrlhf.md) |
+| Post-training: RLVR |  | 1:16:00 | 0 of 14 | [open guide](../lectures/cs336-16-post-training-rlvr.md) |
+| Alignment: multimodality |  | 1:18:00 | 0 of 13 | [open guide](../lectures/cs336-17-alignment-multimodality.md) |
+| PyTorch (einops), resource accounting (FLOPs, memory, arithmetic intensity) |  | 1:18:00 | 0 of 18 | [open guide](../lectures/cs336-02-pytorch-einops-resource-accounting-flops-memory.md) |
+| GPUs, TPUs |  | 1:20:00 | 0 of 18 | [open guide](../lectures/cs336-05-gpus-tpus.md) |
+| Kernels, Triton |  | 1:28:00 | 2 of 19 | [open guide](../lectures/cs336-06-kernels-triton.md) |
+| Parallelism I |  | 1:22:00 | 0 of 11 | [open guide](../lectures/cs336-07-parallelism-i.md) |
+| Parallelism II |  | 1:22:00 | 0 of 16 | [open guide](../lectures/cs336-08-parallelism-ii.md) |
+| Guest lecture: Dan Fu |  | 1:12:00 | 0 of 13 | [open guide](../lectures/cs336-18-guest-lecture-dan-fu.md) |
+
 ## A note on sources
 
 Each chapter is built on one or two CS336 lectures and cites them with timestamps. Statements from a lecturer are attributed and dated: model names, prices and court cases are as reported in the Spring 2026 lectures. Where a chapter goes beyond what the lecture covers, the text says so. Code examples are plain Python and were run before being included, except where a snippet is labeled as illustrative.

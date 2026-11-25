@@ -1,6 +1,6 @@
 # Lecture guides
 
-One guide per lecture of the four courses: 76 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
+One guide per lecture of the four courses: 77 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
 
 Every part heading links to the moment in the video where the part begins.
 
@@ -104,5 +104,6 @@ Every part heading links to the moment in the video where the part begins.
 | 15 | Mid/post-training (SFT/RLHF) |  | 1:20:00 | 15 | 0 | [open](cs336-15-midpost-training-sftrlhf.md) |
 | 16 | Post-training: RLVR |  | 1:16:00 | 14 | 0 | [open](cs336-16-post-training-rlvr.md) |
 | 17 | Alignment: multimodality |  | 1:18:00 | 13 | 0 | [open](cs336-17-alignment-multimodality.md) |
+| 18 | Guest lecture: Dan Fu |  | 1:12:00 | 13 | 0 | [open](cs336-18-guest-lecture-dan-fu.md) |
 
-In all: 1194 parts, of which 230 (19%) teach something no chapter teaches; 193,803 words.
+In all: 1207 parts, of which 230 (19%) teach something no chapter teaches; 198,876 words.
