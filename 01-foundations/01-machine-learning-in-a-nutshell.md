@@ -67,6 +67,23 @@ You judge generalization by hiding part of the data from training. The usual spl
 
 Think of the validation set as the tests you run while developing, and the test set as the final exam.
 
+**Figure 1.** The pipeline as a loop, and which split each step may use.
+
+```mermaid
+flowchart TD
+    D["Collected and labeled data"] --> S["Split into training, validation and test sets"]
+    S -->|"training set"| T["Training: fit the parameters"]
+    T -->|"validation set"| V["Evaluate on held-out data"]
+    V -->|"score too low"| F["Change data, features or hyperparameters"]
+    F --> T
+    V -->|"score good enough"| E["Final evaluation on the test set"]
+    E --> P["Deployment"]
+    P --> M["Monitoring"]
+    M -->|"real inputs change"| D
+```
+
+A bad validation score sends you back to the data or the hyperparameters, and the test set is opened only when the validation score is good enough.
+
 **Overfitting** is when the model memorizes the training examples instead of learning the rule behind them. The programmer's version is hard-coding the answers to your unit tests. The analogy breaks on intent. Nobody decides to overfit. The training loop minimizes the training loss and nothing else, so a model with enough free parameters drifts into memorization on its own.
 
 The symptom is a widening gap: the training loss keeps falling while the validation loss stops improving or rises. The fixes are more data, a simpler model, or stopping the training earlier.
@@ -88,7 +105,7 @@ A **metric** is the number you use to summarize quality, such as the percentage 
 ### Why tests alone cannot verify a model
 
 1. **There is no specification to assert against.** A unit test pins the exact output of an input. For a model, you rarely know the correct output of a new input. If you did, you would add it to the training data.
-2. **Quality is a statistic.** "Correct on 92% of tickets like these" is a statement about a whole distribution of inputs, measured on a sample. It needs a data set, a metric and, as you will see in [Why LLM Outputs Are Noisy](07-why-llm-outputs-are-noisy.md), an error bar.
+2. **Quality is a statistic.** "Correct on 92% of tickets like these" is a statement about a whole distribution of inputs (the full range of real inputs and how often each occurs), measured on a sample. It needs a data set, a metric and, as you will see in [Why LLM Outputs Are Noisy](07-why-llm-outputs-are-noisy.md), an error bar.
 3. **The behavior lives outside the code.** The same code with a new model file or new training data behaves differently.
 
 Four habits take the place of exact-output tests:
@@ -96,7 +113,7 @@ Four habits take the place of exact-output tests:
 1. **Unit-test everything that is not the model.** Parsing, validation, the wrapper and the output format are ordinary code. Ordinary engineering applies in full.
 2. **Assert invariants of the call.** The output has the right type, lies in the allowed range, and arrives within the latency budget.
 3. **Evaluate, and treat the evaluation as a regression test.** Keep a frozen held-out set. Define a metric and a threshold. Run it in CI whenever the model, the prompt or the data changes.
-4. **Version what produces the behavior.** Code, data, hyperparameters and the random seed. A model is only reproducible together with all four.
+4. **Version what produces the behavior.** Code, data, hyperparameters and the random seed, the number that makes a training run's random choices repeatable. A model is only reproducible together with all four.
 
 ### From training your own model to using a foundation model
 
@@ -111,7 +128,7 @@ For you, the shift means less time training and more time writing prompts and su
 
 ## Worked example
 
-The script below trains a model in plain Python, with no ML library. It fits apartment prices from the apartment's size.
+The script below trains a model in plain Python, with no ML library. It fits apartment prices from the apartment's size. Step 5 computes the **gradient**, the direction that raises the loss fastest, and steps the opposite way; the **learning rate** is the size of that step.
 
 ```python
 import random
@@ -156,9 +173,9 @@ print(f"memorizer: train loss = {loss_memorized(train):.0f}, test loss = {loss_m
 
 What to observe:
 
-- **Training lowers the loss.** The training loss starts around 140,000 and falls to a few hundred, which is the noise we added. `w` ends close to 5, the number we hid in the data.
+- **Training lowers the loss.** The training loss starts around 165,000 and falls to a few hundred, which is the noise we added. `w` ends close to 5, the number we hid in the data.
 - **The line generalizes.** The validation and test losses are in the same range as the training loss, because the true rule is a line.
-- **The memorizer does not.** Its training loss is exactly 0. Its test loss is about as bad as the line before training, because every test size is new to it. A perfect score on the training data proves nothing.
+- **The memorizer does not.** Its training loss is exactly 0. Its test loss is about 120,000, close to the 165,000 the line had before training, because every test size is new to it. A perfect score on the training data proves nothing.
 
 ## What the practitioners say
 
@@ -170,11 +187,11 @@ Kästner's chapter draws three distinctions that prevent confusion later:
 
 He also warns that ML terminology is not used consistently: different authors use different words for the same concept, and the same word for different concepts. "Model" is one of the words with several meanings, hence his term "machine-learned model".
 
-Yann Dubois shows the same loop at the scale of LLMs, in his Fall 2025 lecture *Introduction to training LLMs for AI agents*. The stages are the same: data, a training objective, then evaluation. The numbers are different. As he reports them, pre-training reads more than 10 trillion tokens, takes months and costs more than $10 million per run. Classic post-training uses on the order of 100,000 problems and takes days ([0:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=0), [2:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=120)).
+Yann Dubois shows the same loop at the scale of LLMs, in his Fall 2025 lecture *Introduction to training LLMs for AI agents*. The stages are the same: data, a training objective, then evaluation. The numbers are different. As he reports them, pre-training, the first stage that teaches the model to predict the next word, reads more than 10 trillion [tokens](04-using-llms-tokens-context-and-sampling.md) (the short pieces of text a model reads), takes months and costs more than $10 million per run. Classic post-training, the stage after it, uses on the order of 100,000 problems and takes days ([0:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=0), [2:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=120)).
 
-His closing point on evaluation is the one to carry into any ML project: "evaluation is really important to know whether your model is ready to be put in production" ([84:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=5040)). A model can be the best available and still not be good enough for your application. He separates two kinds of evaluation there. **Closed-ended** tasks have few possible answers, so a program can check them. **Open-ended** tasks, such as answering a chat message, need human or model judgments. He names two problems with the easy kind: the score changes with the wording of the prompt, and the test questions may already be in the training data.
+His closing point on evaluation is the one to carry into any ML project: "evaluation is really important to know whether your model is ready to be put in production" ([84:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=5040)). A model can be the best available and still not be good enough for your application. He separates two kinds of evaluation there. **Closed-ended** tasks have few possible answers, so a program can check them. **Open-ended** tasks, such as answering a chat message, have no single correct answer, so they need human or model judgments ([86:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=5160)). He names two problems with the easy kind: the score changes with the wording of the prompt, and the test questions may already be in the training data.
 
-Dawn Song's course-introduction slides for the same course make the point from the other direction: a field can improve only what it can measure, so its evaluation sets the ceiling on its progress. Evaluation is not the paperwork at the end. It is the goalpost.
+His slides give evaluation the same weight: it quantifies progress toward the task, so that you can identify improvements, select models and decide whether one is ready for production. Evaluation is not the paperwork at the end. It is the goalpost.
 
 ## Pitfalls
 
@@ -183,7 +200,7 @@ Dawn Song's course-introduction slides for the same course make the point from t
 3. **Tuning on the test set.** Every time you adjust the model because of a test-set result, the test set becomes a validation set, and your reported score drifts upward. *Fix:* open the test set once per model.
 4. **Writing tests as exact-output assertions.** They fail randomly and tell you nothing about quality. *Fix:* assert invariants in unit tests, and assert quality with an evaluation set and a threshold.
 5. **Versioning only the code.** Without the data and hyperparameters, you cannot rebuild or explain a model. *Fix:* record code revision, data version, hyperparameters and seed with every model.
-6. **Skipping tests for the surrounding code.** Most failures in ML systems come from plain engineering: a changed schema, a wrong join, a lost label. *Fix:* test the plumbing as strictly as anywhere else. [Testing generative and LLM components](../08-quality-assurance/05-testing-generative-and-llm-components.md) goes further.
+6. **Skipping tests for the surrounding code.** Many failures in ML systems come from plain engineering: a changed schema, a wrong join, a lost label. *Fix:* test the plumbing as strictly as anywhere else. [Testing generative and LLM components](../08-quality-assurance/05-testing-generative-and-llm-components.md) goes further.
 7. **Trusting one number.** A metric from one run on one sample has noise in it. *Fix:* repeat the measurement and report the spread before you compare two models.
 
 ## Try it
@@ -253,9 +270,8 @@ Run the worked example, then turn it into a small project with a check that CI c
 
 ## Sources
 
-- **Lecture:** Yann Dubois, "Introduction to training LLMs for AI agents", LLM Agents MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=r1qZpYAmqmg), used at [the training pipeline](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=0), [classic post-training](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=120), [evaluation](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=5040)
+- **Lecture:** Yann Dubois, "Introduction to training LLMs for AI agents", LLM Agents MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=r1qZpYAmqmg), used at [the training pipeline](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=0), [classic post-training](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=120), [evaluation](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=5040), [open-ended evaluation](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=5160)
 - **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 3: [link](https://mlip-cmu.github.io/book/03-machine-learning-for-software-engineers-in-a-nutshell.html)
-- **Slides:** Dawn Song, course introduction, UC Berkeley Agentic AI MOOC (Fall 2025): [course site](https://agenticai-learning.org/f25)
 
 ## Next
 

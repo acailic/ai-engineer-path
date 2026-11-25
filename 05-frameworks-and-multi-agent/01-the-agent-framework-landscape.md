@@ -26,7 +26,7 @@ That split gives the most useful way to sort designs: by who writes the control 
 - **Workflow.** Your code decides the order of steps. The model fills the steps in: classify this, summarize that.
 - **Agent.** The model decides the next step. Your code sets limits: tools, budget, stop condition.
 
-Jerry Liu draws the same line in the Fall 2024 lecture and calls the two ends constrained and unconstrained flows. A constrained flow is a router prompt (a prompt that picks one option out of several), a tool and a reflection step, with no loops; people write the control flow as `if` statements and `while` loops. An unconstrained flow hands the model a set of tools and lets it plan. It solves a wider range of tasks, but it may call tools it should not, loop forever and cost more ([56:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3360)).
+Jerry Liu draws the same line in the Fall 2024 lecture and calls the two ends constrained and unconstrained flows. A constrained flow is a router prompt (a prompt that picks one option out of several), a tool and a reflection step (a second prompt that checks the draft), with no loops; people write the control flow as `if` statements and `while` loops. An unconstrained flow hands the model a set of tools and lets it plan. It solves a wider range of tasks, but it may call tools it should not, loop forever and cost more ([56:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3360)).
 
 ## How it works, step by step
 
@@ -115,7 +115,7 @@ Here is how the decision comes out for four common tasks:
 
 Chi Wang (then at AutoGen-AI) and Jerry Liu (LlamaIndex) shared the lecture of September 23, 2024.
 
-- **The unit of programming is the conversation.** Wang shows a program with four agents: one that carries the user's request, a commander, a writer and a safeguard. The commander never executes code. When execution fails, it passes the error back to the writer. Building it takes three steps: create the agents, one line each; register the interaction patterns, each naming a sender, a receiver, the participants and a summary method; send the initial task. The framework runs the rest ([10:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=600)). Chapter 02 takes the idea apart.
+- **The unit of programming is the conversation.** Wang shows a program with four agents: one that carries the user's request, a commander, a writer and a safeguard. The commander executes the writer's code only after the safeguard says it is safe. When execution fails, it passes the error back to the writer ([8:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=480)). Building it takes three steps: create the agents, one line each; register the interaction patterns, each naming a sender, a receiver, the participants and a summary method; send the initial task. The framework runs the rest ([10:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=600)). Chapter 02 takes the idea apart.
 - **Frameworks start from different points.** Wang describes AutoGen as covering many design patterns, LangGraph as starting from graph-based control flows and CrewAI from static, high-level task workflows ([20:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=1200)). This is one framework author describing competitors. Read it as a map of starting points, not a ranking.
 - **The design is the open problem.** Wang ends by naming the largest open question: how to design the best multi-agent workflow for an application under quality, monetary cost, latency and manual effort at once ([36:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2160)). No framework makes that choice for you.
 - **Many teams choose constrained flows.** Liu reports that many teams build constrained architectures on purpose, trading expressiveness for reliability, and that fewer products use wide, unconstrained flows ([54:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3240), [58:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3480)).
@@ -166,8 +166,8 @@ Stretch goal: switch the model provider in both implementations and record how m
 3. In Liu's terms, a router prompt that picks one of several tools and has no loops is which kind of flow?
    A. Unconstrained
    B. Constrained
-   C. A nested chat
-   D. A population best response
+   C. An agent loop
+   D. A platform layer
 4. What did AutoGen's documentation state as of November 2026?
    A. That version 0.2 is the recommended API
    B. That the project is archived and production use is advised against

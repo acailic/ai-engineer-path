@@ -23,10 +23,10 @@ Because an agent is software, evaluation is a software engineering activity. Chr
 
 | In testing | In an LLM evaluation | What it is |
 |---|---|---|
-| Code under test | The system | Prompt, model, tools and guardrails, treated as one unit |
+| Code under test | The system | Prompt, model, tools and [guardrails](../GLOSSARY.md), treated as one unit |
 | Test inputs (fixtures) | Dataset | A list of tasks with the behavior you accept |
 | Environment setup | Sandbox | Tools over fake data, reset before each attempt |
-| Assertion | Grader | Code, or a judge, that scores one attempt |
+| Assertion | Grader | Code, or a [judge](../GLOSSARY.md), that scores one attempt |
 | Test report | Metrics and report | Numbers that summarize all attempts |
 | No counterpart | A grader you must test | The scorer itself can be wrong, so it needs its own checks |
 
@@ -71,6 +71,23 @@ Test-driven development asks you to write the test before the code, then keep th
 6. **Re-run.** Keep the change only if the target metric rises by more than the noise and no other metric falls.
 7. **Automate.** Run the harness on every change and add every failure you meet in production to the dataset ([evals in production](07-evals-in-production.md)).
 
+**Figure 1.** The eval-driven development loop: a change is kept only when the evaluation improves beyond the noise.
+
+```mermaid
+flowchart TD
+    F["Fix the largest class of failures"] --> C["Change one thing"]
+    C --> R["Run the harness on every task"]
+    R --> M["Compare the new numbers with the previous version"]
+    M --> D["Gain larger than the noise and no other metric falls"]
+    D -->|"yes"| K["Keep the change as the new baseline"]
+    D -->|"no"| X["Reject the change"]
+    X --> F
+    K --> N["Next change or next production failure"]
+    N --> F
+```
+
+Only a change that passes both tests becomes the baseline for the next comparison; every other change is thrown away and the loop starts again.
+
 ## Worked example
 
 One attempt of the refund agent, with its checks at three levels.
@@ -97,7 +114,7 @@ What to observe: the same attempt passes two checks and fails one. An outcome-on
 - **Task validity:** does success at the task demonstrate the capability you meant to measure? This is about the task and the environment.
 - **Outcome validity:** does the evaluator's verdict faithfully reflect whether the task succeeded? This is about the grader.
 
-**Four ways an evaluation goes wrong.** The lecture lists these failures with a fix for each ([38:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=2280)):
+**Four ways an evaluation goes wrong.** The lecture lists these failures with a fix for each ([36:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=2160), [38:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=2280)):
 
 | Problem | What it looks like | Fix named in the lecture |
 |---|---|---|
@@ -106,7 +123,7 @@ What to observe: the same attempt passes two checks and fails one. An outcome-on
 | Not challenging | Every model scores near the top | Design hard cases |
 | Shortcuts | A model can score well without solving the task | Look for the shortcuts your evaluation probably has |
 
-**The benchmark can be the bug.** SWE-bench asks agents to fix real issues in open-source repositories. As reported on the lecture's slides ([78:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=4680)), 93 professional developers then checked 1,699 of its tasks. They flagged 38.3% for underspecified issue descriptions and 61.1% for unfair unit tests (the two groups overlap). In total 68.3% of tasks were filtered out, leaving 500 verified ones. On the cleaned set, GPT-4o resolved 33.2% of tasks, against 16% on the original with the best scaffold. The first score measured the benchmark's defects as much as the model's ability.
+**The benchmark can be the bug.** SWE-bench asks agents to fix real issues in open-source repositories. As reported on the lecture's slides ([80:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=4800)), 93 professional developers then checked 1,699 of its tasks. They flagged 38.3% for underspecified issue descriptions and 61.1% for unfair unit tests (the two groups overlap). In total 68.3% of tasks were filtered out, leaving 500 verified ones. On the cleaned set, GPT-4o resolved 33.2% of tasks, against 16% on the original with the best scaffold. The first score measured the benchmark's defects as much as the model's ability.
 
 **Kästner on making it stick.** Quality practices help only if people use them. He describes how continuous integration, a service that runs all tests on every change in a clean environment, can refuse to merge a change that breaks a test (chapter 14). He also notes that testing in production, such as trying a change on a subset of users with a way to roll back, complements offline testing instead of replacing it. Part 8 of this course covers both in depth: [quality assurance basics](../08-quality-assurance/01-quality-assurance-basics-and-the-oracle-problem.md).
 

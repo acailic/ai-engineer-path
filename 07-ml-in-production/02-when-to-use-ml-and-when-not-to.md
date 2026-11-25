@@ -15,7 +15,7 @@ Every ML component you accept is a permanent tenant. It needs data, an evaluatio
 
 ## The core idea
 
-Machine learning is a way to get a function you could not write by hand. You pay for it in complexity, cost and risk. Kästner's position in chapter 4 of *Machine Learning in Production* is blunt: ML is not appropriate for all problems. When a hand-coded algorithm can do the job, avoiding ML is very often the better idea.
+Machine learning is a way to get a function you could not write by hand. You pay for it in complexity, cost and risk. Kästner's position in chapter 4 of *Machine Learning in Production* is blunt: ML is not appropriate for all problems. When a hand-coded algorithm can do the job, avoiding ML is very often a good idea.
 
 A hand-written rule is like a recipe: exact steps that anyone can follow and check. A trained model is like a cook who learned by tasting thousands of soups. You cannot read the steps. You can only taste the result. The comparison breaks in two places. A cook can usually tell you why a soup failed. A model cannot explain itself reliably. And the cook keeps needing new ingredients: data that reflects how the world looks now.
 
@@ -137,7 +137,7 @@ keyword rule:       83%
 
 What to observe:
 
-- **The first line is a baseline too.** "Always answer the most common category" scores 42 percent. Any solution has to beat that, and many do not.
+- **The first line is a baseline too.** A **baseline** is the score of the simplest alternative, which any smarter solution has to beat. "Always answer the most common category" scores 42 percent, and many solutions do not beat it.
 - **The first miss is cheap to fix.** Add `"subscription"` to `BILLING_WORDS` and the rule reaches 92 percent. This loop, look at the misses and patch, is how you find out whether the problem is rule-shaped.
 - **The second miss is the interesting one.** "How do I export my invoices?" contains a billing word. Its intent is a question. The rule cannot see intent. That is the boundary where a model starts to earn its keep.
 - **Twelve examples prove almost nothing.** They are short, in one language and written by one person. A real check uses at least a few hundred real tickets, sampled from production, including the awkward ones. Hold some back: never measure on the examples you patched the rule against.
@@ -207,7 +207,7 @@ Include:
 
 1. Name the four conditions under which ML earns its place.
 2. A keyword rule scores 83 percent on 12 examples you wrote while looking at the rule. Which is the strongest objection?
-   - A. The examples were written after the rule, so they test its blind spots rather than real tickets.
+   - A. The author wrote them while looking at the rule, so they share its assumptions rather than test real tickets.
    - B. The rule relies on keywords, and keyword rules are known to fail on every text-classification task.
    - C. The score is printed without decimals, so the true value could lie anywhere near eighty-three.
    - D. The baseline is a rule, and a rule can never stand in as the baseline for a model.

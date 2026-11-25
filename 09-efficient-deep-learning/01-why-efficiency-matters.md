@@ -42,7 +42,21 @@ Han's pipeline has three steps: train a model, compress it, then run the compres
 2. **Train efficiently.** Lower precision during training, training split across many machines, or training on the device itself.
 3. **Compress after training.** Remove weights, store them in fewer bits, or shrink a big model into a small one.
 4. **Run it efficiently.** Better kernels, less memory traffic, smarter batching and caching at inference time.
-5. **Match the hardware to the job.** A data-center GPU, a laptop, a phone and a microcontroller each need a different model.
+5. **Match the hardware to the job.** A data-center GPU, a laptop, a phone and a [microcontroller](../GLOSSARY.md) each need a different model.
+
+**Figure 1.** The life of a model, and where the hardware choice enters.
+
+```mermaid
+flowchart LR
+    A["Design the architecture"] --> B["Train"]
+    B --> C["Compress after training"]
+    C --> D["Run inference"]
+    H["Target hardware"] --> A
+    H --> C
+    H --> D
+```
+
+The four steps run in order, and the hardware you are targeting, the fifth place, shapes the design, the compression and the inference code.
 
 Each lever trades something. Here is the map for this part:
 
@@ -107,14 +121,14 @@ The examples on his slides show how large the wins are (all as reported in the l
 
 A **MAC** is one multiply-accumulate: a × b + c. It is the unit used to count a model's arithmetic.
 
-Two more of Han's points are worth keeping. First, accuracy costs computation: his ImageNet chart shows the error rate falling from 28.2% in 2010 to 2.3% in 2017, and the next slide shows the more accurate models needing more MACs. Second, Han warns at [56:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3360) against judging hardware by peak performance alone: two chips can advertise higher peak numbers without being faster in practice, because "the peak performance doesn't directly translate to measured speed"; moving activations and weights, memory bandwidth and utilization all matter. The same block gives the gap in devices: tens of gigabytes of memory in the cloud against a few hundred kilobytes of SRAM on a microcontroller. At [58:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3480) he names three pillars of deep learning, hardware, data and algorithm, and states TinyML's goal for each: less computation, less carbon, fewer engineers, less data.
+Two more of Han's points are worth keeping. First, accuracy costs computation: his ImageNet chart shows the top-5 error rate falling from 28.2% in 2010 to 2.3% in 2017, and the next slide shows the more accurate models needing more MACs. Second, Han warns at [56:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3360) against judging hardware by peak performance alone: two chips can advertise higher peak numbers without being faster in practice, because "doesn't directly translate to measured speed"; moving activations and weights, memory bandwidth and utilization all matter. The same block gives the gap in devices: tens of gigabytes of memory in the cloud against a few hundred kilobytes of SRAM, the working memory on a microcontroller chip. At [58:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3480) he names three pillars of deep learning, hardware, data and algorithm, and states TinyML's goal for each: less computation, less carbon, fewer engineers, less data.
 
-He also mentions that SmoothQuant, a quantization method you will meet in [Chapter 04](04-quantization.md), started as a course project two years earlier, and sketches the course's route to 4-bit: 16-bit to 8-bit with SmoothQuant, then 4-bit with AWQ, an activation-aware, weight-only method. SmoothQuant's key idea, as he puts it, is that activations hold a few very large values (outliers), so you scale the weights and the activations until the two are equalized and smoothed, which matrix multiplication allows because it is linear ([34:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2040)).
+He also mentions that SmoothQuant, a quantization method you will meet in [Chapter 04](04-quantization.md), started as a course project two years earlier, and sketches the course's route to 4-bit: 16-bit to 8-bit with SmoothQuant, then 4-bit with AWQ, an activation-aware, weight-only method. SmoothQuant's key idea, as he puts it, is that activations, the values that pass between layers, hold a few very large values (outliers), so you scale the weights and the activations until the two are equalized and smoothed, which matrix multiplication allows because it is linear ([34:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2040)).
 
 ## Pitfalls
 
 1. **Counting parameters when memory for intermediate results is the real limit.** Fix: measure peak memory at run time, not model size. Chapter 02 shows the difference.
-2. **Reporting throughput when the user cares about latency.** Batching raises requests per second and can raise the delay for each request. Decide which one you need before you measure.
+2. **Reporting throughput when the user cares about latency.** Batching, which processes several requests together, raises requests per second and can raise the delay for each request. Decide which one you need before you measure.
 3. **Optimizing before profiling.** If 90% of a request's time is the network round trip, a faster model changes little. Fix: time the whole request first.
 4. **Trusting peak numbers.** A chip's advertised operations per second is a ceiling almost no model reaches. Fix: measure your model on your hardware.
 5. **Skipping evaluation after compression.** Compression is lossy. Fix: run your evaluation set before and after; see [a minimal eval harness](../03-evaluation/02-a-minimal-eval-harness.md).
@@ -122,7 +136,7 @@ He also mentions that SmoothQuant, a quantization method you will meet in [Chapt
 
 ## Try it
 
-Write a budget for one model. Find a model card or an announcement that states the parameter count. Compute:
+Write a budget for one model. Find a model card or an announcement that states the parameter count, for example a model's page on Hugging Face. Compute:
 
 1. Weight memory at 16-bit and at 4-bit.
 2. Time to read the weights once at 50 GB/s (laptop) and at 1,000 GB/s (data-center GPU).
@@ -147,6 +161,9 @@ Write a budget for one model. Find a model card or an announcement that states t
 2. Two models have the same parameter count. Which one is faster to read from memory?
 3. Serving one user at a time, a language model reads all of its weights for every token it generates. What happens to time per token if you quantize it from 16-bit to 4-bit?
 4. Which of these is a reason compression can change a model's answers?
+   (a) The weights are rounded or left out when stored in fewer bits.
+   (b) The model loads from disk faster.
+   (c) Each request uses less memory.
 5. Your profiling shows 80% of request time is network latency. What is the first thing to fix?
 
 <details><summary>Show answers</summary>
@@ -154,7 +171,7 @@ Write a budget for one model. Find a model card or an announcement that states t
 1. 3 × 10⁹ × 1 byte = 3 GB.
 2. The one stored with fewer bytes per parameter, assuming the same layout and hardware.
 3. It drops by about four times, because memory traffic drops by four times, as long as reading the weights remains the bottleneck.
-4. Compression is usually lossy: the stored numbers are changed, rounded or removed, so outputs can shift.
+4. (a). Compression is usually lossy: the stored numbers are changed, rounded or removed, so outputs can shift.
 5. The network path (fewer round trips, a closer deployment), not the model.
 
 </details>

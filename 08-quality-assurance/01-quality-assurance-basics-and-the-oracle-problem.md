@@ -66,6 +66,21 @@ This is the step that changes. Pick one of four oracles for each requirement:
 | The summary must be polite and short | A rubric scored by a person or by another model | Partly |
 | The endpoint answers in under 800 ms | A stopwatch | No |
 
+**Figure 1.** The branch that turns a classic test into a model test: with no specification, the oracle comes from one of four other sources.
+
+```mermaid
+flowchart TD
+    R["Requirement"] --> Q["Is there an agreed specification?"]
+    Q -->|"yes"| C["Classic test: assert the exact expected output"]
+    Q -->|"no"| M["Model test: judge many inputs at once"]
+    M --> L["Labeled set plus threshold"]
+    M --> I["Invariant: outputs must agree or must not crash"]
+    M --> J["Rubric scored by a person or a model"]
+    M --> T["Measurement such as latency or cost"]
+```
+
+A classic test checks one output against a specification; a model test needs a different oracle and usually judges a rate over many inputs.
+
 ### 5. Automate, then enforce
 
 Automated tests only help if they run. **Continuous integration (CI)** runs the test suite on every change, in a clean environment, and can refuse to merge a change that breaks a test.
@@ -150,9 +165,9 @@ Christian Kästner's *Machine Learning in Production* is the source for this cha
 
 1. **Testing a model with per-example unit tests.** One disagreement fails the suite, and the suite never goes green. Fix: assert a rate over a labeled set, and print the misses.
 2. **Reporting one accuracy number as "tested".** An overall rate hides the group where the model fails. Fix: add slices (see [Slicing](03-slicing.md)) and oracle-free invariants (see [Testing Without Oracles](04-testing-without-oracles.md)).
-3. **Treating the model as the only risky part.** In practice most defects sit in ordinary code around it: parsing, routing, retries. Fix: keep conventional unit and integration tests for that code.
-4. **Skipping tests because a model is "non-deterministic".** Most deployed models return the same output for the same input. If yours samples text, set the sampling to its most deterministic setting or allow a rate. Don't use randomness as a reason to test nothing.
-5. **Letting the test set leak into the model.** If you tuned prompts or training on the same tickets you test with, the score is inflated. Fix: hold out a set and touch it rarely. [Measuring Model Quality](02-measuring-model-quality.md) covers this.
+3. **Treating the model as the only risky part.** Engineering judgment: expect many defects in the ordinary code around the model, such as parsing, routing, and retries. Fix: keep conventional unit and integration tests for that code.
+4. **Skipping tests because a model is "non-deterministic".** Most deployed models return the same output for the same input. If yours samples text, meaning it picks each next word with some randomness, set the sampling to its most deterministic setting or allow a rate. Don't use randomness as a reason to test nothing.
+5. **Letting the test set leak into the model.** If you tuned prompts or training on the same tickets you test with, the score is inflated. Fix: hold out a set, meaning examples kept aside from all training and tuning, and touch it rarely. [Measuring Model Quality](02-measuring-model-quality.md) covers this.
 6. **Writing tests that nobody runs.** Fix: put them in CI and block merges on failure.
 
 ## Try it

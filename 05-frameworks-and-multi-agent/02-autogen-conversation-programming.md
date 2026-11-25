@@ -23,7 +23,7 @@ Wang's stated goal is that a developer can reason about a very complex workflow 
 
 The analogy is the actor model, in which each actor has a mailbox and actors communicate only by messages. The analogy breaks on time. Actors run concurrently, while most agent conversations take turns, because one agent must speak at a time and every turn is a model call that costs money.
 
-A second idea follows from the first: a tool can be an agent. In the lecture the commander never executes code. Execution belongs to another peer, and an execution error travels back as an ordinary message ([10:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=600)).
+A second idea follows from the first: an agent need not run on a model. In the lecture a separate safeguard agent checks the writer's code, and the commander executes it only when the safeguard says it is safe. An execution error travels back as an ordinary message ([8:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=480), [10:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=600)).
 
 ## How it works, step by step
 
@@ -32,6 +32,27 @@ Wang describes the construction of a four-agent program in three steps ([10:00](
 1. **Create the agents.** One line each: the user proxy, the commander, the writer and the safeguard.
 2. **Define the interaction patterns.** He registers two nested chats on the commander. For each, the program names who sends, who receives, which agents take part, and how the result is summarized.
 3. **Initiate the chat.** The user proxy sends the task to the commander. The framework runs every later step and returns the result.
+
+**Figure 1.** Wang's four-agent program: the commander holds the chat with the user and starts a nested chat for each step.
+
+```mermaid
+sequenceDiagram
+    participant U as User proxy
+    participant C as Commander
+    participant W as Writer
+    participant S as Safeguard
+    U->>C: Task
+    C->>W: Nested chat, ask for code
+    W-->>C: Code
+    C->>S: Nested chat, check the code
+    S-->>C: Verdict
+    C->>C: Run the code if safe
+    C->>W: Nested chat, result or error
+    W-->>C: Final answer
+    C-->>U: Answer in natural language
+```
+
+The user proxy talks only to the commander; the writer and the safeguard take part in short nested chats and return a summary.
 
 From those parts you get four chat patterns:
 
@@ -42,11 +63,11 @@ From those parts you get four chat patterns:
 | Nested chat | A message that matches a condition starts a private sub-conversation; its summary comes back as the reply | One step needs its own back-and-forth that should not flood the main history |
 | Sequential chat | The result of one chat becomes the input of the next | The task has stages with a clear order |
 
-Wang builds the patterns up with his own examples. The two-agent chat is enough for **reflection**, in which one agent drafts, another criticizes and they repeat: a writer drafts a blog post and a critic suggests improvements. The nested chat appears when one critic is not enough. From the writer's side it still talks to a single critic, but underneath that critic runs a sequential chat: an SEO reviewer, then a legal reviewer and an ethics reviewer, and finally a meta reviewer who summarizes their comments into one ([24:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=1440)). His example for tool use is conversational chess. Asked to play directly, two language-model agents often make illegal moves, so he adds a third agent, the chess board. It is a tool-based agent: a Python library manages the board, and a player refines its move until the board agent accepts it ([24:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=1440), [26:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=1560)).
+Wang builds the patterns up with his own examples. The two-agent chat is enough for **reflection**, in which one agent drafts, another criticizes and they repeat: a writer drafts a blog post and a critic suggests improvements. The nested chat appears when one critic is not enough. From the writer's side it still talks to a single critic, but underneath that critic runs a sequential chat: an SEO (search engine optimization) reviewer, then a legal reviewer and an ethics reviewer, and finally a meta reviewer who summarizes their comments into one ([24:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=1440)). His example for tool use is conversational chess. Asked to play directly, two language-model agents often make illegal moves, so he adds a third agent, the chess board. It is a tool-based agent: a Python library manages the board, and a player refines its move until the board agent accepts it ([24:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=1440), [26:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=1560)).
 
 In a group chat, he says, the user only defines agents with different roles and puts them together. A **group chat manager** watches the progress and picks the next speaker. You can narrow that choice with rules, such as "after agent A speaks, only agent B and C can speak", and add transition logic that sends the conversation down one route or another. The logic can be written in natural language or in a programming language ([26:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=1560)). That is the dial between a fixed order and the model's choice.
 
-One more pattern belongs here: **StateFlow**, which the AutoGen team published in a later paper, one of the assigned readings of this lecture. Wang does not present it in the talk. It models a task as a finite state machine (a set of states and the allowed moves between them). Each step of the process becomes a state, for example: look up the database tables, write the query, verify. Entering a state runs a short sequence of actions, such as sending one instruction to a model, calling a tool or asking the user. The move to the next state is decided by a rule, such as matching a string in the output, or by the model. The paper calls the split **process grounding** (the states and their transitions) versus **sub-task solving** (the actions inside a state). With GPT-3.5 it reports higher success rates than ReAct, 13% on InterCode SQL and 28% on ALFWorld, with 5 and 3 times lower inference cost. It is the constrained end of the spectrum from chapter 01: the path is drawn first, and the model works inside a step.
+One more pattern belongs here: **StateFlow**, which the AutoGen team published in a later paper, one of the assigned readings of this lecture. Wang does not present it in the talk. It models a task as a finite state machine (a set of states and the allowed moves between them). Each step of the process becomes a state, for example: look up the database tables, write the query, verify. Entering a state runs a short sequence of actions, such as sending one instruction to a model, calling a tool or asking the user. The move to the next state is decided by a rule, such as matching a string in the output, or by the model. The paper calls the split **process grounding** (the states and their transitions) versus **sub-task solving** (the actions inside a state). With GPT-3.5 it reports higher success rates than ReAct (an agent loop that alternates reasoning and tool calls): 13% on InterCode SQL and 28% on ALFWorld, two benchmark tasks, with 5 and 3 times lower inference cost. It is the constrained end of the spectrum from chapter 01: the path is drawn first, and the model works inside a step.
 
 All four patterns share the same engine, and it is small: a rule that picks the next speaker, and a rule that says the conversation is over. The next section builds it.
 
@@ -150,7 +171,7 @@ Chi Wang opened the lecture of September 23, 2024 with two questions: what futur
 
 - **A demo, not a measurement.** He shows a startup's system building a website that lists models from Hugging Face. Agents with different roles analyze the task, look for information and install dependencies, then build and compile. He deletes one critical line of code. On the next run the system hits the error and, within a few steps, restores the line, which he reads as self-recovery ([2:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=240), [6:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=360)). He names three benefits of agent AI: a more natural interface, the ability to finish complex tasks with little supervision, and a software architecture in which several agents split a task ([6:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=360)).
 - **The user sees none of it.** In the four-agent program the end user asks a simple question and gets an answer in natural language, without knowing that several agents run ([10:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=600)).
-- **Why more than one agent.** Wang gives three reasons. Agents improve each other's work over turns. A complex task can be divided, so each agent handles a smaller job. And some agents need no language model: they do grounding or validation with knowledge outside the model. His slide compares a safeguard built as a separate agent with the same instructions packed into one agent: for GPT-4 the two-agent setup scores 20% higher, and for GPT-3.5 the gap is larger (he names no metric in the audio). His conclusion: the more complex the task and the weaker the model, the stronger the case for a multi-agent workflow ([12:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=720)).
+- **Why more than one agent.** Wang gives three reasons. Agents improve each other's work over turns. A complex task can be divided, so each agent handles a smaller job. And some agents need no language model: they do grounding (looking up facts in a source outside the model) or validation with knowledge outside the model. His slide compares a safeguard built as a separate agent with the same instructions packed into one agent: for GPT-4 the two-agent setup scores 20% higher, and for GPT-3.5 the gap is larger (he names no metric in the audio). His conclusion: the more complex the task and the weaker the model, the stronger the case for a multi-agent workflow ([12:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=720)).
 - **A software-engineering argument.** A modular design is easier to understand, maintain and extend, he says. To change the safeguard, switch its backend from a model to a tool or to a person and leave the other agents alone. Because a person can take over any agent, human participation needs no separate mechanism ([14:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=840)).
 - **The trade-offs a framework must cover.** Some developers want a static workflow, with every step and its order fixed. Others cannot foresee every situation and want agents to build the workflow as they go. Some instruct in natural language; others want the precise control of a programming language. He calls that a trade-off between flexibility and controllability, and lists more: share the context among agents or keep it separate, cooperate or compete, central or decentralized, automate or intervene ([16:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=960)). His own starting point is, he says, a personal one: pick one pattern from which the others can be derived, and he picks the conversation ([18:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=1080)).
 - **Where the framework came from.** AutoGen began inside FLAML, a library for automated machine learning, became its own repository, and in 2024 moved to its own GitHub organization with open governance. He calls it comprehensive and flexible, able to combine with other design patterns and frameworks ([20:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=1200)).
@@ -185,7 +206,7 @@ Stretch goal: replace the writer's stub with a small real model and give it a ta
 - In conversation programming, agents are peers, the program is a conversation, and the message history is the whole state.
 - Wang's construction has three steps: create the agents, define the interaction patterns, initiate the chat.
 - Four patterns cover most needs: two-agent chat, group chat, nested chat, sequential chat. StateFlow draws the path first, as a state machine.
-- A tool can be an agent: execution and error reporting travel as messages, so the end user sees one conversation.
+- An agent can run on a tool or a person instead of a model: the execution result and any error travel as messages, so the end user sees one conversation.
 - The engine is small: a rule for the next speaker and a rule for stopping. Frameworks add plumbing around that.
 - AutoGen was archived as of November 2026. The ideas transfer; the package does not have a future.
 
@@ -222,7 +243,7 @@ Stretch goal: replace the writer's stub with a small real model and give it a ta
 1. B. Each registered chat names sender, receiver, participants and a summary method.
 2. C. The transitions are fixed by design; the model only works inside a state.
 3. B. The main history receives a summary instead of every turn.
-4. A. Execution is another peer's job; its error is an ordinary message.
+4. A. The commander returns the execution error to the writer as a message, and the writer rewrites the code.
 5. B. The engine `converse` stays the same; the two rules define the pattern.
 
 </details>

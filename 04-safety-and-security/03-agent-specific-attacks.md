@@ -27,6 +27,22 @@ Five classes follow from the parts of an agent.
 
 **Memory** is what the agent stores for later. **Retrieval** is the lookup of stored text that seems relevant to the current request. A **trajectory** is the recorded sequence of an agent's steps. The **environment** is everything outside the agent that it reads or changes. **Agency** is how much an agent can do without a person: which tools, with which permissions, and how much autonomy.
 
+**Figure 1.** Where each attack class writes into an agent, and where the damage comes out.
+
+```mermaid
+flowchart LR
+    U["User request"] --> M["Model"]
+    E["Environment: pages, mails, issues"] -->|"environment injection"| M
+    S["Stores: memory and retrieval index"] -->|"memory and retrieval poisoning"| M
+    T["Tool descriptions"] -->|"tool poisoning"| M
+    M -->|"tool call"| X["Tools and their permissions"]
+    M -->|"summary"| N["Other agents"]
+    N -->|"text back"| M
+    X --> W["Outside world"]
+```
+
+Every class except excessive agency enters through text the model reads. Excessive agency is the size of what the tools then let the model do.
+
 Four of the five are attacks. Excessive agency is the reason a small attack becomes a large incident, and it is the one you can fix first.
 
 ## How it works, step by step
@@ -56,7 +72,7 @@ Four of the five are attacks. Excessive agency is the reason a small attack beco
 
 ## Worked example
 
-Memory poisoning in twenty lines. It needs no model. It shows how one saved note reaches every later prompt.
+Memory poisoning in twenty lines. It needs no model. Run it with `python memory_poison_demo.py`. It shows how one saved note reaches every later prompt.
 
 ```python
 # memory_poison_demo.py: one saved note steers every later task.
@@ -87,7 +103,7 @@ if __name__ == "__main__":
 What to observe:
 
 - The poisoned note is written to share words with almost any request ("the user", "every answer"). Real retrieval uses meaning rather than word overlap, and the same trick applies: the attacker writes for wide matching.
-- The poisoned note is retrieved for both requests, next to the note that honestly answers the question.
+- The poisoned note is retrieved first for both requests, ahead of the honest notes. In the first prompt it sits right above the note that answers the question.
 - Nothing in the prompt marks the note as untrusted. It looks exactly like the note about the launch.
 
 The link uses the reserved domain `example.invalid`, so the example is harmless.
@@ -97,7 +113,7 @@ The link uses the reserved domain `example.invalid`, so the example is harmless.
 Dawn Song added agent-specific surfaces in each term.
 
 - **Spring 2025: where injected text enters.** She lists manipulated user input, memory poisoning and knowledge-base poisoning, poisoning of external sources fetched during a run, supply chain attacks, and poisoned public data sets and documents ([56:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=3360)).
-- **Model output reaches dangerous tools.** When a system uses model output as function-call parameters with too little checking, ordinary vulnerabilities follow, such as SQL injection and server-side request forgery ([28:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=1680)). Her Spring 2025 examples are three published cases. In LlamaIndex (CVE-2024-23751) a user's text went into a SQL query that the database ran directly. In Vanna AI (CVE-2024-7764) an added semicolon let a second query run. In SuperAGI (CVE-2024-21552) the model's reply was evaluated as code, so a prompt could make it delete a file ([40:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=2400), [42:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=2520), [46:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=2760)).
+- **Model output reaches dangerous tools.** When a system uses model output as function-call parameters with too little checking, ordinary vulnerabilities follow, such as SQL injection and server-side request forgery, in which the system is tricked into fetching a URL the attacker chose ([28:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=1680)). Her Spring 2025 examples are three published cases, each filed under a CVE, a public identifier for a known vulnerability. In LlamaIndex (CVE-2024-23751) a user's text went into a SQL query that the database ran directly. In Vanna AI (CVE-2024-7764) an added semicolon let a second query run. In SuperAGI (CVE-2024-21552) the model's reply was evaluated as code, so a prompt could make it delete a file ([40:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=2400), [42:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=2520), [46:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=2760)).
 - **Misuse is also a system property.** A web agent can be misused to flood an external API, and a coding agent to write malware. The system can amplify the risk of a model, or contain it ([36:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=2160)).
 - **Fall 2025: memory and retrieval.** She describes AgentPoison (NeurIPS 2024): the agent retrieves past trajectories to decide what to do, and an attacker who plants a small number of malicious trajectories can steer it ([44:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2640)). The agent behaves normally until a request contains the trigger text, and the backdoor sits in the retrieval database, so no retraining is needed ([46:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2760)).
 - **Fall 2025: a web agent.** Her group's automated red-teaming tool, AgentXploit, assumes the attacker has only black-box access to the target agent, meaning it can query the agent but not read its code. It generated this injection: text planted in a product review on a review website makes a real web agent ignore the user's instruction, visit the attacker's site, and download malware ([66:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=3960), [68:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=4080)).
@@ -146,14 +162,14 @@ You are done when every store and every outside source in your agent appears on 
 - Memory poisoning persists. One planted note is served to every later task, and a prompt change does not remove it.
 - In a multi-agent system, each hop hides the origin of a text, so one poisoned agent can steer the rest.
 - Excessive agency is the amplifier. It is not an attack, and it is the cheapest thing to reduce.
-- Song's examples moved from résumés and reviews to coding agents whose shell tools an injected issue could reach.
+- Song's examples range from résumés and reviews to coding agents whose shell tools an injected issue could reach.
 
 ## Self-check
 
 1. Why does memory poisoning survive a change to the system prompt?
 2. An agent summarizes a poisoned page and hands the summary to a second agent. Which class is this, and why is it harder to see than direct injection?
 3. Why is excessive agency listed with the attacks although it needs no attacker?
-4. In the Fall 2025 coding-agent example, what two things did the analyzer identify before the payload was written?
+4. In the Fall 2025 red-team exercise on the OpenHands agent, what two things did the analyzer identify before the payload was written?
 5. What makes a poisoned retrieval document match many queries?
 
 <details><summary>Show answers</summary>

@@ -19,7 +19,7 @@ A **mixture of experts** (MoE) layer attacks the other half. Instead of one MLP 
 
 | Lever | What changes | What you gain |
 |---|---|---|
-| Kernels | How attention is computed, not what it computes | A constant-factor speedup |
+| Kernels, the small programs that run on the chip | How attention is computed, not what it computes | A constant-factor speedup |
 | Hybrid layers | Some layers use a cheaper mechanism | Cost grows more slowly with length |
 | Linear attention and state-space models | Attention keeps a fixed-size state | Linear cost, no growing cache |
 | Sparse attention | Each query reads a few selected tokens | Less work at long context |
@@ -41,7 +41,7 @@ Attention is `softmax(Q Kᵀ) V`, where Q, K and V are the query, key and value 
 
 `(Q Kᵀ) V = Q (Kᵀ V)`
 
-The product `Kᵀ V` has a fixed size. It can be built up one token at a time: `S ← S + k vᵀ` for each token, then the output is `S q`. This is a **recurrence** with a fixed-size **state**. The cost becomes linear in n, and generation needs no growing cache. Hashimoto's argument is about which number is large. In `Q Kᵀ V` the work is n² times the key dimension, and n, the context length, reaches millions. After the reorder it is n times the key dimension times the value dimension, and those are in the thousands ([6:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=360)).
+The product `Kᵀ V` has a fixed size. It can be built up one token at a time: `S ← S + k vᵀ` for each token, then the output for that token is `Sᵀ q`. This is a **recurrence** with a fixed-size **state**. The cost becomes linear in n, and generation needs no growing cache. Hashimoto's argument is about which number is large. In `Q Kᵀ V` the work is n² times the key dimension, and n, the context length, reaches millions. After the reorder it is n times the key dimension times the value dimension, and those are in the thousands ([6:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=360)).
 
 Where it breaks: the softmax lets a query pick one earlier token sharply. A plain sum of outer products blurs everything together, so exact recall of a detail from far back gets harder as the sequence grows.
 
@@ -49,8 +49,8 @@ Where it breaks: the softmax lets a query pick one earlier token sharply. A plai
 
 Two elaborations on linear attention make the state more useful:
 
-- **Mamba-2** belongs to the family of **state-space models**, which keep a state that is updated at every step. It amounts to linear attention with a per-position weight, so some contributions matter more than others.
-- **Gated DeltaNet** gates the input and can selectively erase parts of the state. Hashimoto notes that the same idea resurfaced under the names fast-weight programming and test-time training ([18:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=1080)).
+- **Mamba-2** belongs to the family of **state-space models**, which keep a state that is updated at every step. It amounts to linear attention with an extra gate that depends only on the current token and decides, at each step, how much of the old state to keep. That is how it forgets ([12:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=720)).
+- **Gated DeltaNet** adds a second gate on the new write, and when it writes a token it first erases what the state already holds in that token's key direction ([16:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=960)). Hashimoto notes that the same idea resurfaced under the names fast-weight programming and test-time training ([18:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=1080)).
 
 ### 5. Sparse attention
 
@@ -80,20 +80,38 @@ def moe_layer(x, experts, w_router, k=2):
 
 Two numbers describe such a model: **total parameters** and **active parameters**, the part one token passes through. DeepSeek-V3, as reported in the lecture's slides, has 671B total and 37B active.
 
+**Figure 1.** A mixture-of-experts layer: every token goes through the shared expert and only the top-k routed experts, so total parameters far exceed active parameters.
+
+```mermaid
+flowchart LR
+    T["Token vector"] --> R["Router scores every expert"]
+    T --> S["Shared expert, always on"]
+    R --> K["Keep the top k experts"]
+    K --> E1["Routed expert 1"]
+    K --> E2["Routed expert k"]
+    K --> X["The other experts are skipped"]
+    S --> O["Weighted sum of the outputs"]
+    E1 --> O
+    E2 --> O
+    O --> N["Back into the residual stream"]
+```
+
+The skipped experts still count toward total parameters, but they do no work for this token, which is why the two numbers come so far apart.
+
 Four reasons explain the popularity, all from the lecture's slides: more parameters at the same FLOPs does better, MoEs train faster, they compete with much larger dense models, and they parallelize across devices. The cost is infrastructure.
 
 **Routing.** Almost every released MoE uses token-choice top-k, the scheme of the Switch Transformer, GShard, Grok, Mixtral, Qwen, DBRX and DeepSeek ([50:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=3000)). Hashimoto finds it mysterious that even unlearned routing does something: hashing the token's vector and sending it to an expert gives gains, though smaller than top-k. Learning routes with reinforcement learning, the natural approach to a learning theorist, was tried early but is uncommon, he says, because the RL adds overhead and randomness ([50:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=3000)). An exact global assignment can be solved, but it is far too expensive to scale. Top-k is the consensus, and there is no reason to do something much more complicated ([52:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=3120)).
 
 **Fine-grained experts plus shared experts.** The DeepSeek style cuts the experts into smaller pieces and keeps one or a few always on, outside the router. Hashimoto's explanation: in the classic design many experts were reusing weights for the same common processing. The shared expert takes that over and lets the routed experts specialize ([54:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=3240)). DeepSeek's ablation compares 16 routed experts with no shared one, the GShard design, against fine-grained experts plus one shared expert. Both changes help, the shared expert visibly on TriviaQA and Natural Questions. Olmo's controlled study agrees on fine-grained experts but finds that shared experts help very little ([56:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=3360)). In his telling, the DeepSeek design became the template others copy, as the Llama design did for dense models.
 
-**Training.** Choosing top-k is a hard decision, so gradients do not flow through it. Two workarounds:
+**Training.** Choosing top-k is an all-or-nothing decision, so gradients do not flow through the choice itself. Two workarounds:
 
 - Make routing noisy, as with the Gaussian perturbation of Shazeer et al. (2017) or the multiplicative jitter of Fedus et al. (2022).
 - Add a **load-balancing loss** that penalizes uneven expert usage, because hardware is wasted when a few experts receive everything.
 
 Hashimoto reads the Switch Transformer's balancing loss through its gradient. For each expert it multiplies the fraction of tokens sent to it by the router's probability mass on it, so the more tokens an expert attracts, the harder its probability is pushed down ([64:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=3840)). DeepSeek-V3 replaces the loss with a per-expert bias that is updated online to steer tokens toward underused experts. Hashimoto's wish is plain: "I wish I could just get rid of the load balancing loss" ([68:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=4080)). Olmo's ablation shows why it stays: without the loss, almost every token goes to two experts, the rest sit idle, and the training loss climbs.
 
-**Systems.** Experts sit on different devices, so a token may have to travel. Each expert can fit on one device, and expert parallelism adds a third axis once data parallelism has hit its batch-size limit and model parallelism has run out of places to cut. The computation also maps onto the structured sparse matrix multiplies that GPUs support natively ([72:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=4320)). Nemotron 3 shrinks the activations before sending them: it down-projects the residual stream first, so the routed experts work on a smaller vector while the shared expert, which is never sent, keeps the full size ([74:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=4440)).
+**Systems.** Experts sit on different devices, so a token may have to travel. Expert parallelism adds a third axis once data parallelism has hit its batch-size limit and model parallelism has run out of places to cut. The computation also maps onto the structured sparse matrix multiplies that GPUs support natively ([72:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=4320)). Nemotron 3 shrinks the activations before sending them: it down-projects the residual stream first, so the routed experts work on a smaller vector while the shared expert, which is never sent, keeps the full size ([74:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=4440)).
 
 ## Worked example
 
@@ -125,7 +143,7 @@ The lecture's headline on linear attention is a warning. MiniMax M1 and MiniMax-
 
 The examples he gives: Nemotron 3 mixes Mamba layers and attention at roughly 3 to 1, and Qwen 3.5 and Qwen Next are 3-to-1 hybrids of gated DeltaNet and attention. Qwen Next decodes with much higher throughput than Qwen 3 as context grows, and the hybrid costs little performance in his comparison. His caveat is that controlled studies are few. One, from ByteDance Seed and UC Santa Cruz, increases the number of non-attention layers from left to right: performance degrades, but for the best variants there is basically no hit at low ratios ([18:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=1080)).
 
-On MoE stability, he points to the router **z-loss** from Zoph et al. (2022), and to spiky training curves when it is removed ([78:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=4680)). Two more warnings come from the lecture. Sparse MoEs overfit badly when their experts are fine-tuned on small datasets: train and validation loss separate sharply on a GLUE task in his plot. The fixes are to fine-tune only the non-expert MLPs or only attention, or to use far more data, as DeepSeek did with 1.4 million examples ([78:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=4680)). Early MoE infrastructure added randomness of its own: a popular expert's queue overflowed, tokens were silently dropped, and other users' queries could change your output. He calls that solved by drop-free architectures such as MegaBlocks ([74:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=4440), [76:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=4560)).
+On MoE stability, he points to the router **z-loss** from Zoph et al. (2022), and to spiky training curves when it is removed ([78:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=4680)). Two more warnings come from the lecture. Sparse MoEs overfit badly when their experts are fine-tuned on small datasets: train and validation loss separate sharply on a GLUE task in his plot. The fixes are to fine-tune only the non-expert MLPs or only attention, or to use far more data, 1.4 million examples in his figure ([78:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=4680)). Early MoE infrastructure added randomness of its own: a popular expert's queue overflowed, tokens were silently dropped, and other users' queries could change your output. He calls that solved by drop-free architectures such as MegaBlocks ([74:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=4440), [76:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=4560)).
 
 **Upcycling** is a cheaper way to start: copy a trained dense model into an MoE and continue training. The slides list MiniCPM (top-2 of 8 experts, about 4B active) and an early Qwen MoE (built from the 1.8B model, top-4 of 60, with 4 shared). It has fallen out of use: Hashimoto has not seen a single upcycled model in the year of the lecture ([78:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=4680)).
 
@@ -142,7 +160,7 @@ His summary: MoEs exploit sparsity so that you have more parameters than you pay
 3. **Comparing an MoE by total parameters.** Fix: compare active parameters and FLOPs per token.
 4. **Letting load drift.** A few experts take everything and the rest are dead weight. Fix: add a balancing loss or a bias update, and watch expert usage.
 5. **Dropping the router z-loss.** Fix: keep it until a long run proves you do not need it.
-6. **Fine-tuning an MoE on a small dataset.** Fix: fine-tune only the non-expert MLPs or the attention, as Zoph et al. did, or use far more data, as DeepSeek did.
+6. **Fine-tuning an MoE on a small dataset.** Fix: fine-tune only the non-expert MLPs or the attention, as Zoph et al. did, or use far more data.
 7. **Forgetting communication.** Expert parallelism trades compute for network traffic. Fix: count bytes between devices, as in Chapter 06.
 
 ## Try it
@@ -171,7 +189,7 @@ You are done when:
 
 1. What makes linear attention linear in sequence length?
    - A. It samples a fixed number of keys for every query
-   - B. It removes the softmax so the product can be reordered through a fixed-size state
+   - B. It drops the softmax, so the product can go through a small fixed state
    - C. It limits every token to a fixed window of neighbors
    - D. It compresses the keys and values into fewer dimensions
 2. What do all the large-scale "linear" models in the lecture have in common?

@@ -9,7 +9,7 @@
 
 A stakeholder asks for an agent that buys the cheapest color photo printer and ships it to "the address on the photo". Three things break at once. A text-only agent cannot see that the photo is upside down. An agent that reads the page's source code drowns in markup. An agent that sees only pixels cannot tell which small gray box is the Add to cart button.
 
-Ruslan Salakhutdinov demonstrates almost exactly this task, with the address in a photo that he shows upside down on purpose ([8:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=480)). The question this chapter answers: how is an agent measured on this kind of work, and what makes it better?
+Ruslan Salakhutdinov demonstrates almost exactly this task, with the address in a photo that he shows upside down on purpose ([8:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=480)).
 
 ## The core idea
 
@@ -31,19 +31,35 @@ Salakhutdinov lists three representations in use: the HTML source, **Set-of-Mark
 
 ### 2. Give every task a resettable start state
 
-In OSWorld, the computer-use benchmark Xiong presents, each task has a configuration: an instruction, a setup file that puts files and apps into the starting state, and an evaluation part that says how to score it. OSWorld then starts a **virtual machine (VM)**, a simulated computer, from that setup, so a ruined state costs one reset and nothing real can be damaged ([12:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=720), [14:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=840)).
+In OSWorld, the computer-use benchmark Xiong presents, each task has a configuration: an instruction, a setup file that puts files and apps into the starting state, and an evaluation part that says how to score it. OSWorld then starts a **virtual machine (VM)**, a simulated computer, from that setup, so a ruined state costs one reset and nothing real is at risd ([12:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=720), [14:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=840)).
 
 ### 3. Let the agent act
 
-The agent emits actions as short code strings that move the mouse and keyboard. The VM runs them and returns a new observation. The loop stops when the task is done or has failed, or at a step limit, 15 in Xiong's experiments ([18:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=1080)).
+The agent emits actions as short code strings that move the mouse and keyboard. The loop stops when the task is done or has failed, or at a step limit, 15 in Xiong's experiments ([18:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=1080)).
 
 ### 4. Score by execution
 
 A script inspects the final state. Salakhutdinov's verifiers look for an exact answer, a yes-or-no visual question or a price inside a range ([16:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=960)). Xiong writes a custom script per task, 134 for 369 tasks, because no single metric fits all ([20:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=1200), [24:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=1440)); a partly finished task scores between 0 and 1 ([18:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=1080)).
 
+**Figure 1.** One task run in an execution-based benchmark such as OSWorld.
+
+```mermaid
+flowchart TD
+    C["Task config: instruction, setup, scorer"] --> V["VM reset to the setup state"]
+    V --> O["Agent observes the screen"]
+    O --> A["Agent emits one action"]
+    A --> E["VM runs the action"]
+    E -->|"not finished, under the step limit"| O
+    E -->|"done, failed or step limit"| F["Final state"]
+    F --> S["Evaluation script checks the state"]
+    S --> R["Score between 0 and 1"]
+```
+
+The loop repeats until the agent stops or hits the step limit; the score comes only from the final state.
+
 ### 5. Spend more compute after a failure
 
-Salakhutdinov describes two test-time methods. Search by repeated sampling runs several complete attempts and keeps one that passes, which he likens to rejection sampling ([34:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=2040)). Tree search scores each intermediate state with a **value function**, here a multimodal LLM, GPT-4o on his slide, acting as judge; when the score drops, it backtracks and tries another action ([38:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=2280)). Asked for a polo shirt in one color, his example agent lands on a page listing only another color and gives up; with backtracking it finds the shirt ([42:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=2520)). Both methods need the check from step 4, and search is slow ([44:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=2640)).
+Salakhutdinov describes two test-time methods. Search by repeated sampling runs several complete attempts and keeps one that passes, which he likens to rejection sampling ([34:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=2040)). Tree search scores each intermediate state with a **value function**, a model that estimates how close the run is to success, here an LLM acting as judge; when the score drops, it backtracks and tries another action ([38:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=2280)). Asked for a black polo shirt, his example agent lands on a page of blue ones and gives up; backtracking finds one ([42:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=2520)). Repeated sampling needs the check from step 4 to know which attempt passed, and search is slow ([44:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=2640)).
 
 ### Benchmarks to know
 
@@ -78,7 +94,7 @@ Salakhutdinov describes two test-time methods. Search by repeated sampling runs 
 2. **Feeding raw HTML.** Fix: pick one observation format on purpose and measure the others against it.
 3. **Small screenshots.** Fix: raise the resolution and measure the token cost.
 4. **Going vision-only and dropping the text history.** Fix: keep a compact text log of past actions.
-5. **A step limit set too low.** Fix: raise it, but add loop detection, because more steps also mean longer loops.
+5. **A step limit set too low.** Fix: raise it, and watch for loops.
 6. **Reading a benchmark score as product readiness.** Fix: build the same fixture, action and assertion around your own environment.
 7. **Letting the agent act on a real account.** Fix: run in a sandbox and confirm irreversible actions; see [prompt injection](../04-safety-and-security/02-jailbreaks-and-prompt-injection.md).
 
@@ -96,13 +112,12 @@ Build a five-task harness for one web app you control.
 - As of March 2025, Salakhutdinov reported the best web agents near 20 percent accuracy on VisualWebArena-style tasks, against 78 percent for humans on WebArena.
 - The main failures are long-horizon: loops, no memory, undoing work, giving up.
 - Grounding, the observation format and the step limit each move the score; so does reasoning before acting.
-- Search at test time needs an automatic check to search against.
+- Test-time search needs an automatic signal: the end-state check for repeated sampling, the value function for tree search.
 
 ## What this means for someone building agents
 
 1. Write the check before the agent. An end-state check turns a vague demo into a number, and it powers retries and search; see [planning, search and decision making](../02-building-agents/03-planning-search-and-decision-making.md).
-2. Treat the observation format as a design decision with a cost: HTML is exact but long, screenshots are universal but hard to ground.
-3. Keep a text log of past actions even when the agent is vision-based.
+2. Treat the observation format as a design decision with a cost, and keep a text log of past actions even when the agent is vision-based.
 
 ## Self-check
 

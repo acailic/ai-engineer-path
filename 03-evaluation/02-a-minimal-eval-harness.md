@@ -13,7 +13,7 @@ What you need is a **harness**: a program that runs every task, scores every att
 
 ## The core idea
 
-A harness is a test runner for a system whose output varies. It has five parts, and each one is a plain list or function.
+A harness is a test runner for a system whose output varies. It has six parts, and each one is a plain list or function.
 
 | Part | Job | In the code below |
 |---|---|---|
@@ -26,9 +26,9 @@ A harness is a test runner for a system whose output varies. It has five parts, 
 
 Two ideas keep it small.
 
-**The system sits behind one method.** The harness never talks to a model. It calls `complete(prompt, seed)`. In this chapter a **stub** plays the model: a deterministic fake that returns canned behavior. It stands in for the real system the way a fake database stands in for the real one in a unit test. To evaluate a real system, write a class with the same method that calls your provider's SDK (the vendor's client library). Nothing else in the harness changes. Those calls cost API money.
+**The system sits behind one method.** The harness never talks to a model. It calls `complete(prompt, seed)`. In this chapter a **stub** plays the model: a deterministic fake that returns canned behavior. It stands in for the real system the way a fake database stands in for the real one in a unit test. To evaluate a real system, write a class with the same method that calls your provider's SDK (the vendor's client library). Nothing else in the harness changes.
 
-**Graders return scores, not verdicts.** Kästner argues in chapter 15 that a learned model has no specification to be correct against, so you measure fit: how often it is good enough. He quotes the statistician George Box: all models are wrong, but some are useful.
+**Graders return scores, not verdicts.** Kästner argues in chapter 15 that a learned model has no specification to be correct against, so you measure fit: how often it is good enough. He quotes the statistician George Box: "all models are wrong, but some are useful."
 
 One more word. A **token** is the chunk of text a model reads or writes at a time, roughly three quarters of a word. Providers charge per token, so the harness counts them.
 
@@ -43,7 +43,7 @@ Each task record has six fields:
 - `facts`: key phrases. The fraction found is the partial credit.
 - `must_call`: tool calls the agent has to make, in this order.
 - `forbid_call`: tool calls the agent must never make on this task.
-- `tag`: the slice the task belongs to, here `trivia` or `support`.
+- `tag`: the slice the task belongs to, a subset of the tasks that is reported on its own.
 
 The last task, `refund-missing`, is a request the agent must refuse. Every dataset needs such cases.
 
@@ -69,7 +69,7 @@ With `n` attempts per task and `c` successes:
 - **pass@k** is the chance that at least 1 of `k` independent attempts succeeds. It answers "can it get there if it may retry?". Estimate: `1 - C(n-c, k) / C(n, k)`, where `C` is the number of ways to choose `k` items from `n`.
 - **pass^k** is the chance that all `k` attempts succeed. It answers "can it be trusted every time?". Estimate: the product of `(c - i) / (n - i)` for `i` from 0 to `k - 1`.
 
-Both estimates are unbiased, which means that averaging them over many random datasets gives the true value. With `n = k = 4` they collapse: a task with 2 successes in 4 has pass@4 = 1 and pass^4 = 0.
+Both estimates are unbiased, which means that averaging them over many random datasets gives the true value. With `n = k = 4` each is all-or-nothing per task: a task with 2 successes in 4 has pass@4 = 1 and pass^4 = 0.
 
 - **Process** is the share of attempts with no violation.
 - **Cost** is dollars per attempt at example prices of $3 and $15 per million input and output tokens. Use your provider's current prices.
@@ -360,9 +360,9 @@ The numbers describe the two stubs and their settings in `PROFILES`. They say no
 
 **Report cost next to quality.** Describing CRMArena, a benchmark for customer-relationship-management workflows, the lecturers note that it reports the number of turns, tokens and dollars spent, not only task success ([62:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3720)). Their advice is to measure efficiency as well as success ([64:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3840)).
 
-**Partial credit is common in agent benchmarks.** LegalAgentBench, on their list of case studies, reports a success rate and a separate progress rate that rewards partial progress toward the answer.
+**Partial credit is common in agent benchmarks.** The lecture's slides on LegalAgentBench, one of their case studies, shown just before [64:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3840), give a success rate and a separate progress rate that rewards partial progress toward the answer.
 
-**Kästner on baselines and size.** An accuracy means little on its own, he writes in chapter 15: 99% can be excellent for one problem and useless for another. Compare against a baseline and look at the reduction in error, which going from 50% to 75% accuracy halves. As a rule of thumb he passes on, hundreds of test items make a quick check and thousands give confidence. Part 8 covers the pitfalls of offline accuracy in detail: [testing generative and LLM components](../08-quality-assurance/05-testing-generative-and-llm-components.md).
+**Kästner on baselines and size.** An accuracy means little on its own, he writes in chapter 15: 99% can be excellent for one problem and useless for another. Compare against a baseline and look at the reduction in error: going from 50% to 75% accuracy halves the error. As a rule of thumb he passes on, hundreds of test items make a quick check and thousands give confidence. Part 8 covers the pitfalls of offline accuracy in detail: [testing generative and LLM components](../08-quality-assurance/05-testing-generative-and-llm-components.md).
 
 ## Pitfalls
 
@@ -378,7 +378,7 @@ The numbers describe the two stubs and their settings in `PROFILES`. They say no
 
 Copy the program and run it.
 
-**Deliverable:** a real client for one task type. Write a class with a `complete(prompt, seed)` method that calls a chat model. It calls a paid API: at the example prices, the 3 trivia tasks with 4 attempts each and about 100 output tokens per attempt cost about two cents in total. Replace `StubModel` with your class for the `trivia` tasks.
+**Deliverable:** a real client for one task type. Write a class with a `complete(prompt, seed)` method that calls a chat model. It calls a paid API: at the example prices, the 3 trivia tasks with 4 attempts each and about 100 output tokens per attempt cost about two cents in total. Then call `run(YourModel(), DATASET[:3])`, the three trivia tasks, and pass the records to `summarize` and `print_report`.
 
 **You are done when** the program prints a table for your model, you have hand-checked one number against the per-attempt strings, and you have changed one `accept` value to see the exact match move.
 
@@ -386,7 +386,7 @@ Copy the program and run it.
 
 ## Key takeaways
 
-- A harness has five parts: dataset, interface, runner, graders, metrics. Each is small enough to read.
+- A harness has six parts: dataset, interface, runner, graders, metrics, report. Each is small enough to read.
 - Keep the system behind one method so a stub and a real client are interchangeable.
 - Run every task several times. Report pass^k next to pass@k, because "at least once" and "every time" are different promises.
 - Grade outcomes and trajectories separately. They fail independently.
@@ -410,10 +410,10 @@ Copy the program and run it.
    C. Key phrases found in the answer
    D. Tasks that were attempted
 5. `regressions` returns `['cost']` for `tuned` against `baseline`. What does that mean?
-   A. `tuned` is broken and must not ship
-   B. `tuned` is better on the quality metrics and more expensive per attempt
-   C. The harness failed to run `tuned`
-   D. `baseline` is cheaper and more accurate
+   A. `tuned` is broken on the support tasks and must not ship
+   B. `tuned` is better on the quality metrics and costs more per attempt
+   C. The harness failed to score most of the attempts by `tuned`
+   D. `baseline` is cheaper and also the more accurate of the two
 6. What is the job of the seed passed to `complete`?
    A. To cache earlier responses
    B. To sort the dataset

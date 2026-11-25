@@ -13,7 +13,7 @@ How do you know which is which? CS336's answer is to look at what dozens of rele
 
 ## The core idea
 
-A Transformer is a stack of identical **blocks**. Each block holds two parts: **attention**, which lets a token read information from other tokens, and a **MLP** (multi-layer perceptron, two or three linear layers with a nonlinearity between them), which processes each token on its own.
+A Transformer is a stack of identical **blocks**. Each block holds two parts: **attention**, which lets a token read information from other tokens, and an **MLP** (multi-layer perceptron, two or three linear layers with a nonlinearity between them), which processes each token on its own.
 
 Both parts write into the **residual stream**: the vector that belongs to a token and is carried from the first layer to the last. A block never overwrites that vector. It computes something and adds the result on top.
 
@@ -22,9 +22,26 @@ x = x + attention(norm(x))
 x = x + mlp(norm(x))
 ```
 
-The analogy is a passing a note down a line of people, where each person adds a remark in the margin instead of rewriting the note. The analogy breaks because the additions are not small comments: later layers rely heavily on what earlier ones wrote, and the additions must keep a similar scale or the numbers grow out of control. That is the job of **normalization**, the `norm` in the sketch above.
+The analogy is a note passed down a line of people: each person adds a remark in the margin instead of rewriting the note. The analogy breaks because the additions are not small comments: later layers rely heavily on what earlier ones wrote, and the additions must keep a similar scale or the numbers grow out of control. That is the job of **normalization**, the `norm` in the sketch above.
 
-Around this skeleton, four choices vary from model to model:
+**Figure 1.** One pre-norm block: the residual stream skips around each part, and each part only adds to it.
+
+```mermaid
+flowchart TD
+    X["Token vector from the previous block"] --> N1["Norm"]
+    N1 --> A["Attention reads the other tokens"]
+    X -->|"unchanged"| S1["Add"]
+    A --> S1
+    S1 --> N2["Norm"]
+    N2 --> M["MLP processes the token alone"]
+    S1 -->|"unchanged"| S2["Add"]
+    M --> S2
+    S2 --> O["Token vector for the next block"]
+```
+
+The two arrows labeled unchanged are the residual stream: whatever a part computes is added, never written in place of what was there.
+
+Around this skeleton, six choices vary from model to model:
 
 | Choice | Consensus (as of the lecture, Spring 2026) | Alternatives in use |
 |---|---|---|
@@ -115,21 +132,21 @@ His framing of the job: an architecture has to generalize, has to train efficien
 
 On norms, his reading of the evidence is that pre-norm won because it reduces the size and frequency of gradient spikes and allows deeper networks. When stability problems appear, his advice is blunt: "sprinkle in layer norms everywhere, and that will generally improve stability" ([12:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=720)).
 
-On RMSNorm, he gives the reason that runs through the whole course. LayerNorm is more expressive, and nothing is lost in practice by dropping that. The operation is about 0.17% of the FLOPs in his example, yet it still costs time, because "FLOPS are not runtime" ([14:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=840)). Small operations that move memory and add little expressive power are the first to remove.
+On RMSNorm, he gives the reason that runs through the whole course. LayerNorm is more expressive, and nothing is lost in practice by dropping that. The operation is about 0.17% of the FLOPs in his example, yet it still costs time, because FLOPs are not runtime ([14:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=840)). Small operations that move memory and add little expressive power are the first to remove.
 
 On position, he stresses that attention by itself is a set operation: "They're just inner products. So you can just shuffle them and attention would be the same" without a position embedding ([30:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=1800)).
 
 On hyperparameters, he ranks them. The head split is forgiving, with a wide basin around the convention; T5 and LaMDA are the exceptions ([50:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=3000)). The aspect ratio is one of the most critical, because it controls the entire depth-to-width trade-off as models grow. Most models sit near 100, about 100 units of width per layer, GPT-3 and Llama included. His explanation is a compromise between two pressures: systems reasons to go wide, because width slices easily across GPUs, and expressiveness reasons to go deep ([52:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=3120)). Anywhere near 100 is a safe bet ([54:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=3240)). The Kaplan sweep he shows softens this: as depth and width trade off, FLOPs explain most of the difference, not the ratio.
 
-On regularization, he notes that nobody uses dropout any more, because it interacts badly with optimization. Newer models keep only weight decay, which may allow a higher learning rate ([64:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=3840)).
+On regularization, he notes that nobody uses dropout (randomly zeroing values during training) any more, because it interacts badly with optimization. Newer models keep only weight decay, a penalty that pulls weights toward zero, which may allow a higher learning rate ([64:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=3840)).
 
 Finally, inference pushes back on architecture. To generate cheaply, a model keeps a **KV cache**, a stored copy of the keys and values of all previous tokens. That cache grows with sequence length. **Multi-query attention** shares one key and value across all heads and shrinks the cache a lot, but, he warns, it does lose significant expressive power. **Grouped-query attention** keeps several key and value heads, fewer than the query heads, and the trade-off is quite favorable ([80:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=4800)). Chapter 08 does this arithmetic.
 
-Stability is the third lens. As runs get more expensive, Hashimoto says, a loss that spikes can leave a model that is poor or unrecoverable. His first suspects are the two softmaxes, at the output and in attention, because each combines an exponential with a division ([66:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=3960)). Three fixes follow:
+Stability is the third lens. As runs get more expensive, Hashimoto says, a loss that spikes can leave a model that is poor or unrecoverable ([64:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=3840)). His first suspects are the two softmaxes, at the output and in attention, because each combines an exponential with a division ([66:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=3960)). Three fixes follow:
 
-- **Z-loss** adds a penalty on the squared log of the output softmax's normalizer, which is zero when the numbers are well behaved. Devlin introduced it in 2014, and DCLM and Olmo brought it back ([68:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=4080)).
+- **Z-loss** adds a penalty on the squared log of the output softmax's normalizer, the sum that makes the probabilities add to one; the penalty is zero when the numbers are well behaved. Devlin introduced it in 2014, and DCLM and Olmo brought it back ([68:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=4080)).
 - **QK-norm** normalizes the queries and keys just before their dot product, so the attention softmax sees inputs of roughly unit scale. It came from multimodal models, costs no visible performance in his reading, and is now standard ([70:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=4200)).
-- **Logit soft-capping** limits the logits with a tanh, a harder intervention that some teams apply ([72:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=4320)).
+- **Logit soft-capping** limits the logits (the raw scores that go into a softmax) with a tanh, a function that flattens at a fixed maximum. It is a harder intervention that some teams apply ([72:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=4320)).
 
 Long context pulls in another direction. Models built for it alternate expensive global attention layers with cheap ones: sliding-window layers that see only nearby tokens, as GPT-3 already did ([84:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=5040)), or state-space layers. Hashimoto describes these hybrids as the past year's main answer to long-context performance ([88:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=5280)); Chapter 04 covers them.
 
@@ -144,7 +161,7 @@ Long context pulls in another direction. Models built for it alternate expensive
 
 ## Try it
 
-Take the parameter counter and three public model cards.
+Take the parameter counter and three public model cards, for example Llama 2 7B, Mistral 7B and GPT-2.
 
 **Deliverable:** a table with, for each model, width, layers, heads, head dimension, MLP width, vocabulary and total parameters, plus the aspect ratio.
 
@@ -162,7 +179,7 @@ You are done when:
 - The consensus: pre-norm outside the stream, RMSNorm, no bias terms, a gated MLP, serial blocks, RoPE.
 - RMSNorm wins not on FLOPs but on memory traffic. FLOPs are not runtime.
 - The aspect ratio, width divided by depth, is the hyperparameter to fix before scaling. About 100 is a safe value, and stability tricks (z-loss, QK-norm) keep a long run from spiking.
-- Inference needs shape architecture: smaller KV caches through grouped-query attention, and hybrids of global and cheap layers for long context.
+- Inference needs to shape architecture: smaller KV caches through grouped-query attention, and hybrids of global and cheap layers for long context.
 
 ## Self-check
 
@@ -177,7 +194,7 @@ You are done when:
    - C. To the loss before the parameters update
    - D. To the embedding table once, before the first block
 3. Which property makes RoPE different from absolute position embeddings?
-   - A. It needs no extra parameters at all
+   - A. It adds a learned vector to each token at every position
    - B. It makes attention scores depend on the distance between tokens
    - C. It works only for sequences shorter than 512 tokens
    - D. It encodes position in the MLP instead of attention

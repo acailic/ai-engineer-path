@@ -7,7 +7,7 @@
 
 ## Why this matters
 
-Two models. Both have about 4 million parameters. One runs in 2 ms on your phone. The other takes 40 ms and needs eight times more peak memory. Parameter count did not predict either number.
+Imagine two models. Both have about 4 million parameters. One runs in 2 ms on your phone. The other takes 40 ms and needs eight times more peak memory. Parameter count did not predict either number.
 
 The profiler tells you where the time goes, but you cannot read a profiler until you know what a network computes and what it moves. This chapter gives you that vocabulary: five minutes of arithmetic that explains most efficiency results.
 
@@ -41,7 +41,7 @@ y = xW + b
 - `b`: the **bias**, one extra learned number per output, added after the multiply.
 - `y`: the output, a vector of `Co` activations.
 
-For a batch of `N` inputs, `x` becomes `N × Ci` and `y` becomes `N × Co`. The weight table does not change (Han's example at [6:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=360) uses a batch of two).
+For a batch of `N` inputs (several inputs processed together), `x` becomes `N × Ci` and `y` becomes `N × Co`. The weight table does not change (Han's example at [6:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=360) uses a batch of two).
 
 ```
 parameters = Ci × Co + Co
@@ -68,7 +68,7 @@ A **convolution** connects each output only to a small window of inputs, not to 
 - **Depthwise convolution** is the extreme case: `G = Ci = Co`, one filter per channel.
 - **Pooling** shrinks the output by taking the maximum or average of each small block. It has no learnable parameters ([20:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1200)).
 
-For an input of `Ci` channels and size `H × W`, a square kernel of size `K`, stride `S` and padding `P`:
+For an input of `Ci` channels and size `H × W`, a square kernel (the weight table) of size `K`, stride `S` and padding `P`:
 
 ```
 H_out      = (H + 2P − K) / S + 1
@@ -83,13 +83,13 @@ Worked numbers: 3 input channels, 16 output channels, `K = 3`, `P = 1`, `S = 1`,
 - MACs: 3 × 3 × 3 × 16 × 224 × 224 = 21,676,032, about 21.7 million.
 - Output activations: 16 × 224 × 224 = 802,816 values. At 2 bytes: 1.6 MB.
 
-The output block is about 1,800 times larger than the weights that produced it. That is Han's point: when a network is trained, the activation count, not the parameter count, is the memory bottleneck, because every intermediate result is kept for the backward pass and a batch multiplies them ([44:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=2640)).
+The output block is about 1,800 times larger than the weights that produced it. That is Han's point: when a network is trained, the activation count, not the parameter count, is the memory bottleneck, because a batch multiplies them ([44:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=2640)). Step 5 explains why training must also keep every one of them.
 
 Two more layer types appear in every modern network. A **normalization layer** rescales activations so training converges faster. An **activation function** is a simple nonlinearity applied to each value, such as `max(0, x)`.
 
 ### 3. Attention, in one paragraph
 
-A **transformer** is the architecture behind modern language models. Its key step, **attention**, has every token compare itself with every other token. Han describes it as a softmax over all pairs, giving an `M × N` attention map ([30:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1800)). The efficiency consequence: work grows with the square of the sequence length, and with the square of the resolution for images. He previews two answers: sparse attention, since not all tokens need to attend to each other, and FlashAttention, which cuts the memory movement and brings memory down to almost constant but leaves the FLOPs unchanged ([30:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1800)). [Chapter 08](08-efficient-llm-inference-and-deployment.md) covers what to do about it; the architecture itself is explained in [transformer architectures](../10-llm-internals/03-transformer-architectures-and-hyperparameters.md).
+A **transformer** is the architecture behind modern language models. Its key step, **attention**, has every token compare itself with every other token. Han describes it as a [softmax](../GLOSSARY.md) over all pairs, giving an `M × N` attention map ([30:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1800)). The efficiency consequence: work grows with the square of the sequence length, and with the square of the resolution for images. He previews two answers: sparse attention, since not all tokens need to attend to each other, and FlashAttention, which cuts the memory movement and brings memory down to almost constant but leaves the FLOPs unchanged ([30:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1800)). [Chapter 08](08-efficient-llm-inference-and-deployment.md) covers what to do about it; the architecture itself is explained in [transformer architectures](../10-llm-internals/03-transformer-architectures-and-hyperparameters.md).
 
 ### 4. Counting operations
 
@@ -125,6 +125,22 @@ latency ≈ max(T_computation, T_memory)
 - `T_memory`: time to read the data the arithmetic needs.
 
 A layer is **compute-bound** when arithmetic dominates and **memory-bound** when moving data dominates. Which one you are on depends on the ratio of FLOPs to bytes, the **arithmetic intensity**.
+
+**Figure 1.** Han's first-order latency rule: two timers, and the slower one sets the latency.
+
+```mermaid
+flowchart TD
+    L["One layer"] --> C["Count FLOPs and divide by FLOP per second"]
+    L --> M["Count bytes moved and divide by bytes per second"]
+    C --> T["T computation"]
+    M --> U["T memory"]
+    T --> X["Latency is the larger of the two"]
+    U --> X
+    X -->|"arithmetic is larger"| B["Compute-bound"]
+    X -->|"data movement is larger"| D["Memory-bound"]
+```
+
+A layer is compute-bound when the arithmetic timer wins and memory-bound when the data timer wins; batching adds only to the arithmetic timer.
 
 Worked numbers for a 7-billion-parameter language model generating one token for one user. Suppose the chip does 200 trillion FLOP/s and moves 1 trillion bytes/s.
 
@@ -222,11 +238,11 @@ What to observe:
 
 Extend the script:
 
-1. Add a grouped convolution with `groups=4` and confirm the MACs are a quarter of the dense layer.
+1. Add a grouped convolution with `groups=4` and confirm the MACs fall to 28,901,376, a quarter of the ungrouped conv 16 to 16 layer.
 2. Add a three-layer network (for example 1,024 → 4,096 → 4,096 → 10) and print total parameters and total MACs.
-3. Add `peak_activation_bytes(layer)`: the input block plus the output block, at 2 bytes each.
+3. Add `peak_activation_bytes(layer)`: the input block plus the output block, at 2 bytes each. First make `conv2d` return `cin`, `cout`, `h`, `w`, `h_out` and `w_out` in its dictionary, because the peak depends on shapes.
 
-**You are done when** your output shows 2,320 parameters and 115,605,504 MACs for the conv 16 to 16 layer, 4,198,400 parameters for the linear layer, and a correct total for the three-layer network.
+**You are done when** your output shows 2,320 parameters and 115,605,504 MACs for the conv 16 to 16 layer, 4,198,400 parameters for the linear layer, 21,020,682 parameters for the three-layer network, and 3,211,264 bytes of peak activations for the conv 16 to 16 layer.
 
 **Stretch:** for each layer, print the arithmetic intensity in FLOPs per byte and the batch size at which it turns compute-bound.
 

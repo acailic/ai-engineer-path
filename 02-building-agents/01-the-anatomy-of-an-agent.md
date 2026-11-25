@@ -38,6 +38,27 @@ The loop is close to code you already write: `while not done: action = decide(hi
 5. **Add stop conditions.** At minimum three: the model returns a final answer, the run passes a step limit, or the run passes a time or token budget.
 6. **Handle errors as observations.** A failing tool returns an `Error:` text to the model, which can try something else. Only failures the model cannot fix, such as a missing API key, end the run with an exception.
 
+**Figure 1.** What `run_agent` does with each model decision, and what ends the run.
+
+```mermaid
+flowchart TD
+    M["Model decision"] -->|"final"| R["Return the answer"]
+    M -->|"tool call"| K["Look up the name in the registry"]
+    M -->|"anything else"| E["Error: malformed decision"]
+    K -->|"not found"| U["Error: unknown tool"]
+    K -->|"found"| T["Run the tool"]
+    T -->|"it raises"| X["Error: the exception"]
+    T -->|"it returns"| O["The result"]
+    E --> H["Append the text to the history"]
+    U --> H
+    X --> H
+    O --> H
+    H -->|"steps left"| M
+    H -->|"limit reached"| L["Stop with a message"]
+```
+
+A final answer or the step limit ends the run; every other failure becomes text in the history, and the model tries again.
+
 ### Workflows versus agents
 
 A **workflow** is a sequence of model calls that you wrote in advance. An **agent** picks its own steps at run time.
@@ -45,8 +66,8 @@ A **workflow** is a sequence of model calls that you wrote in advance. An **agen
 | | Workflow | Agent |
 |---|---|---|
 | Who decides the steps | Your code | The model |
-| Cost and latency | Fixed, known in advance | Grows with the task |
-| How you debug it | Read the code | Read the transcript |
+| Cost and [latency](../GLOSSARY.md) | Fixed, known in advance | Grows with the task |
+| How you debug it | Read the code | Read the transcript, the log of every model call and tool result |
 | Typical failure | A case the code did not expect | A loop, a wrong tool, a wrong plan |
 | Fits best | Known, repeated tasks | Open-ended tasks |
 
@@ -58,7 +79,7 @@ Skip the agent when any of these hold:
 - **The output must be correct by construction.** Use ordinary code and tests. A model call adds a chance of error to every step it touches.
 - **The result cannot be checked.** An agent improves only when it can observe the effect of its actions.
 - **The actions are hard to undo.** No later observation repairs a sent email or a deleted table. Keep a human or a confirmation step in the path.
-- **The task is one question with a known source.** One retrieval step and one model call are enough.
+- **The task is one question with a known source.** One [retrieval](../GLOSSARY.md) step and one model call are enough.
 
 ### Memory, in one page
 
@@ -198,6 +219,7 @@ class HttpModel(Model):
 ```
 
 A real adapter calls a paid API. Each step sends the whole history, so a 10-step run whose context grows to about 3,000 tokens costs roughly 15,000 input tokens plus a few hundred output tokens: a fraction of a cent to a few cents on small hosted models. Check the current price page.
+
 ## What the practitioners say
 
 Graham Neubig teaches coding agents at CMU and maintains the open-source coding agent OpenHands. In his Fall 2024 lecture he puts the environment first: "one of the things that defines agents is how they can interact with the environment" ([10:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=600)). His list of the problems in a coding agent reads like a table of contents for building any agent ([8:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=480), [10:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=600)):
@@ -217,7 +239,7 @@ Three more of his points apply here.
 - **A fixed process often wins.** He describes Agentless, a system with three hard-coded steps that generates several patches, checks them, and keeps the best. It is cheap and scores well, he says, but it is inflexible: it cannot decide to read documentation online ([46:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2760)). That is the workflow-versus-agent trade from the table above.
 - **The environment is bigger than a shell.** Real development also touches issue trackers, documents and chat tools, and his slides add that testing environments are mostly focused on coding ([10:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=600)).
 
-Yangqing Jia, who founded an AI infrastructure company that NVIDIA later acquired, adds the application-side view. In his Fall 2025 lecture he describes Duolingo using models to produce course content faster: the product improved because better models were combined with the company's own language-teaching knowledge, not because of the model alone ([32:00](https://www.youtube.com/watch?v=xqRAS6rAouo&t=1920)). The lesson for an agent builder: the model is one part. The tools, the environment and the data you connect are where your system differs from everyone else's.
+Yangqing Jia, who started the AI infrastructure company Lepton AI, adds the application-side view. In his Fall 2025 lecture he describes Duolingo using models to produce course content faster: the product improved because better models were combined with the company's own language-teaching knowledge, not because of the model alone ([32:00](https://www.youtube.com/watch?v=xqRAS6rAouo&t=1920)). The lesson for an agent builder: the model is one part. The tools, the environment and the data you connect are where your system differs from everyone else's.
 
 ## Pitfalls
 
@@ -232,7 +254,7 @@ Yangqing Jia, who founded an AI infrastructure company that NVIDIA later acquire
 
 Turn the stub into a real agent over a folder of notes.
 
-1. Add two tools: `list_files()` and `read_file(path)` that work only inside one fixed directory. Reject paths that escape it.
+1. Add two tools: `list_files()` and `read_file(path)` that work only inside one fixed directory. Reject paths that escape it: resolve the path with `os.path.realpath`, then reject it unless `os.path.commonpath` of that directory and the path equals the directory.
 2. Write a real `Model` adapter for a hosted model of your choice, following that provider's current documentation.
 3. Keep `ScriptedModel` and write a test that runs the loop offline: one script that triggers an unknown tool, one that hits the step limit.
 
@@ -276,6 +298,7 @@ Turn the stub into a real agent over a folder of notes.
 - **Lecture:** Graham Neubig, "Agents for Software Development", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=f9L9Fkq-8K4), used at [what defines agents](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=600), [copilots versus agents](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=240), [hard-coded processes](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2760)
 - **Lecture:** Yangqing Jia, "Evolution of System Designs from an AI Engineer Perspective", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=xqRAS6rAouo), used at [models and applications reinforce each other](https://www.youtube.com/watch?v=xqRAS6rAouo&t=1920)
 - **Reading:** Anthropic, "Building effective agents" (2024): [link](https://www.anthropic.com/engineering/building-effective-agents)
+
 ## Next
 
 → [02. Tool Design and Function Calling](02-tool-design-and-function-calling.md), because the tools decide what an agent can do and how often it fails.

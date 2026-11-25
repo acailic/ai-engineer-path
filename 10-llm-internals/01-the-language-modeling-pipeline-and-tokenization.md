@@ -74,6 +74,26 @@ Encoding new text:
 
 Decoding: each ID stands for a byte string (a raw byte for 0 to 255, the two merged strings joined for the rest). Join the byte strings and decode them as UTF-8.
 
+**Figure 1.** Byte-pair encoding: training repeats a loop to learn merges, and encoding new text only replays them.
+
+```mermaid
+flowchart TD
+    C["Corpus as bytes"] --> P["Count adjacent pairs"]
+    P --> B["Pick the most frequent pair"]
+    B --> N["Give it the next free ID and record the merge"]
+    N --> R["Replace every occurrence of the pair"]
+    R --> X["Enough merges yet"]
+    X -->|"no"| P
+    X -->|"yes"| M["Merges in learned order"]
+    M --> A["Apply the merges one at a time"]
+    T["New text as bytes"] --> A
+    A --> I["Token IDs"]
+    I --> D["Look up the byte string of each ID"]
+    D --> U["Join and decode as UTF-8"]
+```
+
+The loop is training; the second path is encoding, which counts nothing, so text the tokenizer has never seen still falls back to bytes.
+
 Liang's own example is `the cat and the hat`. The most frequent pair is the two bytes of `th`, which becomes token 256; the next merges produce `the` (257) and one more token (258), so the sequence shrinks while the vocabulary grows ([74:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=4440)). The code he shows works, he says, but is extremely slow, and making it fast is part of the first assignment. Real tokenizers add three things ([76:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=4560)):
 
 - **Pre-tokenization**: splitting text into chunks first, with a regular expression as the GPT-2 tokenizer does, so merges never cross a word or punctuation boundary.
@@ -149,7 +169,7 @@ The round trip `decode(encode(corpus)) == corpus` holds.
 
 ## What the practitioners say
 
-Percy Liang opens the course with a claim about what a small-scale course can teach. He sorts knowledge into three kinds: mechanics (how things work), mindset (squeezing the hardware, taking scaling seriously) and intuitions (which data and modeling choices work). The first two transfer to frontier models. Intuitions only partly do, because small models behave differently: in an old plot he shows, the share of FLOPs spent in the MLP layers is about 44% at small scale and about 80% at 175B parameters ([6:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=360)).
+Percy Liang opens the course with a claim about what a small-scale course can teach. He sorts knowledge into three kinds: mechanics (how things work), mindset (squeezing the hardware, taking scaling seriously) and intuitions (which data and modeling choices work). The first two transfer to frontier models. Intuitions only partly do, because small models behave differently: in an old plot he shows, the share of FLOPs (floating-point operations) spent in the MLP (feed-forward) layers is about 44% at small scale and about 80% at 175B parameters ([6:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=360)).
 
 His organizing lens is efficiency, and he applies it to every unit, including data: "We don't want to waste time updating gradients on a bunch of redundant bad data" ([64:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3840)). With a fixed compute budget, time spent on bad data is time not spent on good data.
 
@@ -171,12 +191,14 @@ Liang closes with two properties any replacement must have ([78:00](https://www.
 3. **Training BPE on a small or repetitive corpus.** Merges cross word boundaries and become phrases. Fix: train on representative text and add pre-tokenization.
 4. **A slow `encode`.** Applying every merge to the whole sequence for every input wastes time. Fix: consider only the merges that can apply, as the assignment asks.
 5. **Decoding bytes token by token.** One emoji is four bytes that may land in four tokens. Decoding each one alone raises a UTF-8 error. Fix: join all bytes first, as `decode` above does.
-6. **Reusing IDs across models.** Every tokenizer has its own vocabulary. Token 257 here is `th`; in another model it is something else.
+6. **Reusing IDs across models.** Every tokenizer has its own vocabulary. Token 256 is `th` in Liang's example and `at` in the listing above; in another model it is something else.
 7. **Comparing perplexity across tokenizers.** Fewer, longer tokens mean less uncertainty per token. Fix: compare models only on the same tokenizer, or convert to a per-byte measure.
 
 ## Try it
 
 Save the code above as `bpe.py` and use a real text file of at least 1 MB as the corpus.
+
+The listing is too slow for that size as written: `encode` loops over every merge for every input, and training with 5,000 merges takes about 20 minutes. Work line by line. To encode a line, build a dictionary from pair to merge order and apply only the merges whose pair is present, lowest order first.
 
 **Deliverable:** a script that trains on 90% of the file and reports results on the other 10%.
 
@@ -185,7 +207,7 @@ You are done when:
 - The round trip holds on the held-out text, including at least one line with non-ASCII characters.
 - A word absent from the training split still encodes without any unknown-token marker.
 - You report the compression ratio on held-out text for 50, 500 and 5,000 merges, and it is lower than on the training text.
-- Encoding the held-out text takes under five seconds.
+- Encoding the held-out text takes under 30 seconds, without looping over every merge.
 
 **Stretch:** add pre-tokenization with a regular expression that keeps letters, digits, spaces and punctuation apart. Compare the first 30 merges with and without it.
 
@@ -219,7 +241,7 @@ You are done when:
    - B. 256
    - C. 1,256
    - D. 512
-5. Why does `The cat` split into more tokens than `the cat` in the example?
+5. Why does `The cat` take six tokens when `the cat` takes three?
    - A. Capital letters are encoded as two bytes each
    - B. No merge was learned for the byte sequences of that variant
    - C. The tokenizer rejects words at the start of a string

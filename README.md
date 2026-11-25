@@ -226,51 +226,50 @@ The chapters were written by AI writers from the lectures and from the book. The
 
 ## What is verified, and what is not
 
-The chapters were checked in two ways. [VERIFICATION.md](VERIFICATION.md) gives the method and the results per part.
+The chapters were checked in two ways, described in [VERIFICATION.md](VERIFICATION.md) with the results per part.
 
-**Automated checks, run on 2026-11-25.** All 2,520 internal links resolve. Every arXiv citation (119, to 103 papers) has the title and year of the arXiv record. All 1,412 links to a moment in a lecture were checked against the transcript at that moment. No chapter shares more than 23 words in a row with a source. The 66 standalone Python listings run, 16 tests pass, and the four programs in `examples/` match their chapters and run.
+**Automated checks, run on 2026-11-25.** All 2,520 internal links resolve. All 119 arXiv citations (103 papers) carry the title and year of the arXiv record. All 1,412 links to a moment in a lecture were checked against the transcript at that moment. No chapter shares more than 23 words in a row with a source. The 66 standalone Python listings run, and 16 tests pass.
 
-**The verification pass, 2026-11-24.** Every statement that a chapter attributes to a lecture or to the book was compared with the source at the cited place. About 1,500 statements were checked and more than 210 corrected. In 72 of the 93 chapters of parts 01 to 10, passages were deepened with the lecturers' own content.
+**The verification pass, 2026-11-24.** Every statement that a chapter attributes to a lecture or to the book was compared with the source at the cited place. About 1,500 statements were checked and more than 210 corrected. In 72 chapters, passages were deepened with the lecturers' own content.
 
 **Not verified:**
 
-- The five capstones in part 11 were specified, not carried out. The hours and costs in the capstones and in the roadmap are estimates.
-- Engineering judgment is marked in the chapters as this repository's own. It was not checked against a source.
-- Where no source covers a topic, the chapter uses general knowledge. The next section lists these chapters.
+- The five capstones were specified, not carried out, and the hours and costs in the capstones and in the roadmap are estimates.
+- Engineering judgment is marked as this repository's own and was not checked against a source.
+- Where no source covers a topic, the chapter uses general knowledge (see below).
 - Facts that change fast (model names, prices, APIs, products, regulation) are true as of the date each chapter gives.
-- YouTube links were not checked, and not every other external link was reopened.
+- YouTube links were not checked, and not every external link was reopened.
 - The transcripts are machine-made and can garble names. The lectures are the authority.
 
 ## Status and gaps
 
-Each part's main limitations are below. [VERIFICATION.md](VERIFICATION.md#limitations-by-part) lists the figures, names and procedures that could not be confirmed.
+Each part's main limitations are below. [VERIFICATION.md](VERIFICATION.md#further-limitations-by-part) lists further ones.
 
 ### Part 01 · Foundations
 
-- **01.01, 01.02, 01.04, 01.05** Loss, data splits, attention, temperature and the system prompt as an API field are general knowledge: no source teaches them.
-- **01.08** The spectrum from workflow to agent is this repository's synthesis.
+- **01.01, 01.02, 01.04, 01.05** Loss, data splits, attention, temperature and the system prompt as an API field are general knowledge.
 
 ### Part 02 · Building agents
 
-- **02.03, 02.04, 02.06, 02.07** ReAct, plan-then-execute, reflection and the timeline of agent designs are general knowledge. HippoRAG's mechanism, context length, code-editing tools and error recovery have no transcript.
+- **02.03, 02.04, 02.06, 02.07** ReAct, plan-then-execute, reflection and the timeline of agent designs are general knowledge. HippoRAG, context length, code-editing tools and error recovery have no transcript.
 - **02.05** The DSPy API is shown as in the October 2024 lecture, not as in current documentation.
 
 ### Part 03 · Evaluation
 
 - **03.03, 03.05** The judge biases and the claims attributed to Evan Miller's paper are general knowledge; neither paper was checked.
 - **03.06** The responsible scaling policy is one speaker's account, dated 2024-11-25. The current text was not checked.
-- **03.08** No source describes attack categories. As in the lecture, the green agent evaluates and the white agents are under test.
+- **03.08** No source describes attack categories; as in the lecture, the green agent evaluates and the white agents are under test.
 
 ### Part 04 · Safety and security
 
+- **04.01, 04.09** MITRE ATLAS, the OWASP lists and the regulation rows were not opened; their state on 2026-11-24 is unconfirmed.
 - **04.03, 04.04, 04.07** Tool poisoning, "spotlighting" and representation engineering are general knowledge.
 - **04.05** No lecture covers monitoring agents: its positions, signals and trade-offs are engineering judgment.
-- **04.01, 04.09** MITRE ATLAS, the OWASP lists and the regulation and standards rows were not checked against the texts in force on 2026-11-24.
 
-### Part 05 · Frameworks and multi-agent systems
+### Part 05 · Frameworks and multi-agent
 
-- **05.01 to 05.03** AutoGen is archived as of November 2026, so 05.02 teaches its ideas with a runtime that needs no framework. The status of the other frameworks and the LlamaIndex API is unverified.
-- **05.06** Sandboxes have no lecture behind them, and no sandbox product was verified. The MCP section follows the specification revision of 2026-07-28, but its toy server keeps the 2025 message shapes.
+- **05.01 to 05.03** AutoGen is archived as of November 2026; 05.02 teaches its ideas without the framework. The other frameworks and the LlamaIndex API were not verified.
+- **05.06** Sandboxes have no lecture behind them, and no sandbox product was verified. The MCP section follows the specification revision of 2026-07-28; its toy server keeps the 2025 message shapes.
 
 ### Part 06 · Frontier applications
 
@@ -278,7 +277,7 @@ Each part's main limitations are below. [VERIFICATION.md](VERIFICATION.md#limita
 
 ### Part 07 · ML in production
 
-- **07.01 to 07.10** No source is missing. Some examples and procedures are this repository's own.
+- **07.01 to 07.10** No source is missing.
 
 ### Part 08 · Quality assurance
 
@@ -287,7 +286,7 @@ Each part's main limitations are below. [VERIFICATION.md](VERIFICATION.md#limita
 
 ### Part 09 · Efficient deep learning
 
-- **09.03, 09.05 to 09.09** The lottery ticket hypothesis, architecture search strategies, distillation formulas, TinyEngine's memory planner, PagedAttention, FlashAttention tiling and parameter-efficient training are general knowledge, because the lectures do not cover them or are outlines only.
+- **09.03, 09.05 to 09.09** The lottery ticket hypothesis, architecture search strategies, distillation formulas, TinyEngine's memory planner, PagedAttention, FlashAttention tiling and parameter-efficient training are general knowledge; their lectures are missing or outlines only.
 
 ### Part 10 · LLM internals
 
@@ -296,7 +295,6 @@ Each part's main limitations are below. [VERIFICATION.md](VERIFICATION.md#limita
 ### Part 11 · Professional practice
 
 - **11.01, 11.03, 11.07** The refund assistant and the ten payload families are illustrative. The latency, timeout and false-positive budgets are starting values, not measurements.
-- **11.08** The Fall 2025 Berkeley course page address in [SOURCES.md](SOURCES.md) returned an HTTP 404 error on 2026-11-24.
 
 ## License
 

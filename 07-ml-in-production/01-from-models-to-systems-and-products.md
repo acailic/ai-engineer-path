@@ -7,7 +7,7 @@
 
 ## Why this matters
 
-A data scientist on your team opens a notebook. It holds a model for support-ticket triage: given the text of a ticket, it predicts which team should handle it (billing, technical, or general). On held-out test data it is right 91 percent of the time. Someone asks, "So when does it ship?" and the room goes quiet.
+A data scientist on your team opens a notebook. It holds a model for support-ticket triage: given the text of a ticket, it predicts which team should handle it (billing, technical, or general). On held-out test data (tickets the model never saw in training) it is right 91 percent of the time. Someone asks, "So when does it ship?" and the room goes quiet.
 
 Nobody in the room can answer these questions:
 
@@ -37,7 +37,7 @@ Kästner describes three views of the same work (chapter 2). Each one answers a 
 | Pipeline (MLOps) | ML engineering | Can we retrain, deploy and monitor reliably, again and again? | It ends at the model's API |
 | System (product) | The whole team | Does the product reach its goal, safely? | Nothing, if you do it properly |
 
-**MLOps** is the name for automating the **pipeline**: everything that produces, deploys and updates the ML component. It is necessary. It is also still model-centric: the pipeline starts with model requirements and stops when the model is served.
+**MLOps** is the name for automating the **pipeline**: everything that produces, deploys and updates the ML component. It is necessary. It is also still model-centric: the pipeline provides an API for the rest of the system and does not look beyond that API.
 
 ### The analogy, and where it breaks
 
@@ -102,7 +102,7 @@ The book's picture of a team is **T-shaped**: deep in one specialty, conversant 
 
 ## Worked example
 
-The code below is the triage feature in miniature. It needs Python 3.10 or newer and nothing else. The "model" is a stand-in with the shape of a real one: it takes text, returns a label and a confidence.
+The code below is the triage feature in miniature. It needs Python 3.10 or newer and nothing else. The "model" is a stand-in with the shape of a real one: it takes text, returns a label (the predicted team) and a confidence score from 0 to 1 for how sure it is.
 
 ```python
 # triage.py — a support-ticket triage feature. Standard library only.
@@ -171,7 +171,7 @@ Here is the same feature as a system map, the deliverable of this chapter's exer
 |---|---|---|---|
 | Ticket intake form and API | No | Backend | Ticket text is present |
 | Category predictor | Yes | Data science | Subject and body resemble training data |
-| Guardrails and router | No | Backend | Category is known; confidence is calibrated |
+| Guardrails and router | No | Backend | Category is known; confidence is [calibrated](../GLOSSARY.md) |
 | Human review queue | No | Support lead | Reviewers can spot a wrong route |
 | Correction log | No | Data science | Edits reflect the true team |
 | Dashboard and alerts | No | Operations | Volume and routes stay in range |
@@ -203,7 +203,7 @@ Christian Kästner wrote *Machine Learning in Production* to argue that ML produ
 
 He is careful to add that none of these is wholly new. Formal specifications were always rare. Software without ML has hurt people. Data pipelines and cloud operation predate ML.
 
-**ML projects drift toward the risky end.** His stated conjecture is that teams use ML for ambitious ideas, often without planning for wrong or biased predictions. So teams get away with sloppy engineering less often and should invest more in requirements, risk analysis and testing. He labels it a conjecture, not a finding. The open debate he mentions is a different question: whether ML needs entirely new engineering practices, tailored old ones, or only more discipline.
+**ML projects drift toward the risky end.** His stated conjecture is that teams use ML for ambitious ideas, often without planning for wrong or biased predictions. So teams get away with sloppy engineering less often and must level up their engineering practices. He labels it a conjecture, not a finding. The open debate he mentions is a different question: whether ML needs entirely new engineering practices, tailored old ones, or only more discipline.
 
 **Most projects do not reach production.** The book opens with two figures from consultants: 87 percent of ML projects fail (a 2019 VentureBeat report) and 53 percent never make it from prototype to production (a Gartner press release from 2020). Neither source defines "fail" in the book, so read them as a warning about scale, not as a measurement.
 
@@ -250,7 +250,7 @@ Include:
 3. The triage model returns the wrong team with confidence 0.95, so both guardrails pass. Which two practices catch this?
 4. Which of these is a feedback loop?
    - A. The model is retrained each month on the previous month's tickets.
-   - B. Auto-closing low-priority tickets teaches users to write "urgent" in every subject, which changes next quarter's training data.
+   - B. Auto-closing low-priority tickets teaches users to write "urgent" in every subject, in every subject line.
    - C. Support adds a new team, so the list of possible categories grows by one.
    - D. Latency rises after a library upgrade, so the team puts a cache in front of the model.
 5. What separates the pipeline view from the system view?

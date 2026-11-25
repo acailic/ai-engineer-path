@@ -9,7 +9,7 @@
 
 You give your agent a `get_orders` tool. You ask for yesterday's failed orders. The model calls the tool with `day="yesterday"`. Your code expects `2026-11-23`, the database query crashes, and the tool returns `None`. The model apologizes and says it cannot find any orders. You conclude that the model is bad.
 
-The model was not the problem. The tool never said which date format it wanted, never said what was wrong, and never distinguished "no orders" from "error". Most "the model is dumb" reports in agent projects are tool problems. This chapter is about designing the other half of every tool call.
+The model was not the problem. The tool never said which date format it wanted, never said what was wrong, and never distinguished "no orders" from "error". Often a report that "the model is dumb" is a tool problem. This chapter is about designing the other half of every tool call.
 
 ## The core idea
 
@@ -98,7 +98,7 @@ def get_orders(day: str, status: str = None) -> str:
     return f"0 orders found for day={day}, status={status or 'all'}"
 ```
 
-Note the last line. When a query returns nothing, the tool says so in words. An empty string could mean "nothing found", "error" or "not implemented".
+Note the last line. When a query returns nothing, the tool says so in words. An empty string could mean "nothing found", "error" or "not implemented". A raised `ValueError` never reaches the model as an exception: the tool wrapper from [chapter 01](01-the-anatomy-of-an-agent.md) catches it and returns `Error: ` plus the message as the observation.
 
 ### 3. Return errors the model can act on
 
@@ -118,7 +118,7 @@ A **stack trace** is for you. It goes to your logs. The model gets one sentence.
 | Error class | Examples | Who fixes it | What the program does |
 |---|---|---|---|
 | Model-fixable | Bad argument, unknown ID, file not found | The model, by changing the call | Returns `Error: ...` with the allowed values |
-| Transient | Timeout, rate limit, service unavailable | Nobody: wait | Retries with **backoff**, a wait that grows between attempts, up to a cap |
+| Transient | Timeout, rate limit (the service refusing calls past a quota), service unavailable | Nobody: wait | Retries with **backoff**, a wait that grows between attempts, up to a cap |
 | Fatal | Missing API key, a bug in the tool, no permission at all | The developer | Stops the run with an exception |
 
 ### 5. Retry on purpose
@@ -128,18 +128,35 @@ There are two kinds of retry, and newcomers mix them up.
 - **Program retries** handle transient errors. Cap them (three is common), grow the wait between attempts, and give up with an observation the model can understand.
 - **Model retries** happen when the model reads `Error: ...` and tries a different call. Cap them too: count attempts per task, or a model can loop on the same mistake until the budget is gone.
 
-Never let the program retry a tool with side effects unless you know the first call did nothing. Sending an email twice is worse than failing once. Make such tools **idempotent**, meaning that calling them twice has the same effect as calling them once, for example by passing an ID that the server uses to drop duplicates.
+Never let the program retry a tool with side effects, meaning one that changes something outside the run, such as sending an email, unless you know the first call did nothing. Sending an email twice is worse than failing once. Make such tools **idempotent**, meaning that calling them twice has the same effect as calling them once, for example by passing an ID that the server uses to drop duplicates.
+
+**Figure 1.** A failed tool call is sorted by who can fix it, and only one class is retried by the program.
+
+```mermaid
+flowchart TD
+    F["A tool call fails"] --> C{"Who can fix it"}
+    C -->|"The model"| M["Return Error text with the allowed values"]
+    M --> R["The model changes its next call"]
+    C -->|"Time"| W["Wait, then run the same call again"]
+    W -->|"Attempts left"| A["Run the tool"]
+    W -->|"Cap reached"| G["Return Error text: service unavailable"]
+    C -->|"The developer"| X["Raise an exception and stop the run"]
+    R --> A
+    A -->|"Fails again"| F
+```
+
+A program retry repeats the same call, and only for a transient error; a model retry is a new call chosen after the model reads an error.
 
 ## What the practitioners say
 
 **Graham Neubig (Fall 2024)** builds coding agents, and coding agents live or die by their tools.
 
-- **Actions can be code.** Traditional agents call one tool and get one result per step. CodeAct, he explains, acts by writing code that can run shell or notebook commands ([22:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1320)). His example: to find the cheapest country to buy one phone model, a tool-calling agent may need some 15 API calls, one per lookup, where CodeAct writes a single loop over the countries. A failed loop still returns an error, so the model gets feedback, but at a coarser step. He reports that the original work found faster resolution and a higher success rate than direct tool use ([24:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1440)). His own platform OpenHands combines this with the editing commands of SWE-agent: every action is a call to code, so ten search hits can be edited by one loop ([28:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1680)).
-- **Finding where to act is a tool problem.** He says file localization, finding the right files for a request, "might even be the biggest problem in coding agents nowadays" ([38:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2280)). One fix is a search tool, as in SWE-agent, but search alone is "not like the equivalent to going in and opening all the cabinets before you start" ([42:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2520)). Two other designs: Aider builds a tree-shaped map of the repository up front, and Agentless runs a search that narrows from the whole repository down to files and then functions ([42:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2520)).
+- **Actions can be code.** Traditional agents call one tool and get one result per step. CodeAct, he explains, acts by writing code ([22:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1320)). His example: to find the cheapest country to buy one phone model, a tool-calling agent may need some 15 API calls, one per lookup, where CodeAct writes a single loop over the countries; in its original form it ran shell and notebook commands. A failed loop still returns an error, so the model gets feedback, but at a coarser step. He reports that the original work found faster resolution and a higher success rate than direct tool use ([24:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1440)). His own platform OpenHands combines this with the editing commands of SWE-agent: every action is a call to code, so ten search hits can be edited by one loop ([28:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1680)).
+- **Finding where to act is a tool problem.** He says file localization, finding the right files for a request, "might even be the biggest problem in coding agents nowadays" ([38:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2280)). One fix is a search tool, as in SWE-agent, but even that is "not like the equivalent to going in and opening all the cabinets before you start" ([42:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2520)). Two other designs: Aider builds a tree-shaped map of the repository up front, and Agentless runs a search that narrows from the whole repository down to files and then functions ([42:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2520)).
 - **Context assembly is part of the tool.** He cites a write-up of how GitHub Copilot builds its prompt: text before and after the cursor, the 20 most recently used files in the same language, imported files, path and language metadata. In his view agents had not yet invested as much in this kind of prompt engineering ([38:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2280)).
 - **Fix from error messages.** One of his slides lists repairing code based on error messages as a recovery method, citing InterCode (slide 45, [50:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3000)). That only works if the error reaches the model in a form it can use.
 
-**Yangqing Jia (Fall 2025)** comes from infrastructure and makes a narrower point. Asked about orchestration, he names retrieval-augmented generation and "accurate data processing pipelines" as what matters ([68:00](https://www.youtube.com/watch?v=xqRAS6rAouo&t=4080)). A tool is only as good as the pipeline behind it.
+**Yangqing Jia (Fall 2025)** comes from infrastructure and makes a narrower point. Asked about orchestration, he first notes, referring to an earlier question, that retrieval-augmented generation and "accurate data processing pipelines" are "super important" ([68:00](https://www.youtube.com/watch?v=xqRAS6rAouo&t=4080)). A tool is only as good as the pipeline behind it.
 
 ### Lessons from agent-computer interface research
 
@@ -172,7 +189,7 @@ Design three tools for an agent that answers questions about a folder of meeting
 
 1. Write the contract of each tool: description, parameters, formats, limits.
 2. Write the functions so that every wrong input raises a one-sentence error naming an allowed value.
-3. Write contract tests: call each tool with a missing argument, a wrong format and an unknown name, and assert the observation starts with `Error:` and contains one allowed example.
+3. Write contract tests: call each tool with a missing argument, a wrong format and an out-of-range argument such as a page past the end of the file, and assert the observation starts with `Error:` and contains one allowed example.
 4. Write one test for the empty case and assert the result states the count zero.
 
 **Deliverable:** the three tools, the tests, and a short table of every error each tool can return and who fixes it.
@@ -205,7 +222,7 @@ Design three tools for an agent that answers questions about a folder of meeting
 2. Nobody changes code for it; it is transient. The program waits and retries with growing waits up to a cap, then returns an observation saying the service is unavailable.
 3. Any three of: when to use it; when not to use it and what to use instead; the format and units of each argument; what the result looks like, including limits.
 4. The first call may have sent the email before the timeout. A blind retry can send it twice. Make the tool idempotent or confirm the first call's outcome first.
-5. So that the edit quotes line numbers from text the model has actually seen, instead of numbers it invented. The refusal is an error message that tells the model what to do first.
+5. Because edits quote exact line numbers, and the agent only knows those of a file it has viewed. Refusing forces it to look before it edits, instead of editing blindly.
 6. A program retry repeats the same call automatically after a transient error. A model retry is the model choosing a different call after reading an error observation.
 
 </details>
@@ -216,6 +233,7 @@ Design three tools for an agent that answers questions about a folder of meeting
 - **Lecture:** Yangqing Jia, "Evolution of System Designs from an AI Engineer Perspective", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=xqRAS6rAouo), used at [accurate data pipelines](https://www.youtube.com/watch?v=xqRAS6rAouo&t=4080)
 - **Reading:** John Yang, Carlos E. Jimenez, et al., "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering" (2024): [link](https://arxiv.org/abs/2405.15793)
 - **Reading:** Xingyao Wang, Yangqiao Song, et al., "Executable Code Actions Elicit Better LLM Agents" (2024): [link](https://arxiv.org/abs/2402.01030)
+
 ## Next
 
 → [03. Planning, Search and Decision-Making](03-planning-search-and-decision-making.md), because once an agent can act, the next question is how it decides what to do next.

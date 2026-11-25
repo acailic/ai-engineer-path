@@ -72,7 +72,22 @@ Fall 2024 gave a short checklist for this step: who causes the harm, who is harm
 
 ### 4. Mark the trust boundaries
 
-A boundary exists wherever data from one row of the table reaches your system. In the diagram there are three: the request, every tool result, and the deployment itself. The prompt is where the first two merge. That merging is the root cause of the attacks in [Jailbreaks and Prompt Injection](02-jailbreaks-and-prompt-injection.md).
+A boundary exists wherever data from one row of the table reaches your system. The travel agent has three, shown in Figure 1.
+
+**Figure 1.** The three trust boundaries of the travel agent: every place where another party's data enters.
+
+```mermaid
+flowchart LR
+    U["User"] -->|"Boundary 1: the request"| A["App code"]
+    A --> M["Model"]
+    M --> A
+    A --> T["Tools"]
+    T -->|"Boundary 2: every tool result"| A
+    S["Model and package suppliers"] -->|"Boundary 3: the deployment"| A
+    T --> W["Outside world"]
+```
+
+The request and the tool results both end up in the prompt. That merging is the root cause of the attacks in [Jailbreaks and Prompt Injection](02-jailbreaks-and-prompt-injection.md).
 
 ### 5. Follow the model's output
 
@@ -86,7 +101,7 @@ Song lists five ways a system uses what the model produces, each with its own fa
 | Used as parameters of a function call | SQL injection, server-side request forgery |
 | Executed as code | Arbitrary code execution |
 
-Two of these deserve names. **Improper output handling** is when the system trusts the output enough to pass it to a shell, a database, or a URL. A **supply chain attack** is when something you imported was already malicious.
+Two of these deserve names. **Improper output handling** is when the system trusts the output enough to pass it to a shell, a database, or a URL. In SQL injection, the output adds attacker-chosen text to a database query. A **supply chain attack** is when something you imported was already malicious.
 
 ### 6. Assume how good the model is
 
@@ -151,7 +166,7 @@ What to observe: row 1 is the prompt-injection path, and it has an asset and a c
 Dawn Song gave versions of this lecture in three terms, and the frame grew each time.
 
 - **Fall 2024: harms.** She organized agent safety around four questions (who causes harm, who is harmed, accident or purpose, which kind of harm) and listed the kinds: loss of utility or denial of service, information leakage, resource hijack such as crypto mining, harmful content, and financial loss ([36:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=2160), [38:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=2280)).
-- **Spring 2025: the system.** She added the hybrid-system view, the CIA goals with the new assets, the seven-step walkthrough, the five uses of the output, and the model security levels ([14:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=840)). She separated model misuse from system misuse: the system can amplify a model's risk, and a well-designed one can keep a model misuse from turning into a system misuse ([36:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=2160)). Her verdict on the state of defense: very little existed for hybrid systems, which motivates a secure agent framework ([76:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=4560)).
+- **Spring 2025: the system.** She put the hybrid system at the center and added the CIA goals with the new assets, the seven-step walkthrough, the five uses of the output, and the model security levels ([14:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=840)). She separated model misuse from system misuse: the system can amplify a model's risk, and a well-designed one can keep a model misuse from turning into a system misuse ([36:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=2160)). Her verdict on the state of defense: very little existed for hybrid systems, which motivates a secure agent framework ([76:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=4560)).
 - **Fall 2025: more surfaces.** She kept the frame and left model-level risks out ([4:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=240)). Her examples ran from an injected résumé ([34:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2040)) through a planted calendar entry ([44:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2640)) to a fake re-authentication prompt ([50:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=3000)). She stressed that classic bugs such as SQL injection and remote code execution are now reachable through model output ([26:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=1560)).
 
 She also draws the line between **safety** and **security**. Security protects the system from outsiders. Safety means the system does no harm to the outside world. Safety has to assume adversaries, she says, because a compromised system cannot keep its own safety promises ([2:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=120)).
@@ -166,7 +181,7 @@ Teams that already use the MITRE ATT&CK knowledge base for conventional systems 
 - **Letting the model enforce the policy.** A prompt that says "never pay without approval" is a request to an L2 model. Enforce in code.
 - **Forgetting availability.** A loop or a huge document costs money and blocks service. Add budgets.
 - **Modeling attacks only.** Misuse by the person holding the tool is a threat with no injection in it.
-- **Modeling the model instead of the system.** Most incidents come from the join between the model and your code.
+- **Modeling the model instead of the system.** The paths that matter run through the join between the model and your code. Model that join.
 
 ## Try it
 

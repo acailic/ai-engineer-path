@@ -39,20 +39,35 @@ Yann Dubois lists five steps on his slides: tokenize, forward, predict the proba
 
 1. **Tokenize.** A program called the **tokenizer** cuts your text into tokens from the vocabulary and gives each an ID. Tokenizers are usually trained with **byte pair encoding**: start with one token per character, repeatedly merge the pair of adjacent tokens that appears most often, and stop when the vocabulary reaches the wanted size. Dubois gives the reasons for tokens of this size in his appendix slides: they make shorter sequences than characters, and they handle unseen words and typos better than whole words do.
 2. **Embed.** Each token ID is replaced by its vector. Dubois describes the intuition as points in space, where words with similar meanings lie close together ([20:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1200)). Nobody assigns the coordinates. Training moves them.
-3. **Combine.** The vectors go through a neural network. Dubois keeps his description plain: the network is a nonlinear aggregator that merges the vectors into a new one, and its key property is that it is differentiable, so training can adjust it ([22:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1320)). He even notes that a plain average would already count as such a network. In current LLMs the aggregator is a **transformer**, a stack of many identical layers. In each layer, every token looks back at the earlier tokens and weighs how relevant each one is to it. That step is called **attention**. Consider "she sat on the bank of the river" and "she walked to the bank to withdraw money". The word "bank" starts with the same vector in both. After a few layers its vectors differ, because the neighbors differ.
+3. **Combine.** The vectors go through a neural network, a function built by stacking many simple arithmetic steps whose numbers are the parameters. Dubois keeps his description plain: the network is a nonlinear aggregator that merges the vectors into a new one, and its key property is that it is differentiable (you can compute how the output changes when any parameter moves a little), so training can adjust it ([22:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1320)). He even notes that a plain average would already count as such a network. In current LLMs the aggregator is a **transformer**, a stack of many identical layers. In each layer, every token looks back at the earlier tokens and weighs how relevant each one is to it. That step is called **attention** ([deeper explanation](../10-llm-internals/03-transformer-architectures-and-hyperparameters.md)). Consider "she sat on the bank of the river" and "she walked to the bank to withdraw money". The word "bank" starts with the same vector in both. After a few layers its vectors differ, because the neighbors differ.
 4. **Score.** His concrete numbers: a 768-number vector times a 768 by 20,000 matrix gives one score for each of the 20,000 words in the vocabulary ([24:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1440)). A function called **softmax** turns the scores into probabilities that add up to 1. He calls it the usual trick for turning any vector into a probability distribution.
 5. **Sample, then repeat.** One token is chosen according to those probabilities (more on how in [Chapter 04](04-using-llms-tokens-context-and-sampling.md)), converted back to text, appended to the input, and the whole function runs again. It stops when the model emits a special end-of-output token or hits a limit.
 
 Step 3 is where "looking up" breaks down as a picture. Attention blends information from many tokens into a weighted average. There is no table of sentences to search.
-
-### Training: the loop from chapter 01, at scale
 
 Pre-training is the optimization loop you met in [Chapter 01](01-machine-learning-in-a-nutshell.md), with one change of ingredient:
 
 1. **The function with blanks** is the transformer, with billions of parameters.
 2. **The examples** come from cleaned text, cut into chunks of a few thousand tokens.
 3. **The loss** is low when the model gives a high probability to the token that actually comes next, at every position in the chunk. Dubois names it, the cross-entropy loss.
-4. **Training** nudges every parameter a little in the direction that lowers that loss, then moves to the next chunk. In his description, training pushes the true next token's probability up a little and every other one down, then backpropagates through the whole network, embeddings included ([24:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1440)).
+4. **Training** nudges every parameter a little in the direction that lowers that loss, then moves to the next chunk. In his description, training pushes the true next token's probability up a little and every other one down, then backpropagates, which applies the change to every layer back to the embeddings ([24:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1440)).
+
+**Figure 1.** One call to a language model: five steps, then a loop until the answer ends.
+
+```mermaid
+flowchart LR
+    I["Input text"] --> K["Tokenize: tokens and IDs"]
+    K --> E["Embed: one vector per token"]
+    E --> N["Transformer layers with attention"]
+    N --> S["Score every vocabulary token"]
+    S --> P["Softmax: probabilities"]
+    P --> C["Sample the next token"]
+    C -->|"not the end token"| A["Append token to the input"]
+    A --> K
+    C -->|"end token or limit"| O["Answer text"]
+```
+
+The model never writes a sentence in one go: each turn of the loop adds one token, and the input grows by one.
 
 No labeling step is needed. The next token is already in the text, so the text supplies its own labels. That is why pre-training can run on the whole web, and why its cost is measured in data and compute rather than in annotators.
 

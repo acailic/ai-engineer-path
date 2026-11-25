@@ -7,7 +7,7 @@
 
 ## Why this matters
 
-You wired a plain **RAG** pipeline, short for retrieval-augmented generation: look up relevant passages and put them into the model's prompt. It covers 200 company PDFs, and pointed questions about body text work. Then an analyst asks: "Compare revenue by region in the 2023 and 2024 annual reports, tables included." The answer is confident and wrong. The tables left the PDFs as scrambled lines, the retriever returned five unrelated chunks, and the model filled the gap. A plain pipeline is also **stateless**: after each question it forgets the conversation.
+You wired a plain **RAG** pipeline, short for retrieval-augmented generation: look up relevant passages and put them into the model's prompt. It covers 200 company PDFs, and pointed questions about body text work. Then an analyst asks: "Compare revenue by region in the 2023 and 2024 annual reports, tables included." The answer is confident and wrong. The tables left the PDFs as scrambled lines, the lookup returned five unrelated chunks, and the model filled the gap. A plain pipeline is also **stateless**: after each question it forgets the conversation.
 
 Jerry Liu's half of the Fall 2024 lecture is about what to add.
 
@@ -55,6 +55,21 @@ A vector database embeds the nodes and indexes them.
 
 At question time the system retrieves nodes, follows each node's reference back to its source element (a **dereference**, as with a pointer), and puts the element itself in front of the model. For figures this works because leading models are **multimodal**: they accept images as well as text. Text embeddings do the searching; the model sees the table or the picture ([48:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2880)). The other route for images is CLIP embeddings, from a model trained to place images and their captions in one vector space ([50:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3000)).
 
+**Figure 1.** Hierarchical retrieval: the question matches small representations, and each one points back to its source element.
+
+```mermaid
+flowchart LR
+    D["Document"] --> P["Parse into elements"]
+    P --> N["Representations as nodes"]
+    N --> I["Vector database"]
+    Q["Question"] --> S["Search nodes"]
+    I --> S
+    S --> F["Follow reference to source"]
+    F --> M["Element goes to the model"]
+```
+
+The node is only the way in; the element it points at is what the model answers from.
+
 ### 5. Add reasoning only where retrieval fails
 
 Plain RAG returns a fixed number of chunks and never takes the question apart. It fails on four kinds of request: summarization, which needs the whole document; comparison, which needs two or more documents; multi-part questions; and high-level tasks ([52:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3120)).
@@ -63,13 +78,13 @@ Plain RAG returns a fixed number of chunks and never takes the question apart. I
 
 ### 6. Choose constrained or unconstrained on purpose
 
-A constrained flow can be a router prompt, a tool, a reflection step and an answer, with no loops. It is less expressive and more reliable. A general agent can solve tasks you did not anticipate. It can also call tools you did not want, repeat itself, never converge and spend far more tokens ([56:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3360)). Liu's rule of thumb for a general agent with the models of the time: four or five tools, and fewer than ten ([58:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3480)).
+A constrained flow can be a router prompt (a prompt that picks one option out of several), a tool, a reflection step (a second prompt that checks the draft) and an answer, with no loops. It is less expressive and more reliable. A general agent can solve tasks you did not anticipate. It can also call tools you did not want, repeat itself, never converge and spend far more tokens ([56:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3360)). Liu's rule of thumb for a general agent with the models of the time: four or five tools, and fewer than ten ([58:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3480)).
 
 LlamaIndex's abstraction for both ends is the **workflow**: event-driven steps that pass messages, where a step can be plain Python or a model call ([58:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3480)).
 
 ## Worked example
 
-Steps 2 to 4 in plain Python, with no library and no API. The embedding is a stand-in, so the file runs as it is.
+Steps 2 to 4 in plain Python, with no library and no API. The embedding is a stand-in, so the file runs as it is: a node scores higher the more words it shares with the question.
 
 ```python
 # mini_multimodal_rag.py — index representations, retrieve them, send the source.
@@ -135,7 +150,7 @@ In the lecture's terms, this file is still plain retrieval: no agent, no reasoni
 
 ## What the practitioners say
 
-Jerry Liu leads LlamaIndex, which he describes as an open-source toolkit for building agents over your data. His half of the lecture is a use case his company works on: a multimodal knowledge assistant ([37:04](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2224)).
+Jerry Liu leads LlamaIndex, which he describes as an open-source toolkit for building agents over your data. His half of the lecture is a use case his company works on: a multimodal knowledge assistant ([37:04](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2224), [38:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2280)).
 
 - **What the assistant is for.** The setting he describes is a company with a million PDFs, slide decks and spreadsheets that wants an interface: a task goes in, an output comes back. A chatbot is the simplest case. The output can also be a structured answer, a research report or an action, such as sending an email, booking a meeting or writing code ([38:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2280)). LlamaIndex, he says, began as an open-source toolkit that helped people build RAG systems and moved on to multi-step reasoning; its enterprise product is a managed service that takes over data indexing and retrieval ([38:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2280)).
 - **Why plain RAG is not enough.** It is stateless, and many questions need a memory layer. A chatbot that cannot answer most of what users ask adds little. The "80%" he mentions is a figure of speech, not a measurement ([42:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2520)).
@@ -159,7 +174,7 @@ Jerry Liu leads LlamaIndex, which he describes as an open-source toolkit for bui
 
 ## Try it
 
-Take three pages of a real PDF that include a table and a figure.
+Take three pages of a real PDF that include a table and a figure. Start from `mini_multimodal_rag.py`.
 
 1. Parse them into typed elements. Typing them by hand is fine.
 2. Write at least two nodes per element, as in the example.

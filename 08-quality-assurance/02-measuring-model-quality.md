@@ -63,7 +63,7 @@ An accuracy number means little alone. Ninety-nine percent can be excellent for 
 
 - the most common label, or the average value;
 - a random guess;
-- the previous value, for time series;
+- the last observed value, for a quantity recorded over time;
 - a few hand-written rules;
 - the existing production model or prompt.
 
@@ -78,12 +78,27 @@ Going from 50 to 75 percent accuracy halves the error. Going from 99.9 to 99.99 
 ### 4. Decide which data the number comes from
 
 - **Training data** is what the model learned from.
-- **Validation data** is what you use to make choices: prompts, few-shot examples, settings.
-- **Test data** is held out and used rarely, ideally once, for the number you report.
+- **Validation data** is what you use to make choices: prompts, few-shot examples, meaning examples placed inside the prompt, and settings.
+- **Test data** is held out, meaning kept aside, and used rarely, ideally once, for the number you report.
 
 Every time you tune on a data set and then score on it, the score drifts upward. **Overfitting** is when a model, or a prompt, fits the quirks of the examples it was tuned on instead of the general pattern. **Generalization** is how well it does on new data.
 
 The standard split assumes the **i.i.d.** property: training and test examples are independent draws from the same distribution, and that distribution is the one you will meet in production. Data from a different distribution is **out-of-distribution**. A triage model evaluated on last year's email tickets is not evaluated on this year's chat widgets.
+
+**Figure 1.** The three splits of the data and what each one is allowed to influence.
+
+```mermaid
+flowchart LR
+    D["All labeled examples"] --> S["Split by time and by customer"]
+    S --> T["Training data: the model learns from it"]
+    S --> V["Validation data: prompts and settings are tuned on it"]
+    S --> H["Test data: touched rarely, ideally once"]
+    T --> M["Model or prompt"]
+    V -->|"choices"| M
+    M -->|"final score only"| H
+```
+
+The test split is the only one that must not shape any choice; every look at it that changes the model or prompt makes the final score less honest.
 
 ### 5. Audit the number against six pitfalls
 
@@ -102,7 +117,7 @@ Kästner names six reasons offline accuracy comes out too high (chapter 15). The
 
 ## Worked example
 
-Precision, recall, and the base-rate trap in plain Python. Ten tickets, three of them urgent. The list holds a 1 for each urgent ticket.
+Precision, recall, and why accuracy flatters a do-nothing model, in plain Python. Ten tickets, three of them urgent. The list holds a 1 for each urgent ticket.
 
 ```python
 def scores(truth, predicted):
@@ -146,7 +161,7 @@ Accuracy alone cannot rank these two systems. Recall can.
 2. **Scoring a generative component by exact match.** Fix: use property checks for hard requirements and a rubric for quality.
 3. **Tuning the prompt on the test set.** Each iteration makes the score less honest. Fix: a tuning set for iteration, a held-out set for the reported number.
 4. **Splitting a conversation across sets.** Two tickets from the same customer problem are not independent. Fix: split by customer and by time.
-5. **Trusting a tiny test set.** A score from thirty examples swings widely by chance. Fix: treat small-set scores as a smoke test and collect more. [Statistics in part 03](../03-evaluation/02-a-minimal-eval-harness.md) covers how much data a claim needs.
+5. **Trusting a tiny test set.** A score from thirty examples swings widely by chance. Fix: treat small-set scores as a rough check only and collect more. [Statistics for Evals in part 03](../03-evaluation/05-statistics-for-evals.md) covers how much data a claim needs.
 6. **Accepting a surprising score without asking why.** A jump after a one-line change usually means leakage. Fix: inspect the examples that flipped.
 
 ## Try it
@@ -154,7 +169,7 @@ Accuracy alone cannot rank these two systems. Recall can.
 Pick one model-based component you can run: the triage model, a summarizer, or a retrieval feature.
 
 1. Collect 100 real inputs with the expected output.
-2. Split them by time: the older 70 for tuning, the newer 30 for scoring.
+2. Split them by time: the older 70 for tuning, the newer 30 for a first score. Thirty is too few to trust, as pitfall 5 says, so report it as a rough estimate and grow the scoring set as more inputs arrive.
 3. Compute the measure that fits your mistake costs, plus a baseline and the reduction in error.
 4. Write two sentences on each of the six pitfalls: how you checked it, or why it does not apply.
 
