@@ -123,7 +123,7 @@ Write a one-page efficiency review of a system you know.
 
 ## Sources
 
-- **Lecture:** Song Han, "Lecture 22: Course Summary + Quantum Machine Learning (Part I)", MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024): [video](https://www.youtube.com/watch?v=svjjD2uthhQ), used at [closing recap](https://www.youtube.com/watch?v=svjjD2uthhQ&t=120)
+- **Lecture:** Song Han, "Lecture 22: Course Summary + Quantum Machine Learning (Part I)", MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024): [video](https://www.youtube.com/watch?v=svjjD2uthhQ) · [guide](../lectures/mit-22-course-summary-quantum-machine-learning-i.md), used at [closing recap](https://www.youtube.com/watch?v=svjjD2uthhQ&t=120)
 - **Lecture:** Song Han, "Lecture 23: Quantum Machine Learning (Part II)", MIT 6.5940 (Fall 2024): [video](https://www.youtube.com/watch?v=ZDk-GsyInt8), used at [barren plateaus](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=2280), [architecture search for circuits](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=3600)
 - **Lecture:** Song Han, "Lecture 1: Introduction", MIT 6.5940 (Fall 2024): [algorithm and system co-design](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3720)
 - **Reading:** EfficientML.ai course site, slides, videos and labs: [efficientml.ai](https://efficientml.ai)
