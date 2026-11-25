@@ -1,6 +1,6 @@
 # Lecture guides
 
-One guide per lecture of the four courses: 44 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
+One guide per lecture of the four courses: 46 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
 
 Every part heading links to the moment in the video where the part begins.
 
@@ -67,5 +67,7 @@ Every part heading links to the moment in the video where the part begins.
 | 6 | Quantization (Part II) | Song Han (MIT) | 1:10:00 | 19 | 4 | [open](mit-06-quantization-part-ii.md) |
 | 7 | Neural Architecture Search (Part I) | Song Han (MIT) | 1:08:00 | 19 | 1 | [open](mit-07-neural-architecture-search-part-i.md) |
 | 8 | Neural Architecture Search (Part II) | Song Han (MIT) | 1:18:00 | 19 | 2 | [open](mit-08-neural-architecture-search-part-ii.md) |
+| 9 | Knowledge Distillation | Song Han (MIT) | 1:00:00 | 18 | 4 | [open](mit-09-knowledge-distillation.md) |
+| 10 | MCUNet: TinyML on Microcontrollers | Song Han (MIT) | 1:08:00 | 18 | 1 | [open](mit-10-mcunet-tinyml-on-microcontrollers.md) |
 
-In all: 652 parts, of which 137 (21%) teach something no chapter teaches; 90,903 words.
+In all: 688 parts, of which 142 (21%) teach something no chapter teaches; 95,721 words.
