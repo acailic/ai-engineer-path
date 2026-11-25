@@ -59,6 +59,17 @@ Two topics belong to other parts, which this part links to rather than repeats:
 - General security and privacy of ML systems: [Security, Privacy, Transparency and Accountability](../08-quality-assurance/14-security-privacy-transparency-and-accountability.md).
 - Capability and risk evaluation: [Evaluating Capabilities and Risks](../03-evaluation/06-evaluating-capabilities-and-risks.md).
 
+## Lecture guides for this part
+
+Each guide maps one lecture from its first minute to its last and says where this book teaches each piece. Where no chapter teaches a part of the lecture, the guide explains it itself; the table counts those parts.
+
+| Lecture | Lecturer | Length | Parts no chapter teaches | Guide |
+|---|---|---|---|---|
+| Agentic AI Safety & Security | Dawn Song (UC Berkeley) | 1:50:00 | 3 of 10 | [open guide](../lectures/f25-12-agentic-ai-safety-and-security.md) |
+| Towards building safe and secure agentic AI | Dawn Song (UC Berkeley) | 1:52:00 | 2 of 10 | [open guide](../lectures/sp25-12-towards-building-safe-and-secure-agentic-ai.md) |
+| Towards Building Safe & Trustworthy AI Agents and A Path for Science- and Evidence-based AI Policy | Dawn Song (UC Berkeley) | 1:46:00 | 3 of 19 | [open guide](../lectures/f24-12-towards-building-safe-and-trustworthy-ai-agents.md) |
+| Coding Agents and AI for Vulnerability Detection | Charles Sutton (Google DeepMind) | 1:28:00 | 5 of 20 | [open guide](../lectures/sp25-05-coding-agents-and-ai-for-vulnerability-detection.md) |
+
 ## Where to go next
 
 - The capstone builds a monitoring agent for prompt injection: [Capstone: Monitoring Agent for Prompt Injection](../11-professional-practice/03-capstone-monitoring-agent-for-prompt-injection.md).

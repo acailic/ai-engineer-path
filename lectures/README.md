@@ -1,6 +1,6 @@
 # Lecture guides
 
-One guide per lecture of the four courses: 32 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
+One guide per lecture of the four courses: 34 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
 
 Every part heading links to the moment in the video where the part begins.
 
@@ -18,6 +18,7 @@ Every part heading links to the moment in the video where the part begins.
 | 9 | Project GR00T: A Blueprint for Generalist Robotics | Jim Fan (NVIDIA) | 58:00 | 11 | 3 | [open](f24-09-project-gr00t-a-blueprint-for-generalist.md) |
 | 10 | Open-Source and Science in the Era of Foundation Models | Percy Liang (Stanford) | 54:00 | 15 | 5 | [open](f24-10-open-source-and-science-in-the-era-of-foundation.md) |
 | 11 | Measuring Agent capabilities and Anthropic's RSP | Ben Mann (Anthropic) | 46:00 | 6 | 2 | [open](f24-11-measuring-agent-capabilities-and-anthropics-rsp.md) |
+| 12 | Towards Building Safe & Trustworthy AI Agents and A Path for Science- and Evidence-based AI Policy | Dawn Song (UC Berkeley) | 1:46:00 | 19 | 3 | [open](f24-12-towards-building-safe-and-trustworthy-ai-agents.md) |
 
 ## UC Berkeley Advanced LLM Agents MOOC (Spring 2025)
 
@@ -27,6 +28,7 @@ Every part heading links to the moment in the video where the part begins.
 | 2 | Learning to reason with LLMs | Jason Weston (Meta) | 1:18:00 | 11 | 6 | [open](sp25-02-learning-to-reason-with-llms.md) |
 | 3 | On Reasoning, Memory, and Planning of Language Agents | Yu Su (Ohio State University) | 1:34:00 | 11 | 4 | [open](sp25-03-on-reasoning-memory-and-planning-of-language.md) |
 | 4 | Open Training Recipes for Reasoning in Language Models | Hanna Hajishirzi (University of Washington) | 1:22:00 | 13 | 3 | [open](sp25-04-open-training-recipes-for-reasoning-in-language.md) |
+| 5 | Coding Agents and AI for Vulnerability Detection | Charles Sutton (Google DeepMind) | 1:28:00 | 20 | 5 | [open](sp25-05-coding-agents-and-ai-for-vulnerability-detection.md) |
 | 6 | Multimodal Autonomous AI Agents | Ruslan Salakhutdinov (CMU / Meta) | 1:18:00 | 16 | 3 | [open](sp25-06-multimodal-autonomous-ai-agents.md) |
 | 7 | Multimodal Agents: From Perception to Action | Caiming Xiong (Salesforce AI Research) | 1:30:00 | 19 | 6 | [open](sp25-07-multimodal-agents-from-perception-to-action.md) |
 | 8 | AlphaProof: when reinforcement learning meets formal mathematics | Thomas Hubert (Google DeepMind) | 1:16:00 | 17 | 6 | [open](sp25-08-alphaproof-when-reinforcement-learning-meets.md) |
@@ -51,4 +53,4 @@ Every part heading links to the moment in the video where the part begins.
 | 11 | Autonomous Agents: Embodiment, Interaction, and Learning | Peter Stone (UT Austin / Sony AI) | 1:02:00 | 15 | 2 | [open](f25-11-autonomous-agents-embodiment-interaction-and.md) |
 | 12 | Agentic AI Safety & Security | Dawn Song (UC Berkeley) | 1:50:00 | 10 | 3 | [open](f25-12-agentic-ai-safety-and-security.md) |
 
-In all: 438 parts, of which 113 (26%) teach something no chapter teaches; 56,728 words.
+In all: 477 parts, of which 121 (25%) teach something no chapter teaches; 63,843 words.
