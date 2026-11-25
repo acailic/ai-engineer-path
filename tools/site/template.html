@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<meta name="description" content="{description}">
+<link rel="canonical" href="{canonical}">
+<link rel="stylesheet" href="{base}assets/site.css">
+<link rel="stylesheet" href="{base}assets/code.css">
+<script>try{{var t=localStorage.getItem("aep-theme");if(t)document.documentElement.dataset.theme=t;}}catch(e){{}}</script>
+{head_extra}
+</head>
+<body>
+<a class="skip" href="#content">Skip to the content</a>
+<header class="top">
+  <button class="icon" id="menu-toggle" aria-label="Open the course menu" aria-expanded="false">☰</button>
+  <div class="crumb">{breadcrumb}</div>
+  <div class="top-actions">
+    <button class="icon" id="theme-toggle" aria-label="Switch between light and dark">◐</button>
+    <a class="icon" href="{edit}" title="View this page on GitHub">✎</a>
+  </div>
+  <div class="progress" aria-hidden="true"><div id="progress-bar"></div></div>
+</header>
+<aside class="sidebar" id="sidebar">
+{sidebar}
+</aside>
+<div class="overlay" id="overlay" hidden></div>
+<main id="content">
+<article>
+{content}
+</article>
+<nav class="pager" aria-label="Previous and next page">
+{prev}
+{next}
+</nav>
+</main>
+<nav class="toc" aria-label="On this page">
+{toc}
+</nav>
+<div class="listen" id="listen">
+  <button class="listen-main" id="listen-play" aria-pressed="false">▶ Read aloud</button>
+  <div class="listen-panel" id="listen-panel" hidden>
+    <button class="icon" id="listen-prev" aria-label="Previous paragraph" title="Previous paragraph">⏮</button>
+    <button class="icon" id="listen-stop" aria-label="Stop reading" title="Stop">⏹</button>
+    <button class="icon" id="listen-next" aria-label="Next paragraph" title="Next paragraph">⏭</button>
+    <label>Speed <select id="listen-rate"><option value="0.8">0.8×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="2">2×</option></select></label>
+    <label>Voice <select id="listen-voice"></select></label>
+    <label class="check"><input type="checkbox" id="listen-follow" checked> Follow the text</label>
+    <output id="listen-status" aria-live="polite"></output>
+  </div>
+</div>
+<script src="{base}assets/site.js" defer></script>
+</body>
+</html>

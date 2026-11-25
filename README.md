@@ -4,6 +4,8 @@ A free, self-contained course that takes a software engineer **with no machine-l
 
 It has 101 chapters in eleven parts, five capstone projects, five checklists and four runnable example programs. Everything here is synthesized from four open university sources and links back to them.
 
+You can also read it as a website: **[acailic.github.io/ai-engineer-path](https://acailic.github.io/ai-engineer-path/)**. Every page there has a **Read aloud** button that reads the page to you with your browser's own voices, follows the text, and lets you change the speed and the voice. It works in Chrome, Edge and Safari, on a computer and on a phone; it needs no account.
+
 Start with [how to use this repository](#how-to-use-this-repository). If you already know what you want, go to the [roadmap](ROADMAP.md), the [table of contents](#table-of-contents) or the [glossary](GLOSSARY.md).
 
 ## Who it is for
@@ -55,7 +57,7 @@ It does not mean training a frontier model. It does not replace experience with 
 
 One guide per lecture of the four courses, in [`lectures/`](lectures/README.md). A guide maps a whole lecture, part by part, and names for each part the chapter section that teaches the same thing; where no chapter teaches it, the guide explains the part itself.
 
-**Progress on 2026-11-25 15:08: 15 of 77 guides written.** The table is regenerated from the files; a course is complete when both numbers are equal.
+**Progress on 2026-11-25 15:42: 15 of 77 guides written.** The table is regenerated from the files; a course is complete when both numbers are equal.
 
 | Course | Guides written | Of lectures |
 |---|---|---|
