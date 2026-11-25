@@ -1,15 +1,19 @@
 # Verification
 
-What was checked in this repository, how, and what was left out. The last checks ran on 2026-11-24 and 2026-11-25. Each part's main limitations are under "Status and gaps" in the [README](README.md#status-and-gaps).
+What was checked in this repository, how, and what was left out. The checks ran on 2026-11-24 and 2026-11-25. Each part's main limitations are under "Status and gaps" in the [README](README.md#status-and-gaps).
 
 ## Automated checks
 
-- **Internal links.** 2,520 checked, none broken.
-- **External links.** 179 links other than YouTube. Three refuse automated requests: two DOI links into the ACM Digital Library and one Medium post. They open in a browser.
+These checks ran on 2026-11-25, after the second review.
+
+- **Internal links.** 2,636 checked, none broken.
+- **External links.** 181 links other than YouTube. Three refuse automated requests: two DOI links into the ACM Digital Library and one Medium post. They open in a browser.
 - **arXiv citations.** 119 citations to 103 distinct papers. Every title and year matches the arXiv record.
-- **Lecture citations.** 1,412 links point to a moment in a lecture video. Each was checked against the two-minute block of the machine transcript at that moment.
+- **Lecture citations.** 1,459 links point to a moment in a lecture video. Each was checked against the two-minute block of the machine transcript at that moment.
 - **Overlap with the sources.** About 2.5 million words of sources were compared with the chapters. The longest passage a chapter shares with a source is 23 words: a quotation with an attribution, an author list or a paper title.
-- **Code.** 66 Python listings run on their own, and 16 tests pass in four pytest suites. Two more suites fail on purpose, as their chapters describe, to show tests catching planted errors. A third needs a paid model and is labelled as pseudocode that does not run as pasted. The four programs in `examples/` match their chapters and run.
+- **Diagrams.** 81 diagrams in 80 chapters. Each passes Mermaid's own parser, and each has a caption before it and a plain sentence after it.
+- **Code.** 66 Python listings run on their own, and 17 tests pass in four pytest suites. Two more suites fail on purpose, as their chapters describe, to show tests catching planted errors. A third needs a paid model and is labelled as pseudocode that does not run as pasted. The remaining listings that do not run alone are labelled in their chapters: they need a package such as numpy or PyTorch, or a file the reader creates. The four programs in `examples/` are identical to their chapter listings and run.
+- **Chapter shape.** Every chapter has the same required sections, a level tag, a self-check with answers and a sources list. The longest chapter is 3,718 words including code, diagrams and link addresses.
 
 ## The verification pass
 
@@ -40,6 +44,32 @@ All were corrected.
 - A definition or a list attributed to the book that the book does not contain, replaced by what the book says.
 - Two slide titles quoted that do not exist.
 - Passages that put a framing into a lecturer's mouth.
+
+## Second review
+
+The verification pass left two things undone. It rewrote many passages, and nobody had checked those since. And nobody had read the chapters as the reader they are written for. On 2026-11-25 a second review did both, one reviewer per part, who also added a diagram where a picture explains more than prose.
+
+| Part | Attributed statements re-checked | Corrected | Diagrams added |
+|---|---|---|---|
+| [01 Foundations](01-foundations/README.md) | 198 | 22 | 9 |
+| [02 Building agents](02-building-agents/README.md) | about 150 claims on 149 links, plus 18 quotations | corrections in 7 of 8 chapters | 8 |
+| [03 Evaluation](03-evaluation/README.md) | 98 lecture links and 13 book claims | 19, plus one bug in a code listing | 7 |
+| [04 Safety and security](04-safety-and-security/README.md) | 172 links against 130 transcript blocks, plus slides and two papers | 19 | 8 |
+| [05 Frameworks and multi-agent](05-frameworks-and-multi-agent/README.md) | 139 statements and 19 slide figures | at least 7 | 6 |
+| [06 Frontier applications](06-frontier-applications/README.md) | about 198 links | several, in chapters 01 to 05 | 3 |
+| [07 ML in production](07-ml-in-production/README.md) | about 315 statements against the book | 11 | 8 |
+| [08 Quality assurance](08-quality-assurance/README.md) | about 344 statements against the book | 4 wrong, several others narrowed to what the book says | 11 |
+| [09 Efficient deep learning](09-efficient-deep-learning/README.md) | about 228 statements and figures | several, including two listings whose real output contradicted the text | 9 |
+| [10 LLM internals](10-llm-internals/README.md) | 268 links and about 20 other claims | 10 attributed statements, plus wrong answers and exercises | 12 |
+
+In total: about 2,100 attributed statements re-checked and more than 130 corrected, 81 diagrams added.
+
+The second review also found defects that no check for sources can catch:
+
+- **Self-check answers.** In many chapters the correct option was the first or the second for most questions, so length or position gave the answer away. Options are now reordered and every answer was re-derived. A few answers were wrong.
+- **Exercises.** Some could not be done with what the chapter gives: a step was missing, or no configuration fits the stated hardware. They now say what to do, or give a configuration that works.
+- **Terms.** More than 150 terms were used before they were defined. Each is now defined at first use.
+- **Listings.** Running the code showed that in a few chapters the text described an output the code does not produce. The text now reports the real output.
 
 ## What is not verified
 

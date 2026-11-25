@@ -213,7 +213,7 @@ It does not mean training a frontier model. It does not replace experience with 
 
 Four open university sources. The lectures were recorded between September 2024 and June 2026.
 
-1. **UC Berkeley.** Three MOOCs on LLM agents: the [LLM Agents MOOC (Fall 2024)](https://rdi.berkeley.edu/llm-agents/f24/), the [Advanced LLM Agents MOOC (Spring 2025)](https://rdi.berkeley.edu/adv-llm-agents/sp25/) and the [Agentic AI MOOC (Fall 2025)](https://rdi.berkeley.edu/agentic-ai/f25/), taught by Dawn Song. They are behind parts 01 to 06.
+1. **UC Berkeley.** Three MOOCs on LLM agents: the [LLM Agents MOOC (Fall 2024)](https://rdi.berkeley.edu/llm-agents/f24), the [Advanced LLM Agents MOOC (Spring 2025)](https://rdi.berkeley.edu/adv-llm-agents/sp25) and the [Agentic AI MOOC (Fall 2025)](https://rdi.berkeley.edu/agentic-ai/f25), taught by Dawn Song. They are behind parts 01 to 06.
 2. **Carnegie Mellon University.** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025): [the book](https://mlip-cmu.github.io/book/) and [the course, 17-645 / 11-695](https://mlip-cmu.github.io/). It is behind parts 07 and 08, and chapters of parts 01 and 03.
 3. **MIT 6.5940.** TinyML and Efficient Deep Learning Computing (Fall 2024), by Song Han: [course page](https://hanlab.mit.edu/courses/2024-fall-65940). It is behind part 09.
 4. **Stanford CS336.** Language Modeling from Scratch, by Percy Liang and Tatsunori Hashimoto: [course page](https://cs336.stanford.edu/). It is behind part 10.
@@ -228,9 +228,11 @@ The chapters were written by AI writers from the lectures and from the book. The
 
 The chapters were checked in two ways, described in [VERIFICATION.md](VERIFICATION.md) with the results per part.
 
-**Automated checks, run on 2026-11-25.** All 2,520 internal links resolve. All 119 arXiv citations (103 papers) carry the title and year of the arXiv record. All 1,412 links to a moment in a lecture were checked against the transcript at that moment. No chapter shares more than 23 words in a row with a source. The 66 standalone Python listings run, and 16 tests pass.
+**Automated checks, run on 2026-11-25.** All 2,636 internal links resolve. All 119 arXiv citations (103 papers) carry the title and year of the arXiv record. All 1,459 links to a moment in a lecture were checked against the transcript at that moment. No chapter shares more than 23 words in a row with a source. The 66 standalone Python listings run, and 16 tests pass.
 
 **The verification pass, 2026-11-24.** Every statement that a chapter attributes to a lecture or to the book was compared with the source at the cited place. About 1,500 statements were checked and more than 210 corrected. In 72 chapters, passages were deepened with the lecturers' own content.
+
+**Second review, 2026-11-25.** Every part was then read again by a fresh reviewer. About 2,100 attributed statements were re-checked against their sources and more than 130 corrected. Every self-check answer was re-derived; in many chapters the correct option had been the first or the second, so options were reordered. Exercises that could not be started were completed, and 81 diagrams were added.
 
 **Not verified:**
 
