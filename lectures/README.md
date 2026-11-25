@@ -1,6 +1,6 @@
 # Lecture guides
 
-One guide per lecture of the four courses: 61 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
+One guide per lecture of the four courses: 62 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
 
 Every part heading links to the moment in the video where the part begins.
 
@@ -89,5 +89,6 @@ Every part heading links to the moment in the video where the part begins.
 |---|---|---|---|---|---|---|
 | 1 | Overview, tokenization |  | 1:20:00 | 14 | 3 | [open](cs336-01-overview-tokenization.md) |
 | 2 | PyTorch (einops), resource accounting (FLOPs, memory, arithmetic intensity) |  | 1:18:00 | 18 | 0 | [open](cs336-02-pytorch-einops-resource-accounting-flops-memory.md) |
+| 3 | Architectures, hyperparameters |  | 1:30:00 | 20 | 1 | [open](cs336-03-architectures-hyperparameters.md) |
 
-In all: 952 parts, of which 227 (24%) teach something no chapter teaches; 134,646 words.
+In all: 972 parts, of which 228 (23%) teach something no chapter teaches; 138,540 words.
