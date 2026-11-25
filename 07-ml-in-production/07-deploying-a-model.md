@@ -249,7 +249,7 @@ Include:
 3. A translation app for glasses must work offline, protect privacy and update rarely. Which deployment fits, and what do you give up?
 4. A speaker runs a tiny model to detect its wake word and sends audio to the cloud only afterward. Which pattern is this, and what is it for?
    - A. Ensemble: it improves accuracy by voting among several models.
-   - B. Sequential decomposition: it splits one task into independent steps.
+   - B. Sequential decomposition: it splits one task into a chain of steps.
    - C. Cascade: it avoids paying for the large model on every input.
    - D. Precomputed serving: it replaces inference with a table lookup.
 5. Why is inference easy to scale by running more copies?

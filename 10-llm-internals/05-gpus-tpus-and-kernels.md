@@ -94,7 +94,7 @@ Tiles also explain why odd sizes hurt. Shift the matrix size by one and the tile
 Two ways exist to write a kernel. In CUDA you say what each thread does. In **Triton**, you say what each thread block does, and the compiler handles the threads. The pattern is always the same: load into shared memory, compute, write back once.
 
 ```python
-# Illustrative pseudocode (Triton API, not executed here)
+# Illustrative pseudocode for the Triton API (not run)
 import triton
 import triton.language as tl
 
@@ -174,7 +174,7 @@ Two cautions from him. The hardware is "a lot messier than the programming model
 Run this on any machine with PyTorch. A GPU is better; a CPU shows the same effect more slowly. Two helpers do the timing and the profiling; `fn` is the function to measure, the plain expression or its `torch.compile` version.
 
 ```python
-# Illustrative snippet (PyTorch API, not executed here)
+# Illustrative snippet for the PyTorch API (not run)
 import time, torch
 from torch.profiler import profile, ProfilerActivity
 

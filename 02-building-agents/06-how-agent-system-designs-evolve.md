@@ -54,7 +54,7 @@ Moving down the timeline adds pieces; it does not remove the ones already there.
 
 ## What the practitioners say
 
-Yangqing Jia co-created GoogLeNet at Google, wrote early deep-learning frameworks, and founded Lepton AI, an AI infrastructure company later acquired by NVIDIA. In his Fall 2025 lecture he tells the history from the infrastructure side. His stated disclaimer: the opinions are his own.
+Yangqing Jia co-created GoogLeNet at Google, wrote early deep-learning frameworks, and founded Lepton AI, an AI infrastructure company. In his Fall 2025 lecture he tells the history from the infrastructure side. His stated disclaimer: the opinions are his own.
 
 - **The application layer stays fluid.** He shows the consumer app landscape as "highly fluid" because base models keep improving, and a slide sums it up: a perfect app experience correlates with the model but is independent of it (slides 14 to 17, [23:42](https://www.youtube.com/watch?v=xqRAS6rAouo&t=1422)). His Duolingo example: the product improved when better models met the company's own teaching knowledge ([32:00](https://www.youtube.com/watch?v=xqRAS6rAouo&t=1920)). The durable value sits in the environment you connect, not in the call to the model.
 - **New algorithms keep arriving.** He compares mixture-of-experts models, networks in which only a small part activates per input, to ensembles of simple classifiers and to Inception's sparse structure, and test-time scaling, where a model reflects on its own intermediate results, to repeating a prediction over space instead of over time ([16:00](https://www.youtube.com/watch?v=xqRAS6rAouo&t=960)). His point: the stack you build on will change again.

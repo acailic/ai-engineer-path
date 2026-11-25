@@ -48,7 +48,7 @@ Tensor code is easy to get wrong when shapes are written as `-2` and `-1`. The e
 - A dimension that appears in one input and in the output is kept.
 
 ```python
-# Illustrative pseudocode (einops API, not executed here)
+# Illustrative pseudocode for the einops API (not run)
 from einops import einsum, rearrange, reduce
 
 y = einsum(x, w, "b d, d f -> b f")          # d is summed over; result is (b, f)

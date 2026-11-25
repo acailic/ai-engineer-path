@@ -1,7 +1,7 @@
 # 07. Agents in the Enterprise
 
 **Level:** Practitioner · **Reading time:** 12 min · **Exercise:** 60 min
-**Prerequisites:** [LlamaIndex: Building a Knowledge Assistant](03-llamaindex-knowledge-assistants.md) (retrieval over private documents)
+**Prerequisites:** [LlamaIndex: Building a Knowledge Assistant](03-llamaindex-knowledge-assistants.md) (retrieval over private documents), [Tool Design and Function Calling](../02-building-agents/02-tool-design-and-function-calling.md)
 
 > **In one sentence:** After this chapter you can take an agent from a notebook to a company workflow, with a source on every claim, a human approval point, and the evaluation and model-cost decisions that a company needs.
 
@@ -31,16 +31,16 @@ Two terms carry the chapter. **Grounding** ties each statement to a source fetch
 
 1. **Pick the workflow.** High volume, rule-bound, and with a completion that software can check. Chapados's example: coffee spills on a laptop, an employee opens a help-desk ticket, and a person works through manual steps to ship a new one ([2:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=120)).
 2. **Pick the level of automation.** Draft only, then act after approval, then act alone within limits. Chapados describes the progression: scripting and robotic process automation (software that replays fixed steps), then classical AI workflows such as recommenders, then agent workflows, which need the most intelligence ([12:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=720)).
-3. **Prefer APIs.** The slides separate two kinds of agents. The second half of the lecture is about agents that drive a web interface. Reach for those only when no API exists ([chapter 06](06-agent-infrastructure-sandboxes-browser-use-and-protocols.md)).
+3. **Prefer APIs.** The slides separate two kinds of agents. The second half of the lecture is about agents that drive a web interface ([8:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=480)). Reach for those only when no API exists ([chapter 06](06-agent-infrastructure-sandboxes-browser-use-and-protocols.md)).
 4. **Ground with attribution.** Gokturk calls search fundamental, even for making a model work well ([12:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=720)), and describes what an application needs: "I'm saying this, because here is the exact blurb from exact this document that's saying this" ([30:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=1800)). He names healthcare, finance and customer service, where a guess about a bill is not acceptable.
-5. **Adapt the model on the ladder.** Gokturk's order, from cheapest to dearest ([38:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=2280), [40:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=2400)):
+5. **Adapt the model on the ladder.** Gokturk's list, arranged here in the order to try them, cheapest first ([38:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=2280), [40:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=2400)):
    - **Prompt design.** Put one to ten examples in the prompt. Zero-shot means no example; one-shot means one. Most teams stop here, in his account.
    - **Prompt tuning.** Learn a vector to put in front of the prompt. He expected more use of it and sees little.
    - **Parameter-efficient fine-tuning (PEFT).** Update few parameters, or add a small layer. LoRA (low-rank adaptation) freezes the base model and learns an added low-rank component. Less compute, and probably less data.
    - **Full fine-tuning.** Update all the weights. It needs much data and compute, and he says few customers do it.
    - **Distillation.** A large **teacher** model labels the training data, even with soft labels (a probability per option instead of one answer), and a small **student** learns to reproduce them. That avoids manual labeling, and costs less latency and money ([44:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=2640), [46:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=2760)). Chapados's case study applies it.
 6. **Add the control points.** Function calling lets the model act, not only answer. Each action needs permissions, an approval threshold and a log.
-7. **Evaluate.** Gokturk points to automatic side-by-side evaluation, with the largest model as the rater, because human raters are scarce ([58:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=3480)). For workflow agents, check the end state, as the ServiceNow team does.
+7. **Evaluate.** Gokturk points to automatic side-by-side evaluation (two answers to the same input, compared by a rater), with the largest model as the rater, because human raters are scarce ([58:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=3480)). For workflow agents, check the end state, as the ServiceNow team does.
 8. **Manage prompts and models.** Gokturk lists what teams ask for: a prompt management system with storage, revision history, and the ability to convert a prompt from one model to another ([58:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=3480)).
 
 ## Worked example: two lecturers, one system
@@ -57,6 +57,19 @@ The two lectures describe the same system from two seats.
 
 The tape deserves more. TapeAgents rests on one abstraction: the **tape**, a structured log of every agent's thoughts and actions and the environment's replies. It is data: agents can read tapes that other agents produced, for debugging and for optimization ([20:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=1200), [24:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=1440)).
 
+**Figure 1.** The tape: one log that agents write to, read from and learn from.
+
+```mermaid
+flowchart LR
+    A["Agent thoughts and actions"] --> T["Tape"]
+    E["Environment replies"] --> T
+    T --> R["Agent reads it to continue"]
+    T --> D["Debugging and prompt optimization"]
+    T --> S["Distillation into a small model"]
+```
+
+The same record serves as the audit trail, the debugging log and the training data for a cheaper model.
+
 ## What the practitioners say
 
 ### Gokturk: what companies ask for
@@ -64,7 +77,7 @@ The tape deserves more. TapeAgents rests on one abstraction: the **tape**, a str
 He reports six trends ([16:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=960)):
 
 1. **AI is moving much faster.** A new product used to find one or two enterprise pilots; now thousands ask to try.
-2. **Model trends.** He expected one model per domain and was partly wrong: the next base model soon beats it. Models went from dense to sparse, which lowers latency and cost, and single-modality models are merging ([20:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=1200), [22:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=1320)).
+2. **Model trends.** He expected one model per domain and was partly wrong: the next base model soon beats it. Models went from dense (every parameter runs on each call) to sparse (only a small part runs), which lowers latency and cost, and single-modality models are merging ([20:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=1200), [22:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=1320)).
 3. **The platform, not the model.** New models appear every few weeks, and a production application must return results almost always ([24:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=1440), [26:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=1560)).
 4. **API cost is approaching zero.** Running a paid small model cost his teams less than running an open-source model themselves ([26:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=1560)).
 5. **Search.** A model is trained in the past, hallucinates several percent of the time and cannot name its source. Search can cite ([28:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=1680)).
@@ -149,7 +162,7 @@ Stretch goal: run 20 past cases through a draft-only agent and measure how often
 2. B. It is shown as a user-experience metric on Gokturk's slides.
 3. A. He says few customers fine-tune all weights and that prompt tuning surprised him by how little it was used.
 4. B. The database state is checked, so other valid paths also pass.
-5. B. The ServiceNow slides call the student "330x cheaper" in a form-filling case study.
+5. B. In the ServiceNow form-filling case study the slides call the student 330 times cheaper.
 
 </details>
 

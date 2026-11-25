@@ -34,7 +34,7 @@ Question 2 is the one teams skip. Without it, every risk looks new and every mit
 
 ### 2. Follow the five priorities
 
-The proposal names five priorities. The right column translates each instrument into work for an engineering team.
+The proposal names five priorities. The right column translates each into work for an engineering team. A risk register, named in the first row, is the list in which a team records each risk with an owner and a status.
 
 | Priority in the proposal | What it means for a team |
 |--------------------------|--------------------------|
@@ -47,7 +47,8 @@ The proposal names five priorities. The right column translates each instrument 
 ### 3. Adopt the pattern of a responsible scaling policy
 
 A **responsible scaling policy** is a public commitment by a model developer. It names capability thresholds and the safety and security measures the company will meet before it trains or deploys a model above each one. Anthropic published the first in 2023, and OpenAI and Google DeepMind followed with similar frameworks in 2023 and 2024. All have been revised since.
-You do not train frontier models, and the pattern still applies. It has three parts:
+
+You do not train frontier models, the most capable models from large labs, and the pattern still applies. It has three parts:
 
 1. **Thresholds written before the capability arrives.** The rule is fixed while nobody has an incentive to bend it.
 2. **Evidence gates.** A level opens when a measurement passes, not when a launch date arrives.
@@ -56,6 +57,7 @@ You do not train frontier models, and the pattern still applies. It has three pa
 ### 4. Know the landscape, with dates
 
 The lecture is from December 2024. Regulation moves faster than any course. The table lists what could be verified as of November 2026. Check the current text before you rely on an entry.
+
 | Instrument | Kind | Date | What it asks of a team |
 |-----------|------|------|------------------------|
 | NIST AI Risk Management Framework 1.0 and its Generative AI Profile | Voluntary framework, US | January 2023; profile July 2024 | Organizes the work in four functions: govern, map, measure, manage. |
@@ -68,7 +70,7 @@ The lecture is from December 2024. Regulation moves faster than any course. The 
 Two entries deserve a comment.
 
 - The two OWASP lists are the ones most useful day to day. The 2025 LLM list runs from prompt injection and sensitive information disclosure through improper output handling and excessive agency to unbounded consumption. The 2026 agentic list adds agent goal hijack, tool misuse, identity and privilege abuse, memory and context poisoning, insecure inter-agent communication, cascading failures, and rogue agents. See [Threat Modeling](01-threat-modeling-llm-applications-and-agents.md).
-- Song uses the EU Digital Services Act as her model for transparency. Before it, social media companies published voluntary reports. From 2023 the law set a common format, which made reports comparable. She asks the same four questions for AI: which entities are in scope, what information, to whom, and by which process. Her example for scope is a compute threshold in the US executive order and the EU AI Act, as of December 2024.
+- Song uses the EU Digital Services Act as her model for transparency. Before it, social media companies published voluntary reports. From 2023 the law set a common format, which made reports comparable. She asks the same four questions for AI: which entities are in scope, what information, to whom, and by which process. Her example for scope is a compute threshold, a limit on the computing power used to train a model, in the US executive order and the EU AI Act, as of December 2024.
 
 ## Worked example
 
@@ -93,7 +95,23 @@ On stop: return to Level 0, file an incident report within 24 hours, pass both g
 Assumptions: image attachments are not tested. A new model version restarts at Level 0.
 ```
 
-What to observe: every level is defined by a measurement that someone can repeat. The red-team suite from [Red-Teaming and Safety Evaluation](06-red-teaming-and-safety-evaluation.md) produces the attack success rate. The monitoring from [Monitoring Agents](05-runtime-monitoring-and-detection.md) produces the logged runs.
+What to observe: every level is defined by a measurement that someone can repeat. The red-team suite from [Red-Teaming and Safety Evaluation](06-red-teaming-and-safety-evaluation.md) produces the attack success rate. The monitoring from [Runtime Monitoring and Detection](05-runtime-monitoring-and-detection.md) produces the logged runs.
+
+**Figure 1.** A rollout policy as three levels: a measurement opens each gate upward, and a stop condition sends the agent back to Level 0.
+
+```mermaid
+stateDiagram-v2
+    state "Level 0: staff only" as L0
+    state "Level 1: 5 percent of customers" as L1
+    state "Level 2: all customers" as L2
+    [*] --> L0
+    L0 --> L1: Gate 1 passes
+    L1 --> L2: Gate 2 passes
+    L1 --> L0: Stop condition
+    L2 --> L0: Stop condition
+```
+
+A new model version also returns the agent to Level 0, so every level is always backed by a measurement of the model that is running.
 
 ## What the practitioners say
 
@@ -103,7 +121,7 @@ Dawn Song gave the policy part as the closing section of her Fall 2024 lecture.
 - **The proposal.** Policy for AI, her slide argues, has to rest on a scientific grasp of the risks and of ways to reduce them, and today that grasp is thin. She lists the five priorities at [100:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=6000).
 - **A blueprint written in advance.** She calls for a map from future conditions, such as a capability level or a demonstrated harm, to candidate policy responses, agreed before anyone knows which condition will occur. That, she argues, sidesteps arguments about when a risk will materialize. About 200 institutions volunteered to contribute after the launch, as she reports at [102:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=6120).- **Marginal risk differs by domain.** Her slide from that lecture puts the marginal risk of AI for social engineering high, and for software exploits low, at the time. In the same lecture she states a forecast, as her own belief: in the near term AI will help attackers more than defenders ([94:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=5640)). The findings in [AI for Cyber Defense](08-ai-for-cyber-defense-and-vulnerability-detection.md) are the other side of that forecast.
 
-From Fall 2024 to Spring 2025 the framing stayed and the shared evidence base grew. In Spring 2025 she opens the same lecture by citing an International AI Safety Report led by Yoshua Bengio and written with about 100 researchers from 30 countries ([0:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=0)). Her outline still lists the policy path, and she runs out of time before it ([108:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6480)).
+From Fall 2024 to Spring 2025 the framing stayed and the shared evidence base grew. In Spring 2025 she opens her lecture by citing an International AI Safety Report led by Yoshua Bengio and written with about 100 researchers from 30 countries ([0:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=0)). Her outline still lists the policy path, and she runs out of time before it ([108:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6480)).
 
 ## Pitfalls
 
@@ -111,7 +129,7 @@ From Fall 2024 to Spring 2025 the framing stayed and the shared evidence base gr
 - **Discussing absolute risk.** "Scams are harmful" is true and useless for policy. Ask what the model adds, and to whom.
 - **Treating a certificate as safety.** A management-system audit shows that a process exists. It says nothing about the attack success rate of your agent.
 - **Writing gates as launch dates.** "Full rollout in March" has no evidence in it. Tie each level to a measurement that another person can repeat.
-- **Waiting for a rule.** Song's lesson from cybersecurity is that organizations spend on defenses only after they see damage. Monitoring and incident reporting are cheaper before the incident.
+- **Waiting for a rule or an incident.** Budget for defenses tends to follow damage. Monitoring and incident reporting are cheaper before the incident.
 - **Letting a new model version inherit an old approval.** Every gate was passed by one specific model. A version change restarts the policy.
 
 ## Try it
