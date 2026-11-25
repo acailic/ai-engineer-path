@@ -61,6 +61,16 @@ The harness and the statistics file print the numbers shown in their chapters. R
 
 The case study in chapter 08 is the basis of two capstone projects in Part 11: integrate an existing benchmark as an evaluator, with a quality analysis, or build a new small benchmark with its own rubric and validation. Everything in this part is preparation for those.
 
+## Lecture guides for this part
+
+Each guide maps one lecture from its first minute to its last and says where this book teaches each piece. Where no chapter teaches a part of the lecture, the guide explains it itself; the table counts those parts.
+
+| Lecture | Lecturer | Length | Parts no chapter teaches | Guide |
+|---|---|---|---|---|
+| Agent Evaluation & Project Overview | Berkeley course staff | 1:36:00 | 2 of 12 | [open guide](../lectures/f25-04-agent-evaluation-and-project-overview.md) |
+| Practical Lessons from Deploying Real-World AI Agents | Clay Bavor (Sierra) | 48:00 | 8 of 16 | [open guide](../lectures/f25-09-practical-lessons-from-deploying-real-world-ai.md) |
+| Measuring Agent capabilities and Anthropic's RSP | Ben Mann (Anthropic) | 46:00 | 2 of 6 | [open guide](../lectures/f24-11-measuring-agent-capabilities-and-anthropics-rsp.md) |
+
 ## Sources
 
 - **Lectures:** Berkeley course staff, "LLM Agent Evaluations & Project Overview" (Fall 2025); Clay Bavor, "Practical Lessons from Deploying Real-World AI Agents" (Fall 2025); Sida Wang, "Predictable Noise in LLM Benchmarks" (Fall 2025); Ben Mann, "Measuring Agent Capabilities and Anthropic's RSP" (Fall 2024).
