@@ -352,7 +352,7 @@ What to observe:
 4. **Slices show where.** In the support slice, baseline's process score is 0.50. Half of its support attempts broke a rule.
 5. **The gate names the trade.** `tuned` is better on every quality metric and costs about twice as much per attempt, because it "thinks" longer. The report makes the trade visible. It does not make the decision.
 
-The numbers describe the two stubs and their settings in `PROFILES`. They say nothing about any real model.
+The numbers describe the two stubs in `PROFILES`, not any real model.
 
 ## What the practitioners say
 
@@ -378,7 +378,7 @@ The numbers describe the two stubs and their settings in `PROFILES`. They say no
 
 Copy the program and run it.
 
-**Deliverable:** a real client for one task type. Write a class with a `complete(prompt, seed)` method that calls a chat model. It calls a paid API: at the example prices, the 3 trivia tasks with 4 attempts each and about 100 output tokens per attempt cost about two cents in total. Then call `run(YourModel(), DATASET[:3])`, the three trivia tasks, and pass the records to `summarize` and `print_report`.
+**Deliverable:** a real client for one task type. Write a class with a `complete(prompt, seed)` method that calls a chat model. It calls a paid API, about two cents in total at the example prices. Then call `run(YourModel(), DATASET[:3])`, the three trivia tasks, and pass the records to `summarize` and `print_report`.
 
 **You are done when** the program prints a table for your model, you have hand-checked one number against the per-attempt strings, and you have changed one `accept` value to see the exact match move.
 

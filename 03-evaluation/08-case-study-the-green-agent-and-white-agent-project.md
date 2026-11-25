@@ -61,7 +61,7 @@ sequenceDiagram
     G-->>P: Scores
 ```
 
-The green agent is the only one that talks to everyone: it receives from the platform, hands tasks to the white agents, and reports back.
+The green agent is the hub: it receives from the platform, hands tasks to the white agents and reports back.
 
 A green agent is built from three parts ([72:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=4320)):
 
@@ -183,24 +183,24 @@ This chapter's reading of all that: the hard part is not the tasks. It is that t
 
 1. In the course project, what is the green agent?
    A. The agent that is being tested on the benchmark
-   B. The company that sponsors the AgentBeats competition
+   B. The sponsor of the AgentBeats competition
    C. The hosting agent that defines tasks and reports the metrics
    D. The model that plays the customer in a simulation
 2. What does the platform send to the green agent to start an assessment?
    A. A task and the URLs of the participant agents
-   B. The model weights of every participant agent
-   C. The grading rubric of the course project
-   D. A dataset of simulated users for every task
+   B. The model weights of every agent
+   C. The course grading rubric
+   D. A dataset of simulated users
 3. Which criterion is specific to teams that integrate an existing benchmark?
    A. Goal and novelty: opening a new capability space
    B. Realism: tasks drawn from a real-world workload
    C. Scope and scale: enough tasks for reliable results
    D. Faithfulness: reproducing the original results apart from fixed flaws
 4. In the τ-bench example, what makes it hard to move tools behind a standardized agent protocol?
-   A. The tools become much slower when called over the network
+   A. The tools become much slower over the network
    B. The original code hands tools straight to the model, and the tool trace is not visible to the green agent
-   C. The benchmark has too few tasks to be worth integrating
-   D. The user simulator has to be removed before the integration
+   C. The benchmark has too few tasks
+   D. The user simulator has to be removed
 5. What does the fourth step of the checklist ask for?
    A. Choose the task that the green agent will assess
    B. Design the environment with its tools and feedback

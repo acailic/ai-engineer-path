@@ -19,7 +19,7 @@ Responsible engineering begins with a modest ability: being able to account for 
 
 Kästner's argument has three steps (chapter 23).
 
-1. **Small decisions scale.** A loss function, the number a training run tries to minimize, a data filter, or the way a result is displayed is a local choice made by one engineer. Deployed widely, it can affect many people.
+1. **Small decisions scale.** A loss function, the number training minimizes, a data filter, or the way a result is displayed is a local choice made by one engineer. Deployed widely, it can affect many people.
 2. **Legal is not the same as ethical.** Software licenses have largely shielded developers from liability. That leaves a wide space of actions that are lawful and still wrong.
 3. **Do not wait.** Regulation is partial and slow. Engineers should learn the likely harms and prevent them regardless.
 
@@ -55,7 +55,7 @@ Keep prompt templates in the repository, reviewed like code. A prompt edited in 
 
 ### 2. Data and evaluation sets
 
-Never overwrite an evaluation set in place. Give each snapshot a name and a hash, a short fingerprint computed from the content. For large data, do not copy it: record the query or snapshot identifier and a manifest of the rows used. The book lists five strategies for large data sets (chapter 24): store a full copy of each version, simple but space hungry; store only the differences between versions, cheap to keep but costly to rebuild; record an **offset**, which works for data that is only ever appended, such as logs; version each record on its own; or version the pipeline and recreate a derived data set by rerunning it, which works only if every step is deterministic. Which one fits is a trade-off of storage space against the effort of retrieving an old version.
+Never overwrite an evaluation set in place. Give each snapshot a name and a hash, a fingerprint of the content. For large data, do not copy it: record the query or snapshot identifier and a manifest of the rows used. The book lists five strategies for large data sets (chapter 24): store a full copy of each version, simple but space hungry; store only the differences between versions, cheap to keep but costly to rebuild; record an **offset**, which works for data that is only ever appended, such as logs; version each record on its own; or version the pipeline and recreate a derived data set by rerunning it, which works only if every step is deterministic. Which one fits is a trade-off of storage space against the effort of retrieving an old version.
 
 ### 3. Models and experiments
 
@@ -89,7 +89,7 @@ For a production decision, store one record that ties everything together:
 
 With this record, the two questions at the start of the chapter have answers. The ticket can be reloaded, the prompt can be found by hash, and the exact documents the model saw are known.
 
-**Figure 1.** From one production decision to its record and back: every input is versioned, the record ties the versions together, and the record is what makes a rerun possible.
+**Figure 1.** Versioned inputs, one record, and the rerun it makes possible.
 
 ```mermaid
 flowchart LR
@@ -102,7 +102,7 @@ flowchart LR
     Q --> L["Written list of what could not be reproduced"]
 ```
 
-A decision can be audited only as far as its record goes, so every field that is missing from the record is a question the team will not be able to answer later.
+A decision can be audited only as far as its record goes: every missing field is a question left unanswered.
 
 ### 7. Reproducibility
 

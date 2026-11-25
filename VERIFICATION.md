@@ -9,7 +9,7 @@ What was checked in this repository, how, and what was left out. The last checks
 - **arXiv citations.** 119 citations to 103 distinct papers. Every title and year matches the arXiv record.
 - **Lecture citations.** 1,412 links point to a moment in a lecture video. Each was checked against the two-minute block of the machine transcript at that moment.
 - **Overlap with the sources.** About 2.5 million words of sources were compared with the chapters. The longest passage a chapter shares with a source is 23 words: a quotation with an attribution, an author list or a paper title.
-- **Code.** 66 Python listings run on their own, and 16 tests pass in four pytest suites. Three more suites fail on purpose, as their chapters describe, to show tests catching planted errors. The four programs in `examples/` match their chapters and run.
+- **Code.** 66 Python listings run on their own, and 16 tests pass in four pytest suites. Two more suites fail on purpose, as their chapters describe, to show tests catching planted errors. A third needs a paid model and is labelled as pseudocode that does not run as pasted. The four programs in `examples/` match their chapters and run.
 
 ## The verification pass
 

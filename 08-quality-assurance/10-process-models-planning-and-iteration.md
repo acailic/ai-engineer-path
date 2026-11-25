@@ -80,7 +80,7 @@ Fix the model's input, output, latency, and cost limits as a contract. The syste
 
 At each gate, decide with criteria written before the work started: continue, change approach, narrow the scope, or stop. An example: "If the spike is not above the baseline by Friday, we route these tickets by rules."
 
-**Figure 1.** A plan in two tracks: the measurement and the time-boxed spike come first, the interface contract joins the tracks, and each track is planned its own way.
+**Figure 1.** A plan in two tracks, joined by an interface contract.
 
 ```mermaid
 flowchart TD
@@ -95,7 +95,7 @@ flowchart TD
     X --> R["Release"]
 ```
 
-The two tracks can run at the same time only because the contract fixes what the model will hand over, whatever the model track finds.
+The two tracks can run in parallel only because the contract fixes what the model hands over.
 
 ### 7. Decide when exploration becomes engineering
 

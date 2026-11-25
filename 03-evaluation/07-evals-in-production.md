@@ -34,13 +34,13 @@ flowchart TD
     G --> R
 ```
 
-Each turn of the wheel adds real tasks to the dataset, so the next version is judged on failures that users actually met.
+Each turn adds real tasks, so the next version is judged on real failures.
 
 Clay Bavor of Sierra describes what changed. Before agents, he says, most calls to a call center were never transcribed, so nobody could analyze them or run a controlled experiment on them. With agents every conversation is digital, and the methods of twenty years of website testing apply to conversations ([14:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=840)).
 
 A **trace** is the recorded trajectory of one attempt in production. **Observability** is being able to ask questions of all your traces.
 
-**The analogy, and where it breaks.** Tracing is logging, as you know it from servers and request IDs. It breaks on one point. An agent's trace is also its explanation. The answer alone does not tell you why the agent refunded the wrong order. The tool calls do.
+**The analogy, and where it breaks.** Tracing is logging, as you know it from servers and request IDs. It breaks on one point: an agent's trace is also its explanation. The answer alone does not tell you why the agent refunded the wrong order. The tool calls do.
 
 ## How it works, step by step
 
@@ -55,7 +55,7 @@ A **trace** is the recorded trajectory of one attempt in production. **Observabi
 | `tokens_in`, `tokens_out`, `latency_ms` | Cost and speed |
 | `outcome` | The label you evaluate on later |
 
-Requests contain personal data. Bavor's list of what sits below the surface of an agent product includes detecting and encrypting personal information, and keeping traces for audit. Decide what you store before the first request arrives. Part 4 covers the security side: [defenses and guardrails](../04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md). Sierra built its own trace tool for this, Bavor says. For one action the agent took, it shows everything that happened underneath, so that a team can see where the seconds go and run independent steps in parallel ([38:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=2280)).
+Requests contain personal data. Bavor's list of what sits below the surface of an agent product includes detecting and encrypting personal information, and keeping traces for audit. Decide what you store before the first request arrives. Part 4 covers the security side: [defenses and guardrails](../04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md). Sierra's own trace tool, Bavor says, shows for one action everything that happened underneath, so that a team can see where the seconds go and run independent steps in parallel ([38:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=2280)).
 
 ### 2. Choose online metrics that mean something
 
@@ -87,8 +87,6 @@ For an LLM system the same works with three adjustments:
 - **Compare, do not just score.** Run the main branch and the change on the same tasks and use a [paired comparison](05-statistics-for-evals.md).
 - **Use tolerance.** A metric that moves by less than the noise is not a regression.
 - **Pin the conditions.** Fix the model version, the temperature, and the seeds. A model name that silently points to a new version breaks the comparison.
-
-A small set of tasks runs on every change. The full set runs nightly.
 
 ### 5. Run the flywheel
 
@@ -135,7 +133,7 @@ def repeat_contact_rate(path):
     return sum(t["outcome"]["repeat_contact_48h"] for t in handled) / len(handled)
 ```
 
-**The gate.** It reuses the [harness](02-a-minimal-eval-harness.md). Keep the file next to `eval_harness.py` (the repository ships it as [`examples/eval_harness.py`](../examples/eval_harness.py)).
+**The gate.** It reuses the [harness](02-a-minimal-eval-harness.md), shipped as [`examples/eval_harness.py`](../examples/eval_harness.py). Save this file next to it and run `python3 ci_gate.py`: with `-I` Python does not look in the folder, and the import fails.
 
 ```python
 # ci_gate.py: keep it in the same folder as eval_harness.py
@@ -197,7 +195,7 @@ What to observe:
 2. Define three online metrics for it. Write down which trace field each one uses.
 3. Add the gate script, and make it run on every change to the prompt.
 
-**You are done when** one command over your trace file lists the last ten attempts that escalated, for example `jq -c 'select(.outcome.escalated)' traces.jsonl | tail -n 10`, and a deliberately broken change makes the gate exit with code 1.
+**You are done when** one command over your trace file lists the last ten attempts that escalated, such as `jq -c 'select(.outcome.escalated)' traces.jsonl | tail -n 10`, and a deliberately broken change makes the gate exit with code 1.
 
 **Stretch goal:** each night, score a random 5% of production attempts with your offline graders, and compare the result with your offline dataset.
 
@@ -216,21 +214,21 @@ What to observe:
    A. Only the final answer and the time it took
    B. The customer's name, address and order history
    C. The request, each tool call and result, and the model and prompt versions
-   D. The model's training data and its tokenizer settings
+   D. The model's training data and settings
 2. Why does Bavor reject word error rate as a measure for a voice agent's transcription?
    A. It rewards transcribing background sound that the agent should ignore
-   B. It is too cheap to compute to be trusted
-   C. It needs human labels for every single call
-   D. It is too slow to run on long calls
+   B. It is too cheap to be trusted
+   C. It needs human labels for every call
+   D. It is too slow for long calls
 3. What does the data flywheel add to the evaluation dataset?
-   A. Synthetic tasks written by a generator with no human check
-   B. Benchmark scores that other companies published for their agents
-   C. More model versions evaluated on the same old tasks
+   A. Synthetic tasks from a generator, unchecked
+   B. Benchmark scores other companies published
+   C. More model versions on the same old tasks
    D. Failures seen in production, confirmed by a person, with an expected outcome
 4. A change raises exact match and doubles the cost. What should the gate do?
-   A. Pass without a word, because quality rose on every task
+   A. Pass silently, because quality rose on every task
    B. Report the cost regression so that a person decides
-   C. Block the change and allow no override by anyone
+   C. Block the change with no override by anyone
    D. Change the token price until the cost looks smaller
 5. What is the role of a subset of users in testing in production?
    A. To speed up the rollout to every user
@@ -239,7 +237,7 @@ What to observe:
    D. To collect more training data for the next model
 6. Why keep a fresh sample of production tasks every month?
    A. To check that scores on the regression set still predict performance on unseen tasks
-   B. To grow the regression set faster than your competitors do
+   B. To grow the regression set faster each month
    C. To lower the cost of each evaluation run
    D. To calibrate a judge against human labels
 
