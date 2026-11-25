@@ -197,7 +197,7 @@ You are done when:
 
 ## Sources
 
-- **Lecture:** Stanford CS336, "Lecture 12: Evaluation", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=JpAxdTWQJxM), used at [goals](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=0), [perplexity](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=600), [exams](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=1800), [closing](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=4560)
+- **Lecture:** Stanford CS336, "Lecture 12: Evaluation", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=JpAxdTWQJxM) · [guide](../lectures/cs336-12-evaluation.md), used at [goals](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=0), [perplexity](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=600), [exams](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=1800), [closing](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=4560)
 - **Reading:** Percy Liang et al., "Holistic Evaluation of Language Models" (2022): [arXiv](https://arxiv.org/abs/2211.09110)
 - **Reading:** Lianmin Zheng et al., "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena" (2023): [arXiv](https://arxiv.org/abs/2306.05685)
 - **Reading:** David Rein et al., "GPQA: A Graduate-Level Google-Proof Q&A Benchmark" (2023): [arXiv](https://arxiv.org/abs/2311.12022)
