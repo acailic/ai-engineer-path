@@ -21,9 +21,9 @@ A **judge** is whatever answers those questions. Three kinds exist, and you shou
 
 1. **Code.** Cheap, exact, and fast. Use it for everything checkable: valid JSON, required strings, length, a language, a date format.
 2. **An LLM judge.** Using a model to grade another model's output is called **LLM-as-a-judge**. Use it for meaning: Is every fact in the summary present in the conversation?
-3. **A person.** Slow and expensive. Use people to calibrate the judge and to settle the cases the judge gets wrong.
+3. **A person.** Slow and expensive. Use people to calibrate the judge, meaning to measure how often it agrees with people, and to settle the cases the judge gets wrong.
 
-The analogy is a linter, a junior reviewer, and a senior reviewer. A linter never tires and never understands intent. A junior reviewer with a checklist catches most violations and makes mistakes of their own. A senior reviewer audits the junior. The analogy breaks on consistency: a human junior gives the same answer twice, while an LLM judge can grade the same output differently on two runs, so its results are a rate.
+The analogy is a linter (a tool that flags style problems and simple mistakes in code), a junior reviewer, and a senior reviewer. A linter never tires and never understands intent. A junior reviewer with a checklist catches most violations and makes mistakes of their own. A senior reviewer audits the junior. The analogy breaks on consistency: a human junior gives the same answer twice, while an LLM judge can grade the same output differently on two runs, so its results are a rate.
 
 ## How it works, step by step
 
@@ -71,20 +71,37 @@ An uncalibrated judge is an opinion. Before it gates any merge:
 3. Measure how often the judge agrees with the people, **per criterion**.
 4. Rewrite the criteria with low agreement. A low score usually means a vague question, not a bad judge.
 
+**Figure 1.** One test case through the rubric pipeline: code checks what it can, the judge answers only what code cannot, and people calibrate the judge.
+
+```mermaid
+flowchart TD
+    C["Test case: input plus what the output must contain"] --> M["Model under test"]
+    M --> O["Output"]
+    O --> K["Can code check the criterion?"]
+    K -->|"yes"| P["Code check: free and exact"]
+    K -->|"no"| J["LLM judge: one question, answer plus quoted evidence"]
+    J --> E["Is the quoted evidence in the output?"]
+    E -->|"no"| X["Error: the judge failed, not the model"]
+    E -->|"yes"| V["Verdict: must asserted strictly, should counted in a rate"]
+    V --> B["People label a sample to calibrate the judge"]
+```
+
+The judge is only trusted for the criteria on which it has been shown to agree with people; everything a program can check never reaches it.
+
 ### 6. Handle flakiness
 
 Both the model under test and the judge can vary between runs. Four habits keep the suite trustworthy:
 
 - Compare parsed fields, never raw text.
 - Assert **strictly** for musts and **as a rate** for shoulds.
-- Fix a seed where the provider supports one.
+- Fix a random seed, the number that starts the model's random choices, where the provider supports one.
 - Run each case a few times when a result is close to the threshold, before calling it a regression.
 
 ### 7. Run it in tiers inside CI
 
 | Tier | What runs | Cost and time |
 |---|---|---|
-| Every commit | Code checks on canned outputs | Free, under a second |
+| Every commit | Code checks on saved outputs | Free, under a second |
 | Every pull request | 20 to 50 fixed cases, musts and shoulds | Cents, a few minutes |
 | Nightly | Full set, held-out set, repeated runs for variance | Dollars |
 
@@ -205,7 +222,7 @@ Kästner's chapter 15 is the book behind this chapter, and it has almost nothing
 - **Human judgment follows criteria.** People should rate outputs against predefined criteria, for example whether a summary is helpful, names the main points, and stays concise. He warns that this is needed after *every* evaluation during development, not once, and becomes expensive at scale (chapter 15).
 - **Solo spot checks mislead.** Developers often judge a few examples themselves. It gives a feel for quality and little insight into how general the result is (chapter 15).
 - **Some properties need a model.** He names length and vocabulary as properties a program can check, and uses an LLM deciding whether two texts mean the same as an example of a model-checked property (chapter 15).
-- **Models can write the tests.** He describes prompting an LLM for test data with specific traits, such as a sarcastic one-line review of a watch, and cites AdaTest, a tool that loops between error analysis and LLM-generated tests (chapter 15).
+- **Models can write the tests.** He describes prompting an LLM to generate test inputs such as product reviews without committing to a label for them, and cites AdaTest, a tool that intertwines error analysis, hypothesis exploration, and test generation (chapter 15).
 - **For prompts, test like software.** The chapter's further readings point to Marco Tulio Ribeiro's 2023 essay on testing language models and prompts the way software is tested. For judge design and for the known judge biases, see [LLM-as-a-Judge and Rubrics](../03-evaluation/03-llm-as-a-judge-and-rubrics.md) in part 03.
 
 ## Pitfalls

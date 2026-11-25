@@ -9,7 +9,7 @@
 
 You can download a base model today. Ask it a question and it answers with more questions, because it only continues text ([Chapter 02](02-how-large-language-models-are-trained.md)). The chat model you call through an API behaves differently. It answers, follows instructions, refuses some requests and reasons step by step.
 
-Something was done to it. If you want a model to behave differently for your product, you have to know what that something is. You also have to choose a lever, and the levers differ by two orders of magnitude in cost.
+Something was done to it. If you want a model to behave differently for your product, you have to know what that something is. You also have to choose a lever, and the levers differ by orders of magnitude in cost.
 
 ## The core idea
 
@@ -39,7 +39,22 @@ An analogy is onboarding a brilliant new hire. Pre-training is their education. 
 - **Why so little works.** His mental model: the knowledge is already in the pre-trained model. SFT selects one way of using it, as if specializing to one kind of user. For content the model rarely saw during pre-training, he adds, you need much more data ([68:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=4080)).
 - **Where the answers come from.** From people, which is slow. From a stronger model, which is the idea of Alpaca. Or by **rejection sampling**: let a model write many answers and keep the ones a checker accepts. Dubois points to Kimi K2, which taught tool use by having three LLMs play the agent, the user and the tools ([66:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=3960)).
 
-Hanna Hajishirzi's team, which builds the open Tülu recipes, adds two findings. Step-by-step solutions train better than bare final answers. Her example is a shirt sale: a model fine-tuned only on the question and the final answer, $125, learns little from that example, so her data explains the steps as if to a child ([20:00](https://www.youtube.com/watch?v=cMiu3A7YBks&t=1200)). And data quality beats quantity. For the synthetic math data, her team generated several solutions per problem, kept those agreeing with the majority answer and threw away about 40%. The remaining 60% gave similar math results and a larger gain on GSM8K ([28:00](https://www.youtube.com/watch?v=cMiu3A7YBks&t=1680)).
+Hanna Hajishirzi's team, which builds the open Tülu recipes, adds two findings. Step-by-step solutions train better than bare final answers. Her example is a shirt sale: a model fine-tuned only on the question and the final answer, $125, learns little from that example, so her data explains the steps as if to a child ([20:00](https://www.youtube.com/watch?v=cMiu3A7YBks&t=1200)). And data quality beats quantity. For the synthetic math data, her team generated several solutions per problem, kept those agreeing with the majority answer and threw away about 40%. The remaining 60% gave similar math results and a larger gain on GSM8K, a grade-school math test set ([28:00](https://www.youtube.com/watch?v=cMiu3A7YBks&t=1680)).
+
+**Figure 1.** The post-training ladder: what each rung trains on and what comes out of it.
+
+```mermaid
+flowchart TD
+    B["Base model: continues text"] --> S["SFT on prompt and answer pairs"]
+    S --> P["Preference tuning on answer pairs with a choice"]
+    S --> V["RLVR on tasks with checkable answers"]
+    P --> C["Chat assistant"]
+    V --> R["Reasoning model"]
+    V --> G["Agentic RL on environments with verifiers"]
+    G --> H["Agent model"]
+```
+
+The branch at the second rung is a choice of data: preference pairs when there is no single right answer, tasks with a checker when there is one.
 
 Jiantao Jiao, in his Fall 2025 lecture, adds a warning about the dose. SFT should be light, and its examples diverse. A model fine-tuned heavily on one "right" answer per question loses the ability to find answers itself ([46:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=2760)).
 
@@ -70,13 +85,13 @@ A further risk is **over-optimization**: the model learns to please the learned 
 
 A **verifiable reward** comes from a program, not from a person or a learned model: a string match, a math check, a unit test that passes. **RLVR**, reinforcement learning with verifiable rewards, trains the model on tasks with such a checker.
 
-- **Hajishirzi's version.** She calls RLVR the third stage of Tülu 3 ([48:00](https://www.youtube.com/watch?v=cMiu3A7YBks&t=2880)). For a question such as "what is 2 plus 2?", the reward is 1 if the final answer equals the gold answer and 0 otherwise. She used it for two math sets and for precise instruction following, where the checker tests constraints such as starting a sentence with a given letter. No chain of thought is needed, only the final answer ([52:00](https://www.youtube.com/watch?v=cMiu3A7YBks&t=3120), [54:00](https://www.youtube.com/watch?v=cMiu3A7YBks&t=3240)). It helps more as the base model gets stronger: on math, her 405B model went from 60 to 67 and a 70B model only from 42 to 45 ([62:00](https://www.youtube.com/watch?v=cMiu3A7YBks&t=3720)).
+- **Hajishirzi's version.** She calls RLVR the third stage of Tülu 3 ([48:00](https://www.youtube.com/watch?v=cMiu3A7YBks&t=2880)). For a question such as "what is 2 plus 2?", the reward is 1 if the final answer equals the gold answer, the known correct one, and 0 otherwise. She used it for two math sets and for precise instruction following, where the checker tests constraints such as starting a sentence with a given letter. No chain of thought (the steps written before the answer) is needed, only the final answer ([52:00](https://www.youtube.com/watch?v=cMiu3A7YBks&t=3120), [54:00](https://www.youtube.com/watch?v=cMiu3A7YBks&t=3240)). It helps more as the base model gets stronger: on math, her 405B model went from 60 to 67 and a model with a weaker base only from 42 to 45 ([62:00](https://www.youtube.com/watch?v=cMiu3A7YBks&t=3720)).
 - **How one step looks.** Dubois explains GRPO, the algorithm DeepSeek-R1 used ([72:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=4320), [74:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=4440)). The model writes several answers to one question. A checker scores each. The scores are normalized within the group, so the better-than-average answers are made more likely and the others less. A penalty keeps the model close to a reference copy of its starting point. He calls that penalty a hack, because RL can wander where you do not want. Infrastructure matters here too: every question needs several samples, and long agent runs can block the training compute.
-- **Which tasks.** In DeepSeek-R1, as Dubois describes it, math, code and logic prompts got rule-based checkers. Open-ended writing still used a reward model.
+- **Which tasks.** In DeepSeek-R1, as Dubois describes it, math, code and logic prompts got rule-based checkers. Open-ended writing still used a reward model ([72:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=4320)).
 
 **Reasoning models** are trained this way on hard problems with checkable answers. They learn to write a long chain of thought before the final answer, because that raises their score. OpenAI's o1 (September 2024) made the approach public. As Weston says, its exact method is unknown, because no paper was published ([50:00](https://www.youtube.com/watch?v=_MNlLhU33H0&t=3000)). DeepSeek-R1 (January 2025) published a recipe. Weston's team had used the same kind of reward on math in 2024: take the text after "Final answer:", compare it with the known answer, and use the result to build preference pairs, then repeat with the improved model ([48:00](https://www.youtube.com/watch?v=_MNlLhU33H0&t=2880)). He stresses that fine-tuning on the correct answers alone did not work. The wrong answers had to be pushed down too ([50:00](https://www.youtube.com/watch?v=_MNlLhU33H0&t=3000)). What he likes about R1 is its simplicity: only the final answer is rewarded, and the model learns by itself to stop and re-evaluate a step ([54:00](https://www.youtube.com/watch?v=_MNlLhU33H0&t=3240)).
 
-Jiao extends the idea from single answers to whole tasks, which is the last rung. An **agentic model**, in his definition, is aligned to environment feedback and maximizes verifiable rewards in addition to human preference ([0:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=0)). Its training data has three parts:
+Jiao extends the idea from single answers to whole tasks, which is the last rung. An **agentic model**, in his definition, is aligned, meaning tuned, to environment feedback and maximizes verifiable rewards in addition to human preference ([0:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=0)). Its training data has three parts:
 
 1. **Environments** the model must understand, such as a code repository or a browser.
 2. **Tools** it can call.
@@ -86,15 +101,15 @@ His two rules: verifiers must be diverse, and their quality matters. A verifier 
 
 ### 5. Jiao's recipe: imitate, then explore
 
-Jiao's principle for the order of stages is to imitate first and then explore. SFT is there to jump-start the model and cut out meaningless attempts. RL then reinforces the attempts that succeed, because, as he puts it, the more you explore by yourself, the better you learn ([44:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=2640)). His summary: "RL is there to truly reinforce intelligence" ([48:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=2880)). His advice falls in three parts:
+Jiao's principle for the order of stages is to imitate first and then explore. SFT is there to jump-start the model and cut out meaningless attempts. RL then reinforces the attempts that succeed, because, as he puts it, the more you explore by yourself, the better you learn ([44:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=2640)). His summary: "RL is here to truly reinforce intelligence" ([48:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=2880)). His advice falls in three parts:
 
 1. **Train longer.** Watch for **entropy collapse**. **Entropy** here is the uncertainty in the model's next-token choice. Left alone, training raises the reward and lowers the entropy until the model gives one token 99% of the probability and always produces the same answer ([58:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=3480)). Remedies he lists include learning only from the model's own current attempts and adding a loss that rewards entropy ([60:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=3600), [64:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=3840)).
-2. **Train on hard tasks**, ones with a low but nonzero chance of success. His evidence: a model trained only on GSM8K, which he calls too easy, ends with a low validation accuracy. He also warns against simply piling in very hard prompts ([68:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=4080)).
+2. **Train on hard tasks**, ones with a low but nonzero chance of success. His evidence: a model trained only on GSM8K, which he calls too easy, ends with a low validation accuracy. He also warns against simply piling in very hard prompts ([68:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=4080), [70:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=4200)).
 3. **See diverse responses** with high-quality feedback. Good and bad attempts should both be varied, because diversity speeds up learning ([44:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=2640)).
 
 ### 6. Open training recipes
 
-Tülu 3, from Hajishirzi's group and AI2, is an open, reproducible recipe that starts from a base model and goes through SFT, preference tuning and RLVR, sometimes moving back and forth between the stages. Her group applied it to open-weight models, OLMo among them ([10:00](https://www.youtube.com/watch?v=cMiu3A7YBks&t=600)). Before any training, the team fixed evaluations for each targeted skill, from chat and math to safety and precise instruction following (same moment). Her team's study of preference tuning found that high-quality data was the most important factor. PPO worked better than DPO, but DPO was much cheaper to experiment with ([44:00](https://www.youtube.com/watch?v=cMiu3A7YBks&t=2640)). When they built Tülu 3 itself, they saw little gain from PPO and kept DPO for simplicity ([46:00](https://www.youtube.com/watch?v=cMiu3A7YBks&t=2760)). Dubois makes a related point about pre-training data: labs keep it secret because it is the most important part ([40:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2400)).
+Tülu 3, from Hajishirzi's group and AI2, is an open, reproducible recipe that starts from a base model and goes through SFT, preference tuning and RLVR, sometimes moving back and forth between the stages. Her group applied it to open-weight models, whose parameters are published, OLMo among them ([10:00](https://www.youtube.com/watch?v=cMiu3A7YBks&t=600)). Before any training, the team fixed evaluations for each targeted skill, from chat and math to safety and precise instruction following ([10:00](https://www.youtube.com/watch?v=cMiu3A7YBks&t=600)). Her team's study of preference tuning found that high-quality data was the most important factor. PPO worked better than DPO, but DPO was much cheaper to experiment with ([44:00](https://www.youtube.com/watch?v=cMiu3A7YBks&t=2640)). When they built Tülu 3 itself, they saw little gain from PPO and kept DPO for simplicity ([46:00](https://www.youtube.com/watch?v=cMiu3A7YBks&t=2760)). Dubois makes a related point about pre-training data: labs keep it secret because it is the most important part ([40:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2400)).
 
 ## Worked example
 
@@ -134,8 +149,8 @@ What to observe:
 
 1. **Fine-tuning to add knowledge.** SFT mainly teaches format and behavior. *Fix:* put facts in the prompt or attach them by retrieval. Fine-tune for style, format and tool use.
 2. **Training on answers the model cannot know.** You reward confident invention. *Fix:* fine-tune only on what it can learn, or use checkable tasks.
-3. **Choosing by data volume.** *Fix:* curate for quality and diversity, then measure with an ablation.
-4. **Over-optimizing a learned reward model.** The output gets longer and more flattering. *Fix:* prefer rule-based rewards, keep the drift penalty, and evaluate with people on fresh prompts.
+3. **Choosing by data volume.** *Fix:* curate for quality and diversity, then measure with an ablation (train again with one ingredient removed and compare).
+4. **Over-optimizing a learned reward model.** The output drifts toward what that model likes, such as length. *Fix:* prefer rule-based rewards, keep the drift penalty, and evaluate with people on fresh prompts.
 5. **Tuning before evaluating.** *Fix:* define evaluations for each target skill first, as the Tülu team does.
 6. **Starting at the top of the ladder.** *Fix:* climb. Prompt, then SFT, then preference tuning, then RLVR.
 7. **A weak verifier.** A checker with false accepts trains the wrong behavior. *Fix:* test the verifier with correct answers in every allowed form.
@@ -173,43 +188,43 @@ Calling a hosted model 320 times costs well under one dollar with a small model 
    - D. The share of human votes won against another model
 
 2. How can SFT teach a model to hallucinate?
-   - A. By cloning answers that contain facts the model never knew
-   - B. By lowering the sampling temperature during the training run
-   - C. By removing the rare tokens from the tokenizer's vocabulary
+   - A. By lowering the sampling temperature during the training run
+   - B. By removing the rare tokens from the tokenizer's vocabulary
+   - C. By cloning answers that contain facts the model never knew
    - D. By training on web text that was never deduplicated
 
 3. What does DPO leave out compared with RLHF?
-   - A. The separate reward model and the RL loop
-   - B. The pairs of preferred and rejected answers
+   - A. The pairs of preferred and rejected answers
+   - B. The separate reward model and the RL loop
    - C. The supervised fine-tuning stage before it
    - D. The evaluation that follows the training
 
 4. What supplies the reward in RLVR?
-   - A. A program that checks the answer
-   - B. A crowd of human voters on answer pairs
-   - C. A reward model trained on human preferences
+   - A. A crowd of human voters on answer pairs
+   - B. A reward model trained on human preferences
+   - C. A program that checks the answer
    - D. The model's own confidence in its output
 
 5. According to Dubois, about how many examples does SFT need to teach style and instruction following?
-   - A. About ten thousand
-   - B. About ten trillion
-   - C. About one hundred
-   - D. About one million
+   - A. About one hundred
+   - B. About ten thousand
+   - C. About one million
+   - D. About ten trillion
 
 6. During RL, a model's reward rises and it starts giving the same answer to every prompt. What did Jiao call this?
-   - A. Entropy collapse
-   - B. Over-optimization
-   - C. Data contamination
-   - D. Reward sparsity
+   - A. Over-optimization
+   - B. Data contamination
+   - C. Reward sparsity
+   - D. Entropy collapse
 
 <details><summary>Show answers</summary>
 
 1. A. SFT reuses the pre-training objective on chosen prompt-answer pairs.
-2. A. The model learns that a confident-sounding invented reference is a correct answer.
-3. A. DPO applies a loss directly to the language model on the preference pairs.
-4. A. A rule, such as a string match or a passing test. No human or learned model sits in the loop.
-5. A. About 10,000, against about 800,000 for DeepSeek-R1's reasoning data.
-6. A. The model stops exploring. Jiao's first pillar is to train longer while avoiding this.
+2. C. The model learns that a confident-sounding invented reference is a correct answer.
+3. B. DPO applies a loss directly to the language model on the preference pairs.
+4. C. A rule, such as a string match or a passing test. No human or learned model sits in the loop.
+5. B. About 10,000, against about 800,000 for DeepSeek-R1's reasoning data.
+6. D. The model stops exploring. Jiao's first pillar is to train longer while avoiding this.
 
 </details>
 
@@ -218,7 +233,7 @@ Calling a hosted model 320 times costs well under one dollar with a small model 
 - **Lecture:** Yann Dubois, "Introduction to training LLMs for AI agents", LLM Agents MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=r1qZpYAmqmg), used at [why post-training](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=3480), [what SFT teaches](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=3840), [limits of imitation](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=4080), [GRPO](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=4320), [RLHF](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=4680), [human data](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=4800)
 - **Lecture:** Jiantao Jiao, "Post-Training Verifiable Agents", Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=3l0Zxus34es), used at [agentic models](https://www.youtube.com/watch?v=3l0Zxus34es&t=0), [verifiers](https://www.youtube.com/watch?v=3l0Zxus34es&t=840), [light SFT](https://www.youtube.com/watch?v=3l0Zxus34es&t=2760), [explore](https://www.youtube.com/watch?v=3l0Zxus34es&t=2640), [imitate then explore](https://www.youtube.com/watch?v=3l0Zxus34es&t=2880), [entropy collapse](https://www.youtube.com/watch?v=3l0Zxus34es&t=3480), [hard tasks](https://www.youtube.com/watch?v=3l0Zxus34es&t=4080)
 - **Lecture:** Hanna Hajishirzi, "Open Training Recipes: LLM Reasoning", Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=cMiu3A7YBks), used at [the Tülu 3 recipe](https://www.youtube.com/watch?v=cMiu3A7YBks&t=600), [step-by-step data](https://www.youtube.com/watch?v=cMiu3A7YBks&t=1200), [data filtering](https://www.youtube.com/watch?v=cMiu3A7YBks&t=1680), [preference tuning](https://www.youtube.com/watch?v=cMiu3A7YBks&t=2640), [over-optimization](https://www.youtube.com/watch?v=cMiu3A7YBks&t=3000), [RLVR](https://www.youtube.com/watch?v=cMiu3A7YBks&t=3120)
-- **Lecture:** Jason Weston, "Learning to Self-Improve & Reason with LLMs", Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=_MNlLhU33H0), used at [self-rewarding models](https://www.youtube.com/watch?v=_MNlLhU33H0&t=2400), [verifiable rewards](https://www.youtube.com/watch?v=_MNlLhU33H0&t=2880), [o1](https://www.youtube.com/watch?v=_MNlLhU33H0&t=3000)
+- **Lecture:** Jason Weston, "Learning to Reason with LLMs", Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=_MNlLhU33H0), used at [self-rewarding models](https://www.youtube.com/watch?v=_MNlLhU33H0&t=2400), [verifiable rewards](https://www.youtube.com/watch?v=_MNlLhU33H0&t=2880), [o1](https://www.youtube.com/watch?v=_MNlLhU33H0&t=3000)
 
 ## Next
 

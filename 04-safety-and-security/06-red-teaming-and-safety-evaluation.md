@@ -22,7 +22,23 @@ The question of this chapter: how do you find attacks systematically, measure th
 
 Dawn Song's group builds automatic red teaming as an **optimization loop** ([60:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=3600), Fall 2025). An attack generator produces candidates. They are injected through the user interface or into the environment. A scorer rates how well each worked and what it cost. The scores feed back, and the generator updates.
 
-The analogy is fuzzing, which her Spring 2025 framework also uses: a seed corpus, mutations, a target, and feedback. A programmer who has fuzzed a parser knows the loop. The analogy breaks at the oracle. A fuzzer's oracle is a crash. Yours has to be defined in advance. The system is also probabilistic, so the same input succeeds once and fails the next time.
+**Figure 1.** Automatic red teaming as a loop: each scored attack teaches the generator what to try next.
+
+```mermaid
+flowchart LR
+    T["Threat model: what the attacker controls"] --> G["Attack generator"]
+    G --> P["Payload planted in a task"]
+    P --> A["Agent run"]
+    A --> O["Oracle: canary or state change"]
+    O --> S["Score: successes over runs"]
+    S -->|"feedback"| G
+    S --> D["Versioned adversarial data set"]
+    D --> C["CI gate"]
+```
+
+The oracle and the count of runs turn the loop into a measurement. Without them it only produces examples.
+
+The analogy is fuzzing, which her Spring 2025 framework also uses: a seed corpus, mutations, a target, and feedback. A fuzzer feeds a program many mutated inputs and keeps the ones that crash it. A programmer who has fuzzed a parser knows the loop. The analogy breaks at the oracle. A fuzzer's oracle is a crash. Yours has to be defined in advance. The system is also probabilistic, so the same input succeeds once and fails the next time.
 
 One more rule, from her Spring 2025 lecture: model evaluation tests the model alone, and an agent has to be evaluated on its end-to-end behavior ([62:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=3720)).
 
@@ -30,14 +46,14 @@ One more rule, from her Spring 2025 lecture: model evaluation tests the model al
 
 ### A red-team exercise in eight steps
 
-1. **Fix the threat model.** Write down what the attacker controls. Song's black-box red-team tool, AgentXploit, assumes an attacker who cannot change the user's requests, cannot read the agent's internals, cannot redirect its data flow, cannot reach the internal model, learns only whether an attack succeeded, and can only change external data sources ([66:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=3960)).
+1. **Fix the threat model.** Write down what the attacker controls. Song's black-box red-team tool, AgentXploit, assumes an attacker who cannot change the user's requests, cannot read the agent's internals, cannot redirect its data flow, cannot reach the internal model, learns only whether an attack succeeded, and can only change external data sources (slide and [66:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=3960), [68:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=4080), Spring 2025).
 2. **Choose tasks and environments.** AgentXploit was evaluated on personal-assistant agents with text only (AgentDojo) and on web agents with multimodal input (VWA-adv) ([72:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=4320)).
-3. **Write the oracle.** Examples: a tool call whose arguments contain a canary word, a canary in the answer, or a change of state in the environment. "The agent misbehaved" is not an oracle.
+3. **Write the oracle.** Examples: a tool call whose arguments contain a canary word (a word the agent says only if it followed the payload), a canary in the answer, or a change of state in the environment. "The agent misbehaved" is not an oracle.
 4. **Build seed attacks.** Start with the heuristic techniques of [Jailbreaks and Prompt Injection](02-jailbreaks-and-prompt-injection.md).
 5. **Run and score.** Run each attack several times and count.
 6. **Mutate.** Improve the seeds by hand, or automatically. The families are below. AgentXploit picks the next seeds with Monte Carlo tree search, balancing exploitation of what already worked against exploration of new variants ([70:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=4200)).
 7. **Keep what works.** Each confirmed attack becomes a row in a versioned adversarial data set.
-8. **Fix and gate.** Each row becomes a regression test, and the suite runs in CI.
+8. **Fix and gate.** Each row becomes a regression test, and the suite runs in CI, the automated test run on every change.
 
 ### Families of attack generator
 
@@ -48,7 +64,7 @@ Song sorts the generators by how they update ([62:00](https://www.youtube.com/wa
 | Static data set | Never. It replays known patterns | Nothing |
 | Human red teamer | By reasoning about the target | People and time |
 | Search-based | Heuristic or evolutionary search over candidates | Only success or failure |
-| Gradient-based | Follows the gradient of the model toward the unwanted output | The model's internals |
+| Gradient-based | Follows the model's gradient, the direction that most raises the unwanted output | The model's internals |
 | Reinforcement learning | Trains the generator itself on the scores | Many runs |
 
 For your own agent, start with the first two, then add the third with a language model as the mutator. That is what Song describes in her black-box work: the model rewrites past candidates using the scores they received ([66:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=3960)).
@@ -68,7 +84,7 @@ For your own agent, start with the first two, then add the third with a language
 3. **Use two sizes.** A small smoke suite on each commit, and the full suite nightly.
 4. **Compare against a baseline with an allowance.** Fail when the new success rate exceeds the old one by more than a fixed margin.
 5. **Make runs as stable as the API allows.** Fix the seed or set randomness to zero where offered, and repeat.
-6. **Quarantine flaky rows. Do not delete them.** A flaky attack is still an attack.
+6. **Quarantine flaky rows, the ones whose result changes from run to run. Do not delete them.** A flaky attack is still an attack.
 7. **Add every confirmed incident.** The suite grows from production, as described in [Runtime Monitoring and Detection](05-runtime-monitoring-and-detection.md).
 
 ## Worked example
@@ -116,7 +132,7 @@ if __name__ == "__main__":
     gate(load("before.jsonl"), load("after.jsonl"))
 ```
 
-The runner calls a paid model API. Forty attacks at five runs each are 200 short agent runs. The cost depends on your agent's steps per run. At the low end of 2026 model prices a short-run suite costs well under one US dollar. Check your provider's price page.
+The runner calls a paid model API. Forty attacks at five runs each are 200 short agent runs. The cost depends on your agent's steps per run. At the low end of 2026 model prices a short-run suite costs well under one US dollar. Check your provider's price page. The scorer itself is free: run `python redteam_score.py` with `before.jsonl` and `after.jsonl` beside it.
 
 What to observe:
 
@@ -131,7 +147,7 @@ What to observe:
 - **Fall 2025: evaluation has an integration problem.** In her diagnosis, agent evaluation lacks standardization, openness, and reproducibility. Agent benchmarks are built around one fixed harness, so testing n agents on M benchmarks takes n times M integrations, and adapting an agent to the harness creates a mismatch between test and production ([74:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=4440), [76:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=4560)). Her proposal, which she calls AAA, makes the benchmark itself an agent, an assessor that speaks standard protocols: A2A for agent communication and MCP for tool use. An agent that speaks them can be assessed without integration, in its production form, and several agents can be assessed together ([76:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=4560), [78:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=4680)). She also presents AgentBeats, an open evaluation platform with a competition attached ([80:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=4800)).
 - **Safety evaluation is the other half.** For harm without an attacker, her lectures point to DecodingTrust for language models, its extension to multimodal models, MMDT ([62:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=3720)), and RedCode for code agents (her slide). See [Trustworthiness Beyond Injection](07-trustworthiness-beyond-injection.md).
 
-The course made the same point with competitions. In Spring 2025 she closed the lecture with the AgentX competition, with thousands of developers signed up ([110:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6600)). In Fall 2025 she named AgentBeats, focused on evaluation, with over one million US dollars in prizes and resources ([80:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=4800)).
+The course ended both lectures with a competition. In Spring 2025 she closed the lecture with the AgentX competition, with thousands of developers signed up ([110:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6600)). In Fall 2025 she named AgentBeats, focused on evaluation, with over one million US dollars in prizes and resources ([80:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=4800)).
 
 ## Pitfalls
 

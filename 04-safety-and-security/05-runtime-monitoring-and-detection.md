@@ -29,6 +29,25 @@ Song places the layers in a fixed order (Spring 2025): input sanitization, model
 
 The analogy is a building. The turnstile at the door is inline. The cameras are out of band. The person who reviews the footage is the human check. The analogy breaks in one place. A camera cannot be lied to by what it films. A detector built on a language model reads the same untrusted text as the agent, so it can be deceived by the same text.
 
+**Figure 1.** The three positions a check can take, and how a finding from the audit trail comes back as a rule.
+
+```mermaid
+flowchart LR
+    U["User request"] --> G["Input guard: inline"]
+    G --> M["Model"]
+    M --> E["Policy gate: inline"]
+    E -->|"sensitive action"| H["Human approval"]
+    E --> T["Tool call"]
+    H -->|"approved"| T
+    M --> L["Audit trail"]
+    T --> L
+    L --> A["Anomaly detector: out of band"]
+    A -->|"finding"| P["Alert a person"]
+    P -->|"new rule"| E
+```
+
+Only the checks on the top path can stop an action before it happens. The out-of-band detector acts afterwards, by turning what it saw into a new rule.
+
 ## How it works, step by step
 
 ### 1. Define the event
@@ -110,7 +129,7 @@ The lectures do not present a monitoring agent. This paragraph is this repositor
 
 ## Worked example
 
-An out-of-band monitor over an audit trail, in plain Python and without a model.
+An out-of-band monitor over an audit trail, in plain Python and without a model. Save it as `monitor_demo.py`, put the two trail lines below in `audit.jsonl` beside it, and run `python monitor_demo.py`.
 
 ```python
 # monitor_demo.py: checks over one run's audit trail, in audit.jsonl.
@@ -162,7 +181,7 @@ What to observe:
 
 Dawn Song treats monitoring as one mechanism among several, in both lectures.
 
-- **Spring 2025: a mechanism with open questions.** She lists eight defense mechanism families, monitoring and detection among them, and says they work best in conjunction as layers ([106:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6360)). Monitoring, in her description, observes system behavior including outputs and applies anomaly detection. Her open questions: how to audit systems that read and write enormous amounts of text, how to "balance full auditability and storage costs" (her slide), and how to make anomaly detection work in many different settings ([106:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6360)). She closes with information flow tracking across tool boundaries, and with the difficulty of writing formal specifications for a model ([108:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6480)).
+- **Spring 2025: a mechanism with open questions.** She lists eight defense mechanism families, monitoring and detection among them, and says they can be used in conjunction as layers ([106:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6360)). Monitoring, in her description, observes system behavior including outputs and applies anomaly detection. Her open questions: how to audit systems that read and write enormous amounts of text, how to "balance full auditability and storage costs" (her slide), and how to make anomaly detection work in many different settings ([106:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6360)). She closes with information flow tracking across tool boundaries, and with the difficulty of writing formal specifications for a model ([108:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=6480)).
 - **Fall 2025: part of runtime protection.** She groups monitoring with input guards, output guards, and the human in the loop as runtime protections ([84:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5040)). A runtime monitoring system, she says, watches the agent's behavior and the execution of the whole system, for anomaly detection and for unsafe actions ([92:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5520)).
 
 Neither lecture describes a monitor built on a second agent. The positions, the signals, and the trade-offs in this chapter are this repository's own engineering judgment, built on the mechanisms she names.

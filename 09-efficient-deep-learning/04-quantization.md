@@ -9,13 +9,13 @@
 
 You want to run a 7-billion-parameter model on a laptop with 8 GB of memory. In 16-bit, the weights need 14 GB. The model does not load. In 4-bit they need 3.5 GB. It loads, and it answers faster, because there is less to move from memory.
 
-What did that cost in quality? Where is the loss coming from? And what do you do when it is too large? Quantization is the most widely used compression technique in industry, and most of its failures come from three decisions: the scale, the range and the granularity.
+What did that cost in quality? Where is the loss coming from? And what do you do when it is too large? Quantization is very widely used in industry (Lecture 6, [0:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=0)), and in practice most failures come from three decisions: the scale, the range and the granularity.
 
 ## The core idea
 
 **Quantization** constrains values to a small discrete set (Han's Lecture 5, slide 22). The difference between a value and its quantized replacement is the **quantization error**.
 
-Han's slide shows the idea with a picture: reduce a photograph to 16 colors, with a palette. Each pixel keeps its nearest palette entry. The analogy breaks in one place. A picture is converted once. A network applies its rounding at every layer, for every input, and errors from early layers feed into later ones. That is why networks need calibration or retraining and photographs do not.
+Han's slide shows the idea with a picture: reduce a photograph to 16 colors, with a palette. Each pixel keeps its nearest palette entry. The analogy breaks in one place. A picture is converted once. A network applies its rounding at every layer, for every input, and errors from early layers feed into later ones. That is why networks need [calibration](../GLOSSARY.md) or retraining and photographs do not.
 
 Model size is parameters times bits per parameter (Lecture 5, [0:00](https://www.youtube.com/watch?v=ymAzUz3qlIA&t=0)). Pruning cuts the first factor; quantization cuts the second. Low bit widths also save energy. Han's slide 3, citing Horowitz's 2014 measurements at 45 nm, lists a 32-bit floating-point multiply at 3.7 picojoules and an 8-bit integer multiply at 0.2 (as reported on the slide).
 
@@ -43,7 +43,7 @@ Worked example from his slide 18. The FP16 bits are `1 10001 1100000000`:
 
 ### 2. Linear quantization: map reals to integers
 
-Han's slides 6 and 7 give the **affine mapping**:
+Han's slides 47 and 48 give the **affine mapping**:
 
 ```
 r = S × (q − Z)
@@ -65,9 +65,9 @@ Worked numbers. Quantize the weights `[2.09, −0.98, 1.48, 0.09]`.
 
 Two bits is unusable here: 1.48 becomes 2.09. Eight bits keeps every weight within half a step, `S / 2`.
 
-Once weights and activations are integers, the multiply-accumulate runs in integer arithmetic. The result is rescaled by `Sw × Sx / Sy` and the bias is kept in 32 bits (Han's slide 8). This is what makes linear quantization faster as well as smaller.
+Once weights and activations are integers, the multiply-accumulate runs in integer arithmetic. The result is rescaled by `Sw × Sx / Sy`, and the additions use 32-bit integers to avoid overflow (Lecture 5, [52:00](https://www.youtube.com/watch?v=ymAzUz3qlIA&t=3120), slides 55 to 57). This is what makes linear quantization faster as well as smaller.
 
-Han groups quantization into three families (Lecture 5, slide 3):
+Han groups quantization into three families (Lecture 5, slide 44):
 
 | Family | Storage | Arithmetic | What you gain |
 |---|---|---|---|
@@ -75,7 +75,7 @@ Han groups quantization into three families (Lecture 5, slide 3):
 | Linear | integers | integer | storage and speed |
 | Binary and ternary | 1 or 2 bits | XNOR and popcount on special hardware | storage and speed, at a large accuracy cost |
 
-For k-means, his example stores 16 weights with 2-bit indices: a 4-byte index map and a 16-byte table, 20 bytes instead of 64 ([34:00](https://www.youtube.com/watch?v=ymAzUz3qlIA&t=2040)). The saving is about 32 divided by the bit width: 16 times at 2 bits, 8 times at 4 bits. His verdict on it: "It saved the storage, but it doesn't save the computation" ([48:00](https://www.youtube.com/watch?v=ymAzUz3qlIA&t=2880)). It still pays off for a single user generating text, because that workload is limited by memory.
+For k-means, his example stores 16 weights with 2-bit indices: a 4-byte index map and a 16-byte table (the codebook, the list of allowed values), 20 bytes instead of 64 ([34:00](https://www.youtube.com/watch?v=ymAzUz3qlIA&t=2040)). The saving is about 32 divided by the bit width: 16 times at 2 bits, 8 times at 4 bits. His verdict on it: "It saved the storage, but it doesn't save the computation" ([48:00](https://www.youtube.com/watch?v=ymAzUz3qlIA&t=2880)). It still pays off for a single user generating text, because that workload is limited by memory.
 
 ### 3. Post-training quantization
 
@@ -85,9 +85,9 @@ For k-means, his example stores 16 weights with 2-bit indices: a 4-byte index ma
 
 - *Per-tensor:* one scale for everything. Fine for large models, lossy for small ones.
 - *Per-channel:* one scale per output channel. Han's slide 14 shows the weight ranges of different channels in MobileNetV2 differing by more than 100 times. One scale cannot fit them all.
-- *Group:* one scale per small block of weights. Han calls this important at 4 bits and below ([6:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=360)). The cost is storage for the scales: a 4-bit scale per 16 weights gives an effective width of 4 + 4/16 = 4.25 bits (his VS-Quant slide). Formats such as MX4 and MX6 share one exponent per block of 16 (slide 26).
+- *Group:* one scale per small block of weights. Han calls this important at 4 bits and below ([6:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=360)). The cost is storage for the scales: a 4-bit scale per 16 weights gives an effective width of 4 + 4/16 = 4.25 bits (his VS-Quant slide). Formats such as MX4 and MX6 share an 8-bit scale exponent per block of 16 values and a 1-bit exponent per pair (slide 26).
 
-**Clipping: where to cut the range.** A single large value, an **outlier**, forces a large scale and therefore coarse steps for all the other values. Activations change with every input, so their range has to be collected first: by tracking an exponential moving average of the minimum and maximum during training, or by gathering statistics from sample inputs before deployment ([24:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=1440)). Cutting the range below the maximum is a trade-off. Han's example is an activation distribution that reaches about 400 with a long tail, while most values sit below 40: cutting the range near 50 clips the whole tail onto one value. He names KL-divergence calibration as a widely used way to choose the cut, because it minimizes the information lost between the distributions before and after quantization ([30:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=1800)).
+**Clipping: where to cut the range.** A single large value, an **outlier**, forces a large scale and therefore coarse steps for all the other values. Activations change with every input, so their range has to be collected first: by tracking an exponential moving average of the minimum and maximum during training, or by gathering statistics from sample inputs before deployment ([24:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=1440)). Cutting the range below the maximum is a trade-off. Han's example is an activation distribution that reaches about 400 with a long tail, while most values sit below 40: cutting the range near 50 clips the whole tail onto one value. He names KL-divergence calibration, where the KL divergence measures how one distribution differs from another, as a widely used way to choose the cut, because it minimizes the information lost between the distributions before and after quantization ([30:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=1800)).
 
 **Rounding.** Round to nearest is the default. Alternatives are stochastic rounding and learned rounding, where the network learns whether each weight should round up or down (Han mentions AdaRound at [38:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=2280)).
 
@@ -99,6 +99,22 @@ The procedure:
 4. Choose the clipping range and quantize.
 5. Evaluate again, on real tasks and not on one prompt.
 6. If the drop is too large, go finer in granularity. If it is still too large, move to quantization-aware training.
+
+**Figure 1.** Post-training quantization: one pass, one decision, and where quantization-aware training begins.
+
+```mermaid
+flowchart TD
+    A["Record float baseline accuracy"] --> B["Compute weight scales"]
+    B --> C["Record activation ranges on sample inputs"]
+    C --> D["Choose the clipping range and quantize"]
+    D --> E["Evaluate again"]
+    E -->|"drop acceptable"| K["Ship the quantized model"]
+    E -->|"drop too large"| F["Go finer in granularity"]
+    F --> D
+    F -->|"still too large"| Q["Quantization-aware training"]
+```
+
+Post-training quantization needs only sample inputs, not training; quantization-aware training is the fallback once finer scales stop helping.
 
 #### Outliers in language models: the SmoothQuant idea
 
@@ -175,23 +191,23 @@ What to observe:
 ## What the practitioners say
 
 - Han calls quantization very widely adopted in industry, on phones, edge devices and in the cloud (Lecture 6, [0:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=0)).
-- 8-bit quantization is mature, nearly all hardware has 8-bit integer units, and integer models showed a better latency-accuracy trade-off than float on the ResNet-50 and InceptionV3 charts he showed (Lecture 5, [64:00](https://www.youtube.com/watch?v=ymAzUz3qlIA&t=3840)).
-- On hardware trends, as of his Fall 2024 lecture: NVIDIA's Blackwell generation supports micro-tensor scaling, and its FP4 tensor cores have twice the theoretical throughput of the FP8 and INT8 cores (Lecture 6, slide 23; [16:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=960)).
+- 8-bit quantization is mature, most hardware has 8-bit integer units, and integer models showed a better latency-accuracy trade-off than float on the ResNet-50 and InceptionV3 charts he showed (Lecture 5, [64:00](https://www.youtube.com/watch?v=ymAzUz3qlIA&t=3840)).
+- On hardware trends, as of his Fall 2024 lecture: NVIDIA's Blackwell generation supports micro-tensor scaling, and its FP4 tensor cores (matrix-multiply units) have twice the theoretical throughput of the FP8 and INT8 cores (Lecture 6, slide 23; [16:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=960)).
 - His Deep Compression pipeline prunes, quantizes with a codebook, retrains the codebook, repeats, and then encodes the weights with different bit lengths. SqueezeNet went from 4.8 MB to 0.47 MB (Lecture 5, [46:00](https://www.youtube.com/watch?v=ymAzUz3qlIA&t=2760)).
 - He draws the parallel with pruning: layers differ in sensitivity, so they should get different bit widths (Lecture 6, [0:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=0)).
 
 ## Pitfalls
 
-1. **Quantizing every layer to the same width.** Embeddings, the first layer, the last layer and the final normalization are sensitive. Fix: keep them in 16 bits.
+1. **Quantizing every layer to the same width.** Embeddings (the layers that turn tokens into vectors), the first layer, the last layer and the final normalization are sensitive. Fix: keep them in 16 bits.
 2. **Using one scale at 4 bits.** Fix: per-channel scales, and group scales below 8 bits.
 3. **Ignoring activation outliers in language models.** Fix: smooth them into the weights, or quantize weights only.
-4. **Judging quality by one prompt or by perplexity alone.** Fix: run your [evaluation set](../03-evaluation/02-a-minimal-eval-harness.md) against the float baseline.
+4. **Judging quality by one prompt or by perplexity alone (how well the model predicts text).** Fix: run your [evaluation set](../03-evaluation/02-a-minimal-eval-harness.md) against the float baseline.
 5. **Assuming a smaller file means a faster model.** Fix: check that your inference engine has a fast kernel for that format; otherwise you saved memory only.
 6. **Forgetting the cache of past tokens.** With long inputs it can outweigh the weights. See [efficient LLM inference](08-efficient-llm-inference-and-deployment.md).
 
 ## Try it
 
-Quantize a small trained classifier with the `quantize` function above.
+Quantize the weights of a small trained classifier with the `quantize` function above; activations stay in floating point. Put the dequantized weights, `q * scale`, back into the model before you measure accuracy.
 
 1. Record float accuracy and file size.
 2. Apply 8-bit per-tensor quantization to every weight. Record accuracy and size.

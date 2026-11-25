@@ -33,6 +33,8 @@ A training run's compute is `C = 6 · N · D`, where N is the parameter count an
 
 ### 2. Pick a method for the trade-off
 
+Hoffmann et al.'s Chinchilla paper (2022) compared three ways to answer it:
+
 | Method | What you do | Chinchilla's answer | Main weakness |
 |---|---|---|---|
 | Lower envelope | Take the best loss reached at each compute level across all runs, then read off the model sizes | 67B | The envelope is hard to define |
@@ -40,6 +42,19 @@ A training run's compute is `C = 6 · N · D`, where N is the parameter count an
 | Parametric fit | Fit a formula for loss as a function of both N and D | Not given; its fitted exponents (0.46 and 0.54) differ slightly from the other two methods' (about 0.50 and 0.50) | Depends on the formula you assume, and on how you fit it |
 
 An **IsoFLOP run** is a training run held to a fixed FLOP budget. To sweep it, double the data and halve the parameters, and so on. Hashimoto calls IsoFLOP easy and robust, probably his personal favorite: budgets spaced by factors of about three, a sweep of the parameter-to-data trade-off at each, then the minimum of each curve, or of a quadratic fitted to it ([64:00](https://www.youtube.com/watch?v=Q15rhEWZPQ4&t=3840)).
+
+**Figure 1.** The IsoFLOP method: find the best model size at each small budget, then extend the line through those minima to the target budget.
+
+```mermaid
+flowchart TD
+    B["Pick a few small compute budgets"] --> S["At each budget, train several model sizes"]
+    S --> M["Take the size with the lowest loss at each budget"]
+    M --> L["Fit a line through the minima on log-log axes"]
+    L --> T["Read off the size and the loss for the target budget"]
+    T --> R["Run once and compare with the forecast"]
+```
+
+Only the last box is expensive, and it happens after the decision has already been written down.
 
 ### 3. Fit, then extrapolate
 
@@ -60,7 +75,7 @@ The **WSD schedule** (warmup, stable, decay) holds the learning rate constant af
 
 ### 6. Predict, then run
 
-Write down the predicted loss before the big run starts. Lecture 2 opens with a 10²³-FLOP run that landed within 0.05 of its forecast. Lecture 1 makes the principle explicit: what matters is smoothness across scales and relative performance, not the absolute number ([Lecture 1, 54:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3240)).
+Write down the predicted loss before the big run starts. Lecture 2 opens with a 10²³-FLOP run that landed within 0.05 of its forecast. Lecture 1 describes how that forecast was made: by pre-registration, with a scaling law fitted at smaller budgets and the prediction published out to 10²² FLOPs before the run finished ([Lecture 1, 50:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3000)).
 
 ## Worked example
 
@@ -102,9 +117,9 @@ What to observe:
 
 Hashimoto frames scaling laws as a tool for engineering at scale. Tuning hyperparameters on big models is, in his slide, the old and unpleasant way. The new optimism is to tune small and extrapolate ([2:00](https://www.youtube.com/watch?v=Q15rhEWZPQ4&t=120)). He warns that inside large labs belief in scaling laws is nearly a creed, and that scaling laws can be tricky objects.
 
-On what a law can answer, Lecture 9 goes beyond size. Scaling comparisons are how you decide between Transformers and LSTMs, or Adam and SGD: train both cheaply at several compute levels and compare the lines ([30:00](https://www.youtube.com/watch?v=Q15rhEWZPQ4&t=1800), [34:00](https://www.youtube.com/watch?v=Q15rhEWZPQ4&t=2040)). Depth matters up to a point: one layer is hopeless, more than one is surprisingly competitive, and in his plot more layers did better at every compute level. The aspect ratio, unlike the layer count, is scale invariant: its minimum sits near 100 units of width per layer at every model size ([36:00](https://www.youtube.com/watch?v=Q15rhEWZPQ4&t=2160)). And not all parameters behave alike. Embedding parameters do not follow the same curve ([36:00](https://www.youtube.com/watch?v=Q15rhEWZPQ4&t=2160)).
+On what a law can answer, Lecture 9 goes beyond size. Scaling comparisons are how you decide between Transformers and LSTMs, a recurrent network that came before them, or between Adam and SGD (stochastic gradient descent): train both cheaply at several compute levels and compare the lines ([30:00](https://www.youtube.com/watch?v=Q15rhEWZPQ4&t=1800), [34:00](https://www.youtube.com/watch?v=Q15rhEWZPQ4&t=2040)). Depth matters up to a point: one layer is hopeless, more than one is surprisingly competitive, and in his plot more layers did better at every compute level. The aspect ratio, unlike the layer count, is scale invariant: its minimum sits near 100 units of width per layer at every model size ([36:00](https://www.youtube.com/watch?v=Q15rhEWZPQ4&t=2160)). And not all parameters behave alike. Embedding parameters do not follow the same curve ([36:00](https://www.youtube.com/watch?v=Q15rhEWZPQ4&t=2160)).
 
-His favorite method is IsoFLOP, which he calls easy and robust, with a recommendation: "isoflops is always a good default" ([76:00](https://www.youtube.com/watch?v=Q15rhEWZPQ4&t=4560)). On the Kaplan-versus-Chinchilla disagreement, which told teams to build much larger models on much less data, he is blunt. It shows that fitting "it's not just something where you like turn the crank and you get the answer" ([62:00](https://www.youtube.com/watch?v=Q15rhEWZPQ4&t=3720)). The cause, he says, is a sequence of small decisions. A replication paper, *Resolving Discrepancies of Compute-Optimal Scaling of Language Models*, started from the Kaplan settings and reached the Chinchilla result in three steps. Kaplan had excluded the output layer along with the embeddings when counting parameters. Its models were too small to converge during warm-up, which left the learning rates suboptimal. And it fixed one large batch size that hurt the smaller models ([68:00](https://www.youtube.com/watch?v=Q15rhEWZPQ4&t=4080), [70:00](https://www.youtube.com/watch?v=Q15rhEWZPQ4&t=4200)).
+His favorite method is IsoFLOP, which he calls easy and robust, with a recommendation: "isoflops is always a good default" ([76:00](https://www.youtube.com/watch?v=Q15rhEWZPQ4&t=4560)). On the Kaplan-versus-Chinchilla disagreement, which told teams to build much larger models on much less data, he is blunt. It shows that fitting "it's not just something where you like turn the crank and you get the answer" ([62:00](https://www.youtube.com/watch?v=Q15rhEWZPQ4&t=3720)). The cause, he says, is a sequence of small decisions. A replication paper, *Resolving Discrepancies in Compute-Optimal Scaling of Language Models*, started from the Kaplan settings and reached the Chinchilla result in three steps. Kaplan had excluded the output layer along with the embeddings when counting parameters. Its models were too small to converge during warm-up, which left the learning rates suboptimal. And it fixed one large batch size that hurt the smaller models ([68:00](https://www.youtube.com/watch?v=Q15rhEWZPQ4&t=4080), [70:00](https://www.youtube.com/watch?v=Q15rhEWZPQ4&t=4200)).
 
 Lecture 11 turns to recipes that shipped. MiniCPM is his success case for muP: the best learning rate sits at the same value across model sizes, very clean in his experiments ([6:00](https://www.youtube.com/watch?v=vTfEyOyzV9E&t=360)). He is skeptical of one MiniCPM claim, that models need far more tokens per parameter than Chinchilla found, and says it is unclear to him whether that is real ([14:00](https://www.youtube.com/watch?v=vTfEyOyzV9E&t=840)). DeepSeek LLM (2024) is his other example, one of the more nicely executed scaling analyses in the open world ([16:00](https://www.youtube.com/watch?v=vTfEyOyzV9E&t=960)). Its predicted losses for the two models it actually trained came out close to reality ([20:00](https://www.youtube.com/watch?v=vTfEyOyzV9E&t=1200)). The slides add that Qwen 2.5, Kimi K2, Hunyuan, MiniMax-01 and StepFun all published fits of the same kind. StepFun's finding: loss is convex in learning rate and batch size, and the best batch depends mainly on data size.
 
@@ -131,8 +146,8 @@ Take the worked example's script.
 
 You are done when:
 
-- Running it prints the three numbers above.
-- You add a fourth budget (10²²) with three runs of your own invented losses that follow the trend, and the prediction changes by less than 0.02.
+- Add a `print` of the best size, the slope and the predicted loss; running it shows the three numbers above.
+- You add a fourth budget (10²²) whose best invented loss continues the trend, about 2.74, refit, and predict the loss at 10²³; the new line still gives 2.76 for 10²² within 0.02.
 - You change one run's loss to break the trend and see how much the slope moves.
 - A comment in the script states what you would check before trusting the prediction on real data.
 
@@ -155,7 +170,7 @@ You are done when:
    - D. A run that measures FLOPs but not loss
 2. Which statement best captures the Chinchilla result?
    - A. Loss depends on parameters only
-   - B. Parameters and data should grow together, about 20 tokens per parameter
+   - B. Parameters and data should grow together
    - C. Data should grow ten times faster than parameters
    - D. Compute has no effect on loss
 3. Why does muP help when tuning a large model?
@@ -165,11 +180,11 @@ You are done when:
    - D. It lowers the loss floor in the scaling law
 4. What does the WSD schedule let you do cheaply?
    - A. Compare architectures at equal FLOPs
-   - B. Recover converged checkpoints at many training lengths from one run
+   - B. Get converged models at many lengths from one run
    - C. Skip warmup on the largest model
    - D. Deduplicate the training data
 5. A team fits a law on runs whose learning rate never decayed. What is the risk?
-   - A. The fitted slope reflects unfinished runs, so the forecast is off
+   - A. The slope reflects unfinished runs, so the forecast is off
    - B. The FLOP count of each run is wrong by a factor of 6
    - C. The tokenizer changes between runs
    - D. Nothing, decay does not affect final loss

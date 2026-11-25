@@ -49,7 +49,7 @@ The four conditions come from the book. So does the habit of trying simpler opti
 | 2. Rules and keywords | `if`/`else`, regular expressions, lookup tables | There are few patterns and they are stable | Low: edit when patterns change |
 | 3. A known algorithm | Sorting, exact matching, a ranking formula | The logic is understood, even if tedious | Low |
 | 4. A pretrained model | An API call to a large language model (LLM) or a speech model | The task is perception-like and you have little training data | Medium: cost per call, evaluation, monitoring |
-| 5. A model you train | Fitted to your own data | Rung 4 is not good enough and you have the data | High: pipeline, retraining, drift |
+| 5. A model you train | Fitted to your own data | Rung 4 is not good enough and you have the data | High: pipeline, retraining, [drift](../GLOSSARY.md) |
 
 An **LLM** is a model trained on huge amounts of text that predicts and generates language; you use it by writing instructions called a prompt. Rungs 4 and 5 are ML components. Rungs 1 to 3 are not. Kästner notes that foundation models, LLMs among them, reduce the need for training data. They do not remove it: you still need examples to design a prompt and to check that it works.
 

@@ -63,7 +63,7 @@ A prompt for `summarize`:
 **Retrieval-augmented generation (RAG)** is the common way to add knowledge: find relevant chunks and put them in the prompt.
 
 1. Split documents into chunks.
-2. Compute an embedding for each chunk and store all of them in an index.
+2. Compute an embedding for each chunk and store all of them in an index, a data structure that makes nearest-neighbor lookup fast.
 3. When a question arrives, compute its embedding.
 4. Fetch the nearest few chunks.
 5. Add them to the prompt, each with its source.
@@ -113,12 +113,28 @@ A concrete risk comes from Yu Su's own study. He describes language models as "h
 
 **Yu Su (Spring 2025)** devotes the first third of his lecture to memory.
 
-- **Changing the model itself is hard.** People learn all the time. Neural networks struggle to add one fact without disturbing others, a problem he illustrates with catastrophic forgetting and its ripple effects ([16:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=960), [22:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=1320)).
+- **Changing the model itself is hard.** People learn all the time. Neural networks struggle to add one fact without disturbing others, a problem he illustrates with catastrophic forgetting, when learning something new overwrites what was known before, and its ripple effects ([16:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=960), [20:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=1200), [22:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=1320)).
 - **So keep memory outside the model.** He calls this non-parametric memory: store new experience outside the parameters and retrieve it, which is what RAG does ([22:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=1320)).
-- **Plain RAG is weaker than human memory.** Embedding documents and comparing vectors can do little of what people do: recognize patterns, form associations, and recall what fits the present context ([26:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=1560)). His example is the Stanford professor from the opening of this section: every passage matches half of the question, and with thousands of professors the model has to read them all.
+- **Plain RAG is weaker than human memory.** Embedding documents and comparing vectors can do little of what people do: recognize patterns, form associations, and recall what fits the present context ([26:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=1560)). His example is the professor in the worked example above: every passage matches half of the question, and with thousands of professors the model has to read them all.
 - **Borrow the brain's index.** He turns to the hippocampal indexing theory: raw memories live in the cortex, and a structured index in the hippocampus links them ([28:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=1680)). The index supports **pattern completion**, recovering a whole memory from partial cues ([30:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=1800)).
-- **HippoRAG adds that kind of index.** It has two phases ([32:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=1920), [34:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=2040)). Offline, a language model plays the cortex: it reads each passage and extracts facts as concepts and their relations, which become the nodes and links of a knowledge graph with no predefined schema. Online, the query's concepts (Stanford, Alzheimer's) are matched to nodes, which serve as seeds for personalized PageRank, a random walk that spreads weight along the links. A node linked to several seeds, such as the one professor, ends up with the highest weight, and each passage is weighted by its concepts. He reports that this beat the dense retrievers that were state of the art at the time by a large margin on three standard multi-hop question answering datasets, and also beat IRCoT, an iterative retrieval method ([36:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=2160)). Earlier structured retrievers did well only on the multi-hop test sets they were built for and poorly on ordinary questions, he says, so nobody could drop them in. HippoRAG 2, which he hoped to release soon at the time, was comparable or better than the best embedding models across the board in his tests ([40:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=2400)).
+- **HippoRAG adds that kind of index.** It has two phases ([32:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=1920), [34:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=2040)). Offline, a language model plays the cortex: it reads each passage and extracts facts as concepts and their relations, which become the nodes and links of a knowledge graph with no predefined schema. Online, the query's concepts (Stanford, Alzheimer's) are matched to nodes, which serve as seeds for personalized PageRank, a random walk that spreads weight along the links. A node linked to several seeds, such as the one professor, ends up with the highest weight, and each passage is weighted by its concepts. He reports that this beat the dense, meaning embedding-based, retrievers that were state of the art at the time by a large margin on three standard multi-hop question answering datasets, where the answer needs more than one fact, and also beat IRCoT, an iterative retrieval method ([36:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=2160)). Earlier structured retrievers did well only on the multi-hop test sets they were built for and poorly on ordinary questions, he says, so nobody could drop them in. HippoRAG 2, which he hoped to release soon at the time, was comparable or better than the best embedding models across the board in his tests ([40:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=2400)).
 - **His summary:** memory is central to learning, non-parametric memory is the practical route, and the trend is to add structure to embeddings, as HippoRAG and GraphRAG, a related method from Microsoft, do, to improve **sensemaking** (reading large, uncertain contexts) and **associativity** (connecting scattered pieces) ([40:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=2400)).
+
+**Figure 1.** HippoRAG: the index is built once from the passages, and each question is then answered by a search over that index.
+
+```mermaid
+flowchart LR
+    P["Passages"] --> L["Language model extracts concepts and relations"]
+    L --> K["Knowledge graph of nodes and links"]
+    Q["Question"] --> N["Concepts found in the question"]
+    K --> S["Matching nodes become seeds"]
+    N --> S
+    S --> R["Personalized PageRank spreads weight along the links"]
+    R --> W["Nodes linked to several seeds get the top weight"]
+    W --> T["Passages ranked by the weight of their concepts"]
+```
+
+The passages are processed once, when the index is built; each question then needs only a concept lookup and a graph search to find the passage that joins both facts.
 
 **Yangqing Jia (Fall 2025)** makes one point from the infrastructure side: retrieval and accurate data-processing pipelines are what matter ([68:00](https://www.youtube.com/watch?v=xqRAS6rAouo&t=4080)). The hard part of moving AI workloads is data locality, getting the data next to the machines that read it ([70:00](https://www.youtube.com/watch?v=xqRAS6rAouo&t=4200)). For an agent, the knowledge store is infrastructure: where it lives, how fast it can be read, and how it is kept accurate.
 
@@ -136,12 +152,12 @@ A concrete risk comes from Yu Su's own study. He describes language models as "h
 Add memory to the agent from [Chapter 01](01-the-anatomy-of-an-agent.md).
 
 1. Create a notes file. The agent reads it at the start and rewrites it before every compaction.
-2. Implement `maybe_compact` with a token counter and a summary prompt.
-3. Run a scripted task of at least 15 tool calls with the deterministic stub model, and force two compactions.
+2. Implement `maybe_compact` with a token counter and `summarize`. With a stub model, write `summarize` as plain code that copies every history line containing an ID or a path.
+3. Run a scripted task of at least 15 tool calls with the deterministic stub model. Set a low limit and let each tool return long text, so the limit is passed twice.
 
 **Deliverable:** the code, the notes file after the run, and the log of when compaction fired.
 
-**You are done when:** an ID mentioned in step 2 still appears verbatim in the final answer; the system prompt is never summarized; and the run's largest context stays under your limit.
+**You are done when:** an ID learned early in the run still appears verbatim in the final answer; the system prompt is never summarized; and the run's largest context stays under your limit.
 
 **Stretch goal:** add vector retrieval over a folder of documents and measure separately how often the right chunk is fetched and how often the answer is right.
 
@@ -181,6 +197,7 @@ Add memory to the agent from [Chapter 01](01-the-anatomy-of-an-agent.md).
 - **Reading:** Bernal Jiménez Gutiérrez, Yiheng Shu, et al., "HippoRAG: Neurobiologically Inspired Long-Term Memory for Large Language Models" (2024): [link](https://arxiv.org/abs/2405.14831)
 - **Reading:** Jian Xie, Kai Zhang, et al., "Adaptive Chameleon or Stubborn Sloth: Revealing the Behavior of Large Language Models in Knowledge Conflicts" (2023): [link](https://arxiv.org/abs/2305.13300)
 - **Reading:** Nelson F. Liu, Kevin Lin, et al., "Lost in the Middle: How Language Models Use Long Contexts" (2023): [link](https://arxiv.org/abs/2307.03172)
+
 ## Next
 
 → [05. Compound AI Systems and DSPy](05-compound-ai-systems-and-dspy.md), because tools, planning and memory turn a single prompt into a pipeline, and pipelines need a way to be written and tuned.

@@ -42,7 +42,7 @@ Now give the chatbot a better model. It answers more questions without an attorn
 
 His conclusion for that product: it is fine, even intended, for the chatbot to fail on hard questions and hand the client to an attorney. A good-enough model is good enough.
 
-The first two chapters made the same point with Booking.com, where more accurate models did not raise sales. You find such conflicts only if you write every layer down and ask how each one relates to the others.
+Chapter 01 made the same point with Booking.com, where more accurate models did not raise sales. You find such conflicts only if you write every layer down and ask how each one relates to the others.
 
 ### Goals become requirements
 
@@ -67,7 +67,18 @@ Kästner writes the link as a formula: the assumptions and the specification tog
 
 He adds a fourth part, the **implementation** (IMPL): the code that is meant to match the specification. Things then go wrong in five places. The requirement itself is wrong. An assumption is incorrect, changing or missing. The specification is wrong. The parts contradict each other. The implementation differs from the specification. Engineers concentrate on the last one, he observes, because testing tools make it easy to find. In questions of safety, security, fairness and feedback loops, he finds faulty assumptions the more pressing problem.
 
-Kästner's example is Lufthansa Flight 2904, which overran the runway at Warsaw in 1993. The requirement was never to engage the thrust reversers while the plane is in the air. The software cannot see whether a plane is in the air, so it relied on an assumption: the plane is on the ground if each landing gear carries at least 6.3 tons, or if the wheels turn faster than 72 knots. In rain and strong wind, water on the runway kept the wheels slow and the wind unloaded one gear, so neither condition held for several seconds after touchdown. The code did exactly what it was specified to do and blocked the reversers. Requirement and implementation were fine. The assumption was wrong.
+Kästner's example is Lufthansa Flight 2904, which overran the runway at Warsaw in 1993. The requirement was never to engage the thrust reversers while the plane is in the air. The software cannot see whether a plane is in the air, so it relied on an assumption: the plane is on the ground if each landing gear carries at least 6.3 tons, or if the wheels turn faster than 72 knots. In rain and strong wind, water on the runway kept the wheels slow and the wind unloaded one gear, so neither condition held for several seconds after touchdown. The code did exactly what it was specified to do and blocked the reversers.
+
+**Figure 1.** How the four kinds of statement fit together.
+
+```mermaid
+flowchart LR
+    A["ASM: assumptions about the world"] -->|"with the spec, must entail"| R["REQ: the state we want in the world"]
+    S["SPEC: what the software must do"] -->|"with the assumptions, must entail"| R
+    I["IMPL: the code"] -->|"must match"| S
+```
+
+The requirement, the specification and the implementation were all fine. Only the assumption about weight and wheel speed was false.
 
 For a feature with a model, he names four more kinds of assumption to question. People give unreliable feedback: an embarrassed wearer denies a fall, so a true alarm is recorded as a false one and turns into wrong training data. Training data drifts: falls recorded in senior homes differ from falls on a plush carpet at home. Feedback loops: after false alarms, wearers leave the watch off, so data is missing for exactly those situations. Attacks: someone shakes the watch on a nightstand to trigger a call.
 
@@ -78,7 +89,7 @@ Requirements also split by kind:
 - A **behavioral requirement** says what the software does. "If the input is 'fall detected', call the emergency responder after 30 seconds."
 - A **quality requirement** says how well it must do it, or how it must be built. "The fall detector has a latency under 100 ms."
 
-Kästner lists common qualities: safety, security, reliability and fairness; latency, throughput and cost; usability and convenience; development cost, development time, maintainability and extensibility. Every quality requirement needs a measure and the conditions under which you take it. "Fast" is a wish. "Under 200 ms for 95 of 100 requests at 50 requests per second" is a requirement. [Chapter 06](06-quality-attributes-of-ml-components.md) goes deeper on these.
+Kästner lists common qualities: safety, security, reliability and fairness; latency, [throughput](../GLOSSARY.md) and cost; usability and convenience; development cost, development time, maintainability and extensibility. Every quality requirement needs a measure and the conditions under which you take it. "Fast" is a wish. "Under 200 ms for 95 of 100 requests at 50 requests per second" is a requirement. [Chapter 06](06-quality-attributes-of-ml-components.md) goes deeper on these.
 
 ## How it works, step by step
 
@@ -102,7 +113,7 @@ Kästner's test for a precise measure: imagine arguing in front of a judge that 
 | Data collection | Which data, gathered how? | Log the time of every request and every response on the server |
 | **Operationalization** | How do you compute the number from the data? | Take the fastest 90 percent of the last 24 hours and report the slowest among them |
 
-**Operationalization** is the rule that turns raw observations into a number. It is where most disagreements hide.
+**Operationalization** is the rule that turns raw observations into a number.
 
 ### Is the measure any good?
 
@@ -122,7 +133,7 @@ Kästner's test for a precise measure: imagine arguing in front of a judge that 
 ### Two traps
 
 - **The streetlight effect.** People measure what is easy to observe, the way a drunkard looks for his keys under the streetlight instead of where he dropped them. Kästner's example: counting chat messages as a proxy for client satisfaction, because the logs have them.
-- **Goodhart's law.** In management, this is the rule that once a measure is made a target, it stops being a good measure ([chapter 5](https://mlip-cmu.github.io/book/05-setting-and-measuring-goals.html)). Reward developers for fixing bugs and some will write bugs to fix. Kästner's advice is to set goals with measures and never to use them as incentives.
+- **Goodhart's law.** In management, this is the rule that once a measure is made a target, it stops being a good measure ([chapter 5](https://mlip-cmu.github.io/book/05-setting-and-measuring-goals.html)). Reward developers for fixing bugs and some will write bugs to fix. Kästner's advice is to set goals with measures but avoid them as incentives.
 
 ### Bringing the stakeholders in
 
@@ -196,8 +207,8 @@ For an agent, write one goal layer per step and one for the whole task. The meas
 - **Goals are statements of intent that many actors must deliver** (chapter 5). They give the rationale for requirements and design, and they say how to measure success.
 - **Everything is measurable, at a price.** Kästner follows Douglas Hubbard's definition of measurement as "a quantitatively expressed reduction of uncertainty based on one or more observations". If you care about a property, you can detect it; if you can detect it, you can rank better against worse. Better measurements cost more, so spend according to the value of the decision.
 - **Prefer standard measures** when they exist, and state them with their conditions. For complex qualities, he recommends the **Goal-Question-Metric** approach: name the goal, list the questions that tell you whether you reached it, then pick one measure per question. It keeps you from measuring only what is convenient.
-- **Requirements engineering has a poor reputation** (chapter 6): long, formulaic documents. Kästner argues that it is not all-or-nothing. A light analysis early, at least for the critical parts, surfaces problems while they are cheap.
-- **Many safety, fairness and security problems are requirements problems.** They are among the most expensive to fix after deployment.
+- **Requirements engineering has a poor reputation** (chapter 6): developers see it as tedious and bureaucratic. Kästner argues that it is not all-or-nothing. Even a light analysis early surfaces insights that improve the product.
+- **Many safety, fairness and security problems are requirements problems.** They are difficult to fix later.
 
 ## Pitfalls
 
@@ -245,7 +256,7 @@ Include:
 4. Write one REQ, one ASM and one SPEC for "keep junk out of my inbox".
 5. Which is the streetlight effect?
    - A. Agents stop re-routing tickets because their team is scored on first-time-right rate.
-   - B. The team counts messages per chat because the logs contain them, though the count does not say whether clients were helped.
+   - B. The team counts messages per chat because the logs contain them.
    - C. The satisfaction survey reaches only five percent of attorneys in any given month.
    - D. Latency is reported from the slowest of the fastest ninety percent of requests.
 6. What separates a quality requirement from a behavioral one, and what must every quality requirement contain?
@@ -256,7 +267,7 @@ Include:
 2. C. The model layer improved. The question is whether the routing logic, the review queue or the interface turns that into a different outcome.
 3. Inaccuracy. Repeatability shows high precision. The error is systematic, so averaging and other statistics never expose it. You find it by inspecting samples or comparing with the true value.
 4. Example. REQ: a user loses no important message to the spam folder. ASM: senders of important mail do not write like spammers, and users report misfiles. SPEC: if the spam score is above 0.9, move the message to the spam folder.
-5. B. The count is convenient and irrelevant to the goal. A is Goodhart's law. C and D are ordinary limits of a measure.
+5. B. The count is convenient and says nothing about whether clients were helped. A is Goodhart's law. C and D are ordinary limits of a measure.
 6. A behavioral requirement says what the software does. A quality requirement says how well. Each quality requirement contains a value, and the conditions under which it is measured.
 
 </details>

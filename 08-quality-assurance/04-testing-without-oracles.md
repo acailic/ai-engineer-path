@@ -30,7 +30,24 @@ for every input x:   h(f(x)) = f(g(x))
 
 Here `f` is the model, `g` changes the input, and `h` says how the two outputs relate. For "a footer must not change the routing", `g` appends the footer and `h` is "unchanged". For "negation flips sentiment", `g` inserts a negation and `h` flips the score.
 
-The analogy is property-based testing and fuzzing in ordinary software, where the most common invariant is "does not crash". The analogy breaks on strictness. For software, one violation is a bug. For a model, you usually measure how *often* the relation is violated and compare that rate with a threshold.
+**Figure 1.** One metamorphic relation: the same model sees the original input and the changed one, and only the two outputs are compared.
+
+```mermaid
+flowchart LR
+    X["Input x"] --> G["g: change the input in a prescribed way"]
+    X --> F1["Model f"]
+    G --> F2["Model f"]
+    F1 --> O1["Output for x"]
+    F2 --> O2["Output for changed x"]
+    O1 --> H["h: do the two outputs relate as required"]
+    O2 --> H
+    H -->|"yes"| P["No violation"]
+    H -->|"no"| V["Violation counted in the rate"]
+```
+
+No expected answer is needed anywhere on this path: the test compares two outputs of the same model with each other.
+
+The analogy is property-based testing and fuzzing in ordinary software, where the most common invariant is "does not crash". Fuzzing means feeding the program random inputs to find crashes. The analogy breaks on strictness. For software, one violation is a bug. For a model, you usually measure how *often* the relation is violated and compare that rate with a threshold.
 
 ## How it works, step by step
 

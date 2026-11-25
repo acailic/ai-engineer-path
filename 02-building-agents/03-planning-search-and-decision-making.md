@@ -18,7 +18,7 @@ Two mistakes happened. The agent acted without looking ahead, and it tried to sa
 There are two separate decisions in every design:
 
 1. **How much to deliberate.** From none (act on the first idea) to full search (compare many possible futures).
-2. **Who deliberates.** The language model, or an algorithm such as a solver or a search.
+2. **Who deliberates.** The language model, or an algorithm such as a **solver**, a program that returns a provably valid or optimal answer to a problem written in formal notation.
 
 Yu Su opens his planning section with a simplified definition: given a goal, decide on the sequence of actions that ends in a state passing the goal test ([76:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=4560)). Yuandong Tian, in the title of his lecture, calls the second decision the neural and the symbolic side.
 
@@ -37,13 +37,13 @@ The patterns below are like the difference between writing straight-line code, c
 
 **1. Reactive.** Su names this the most common paradigm and, in his words, calls it reactive planning or ReAct: at each state the agent observes, reasons, decides and commits. It is fast and easy to implement, he says, but greedy and short-sighted, so the agent often ends up stuck in a bad state with no way out ([80:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=4800)). It is the right default for a strong model on a short task, and the wrong one for the trip.
 
-**2. Interleaved reasoning.** The ReAct pattern, from Yao and colleagues in 2022, alternates a thought, an action and an observation: *thought* "only $600 is left, so check hotel prices first"; *action* search hotels; *observation* three results. Su gives this a precise place in the classic agent picture: reasoning is a new kind of action, taken in an inner monologue instead of in the environment, and self-reflection is a reasoning action about the reasoning itself ([8:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=480)).
+**2. Interleaved reasoning.** ReAct, from Yao and colleagues in 2022, writes that reasoning step down, so a thought, an action and an observation alternate: *thought* "only $600 is left, so check hotel prices first"; *action* search hotels; *observation* three results. Su gives this a precise place in the classic agent picture: reasoning is a new kind of action, taken in an inner monologue instead of in the environment, and self-reflection is a reasoning action about the reasoning itself ([8:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=480)).
 
-**3. Plan, then execute.** The model first writes a numbered plan and then executes one item per turn. Keep the plan in the context as a checklist, and replan when an observation contradicts it. This is where **task decomposition** happens: the plan splits the goal into sub-goals. Su names hierarchical planning and dynamic replanning as important topics that his lecture did not cover ([88:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=5280)). Graham Neubig shows the pattern in coding agents. In CodeR, a manager writes a plan and sub-agents carry it out under fixed control flow: a reproducer, a fault localizer, an editor, a verifier ([48:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2880)). His warning is the failure to design against: agents often see only after planning that an assumption was wrong, for instance a test directory they named does not exist, so the plan needs a way back to the planner.
+**3. Plan, then execute.** The model first writes a numbered plan and then executes one item per turn. Keep the plan in the context as a checklist, and replan when an observation contradicts it. This is where **task decomposition** happens: the plan splits the goal into sub-goals. Su names hierarchical planning and dynamic replanning as important topics that his lecture did not cover ([88:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=5280)). Graham Neubig shows the pattern in coding agents. In CodeR, a manager writes a plan and sub-agents carry it out under a hard-coded control flow: a reproducer, a fault localizer, an editor, a verifier ([48:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2880)). His warning is the failure to design against: agents often see only after planning that an assumption was wrong, for instance a test directory they named does not exist, so the plan needs a way back to the planner.
 
 **4. Reflection.** After a run or a failed step, the model answers: what went wrong, what would I do differently? The text is saved and shown on the next attempt. Reflection only pays when the same kind of task comes back. For a one-off task it is a wasted call. Neubig counts fixing code from error messages as a central part of error recovery, and as an advantage an agent has over a fixed pipeline: it can run the code, see the result and go back ([50:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=3000)). His example of the failure: GPT-4o would try one fix, fail, and repeat the same fix in a loop until the turns ran out. A critique that does not change the next attempt is only a wasted call.
 
-**5. Search.** Tree search keeps several open branches, expands the most promising, and backtracks when a branch fails. Su's objection is about the real world: many actions change state and cannot be undone. On one shopping site, he says, an agent can place orders, make returns, open accounts and change privacy settings, and there is no universal undo ([82:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=4920)). Search belongs in a sandbox.
+**5. Search.** Tree search keeps several open branches, expands the most promising, and backtracks when a branch fails. Su's objection is about the real world: many actions change state and cannot be undone. On one shopping site, he says, an agent can place orders, make returns, open accounts and change privacy settings, and there is no universal undo ([82:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=4920)). Search belongs in a [sandbox](../GLOSSARY.md).
 
 **6. Simulate, then act.** A **world model** is a model of what happens next: if the agent takes this action in this state, what is the resulting state? Su defines it exactly that way ([84:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=5040)). The agent asks a language model to imagine the outcome of each candidate action, scores each imagined state, and executes only the best one.
 
@@ -65,7 +65,26 @@ def choose_action(goal, state, candidates, world_model, value_function):
 
 On a slide, the goal is to buy the least expensive 512 GB disk. The planner scores typing a search query at 0.8, clicking one top-level category at 0.4 and a second at 0.1, and then executes the search. His summary of language models as world models: "Far from perfect, but reasonable" ([86:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=5160)). On the VisualWebArena benchmark he reports model-based planning as more accurate than reactive planning, slightly better than tree search, and much cheaper and faster than tree search, which was only possible there because the test ran in a sandbox ([88:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=5280)).
 
-Count the cost before choosing a pattern. With three candidates and a look-ahead of one step, a ten-step task costs ten real actions plus about sixty model calls (one world-model call and one value call per candidate per step). With a look-ahead of two steps it is about 240. Reactive costs ten.
+Count the cost before choosing a pattern. With three candidates and a look-ahead of one step, a ten-step task costs ten real actions plus about sixty model calls (one world-model call and one value call per candidate per step). With a look-ahead of two steps it is about 240: each of the three first-step outcomes is simulated and scored, and each opens three more. Reactive costs ten.
+
+**Figure 1.** Simulate, then act: each candidate action is imagined and scored, and only the best one is executed.
+
+```mermaid
+flowchart LR
+    S["Current state"] --> W["World model imagines each candidate"]
+    W --> I1["Imagined state A"]
+    W --> I2["Imagined state B"]
+    W --> I3["Imagined state C"]
+    I1 --> V["Value function scores each imagined state"]
+    I2 --> V
+    I3 --> V
+    V --> B["Keep the highest score"]
+    B --> X["Execute that one action for real"]
+    X --> N["Real observation becomes the new state"]
+    N --> S
+```
+
+Only the execution step touches the real environment; the imagined states are model output, and the real observation replaces them.
 
 ## A unified view: neural plus symbolic
 
@@ -77,17 +96,17 @@ Tian starts from the trip-planning failure. Even the strongest models of late 20
 | Copes with vague goals and open action spaces | Yes | No |
 | Guarantees constraints and optimality | No | Yes |
 | Needs GPUs | Yes, one call per decision | Usually not |
-| Typical failure | A confident, plausible wrong answer | Refuses input it cannot parse |
+| Typical failure | A confident, plausible wrong answer | Cannot read a request that is not written formally |
 
 Tian shows three ways to join the two sides.
 
-**1. The model calls the solver.** In his travel-planning demo, a fine-tuned model translates the request into a symbolic description, flight and hotel data are added from a database, the problem is written as **mixed integer linear programming (MILP)**, an optimization method for decisions with hard constraints, and a solver returns an optimal itinerary ([12:00](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=720)). As reported in the lecture, the translation took about two seconds and the solve between half a second and seven seconds ([14:00](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=840)). A slide in Su's planning section names the same design LLM+P: it applies when the domain and the problem can be described formally, for example in PDDL, a standard planning language. He skips that slide in the talk (slide 55, [78:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=4680)).
+**1. The model calls the solver.** In his travel-planning demo, a [fine-tuned](../GLOSSARY.md) model translates the request into a symbolic description, flight and hotel information is added, the problem is written as **mixed integer linear programming (MILP)**, an optimization method for decisions with hard constraints, and a solver returns an optimal itinerary ([12:00](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=720)). As reported in the lecture, the translation took about two seconds and the solve between half a second and seven seconds ([14:00](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=840)). A slide in Su's planning section names the same design LLM+P: it applies when the domain and the problem can be described formally, for example in PDDL, a standard planning language. He skips that slide in the talk (slide 55, [78:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=4680)).
 
-**2. The solver teaches the model.** Tian's Searchformer trains a small transformer to output the trace of the A* search algorithm, a classic shortest-path search, before the plan. A 15-million-parameter model trained on search traces reached about 80% on unseen 30 by 30 mazes with about 50,000 training examples, where a 175-million-parameter model trained on plans alone scored about 20% on that budget and needed about a million examples to reach high accuracy (as reported in the lecture, [24:00](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=1440)). A later step keeps only the shortest traces that still give optimal plans and retrains on them ([28:00](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=1680)). Its successor, DualFormer, is trained on traces with random parts removed, because Searchformer's traces often run to a thousand tokens or more. It switches by itself between a fast mode and a slow, deliberate mode ([32:00](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=1920), [34:00](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=2040)). He notes himself that its maze comparison with o1-preview, a reasoning model from OpenAI at the time, is unfair, since o1-preview was not fine-tuned on the task ([40:00](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=2400)).
+**2. The solver teaches the model.** Tian's Searchformer trains a small [transformer](../GLOSSARY.md) to output the trace of the A* search algorithm, a classic shortest-path search, before the plan. A 15-million-parameter model trained on search traces reached about 80% on unseen 30 by 30 mazes with about 50,000 training examples, where a 175-million-parameter model trained on plans alone scored about 20% on that budget and needed about a million examples to reach high accuracy (as reported in the lecture, [24:00](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=1440)). A later step keeps only the shortest traces that still give optimal plans and retrains on them ([28:00](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=1680)). Its successor, DualFormer, is trained on traces with random parts removed, because Searchformer's traces often run to a thousand tokens or more. It switches by itself between a fast mode and a slow, deliberate mode ([32:00](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=1920), [34:00](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=2040)). He notes himself that its maze comparison with o1-preview, a reasoning model from OpenAI at the time, is unfair, since o1-preview was not fine-tuned on the task ([40:00](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=2400)).
 
 **3. Train both together.** His SurCo work learns a linear stand-in, also called a surrogate, for a nonlinear optimization objective, hands the stand-in to an existing solver, and trains the stand-in by backpropagating through the solver, so that training judges only the final loss ([44:00](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=2640), [46:00](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=2760)). One of his examples is placing a large embedding table across GPUs.
 
-The lesson for a practitioner is the first row. When a sub-problem has hard constraints and a known algorithm, write the translator and call the algorithm. Use the model for what it is good at: understanding the request and explaining the result.
+The lesson for a practitioner is the first way. When a sub-problem has hard constraints and a known algorithm, write the translator and call the algorithm. Use the model for what it is good at: understanding the request and explaining the result.
 
 ## Pitfalls
 
@@ -96,13 +115,13 @@ The lesson for a practitioner is the first row. When a sub-problem has hard cons
 3. **Simulating everything.** Fix: simulate at hard decisions only. Su makes the same point about people ([90:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=5400)).
 4. **Trusting the imagined state.** A world model guesses. Fix: execute the chosen action and use the real observation as the next state.
 5. **Planning once.** Fix: keep the plan in the context and replan whenever an observation breaks it.
-6. **Scaffolding a strong model.** Su's takeaway: the best strategy depends on the model, and a stronger model may need less scaffolding, meaning more reactive behavior ([88:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=5280)). Fix: measure the reactive baseline first.
+6. **Scaffolding a strong model.** Su's takeaway: the best strategy depends on the model, and a stronger model may need less scaffolding, meaning added structure around the model such as search or simulation, and can plan more reactively ([88:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=5280)). Fix: measure the reactive baseline first.
 
 ## Try it
 
-Build a 5 by 5 grid world in Python: a start cell, a goal cell, walls, and moves in four directions. It is reversible and has an exact checker, so you can compare patterns against a known answer.
+Build a 5 by 5 grid world in Python: a start cell, a goal cell, walls, and moves in four directions. It is reversible and has an exact checker, so you can compare patterns against a known answer. The two model-driven policies send the grid as text to a hosted model and read back one move or a whole path.
 
-1. Write a reactive policy that picks one move per step.
+1. Write a reactive [policy](../GLOSSARY.md), the rule that picks one move per step.
 2. Write a plan-then-execute policy that outputs the whole path first, then follows it.
 3. Write breadth-first search as the oracle, the answer known to be shortest.
 4. Log, per policy: steps taken, success, and number of decisions made.
@@ -151,6 +170,7 @@ Build a 5 by 5 grid world in Python: a start cell, a goal cell, walls, and moves
 - **Reading:** Bo Liu, Yuqian Jiang, et al., "LLM+P: Empowering Large Language Models with Optimal Planning Proficiency" (2023): [link](https://arxiv.org/abs/2304.11477)
 - **Reading:** Yu Gu, Boyuan Zheng, et al., "Is Your LLM Secretly a World Model of the Internet? Model-based Planning for Web Agents" (2024): [link](https://arxiv.org/abs/2411.06559)
 - **Reading:** Lucas Lehnert, Sainbayar Sukhbaatar, et al., "Beyond A*: Better Planning with Transformers via Search Dynamics Bootstrapping" (2024): [link](https://arxiv.org/abs/2402.14083)
+
 ## Next
 
 → [04. Memory and Knowledge for Agents](04-memory-and-knowledge-for-agents.md), because a plan and the observations it produces all have to fit somewhere.

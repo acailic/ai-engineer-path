@@ -18,12 +18,12 @@ No single layer holds. Dawn Song's summary in Fall 2025: "there is no one silver
 The layers differ in how they can fail.
 
 - **Prompt-level defenses** ask the model to behave. They lower the success rate and nothing more.
-- **Learned detectors** are classifiers. They fail on inputs unlike their training data.
+- **Learned detectors** are classifiers, small models that label an input, for example harmful or harmless. They fail on inputs unlike their training data.
 - **Architectural controls** are ordinary code. The model cannot talk its way past a check it does not control.
 
 Build from the strong end. A policy gate on tool calls stops an injected instruction whatever wording it used, because it checks the action and not the text.
 
-Song lists the mechanisms in four groups (Fall 2025): runtime protection, identity and access management, component hardening, and secure by design ([82:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=4920)). **Runtime protections** check while the agent runs: input guards, output guards, information flow control and taint tracking, monitoring, and a human in the loop. **Hardening** makes the model and the tools themselves harder to attack. **Secure by design** changes the architecture: privilege separation and formal verification ([84:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5040), [94:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5640), [98:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5880)).
+Song lists the mechanisms in four groups (Fall 2025): runtime protection, identity and access management, component hardening, and secure by design ([82:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=4920)). **Runtime protections** check while the agent runs: input guards, output guards, information flow control and taint tracking, monitoring, and a human in the loop. **Hardening** makes the model and the tools themselves harder to attack. **Secure by design** changes the architecture: privilege separation and formal verification, a mathematical proof that a design keeps a property ([84:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5040), [94:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5640), [98:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5880)).
 
 ## How it works, step by step
 
@@ -76,7 +76,7 @@ An **output guard** validates what the agent produces, including tool calls and 
 
 Her example from Fall 2025: for "summarize unread emails", the policy allows only reading. For "send an email to Alice", it allows only sending. Once the agent has looked up Alice's address, the policy narrows again to that one address ([88:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5280), [90:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=5400)). An injected instruction can still reach the model, and the allowed actions are too few for it to matter. Her Spring 2025 examples make the same point. Asked for a patient's admission times, an agent that had loaded a poisoned knowledge base tried to call `delete database`. The policy forbade that one call, blocked it, and let the other database calls through ([86:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5160), [88:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5280)).
 
-In Spring 2025 she reported that adding Progent to an existing agent took about ten lines of change in their experiments, that it lowered the attack success rate while keeping utility, and that manual policies brought the attack success rate to zero on two benchmarks, AgentDojo and ASB ([98:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5880); benchmark names from her slide).
+In Spring 2025 she reported that adding Progent to an existing agent took about ten lines of change in their experiments, that it lowered the attack success rate while keeping utility on the AgentDojo and ASB benchmarks, and that manual policies brought the rate down to zero ([98:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5880); benchmark names from her slides).
 
 ### 7. Separate privileges and sandbox
 
@@ -117,9 +117,26 @@ A **human approval gate** pauses the agent before a critical or high-impact acti
 | Privilege separation and sandbox | Damage from one compromised component | Misuse of a component's legitimate permissions | Engineering |
 | Human approval | High-impact actions nobody approved | Low-impact harm, approver fatigue | People's time |
 
+**Figure 1.** Defense in depth: where each layer sits between untrusted text and the action it tries to cause.
+
+```mermaid
+flowchart LR
+    I["Untrusted text"] --> G["Input guard"]
+    G --> P["Prompt with the data marked"]
+    P --> M["Model"]
+    M --> O["Output guard"]
+    O --> E["Policy gate in code"]
+    E -->|"sensitive action"| H["Human approval"]
+    E --> X["Executor with least privilege"]
+    H -->|"approved"| X
+    X --> T["Tools"]
+```
+
+The layers on the left check text, which an attacker can rephrase. The policy gate and the executor check actions, which the attacker cannot talk past.
+
 ## Worked example
 
-A policy gate in plain Python: the Progent idea in miniature. It needs no model.
+A policy gate in plain Python: the Progent idea in miniature. It needs no model. Run it with `python policy_gate.py`.
 
 ```python
 # policy_gate.py: check every tool call against a per-task policy, in code.
@@ -198,7 +215,7 @@ You are done when you have three numbers: the attack success rate before the gat
 - Prompt-level defenses and learned detectors lower the attack success rate. Architectural controls in code are what hold.
 - Least privilege on actions stops an injected instruction whatever wording it used, because it checks the action and not the text.
 - Privilege separation and the Rule of Two limit the damage a compromised component can do, and they also limit the agent.
-- Song's caution was the same in every term: no prompt-level or model-level defense holds against adaptive attacks on its own.
+- Song's caution did not change. In Fall 2024 no prompt-level or model-level defense held against adaptive attacks, and in Fall 2025 she still called input guards not foolproof.
 
 ## Self-check
 

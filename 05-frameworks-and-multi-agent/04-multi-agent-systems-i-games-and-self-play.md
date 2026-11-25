@@ -13,7 +13,7 @@ Noam Brown's answer in his Fall 2025 lecture is narrow. It carries over exactly 
 
 ## The core idea
 
-**Self-play** is training in which an agent improves by playing against copies of itself. It can start from a completely random strategy ([8:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=480)). In a two-player, **zero-sum** game (one player's gain is the other's loss), a self-play method that is **sound** is guaranteed to reach a **minimax equilibrium**: a set of strategies in which no player can profit by switching strategy alone. Playing it guarantees that you will not lose in expectation ([4:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=240), [10:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=600)).
+**Self-play** is training in which an agent improves by playing against copies of itself. It can start from a completely random strategy ([8:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=480)). In a two-player, **zero-sum** game (one player's gain is the other's loss), a self-play method that is **sound**, Brown's term for one that provably converges, is guaranteed to reach a **minimax equilibrium**: a set of strategies in which no player can profit by switching strategy alone. Playing it guarantees that you will not lose in expectation ([4:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=240), [10:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=600)).
 
 The analogy is a ladder with one top rung. Whatever the opponent does, one place is best, and self-play climbs there without any human data. The analogy breaks as soon as the game is not two-player and zero-sum. Then the best strategy depends on who else is playing, and the ladder has many tops.
 
@@ -29,7 +29,7 @@ One answer: the player who wins head-to-head against anyone over a large sample,
 
 ### 2. Measure the distance from the top
 
-If you always throw rock, the best response is always paper and your exploitability is 1. The measure assumes the opponent knows your strategy, but not the outcome of your random choices ([4:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=240)).
+If you always throw rock, the best response is always paper and your exploitability is 1. The measure assumes the opponent knows your strategy, but not the outcome of your random choices ([4:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=240), [6:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=360)).
 
 ### 3. Why self-play is almost free in two-player zero-sum games
 
@@ -40,7 +40,7 @@ Any sound self-play converges, so no human data is needed. Given enough memory a
 In games with **imperfect information**, such as poker, the agent must learn with what probability to play each action, not only which action. Brown's example: change the payoffs of paper and scissors to +2 and −2, and PPO, a standard reinforcement-learning algorithm, stops converging to the equilibrium ([12:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=720)). Older algorithms still work:
 
 - **Fictitious play.** Each player picks a best response to the opponent's average play so far. The average of all iterations converges ([18:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1080)).
-- **Regret matching and hedge.** They pick regularized best responses and converge faster ([20:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1200)).
+- **Regret matching and hedge.** They pick regularized best responses (not always the single best action: each action gets a probability in proportion to how well it scores) and converge faster ([20:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1200)).
 
 Regret matching powered Libratus, Brown's poker agent, against four leading professionals at heads-up no-limit Texas Hold'em: 120,000 hands over 20 days in January 2017, trained from self-play, without deep neural networks (as reported on his slides).
 
@@ -50,13 +50,28 @@ So far, no language model. There is a reason. In a two-player zero-sum equilibri
 
 ### 6. Cooperation needs human data
 
-Brown's central claim, which he calls spicy: "Learning to cooperate with humans without using human data is a dead end" ([25:33](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1533)). He demonstrates it with the **ultimatum game**. Alice gets $100 and offers Bob any part of it. If Bob accepts, both keep their shares. If he rejects, both get nothing ([26:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1560)). People in the audience rejected low offers, and Brown says people commonly accept 20 to 30 percent. He adds that the threshold is cultural: in some groups 20 percent is fine, in others anything below half is refused ([28:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1680), [32:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1920)).
+Brown's central claim, which he calls spicy: if the goal is to learn to cooperate with humans, avoiding human data is a dead end ([25:33](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1533)). He demonstrates it with the **ultimatum game**. Alice gets $100 and offers Bob any part of it. If Bob accepts, both keep their shares. If he rejects, both get nothing ([26:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1560)). People in the audience rejected low offers, and Brown says people commonly accept 20 to 30 percent. He adds that the threshold is cultural: in some groups 20 percent is fine, in others anything below half is refused ([28:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1680), [32:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1920)).
 
 Brown answers the second question he put to the audience. The intuitive optimum, he says, is that Alice offers the smallest amount possible, a dollar or a fraction of a penny, and Bob accepts, because a small positive amount beats zero for anything that maximizes reward. Deployed among people, that would be a terrible strategy: few would accept a dollar. One response is to say that the humans are broken and the algorithm is fine. He rejects it: if what you care about is doing well in this game with humans, pure self-play is the wrong tool. He also warns against a rabbit hole he has watched researchers enter: change the game, for example into a repeated game with a reputation, until the offers look human. It may work here, he says, and fail in more complicated settings ([30:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1800), [32:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1920)).
 
+**Figure 1.** The ultimatum game: self-play alone ends at the offer that people reject.
+
+```mermaid
+flowchart TD
+    A["Alice gets 100 dollars"] --> B["Alice offers Bob a share"]
+    B --> C["Bob decides"]
+    C -->|"Accepts"| D["Both keep their shares"]
+    C -->|"Rejects"| E["Both get nothing"]
+    B --> F["Self-play alone offers the minimum"]
+    F --> G["People reject low offers"]
+    G --> E
+```
+
+Self-play alone counts on Bob's taking any positive amount; with people he does not, so the agent needs human data to learn where the threshold lies.
+
 ### The Diplomacy experiment
 
-Diplomacy is a seven-player game of conquering First World War Europe, introduced in the 1950s and, Brown notes, reportedly a favorite of John F. Kennedy and Henry Kissinger. Each turn has about 15 minutes of private natural-language negotiation, then simultaneous moves, so that trust and betrayal decide more than tactics ([32:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1920), [34:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2040)). The tactics are simple; the difficulty is negotiation ([32:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1920)). A slide of his sums up the mechanics: one against one fails, two against one succeeds.
+Diplomacy is a seven-player game whose object is to control a majority of a map of Europe, introduced in the 1950s and, Brown notes, reportedly a favorite of John F. Kennedy and Henry Kissinger. Each turn has about 15 minutes of private natural-language negotiation, then simultaneous moves, which make trust and betrayal part of the game ([32:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1920), [34:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2040)). The tactics are simple; the difficulty is negotiation ([32:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1920)). A slide of his sums up the mechanics: one against one fails, two against one succeeds.
 
 - **Self-play alone.** DORA, an earlier agent of his team, learned no-press Diplomacy (the game without messages) from scratch, much as Alpha Zero learned chess. In a two-player version of the game it was clearly superhuman; a slide reports an 86.5% ± 6.1% win rate against human experts. Among seven players it broke down. One SearchBot, a rival agent trained on human data, against six DORA copies won about 1% of the games. One DORA against six SearchBots won 11%. Seven equal players each win one game in seven, about 14%, so in each case the lone agent lost to the six others ([36:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2160)).
 - **Why that matters.** Brown reads the result as two different equilibria. DORA found one that works among copies of itself. In a two-player zero-sum game this cannot happen: two agents that each reached the equilibrium do well against each other, however they were trained. Outside those games, he says, the minimax equilibrium is no longer useful, and the population best response is what remains. The question is then who the population is: copies of yourself, or humans. Either way you need data on that population. That is why, if you care about performance with humans, you need human data ([38:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2280)).
@@ -198,7 +213,7 @@ Stretch goal: implement regret matching for the first game and compare the explo
 
 <details><summary>Show answers</summary>
 
-1. B. The proof needs two players, zero sum and a balanced game.
+1. B. The guarantee holds for two-player zero-sum games; Brown gives none beyond them.
 2. B. It is zero at the equilibrium.
 3. B. The opponent can ignore anything helpful to you.
 4. A. It is defined against a population, so it requires data about that population.

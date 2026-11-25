@@ -15,6 +15,25 @@ Song Han poses exactly this case in his Fall 2024 lecture: can a 70-billion-para
 
 **Knowledge distillation** trains a small **student** model to behave like a large **teacher** model. The same input goes to both. The student's training objective has two parts: the usual task loss, and a **distillation loss** that penalizes disagreement with the teacher.
 
+**Figure 1.** Distillation training: the student is trained on two losses at once, and only the student changes.
+
+```mermaid
+flowchart LR
+    X["Same input"] --> T["Teacher, frozen"]
+    X --> S["Student, trainable"]
+    T --> P["Soft probabilities at temperature T"]
+    S --> Q["Student probabilities"]
+    L["True label"] --> C["Task loss"]
+    Q --> C
+    P --> D["Distillation loss"]
+    Q --> D
+    C --> U["Combined loss"]
+    D --> U
+    U --> S
+```
+
+The task loss pulls the student toward the label and the distillation loss toward the teacher's soft answer; the teacher's weights never change.
+
 Why does the teacher help? A label says "this is a dog, probability 1". The teacher says "dog 0.85, wolf 0.10, cat 0.04, car 0.001". The second answer carries structure: a wolf is a near miss, a car is not. Han describes the goal as aligning the teacher's and the student's class probability distributions ([8:00](https://www.youtube.com/watch?v=Ubj3QXv4rjw&t=480)).
 
 The analogy is a senior engineer reviewing a junior's work and saying not only "wrong" but "close: you missed X". The analogy breaks in two places. The teacher is fixed and never adapts to this student, and the student inherits the teacher's mistakes along with its skill.
@@ -47,7 +66,7 @@ The distillation loss is the **KL divergence** between the two softened distribu
 L = (1 − λ) × task loss + λ × T² × KL(teacher at T, student at T)
 ```
 
-- `task loss`: cross-entropy against the true labels.
+- `task loss`: cross-entropy against the true labels (the usual training loss for classifiers, which rewards a high probability on the correct label).
 - `λ`: how much to trust the teacher (often 0.5 to start).
 - `T²`: keeps the gradient size comparable as `T` changes.
 
@@ -72,7 +91,7 @@ Matching outputs is the simplest option. Han's lecture lists six things a studen
 | Sparsity patterns | similar layers | matching which values survive `max(0, x)` |
 | Relations | a notion of distance between examples | relations between layers, and between samples |
 
-As a rule of thumb, start with logits. Add feature matching only when the student is large enough to benefit and you can fit a small adapter layer to align shapes.
+As a rule of thumb, start with logits. Add feature matching only when the student is large enough to benefit and you can fit a small adapter layer (a small trainable layer that makes the shapes match).
 
 ### 4. No teacher needed: self and online distillation
 
@@ -80,7 +99,7 @@ As a rule of thumb, start with logits. Add feature matching only when the studen
 - **Online distillation.** Several networks train together and teach each other from the start (Deep Mutual Learning).
 - **Both.** Han's slides add a method that combines deep supervision with distillation: Be Your Own Teacher.
 
-His summary: "Not necessarily do we need a teacher model" ([56:00](https://www.youtube.com/watch?v=Ubj3QXv4rjw&t=3360)).
+His summary: a teacher is not necessary, because self-distillation and online distillation train and distill in one run ([56:00](https://www.youtube.com/watch?v=Ubj3QXv4rjw&t=3360)).
 
 ### 5. Beyond classification
 
@@ -88,7 +107,7 @@ The same pattern applies to other tasks, with a different thing to copy: feature
 
 ### 6. Tiny models need different regularization
 
-Han reports a result that surprises people ([50:00](https://www.youtube.com/watch?v=Ubj3QXv4rjw&t=3000)). Dropout and data augmentation raise a large model's accuracy: on his ResNet-50 chart, from about 76.5% to above 78%. The same techniques lower a tiny model's accuracy. His explanation: a large model overfits, a tiny model **underfits**. It lacks the capacity to learn, so making training harder hurts it.
+Han reports a result that surprises people ([50:00](https://www.youtube.com/watch?v=Ubj3QXv4rjw&t=3000)). Dropout (randomly zeroing neurons during training) and data augmentation (training on transformed copies of the examples) raise a large model's accuracy: on his ResNet-50 chart, from about 76.5% to above 78%. The same techniques lower a tiny model's accuracy. His explanation: a large model overfits, a tiny model **underfits**. It lacks the capacity to learn, so making training harder hurts it.
 
 His remedy, **network augmentation**, is the opposite of dropout. The tiny model is treated as a subnetwork of wider models, one of which is sampled at each training step, so the small model receives extra supervision ([54:00](https://www.youtube.com/watch?v=Ubj3QXv4rjw&t=3240)). He reports that it is orthogonal to distillation, that the two work best together, and that it transferred better than four times longer training.
 
@@ -160,7 +179,7 @@ What to observe:
 
 - The student trained on six labels is unstable: six points barely define three regions.
 - The distilled student never saw a label. It learned the teacher's soft outputs on other inputs and lands close to the teacher's accuracy.
-- Raise `T` to 10. The targets become flatter and the result changes little: the ranking of classes is what carries over.
+- Raise `T` to 10 and the distilled student fails, with accuracy about 0.07: the step size grows with `T`, so a higher temperature needs a smaller learning rate. Temperature is a setting to tune, not a free improvement.
 
 ## What the practitioners say
 
@@ -228,7 +247,7 @@ Distill a small image classifier.
 - **Reading:** Jianping Gou, Baosheng Yu, Stephen J. Maybank, Dacheng Tao, "Knowledge Distillation: A Survey" (IJCV 2021): [arXiv](https://arxiv.org/abs/2006.05525)
 - **Reading:** Tommaso Furlanello, Zachary Lipton, Michael Tannenbaum, et al., "Born-Again Neural Networks" (ICML 2018): [arXiv](https://arxiv.org/abs/1805.04770)
 - **Reading:** Adriana Romero, Nicolas Ballas, Samira Ebrahimi Kahou, et al., "FitNets: Hints for Thin Deep Nets" (ICLR 2015): [arXiv](https://arxiv.org/abs/1412.6550)
-Han Cai, Chuang Gan, Ji Lin and Song Han, "Network Augmentation for Tiny Deep Learning" (ICLR 2022): [arXiv](https://arxiv.org/abs/2110.08890)
+- **Reading:** Han Cai, Chuang Gan, Ji Lin and Song Han, "Network Augmentation for Tiny Deep Learning" (ICLR 2022): [arXiv](https://arxiv.org/abs/2110.08890)
 
 ## Next
 

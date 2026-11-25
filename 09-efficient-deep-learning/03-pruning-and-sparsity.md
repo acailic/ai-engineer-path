@@ -3,7 +3,7 @@
 **Level:** Practitioner · **Reading time:** 20 min · **Exercise:** 60 min
 **Prerequisites:** [Neural Network Basics for Efficiency](02-neural-network-basics-for-efficiency.md)
 
-> **In one sentence:** After this chapter you can remove a chosen share of a network's weights with a method you can justify, recover the accuracy with fine-tuning, and predict whether the result will run faster on your hardware.
+> **In one sentence:** After this chapter you can remove a chosen share of a network's weights with a method you can justify, recover the accuracy with [fine-tuning](../GLOSSARY.md), and predict whether the result will run faster on your hardware.
 
 ## Why this matters
 
@@ -43,7 +43,7 @@ Han's summary of the trade: fine-grained pruning is the most flexible because it
 Worked numbers for a 4,096 × 4,096 weight block in 16-bit, which is 16.8 million weights and 33.6 MB:
 
 - Remove half the output channels: a 2,048 × 4,096 block, 16.8 MB, half the MACs. Every matrix operation gets cheaper.
-- Remove half the weights, scattered: still 16.8 million stored values. To save space you must store a value plus a position for each surviving weight. At 2 bytes each that is 16.8 MB for the same 50%.
+- Remove half the weights, scattered: 8.4 million survivors, each stored as a 2-byte value plus a 2-byte position, so 33.6 MB again. No saving at all.
 - Remove 95% of the weights, scattered: 0.84 million survivors at 4 bytes each, 3.4 MB instead of 33.6 MB. Worth it, but only with software that reads this format.
 
 The lesson: scattered pruning pays off at high sparsity or on special hardware. Structural pruning pays off immediately.
@@ -65,7 +65,7 @@ Removing a neuron is a coarse version of weight pruning. In a linear layer it de
 Layers tolerate different amounts of pruning. Two ways to set the ratios:
 
 - **Sensitivity analysis.** For each layer in turn, prune it at several ratios while leaving the others intact, and measure accuracy. You get one curve per layer. Give robust layers a high ratio and fragile ones a low one (Han's Lecture 4, slides 12 to 25).
-- **Search.** **AMC**, short for AutoML for Model Compression, uses reinforcement learning to pick a ratio for every layer under one overall budget; its action is a continuous pruning ratio between zero and one, and its reward is minus the error, or minus infinity when the budget is violated. On ResNet-50 at the same accuracy, Han says the agent reached a density of 20% where his own hand-tuned search had reached 29%, in a few GPU hours instead of about a week; the human expert in that comparison was Han himself, in 2017 (Lecture 4, [14:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=840)). **NetAdapt** is the rule-based alternative: in each iteration, reduce latency by a fixed step and fine-tune, which yields a series of models at different costs (Lecture 4, slides 35 to 42).
+- **Search.** **AMC**, short for AutoML for Model Compression, uses reinforcement learning, where an agent learns by trial and error from a reward, to pick a ratio for every layer under one overall budget; its action is a continuous pruning ratio between zero and one, and its reward is minus the error, or minus infinity when the budget is violated. On ResNet-50 at the same accuracy, Han says the agent reached a density of 20% where his own hand-tuned search had reached 29%, in a few GPU hours instead of about a week; the human expert in that comparison was Han himself, in 2017 (Lecture 4, [14:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=840)). **NetAdapt** is the rule-based alternative: in each iteration, reduce latency by a fixed step and fine-tune, which yields a series of models at different costs (Lecture 4, slides 35 to 42).
 
 Han considers this decision so important that he tells the class the per-layer ratio is "super crucial compared with uniform pruning ratio" (Lecture 3, [56:00](https://www.youtube.com/watch?v=EjsB0WgIfUM&t=3360)).
 
@@ -75,15 +75,27 @@ Han considers this decision so important that he tells the class the per-layer r
 2. Fine-tune on the training data, updating only the surviving weights.
 3. Evaluate. Not at the target yet? Prune a little more and repeat.
 
+**Figure 1.** Iterative pruning: the loop stops only when the pruned model meets its target.
+
+```mermaid
+flowchart LR
+    P["Prune to the chosen ratios"] --> F["Fine-tune surviving weights"]
+    F --> E["Evaluate accuracy"]
+    E -->|"target not reached"| P
+    E -->|"target reached"| S["Keep the model"]
+```
+
+Each turn of the loop removes only a little, which is what lets the final sparsity go higher than one large cut.
+
 One round of pruning plus fine-tuning is one iteration (Han's Lecture 4, slides 46 to 53). For aggressive targets, go in steps. Han reports that gradual pruning beats pruning 70% in one shot and then fine-tuning everything (Lecture 4, [26:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=1560)). The same example lifted AlexNet's pruning ratio from 5× to 9×. He also adds regularization during fine-tuning, L1 or L2, to push unimportant weights toward zero; in his experience there is little to choose between the two (his 2015 paper used L2, Network Slimming used L1), so compare them ([26:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=1560)).
 
 ### Step 5: Match the hardware
 
 - **Special-purpose sparse hardware.** Han's EIE was the first accelerator for sparse, compressed models (Lecture 4, slide 60). He is frank about its costs: heavy control-flow and storage overhead, because every non-zero weight needs its own pointers and indices ([44:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=2640)). His fixes: structured patterns such as 2:4, or coarser granularity so many weights share one entry.
-- **Fixed patterns.** NVIDIA's Ampere generation supports 2:4 sparsity in its sparse tensor cores (Lecture 4, [0:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=0)). The pattern lets hardware skip known slots. It does not make indices disappear: Han shows an 8 × 8 block cut to four non-zero values that still need an index matrix to say which positions they came from ([48:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=2880)).
-- **Sparse activations.** Point clouds from LiDAR in autonomous driving are mostly empty space (Lecture 4, [48:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=2880)). Sparse convolution skips the empty regions. The engineering problem there is regularity: grouping work into uniform blocks wastes some multiplies but runs faster, and Han notes that fixed grouping wins on TFLOP/s but adaptive grouping is faster, because some of a fixed group's multiplies are redundant work that does not count. Raising the number of groups from 0 to 26, he found a sweet spot at roughly six groups ([60:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=3600)).
+- **Fixed patterns.** NVIDIA's Ampere generation supports 2:4 sparsity in its sparse tensor cores, its matrix-multiply units (Lecture 4, [0:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=0)). The pattern lets hardware skip known slots. It does not make indices disappear: Han shows an 8 × 8 matrix in which each row of eight values keeps only four, and those four still need an index matrix to say which positions they came from ([48:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=2880)).
+- **Sparse activations.** Point clouds (3D points measured by LiDAR laser sensors) in autonomous driving are mostly empty space (Lecture 4, [48:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=2880)). Sparse convolution skips the empty regions. The engineering problem there is regularity: grouping work into uniform blocks wastes some multiplies but runs faster, and Han notes that fixed grouping wins on TFLOP/s but adaptive grouping is faster, because some of a fixed group's multiplies are redundant work that does not count. Raising the number of groups from 0 to 26, he found a sweet spot at roughly six groups ([60:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=3600)).
 
-His summary of the lesson from this work: "The first principle of efficient AI is to be lazy" (Lecture 4, [46:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=2760)). In his list: avoid redundant computation, quickly reject work (if a value is zero, do not compute on it), use fewer bits, or delay the work. He names one opening per domain: only the edited region when editing an image, token sparsity for transformers, temporal redundancy in video, and point clouds, which are naturally sparse.
+His summary of the lesson from this work: "First principle of efficient AI is to be lazy" (Lecture 4, [46:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=2760)). In his list: avoid redundant computation, quickly reject work (if a value is zero, do not compute on it), use fewer bits, or delay the work. He names one opening per domain: only the edited region when editing an image, token sparsity for transformers, temporal redundancy in video, and point clouds, which are naturally sparse.
 
 ### The lottery ticket hypothesis
 
@@ -143,9 +155,9 @@ print(f"magnitude 0.2: {error(W20):.2f} -> {error(fine_tune(W20)):.2f} after fin
 
 What to observe:
 
-- Magnitude pruning beats random pruning at every sparsity (about 0.27 against 0.71 with half the weights kept).
-- With half the weights gone, removing whole neurons costs little, because the removed neurons were the small ones. Importance here is concentrated. With 95% gone it is the worst option.
-- At 95% sparsity every method corrupts the output. The last line shows fine-tuning repairing part of the damage by rescaling the survivors.
+- Magnitude pruning beats random pruning at every sparsity (about 0.17 against 0.70 with half the weights kept).
+- With half the weights gone, removing whole neurons (0.37) costs about twice the error of magnitude pruning (0.17): the dropped neurons are the small ones, but each still carries some large weights. At 95% sparsity it sits between the other two, 0.91 against 0.77 and 0.97.
+- At 95% sparsity every method corrupts the output. The last line shows that fine-tuning on this one layer barely helps, 0.47 to 0.46: only the surviving weights move, and real recovery needs the whole network and the task's training data.
 
 ## What the practitioners say
 
@@ -165,7 +177,7 @@ What to observe:
 
 ## Try it
 
-Prune a small classifier three ways and report.
+Prune a small classifier three ways and report. In PyTorch, prune a weight tensor the way the NumPy example does: build a mask, multiply the weight by it, and keep the mask during fine-tuning so that only surviving weights move.
 
 1. Train a small model on a built-in dataset (for example handwritten digits).
 2. Apply fine-grained magnitude pruning at 25%, 50% and 75%, uniformly.
@@ -189,7 +201,7 @@ Prune a small classifier three ways and report.
 
 1. A model has 50% of its weights set to zero, scattered at random positions. Stored as 16-bit floats, how large is the file compared with before?
 2. Why does removing whole output channels speed up inference when removing half of the weights at random does not?
-3. You must prune one layer of a model to 80%. Which step decides whether quality survives?
+3. Layer A tolerates 90% pruning and layer B only 30%. Which step uses that fact, and how?
 4. What is the role of the Hessian in second-order pruning, and why is it approximated?
 5. Why is 2:4 sparsity more useful than unstructured sparsity on a GPU?
 6. You prune a model in one pass to 70% and fine-tune. Han recommends what instead?
@@ -198,7 +210,7 @@ Prune a small classifier three ways and report.
 
 1. The same size. A zero takes as many bytes as any other 16-bit number.
 2. The weight matrices and the activation tensors shrink, so every operation on them is smaller. Scattered zeros leave the matrix shapes unchanged.
-3. The per-layer ratio step, combined with fine-tuning: sensitivity differs between layers.
+3. Step 3, the per-layer ratio: a sensitivity analysis gives each layer its own ratio, 90% for A and 30% for B.
 4. It measures how much the loss rises when a weight changes. Computing it is expensive, so methods estimate it.
 5. Because tensor cores on hardware that supports the pattern can skip the known empty slots, while arbitrary zeros cannot be skipped.
 6. Iterate: prune a little, fine-tune, and repeat.

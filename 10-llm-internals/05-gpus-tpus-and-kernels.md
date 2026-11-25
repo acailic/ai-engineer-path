@@ -24,7 +24,7 @@ The numbers for an H100, from Lecture 6's table:
 | L2 cache, shared by the chip | 50 MB | About 12 TB/s |
 | High bandwidth memory (HBM), the GPU's main memory | 80 GB | 3.35 TB/s |
 
-Each row down is an order of magnitude slower. So the rule of the whole unit is: move as little data as possible down to HBM and back. Hashimoto's summary of the machine: massively parallel, with compute scaling faster than memory, so everything must respect the memory hierarchy ([26:00](https://www.youtube.com/watch?v=izZba4UA7iY&t=1560)).
+Each row down is slower: about ten times from registers to shared memory, then three to four times per row. So the rule of the whole unit is: move as little data as possible down to HBM and back. Hashimoto's summary of the machine: massively parallel, with compute scaling faster than memory, so everything must respect the memory hierarchy ([26:00](https://www.youtube.com/watch?v=izZba4UA7iY&t=1560)).
 
 Lecture 5's analogy is a factory: a memory warehouse, a compute workshop and a conveyor belt between them ([46:00](https://www.youtube.com/watch?v=izZba4UA7iY&t=2760)). Every trip to the warehouse costs time. The analogy breaks in one place: a real factory can stock a shelf once and forget it. A GPU's fast memory is so small that a program must keep refilling it, in an order that avoids repeated trips.
 
@@ -63,6 +63,26 @@ Lecture 5 builds speed from a list of six tricks ([32:00](https://www.youtube.co
 5. **Coalescing.** Arrange for neighboring threads to read neighboring addresses, so one memory transaction serves all 32 threads of a warp ([56:00](https://www.youtube.com/watch?v=izZba4UA7iY&t=3360)).
 6. **Tiling.** Cut a large matrix product into small blocks that fit in shared memory, so each input is loaded from HBM once and reused many times. He saves it for last as the big one, maybe the most important idea ([56:00](https://www.youtube.com/watch?v=izZba4UA7iY&t=3360)).
 
+**Figure 1.** Fusion: five operations as five kernels that each go to main memory and back, or as one kernel that reads once and writes once.
+
+```mermaid
+flowchart LR
+    H["HBM"] --> K1["Kernel for sin"]
+    K1 --> H1["HBM"]
+    H1 --> K2["Kernel for square"]
+    K2 --> H2["HBM"]
+    H2 --> K3["Kernel for cos"]
+    K3 --> H3["HBM"]
+    H3 --> K4["Kernel for square"]
+    K4 --> H4["HBM"]
+    H4 --> K5["Kernel for add"]
+    K5 --> O["Result in HBM"]
+    H --> F["One fused kernel does all five steps"]
+    F --> O
+```
+
+The upper path visits HBM after every step; the lower path visits it twice, which is why a chain of cheap operations is slow on a GPU.
+
 ### 4. Tiling, the big one
 
 In a naive product of two n × n matrices, each of the n² outputs reads a row of one input and a column of the other. Every input value travels from HBM n times. With tiles of side t, a value is read n/t times from HBM and reused t times from shared memory, a t-fold reduction in global memory traffic ([60:00](https://www.youtube.com/watch?v=izZba4UA7iY&t=3600)).
@@ -88,7 +108,7 @@ def add_kernel(x_ptr, y_ptr, out_ptr, n, BLOCK: tl.constexpr):
     tl.store(out_ptr + offs, x + y, mask=mask)   # one write to HBM
 ```
 
-Lecture 6's outline calls Triton generally powerful enough, especially when getting started. Triton compiles the kernel to PTX, an assembly language for GPUs.
+Liang calls Triton generally powerful enough, especially when getting started ([38:00](https://www.youtube.com/watch?v=xnDHaNUvHBg&t=2280)). Triton compiles the kernel to PTX, an assembly language for GPUs.
 
 ### 6. TPUs
 
@@ -125,7 +145,7 @@ What to observe:
 
 - The naive version reads each input value 4,096 times: about 275 GB from HBM, for a result that is 32 MB.
 - Tiles of 128 cut that to about 2.1 GB, 128 times less.
-- The arithmetic is unchanged: 2 × 4096³, about 1.4 × 10¹¹ FLOPs. Naive, that is half a FLOP per byte, deep in memory-bound territory. Tiled, it is 64 FLOPs per byte, which is compute-bound.
+- The arithmetic is unchanged: 2 × 4096³, about 1.4 × 10¹¹ FLOPs. Naive, that is half a FLOP per byte, deep in memory-bound territory. With tiles of 128 it is 64 FLOPs per byte, still below an H100's 295; it takes tiles of about 1,024 to cross that line.
 
 ## What the practitioners say
 
@@ -151,7 +171,29 @@ Two cautions from him. The hardware is "a lot messier than the programming model
 
 ## Try it
 
-Run this on any machine with PyTorch. A GPU is better; a CPU shows the same effect more slowly.
+Run this on any machine with PyTorch. A GPU is better; a CPU shows the same effect more slowly. Two helpers do the timing and the profiling; `fn` is the function to measure, the plain expression or its `torch.compile` version.
+
+```python
+# Illustrative snippet (PyTorch API, not executed here)
+import time, torch
+from torch.profiler import profile, ProfilerActivity
+
+def time_it(fn, iters=10):
+    sync = torch.cuda.synchronize if torch.cuda.is_available() else lambda: None
+    for _ in range(3):                     # warm-up, so lazy compilation is not timed
+        fn()
+    sync()
+    t0 = time.perf_counter()
+    for _ in range(iters):
+        fn()
+    sync()                                 # wait for the GPU before reading the clock
+    return (time.perf_counter() - t0) / iters
+
+acts = [ProfilerActivity.CPU] + ([ProfilerActivity.CUDA] if torch.cuda.is_available() else [])
+with profile(activities=acts) as prof:
+    fn()
+print(prof.key_averages().table(sort_by="self_cpu_time_total", row_limit=8))
+```
 
 **Deliverable:** a script that times two implementations of `x³ + tanh(x)`: one written as ordinary PyTorch operations, one as a compiled function.
 

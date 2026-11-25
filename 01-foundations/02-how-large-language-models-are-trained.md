@@ -45,13 +45,6 @@ Yann Dubois lists five steps on his slides: tokenize, forward, predict the proba
 
 Step 3 is where "looking up" breaks down as a picture. Attention blends information from many tokens into a weighted average. There is no table of sentences to search.
 
-Pre-training is the optimization loop you met in [Chapter 01](01-machine-learning-in-a-nutshell.md), with one change of ingredient:
-
-1. **The function with blanks** is the transformer, with billions of parameters.
-2. **The examples** come from cleaned text, cut into chunks of a few thousand tokens.
-3. **The loss** is low when the model gives a high probability to the token that actually comes next, at every position in the chunk. Dubois names it, the cross-entropy loss.
-4. **Training** nudges every parameter a little in the direction that lowers that loss, then moves to the next chunk. In his description, training pushes the true next token's probability up a little and every other one down, then backpropagates, which applies the change to every layer back to the embeddings ([24:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1440)).
-
 **Figure 1.** One call to a language model: five steps, then a loop until the answer ends.
 
 ```mermaid
@@ -69,6 +62,15 @@ flowchart LR
 
 The model never writes a sentence in one go: each turn of the loop adds one token, and the input grows by one.
 
+### Training: the loop from chapter 01, at scale
+
+Pre-training is the optimization loop you met in [Chapter 01](01-machine-learning-in-a-nutshell.md), with one change of ingredient:
+
+1. **The function with blanks** is the transformer, with billions of parameters.
+2. **The examples** come from cleaned text, cut into chunks of a few thousand tokens.
+3. **The loss** is low when the model gives a high probability to the token that actually comes next, at every position in the chunk. Dubois names it, the cross-entropy loss.
+4. **Training** nudges every parameter a little in the direction that lowers that loss, then moves to the next chunk. In his description, training pushes the true next token's probability up a little and every other one down, then backpropagates, which applies the change to every layer back to the embeddings ([24:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1440)).
+
 No labeling step is needed. The next token is already in the text, so the text supplies its own labels. That is why pre-training can run on the whole web, and why its cost is measured in data and compute rather than in annotators.
 
 ### Pre-training data
@@ -80,7 +82,7 @@ Dubois's recipe, as he presents it in his Fall 2025 lecture:
 3. Filter unwanted content, such as personal information.
 4. Deduplicate. Headers, footers and menus repeat on every page of a forum. Dubois says deduplication can run by document, by line or by paragraph ([28:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1680)).
 5. Apply heuristic filters. Drop very short or very long documents and pages full of rare tokens ([30:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1800)).
-6. Apply model-based filters. One method he likes: train a classifier that predicts whether Wikipedia would link to a page, then keep the pages it scores highly (same moment).
+6. Apply model-based filters. One method he likes: train a classifier that predicts whether Wikipedia would link to a page, then keep the pages it scores highly ([30:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1800)).
 7. Set the **data mix**. Classify pages by domain and re-weight them. His example: a coding model may raise the share of code from about 5% to about 50% ([32:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1920)).
 
 The funnel is steep. In the FineWeb pipeline he shows, blocklists and simple document filters take 200 billion pages to 36 billion, deduplication to 20 billion, and a last round that removes more JavaScript and placeholder text to 15 billion (his slide; he walks through the last rounds at [36:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2160)). After the main run comes **mid-training**: continued training on under a trillion tokens of higher-quality data, with more code, science or multilingual text and a longer context ([36:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2160)).
@@ -91,13 +93,13 @@ He argues that this work is the decisive part: processing data well is "basicall
 
 - **Scale drives quality.** Dubois's claim, as an empirical observation: for any model and data, the most important factor is how much compute training uses ([40:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2400)).
 - **Scaling laws** make that predictable. Loss falls smoothly as data, parameters and compute grow, so you can run small experiments and extrapolate. Dubois contrasts the old approach (train about 30 full candidates and pick the best) with the new one (tune on small models, fit the law, spend about 90% of the compute on one final run) ([44:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2640)).
-- **Data and parameters must grow together.** The Chinchilla rule of thumb is about 20 training tokens per parameter. He notes that it ignores the cost of serving the model, so labs train smaller models on more tokens than that ([48:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2880)).
+- **Data and parameters must grow together.** The Chinchilla rule of thumb, from a paper of that name, is about 20 training tokens per parameter ([46:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2760)). He notes that it ignores the cost of serving the model, so labs train smaller models on more tokens than that ([48:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2880)).
 
 Dubois walks through a worked estimate for LLaMA 3 405B ([50:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=3000)). Training cost is roughly 6 × tokens × parameters floating-point operations (**FLOPs**). For 15.6 trillion tokens and 405 billion parameters that is about 3.8 × 10²⁵ FLOPs, roughly half the 10²⁶ threshold at which, he notes, an executive order asks for more care. His slides complete the arithmetic: on 16,000 H100 **GPUs** (the processors built for this kind of math), about 26 million GPU-hours and 70 days, roughly $52 million at $2 per GPU-hour, and about 4,400 tons of CO₂. In the lecture he gives the cost as a range, $15 million to $80 million, depending on the price of compute, and compares the emissions to about 2,000 return flights from New York to London. This is why only a few organizations pre-train, and why you will start from an existing base model.
 
 ## Worked example
 
-A counting model shows why LLMs are neural networks. This is the n-gram idea Dubois starts from: the probability of the next word is how often it followed the context, divided by how often the context occurred. A plain Python version:
+A counting model shows why LLMs are neural networks. This is the n-gram idea Dubois starts from: the probability of the next word is how often it followed the context, divided by how often the context occurred ([18:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1080)). A plain Python version:
 
 ```python
 from collections import Counter
@@ -156,11 +158,11 @@ Dubois organized the lecture around five things a trainer must decide: the archi
 
 Three of his points are worth keeping:
 
-- **The bitter lesson.** He endorses Richard Sutton's 2019 argument: methods that make the best use of growing compute win in the long run, so do the simple thing and scale it ([48:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2880)). This is his position, not a settled fact.
+- **The bitter lesson.** He endorses Richard Sutton's 2019 argument: methods that make the best use of growing compute win in the long run, so do the simple thing and scale it ([48:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2880), [50:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=3000)). This is his position, not a settled fact.
 - **Size has orders of magnitude.** As he reports them, pre-training takes more than 10 trillion tokens and months. LLaMA 2 used about 2 trillion tokens, LLaMA 3 about 15 trillion, LLaMA 4 between 20 and 40 trillion ([40:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2400)).
 - **Efficiency is part of the design.** A training run rarely reaches a processor's theoretical speed. The share it does reach is the **model FLOP utilization (MFU)**, the ratio of observed to theoretical throughput ([94:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=5640)). Dubois treats 50% as very good, and says even big companies may be working to get past 15 or 20% ([96:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=5760)). Two techniques push it up: lower-precision arithmetic, with matrix multiplications in 16-bit rather than 32-bit numbers, and fusing operations so that data moves less between slow and fast memory.
 
-His slides also introduce **perplexity**, the standard pre-training score. It is the model's loss on unseen text, converted into "the number of tokens it hesitates between". Lower is better. Between 2017 and 2023, as his slides report, models went from hesitating among about 70 tokens to fewer than 10. The same slides add that it is no longer used for academic benchmarks but still matters during development.
+His slides also introduce **perplexity**, the standard pre-training score. It is the model's loss on unseen text, converted into the number of tokens the model hesitates between. Lower is better. Between 2017 and 2023, as his slides report, models went from hesitating among about 70 tokens to fewer than 10. The same slides add that it is no longer used for academic benchmarks but still matters during development.
 
 ## Pitfalls
 
@@ -178,7 +180,7 @@ Grow the counting model until it breaks. That failure is the reason LLMs exist.
 **Deliverable:** the script above, extended, plus a short results file.
 
 1. Save a long plain-text file, for example a book in English from Project Gutenberg. Split it into a training part (90%) and a held-out part (10%).
-2. For context lengths of 1, 2, 3 and 4 tokens, build the counting model on the training part. For each length, report the share of contexts in the held-out part that the model has never seen.
+2. For context lengths of 1, 2, 3 and 4 tokens, build the counting model on the training part (in `build`, pass `n` one higher than the context length). For each length, report the share of contexts in the held-out part that the model has never seen.
 3. Add a `generate(context, n_tokens)` function that always picks the most likely next token. Generate 30 tokens from the best length.
 
 **You are done when:** your results file contains a four-row table (context length versus share of unseen contexts) and the generated text. The share of unseen contexts should rise with context length. If it does not, check that you are measuring on the held-out part.

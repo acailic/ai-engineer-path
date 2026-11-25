@@ -57,14 +57,14 @@ With B requests in a batch, the weights are read once and used B times. Intensit
 | Multi-head latent attention (MLA) | Cache one compressed vector per token, expand when needed | DeepSeek v2: 16,384 dimensions down to 512 ([52:00](https://www.youtube.com/watch?v=EfM546A79aM&t=3120)), plus 64 for position |
 | Cross-layer attention | Adjacent layers share keys and values | Better accuracy for a given cache size ([54:00](https://www.youtube.com/watch?v=EfM546A79aM&t=3240), [56:00](https://www.youtube.com/watch?v=EfM546A79aM&t=3360)) |
 | Sliding-window layers | Attend only to nearby tokens | Cache size independent of length; can be mixed with a global layer or spaced out ([58:00](https://www.youtube.com/watch?v=EfM546A79aM&t=3480)) |
-| Sparse selection | A cheap indexer picks which tokens to read | Also used in place of sliding-window attention ([58:00](https://www.youtube.com/watch?v=EfM546A79aM&t=3480), [60:00](https://www.youtube.com/watch?v=EfM546A79aM&t=3600)) |
+| Linear attention and state-space layers | Keep a compressed summary of the past instead of every token's keys and values | Used in place of sliding-window layers. A small summary loses details, so shipped models keep some full attention ([58:00](https://www.youtube.com/watch?v=EfM546A79aM&t=3480), [60:00](https://www.youtube.com/watch?v=EfM546A79aM&t=3600)) |
 
 ### 4. Use smaller numbers
 
 **Quantization** stores weights in fewer bits. bf16 at 2 bytes per value is the default for inference. fp8 and int8 take 1 byte, int4 half a byte. Two routes exist:
 
 - **Quantization-aware training**: simulate quantization during training. Better accuracy, expensive.
-- **Post-training quantization**: quantize a trained model using a small sample of data to set scales. Cheap. GPTQ quantizes layer by layer and keeps track of the error, carrying it into the weights not yet quantized. AWQ keeps the 0.1% to 1% of weights that matter most in high precision: those that interact with large activation channels. It reports 4× less memory and a 3.2× speedup from fp16 to int3 ([66:00](https://www.youtube.com/watch?v=EfM546A79aM&t=3960)).
+- **Post-training quantization**: quantize a trained model using a small sample of data to set scales. Cheap. GPTQ quantizes layer by layer and keeps track of the error, carrying it into the weights not yet quantized. AWQ keeps the few weights that matter most in high precision, about 1% in its paper: those that interact with large activation channels ([66:00](https://www.youtube.com/watch?v=EfM546A79aM&t=3960)).
 
 ### 5. Use a smaller model
 
@@ -79,6 +79,21 @@ Generation is slow because it is memory-bound. Checking is fast, because prefill
 3. Tokens are accepted where the draft's choice agrees with the target's distribution. At least one new token is always produced.
 
 The output is an exact sample from the target model, as if the target had generated it alone. Liang's version is modified rejection sampling: accept a drafted token with probability `min(1, q/p)`, where p is the draft's probability and q the target's, and otherwise sample from the difference of the two distributions ([74:00](https://www.youtube.com/watch?v=EfM546A79aM&t=4440)). Unlike plain rejection sampling, a rejection still yields a token. The setup is balanced on purpose. The draft is small, so generating one token at a time is cheap for it. The target is large, but it checks the drafts in one parallel pass, which is its fast mode ([72:00](https://www.youtube.com/watch?v=EfM546A79aM&t=4320)). The number of draft tokens has a sweet spot around three or four: too few wastes the target's parallel pass, too many raises rejections ([74:00](https://www.youtube.com/watch?v=EfM546A79aM&t=4440)). Speedup depends on how often the draft is right, and the draft should be as close to the target as its size allows ([76:00](https://www.youtube.com/watch?v=EfM546A79aM&t=4560)).
+
+**Figure 1.** Speculative sampling: the small model drafts a few tokens, the large model checks them all in one pass, and each round ends with at least one new token.
+
+```mermaid
+flowchart TD
+    P["Prompt and text so far"] --> D["Small draft model drafts a few tokens"]
+    D --> V["Large target model scores them all in one pass"]
+    V --> C{"Do the draft tokens fit the target distribution?"}
+    C -->|"yes"| A["Keep the accepted tokens"]
+    C -->|"no"| R["Sample the first rejected token from the target"]
+    A --> P
+    R --> P
+```
+
+Drafting is slow per token but cheap, and checking is one parallel pass, so the loop finishes in fewer rounds than one-token-at-a-time generation.
 
 ### 7. Run a server, not a loop
 
@@ -136,7 +151,7 @@ He offers one opinion about architecture. State-space models, linear attention a
 
 ## Try it
 
-Save the two functions in the worked example.
+Save the `decode_limits` function and the `kv` line from the worked example. For another model, the cache per token is 2 × key-value width × bytes per value × layers, and the key-value width is the number of key-value heads times the head dimension, both on the model card.
 
 **Deliverable:** a short table for three open-weight models of your choice: parameter count, layers, key-value heads, context length, and the resulting latency ceiling and KV cache size.
 

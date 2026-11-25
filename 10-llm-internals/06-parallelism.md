@@ -19,8 +19,8 @@ Chapter 05's rule was that compute is far from data, so move less of it. Multi-G
 |---|---|---|
 | Shared memory on one GPU | On chip | Fastest |
 | Main memory (HBM) of one GPU | Memory bus | 8 TB/s on a B200 |
-| Another GPU in the same node | NVLink through a switch | 1.8 TB/s |
-| A GPU in another node | InfiniBand | About 0.05 TB/s |
+| Another GPU in the same node, that is the same machine | NVLink, NVIDIA's GPU-to-GPU link, through a switch | 1.8 TB/s |
+| A GPU in another node | InfiniBand, a cluster network | About 0.05 TB/s |
 
 Each step down is slower, and the last is about 160 times slower than main memory. Liang's calibration: NVLink 5 gives 1.8 TB/s between GPUs in a node, about four times slower than a B200's 8 TB/s of HBM ([22:00](https://www.youtube.com/watch?v=SzpOcwdIL0Y&t=1320), [24:00](https://www.youtube.com/watch?v=SzpOcwdIL0Y&t=1440)).
 
@@ -47,7 +47,7 @@ A **rank** is one GPU's number in the job, and the **world size** is the count o
 
 One identity carries most of the lecture: all-reduce is reduce-scatter followed by all-gather. Splitting it in two lets you stop halfway and keep only a slice.
 
-Liang's accounting for an all-reduce on a tensor of `size` bytes: each rank sends about `2 × (world size − 1) / world size × size`, which approaches twice the size as the cluster grows. The effective bandwidth of the operation, bytes sent divided by time, is independent of world size and of whether messages travel a ring or a tree. His four-GPU run measures about 400 GB/s ([48:00](https://www.youtube.com/watch?v=SzpOcwdIL0Y&t=2880), [50:00](https://www.youtube.com/watch?v=SzpOcwdIL0Y&t=3000)).
+Liang's accounting for an all-reduce on a tensor of `size` bytes: each rank sends about `2 × (world size − 1) × size`. The effective bandwidth, bytes sent divided by time and averaged over the ranks, is `2 × (world size − 1) / world size × size` per second, which approaches twice the size per second as the cluster grows. It is independent of world size and of whether messages travel a ring or a tree. His four-GPU run measures about 400 GB/s ([48:00](https://www.youtube.com/watch?v=SzpOcwdIL0Y&t=2880), [50:00](https://www.youtube.com/watch?v=SzpOcwdIL0Y&t=3000)).
 
 ### 2. Data parallelism
 
@@ -73,6 +73,23 @@ Losses differ per rank. Gradients and parameters end up the same. Liang calls it
 Stages 1 and 2 cost nothing extra because of the identity above: the gradient all-reduce becomes a reduce-scatter, and each rank keeps only its slice.
 
 **Fully sharded data parallel** (FSDP) goes further. Before a layer runs, the ranks all-gather its parameters. After the layer finishes, the full copy is freed. The backward pass produces gradient slices, which are reduce-scattered. Tatsu Hashimoto's point at [24:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=1440) is that the all-gather of the next layer overlaps with the compute of the current one, so if compute is large and the network fast, the sharding is close to free.
+
+**Figure 1.** FSDP around one layer: parameters are gathered, used and freed, and only slices of gradients and state stay on each GPU.
+
+```mermaid
+flowchart TD
+    S["Each rank holds a slice of the parameters"] --> G["All-gather the layer's parameters"]
+    G --> F["Forward pass with the full copy"]
+    F --> X["Free the full copy"]
+    X --> G2["All-gather again for the backward pass"]
+    G2 --> B["Backward pass, then free again"]
+    B --> D["Gradient slices on every rank"]
+    D --> RS["Reduce-scatter sums the slices"]
+    RS --> U["Each rank updates its own parameter slice"]
+    U --> S
+```
+
+The full copy of a layer exists only while that layer runs, which is why memory falls and the all-gather is the only extra communication.
 
 ### 4. Pipeline parallelism
 
@@ -162,7 +179,7 @@ You are done when:
 
 - The table shows bytes per GPU for DDP and the three ZeRO stages in every case, and reproduces the four numbers above.
 - For each case you name a strategy and say in one sentence why, using the bandwidth table.
-- For the 70B model on 8 GPUs, you state the smallest stage that leaves room for activations on 80 GB cards.
+- For the 70B model on 8 GPUs you show that even stage 3 does not fit on 80 GB cards, and on 64 GPUs you state the smallest stage that leaves room for activations.
 - One sentence explains why stages 1 and 2 cost the same communication as DDP.
 
 **Stretch:** simulate four ranks in plain Python. Give each a different gradient vector, compute the all-reduce as reduce-scatter followed by all-gather, and check that the result equals a plain sum.
@@ -184,7 +201,7 @@ You are done when:
    - D. Compute for disk space
 2. Why do ZeRO stages 1 and 2 cost no more communication than DDP?
    - A. They send no gradients at all
-   - B. The gradient all-reduce can be split into reduce-scatter and all-gather
+   - B. The gradient sum can be split into two steps of the same total cost
    - C. They keep parameters in lower precision
    - D. They skip the optimizer step
 3. What is the bubble in pipeline parallelism?

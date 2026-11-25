@@ -64,11 +64,11 @@ Never report a slice's accuracy without its size. "0 percent on two tickets" is 
 
 Manual slicing finds what you already suspect. A search over many slices finds what you do not. The book describes two tools for this (chapter 15). **SliceFinder** explores many slices and their intersections and applies statistical tests, so that it can flag the underperforming ones with some confidence; the further readings add that it covers every feature of the test data and uses statistics to cope with the noise of very small slices. **Zeno** is interactive: testers visualize the differences across slices, open the examples in each one, and deliberately analyze intersections. The book gives no step-by-step search. The procedure below is used in the worked example and follows the same ideas:
 
-1. Enumerate every single attribute value, then every pair, and stop at depth two or three. When interactions multiply, combinatorial testing and decision tables from software testing help choose which ones to explore (chapter 15).
+1. Enumerate every single attribute value, then every pair, and stop at depth two or three. When interactions multiply, combinatorial testing, which picks a small set of combinations that still covers every pair, and decision tables, which list input classes against expected outcomes, help choose which ones to explore (chapter 15).
 2. Drop slices below a minimum size. A few hundred examples is a common floor for trust; the book cites Hulten's rule of thumb that hundreds give a quick check and thousands give confidence (chapter 15).
 3. For each remaining slice, compute its error rate.
 4. Rank by **extra mistakes**: the slice's mistakes minus the mistakes the overall error rate predicts for a group of that size.
-5. Apply a statistical test to the top slices, and confirm them on data the search did not use.
+5. Apply a statistical test to the top slices, meaning a calculation of how unlikely such a bad slice is if only chance were at work, and confirm them on data the search did not use.
 
 Step 5 matters because of **multiple comparisons**. If you test two hundred slices with a test that is wrong 5 percent of the time, about ten will look bad by pure chance. The more you search, the more false alarms you get. A statistical test and a second look on fresh data separate real failures from luck.
 
@@ -96,9 +96,29 @@ Kästner splits the responses into two kinds (chapter 15). A **fix** changes the
 
 Never make the number better by deleting the slice from the test set.
 
+**Figure 1.** From a slice that the search flagged to an action, with a confirmation step that filters out false alarms.
+
+```mermaid
+flowchart TD
+    S["Search ranks slices by extra mistakes"] --> T["Statistical test on the top slices"]
+    T --> C["Confirm on data the search did not use"]
+    C -->|"fails on fresh data too"| R["Read the failed examples for the cause"]
+    C -->|"was luck"| D["Discard the slice"]
+    R --> F["Fix the model"]
+    R --> M["Mitigate around the model"]
+    R --> A["Accept and monitor"]
+    R --> P["Re-scope the product"]
+    F --> G["Keep the slice as a regression test"]
+    M --> G
+    A --> G
+    P --> G
+```
+
+A flagged slice becomes work only after it fails again on fresh data, and whatever action you choose, the slice stays in the suite.
+
 ### 7. Keep the slice as a regression test
 
-Once a slice is fixed, add its slicing function to the test suite and track its accuracy over time. A later model or prompt change can reopen it. In production, the same functions become monitoring groups (see [Testing and Experimenting in Production](09-testing-and-experimenting-in-production.md)).
+Once a slice is fixed, add its slicing function to the test suite as a **regression test**, meaning a test that fails if the same problem returns, and track its accuracy over time. A later model or prompt change can reopen it. In production, the same functions become monitoring groups (see [Testing and Experimenting in Production](09-testing-and-experimenting-in-production.md)).
 
 ## Worked example
 
@@ -186,7 +206,7 @@ Take a labeled set of at least 300 inputs for one of your components, with at le
 
 1. Write five slicing functions: three from metadata, two from input content.
 2. Compute accuracy and size for each slice and for every pair.
-3. Rank by extra mistakes. Take the top slice and read all of its failures.
+3. Rank by extra mistakes; the `find_slices` function in the worked example does steps 2 and 3. Take the top slice and read all of its failures.
 4. Write one sentence on the cause, and choose an action from the table in step 6.
 
 You are done when you have a table of slices with accuracy and size, a ranked top three, a written cause for the worst one, and a chosen action. **Stretch goal:** run the search on one half of the data and confirm the top slices on the other half.

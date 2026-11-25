@@ -143,6 +143,21 @@ Run `python faulttree.py`. It prints:
 2 ['reviewer misses it', 'spam check wrong']
 ```
 
+**Figure 1.** The fault tree for S2: one OR gate over two AND gates.
+
+```mermaid
+flowchart TD
+    S["S2: a real ticket is closed without help"] --> O["OR gate"]
+    O --> A1["AND gate"]
+    O --> A2["AND gate"]
+    A1 --> E1["spam check wrong"]
+    A1 --> E2["reviewer misses it"]
+    A2 --> E3["duplicate match wrong"]
+    A2 --> E4["customer does not reopen"]
+```
+
+Every path from a bottom event to S2 passes through an AND gate, so no single event closes a ticket alone.
+
 What to observe:
 
 - **Each minimal cut set has two events.** No single failure closes a real ticket. A model mistake must coincide with a failed assumption about the world: an inattentive reviewer, or a customer who does not reply.
@@ -210,13 +225,13 @@ Kästner devotes chapter 7 to this topic. His main points, beyond the methods ab
 
 **Why models fail.** He names common causes. Models learn correlations, not causes: dogs photographed in snow get labeled as wolves. A hidden third factor can explain a correlation, as age explains a link between baldness and COVID risk. Causality can run backward: early chess programs trained on grandmaster games learned that sacrificing the queen wins. Data rarely shows what would have happened otherwise. And inputs far from the training data, called **out-of-distribution** inputs, get confident nonsense: a train's detector may miss children and unicyclists it never saw.
 
-**Mistakes are not random.** A model can reach 99.99 percent average accuracy and still fail consistently on wheelchair users. Inference is mostly deterministic, so each copy of a model fails on the same inputs. Attackers can also force mistakes; he cites work on physical attacks against vision models (Eykholt and colleagues, 2018). A **calibrated** confidence score, one that matches the model's real accuracy on average, is the best case. Even then it supports only careful probabilistic reasoning.
+**Mistakes are not random.** A model can reach 99.99 percent average accuracy and still fail consistently on wheelchair users. Inference is mostly deterministic: the same input always gives the same output. So each copy of a model fails on the same inputs. Attackers can also force mistakes; he cites work on physical attacks against vision models (Eykholt and colleagues, 2018). A **calibrated** confidence score, one that matches the model's real accuracy on average, is the best case. Even then it supports only careful probabilistic reasoning.
 
 **Guardrails are usually not ML.** Trains rely on fenced tracks, platform screen doors and pressure sensors. In software: hardcoded ranges, overrides for known inputs, rules such as banned-word filters. A model can serve as a guardrail if it was trained for a different task and fails independently.
 
-**Detection uses indirect signals.** In the **doer-checker** pattern, the checker rarely inspects the doer's output, because telling a wrong prediction from a right one is the original problem. It watches effects instead: a gyroscope shows a train leaning in a curve, and the safety controller brakes. **Graceful degradation** then reduces function to stay safe: the email client runs without suggestions; a train without its lidar runs slower with larger gaps.
+**Detection uses indirect signals.** In the **doer-checker** pattern, the checker rarely inspects the doer's output, because telling a wrong prediction from a right one is the original problem. It watches effects instead: a gyroscope shows a train leaning in a curve, and the safety controller brakes. **Graceful degradation** then reduces function to stay safe: the email client runs without suggestions; a train without its lidar, a laser distance sensor, runs slower with larger gaps.
 
-**Redundancy needs diversity.** Hot standby with two cameras works for hardware failures. For model mistakes, the redundant parts must differ substantially, as radar, lidar, vision and maps do.
+**Redundancy needs diversity.** **Hot standby**, a spare that takes over when a part fails, works with two cameras for hardware failures. For model mistakes, the redundant parts must differ substantially, as radar, lidar, vision and maps do.
 
 **Containment is about data flow.** For ML, mistakes spread through data: a wrong prediction feeds another component. So ask what depends on each model's output and what happens when the model is late or absent. His counterexamples are a US Navy ship that needed about three hours to reboot after a division by zero in a database application spread into its control systems, and a car stopped remotely through its entertainment system.
 
