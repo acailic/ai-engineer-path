@@ -1,6 +1,6 @@
 # Lecture guides
 
-One guide per lecture of the four courses: 65 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
+One guide per lecture of the four courses: 66 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
 
 Every part heading links to the moment in the video where the part begins.
 
@@ -93,5 +93,6 @@ Every part heading links to the moment in the video where the part begins.
 | 4 | Attention alternatives and mixture of experts |  | 1:28:00 | 20 | 0 | [open](cs336-04-attention-alternatives-and-mixture-of-experts.md) |
 | 5 | GPUs, TPUs |  | 1:20:00 | 18 | 0 | [open](cs336-05-gpus-tpus.md) |
 | 6 | Kernels, Triton |  | 1:28:00 | 19 | 2 | [open](cs336-06-kernels-triton.md) |
+| 7 | Parallelism I |  | 1:22:00 | 11 | 0 | [open](cs336-07-parallelism-i.md) |
 
-In all: 1029 parts, of which 230 (22%) teach something no chapter teaches; 149,817 words.
+In all: 1040 parts, of which 230 (22%) teach something no chapter teaches; 152,717 words.

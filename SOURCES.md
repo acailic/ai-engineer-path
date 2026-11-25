@@ -147,7 +147,7 @@ The Spring 2026 schedule also lists a guest lecture by Daniel Selsam (June 1, 20
 | Attention alternatives and mixture of experts |  | [video](https://www.youtube.com/watch?v=cKSwj_qZ8Jg) · [guide](lectures/cs336-04-attention-alternatives-and-mixture-of-experts.md) | [04-attention-alternatives-and-mixture-of-experts](10-llm-internals/04-attention-alternatives-and-mixture-of-experts.md) |
 | GPUs, TPUs |  | [video](https://www.youtube.com/watch?v=izZba4UA7iY) · [guide](lectures/cs336-05-gpus-tpus.md) | [05-gpus-tpus-and-kernels](10-llm-internals/05-gpus-tpus-and-kernels.md) |
 | Kernels, Triton |  | [video](https://www.youtube.com/watch?v=xnDHaNUvHBg) · [guide](lectures/cs336-06-kernels-triton.md) | [05-gpus-tpus-and-kernels](10-llm-internals/05-gpus-tpus-and-kernels.md) |
-| Parallelism I |  | [video](https://www.youtube.com/watch?v=SzpOcwdIL0Y) | [06-parallelism](10-llm-internals/06-parallelism.md) |
+| Parallelism I |  | [video](https://www.youtube.com/watch?v=SzpOcwdIL0Y) · [guide](lectures/cs336-07-parallelism-i.md) | [06-parallelism](10-llm-internals/06-parallelism.md) |
 | Parallelism II |  | [video](https://www.youtube.com/watch?v=6-cXp-aOmdg) | [06-parallelism](10-llm-internals/06-parallelism.md) |
 | Scaling laws I |  | [video](https://www.youtube.com/watch?v=Q15rhEWZPQ4) | [07-scaling-laws](10-llm-internals/07-scaling-laws.md) |
 | Inference |  | [video](https://www.youtube.com/watch?v=EfM546A79aM) | [08-inference](10-llm-internals/08-inference.md) |
