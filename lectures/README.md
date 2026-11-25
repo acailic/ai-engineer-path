@@ -1,6 +1,6 @@
 # Lecture guides
 
-One guide per lecture of the four courses: 52 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
+One guide per lecture of the four courses: 53 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
 
 Every part heading links to the moment in the video where the part begins.
 
@@ -75,5 +75,6 @@ Every part heading links to the moment in the video where the part begins.
 | 14 | LLM Post Training | Song Han (MIT) | 1:18:00 | 17 | 1 | [open](mit-14-llm-post-training.md) |
 | 15 | Long Context LLM | Song Han (MIT) | 1:14:00 | 19 | 0 | [open](mit-15-long-context-llm.md) |
 | 16 | Vision Transformer | Song Han (MIT) | 1:02:00 | 18 | 5 | [open](mit-16-vision-transformer.md) |
+| 17 | GAN, Video, and Point Cloud | Song Han (MIT) | 1:12:00 | 17 | 10 | [open](mit-17-gan-video-and-point-cloud.md) |
 
-In all: 797 parts, of which 152 (19%) teach something no chapter teaches; 111,371 words.
+In all: 814 parts, of which 162 (20%) teach something no chapter teaches; 113,940 words.
