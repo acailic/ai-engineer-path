@@ -270,7 +270,7 @@ Stretch goal: rewrite the server with the official MCP SDK for your language and
 
 - **Web:** Model Context Protocol documentation: "What is the Model Context Protocol (MCP?)" ([intro](https://modelcontextprotocol.io/docs/getting-started/intro)) and "Architecture overview" ([architecture](https://modelcontextprotocol.io/docs/learn/architecture)), opened November 24, 2026; both pages document protocol version 2026-07-28
 - **Lecture:** Nicolas Chapados, "AI Agents for Enterprise Workflows" (second half, web agents), UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=-yf-e-9FvOc) · [guide](../lectures/f24-07-ai-agents-for-enterprise-workflows.md), used at [basic web agent](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=2040), [evaluation](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=2400), [WorkArena](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=2520), [AgentLab](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=3240), [challenges](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=3360)
-- **Lecture:** Oriol Vinyals, "Multi-Agent Systems in the Era of LLMs", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=ntjOxjZMaac), used at [actions as API calls](https://www.youtube.com/watch?v=ntjOxjZMaac&t=960)
+- **Lecture:** Oriol Vinyals, "Multi-Agent Systems in the Era of LLMs", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=ntjOxjZMaac) · [guide](../lectures/f25-10-multi-agent-systems-in-the-era-of-llms.md), used at [actions as API calls](https://www.youtube.com/watch?v=ntjOxjZMaac&t=960)
 
 ## Next
 

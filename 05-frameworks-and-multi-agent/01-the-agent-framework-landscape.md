@@ -191,7 +191,7 @@ Stretch goal: switch the model provider in both implementations and record how m
 
 ## Sources
 
-- **Lecture:** Chi Wang and Jerry Liu, "Agentic AI Frameworks & AutoGen + Building a Multimodal Knowledge Assistant", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=OOdtmCMSOo4), used at [Wang's framing](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=0), [three steps](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=600), [starting points](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=1200), [open question](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2160), [constrained flows](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3360), [production](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3720)
+- **Lecture:** Chi Wang and Jerry Liu, "Agentic AI Frameworks & AutoGen + Building a Multimodal Knowledge Assistant", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=OOdtmCMSOo4) · [guide](../lectures/f24-03-agentic-ai-frameworks-and-autogen-building-a.md), used at [Wang's framing](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=0), [three steps](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=600), [starting points](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=1200), [open question](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2160), [constrained flows](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3360), [production](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3720)
 - **Web:** Microsoft, AutoGen documentation (layers, install commands, archive notice): [microsoft.github.io/autogen/stable](https://microsoft.github.io/autogen/stable/), opened November 24, 2026
 
 ## Next

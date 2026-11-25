@@ -1,6 +1,6 @@
 # Lecture guides
 
-One guide per lecture of the four courses: 34 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
+One guide per lecture of the four courses: 36 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
 
 Every part heading links to the moment in the video where the part begins.
 
@@ -10,6 +10,7 @@ Every part heading links to the moment in the video where the part begins.
 |---|---|---|---|---|---|---|
 | 1 | LLM Reasoning | Denny Zhou (Google DeepMind) | 1:04:00 | 18 | 3 | [open](f24-01-llm-reasoning.md) |
 | 2 | LLM agents: brief history and overview | Shunyu Yao (OpenAI) | 1:10:00 | 11 | 3 | [open](f24-02-llm-agents-brief-history-and-overview.md) |
+| 3 | Agentic AI Frameworks & AutoGen + Building a Multimodal Knowledge Assistant | Chi Wang (AutoGen-AI); Jerry Liu (LlamaIndex) | 1:06:00 | 17 | 0 | [open](f24-03-agentic-ai-frameworks-and-autogen-building-a.md) |
 | 4 | Enterprise trends for generative AI, and key components of building successful agents/applications | Burak Gokturk (Google) | 1:04:00 | 17 | 3 | [open](f24-04-enterprise-trends-for-generative-ai-and-key.md) |
 | 5 | Compound AI Systems & the DSPy Framework | Omar Khattab (Databricks) | 1:06:00 | 16 | 5 | [open](f24-05-compound-ai-systems-and-the-dspy-framework.md) |
 | 6 | Agents for Software Development | Graham Neubig (CMU) | 1:02:00 | 13 | 4 | [open](f24-06-agents-for-software-development.md) |
@@ -50,7 +51,8 @@ Every part heading links to the moment in the video where the part begins.
 | 7 | Predictable Noise in LLM | Sida Wang (Meta) | 44:00 | 9 | 3 | [open](f25-07-predictable-noise-in-llm.md) |
 | 8 | AI Agents to Automate Scientific Discoveries | James Zou (Stanford) | 1:02:00 | 11 | 0 | [open](f25-08-ai-agents-to-automate-scientific-discoveries.md) |
 | 9 | Practical Lessons from Deploying Real-World AI Agents | Clay Bavor (Sierra) | 48:00 | 16 | 8 | [open](f25-09-practical-lessons-from-deploying-real-world-ai.md) |
+| 10 | Multi-Agent Systems in the Era of LLMs | Oriol Vinyals (Google DeepMind) | 1:00:00 | 16 | 1 | [open](f25-10-multi-agent-systems-in-the-era-of-llms.md) |
 | 11 | Autonomous Agents: Embodiment, Interaction, and Learning | Peter Stone (UT Austin / Sony AI) | 1:02:00 | 15 | 2 | [open](f25-11-autonomous-agents-embodiment-interaction-and.md) |
 | 12 | Agentic AI Safety & Security | Dawn Song (UC Berkeley) | 1:50:00 | 10 | 3 | [open](f25-12-agentic-ai-safety-and-security.md) |
 
-In all: 477 parts, of which 121 (25%) teach something no chapter teaches; 63,843 words.
+In all: 510 parts, of which 122 (24%) teach something no chapter teaches; 70,227 words.

@@ -53,11 +53,23 @@ You are done when a colleague can run your evaluation and get the same numbers, 
 
 ## Sources
 
-- Chi Wang and Jerry Liu, "Agentic AI Frameworks & AutoGen + Building a Multimodal Knowledge Assistant", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=OOdtmCMSOo4). Chapters 01, 02, 03.
+- Chi Wang and Jerry Liu, "Agentic AI Frameworks & AutoGen + Building a Multimodal Knowledge Assistant", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=OOdtmCMSOo4) · [guide](../lectures/f24-03-agentic-ai-frameworks-and-autogen-building-a.md). Chapters 01, 02, 03.
 - Noam Brown, "Multi-Agent AI", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=SrLcGdVOb9w) · [guide](../lectures/f25-06-multi-agent-ai.md). Chapters 04, 05.
-- Oriol Vinyals, "Multi-Agent Systems in the Era of LLMs", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=ntjOxjZMaac). Chapters 05, 06.
+- Oriol Vinyals, "Multi-Agent Systems in the Era of LLMs", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=ntjOxjZMaac) · [guide](../lectures/f25-10-multi-agent-systems-in-the-era-of-llms.md). Chapters 05, 06.
 - Nicolas Chapados, "AI Agents for Enterprise Workflows", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=-yf-e-9FvOc) · [guide](../lectures/f24-07-ai-agents-for-enterprise-workflows.md). Chapters 06, 07.
 - Burak Gokturk, "Enterprise trends for generative AI, and key components of building successful agents/applications", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=Sy1psHS3w3I) · [guide](../lectures/f24-04-enterprise-trends-for-generative-ai-and-key.md). Chapter 07.
+
+## Lecture guides for this part
+
+Each guide maps one lecture from its first minute to its last and says where this book teaches each piece. Where no chapter teaches a part of the lecture, the guide explains it itself; the table counts those parts.
+
+| Lecture | Lecturer | Length | Parts no chapter teaches | Guide |
+|---|---|---|---|---|
+| Agentic AI Frameworks & AutoGen + Building a Multimodal Knowledge Assistant | Chi Wang (AutoGen-AI); Jerry Liu (LlamaIndex) | 1:06:00 | 0 of 17 | [open guide](../lectures/f24-03-agentic-ai-frameworks-and-autogen-building-a.md) |
+| Multi-Agent AI | Noam Brown (OpenAI) | 56:00 | 2 of 18 | [open guide](../lectures/f25-06-multi-agent-ai.md) |
+| Multi-Agent Systems in the Era of LLMs | Oriol Vinyals (Google DeepMind) | 1:00:00 | 1 of 16 | [open guide](../lectures/f25-10-multi-agent-systems-in-the-era-of-llms.md) |
+| Enterprise trends for generative AI, and key components of building successful agents/applications | Burak Gokturk (Google) | 1:04:00 | 3 of 17 | [open guide](../lectures/f24-04-enterprise-trends-for-generative-ai-and-key.md) |
+| AI Agents for Enterprise Workflows | Nicolas Chapados (ServiceNow) | 1:12:00 | 4 of 14 | [open guide](../lectures/f24-07-ai-agents-for-enterprise-workflows.md) |
 
 ## Where to go next
 
