@@ -1,6 +1,6 @@
 # Lecture guides
 
-One guide per lecture of the four courses: 36 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
+One guide per lecture of the four courses: 39 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
 
 Every part heading links to the moment in the video where the part begins.
 
@@ -55,4 +55,12 @@ Every part heading links to the moment in the video where the part begins.
 | 11 | Autonomous Agents: Embodiment, Interaction, and Learning | Peter Stone (UT Austin / Sony AI) | 1:02:00 | 15 | 2 | [open](f25-11-autonomous-agents-embodiment-interaction-and.md) |
 | 12 | Agentic AI Safety & Security | Dawn Song (UC Berkeley) | 1:50:00 | 10 | 3 | [open](f25-12-agentic-ai-safety-and-security.md) |
 
-In all: 510 parts, of which 122 (24%) teach something no chapter teaches; 70,227 words.
+## MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024)
+
+| # | Lecture | Lecturer | Length | Parts | Guide only | Guide |
+|---|---|---|---|---|---|---|
+| 1 | Introduction | Song Han (MIT) | 1:06:00 | 17 | 3 | [open](mit-01-introduction.md) |
+| 2 | Basics of Deep Learning | Song Han (MIT) | 52:00 | 17 | 2 | [open](mit-02-basics-of-deep-learning.md) |
+| 3 | Pruning and Sparsity (Part I) | Song Han (MIT) | 58:00 | 15 | 1 | [open](mit-03-pruning-and-sparsity-part-i.md) |
+
+In all: 559 parts, of which 128 (23%) teach something no chapter teaches; 77,963 words.

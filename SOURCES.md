@@ -109,9 +109,9 @@ Course page: <https://hanlab.mit.edu/courses/2024-fall-65940>
 
 | Lecture | Speaker(s) | Links | Used in |
 |---|---|---|---|
-| Introduction | Song Han (MIT) | [video](https://www.youtube.com/watch?v=U7EPZv8Kh9w) | [01-why-efficiency-matters](09-efficient-deep-learning/01-why-efficiency-matters.md)<br>[02-neural-network-basics-for-efficiency](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md)<br>[04-quantization](09-efficient-deep-learning/04-quantization.md) |
-| Basics of Deep Learning | Song Han (MIT) | [video](https://www.youtube.com/watch?v=I0nKjPpZmMU) | [02-neural-network-basics-for-efficiency](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
-| Pruning and Sparsity (Part I) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=EjsB0WgIfUM) | [03-pruning-and-sparsity](09-efficient-deep-learning/03-pruning-and-sparsity.md) |
+| Introduction | Song Han (MIT) | [video](https://www.youtube.com/watch?v=U7EPZv8Kh9w) · [guide](lectures/mit-01-introduction.md) | [01-why-efficiency-matters](09-efficient-deep-learning/01-why-efficiency-matters.md)<br>[02-neural-network-basics-for-efficiency](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md)<br>[04-quantization](09-efficient-deep-learning/04-quantization.md) |
+| Basics of Deep Learning | Song Han (MIT) | [video](https://www.youtube.com/watch?v=I0nKjPpZmMU) · [guide](lectures/mit-02-basics-of-deep-learning.md) | [02-neural-network-basics-for-efficiency](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
+| Pruning and Sparsity (Part I) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=EjsB0WgIfUM) · [guide](lectures/mit-03-pruning-and-sparsity-part-i.md) | [03-pruning-and-sparsity](09-efficient-deep-learning/03-pruning-and-sparsity.md) |
 | Pruning and Sparsity (Part II) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=upaZrpXkELc) | [03-pruning-and-sparsity](09-efficient-deep-learning/03-pruning-and-sparsity.md) |
 | Quantization (Part I) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=ymAzUz3qlIA) | [04-quantization](09-efficient-deep-learning/04-quantization.md) |
 | Quantization (Part II) | Song Han (MIT) | [video](https://www.youtube.com/watch?v=wrcgWm_nUeE) | [04-quantization](09-efficient-deep-learning/04-quantization.md) |
