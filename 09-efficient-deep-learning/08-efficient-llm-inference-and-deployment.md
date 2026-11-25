@@ -28,7 +28,7 @@ The analogy is an incremental build cache. Recompute nothing, look up what you a
 KV cache bytes = 2 × layers × KV heads × head dimension × tokens × batch × bytes per value
 ```
 
-The leading 2 is for keys and values. Han's slide from Lecture 15 works the example for Llama-2-70B as if it had no head sharing: 2 × 80 layers × 64 heads × 128 = 2.5 MB per token. Then 4,096 tokens take 10 GB, and a batch of 16 such requests takes 160 GB ([22:00](https://www.youtube.com/watch?v=kgTWKjbnrBA&t=1320)). The cache can outgrow the weights.
+The leading 2 is for keys and values, two of the vectors that attention computes for each token. Each layer computes attention in several heads, parallel sub-calculations, each with its own `head dimension`; `KV heads` counts those that produce keys and values. Han's slide from Lecture 15 works the example for Llama-2-70B as if it had no head sharing: 2 × 80 layers × 64 heads × 128 = 2.5 MB per token. Then 4,096 tokens take 10 GB, and a batch of 16 such requests takes 160 GB ([22:00](https://www.youtube.com/watch?v=kgTWKjbnrBA&t=1320)). The cache can outgrow the weights.
 
 Decode speed follows from [Chapter 02](02-neural-network-basics-for-efficiency.md): time per token is about the bytes moved divided by memory bandwidth. Bytes moved per token = weights + KV cache read.
 
@@ -36,7 +36,7 @@ Each technique below attacks one of these three quantities: weight bytes, cache 
 
 ### 1. Quantization: weight-only or weights and activations
 
-- **One user, memory-bound:** quantize the weights only and keep activations in 16-bit (W4A16). Han makes the point with a roofline chart: 8-bit weights and activations suit batch serving at batch 128, while a single query is still limited by weight traffic (Lecture 13, [16:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=960)).
+- **One user, memory-bound:** quantize the weights only and keep activations in 16-bit (W4A16, weights 4-bit and activations 16-bit). Han makes the point with a roofline chart (speed plotted against arithmetic intensity): 8-bit weights and activations suit batch serving at batch 128, while a single query is still limited by weight traffic (Lecture 13, [16:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=960)).
 - **Many users, arithmetic-bound:** quantize weights and activations to 8 bits. The obstacle is **outliers**: a few activation channels with much larger values than the rest. Han shows an activation grid of 5,000 channels by 300 tokens with three outlier channels; with one scale, everything else collapses to zero ([2:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=120)). His slide dates them to models beyond 6.7 billion parameters.
 - **SmoothQuant** moves the difficulty from activations to weights with a per-channel factor (the formula is in [Chapter 04](04-quantization.md)). The factor, the migration strength, decides how much difficulty moves; Han recommends 0.5 as a good recipe. His deployment rule: quantize only the compute-intensive operators (the attention projections, the batched matrix multiplications and the two feed-forward layers) to 8 bits, and keep the nonlinear operations such as layer normalization, softmax and the residual additions in 16-bit, since they cost little latency and protect accuracy ([12:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=720)). On his slides, OPT-175B went from 8 GPUs in 16-bit to 4 GPUs, and LLaMA's Wiki perplexity moved by about 0.03 to 0.05.
 - **AWQ** for 4-bit weights. Han's lab found that about 1% of weight channels matter a great deal, and that they are found from the **activation** distribution, not from weight magnitude ([22:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=1320)). Keeping those channels in FP16 inside a 4-bit tensor makes the kernel messy. Instead each salient channel is scaled up before quantization: scaling by 4 is worth about two extra bits ([26:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=1560)). The TinyChat engine supplies fast kernels for it ([34:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=2040)).
@@ -71,6 +71,21 @@ At batch 1, the large model spends its time reading weights. Verifying a wrong t
 3. The longest prefix it agrees with is accepted. At the first disagreement it resamples.
 4. Repeat.
 
+**Figure 1.** Speculative decoding: a cheap draft, one verification pass, and a loop back for whatever was rejected.
+
+```mermaid
+flowchart LR
+    D["Draft model proposes a few tokens"] --> V["Large model checks them in one pass"]
+    V -->|"agrees"| A["Accept the agreed prefix"]
+    V -->|"disagrees"| R["Resample at the first wrong token"]
+    A --> N["More tokens needed"]
+    R --> N
+    N --> D
+    N -->|"answer complete"| E["Output identical to the large model alone"]
+```
+
+Each turn costs one pass of the large model for several tokens, which is why the gain is largest when one user has the GPU to itself.
+
 The output distribution matches the large model's. Han reports about 2 to 3 times faster generation with identical outputs (Lecture 13, [72:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=4320)). It helps most for a single user and least for a full batch, where arithmetic is already the limit.
 
 ### 5. Batch the requests
@@ -86,7 +101,7 @@ Han's picture for dynamic batching is a bus that leaves "when it's full or when 
 
 ### 6. Long context: extend, then verify
 
-- **Extend** by interpolating the rotary position encoding: the same position range is mapped onto larger angles, which took LLaMA from 2k to 32k tokens with fine-tuning (Lecture 15, slide 5). **LongLoRA** makes that fine-tuning cheaper with sparse attention during training and full attention at inference (slides 7 to 12).
+- **Extend** by interpolating the [rotary position encoding](../GLOSSARY.md): the same position range is mapped onto larger angles, which took LLaMA from 2k to 32k tokens with fine-tuning (Lecture 15, slide 5). **LongLoRA** makes that fine-tuning cheaper with sparse attention during training and full attention at inference (slides 7 to 12).
 - **Verify.** Models are worst at using information from the middle of a long input: the "lost in the middle" curve (Lecture 15, slide 14). Han's conclusion is that fluent answers and good perplexity prove nothing; use a needle-in-a-haystack test or LongBench ([16:00](https://www.youtube.com/watch?v=kgTWKjbnrBA&t=960)).
 - **Consider not extending.** On the LongBench results he cites, retrieval and context compression help, but less than models built for long context ([22:00](https://www.youtube.com/watch?v=kgTWKjbnrBA&t=1320)).
 
@@ -141,7 +156,7 @@ The estimates ignore compute time, so they are floors for latency.
 
 ## What the practitioners say
 
-- Han stresses that serving and training these models are both expensive, and that the KV cache grows linearly with the conversation (Lecture 12, [2:00](https://www.youtube.com/watch?v=EV6xb4xY708&t=120)).
+- Han stresses that long conversations become expensive to serve because the KV cache grows linearly with the conversation (Lecture 12, [2:00](https://www.youtube.com/watch?v=EV6xb4xY708&t=120)).
 - He is blunt about quantization without engineering: lower precision brings "without a good engine, no speed up" (Lecture 13, [48:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=2880)).
 - On sparsity for language models: pruning by weight magnitude times activation norm (Wanda) beat magnitude pruning, and picking which heads and neurons to skip per input works better than a fixed pattern (Lecture 13, [56:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=3360)).
 - On training budget: Llama models train on far more tokens per parameter than the Chinchilla rule suggests. He explains this as an inference decision: the same parameter count then gives higher quality, so serving is cheaper (Lecture 12, [76:00](https://www.youtube.com/watch?v=EV6xb4xY708&t=4560)). See [scaling laws](../10-llm-internals/07-scaling-laws.md).

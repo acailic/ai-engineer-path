@@ -18,7 +18,7 @@ All four come from the same handful of settings. None of them is visible in the 
 
 ## The core idea
 
-An LLM API is a function with one input, the **prompt** (everything you send: system prompt, conversation, and the new request), and a few knobs. It returns text produced one token at a time by sampling from a probability distribution ([Chapter 02](02-how-large-language-models-are-trained.md)).
+An LLM API is a function with one input, the **prompt** (everything you send: the **system prompt** with instructions for the whole conversation, the earlier turns, and the new request), and a few knobs. It returns text produced one token at a time by sampling from a probability distribution ([Chapter 02](02-how-large-language-models-are-trained.md)).
 
 - A **token** is the unit the model reads and writes, and the unit you pay for. A rough rule for English is that one token is about three quarters of a word.
 - The **context window** is the maximum number of tokens a single call can hold, counted across the input and the output together.
@@ -34,7 +34,7 @@ Yann Dubois, in his Fall 2025 lecture, suggests thinking of tokens as words or s
 Three practical rules follow:
 
 - Measure, do not guess. Count the tokens of a typical request with your provider's counting tool or tokenizer library.
-- Every example in a few-shot prompt is paid for on every call ([Chapter 05](05-prompting-and-in-context-learning.md)).
+- Every example in a few-shot prompt, a prompt that contains examples, is paid for on every call ([Chapter 05](05-prompting-and-in-context-learning.md)).
 - Reserve room. The context window covers input and output. A 200,000-token window does not accept a 200,000-token prompt.
 
 Context windows are extended after the main pre-training run. Dubois's slides give DeepSeek v3 as an example, extended to 128,000 tokens. Limits differ by model, so read the model's page as of the day you integrate it.
@@ -44,6 +44,26 @@ A large window is not a license to fill it. Each token costs money and time on e
 ### 2. The call does not remember
 
 Each API call is independent. The provider does not keep your previous turn. For a conversation, you send the whole history every time. Turn nine costs more than turn one because turn nine includes turns one to eight in its input.
+
+**Figure 1.** A three-turn conversation: what your service sends on each call.
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant A as Your service
+    participant M as Model API
+    U->>A: First message
+    A->>M: System prompt and first message
+    M-->>A: First answer
+    U->>A: Second message
+    A->>M: System prompt, first message, first answer, second message
+    M-->>A: Second answer
+    U->>A: Third message
+    A->>M: System prompt and the whole history so far
+    M-->>A: Third answer
+```
+
+The API keeps nothing between calls, so the input grows with every turn, while the system prompt at the top stays the same.
 
 ### 3. Control randomness with temperature and top-p
 
@@ -77,7 +97,7 @@ Many providers also offer a mode that constrains the output to a schema. Names a
 
 ### 7. Reuse work with prompt caching
 
-Because each call resends the history, the model reprocesses the same prefix again and again. **Prompt caching** stores the processed form of a prefix on the provider's side, so a later request that starts with the same prefix is cheaper and quicker to start. In the Messages API, you mark the cacheable prefix with `cache_control`. The cached entry lives for 5 minutes by default, or 1 hour in a longer option, as of November 24, 2026 ([reference](https://platform.claude.com/docs/en/api/messages)).
+Because each call resends the history, the model reprocesses the same prefix, the unchanged beginning of the prompt, again and again. **Prompt caching** stores the processed form of a prefix on the provider's side, so a later request that starts with the same prefix is cheaper and quicker to start. In the Messages API, you mark the cacheable prefix with `cache_control`. The cached entry lives for 5 minutes by default, or 1 hour in a longer option, as of November 24, 2026 ([reference](https://platform.claude.com/docs/en/api/messages)).
 
 To benefit, order the prompt so that the stable part comes first: system prompt, long reference document, then the varying user message. If something changes near the top, everything after it must be processed again.
 
@@ -138,7 +158,7 @@ Evan Miller's paper, covered in [Chapter 07](07-why-llm-outputs-are-noisy.md), a
 ## Pitfalls
 
 1. **Assuming the API remembers the last turn.** *Fix:* resend the history, and budget for it.
-2. **Treating the context window as the model's memory or knowledge.** It is the working memory of one call. *Fix:* send what the call needs. For facts, use retrieval.
+2. **Treating the context window as the model's memory or knowledge.** It is the working memory of one call. *Fix:* send what the call needs. For facts, use retrieval, a search that puts the matching documents into the prompt.
 3. **Setting max tokens too low.** *Fix:* allow enough for the largest valid answer, and check the stop reason.
 4. **Expecting perfect determinism at temperature 0.** Model updates and small numerical differences still change outputs. *Fix:* never compare raw output strings for equality. [Testing generative and LLM components](../08-quality-assurance/05-testing-generative-and-llm-components.md) shows what to do instead.
 5. **Changing temperature and top-p together.** You cannot tell which one caused the change. *Fix:* adjust one.
@@ -180,43 +200,43 @@ This makes about 25 paid calls, more with the stretch goal. At the example price
    - D. The space the model's parameters take on disk
 
 2. What does lowering the temperature do?
-   - A. It makes the model pick more probable tokens more often
-   - B. It cuts the length of every answer in half
-   - C. It removes the need for a system prompt
+   - A. It cuts the length of every answer in half
+   - B. It removes the need for a system prompt
+   - C. It makes the model pick more probable tokens more often
    - D. It makes the model pay less attention to the prompt
 
 3. What does top-p do?
-   - A. It keeps the smallest set of tokens whose probabilities add up to p
-   - B. It keeps exactly p tokens at every step
+   - A. It keeps exactly p tokens at every step
+   - B. It keeps the smallest set of tokens whose probabilities add up to p
    - C. It stops the answer after p hundred words
    - D. It raises the price per token by p percent
 
 4. A response ends in the middle of a sentence. What do you check first?
-   - A. The stop reason, because the token limit may be reached
-   - B. The temperature, because it must be above zero
-   - C. The system prompt, because it must be missing
-   - D. The cache, because it must have expired
+   - A. The temperature, because it must be above zero
+   - B. The system prompt, because it must be missing
+   - C. The cache, because it must have expired
+   - D. The stop reason, because the token limit may be reached
 
 5. Why does the ninth turn of a chat cost more than the first?
-   - A. Each call resends the whole conversation as input
-   - B. Providers charge more as a conversation goes on
+   - A. Providers charge more as a conversation goes on
+   - B. Each call resends the whole conversation as input
    - C. The model becomes slower the more it has written
    - D. Later turns are set to produce longer answers
 
 6. What does prompt caching reuse?
-   - A. The processing of a prefix sent in an earlier request
-   - B. The final answers given to earlier requests
-   - C. A copy of the model's parameters on your machine
+   - A. The final answers given to earlier requests
+   - B. A copy of the model's parameters on your machine
+   - C. The processing of a prefix sent in an earlier request
    - D. The random choices made in earlier calls
 
 <details><summary>Show answers</summary>
 
 1. A. Input and output share one window. A long prompt leaves little room for the answer.
-2. A. Low temperature concentrates probability on the likeliest tokens, which makes output more repeatable.
-3. A. The tail of unlikely tokens is removed before the choice is made.
-4. A. Generation stops at the maximum-tokens limit and the text is cut. Raise the limit or shorten the answer.
-5. A. The API has no memory. Turn nine carries turns one to eight in its input.
-6. A. A request that starts with the same cached prefix skips reprocessing that prefix, within the cache's lifetime.
+2. C. Low temperature concentrates probability on the likeliest tokens, which makes output more repeatable.
+3. B. The tail of unlikely tokens is removed before the choice is made.
+4. D. Generation stops at the maximum-tokens limit and the text is cut. Raise the limit or shorten the answer.
+5. B. The API has no memory. Turn nine carries turns one to eight in its input.
+6. C. A request that starts with the same cached prefix skips reprocessing that prefix, within the cache's lifetime.
 
 </details>
 
@@ -224,7 +244,7 @@ This makes about 25 paid calls, more with the stretch goal. At the example price
 
 - **Documentation:** Anthropic, "Messages" API reference (parameters `max_tokens`, `stop_sequences`, `system`, `stream`, `cache_control`), accessed November 24, 2026: [reference](https://platform.claude.com/docs/en/api/messages). Temperature and top-p were not visible on the fetched page.
 - **Lecture:** Yann Dubois, "Introduction to training LLMs for AI agents", LLM Agents MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=r1qZpYAmqmg), used at [tokens](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=0), and on his slides for the inference loop, the tokenizer and the outlook
-- **Lecture:** Denny Zhou, "LLM Reasoning: Key Ideas and Limitations", LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=QL-FS_Zcmyo), used at [greedy decoding versus alternatives](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2520)
+- **Lecture:** Denny Zhou, "LLM Reasoning: Key Ideas and Limitations", LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=QL-FS_Zcmyo), used at [greedy decoding versus alternatives](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2280), [the comparison](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2520)
 
 ## Next
 

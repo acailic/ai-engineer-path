@@ -39,9 +39,9 @@ Fake data plus the tools that change it. Keep it small enough to read in one scr
 
 A **user simulator** is a model that plays the customer from a short instruction: who it is, what it wants, what it knows. Bavor describes personas such as a customer who is angry and confused because their phone plan was switched off ([32:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1920)). In some problems the user must also act. In Bavor's example the agent talks a caller through toggling a switch on a cable modem, which changes the world on the caller's side ([34:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=2040)). τ²-bench, a benchmark from Sierra's research team, gives the simulated user its own tools for this reason.
 
-**Why simulate at all.** Agents do not behave the same way twice, Bavor says, so a unit test or an integration test is not enough: they have to be tested in scenarios as close to the real one as possible ([30:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1800)). A realistic test, in his list, has a simulated user who types with typos, tools the agent can act with, a check that policies and guardrails hold, and several turns ([32:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1920)). τ-bench, whose name stands for tool-agent-user, packages those pieces for telecom, retail and airline customer service, with hundreds of scenarios and a policy document per domain. One such rule: no order return until the customer has verified an order number and an e-mail address.
+**Why simulate at all.** Agents do not behave the same way twice, Bavor says, so a unit test or an integration test is not enough: they have to be tested in scenarios as close to the real one as possible ([30:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1800)). A realistic test, in his list, has a simulated user who types with typos, tools the agent can act with, a check that policies and [guardrails](../GLOSSARY.md) hold, and several turns ([32:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1920)). τ-bench, whose name stands for tool-agent-user, packages those pieces for telecom, retail and airline customer service, with hundreds of scenarios and a policy document per domain. One such rule: no order return until the customer has verified an order number and an e-mail address ([32:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1920), [48:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=2880)).
 
-**Sierra's first simulator could not hang up.** In May 2023 Bavor built a prototype agent that answered questions about 1099 tax forms, and a second agent to play the user, so that the two could test each other while he was at lunch. He had given neither a way to end the conversation. He came back to about a hundred messages in which each thanked the other for its thanks ([30:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1800)). The lesson: a simulator needs a stop condition, and it belongs in the design of the environment, not in the good manners of a model.
+**Sierra's first simulator could not hang up.** In 2023 Bavor built a prototype agent that answered questions about 1099 tax forms, and a second agent to play the user, so that the two could test each other while he was at lunch. He had given neither a way to end the conversation. He came back to about a hundred messages in which each thanked the other for its thanks ([30:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1800)). The lesson: a simulator needs a stop condition, and it belongs in the design of the environment, not in the good manners of a model.
 
 Keep the simulator less capable than the agent. The τ²-bench paper calls this the *complexity asymmetry*: if the user can solve the problem alone, the task stops testing the agent.
 
@@ -57,9 +57,26 @@ Compare the final state with the goal state. τ-bench decides success this way, 
 
 Some rules read directly off the recorded calls: required calls, forbidden calls, order, a step limit, a cost limit. For what rules cannot express, such as "did it give the customer instructions the customer could follow", use a [judge](03-llm-as-a-judge-and-rubrics.md) over the trace, calibrated as in that chapter.
 
+**Figure 1.** One attempt in a simulated environment, with the two kinds of grading at the end.
+
+```mermaid
+flowchart TD
+    R["Reset the environment to the initial state"] --> U["User simulator states the request"]
+    U --> A["Agent decides: call a tool or answer"]
+    A -->|"tool call"| E["Environment changes state and logs the call"]
+    E --> A
+    A -->|"final answer"| F["Final state and recorded trajectory"]
+    F --> O["Outcome check: compare the state with the goal"]
+    F --> T["Trajectory check: rules over the logged calls"]
+    O --> X["Report"]
+    T --> X
+```
+
+The loop in the middle is the attempt. Nothing is graded until it ends, and the two checks read different evidence: the state and the log.
+
 ### 7. Read the trajectories and sort the failures
 
-τ²-bench separates failures by running the same tasks two ways: with the agent controlling every tool, and with the user in the loop. The first isolates reasoning. The gap between the two isolates communication and coordination.
+τ²-bench separates failures by running the same tasks in two settings. In *single control* the agent operates every tool. In *dual control* the simulated user has tools too, so the agent can only guide ([52:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3120)). The first isolates reasoning. The gap between the two isolates communication and coordination.
 
 ### 8. Report reliability, and the simulator's health
 
@@ -141,9 +158,9 @@ CyberGym's answer to contamination is instructive ([46:00](https://www.youtube.c
 Two data pipelines show how tasks get built:
 
 - **τ-bench** ([50:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3000)): people design the schemas, APIs and policies. A model helps generate the data. People polish it and run many agent attempts to check that each task has one unique end state.
-- **τ²-bench** ([52:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3120)): a program composes tasks from small atomic scenarios, each defined by an initialization, a solution and an assertion. That gives provable task correctness and control over complexity.
+- **τ²-bench** ([52:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3120)): a program composes tasks from small atomic scenarios, each defined by an initialization, a solution and an assertion. That gives automatic checks that each composed task was built correctly.
 
-**Trust the simulator only as far as you have measured it.** The τ²-bench paper reports that its telecom user simulator failed on 16% of annotated runs, 6% of them critically. The original retail simulator failed on 40%, 12% critically. Every one of the eight annotated telecom errors was the same mistake: the simulated user ended the conversation before the agent had finished. It also reports pass^1 of 34% for GPT-4.1, 42% for o4-mini and 49% for Claude 3.7 Sonnet on new telecom tasks, and a drop of about 20 points when agents moved from controlling all tools to guiding a user. These figures are the paper's, from June 2025.
+**Trust the simulator only as far as you have measured it.** The τ²-bench paper reports that its telecom user simulator failed on 16% of annotated runs, runs a person reviewed and labeled, 6% of them critically. The original retail simulator failed on 40%, 12% critically. Its appendix on telecom errors describes the typical critical mistake: the simulated user ends the conversation before the agent has finished. It also reports pass^1, the share of attempts that succeed: 34% for GPT-4.1, 42% for o4-mini and 49% for Claude 3.7 Sonnet on new telecom tasks, and a drop of about 20 points when agents moved from controlling all tools to guiding a user. These figures are the paper's, from June 2025.
 
 **Test the evaluator itself.** The lecture's checklist for building an evaluator has four steps ([86:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=5160)):
 
@@ -187,8 +204,8 @@ Two data pipelines show how tasks get built:
 
 1. An agent writes "I've refunded your order" but never called the refund tool. Which check catches it?
    A. A judge that reads the message
-   B. An end-state check on the database
-   C. A rubric on the tone
+   B. A rubric on the tone
+   C. An end-state check on the database
    D. A component test of the intent parser
 2. How does τ-bench decide success?
    A. A judge rates the conversation
@@ -197,33 +214,33 @@ Two data pipelines show how tasks get built:
    D. The simulated user gives a score
 3. What is *dual control* in τ²-bench?
    A. Two judges score each run
-   B. Both the agent and the simulated user can act through tools
-   C. The agent uses two databases
-   D. Each task runs twice
+   B. The agent uses two databases
+   C. Each task runs twice
+   D. Both the agent and the simulated user can act through tools
 4. Why keep the user simulator less capable than the agent?
-   A. To save tokens
-   B. So that the task still requires the agent's help
+   A. So that the task still requires the agent's help
+   B. To save tokens
    C. To make runs faster
    D. To lower the pass rate
 5. A benchmark is *contaminated* when what happens?
    A. Its data contains errors
-   B. Its test examples were in the models' training data
-   C. All systems score near the top
+   B. All systems score near the top
+   C. Its test examples were in the models' training data
    D. Its environment is not reset
 6. Every system scores between 96% and 99% on your benchmark. What is the problem?
-   A. Contamination
-   B. Saturation
+   A. Saturation
+   B. Contamination
    C. Clustering
    D. Position bias
 
 <details><summary>Show answers</summary>
 
-1. B. The message is not evidence. The database state is.
+1. C. The message is not evidence. The database state is.
 2. B. The comparison is programmatic, with no judge.
-3. B. The user has its own tools and its own partial view of a shared world.
-4. B. This is the complexity asymmetry: a user who can finish alone removes the agent from the test.
-5. B. Memory then masquerades as ability.
-6. B. The benchmark can no longer separate systems. It needs harder tasks.
+3. D. The user has its own tools and its own partial view of a shared world.
+4. A. This is the complexity asymmetry: a user who can finish alone removes the agent from the test.
+5. C. Memory then masquerades as ability.
+6. A. The benchmark can no longer separate systems. It needs harder tasks.
 
 </details>
 

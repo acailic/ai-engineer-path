@@ -7,7 +7,7 @@
 
 ## Why this matters
 
-Five designs for ticket routing, measured on the same labeled tickets. The numbers are illustrative.
+Five designs for ticket routing, measured on the same labeled tickets. The numbers are illustrative. **p95 latency** is the time within which 95 of 100 requests finish.
 
 | Design | Error rate | Cost per 1,000 tickets | p95 latency |
 |---|---|---|---|
@@ -77,6 +77,18 @@ When a model is retrained regularly, the qualities of training matter as much as
 ### Changeability and the feedback loop
 
 These five attributes decide one thing: how long the feedback loop takes. The loop runs from a wrong prediction in production, through the logged correction, to a retrained model that is deployed. Every attribute above is one segment of that loop.
+
+**Figure 1.** The feedback loop of a model in production, with the attribute that governs each segment.
+
+```mermaid
+flowchart LR
+    P["Model in production makes a wrong prediction"] -->|"observability"| L["Telemetry logs input, output and correction"]
+    L -->|"training latency, incremental training, reproducibility"| T["Training produces a new model"]
+    T -->|"deployment latency"| D["Deployment ships the new model"]
+    D --> P
+```
+
+The loop closes only as fast as its slowest segment, so an accurate model that retrains slowly still follows change slowly.
 
 Kästner notes two facts that shape the loop. Standard decision-tree training must look at all the data at once, so it restarts from scratch when the data changes. Neural networks can be trained incrementally. On reproducibility, the picture flips. Deep networks are nondeterministic in training and can reach noticeably different accuracy with identical settings, whereas a basic decision tree reproduces itself exactly.
 

@@ -41,7 +41,7 @@ Kästner shows how far this goes with four systems that share almost nothing els
 
 ### Divide and conquer
 
-Split the system into components, each with one job, so that teams can work in parallel and test parts in isolation. For ML systems, Kästner returns to one split again in chapter 10: keep the model apart from the business logic, and keep the training and telemetry infrastructure apart from both. The model then has one place to live, one owner and one interface to guard.
+Split the system into components, each with one job, so that teams can work in parallel and test parts in isolation. For ML systems, Kästner returns to one split again in chapter 10: keep the model apart from the business logic, and keep the training and telemetry infrastructure apart from both (telemetry is the data a running system reports about itself). The model then has one place to live, one owner and one interface to guard.
 
 Kästner calls an interface the place where teams negotiate. It is rarely fully specified, and some responsibilities have to be written into it. His example is data quality. Does the component that provides the data answer for it, or does the pipeline that consumes it? He also recommends hiding whatever is likely to change inside one component, so that the change stays local. That is **information hiding**.
 
@@ -94,6 +94,25 @@ Here is a decomposition for the triage feature that follows the book's advice to
 | Monitoring | Watch inputs, outputs and outcomes; raise alerts | No |
 
 Each row has one owner. A model update touches three rows: encoding, inference and pipeline. It leaves the other five alone.
+
+**Figure 1.** A component view of the triage feature: what talks to what.
+
+```mermaid
+flowchart LR
+    C["Customer ticket"] --> I["Intake API"]
+    I --> F["Feature encoding"]
+    F --> M["Inference service"]
+    M --> R["Routing logic with guardrails"]
+    R -->|"confident"| T["Team queue"]
+    R -->|"uncertain or timeout"| Q["Review queue"]
+    R --> L["Telemetry"]
+    Q --> L
+    L --> P["Training pipeline"]
+    P -->|"new model version"| M
+    L --> W["Monitoring and alerts"]
+```
+
+The model has one caller. A new model enters only through the inference service, and routing logic never talks to the training pipeline.
 
 ## Worked example
 

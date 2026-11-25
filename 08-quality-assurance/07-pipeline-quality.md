@@ -1,7 +1,7 @@
 # 07. Pipeline Quality
 
 **Level:** Practitioner · **Reading time:** 28 min · **Exercise:** 60 min
-**Prerequisites:** none. [Data Quality](06-data-quality.md) covers the data these pipelines move.
+**Prerequisites:** none, though [Quality Assurance Basics and the Oracle Problem](01-quality-assurance-basics-and-the-oracle-problem.md) covers the CI, coverage, and code review used below. [Data Quality](06-data-quality.md) covers the data these pipelines move.
 
 > **In one sentence:** After this chapter you can turn a notebook script into pipeline code that is tested, makes its failures loud, and cannot break for a week without anyone noticing.
 
@@ -40,11 +40,11 @@ Kästner gives three reasons notebook code is hard to test (chapter 17): you can
 
 ### 2. Inject what is outside the code
 
-Pass the model call, the database connection, or the file contents as arguments. Tests then supply a **stub**, a stand-in that returns canned answers or fails on purpose. Testing against a live API makes tests slow and flaky, and it costs money on every run.
+Pass the model call, the database connection, or the file contents as arguments. Tests then supply a **stub**, a stand-in that returns fixed answers or fails on purpose. Testing against a live API makes tests slow and flaky, and it costs money on every run.
 
 ### 3. Decide the error handling, point by point
 
-Kästner recommends being explicit about every failure scenario a pipeline can meet (chapter 17). His own questions: what if the training data misses some values, if a whole column is absent during feature engineering, if an external inference service times out, if the upload of the trained model fails? There is no single right answer. For each, choose to recover or to raise, then document and test the decision.
+Kästner recommends being explicit about every failure scenario a pipeline can meet (chapter 17). His own questions: what if the training data misses some values, if a whole column is absent during feature engineering, the step that turns raw data into model inputs, if an external inference service times out, if the upload of the trained model fails? There is no single right answer. For each, choose to recover or to raise, then document and test the decision.
 
 | Situation | Recover | Or raise |
 |---|---|---|
@@ -56,13 +56,29 @@ Kästner recommends being explicit about every failure scenario a pipeline can m
 
 Whatever you choose, Kästner advises monitoring how often recoveries and exceptions are triggered (chapter 17). A retry that fires on every run is a broken dependency wearing a disguise. His warning example is a training pipeline that filled gaps from a weather service with default values, to ride out short outages. When the payment for that service expired, every request was rejected, the defaults replaced the weather entirely, and the pipeline kept producing a weaker model that nobody questioned (chapter 17).
 
+**Figure 1.** The decision at each point where a pipeline step can fail: recover and count it, or raise.
+
+```mermaid
+flowchart TD
+    S["A pipeline step calls a dependency"] -->|"works"| OK["Continue with the real result"]
+    S -->|"fails"| D["Decision written for this point"]
+    D -->|"recoverable"| R["Retry or fill a default, and count the recovery"]
+    R -->|"works now"| OK
+    R -->|"still fails"| E["Raise a named error with the context"]
+    D -->|"never recover silently"| E
+    E --> M["Monitoring sees the error and the retry counts"]
+    R --> M
+```
+
+A silent default is the failure to avoid: whichever branch the step takes, someone can later see that it was taken.
+
 ### 4. Test the failure paths with stubs
 
 Pass a stub that times out. Pass a reply with the wrong shape. Pass an empty input. Assert the behavior you decided on. The book's pattern is a connection stub that fails a set number of times: with no failures the call succeeds, with a few it recovers through retries, and after the third failed attempt it raises (chapter 17).
 
 ### 5. Test your code, not the libraries
 
-You can assume that pandas and scikit-learn compute a mean correctly (chapter 17). Test your own transformations, your glue, and your parsing. His example is code from a data competition that turns download counts such as "10k" and "100M" into numbers. One version went wrong on an uppercase "K"; another was not written for a decimal point, as in "100.5M". Both failed silently, and a test with three values would have caught the first. Training code deserves a run on a tiny data set, which exposes most misuse of the library and most mismatched tensor shapes (chapter 17).
+You can assume that pandas and scikit-learn compute a mean correctly (chapter 17). Test your own transformations, your glue, and your parsing. His example is code from a data competition that turns download counts such as "10k" and "100M" into numbers. One version went wrong on an uppercase "K"; another was not written for a decimal point, as in "100.5M". Both failed silently, and a test with three values would have caught the first. Training code deserves a run on a tiny data set, which exposes most misuse of the library and most mismatched tensor shapes, the dimensions of the arrays a neural network multiplies (chapter 17).
 
 ### 6. Put data checks at the boundaries, and test the checks
 
@@ -145,12 +161,12 @@ What to observe:
 ## What the practitioners say
 
 - **Failures are silent.** Kästner opens the chapter with two stories from a delivery business that retrains daily. In one, the training data outgrew its virtual machine, training failed, and an aging model stayed in production for weeks until customers complained. In the other, an extraction job crashed after a connector update, and the model retrained every day on the same stale data while operators saw successful runs and stable offline accuracy (chapter 17).
-- **Review finds coding bugs.** His example is a reviewer who noticed a pandas line that converted a column twice but discarded the result, so nothing changed. He also suggests normalizing a feature before training as the kind of improvement review surfaces (chapter 17).
+- **Review finds more than tests can.** He names what review surfaces in data code: problematic data transformations, inefficient encoding of features, poor handling of data-quality issues, and suggestions for better modeling (chapter 17).
 - **Review less while exploring, more when shipping.** Reviewing every change in an exploratory notebook is not worth it. Once the pipeline is production-bound, review the whole thing once and every change after that (chapter 17).
 - **Modularity is the precondition for testing.** Each `if` can double the paths through a program, so small units with few decisions and few external interactions are the ones that can be tested (chapter 17).
 - **Isolate tests from dependencies.** A database that is sometimes slow makes tests flaky although the code is fine (chapter 17).
 - **Tooling for data code is thin.** At the time of writing, he found few ready-to-use static-analysis tools aimed at data-science code, and points to generic ones such as Flake8 for style issues and simple bug patterns. The academic tools he lists each target one problem: Pythia checks tensor shapes in TensorFlow programs, Leakage Analysis finds places where training and test data are not strictly separate, PySmell detects code smells in data-science code, and mlint checks that a project uses version control, dependency management, and tests (chapter 17).
-- **A maturity score exists.** A group at Google proposed an ML test score: twenty-eight concerns around a pipeline, grouped under feature tests, model tests, infrastructure tests, and production monitoring. A team earns a point for each concern it tests and a second point when that test is automated. Examples are whether a feature benefits the model, canary releases, and monitoring for training-serving skew (chapter 17). Kästner cautions that the list may not fit every project, and sees it as a starting point for agreeing what a team must track.
+- **A maturity score exists.** A group at Google proposed an ML test score: twenty-eight concerns around a pipeline, grouped under feature tests, model tests, infrastructure tests, and production monitoring. A team earns a point for each concern it tests and a second point when that test is automated. Examples are whether a feature benefits the model, canary releases, meaning releases shown first to a small share of users, and monitoring for training-serving skew, a difference between the data used for training and the data seen in production (chapter 17). Kästner cautions that the list may not fit every project, and sees it as a starting point for agreeing what a team must track.
 - **Plan the effort.** Quality assurance belongs in the milestone that releases a model, and it is a prerequisite for letting a pipeline run and deploy on a schedule without a developer in the loop. Managers should allocate time and name who delivers it (chapter 17).
 
 ## Pitfalls

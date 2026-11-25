@@ -13,7 +13,7 @@ The prompt is doing five jobs at once: it describes the task, it chooses a think
 
 ## The core idea
 
-A **compound AI system** is a modular program in which language models play specialized roles instead of answering as one black box. A retrieval pipeline is one: a search step feeds passages to a model that writes the answer. Omar Khattab, the creator of DSPy, gives five reasons to build this way ([2:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=120)):
+A **compound AI system** is a modular program in which language models play specialized roles instead of answering as one black box. A retrieval pipeline is one: a search step feeds passages to a model that writes the answer. Omar Khattab, the creator of DSPy, gives five reasons to build this way (slides 7 to 12, [2:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=120), [4:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=240)):
 
 | Reason | What it means |
 |---|---|
@@ -48,7 +48,7 @@ Three families of optimizers appear in the lecture:
 
 | Optimizer family | What it searches | How |
 |---|---|---|
-| Bootstrap few-shot | Example demonstrations | Runs the program, keeps traces that scored well, searches over subsets |
+| Bootstrap few-shot | Demonstrations, worked input-output examples placed in the prompt | Runs the program, keeps traces that scored well, searches over subsets |
 | Instruction proposal | The wording of instructions | A model proposes candidates, given earlier candidates and their scores |
 | MIPRO | Both together | Bootstraps examples, proposes instructions, then a Bayesian optimizer, a probabilistic model that predicts the score of a combination from earlier trials, picks what to try next; each candidate is scored on a small sample of the validation set ([52:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3120), [54:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3240)) |
 
@@ -84,12 +84,28 @@ The last line is what replaces manual prompt editing. Khattab describes what a b
 4. Put the kept traces into the prompts as worked examples.
 5. Try several subsets of examples on a small validation set and keep the best.
 
-Compiling calls a paid API many times: each training example, times several candidate programs, times the number of steps. Expect hundreds to a few thousand calls for a training set of 50 examples, which is typically cents to a few US dollars on a small hosted model. Log the count.
+**Figure 1.** A bootstrap optimizer: the traces that pass the metric become the worked examples in the prompts.
+
+```mermaid
+flowchart TD
+    A["Program, metric and training inputs"] --> B["Run the unoptimized program"]
+    B --> C["Record the input and output of every module"]
+    C --> D{"Does the final output pass the metric"}
+    D -->|"No"| X["Drop the trace"]
+    D -->|"Yes"| K["Keep the whole trace as worked examples"]
+    K --> S["Try subsets of those examples on a small validation set"]
+    S --> W["Keep the best subset in the prompts"]
+```
+
+The program generates its own examples from the training inputs; the metric decides which ones are worth keeping.
+
+Compiling calls a paid API many times: each training example, times several candidate programs, times the number of steps. As a rough estimate, a training set of 50 examples takes hundreds to a few thousand calls, often cents to a few US dollars on a small hosted model. Log the count.
+
 ## What the practitioners say
 
 Khattab's Fall 2024 lecture makes five points.
 
-- **Fluency hides mistakes.** A monolithic model's errors are hard to see because the wrong answer reads as well as the right one. He shows one chat in which a model gave Stanford's founding year wrong and then returned parallel code with the very bug he had asked it to avoid ([0:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=0)). A pipeline lets you inspect the trace.
+- **Fluency hides mistakes.** A monolithic model's errors are hard to see because the wrong answer reads as well as the right one. He shows one chat in which a model gave Stanford's founding year wrong and then returned parallel code with the very bug he had asked it to avoid ([0:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=0)). A pipeline lets you inspect the trace, the recorded inputs and outputs of every step.
 - **Composition raises quality fast.** His slide reports scores on HotpotQA, a public benchmark of questions whose answers combine several documents, from a year before the lecture: adding retrieval and then a second retrieval hop, each with an optimized program, moved GPT-3.5 from 34.3 to 54.7 and Llama-2-13B-Chat from 27.5 to 50.0 (slide 30). He adds that newer models score substantially higher ([28:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=1680)). A small model with an optimized program beat a larger one without.
 
 | Program on his slide | GPT-3.5 | Llama-2-13B-Chat |
@@ -117,9 +133,9 @@ His summary: write about ten lines of declarative code, state an objective, pick
 
 Build and optimize a two-step program on a task with known answers.
 
-1. Install DSPy and configure a hosted model.
+1. Install DSPy with `pip install dspy` and configure a hosted model, following the current documentation.
 2. Collect 50 input and answer pairs. Hold out 20.
-3. Write a two-module program and a metric.
+3. Write a two-module program and a metric. A plain keyword search over your documents can serve as the search step.
 4. Run the unoptimized program on the held-out 20 and record the score.
 5. Run a bootstrap few-shot optimizer on the other 30, then score again on the same 20.
 
@@ -150,7 +166,7 @@ Build and optimize a two-step program on a task with known answers.
 
 1. A modular program in which language models carry out specialized steps. It replaces a single monolithic model call that does the whole task.
 2. The signature (input-to-output behavior), the predictor or module (the strategy), the adapter (formatting and parsing), the metric, and the optimizer (instructions or weights).
-3. It declares which fields go in and which field comes out. It leaves open the instructions, the examples, and the strategy for producing the output.
+3. It declares which fields go in and which field comes out. It leaves open the instructions and the examples; the strategy comes from the module and the wording from the optimizer.
 4. It runs the unoptimized program on training inputs, records every module's input and output, and keeps the traces whose final output passes the metric.
 5. So the optimizer can maximize the goal while the program's modules, connections and wording all change. A metric inside the program would change with it.
 6. Tasks with many isolated conditional rules, where a handful of examples cannot show every case and the rule itself must be stated.

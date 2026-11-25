@@ -81,6 +81,18 @@ Hybrid designs take from both columns. A small model runs on the device and a la
 
 The cascade exists to save cost. Most inputs never reach the expensive model.
 
+**Figure 1.** A cascade: the small model decides whether the expensive model runs at all.
+
+```mermaid
+flowchart LR
+    I["Input"] --> S["Small cheap model sees every input"]
+    S -->|"confident"| A["Answer from the small model"]
+    S -->|"uncertain"| E["Expensive model"]
+    E --> B["Answer from the expensive model"]
+```
+
+The expensive model runs only on the inputs the small model is unsure about, so its cost is paid on a fraction of the traffic.
+
 ## How it works, step by step
 
 Kästner's smart-glasses analysis, retold below, follows this path.

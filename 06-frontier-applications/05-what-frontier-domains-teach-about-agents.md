@@ -10,7 +10,7 @@ You have built and evaluated an agent. You have also seen four research domains 
 
 ## The core idea
 
-In every domain, progress followed one sequence. First an environment with cheap resets. Then a verifier that answers yes or no without a person. Then search, meaning extra attempts spent against that verifier. Then tools for the work that language cannot do exactly. Finally evaluation by outcome rather than by path.
+Read together, the four domains suggest one sequence. First an environment with cheap resets. Then a **verifier**, a check that says whether a result is correct, that runs without a person. Then search, meaning extra attempts spent against that verifier. Then tools for the work that language cannot do exactly. Finally evaluation by outcome rather than by path.
 
 The analogy: progress is proportional to how fast and how honestly the environment says no. It breaks in one place. A fast, honest verifier is not enough; the problems must also come at a graded difficulty, and Thomas Hubert names that curriculum as the ingredient still missing for mathematics ([32:00](https://www.youtube.com/watch?v=3gaEMscOMAU&t=1920)).
 
@@ -20,8 +20,8 @@ The analogy: progress is proportional to how fast and how honestly the environme
 |---|---|---|---|---|---|
 | Web and computer use | Self-hosted site clones; a virtual machine | End-state scripts | Repeated sampling; tree search with a model as judge | Screenshot, accessibility tree, mouse and keyboard | About 20 percent accuracy for the best models, as of March 2025 |
 | Robotics | Simulator, then the robot | A reward function | RL at scale in randomized physics | Model-written rewards; generated demonstrations | First and second against four human drivers |
-| Science | Papers, databases, code | Experiments and human reviewers | Agent meetings; evolutionary search over equations | AlphaFold, MCP servers | 56 percent of papers had an unverifiable reference |
-| Formal mathematics | Lean and its library | The proof assistant | RL, then RL on one problem; retrieval; sketches | Automated provers, SMT solvers | Three of six olympiad problems in 2024 |
+| Science | Papers, databases, code | Experiments and human reviewers | Agent meetings; evolutionary search, breeding variations on the best equations | AlphaFold, MCP servers | 56 percent of papers had an unverifiable reference |
+| Formal mathematics | Lean and its library | The proof assistant | RL, then RL on one problem; retrieval; sketches | Automated provers, SMT solvers | Three of six olympiad problems in 2024, four with AlphaGeometry |
 
 Sources for each row: web ([Salakhutdinov 6:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=360), [24:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=1440), [Xiong 24:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=1440)); robotics ([Stone 58:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=3480), [Fan 46:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=2760)); science ([Zou 54:00](https://www.youtube.com/watch?v=yqPIsTTdUkc&t=3240)); mathematics ([Hubert 56:00](https://www.youtube.com/watch?v=3gaEMscOMAU&t=3360)).
 

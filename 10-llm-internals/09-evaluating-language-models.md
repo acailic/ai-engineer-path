@@ -110,14 +110,14 @@ print(overlap("Name France's capital city.", training))  # 0.0
 What to observe:
 
 - The copied question is caught: every one of its 8-word sequences appears in the training text.
-- A short paraphrase with fewer than eight words in common scores zero, so the check finds copying, not paraphrasing.
+- A short paraphrase with no run of eight words in common scores zero, so the check finds copying, not paraphrasing.
 - Lowering `n` catches more and raises false alarms. That trade-off is yours to tune.
 
 ## What the practitioners say
 
 The lecturer's framing is that evaluation shapes the field, because it sets the goals everyone then optimizes: "Evaluation sets North Stars" ([0:00](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=0)).
 
-On perplexity, a slide in the lecture sums up the faith in it as more faith than science, and the lecturer presents the argument as a strong driver of scaling work rather than as settled ([10:00](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=600)). The argument is that the best achievable perplexity belongs to the true distribution of text, and a model that reached it could solve any task. The lecturer credits that belief with sustaining scaling work before the payoff was obvious, before GPT-3, while also noting that perplexity scores more than you need.
+On perplexity, the lecturer calls the argument for it possibly fantastical, and presents it as a strong driver of scaling work rather than as settled ([10:00](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=600)). The argument is that the best achievable perplexity belongs to the true distribution of text, and a model that reached it could solve any task. The lecturer credits that belief with sustaining scaling work before the payoff was obvious, before GPT-3, while also noting that perplexity scores more than you need.
 
 On exams, the stated problem is that they do not capture real usage ([30:00](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=1800)). On human and model judges, the lesson is that pairwise comparisons between similar answers carry more signal than absolute scores, and that a checklist improves reliability for either kind of judge ([44:00](https://www.youtube.com/watch?v=JpAxdTWQJxM&t=2640)).
 
@@ -144,7 +144,7 @@ You are done when:
 - The report states the decision the evaluation supports, in one sentence.
 - It includes 20 prompts of your own that resemble the use case, with expected properties for each answer.
 - It reports scores for both models with a short note on what a judge could get wrong.
-- It shows the result of the shingle overlap check between your prompts and one public document collection, or states why that check does not apply.
+- It shows the result of the shingle overlap check between your prompts and one public document collection, calling `overlap` once per document and keeping the largest value, or states why that check does not apply.
 - The recommendation names what was traded away: difficulty, realism or validity.
 
 **Stretch:** add a second judge or a human rating for 5 prompts and report where the two disagree.

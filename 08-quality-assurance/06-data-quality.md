@@ -44,7 +44,7 @@ Later problems cost more. Data-quality problems barely show in offline accuracy 
 
 ### 2. Write the schema
 
-Turn what you learned into hard rules. Fail loudly on violations. Kästner names **Great Expectations** as a popular library for schema-style checks on data frames, and formats such as Protocol Buffers, Apache Avro and Apache Parquet, which combine schema enforcement with explicit schema versions, so that a change between a producer and a consumer is detected automatically (chapter 16). Where nobody wants to write a schema, tools can infer one from sample data, which is easier to refine than to start from scratch.
+Turn what you learned into hard rules. Fail loudly on violations. Kästner names **Great Expectations** as a popular library for schema-style checks on data frames, meaning tables of rows and columns, and formats such as Protocol Buffers, Apache Avro and Apache Parquet, which combine schema enforcement with explicit schema versions, so that a change between a producer and a consumer is detected automatically (chapter 16). Where nobody wants to write a schema, tools can infer one from sample data, which is easier to refine than to start from scratch.
 
 ### 3. Add plausibility checks
 
@@ -58,7 +58,7 @@ Kästner describes these as **data linting**: heuristics for suspicious encoding
 
 A linter earns its keep where no schema exists, or where the schema is wrong or too weak for the use. Not every warning is a real problem, and at the time of writing he knew of lists of common problems and academic prototypes but no broadly adopted data-linting tool (chapter 16).
 
-**Anomaly detection** goes one step further and learns the usual distribution. The book's example is a shipment of 80,000 kg of bananas in a system where weekly sales rarely exceed 2,000 kg (chapter 16). Flagged rows go to a human, or get dropped from training. Tune the checks so that they do not drown reviewers in false alarms.
+**Anomaly detection** goes one step further and learns the usual distribution, meaning how often each kind of value occurs. The book's example is a shipment of 80,000 kg of bananas in a system where weekly sales rarely exceed 2,000 kg (chapter 16). Flagged rows go to a human, or get dropped from training. Tune the checks so that they do not drown reviewers in false alarms.
 
 ### 4. Encode your assumptions about change
 
@@ -69,12 +69,29 @@ Kästner distinguishes three forms, because they have different causes and diffe
 | Kind of drift | What changes | Example in the book | How you notice |
 |---|---|---|---|
 | Data drift, also called covariate shift | The distribution of the inputs | The self-checkout camera meets an heirloom cucumber unlike any in training | Compare current inputs with the training data or with past inputs |
-| Concept drift | The right answer for the same input | A fad diet makes cucumbers sell in winter, so the month no longer predicts demand | Inputs look normal while accuracy falls, so this needs labels or telemetry |
+| Concept drift | The right answer for the same input | A fad diet makes cucumbers sell in winter, so the month no longer predicts demand | Inputs look normal while accuracy falls, so this needs labels or telemetry, meaning recorded data from production |
 | Schema drift | The format, or what a value means | A terminal records kilograms instead of pounds after an update | A sudden rise in ill-formed inputs, or an abrupt change in a distribution |
 
 For tickets: a new product brings new vocabulary (data drift), refunds move to a new queue (concept drift), and the warehouse renames `lang` to `locale` (schema drift). The repairs differ. Data drift calls for fresh training data, and the old data usually stays valid. Concept drift calls for relabeled or newly labeled data. Schema drift is a technical fault between components and is fixed like any other bug.
 
-A guard for each is a test run on every new batch against a reference window. Kästner lists what to watch: the distance between today's inputs and the reference distribution, the number of outliers and low-confidence predictions, the count of ill-formed inputs and automatic repairs, and the number of wrong predictions where it can be observed. He names Evidently as one open-source tool and warns that the hard part is the threshold at which a change deserves a human's attention (chapter 16).
+A guard for each is a test run on every new batch against a reference window, an earlier period whose data you trust. Kästner lists what to watch: the distance between today's inputs and the reference distribution, the number of outliers, meaning values far outside the usual range, and of low-confidence predictions, the count of ill-formed inputs and automatic repairs, and the number of wrong predictions where it can be observed. He names Evidently as one open-source tool and warns that the hard part is the threshold at which a change deserves a human's attention (chapter 16).
+
+**Figure 1.** A batch passes three kinds of guard: the schema rejects, the plausibility check flags for a person, and the drift guard compares with a reference window.
+
+```mermaid
+flowchart TD
+    B["New batch of data"] --> S["Schema check: strict"]
+    S -->|"violates"| X["Reject the batch: data is unusable"]
+    S -->|"conforms"| P["Plausibility check: heuristic"]
+    P -->|"suspicious"| H["A person decides: keep, fix, or drop"]
+    P -->|"looks fine"| D["Drift guard against a reference window"]
+    H --> D
+    D -->|"changed"| A["Alert: data drift, concept drift, or schema drift"]
+    D -->|"stable"| T["Train or predict"]
+    A --> T
+```
+
+Only the schema check can reject a batch on its own; the other two guards raise a flag and leave the judgment to a person.
 
 ### 5. Fix the data at its source
 

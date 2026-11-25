@@ -51,7 +51,20 @@ Convolutional networks are uneven. Early layers work per pixel on large maps. La
 
 **Patch-based inference** runs the early layers one patch of the image at a time. Han's picture is eating a pizza: if it is too large, cut it into pieces ([32:00](https://www.youtube.com/watch?v=uR1KKhIhHEk&t=1920)). Peak memory then scales with the patch, not the image. The ceiling on the saving is the number of patches, and it is not reachable, because the later layers still need their whole activation map. In his measurement, four patches gave about 3 times instead of the theoretical 4 times, and nine patches about 4.9 times instead of 9, bringing the peak well under 256 KB ([34:00](https://www.youtube.com/watch?v=uR1KKhIhHEk&t=2040)). The price is the **halo**: to compute a patch correctly, the engine must also read a border of pixels around it, and neighboring patches read the same border twice. Han's example: a 3 × 3 overlap of nine pixels, about 10% extra computation for MobileNetV2 ([38:00](https://www.youtube.com/watch?v=uR1KKhIhHEk&t=2280)). His MCUNetV2 applies per-patch inference only to the first layers, where the activation is large, and keeps ordinary per-layer inference afterwards (same block).
 
-Worked numbers. Output patches of 24 × 24 pixels from a 3 × 3 convolution need an input of 24 + 3 − 1 = 26 pixels per side. That is 26 × 26 = 676 input pixels for 24 × 24 = 576 output pixels: 36% more input to read and compute.
+Worked numbers. Output patches of 24 × 24 pixels from a 3 × 3 convolution need an input of 24 + 3 − 1 = 26 pixels per side. That is 26 × 26 = 676 input pixels for 24 × 24 = 576 output pixels: 17% more input to read and compute.
+
+**Figure 1.** Patch-based inference: early layers run one patch at a time, later layers run on the whole, small map.
+
+```mermaid
+flowchart LR
+    I["Input image"] --> P["Split into patches"]
+    P -->|"patch plus a border of halo pixels"| E["Early layers, one patch at a time"]
+    E --> J["Small maps, joined into one"]
+    J --> L["Later layers, whole map at once"]
+    L --> O["Prediction"]
+```
+
+Only the large early maps are handled patch by patch, so the peak is set by one patch instead of the whole image.
 
 The architecture the search found makes sense once you know this (Han, [44:00](https://www.youtube.com/watch?v=uR1KKhIhHEk&t=2640)): small kernels in the per-patch stage, to shrink the halo; a small expansion ratio in the middle, to cut peak memory; larger expansion later. His slides report visual wake words running under 32 KB of memory, and a double-digit accuracy gain in detection from MCUNet to MCUNetV2.
 
@@ -119,9 +132,9 @@ What to observe:
 ## What the practitioners say
 
 - Han's motivation for TinyML is reach: billions of microcontroller-based devices that cost a few dollars and draw little power, which keeps data local instead of sending it to the cloud. He lists smart homes, defect detection in manufacturing, personalized healthcare and precision agriculture (Lecture 10, [2:00](https://www.youtube.com/watch?v=uR1KKhIhHEk&t=120)).
-- The applications on his slides go beyond images: visual wake words, tiny object detection with a larger input resolution, keyword spotting on audio, and anomaly detection. For the last one an **autoencoder**, a network trained to reconstruct its input, flags samples it reconstructs badly: error is low on normal data and high on anomalies ([60:00](https://www.youtube.com/watch?v=uR1KKhIhHEk&t=3600)). The demo hardware is an Arduino Nano 33 BLE Sense watching a fan.
+- The applications on his slides go beyond images: visual wake words, tiny object detection with a larger input resolution, keyword spotting on audio, and anomaly detection. For the last one an **autoencoder**, a network trained to reconstruct its input, flags samples it reconstructs badly: error is low on normal data and high on anomalies ([60:00](https://www.youtube.com/watch?v=uR1KKhIhHEk&t=3600)). The demo hardware is a board with 256 KB of SRAM and 1 MB of flash, watching a fan.
 - On the engine side, his matrix multiplication example with four threads ran 4.1 times faster, and he prefers OpenMP's one-line directive over manual threads for readability (Lecture 11, [38:00](https://www.youtube.com/watch?v=wl1UEnIOVek&t=2280)). Those matter on laptops, not on a single-core microcontroller.
-- The same toolkit scales up: in the course's last two labs, students quantize a language model to 4 bits with AWQ and deploy it with an engine that runs a local chatbot on their own computer, reusing the loop optimizations, SIMD and multithreading from this lecture ([70:00](https://www.youtube.com/watch?v=wl1UEnIOVek&t=4200)).
+- The same toolkit scales up: in the course's last two labs, students quantize a language model to 4 bits with AWQ, an activation-aware weight-only method, and deploy it with an engine that runs a local chatbot on their own computer, reusing the loop optimizations, SIMD and multithreading from this lecture ([70:00](https://www.youtube.com/watch?v=wl1UEnIOVek&t=4200)).
 
 ## Pitfalls
 
