@@ -35,7 +35,7 @@ The first is about **explainability**, the second about **fairness**, the third 
 | What would change it? | **Counterfactual** | Find a small change to the input that flips the result |
 | What is odd in the training data? | Prototypes and criticisms | Typical examples, and outliers poorly covered by them |
 
-Most of these work without access to the model's internals (chapter 25), which is why outside auditors use surrogates on models available only through an API. Two details from the book help in practice. **LIME** learns a small linear model of the decision boundary near one input. Its influence values are known to be unstable, and **SHAP**, built on Shapley values, has largely replaced it as the more stable choice. Every prediction has many counterfactuals, so a tool must choose among them, usually the smallest change or the change to the fewest features (chapter 25).
+Most of these work without access to the model's internals (chapter 25), which is why outside auditors use surrogates on models available only through an API. Two details from the book help in practice. **LIME** learns a small linear model of the decision boundary, the border between the model's answers, near one input. Its influence values are known to be unstable, and **SHAP**, built on Shapley values, a rule for splitting a prediction fairly among the inputs, has largely replaced it as the more stable choice. Every prediction has many counterfactuals, so a tool must choose among them, usually the smallest change or the change to the fewest features (chapter 25).
 
 Kästner's running example is a commercial tool that scores a defendant's risk of re-offending. Journalists at ProPublica found that Black defendants were almost twice as likely as white defendants to be labeled high risk without then re-offending. The model's internals were not open to inspection. Researchers have trained a simple points-based scorecard on the same data, with similar accuracy, that a judge can read in full and audit (chapter 25).
 
@@ -108,7 +108,7 @@ Finally, he frames the **alignment problem**, an automated system achieving its 
 
 1. Write three hazards for one feature, each with a mitigation that is plain code.
 2. Compute one fairness criterion on two slices of your evaluation set, and write one sentence on why you chose that criterion.
-3. Take one wrong prediction and produce a counterfactual explanation for it.
+3. Take one wrong prediction and produce a counterfactual explanation for it. By hand is fine: change one input value at a time until the prediction flips, and keep the smallest change that did it.
 
 You are done when each hazard names the independent conditions that must hold before harm occurs, when both slices are reported with their sizes, and when the counterfactual names a specific change that flips the prediction. **Stretch goal:** run the anti-classification invariant on every evaluation input and report the violation count.
 

@@ -71,7 +71,7 @@ The same choice applies to actions: high level (fill the field with this ID, cli
 
 **Computer use** extends the idea from the browser to the whole desktop: the model receives a screenshot and returns mouse and keyboard actions. Anthropic announced such a tool in October 2024 and OpenAI a browser-using agent in January 2025. The idea in both is the same loop: observe, act, observe.
 
-Safety is not an extra here. A browser session logged in as a user *is* that user. Give the agent its own account with the fewest rights, allow-list the domains it may visit, require confirmation before anything irreversible, and record screenshots and actions. The main threat is injection arriving inside page content; it is covered in [jailbreaks and prompt injection](../04-safety-and-security/02-jailbreaks-and-prompt-injection.md).
+A browser session logged in as a user *is* that user. Give the agent its own account with the fewest rights, allow-list the domains it may visit, require confirmation before anything irreversible, and record screenshots and actions. The main threat is injection arriving inside page content; it is covered in [jailbreaks and prompt injection](../04-safety-and-security/02-jailbreaks-and-prompt-injection.md).
 
 ### Part 3: Protocols
 
@@ -201,7 +201,7 @@ Vinyals, in a different lecture, notes that AlphaStar's in-game actions were API
 
 Two deliverables.
 
-1. **A sandbox.** Put a Python executor in a container with no network and a read-only file system, except for one working directory. From inside, try to read an environment variable, reach a website, write a file in the working directory, and write a file elsewhere. Then run a script that writes `a.txt` under `/work` and under `/tmp`.
+1. **A sandbox.** Put a Python executor in a container with no network and a read-only file system, except for one working directory. From inside, try to read an environment variable, reach a website, write a file in the working directory, and write a file elsewhere. Create an empty `work` folder first. Then run a script that writes `a.txt` under `/work` and under `/tmp`.
 
    ```bash
    docker run --rm --network none --read-only -v "$PWD/work:/work" python:3.12-slim \

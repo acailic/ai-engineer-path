@@ -7,7 +7,7 @@
 
 ## Why this matters
 
-The agent passed the offline evaluation and shipped. Two weeks later the escalation rate climbs. Offline you tested 60 tasks that you wrote yourself. Production sends thousands that you did not write, and their mix changes every week.
+The agent passed the offline evaluation and shipped. Two weeks later the escalation rate, the share of calls handed to a person, climbs. Offline you tested 60 tasks that you wrote yourself. Production sends thousands that you did not write, and their mix changes every week.
 
 The question: how does evaluation continue after release?
 
@@ -20,6 +20,21 @@ Three activities feed each other:
 3. **Return.** Turn production failures into tasks, run them as a regression check on every change, and ship the next version.
 
 The loop is often called a **data flywheel**: each release produces evidence that makes the next evaluation more like the real world.
+
+**Figure 1.** The data flywheel: production failures come back as dataset tasks and as a gated change.
+
+```mermaid
+flowchart TD
+    R["Release a version to users"] --> O["Observe: a trace for every attempt"]
+    O --> M["Measure: online metrics split by intent"]
+    M --> F["Find failures: escalations, repeats, rule hits"]
+    F --> L["A person labels each failure"]
+    L --> D["New tasks in the dataset"]
+    D --> G["Fix the largest class, gate the change on a regression run"]
+    G --> R
+```
+
+Each turn of the wheel adds real tasks to the dataset, so the next version is judged on failures that users actually met.
 
 Clay Bavor of Sierra describes what changed. Before agents, he says, most calls to a call center were never transcribed, so nobody could analyze them or run a controlled experiment on them. With agents every conversation is digital, and the methods of twenty years of website testing apply to conversations ([14:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=840)).
 
@@ -46,18 +61,18 @@ Requests contain personal data. Bavor's list of what sits below the surface of a
 
 | Metric | What it catches | What to watch for |
 |---|---|---|
-| Outcome from the system of record (refund issued, ticket reopened) | Real results | Exists only for actions that change state |
+| Outcome from the system of record, the database that holds the real state of the business (refund issued, ticket reopened) | Real results | Exists only for actions that change state |
 | Escalation or handoff to a person | Tasks the agent could not finish | Depends on your handoff policy |
 | Repeat contact: the same customer returns about the same issue | Wrong answers that looked fine | Depends on recognizing the customer |
 | Explicit feedback: ratings | Strong dissatisfaction and strong delight | Sparse, and skewed to strong feelings |
-| Guardrail triggers | Attempts that broke a rule | Counts rule hits, not real harm |
+| [Guardrail triggers](../GLOSSARY.md) | Attempts that broke a rule | Counts rule hits, not real harm |
 | Latency and cost per resolved attempt | Slow or expensive answers | Meaningless without quality |
 
 Always split these by intent, the kind of request. An average over all requests hides the one intent that broke. Part 8 covers the technique: [slicing](../08-quality-assurance/03-slicing.md).
 
-**Use metrics that fit your job, not the ones that exist.** Bavor's example is speech recognition in a voice agent. Word error rate, the share of words transcribed wrongly, "is terrible" as a measure of transcription quality, because it rewards transcribing the television in the background. His teams had to write their own metric, one that looks at the primary speaker only. His advice: "don't assume that whatever metrics are out there to measure a component of what you're doing is necessarily the right set of yardsticks" ([24:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1440)). Decide what a great experience is, then measure that.
+**Use metrics that fit your job, not the ones that exist.** Bavor's example is speech recognition in a voice agent. Word error rate, the share of words transcribed wrongly, is in his words "not at all the right metric" ([22:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1320)) for transcription quality, because it rewards transcribing the television in the background. His teams had to write their own metric, one that looks at the primary speaker only. His advice: "don't assume that whatever metrics are out there to measure a component of what you're doing is necessarily the right set of yardsticks" ([24:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1440)). Decide what a great experience is, then measure that.
 
-**Even a simple metric hides a definition.** Latency looks easy to measure. For a voice agent, Bavor says, what matters is the time from the moment the person stops talking to the moment the agent starts to answer, not from the end of the audio the agent was analyzing. Detecting that the person really stopped is so hard that Sierra starts several reasoning attempts and keeps the one that fits ([20:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1200)). The time a model takes to answer also varies a lot: in his figures, the 90th percentile can be 500 milliseconds on one occasion and 2,500 on another. So Sierra sends the same request to the provider several times and uses the first answer that returns. For an evaluation this means two things. Define the start and the end of a latency measurement in the user's terms. And report a tail, such as the 90th percentile, not only the mean.
+**Even a simple metric hides a definition.** Latency looks easy to measure. For a voice agent, Bavor says, what matters is the time from the moment the person stops talking to the moment the agent starts to answer, not from the end of the audio the agent was analyzing. Detecting that the person really stopped is so hard that Sierra starts several reasoning attempts and keeps the one that fits ([20:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1200)). The time a model takes to answer also varies a lot: in his figures, the 90th percentile can be 500 milliseconds for one model and 2,500 for another. So Sierra sends the same request to the provider several times and uses the first answer that returns. For an evaluation this means two things. Define the start and the end of a latency measurement in the user's terms. And report a tail, such as the 90th percentile, the value that 9 of 10 attempts stay below, not only the mean.
 
 ### 3. Use user feedback with care
 
@@ -157,7 +172,7 @@ What to observe:
 
 **Agents need a different development cycle.** An agent is not deterministic: for a given input you cannot know the output in advance. So the lifecycle becomes build, test and optimize, continuously ([12:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=720)).
 
-**Simulate before and after launch.** Sierra's simulations, described in the [previous chapter on environments](04-evaluating-agents-trajectories-and-environments.md), are a hardened form of the τ-bench setup: synthetic databases and tools, and mock user personas that include an emotional state ([36:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=2160)). Sierra's Voice Sims blog post says the simulations are generated as new conversation flows are added and run inside the delivery pipeline, gating releases. Simulation started at Sierra as a way to test more cheaply: one agent plays the user, so that people do not have to ([28:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1680)).
+**Simulate before and after launch.** Sierra's simulations, described in the [previous chapter on environments](04-evaluating-agents-trajectories-and-environments.md), are a hardened form of the τ-bench setup: synthetic databases and tools, and mock user personas that include an emotional state ([36:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=2160)). Sierra's Voice Sims blog post says the simulations are generated as new conversation flows are added and run inside the delivery pipeline, gating releases. Simulation started at Sierra as a more efficient way to test: one agent plays the user ([28:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1680)).
 
 **Use AI to check AI, then add deterministic rules.** Bavor's belief is that "the solution to most problems with AI is more AI" ([40:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=2400)). Around the main agent sit smaller **supervisor agents**: one checks that it stays on task and answers only from the knowledge base, others watch particular tasks ([40:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=2400)). A tool called Insights lets a customer ask open questions of its transcripts, such as what drives low customer satisfaction or why calls escalate ([40:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=2400)). For attacks, he layers deterministic input checks, supervising models, internal rules, and output checks that end a session when the agent starts revealing its prompt ([44:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=2640)). Systems of record are reached only through ordinary deterministic software with access controls. On the attack side, Sierra employs outside red-team companies and an internal group. One attack he mentions asked for the system instructions in Icelandic, written backwards ([42:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=2520)).
 
@@ -182,7 +197,7 @@ What to observe:
 2. Define three online metrics for it. Write down which trace field each one uses.
 3. Add the gate script, and make it run on every change to the prompt.
 
-**You are done when** one command over your trace file lists the last ten attempts that escalated, and a deliberately broken change makes the gate exit with code 1.
+**You are done when** one command over your trace file lists the last ten attempts that escalated, for example `jq -c 'select(.outcome.escalated)' traces.jsonl | tail -n 10`, and a deliberately broken change makes the gate exit with code 1.
 
 **Stretch goal:** each night, score a random 5% of production attempts with your offline graders, and compare the result with your offline dataset.
 
@@ -198,44 +213,44 @@ What to observe:
 ## Self-check
 
 1. What must a trace contain so that a failure can be reproduced and diagnosed?
-   A. Only the final answer
-   B. The request, each tool call and result, and the model and prompt versions
-   C. The customer's name and address
-   D. The model's training data
+   A. Only the final answer and the time it took
+   B. The customer's name, address and order history
+   C. The request, each tool call and result, and the model and prompt versions
+   D. The model's training data and its tokenizer settings
 2. Why does Bavor reject word error rate as a measure for a voice agent's transcription?
-   A. It is too cheap to compute
-   B. It rewards transcribing background sound that the agent should ignore
-   C. It needs human labels
-   D. It is too slow
+   A. It rewards transcribing background sound that the agent should ignore
+   B. It is too cheap to compute to be trusted
+   C. It needs human labels for every single call
+   D. It is too slow to run on long calls
 3. What does the data flywheel add to the evaluation dataset?
-   A. Synthetic tasks from a generator
-   B. Failures seen in production, confirmed by a person, with an expected outcome
-   C. Benchmark scores from other companies
-   D. More model versions
+   A. Synthetic tasks written by a generator with no human check
+   B. Benchmark scores that other companies published for their agents
+   C. More model versions evaluated on the same old tasks
+   D. Failures seen in production, confirmed by a person, with an expected outcome
 4. A change raises exact match and doubles the cost. What should the gate do?
-   A. Pass, because quality rose
+   A. Pass without a word, because quality rose on every task
    B. Report the cost regression so that a person decides
-   C. Block the change with no way to override it
-   D. Change the price
+   C. Block the change and allow no override by anyone
+   D. Change the token price until the cost looks smaller
 5. What is the role of a subset of users in testing in production?
-   A. To speed up the rollout
-   B. To measure a change's effect while limiting the damage it can do
-   C. To collect more ratings
-   D. To train the model
+   A. To speed up the rollout to every user
+   B. To collect more ratings from willing customers
+   C. To measure the effect of a change while limiting the damage it can do
+   D. To collect more training data for the next model
 6. Why keep a fresh sample of production tasks every month?
-   A. To grow the regression set faster
-   B. To check that scores on the regression set still predict performance on unseen tasks
-   C. To lower the cost of evaluation
-   D. To calibrate a judge
+   A. To check that scores on the regression set still predict performance on unseen tasks
+   B. To grow the regression set faster than your competitors do
+   C. To lower the cost of each evaluation run
+   D. To calibrate a judge against human labels
 
 <details><summary>Show answers</summary>
 
-1. B. Without the route and the versions, a failure cannot be reproduced.
-2. B. The metric measures every word in the audio. The agent should transcribe only the caller.
-3. B. A production failure becomes a task with a label and a tag.
+1. C. Without the route and the versions, a failure cannot be reproduced.
+2. A. The metric measures every word in the audio. The agent should transcribe only the caller.
+3. D. A production failure becomes a task with a label and a tag.
 4. B. `regressions` lists `cost`. The exit code tells the pipeline, and a person makes the trade.
-5. B. It is a controlled experiment with a rollback path.
-6. B. Tuning against the regression set inflates its scores. The fresh sample is the check.
+5. C. It is a controlled experiment with a rollback path.
+6. A. Tuning against the regression set inflates its scores. The fresh sample is the check.
 
 </details>
 

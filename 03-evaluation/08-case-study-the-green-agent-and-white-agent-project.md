@@ -13,7 +13,7 @@ The project is a compact specification of what an evaluator must do. This chapte
 
 ## The project in one paragraph
 
-The course is CS 294/194-196, *Agentic AI*, Fall 2025, taught by Dawn Song. In the lecture of October 6, 2025, the course staff introduced Phase 1 of the project: building a **green agent**. Their analogy: "Like math exams are designed by math teachers and physics exams by physics teachers" ([64:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3840)). Each subject has its own examiners. Each evaluation should have its own hosting agent.
+The course is CS 294/194-196, *Agentic AI*, Fall 2025, taught by Dawn Song. In the lecture of October 6, 2025, the course staff introduced Phase 1 of the project: building a **green agent**. Their analogy: math exams are written by math teachers, and physics exams by physics teachers ([64:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3840)). Each subject has its own examiners. Each evaluation should have its own hosting agent.
 
 | Term | Meaning in the course |
 |---|---|
@@ -23,7 +23,7 @@ The course is CS 294/194-196, *Agentic AI*, Fall 2025, taught by Dawn Song. In t
 | **A2A** | The Agent2Agent protocol, an open convention for agents to exchange tasks and messages over the network. |
 | **MCP** | The Model Context Protocol, an open convention through which a server exposes tools to a model. |
 
-The colors have a history, which the lecture gives. In early work on safety benchmarks the team used red-team and blue-team setups. To name the judges and the other participants it introduced more colors, green and gray. Green agent stayed as the name of the host, and all the others were folded into white agents (slide 66).
+The colors have a history, which the lecture gives. In early work on safety benchmarks the team used red-team and blue-team setups, attackers against defenders. To name the judges and the other participants it introduced more colors, green and gray. Green agent stayed as the name of the host, and all the others were folded into white agents (slide 66).
 
 **One point of precision.** In this lecture the white agent is the agent under test. It is not an attacker, and it is not a monitor. The only link to adversarial testing is the naming history.
 
@@ -37,7 +37,7 @@ The lecture lists five responsibilities ([66:00](https://www.youtube.com/watch?v
 4. Verify the environment.
 5. Report back to the platform.
 
-The lecturer's image is the technician at a repair shop, who runs the whole inspection. The green agent also designs and implements the metrics. It talks to the platform through MCP, A2A or plain APIs, can request permissions and resources, and submits results at the end ([68:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=4080)).
+The lecturer's image is the technician at a repair shop, who runs the whole evaluation. The green agent also designs and implements the metrics. It talks to the platform through MCP, A2A or plain APIs, can request permissions and resources, and submits results at the end ([68:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=4080)).
 
 An assessment runs in four steps ([68:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=4080)):
 
@@ -45,6 +45,23 @@ An assessment runs in four steps ([68:00](https://www.youtube.com/watch?v=VfOA2a
 2. It hands the green agent a task together with the addresses of the white agents to be assessed.
 3. The green agent runs the session: it hands out the tasks, watches what happens, supplies tools and environments, and keeps the platform informed.
 4. The green agent sends back the scores, computed the way its own implementation defines them.
+
+**Figure 1.** One assessment: the platform starts it, the green agent runs it, and only the white agent is being tested.
+
+```mermaid
+sequenceDiagram
+    participant P as Platform
+    participant G as Green agent
+    participant W as White agent
+    P->>G: Confirm that every agent is online and reset
+    P->>G: Task and the addresses of the white agents
+    G->>W: Test task
+    W-->>G: Result
+    G->>P: Progress updates
+    G-->>P: Scores
+```
+
+The green agent is the only one that talks to everyone: it receives from the platform, hands tasks to the white agents, and reports back.
 
 A green agent is built from three parts ([72:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=4320)):
 
@@ -147,7 +164,7 @@ This chapter's reading of all that: the hard part is not the tasks. It is that t
 **Deliverable:** a miniature green agent, with three fake white agents.
 
 1. Use the [harness](02-a-minimal-eval-harness.md) as your green agent, with ten tasks of your own.
-2. Write three scripted white agents: one that succeeds, one that reaches the right outcome by a forbidden route, and one that fails.
+2. Write three scripted white agents, each a class with a `complete(prompt, seed)` method like `StubModel`: one that succeeds, one that reaches the right outcome by a forbidden route, and one that fails.
 3. Write the verdict you expect for each, then run them.
 
 **You are done when** your evaluator returns the expected verdict for all three, including the forbidden-route case, and you have written one paragraph on a fourth white agent that you expect to fool it.
@@ -165,38 +182,38 @@ This chapter's reading of all that: the hard part is not the tasks. It is that t
 ## Self-check
 
 1. In the course project, what is the green agent?
-   A. The agent being tested
-   B. The hosting agent that defines tasks and reports the metrics
-   C. The sponsor of the competition
-   D. The user simulator
+   A. The agent that is being tested on the benchmark
+   B. The company that sponsors the AgentBeats competition
+   C. The hosting agent that defines tasks and reports the metrics
+   D. The model that plays the customer in a simulation
 2. What does the platform send to the green agent to start an assessment?
    A. A task and the URLs of the participant agents
-   B. The model weights
-   C. The grading rubric
-   D. A dataset of users
+   B. The model weights of every participant agent
+   C. The grading rubric of the course project
+   D. A dataset of simulated users for every task
 3. Which criterion is specific to teams that integrate an existing benchmark?
-   A. Goal and novelty
-   B. Faithfulness: reproducing the original results apart from fixed flaws
-   C. Realism
-   D. Scope and scale
+   A. Goal and novelty: opening a new capability space
+   B. Realism: tasks drawn from a real-world workload
+   C. Scope and scale: enough tasks for reliable results
+   D. Faithfulness: reproducing the original results apart from fixed flaws
 4. In the τ-bench example, what makes it hard to move tools behind a standardized agent protocol?
-   A. The tools become slower
+   A. The tools become much slower when called over the network
    B. The original code hands tools straight to the model, and the tool trace is not visible to the green agent
-   C. The benchmark has no tasks
-   D. The user simulator has to be removed
+   C. The benchmark has too few tasks to be worth integrating
+   D. The user simulator has to be removed before the integration
 5. What does the fourth step of the checklist ask for?
-   A. Choose a task
-   B. Design the environment
-   C. Design the metrics
+   A. Choose the task that the green agent will assess
+   B. Design the environment with its tools and feedback
+   C. Design the metrics for the task, early
    D. Design test cases with known verdicts, to test the green agent itself
 6. For students taking two units, how much of the course grade is the final green agent submission?
    A. 5%  B. 10%  C. 30%  D. 60%
 
 <details><summary>Show answers</summary>
 
-1. B. The white agent is the participant.
+1. C. The white agent is the participant.
 2. A. The platform first checks that all agents are online and reset.
-3. B. Goal and novelty belong to the new-benchmark track.
+3. D. Goal and novelty belong to the new-benchmark track.
 4. B. The lecture lists three ways to expose tools across agents and names the lost tool trace as the second challenge.
 5. D. The evaluator needs tests with known outcomes, including edge cases.
 6. C. The project is 60% for two units: 45% for Phase 1 and 15% for Phase 2.

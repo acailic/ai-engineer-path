@@ -45,7 +45,7 @@ He follows Martin Fowler's quadrant, which sorts debt along two dimensions (chap
 6. **Guard against groupthink.** A team can minimize conflict by not exploring alternatives, suppressing dissent, and shutting out outside views. He sees this with hyped technology, such as reaching for a well-known commercial LLM without considering other techniques, and with risks such as safety and fairness that nobody raises before a deadline. The remedies he lists: hire for diversity, involve outside experts, ask every member for an opinion, let high-status members speak last, moderate meetings, and always explore a second solution (chapter 21).
 7. **Decide where specialists sit.** In a **matrix organization** experts belong to departments that lend them to projects, which spreads knowledge across projects and builds deep expertise. In a **project organization** they belong to one team, which gives focus but invites duplicate work. A common hybrid keeps rare experts, in privacy law or security, in a department that every team consults (chapter 21).
 8. **Agree on vocabulary, and review across specialties.** DevOps did this for developers and operators, who used to blame each other for unstable code and slow releases, with shared goals, shared terms, and shared tools. MLOps extends it to data scientists and operators (chapter 21). One term for one thing prevents many false arguments: Kästner avoids the word "performance" because data scientists read it as prediction accuracy and software engineers as speed (chapter 15). Review spreads knowledge: a data scientist learns another's techniques and catches a bad transformation (chapter 17).
-9. **Bring in outside eyes.** Kästner sees value in dedicated testing teams for an independent perspective in later stages, focused on system testing, security audits, penetration testing, and fairness audits (chapter 14).
+9. **Bring in outside eyes.** He notes that some organizations have dedicated testing teams, separate from development, that must sign off on the quality goals, while in today's practice most developers do most quality-assurance work themselves (chapter 14).
 10. **Review without blame.** He recommends retrospectives and avoiding blame as part of building a quality culture (chapter 14). A team that punishes bad news stops hearing it.
 
 ### Manage the debt
@@ -84,7 +84,7 @@ Then repay in this order:
 2. **Handing work over a wall.** Fix: write the interface and review across it.
 3. **Two words for one thing.** Fix: a shared glossary, used in documents and code.
 4. **Treating debt as a personal failing.** Teams then hide it. Fix: a blameless register.
-5. **Refactoring without tests.** Fix: characterize the current behavior first.
+5. **Refactoring without tests.** Fix: write tests that pin down the current behavior first.
 6. **Central experts without authority.** Fix: give them a required sign-off, or embed them in the teams.
 
 ## Try it
