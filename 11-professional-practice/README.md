@@ -34,7 +34,7 @@ The capstones are independent of each other, except that Capstone 2 watches the 
 
 ## What the capstones have in common
 
-Each is a project brief with the same parts: the goal in one paragraph, the chapters to read first, a list of deliverables, three to five milestones with acceptance criteria, the hours and the cost, stretch goals, and the pitfalls specific to that project.
+Each is a project brief with the same parts: the goal in one paragraph, the chapters to read first, a list of deliverables (in four of the five), five milestones with acceptance criteria, the hours and the cost, stretch goals, and the pitfalls specific to that project.
 
 Every acceptance criterion is a box you can tick without a teacher. It asks for an artifact: a test that passes, a number in a report, a page in a folder.
 

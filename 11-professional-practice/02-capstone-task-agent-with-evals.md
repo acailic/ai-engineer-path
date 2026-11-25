@@ -46,7 +46,7 @@ Start from [`examples/minimal_agent.py`](../examples/minimal_agent.py). Keep fou
 - The tool registry. A failing tool returns an `Error:` text to the model instead of raising.
 - Three stop conditions: a final answer, a step limit, and a time or token budget.
 
-Add one class whose `step` makes a single chat API call and maps the provider's tool-call format to the loop's dictionary. The format differs by provider, so check its current documentation. Write the system prompt to state the rules: which tools exist, that a missing contact or a full day means "tell the user and change nothing", and when to stop.
+Add one class whose `step` makes a single chat API call and maps the provider's tool-call format to the loop's dictionary. No chapter shows a real call. Each provider publishes an SDK, its official client library, whose quick start shows three things: how the key reaches the code (an environment variable, such as `PROVIDER_API_KEY`); the request, a list of messages plus the tool schemas in JSON; and the response, whose tool calls hold a name and an argument string in JSON. Write the system prompt to state the rules: which tools exist, that a missing contact or a full day means "tell the user and change nothing", and when to stop.
 
 An agent earns its place here for one reason: the number of steps varies with the task.
 

@@ -32,11 +32,11 @@ Path A tells you when you are right. Path B is closer to everyday work.
 
 | Stage | You build | It teaches | Chapters of part 10 | Compute |
 |---|---|---|---|---|
-| 1. Tokenizer | A byte-level BPE tokenizer | How text becomes integers, and the trade-off in vocabulary size | 01 | CPU |
-| 2. Model and loop | A Transformer, the loss, an optimizer, a training loop | How the pieces fit into one program, and what each costs | 02, 03 | One GPU, for hours |
-| 3. Fast and predictable | A profile, one optimization, a scaling-law fit | Measure before optimizing. Predict before spending | 05, 06, 07 | One to several GPUs |
-| 4. Data | HTML to text, filters, deduplication | How far one data decision moves the loss | 10 | CPU, then a GPU |
-| 5. Alignment | Instruction tuning, then RLVR with a math grader | Generate, score, update | 11 | One GPU |
+| 1. Tokenizer | A byte-level BPE tokenizer | How text becomes integers, and the trade-off in vocabulary size | [01](../10-llm-internals/01-the-language-modeling-pipeline-and-tokenization.md) | CPU |
+| 2. Model and loop | A Transformer, the loss, an optimizer, a training loop | How the pieces fit into one program, and what each costs | [02](../10-llm-internals/02-resource-accounting-flops-memory-and-arithmetic-intensity.md), [03](../10-llm-internals/03-transformer-architectures-and-hyperparameters.md) | One GPU, for hours |
+| 3. Fast and predictable | A profile, one optimization, a scaling-law fit | Measure before optimizing. Predict before spending | [05](../10-llm-internals/05-gpus-tpus-and-kernels.md), [06](../10-llm-internals/06-parallelism.md), [07](../10-llm-internals/07-scaling-laws.md) | One to several GPUs |
+| 4. Data | HTML to text, filters, deduplication | How far one data decision moves the loss | [10](../10-llm-internals/10-training-data.md) | CPU, then a GPU |
+| 5. Alignment | Instruction tuning, then RLVR with a math grader | Generate, score, update | [11](../10-llm-internals/11-post-training-sft-rlhf-and-rlvr.md) | One GPU |
 
 **RLVR** is reinforcement learning from verifiable rewards. A program, such as a test or an answer check, gives the reward.
 

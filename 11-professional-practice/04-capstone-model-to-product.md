@@ -54,7 +54,7 @@ Write the goals at four layers. Organization: tickets reach the right team soone
 - [ ] A cost table for the ML component: building, running and maintaining it.
 - [ ] A written decision to use ML or not, with the reduction in error that the model must show over the baseline.
 - [ ] At least 1,000 labeled tickets in 3 to 10 classes, or a written reason for fewer. They are split into training, validation and test sets.
-- [ ] The agreement between two labelers, measured on 50 tickets.
+- [ ] Two people labeled the same 50 tickets on their own, and the share on which they agree is recorded. A low share is a label problem before it is a model problem ([Data Quality](../08-quality-assurance/06-data-quality.md)).
 
 ### Milestone 2: measure quality and find where it fails (6 to 8 hours)
 

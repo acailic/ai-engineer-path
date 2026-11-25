@@ -36,7 +36,7 @@ Do track A first. It takes 8 to 12 hours. Then do track B. Both run on a laptop.
 
 Start track B at a billion parameters or fewer. Weight memory is parameters times bytes. A billion parameters take about 2 GB in 16-bit, 1 GB in 8-bit, and 0.5 GB in 4-bit, before the cache and the overhead.
 
-One pitfall from the quantization chapter decides what you can promise. A smaller file is not a faster model unless the inference engine has a fast kernel for that format. Which engine supports which format changes quickly. As of 2026-11-24, check the documentation of the engine you pick. [Efficient LLM Inference and Deployment](../09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) covers the serving side.
+One pitfall from the quantization chapter decides what you can promise. A smaller file is not a faster model unless the inference engine, the program that loads the model and runs it, has a fast kernel for that format. Which engine supports which format changes quickly. As of 2026-11-24, check the documentation of the engine you pick. [Efficient LLM Inference and Deployment](../09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) covers the serving side.
 
 ## Deliverables
 

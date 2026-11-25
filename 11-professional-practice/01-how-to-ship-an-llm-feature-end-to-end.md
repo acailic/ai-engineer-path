@@ -90,7 +90,7 @@ When you need a tool, follow [Tool Design and Function Calling](../02-building-a
 
 **Decision.** List how the feature fails, and make sure that one wrong prediction cannot reach a customer on its own.
 
-[Planning for Mistakes](../07-ml-in-production/04-planning-for-mistakes.md) separates a **component mistake** (the model predicts the wrong team) from a **system failure** (a customer waits three days). The first always happens. The job is to stop it from becoming the second. The method has four moves: write the system failures, work forward with an FMEA table, work backward with a fault tree, and read the **minimal cut sets**. A cut set of size one is a finding.
+[Planning for Mistakes](../07-ml-in-production/04-planning-for-mistakes.md) separates a **component mistake** (the model predicts the wrong team) from a **system failure** (a customer waits three days). The first always happens. The job is to stop it from becoming the second. The method has four moves: write the system failures, work forward with an [FMEA](../GLOSSARY.md) table, work backward with a [fault tree](../GLOSSARY.md), and read the **minimal cut sets**, the smallest groups of failures that together cause a system failure. A cut set of size one is a finding.
 
 For the refund assistant, the dangerous cut sets have one shape: *model wrong, and nothing stops the action*. So we choose three of the chapter's six strategies:
 

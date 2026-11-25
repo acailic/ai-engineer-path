@@ -40,7 +40,7 @@ The addresses are in [SOURCES](../SOURCES.md). Three notes. Where a page was ope
 
 - **Later editions.** Berkeley's center ran three editions in two years, the three this course uses. That is a pattern, not a promise. Look for the next one on its site.
 - **CS336.** The course page ([cs336.stanford.edu](https://cs336.stanford.edu/), opened 2026-11-24) names the two instructors, lists lectures from March 30 to June 3 and five assignments, and announces no later offering.
-- **A stale address.** The Fall 2025 Berkeley course page address listed in SOURCES returned an HTTP 404 error when it was opened on 2026-11-24. When a link is stale, search for the course title.
+- **An address that fails once.** The Fall 2025 Berkeley course page address listed in SOURCES returned an HTTP 404 error on 2026-11-24 and loaded the next day. When a link fails, try again later, then search for the course title.
 
 ### 2. Follow the lecturers and their labs
 
