@@ -150,7 +150,7 @@ The Spring 2026 schedule also lists a guest lecture by Daniel Selsam (June 1, 20
 | Parallelism I |  | [video](https://www.youtube.com/watch?v=SzpOcwdIL0Y) · [guide](lectures/cs336-07-parallelism-i.md) | [06-parallelism](10-llm-internals/06-parallelism.md) |
 | Parallelism II |  | [video](https://www.youtube.com/watch?v=6-cXp-aOmdg) · [guide](lectures/cs336-08-parallelism-ii.md) | [06-parallelism](10-llm-internals/06-parallelism.md) |
 | Scaling laws I |  | [video](https://www.youtube.com/watch?v=Q15rhEWZPQ4) · [guide](lectures/cs336-09-scaling-laws-i.md) | [07-scaling-laws](10-llm-internals/07-scaling-laws.md) |
-| Inference |  | [video](https://www.youtube.com/watch?v=EfM546A79aM) | [08-inference](10-llm-internals/08-inference.md) |
+| Inference |  | [video](https://www.youtube.com/watch?v=EfM546A79aM) · [guide](lectures/cs336-10-inference.md) | [08-inference](10-llm-internals/08-inference.md) |
 | Scaling laws II |  | [video](https://www.youtube.com/watch?v=vTfEyOyzV9E) | [07-scaling-laws](10-llm-internals/07-scaling-laws.md) |
 | Evaluation |  | [video](https://www.youtube.com/watch?v=JpAxdTWQJxM) | [09-evaluating-language-models](10-llm-internals/09-evaluating-language-models.md) |
 | Data: sources, datasets |  | [video](https://www.youtube.com/watch?v=-qm0ln33G24) | [10-training-data](10-llm-internals/10-training-data.md) |

@@ -211,7 +211,7 @@ You are done when:
 
 ## Sources
 
-- **Lecture:** Percy Liang, "Lecture 10: Inference", Stanford CS336 Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=EfM546A79aM), used at [tokens as compute](https://www.youtube.com/watch?v=EfM546A79aM&t=120), [batching](https://www.youtube.com/watch?v=EfM546A79aM&t=1680), [KV cache](https://www.youtube.com/watch?v=EfM546A79aM&t=2760), [MLA](https://www.youtube.com/watch?v=EfM546A79aM&t=3120), [outlook](https://www.youtube.com/watch?v=EfM546A79aM&t=5040)
+- **Lecture:** Percy Liang, "Lecture 10: Inference", Stanford CS336 Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=EfM546A79aM) · [guide](../lectures/cs336-10-inference.md), used at [tokens as compute](https://www.youtube.com/watch?v=EfM546A79aM&t=120), [batching](https://www.youtube.com/watch?v=EfM546A79aM&t=1680), [KV cache](https://www.youtube.com/watch?v=EfM546A79aM&t=2760), [MLA](https://www.youtube.com/watch?v=EfM546A79aM&t=3120), [outlook](https://www.youtube.com/watch?v=EfM546A79aM&t=5040)
 - **Reading:** Jacob et al., "How to Scale Your Model": [book](https://jax-ml.github.io/scaling-book/)
 - **Reading:** Woosuk Kwon et al., "Efficient Memory Management for Large Language Model Serving with PagedAttention" (2023): [arXiv](https://arxiv.org/abs/2309.06180)
 - **Reading:** Yaniv Leviathan, Matan Kalman and Yossi Matias, "Fast Inference from Transformers via Speculative Decoding" (2022): [arXiv](https://arxiv.org/abs/2211.17192)
