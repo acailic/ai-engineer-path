@@ -259,7 +259,7 @@ You are done when:
 
 ## Sources
 
-- **Lecture:** Percy Liang, "Lecture 1: Overview, Tokenization", Stanford CS336 Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=JuoVZkPBiKk), used at [three kinds of knowledge](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=360), [learn by doing](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=1320), [efficiency lens](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3840), [tokenization](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3960), [what replaces tokenization](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=4680)
+- **Lecture:** Percy Liang, "Lecture 1: Overview, Tokenization", Stanford CS336 Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=JuoVZkPBiKk) · [guide](../lectures/cs336-01-overview-tokenization.md), used at [three kinds of knowledge](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=360), [learn by doing](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=1320), [efficiency lens](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3840), [tokenization](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3960), [what replaces tokenization](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=4680)
 - **Course:** Stanford CS336, [course page](https://cs336.stanford.edu/)
 - **Reading:** Philip Gage, "A New Algorithm for Data Compression" (1994), where BPE was introduced
 - **Reading:** Rico Sennrich, Barry Haddow and Alexandra Birch, "Neural Machine Translation of Rare Words with Subword Units" (2016): [arXiv](https://arxiv.org/abs/1508.07909)

@@ -214,7 +214,7 @@ You are done when:
 ## Sources
 
 - **Course:** Stanford CS336, course page, fetched 2026-11-24: [cs336.stanford.edu](https://cs336.stanford.edu/)
-- **Lecture:** Percy Liang, "Lecture 1: Overview, Tokenization", Stanford CS336 Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=JuoVZkPBiKk), used at [assignments](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=1214), [learning by doing](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=1320)
+- **Lecture:** Percy Liang, "Lecture 1: Overview, Tokenization", Stanford CS336 Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=JuoVZkPBiKk) · [guide](../lectures/cs336-01-overview-tokenization.md), used at [assignments](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=1214), [learning by doing](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=1320)
 - **Lecture:** Dan Fu, "Guest Lecture", Stanford CS336 Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=9EEm4iMAF5s), used at [takeaway](https://www.youtube.com/watch?v=9EEm4iMAF5s&t=360), [prefill and decode](https://www.youtube.com/watch?v=9EEm4iMAF5s&t=1200), [KV cache tiers](https://www.youtube.com/watch?v=9EEm4iMAF5s&t=1560)
 - **Assignments:** Stanford CS336, Spring 2026 handouts and READMEs: [assignment1-basics](https://github.com/stanford-cs336/assignment1-basics), [assignment2-systems](https://github.com/stanford-cs336/assignment2-systems), [assignment3-scaling](https://github.com/stanford-cs336/assignment3-scaling), [assignment4-data](https://github.com/stanford-cs336/assignment4-data), [assignment5-alignment](https://github.com/stanford-cs336/assignment5-alignment)
 

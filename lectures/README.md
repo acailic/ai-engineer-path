@@ -1,6 +1,6 @@
 # Lecture guides
 
-One guide per lecture of the four courses: 59 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
+One guide per lecture of the four courses: 60 guides. A guide maps the whole lecture from its first minute to its last, in parts of a few minutes, and says for each part where this book teaches the same thing. Where no chapter teaches it, the guide itself says what the lecturer teaches there; the column "Guide only" counts those parts. Use a guide before or after watching a lecture, or instead of it when you want the content of a lecture that no chapter covers in depth.
 
 Every part heading links to the moment in the video where the part begins.
 
@@ -83,4 +83,10 @@ Every part heading links to the moment in the video where the part begins.
 | 22 | Course Summary + Quantum Machine Learning I | Song Han (MIT) | 1:24:00 | 19 | 18 | [open](mit-22-course-summary-quantum-machine-learning-i.md) |
 | 23 | Quantum Machine Learning II | Song Han (MIT) | 1:14:00 | 20 | 20 | [open](mit-23-quantum-machine-learning-ii.md) |
 
-In all: 920 parts, of which 224 (24%) teach something no chapter teaches; 128,898 words.
+## Stanford CS336 Language Modeling from Scratch (Spring 2026)
+
+| # | Lecture | Lecturer | Length | Parts | Guide only | Guide |
+|---|---|---|---|---|---|---|
+| 1 | Overview, tokenization |  | 1:20:00 | 14 | 3 | [open](cs336-01-overview-tokenization.md) |
+
+In all: 934 parts, of which 227 (24%) teach something no chapter teaches; 131,412 words.

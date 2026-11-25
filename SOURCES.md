@@ -141,7 +141,7 @@ The Spring 2026 schedule also lists a guest lecture by Daniel Selsam (June 1, 20
 
 | Lecture | Speaker(s) | Links | Used in |
 |---|---|---|---|
-| Overview, tokenization |  | [video](https://www.youtube.com/watch?v=JuoVZkPBiKk) | [01-the-language-modeling-pipeline-and-tokenization](10-llm-internals/01-the-language-modeling-pipeline-and-tokenization.md) |
+| Overview, tokenization |  | [video](https://www.youtube.com/watch?v=JuoVZkPBiKk) · [guide](lectures/cs336-01-overview-tokenization.md) | [01-the-language-modeling-pipeline-and-tokenization](10-llm-internals/01-the-language-modeling-pipeline-and-tokenization.md) |
 | PyTorch (einops), resource accounting (FLOPs, memory, arithmetic intensity) |  | [video](https://www.youtube.com/watch?v=kuYAsz7zspQ) | [02-resource-accounting-flops-memory-and-arithmetic-intensity](10-llm-internals/02-resource-accounting-flops-memory-and-arithmetic-intensity.md) |
 | Architectures, hyperparameters |  | [video](https://www.youtube.com/watch?v=lVynu4bo1rY) | [03-transformer-architectures-and-hyperparameters](10-llm-internals/03-transformer-architectures-and-hyperparameters.md) |
 | Attention alternatives and mixture of experts |  | [video](https://www.youtube.com/watch?v=cKSwj_qZ8Jg) | [04-attention-alternatives-and-mixture-of-experts](10-llm-internals/04-attention-alternatives-and-mixture-of-experts.md) |
