@@ -71,6 +71,41 @@ The second review also found defects that no check for sources can catch:
 - **Terms.** More than 150 terms were used before they were defined. Each is now defined at first use.
 - **Listings.** Running the code showed that in a few chapters the text described an output the code does not produce. The text now reports the real output.
 
+## Lecture guides
+
+The chapters cite a lecture where they make a claim taken from it. They do not read a lecture from end to end, and a count on 2026-11-25 found that they cited only about a third of the lectures' two-minute blocks. From that day on, one guide was written for each of the 77 lectures, in [`lectures/`](lectures/README.md). A guide maps the whole lecture in parts of a few minutes and says for each part where this book teaches the same thing.
+
+| Course | Guides | Parts | Parts no chapter teaches |
+|---|---|---|---|
+| [UC Berkeley LLM Agents MOOC, Fall 2024](lectures/README.md#uc-berkeley-llm-agents-mooc-fall-2024) | 12 | 173 | 42 |
+| [UC Berkeley Advanced LLM Agents MOOC, Spring 2025](lectures/README.md#uc-berkeley-advanced-llm-agents-mooc-spring-2025) | 12 | 175 | 50 |
+| [UC Berkeley Agentic AI MOOC, Fall 2025](lectures/README.md#uc-berkeley-agentic-ai-mooc-fall-2025) | 12 | 162 | 30 |
+| [MIT 6.5940 TinyML and Efficient Deep Learning Computing, Fall 2024](lectures/README.md#mit-65940-tinyml-and-efficient-deep-learning-computing-fall-2024) | 23 | 410 | 102 |
+| [Stanford CS336 Language Modeling from Scratch, Spring 2026](lectures/README.md#stanford-cs336-language-modeling-from-scratch-spring-2026) | 18 | 287 | 6 |
+| Total | 77 | 1,207 | 230 |
+
+In 230 of the 1,207 parts, 19%, the guide's writer found no chapter section that teaches the same thing, and the guide explains the part itself. That is the measure of how much of the lectures the chapters do not cover. It is largest for the MIT course, where 102 of 410 parts are explained only in the guide, and smallest for CS336, with 6 of 287. The count rests on each writer's judgement of what counts as the same thing, so read it as an estimate.
+
+An automatic check runs on every guide before it is published. For each guide it confirms that:
+
+- the parts start at the first minute and end at the lecture's last minute, with no gap or overlap between them;
+- every part heading links to the second of the video that the heading names;
+- every link to a chapter section points to a section that exists;
+- a part that no chapter teaches has at least 60 words;
+- no run of eight or more words is copied from the lecture, outside quotation marks.
+
+The check caught wrong seconds, links to sections that do not exist, copied phrases and parts that were too short, guide after guide. They were corrected before publication.
+
+What the check cannot see is whether a guide understood the lecture correctly. Each guide was written by an AI writer who read the lecture once, through the machine transcript. Nobody has read a guide a second time against the lecture, and no second reviewer went over the guides. Names are the weakest point: the machine transcript can garble a name, so a guide prefers the names as the lecture's slides spell them and otherwise says "the lecturer". If a guide and the lecture disagree, the lecture wins.
+
+## Glossary
+
+Each of the 1,091 rows of [GLOSSARY.md](GLOSSARY.md) was read against the chapter it links to on 2026-11-25. 12 definitions were corrected, 7 links moved to the chapter that defines the term better, 13 duplicate rows merged, 16 rows removed and 24 rows added. The glossary now has 1,086 terms.
+
+## Reading site
+
+The same files are published as a website, <https://acailic.github.io/ai-engineer-path/>, rebuilt on every push by [`tools/site/build.py`](tools/site/build.py). The build stops if an internal link or a link to a section is broken. Every page has a read-aloud button that uses the speech synthesis built into the browser; no account, key or network service is involved. On 2026-11-25 the site was checked in one desktop browser at full width and at phone width. The voices offered differ between browsers and devices, and only one browser was tried.
+
 ## What is not verified
 
 - **The capstones.** The five capstones in part 11 were specified, not carried out. Their hours and costs, and those of the roadmap, are estimates.
@@ -79,6 +114,8 @@ The second review also found defects that no check for sources can catch:
 - **Fast-moving facts.** Model names, prices, APIs, products and regulation are true as of the date each chapter gives, usually the lecture date or 2026-11-24.
 - **External links.** Links other than those named above were not all reopened, and YouTube links were not checked. The Fall 2025 Berkeley course page address in [SOURCES.md](SOURCES.md) returned an HTTP 404 error on 2026-11-24.
 - **The transcripts.** They are machine-made and can garble names. The lectures are the authority: a chapter that disagrees with its source is wrong.
+- **The lecture guides.** They passed the automatic check described above and were not read a second time.
+- **Coverage of the book.** The chapters of parts 07 and 08 were checked statement by statement against the book *Machine Learning in Production*, but not for coverage. A word-overlap count flagged 82 of its 399 sections as possibly reflected only in part, and those sections were not read against the chapters.
 
 ## Further limitations by part
 

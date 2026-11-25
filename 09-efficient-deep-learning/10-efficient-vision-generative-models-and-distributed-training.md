@@ -64,7 +64,7 @@ For video, his Temporal Shift Module moves part of the channels from one frame t
 
 ## Distributed training basics
 
-Two reasons to train on several machines: the data is too large for one, or the model does not fit. Han's motivating figure: on a single GPU, the training of GPT-3 would take 355 years (Lecture 19, [2:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=120)). His practical reason is the developer's time: a job of 10 GPU-days on one GPU takes about 40 minutes on 1,024 GPUs.
+Two reasons to train on several machines: the data is too large for one, or the model does not fit. Han's motivating figure: on a single GPU, the training of GPT-3 would take 355 years (Lecture 19, [2:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=120)). His practical reason is the developer's time: a job of 10 GPU-days on one GPU takes about 40 minutes on 1,024 GPUs, by his figure; the plain arithmetic gives about 14 minutes.
 
 | Parallelism | What is split | Memory per GPU | Communication |
 |---|---|---|---|

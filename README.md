@@ -57,9 +57,9 @@ It does not mean training a frontier model. It does not replace experience with 
 
 One guide per lecture of the four courses, in [`lectures/`](lectures/README.md). A guide maps a whole lecture, part by part, and names for each part the chapter section that teaches the same thing; where no chapter teaches it, the guide explains the part itself.
 
-**Progress on 2026-11-26 00:43: 77 of 77 guides written.** The table is regenerated from the files; a course is complete when both numbers are equal.
+**All 77 guides are written, one for each lecture of the four courses (complete on 2026-11-26).** The table is regenerated from the files.
 
-| Course | Guides written | Of lectures |
+| Course | Guides | Lectures |
 |---|---|---|
 | UC Berkeley LLM Agents MOOC (Fall 2024) | 12 | 12 |
 | UC Berkeley Advanced LLM Agents MOOC (Spring 2025) | 12 | 12 |
@@ -67,7 +67,7 @@ One guide per lecture of the four courses, in [`lectures/`](lectures/README.md).
 | MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024) | 23 | 23 |
 | Stanford CS336 Language Modeling from Scratch (Spring 2026) | 18 | 18 |
 
-In the guides written so far: 1207 parts of lectures, of which 230 (19%) are taught by no chapter and are explained only in the guide.
+In the guides: 1,207 parts of lectures, of which 230 (19%) are taught by no chapter and are explained only in the guide.
 
 What is checked: each guide passes an automatic check before it is published (the parts cover the lecture end to end, every part links to its moment in the video, every link to a chapter section resolves, no passage is copied from the lecture). What is not checked: nobody has read a guide a second time against the lecture. If a guide and the lecture disagree, the lecture wins.
 
@@ -244,15 +244,21 @@ This repository explains these sources and links to them. It copies nothing from
 
 The chapters were written by AI writers from the lectures and from the book. The lectures were read through machine transcripts made for this project, and a transcript can garble a name or a number. Every claim taken from a lecture links to its moment in the video, so that you can check it against the source. Nothing is copied. The explanations are rewritten, not copied. The courses and the book are the authority. This repository is the study guide, and a chapter that disagrees with its source is wrong.
 
+The [lecture guides](lectures/README.md) were made the same way, from the same machine transcripts: one guide per lecture, 77 in all, each written after reading the lecture from its first minute to its last.
+
 ## What is verified, and what is not
 
 The chapters were checked in two ways, described in [VERIFICATION.md](VERIFICATION.md) with the results per part.
 
-**Automated checks, run on 2026-11-25.** All 2,636 internal links resolve. All 119 arXiv citations (103 papers) carry the title and year of the arXiv record. All 1,459 links to a moment in a lecture were checked against the transcript at that moment. No chapter shares more than 23 words in a row with a source. The 66 standalone Python listings run, and 16 tests pass.
+**Automated checks, run on 2026-11-25.** All 2,636 internal links resolved at that point; the count is 4,735 with the lecture guides, all resolving on 2026-11-26. All 119 arXiv citations (103 papers) carry the title and year of the arXiv record. All 1,459 links to a moment in a lecture were checked against the transcript at that moment. No chapter shares more than 23 words in a row with a source. The 66 standalone Python listings run, and 16 tests pass.
 
 **The verification pass, 2026-11-24.** Every statement that a chapter attributes to a lecture or to the book was compared with the source at the cited place. About 1,500 statements were checked and more than 210 corrected. In 72 chapters, passages were deepened with the lecturers' own content.
 
 **Second review, 2026-11-25.** Every part was then read again by a fresh reviewer. About 2,100 attributed statements were re-checked against their sources and more than 130 corrected. Every self-check answer was re-derived; in many chapters the correct option had been the first or the second, so options were reordered. Exercises that could not be started were completed, and 81 diagrams were added.
+
+**Lecture guides, 2026-11-25 and 2026-11-26.** All 77 lectures now have a guide: 1,207 parts. Before a guide is published, an automatic check confirms that its parts cover the lecture end to end without a gap or an overlap, that every part links to the second of the video that its heading names, that every link to a chapter section resolves, and that no run of eight or more words is copied from the lecture outside quotation marks.
+
+**Glossary, 2026-11-25.** Every row of the glossary was checked against the chapter it links to: 12 definitions corrected, 7 links moved to a better chapter, 13 duplicates merged, 16 rows removed and 24 added. The glossary has 1,086 terms.
 
 **Not verified:**
 
@@ -262,6 +268,8 @@ The chapters were checked in two ways, described in [VERIFICATION.md](VERIFICATI
 - Facts that change fast (model names, prices, APIs, products, regulation) are true as of the date each chapter gives.
 - YouTube links were not checked, and not every external link was reopened.
 - The transcripts are machine-made and can garble names. The lectures are the authority.
+- The lecture guides passed the automatic check only. Nobody has read a guide a second time against the lecture, and no second reviewer went over them.
+- The chapters in parts 07 and 08 were checked statement by statement against the book *Machine Learning in Production*, but not for coverage. A word-overlap count flagged 82 of its 399 sections as possibly reflected only in part, and those sections were not read against the chapters.
 
 ## Status and gaps
 
@@ -308,7 +316,7 @@ Each part's main limitations are below. [VERIFICATION.md](VERIFICATION.md#furthe
 
 ### Part 09 · Efficient deep learning
 
-- **09.03, 09.05 to 09.09** The lottery ticket hypothesis, architecture search strategies, distillation formulas, TinyEngine's memory planner, PagedAttention, FlashAttention tiling and parameter-efficient training are general knowledge; their lectures are missing or outlines only.
+- **09.03, 09.05 to 09.09** The lottery ticket hypothesis, architecture search strategies, distillation formulas, TinyEngine's memory planner, PagedAttention, FlashAttention tiling and parameter-efficient training are general knowledge; the chapters did not draw on the lectures for them. The lectures are now covered by the [lecture guides](lectures/README.md), and the chapters were not rewritten from those guides.
 
 ### Part 10 · LLM internals
 
