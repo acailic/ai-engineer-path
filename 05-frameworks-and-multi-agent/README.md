@@ -57,7 +57,7 @@ You are done when a colleague can run your evaluation and get the same numbers, 
 - Noam Brown, "Multi-Agent AI", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=SrLcGdVOb9w). Chapters 04, 05.
 - Oriol Vinyals, "Multi-Agent Systems in the Era of LLMs", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=ntjOxjZMaac). Chapters 05, 06.
 - Nicolas Chapados, "AI Agents for Enterprise Workflows", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=-yf-e-9FvOc). Chapters 06, 07.
-- Burak Gokturk, "Enterprise trends for generative AI, and key components of building successful agents/applications", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=Sy1psHS3w3I). Chapter 07.
+- Burak Gokturk, "Enterprise trends for generative AI, and key components of building successful agents/applications", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=Sy1psHS3w3I) · [guide](../lectures/f24-04-enterprise-trends-for-generative-ai-and-key.md). Chapter 07.
 
 ## Where to go next
 

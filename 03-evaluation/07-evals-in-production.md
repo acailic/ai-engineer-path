@@ -254,7 +254,7 @@ What to observe:
 
 ## Sources
 
-- **Lecture:** Clay Bavor, "Practical Lessons from Deploying Real-World AI Agents", UC Berkeley Agentic AI MOOC, Fall 2025: [video](https://www.youtube.com/watch?v=sfJM4LaiYsM), used at [the agent iceberg](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=480), [every channel is digital](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=840), [metrics that fit](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1440), [AI to check AI](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=2400).
+- **Lecture:** Clay Bavor, "Practical Lessons from Deploying Real-World AI Agents", UC Berkeley Agentic AI MOOC, Fall 2025: [video](https://www.youtube.com/watch?v=sfJM4LaiYsM) · [guide](../lectures/f25-09-practical-lessons-from-deploying-real-world-ai.md), used at [the agent iceberg](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=480), [every channel is digital](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=840), [metrics that fit](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1440), [AI to check AI](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=2400).
 - **Reading:** Kumar Pandya and Sachi Shah, "Voice Sims: test agents in real world conditions before they talk to your customers", Sierra blog (September 11, 2025): [link](https://sierra.ai/blog/voice-sims-test-agents-in-real-world-conditions-before-they-talk-to-your-customers).
 - **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 14, sections on continuous integration and testing in production: [link](https://mlip-cmu.github.io/book/14-quality-assurance-basics.html).
 

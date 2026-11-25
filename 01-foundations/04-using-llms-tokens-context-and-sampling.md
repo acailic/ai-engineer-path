@@ -243,7 +243,7 @@ This makes about 25 paid calls, more with the stretch goal. At the example price
 ## Sources
 
 - **Documentation:** Anthropic, "Messages" API reference (parameters `max_tokens`, `stop_sequences`, `system`, `stream`, `cache_control`), accessed November 24, 2026: [reference](https://platform.claude.com/docs/en/api/messages). Temperature and top-p were not visible on the fetched page.
-- **Lecture:** Yann Dubois, "Introduction to training LLMs for AI agents", LLM Agents MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=r1qZpYAmqmg), used at [tokens](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=0), and on his slides for the inference loop, the tokenizer and the outlook
+- **Lecture:** Yann Dubois, "Introduction to training LLMs for AI agents", LLM Agents MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=r1qZpYAmqmg) · [guide](../lectures/f25-01-llm-agents-overview.md), used at [tokens](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=0), and on his slides for the inference loop, the tokenizer and the outlook
 - **Lecture:** Denny Zhou, "LLM Reasoning: Key Ideas and Limitations", LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=QL-FS_Zcmyo), used at [greedy decoding versus alternatives](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2280), [the comparison](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2520)
 
 ## Next

@@ -270,7 +270,7 @@ Run the worked example, then turn it into a small project with a check that CI c
 
 ## Sources
 
-- **Lecture:** Yann Dubois, "Introduction to training LLMs for AI agents", LLM Agents MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=r1qZpYAmqmg), used at [the training pipeline](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=0), [classic post-training](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=120), [evaluation](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=5040), [open-ended evaluation](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=5160)
+- **Lecture:** Yann Dubois, "Introduction to training LLMs for AI agents", LLM Agents MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=r1qZpYAmqmg) · [guide](../lectures/f25-01-llm-agents-overview.md), used at [the training pipeline](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=0), [classic post-training](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=120), [evaluation](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=5040), [open-ended evaluation](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=5160)
 - **Slides:** Dawn Song, "Introduction", Agentic AI MOOC (Fall 2025): [slides](https://rdi.berkeley.edu/agentic-ai/slides/introduction_25.pdf), slide 18
 - **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 3: [link](https://mlip-cmu.github.io/book/03-machine-learning-for-software-engineers-in-a-nutshell.html)
 

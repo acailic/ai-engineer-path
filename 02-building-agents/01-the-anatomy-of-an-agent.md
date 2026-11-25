@@ -295,7 +295,7 @@ Turn the stub into a real agent over a folder of notes.
 
 ## Sources
 
-- **Lecture:** Graham Neubig, "Agents for Software Development", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=f9L9Fkq-8K4), used at [what defines agents](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=600), [copilots versus agents](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=240), [hard-coded processes](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2760)
+- **Lecture:** Graham Neubig, "Agents for Software Development", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=f9L9Fkq-8K4) · [guide](../lectures/f24-06-agents-for-software-development.md), used at [what defines agents](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=600), [copilots versus agents](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=240), [hard-coded processes](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2760)
 - **Lecture:** Yangqing Jia, "Evolution of System Designs from an AI Engineer Perspective", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=xqRAS6rAouo), used at [models and applications reinforce each other](https://www.youtube.com/watch?v=xqRAS6rAouo&t=1920)
 - **Reading:** Anthropic, "Building effective agents" (2024): [link](https://www.anthropic.com/engineering/building-effective-agents)
 
