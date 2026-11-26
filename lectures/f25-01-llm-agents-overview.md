@@ -4,7 +4,7 @@
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=r1qZpYAmqmg) · **Slides:** [slides](https://rdi.berkeley.edu/agentic-ai/slides/lecture1.pdf)
 **Chapters that cite this lecture:** [01. Machine Learning in a Nutshell for Software Engineers](../01-foundations/01-machine-learning-in-a-nutshell.md) · [02. How Large Language Models Are Trained](../01-foundations/02-how-large-language-models-are-trained.md) · [03. From Base Model to Assistant: Post-Training](../01-foundations/03-from-base-model-to-assistant-post-training.md) · [04. Using LLMs: Tokens, Context and Sampling](../01-foundations/04-using-llms-tokens-context-and-sampling.md) · [05. Prompting and In-Context Learning](../01-foundations/05-prompting-and-in-context-learning.md) · [08. A Short History of LLM Agents](../01-foundations/08-a-short-history-of-llm-agents.md)
 
-> **In one sentence:** Yann Dubois walks through how a large language model is trained, from web-scale pre-training to reinforcement learning, and why evaluation and systems matter as much as the recipes.
+> **In one sentence:** Yann Dubois walks through how a large language model is trained, from web-scale pre-training to reinforcement learning, and why evaluation and systems matter more in practice than architecture and training algorithms.
 
 ## Before you watch
 
@@ -29,7 +29,7 @@ Pre-training predicts the next token: tokenize, forward pass, a probability per 
 
 ### [25:59–36:46](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=1559) Pre-training data: cleaning, mix and FineWeb
 
-A public crawl of about 250 billion pages is mostly unusable as it is: text is extracted, harmful content removed, duplicates dropped, odd documents cut, and a classifier trained on pages Wikipedia links to scores quality. Domains are re-weighted to the goal; each FineWeb filter raised aggregate accuracy.
+A public crawl of about 250 billion pages is mostly unusable as it is: text is extracted, harmful content removed, duplicates dropped, odd documents cut, and a classifier trained on pages Wikipedia links to scores quality. Domains are re-weighted to the goal; in FineWeb, deduplication and each later filter raised aggregate accuracy.
 **In this book:** [How Large Language Models Are Trained › Pre-training data](../01-foundations/02-how-large-language-models-are-trained.md#pre-training-data).
 
 ### [36:46–41:48](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2206) Mid-training and the open questions on data
@@ -39,7 +39,7 @@ Mid-training continues pre-training on under a tenth as many tokens to add what 
 
 ### [41:48–53:27](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=2508) Compute: scaling laws, Chinchilla, the cost of a run
 
-Loss falls in a straight line against compute on log axes, so small runs predict large ones and about 90% of the budget goes into one final run. Chinchilla's 20 tokens per parameter ignores inference cost. The largest Llama 3 model: 15.6 trillion tokens, 16,000 H100 GPUs, about 70 days.
+Loss falls in a straight line against compute on log axes, so small runs predict large ones and about 90% of the budget goes into one final run. Chinchilla's 20 tokens per parameter ignores inference cost. LLaMA 3 400B, at the time the largest open-source model by his account: 15.6 trillion tokens, 16,000 H100 GPUs, about 70 days.
 **In this book:** [How Large Language Models Are Trained › Pre-training compute](../01-foundations/02-how-large-language-models-are-trained.md#pre-training-compute).
 
 ### [53:27–1:02:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=3207) Why post-training, and supervised fine-tuning
@@ -54,7 +54,7 @@ A lab training the best model has nobody to copy, so DeepSeek R1 samples many an
 
 ### [1:08:12–1:17:44](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=4092) Why reinforcement learning, and the cost of sampling
 
-Cloning answers caps a model at its teacher's skill and teaches it to invent references. Reinforcement learning optimizes a reward instead: a rule such as a passing test, a preference model, or an LLM as judge. GRPO scores several answers to one question and moves the policy toward the best; sampling dominates the cost.
+Cloning answers caps a model at its teacher's skill and teaches it to invent references. Reinforcement learning optimizes a reward instead: a rule such as a passing test, a preference model, or an LLM as judge. GRPO scores several answers to one question and moves the policy toward the best; sampling is a key bottleneck.
 **In this book:** [From Base Model to Assistant: Post-Training › 2. Why imitation is not enough](../01-foundations/03-from-base-model-to-assistant-post-training.md#2-why-imitation-is-not-enough) · [Training Models for Agentic Tasks › Why the reward needs a guard](../02-building-agents/08-training-models-for-agentic-tasks.md#why-the-reward-needs-a-guard).
 
 ### [1:17:44–1:23:03](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=4664) Reinforcement learning from human feedback
@@ -69,7 +69,7 @@ Evaluation tells whether a run improved, which model suits an application, and w
 
 ### [1:29:00–1:46:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=5340) Systems: GPUs, the memory bottleneck, four optimizations
 
-The best GPUs are scarce and slow to talk to each other, so a run is only as good as its engineering. A GPU applies one instruction to thousands of threads at once, with matrix-multiplication cores about ten times faster than its other arithmetic. Because compute has grown faster than memory and communication, the bottleneck is feeding the processor: matrix multiplication holds most of a transformer's FLOPs but only about two-thirds of its running time. Memory is a hierarchy, small and fast near the cores, and the score to maximize is model FLOP utilization, achieved throughput over the hardware's peak. Four tricks follow: compute in bf16 while weights stay in 32-bit floats; fuse successive operations so they run on-chip before writing back, as `torch.compile` does; tile, so each value a thread reads is used more than once; and, in FlashAttention, recompute values instead of storing them, for a 1.7× speed-up.
+The best GPUs are scarce, and talking between GPUs is slow, so a run is only as good as its engineering. A GPU applies one instruction to all its threads at once, with matrix-multiplication cores about ten times faster than its other arithmetic. Because compute has grown faster than memory and communication, the bottleneck is feeding the processor: matrix multiplication holds most of a transformer's FLOPs but only about two-thirds of its running time. Memory is a hierarchy, small and fast near the cores, and the score to maximize is model FLOP utilization, achieved throughput over the hardware's peak. Four tricks follow: compute in bf16 while weights stay in 32-bit floats; fuse successive operations so they run on-chip before writing back, as `torch.compile` does; tile, so each value a thread reads is used more than once; and, in FlashAttention, recompute values instead of storing them, for a 1.7× speed-up.
 **In this book:** nothing beyond this guide.
 
 ### [1:46:00–2:00:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=6360) Parallelism and sparsity
