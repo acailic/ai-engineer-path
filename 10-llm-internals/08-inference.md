@@ -100,7 +100,7 @@ Drafting is slow per token but cheap, and checking is one parallel pass, so the 
 Live traffic arrives at different times and lengths. Three systems ideas, borrowed from operating systems:
 
 - **Continuous batching**: decode one token for every sequence in the batch each step, evict finished sequences and add new requests as they arrive, instead of waiting for a whole batch to finish ([78:00](https://www.youtube.com/watch?v=EfM546A79aM&t=4680)).
-- **Selective batching**: run attention per sequence, and concatenate all sequences into one long sequence for the MLP layers, which hold most of the FLOPs ([78:00](https://www.youtube.com/watch?v=EfM546A79aM&t=4680)).
+- **Selective batching**: run attention per sequence, and concatenate all sequences into one long sequence for the MLP layers, which take up a lot of the FLOPs ([78:00](https://www.youtube.com/watch?v=EfM546A79aM&t=4680)).
 - **Paging** (PagedAttention in vLLM): split each sequence's KV cache into non-contiguous blocks, as an operating system pages memory. It removes two kinds of waste: reserving room for a request's maximum length, and gaps between requests too small to use. Requests with the same prefix share blocks, which are copied only when they diverge. A shared system prompt, or several samples of one prompt, is computed once ([80:00](https://www.youtube.com/watch?v=EfM546A79aM&t=4800), [82:00](https://www.youtube.com/watch?v=EfM546A79aM&t=4920)).
 
 The engines he names: vLLM as the go-to, SGLang for agentic workloads, NVIDIA's TensorRT as fast but narrower, and llama.cpp for running on a CPU ([4:00](https://www.youtube.com/watch?v=EfM546A79aM&t=240)).
