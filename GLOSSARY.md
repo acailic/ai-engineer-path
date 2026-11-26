@@ -28,7 +28,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Activation memory** | The memory holding a layer's intermediate results while it runs. | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **Activation sparsity** | Zeros in the intermediate results, for example in point-cloud data, that a sparse kernel can skip. | [09.03](09-efficient-deep-learning/03-pruning-and-sparsity.md) |
 | **Active parameters** | The parameters one token passes through, as opposed to the model's total parameters. | [10.04](10-llm-internals/04-attention-alternatives-and-mixture-of-experts.md) |
-| **ad hoc teamwork** | The problem of building one agent that cooperates with teammates it did not train with and cannot choose | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
+| **ad hoc teamwork** | The problem of building one agent that works well with teammates it has no say in choosing. | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **Adam** | An optimizer that combines momentum, the average of past gradients, with the average of their squares to scale each update. | [10.02](10-llm-internals/02-resource-accounting-flops-memory-and-arithmetic-intensity.md) |
 | **Adapter** | A small trainable layer inserted into each transformer block. | [09.09](09-efficient-deep-learning/09-llm-post-training-and-on-device-training.md) |
 | **Adapter (DSPy)** | The part that lays a module's fields out as a prompt and parses the output back. | [02.05](02-building-agents/05-compound-ai-systems-and-dspy.md) |
@@ -541,6 +541,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Host (MCP)** | The AI application that connects to servers through clients. | [05.06](05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md) |
 | **Hostile stub** | A stub model that returns the failures you choose, such as an unknown label or a low confidence, so that guardrails and fallbacks can be tested. | [11.04](11-professional-practice/04-capstone-model-to-product.md) |
 | **Hot standby** | A spare copy of a component that takes over when the main copy fails. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
+| **HOVER** | A neural network for whole-body control that accepts any combination of command types, so that one controller can be steered from several devices. | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **Human approval gate** | A pause before a critical action until a person approves it, showing the real arguments, with no answer meaning no action. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
 | **Human in the loop** (also called: Control point, Human oversight) | A design in which a person checks, confirms or can reverse a model-driven decision. | [04.05](04-safety-and-security/05-runtime-monitoring-and-detection.md) |
 | **Hybrid deployment** | Splitting a model's work between the user's device and a server. | [07.07](07-ml-in-production/07-deploying-a-model.md) |
@@ -554,6 +555,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **i.i.d. assumption** | The assumption that training and test examples are independent draws from the same distribution seen in production. | [08.02](08-quality-assurance/02-measuring-model-quality.md) |
 | **Idempotent** | Said of an operation that has the same effect when repeated as when called once. | [02.02](02-building-agents/02-tool-design-and-function-calling.md) |
 | **Im2col** | Rearranging convolution inputs into columns so the operation becomes matrix multiplication. | [09.07](09-efficient-deep-learning/07-tinyml-microcontrollers-and-tinyengine.md) |
+| **Imitation learning** | Learning a policy from demonstrations of the wanted behavior instead of from a reward. | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **Imperfect information** | A game in which a player cannot see everything, as in poker. | [05.04](05-frameworks-and-multi-agent/04-multi-agent-systems-i-games-and-self-play.md) |
 | **Improper output handling** | Trusting model output enough to pass it to a shell, a database, or a URL without validation. | [04.01](04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md) |
 | **In silico** | Done on a computer, without physical experiments. | [06.03](06-frontier-applications/03-agents-for-scientific-discovery.md) |
@@ -590,6 +592,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Intrinsically hard problem** | A problem with no known hand-written solution, typically one that mirrors human perception. | [07.02](07-ml-in-production/02-when-to-use-ml-and-when-not-to.md) |
 | **Intrusion detection** | Monitoring a running system for unusual behavior that signals an attack. | [08.14](08-quality-assurance/14-security-privacy-transparency-and-accountability.md) |
 | **Invariant** | A rule that must hold for a model's outputs without saying what those outputs are. | [08.04](08-quality-assurance/04-testing-without-oracles.md) |
+| **Inverse kinematics** | Working out the joint angles a robot arm needs to put its end at a wanted position. | [06.01](06-frontier-applications/01-multimodal-agents-web-and-computer-use.md) |
 | **IsoFLOP run** | A training run held to a fixed compute budget, used to compare model sizes at equal cost. | [10.07](10-llm-internals/07-scaling-laws.md) |
 | **Iterative pruning** | Repeating prune-and-fine-tune in small steps instead of pruning once. | [09.03](09-efficient-deep-learning/03-pruning-and-sparsity.md) |
 | **Iterative refinement** | Improving one candidate answer over several rounds using feedback. | [01.06](01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) |
@@ -663,6 +666,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Lock-in** | The cost of leaving a framework because your application has grown into its shape. | [05.01](05-frameworks-and-multi-agent/01-the-agent-framework-landscape.md) |
 | **Logical qubit** | A qubit built from several physical ones by error correction. | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
 | **Logits** | The raw scores a model outputs for each choice, before normalization. | [09.06](09-efficient-deep-learning/06-knowledge-distillation.md) |
+| **Long-horizon task** | A task that needs many steps in order, where the reward comes only at the end. | [06.01](06-frontier-applications/01-multimodal-agents-web-and-computer-use.md) |
 | **Long-term memory** | Anything stored outside the context and loaded back later, such as files, a database or a search index. | [02.01](02-building-agents/01-the-anatomy-of-an-agent.md) |
 | **Loop tiling** (also called: Tiling) | Restructuring loops to work on small blocks that fit in cache. | [09.07](09-efficient-deep-learning/07-tinyml-microcontrollers-and-tinyengine.md) |
 | **Loop unrolling** | Repeating a loop body in code to remove loop overhead, at the cost of binary size. | [09.07](09-efficient-deep-learning/07-tinyml-microcontrollers-and-tinyengine.md) |
@@ -750,6 +754,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Monitor (in Privtrans)** | The small privileged part of a program that holds permissions and exports a narrow interface; not the runtime monitor of chapter 05. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
 | **Monitor (runtime)** | A component that observes the events of a running system and raises findings. | [04.05](04-safety-and-security/05-runtime-monitoring-and-detection.md) |
 | **Monte Carlo tree search (MCTS)** | A search algorithm that grows a tree of moves by repeatedly picking a promising node, simulating a completion and pushing the score back up the path. | [01.06](01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) |
+| **Motion planner** | A module that finds a path for a robot's joints from one pose to another without collisions. | [06.01](06-frontier-applications/01-multimodal-agents-web-and-computer-use.md) |
 | **Multi-agent system** | A system in which several agents with different roles interact. | [01.08](01-foundations/08-a-short-history-of-llm-agents.md) |
 | **Multi-head attention** | Attention split into several heads, each working on its own smaller slice of the query, key and value vectors. | [10.03](10-llm-internals/03-transformer-architectures-and-hyperparameters.md) |
 | **Multi-head latent attention (MLA)** | Attention that caches one compressed vector per token and expands it to keys and values when needed. | [10.08](10-llm-internals/08-inference.md) |
@@ -973,6 +978,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **RDMA** | Direct memory access between machines that bypasses the CPU. | [10.06](10-llm-internals/06-parallelism.md) |
 | **ReAct** (also called: Interleaved reasoning, ReAct loop, ReAct-style loop) | A method in which an LLM interleaves thoughts, actions and observations in a loop. | [01.08](01-foundations/08-a-short-history-of-llm-agents.md) |
 | **Reactive policy** | A policy that acts on its first choice without looking ahead. | [02.03](02-building-agents/03-planning-search-and-decision-making.md) |
+| **Real-to-sim-to-real** | Replaying a demonstration recorded on a real robot in simulation, multiplying it there and training a policy that goes back to the robot. | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **Reasoning (in an agent)** | Thinking in written steps, as in chain-of-thought, which adds no outside knowledge. | [01.08](01-foundations/08-a-short-history-of-llm-agents.md) |
 | **Reasoning agent** | An agent that uses an LLM to reason in order to act. | [01.08](01-foundations/08-a-short-history-of-llm-agents.md) |
 | **Reasoning model** | A model trained with RL on checkable problems so that it writes a long chain of thought before its final answer. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
@@ -1215,6 +1221,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Teacher and student** (also called: Student, Teacher) | The large fixed model that provides targets, and the small model that learns from them. | [09.06](09-efficient-deep-learning/06-knowledge-distillation.md) |
 | **Technical debt** | The future cost of a shortcut taken today. | [08.11](08-quality-assurance/11-teams-and-technical-debt.md) |
 | **Telemetry** | The log lines, counts and measurements a system emits about itself. | [07.10](07-ml-in-production/10-planning-for-operations.md) |
+| **Teleoperation** | Controlling a robot by hand, for example through a headset, a camera or a joystick, often to record demonstrations. | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **Temperature** | A sampling parameter that rescales token probabilities: lower values make output more predictable, higher values more varied. | [01.04](01-foundations/04-using-llms-tokens-context-and-sampling.md) |
 | **Temporal Shift Module** | Moving part of a video network's channels between frames to add temporal modeling with no multiplies. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
 | **Tensor** | A block of numbers with a shape; the form of all data, parameters and intermediate results in training. | [10.02](10-llm-internals/02-resource-accounting-flops-memory-and-arithmetic-intensity.md) |

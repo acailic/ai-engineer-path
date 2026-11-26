@@ -1,6 +1,6 @@
 # 02. Embodied Agents and Robotics
 
-**Level:** Practitioner · **Reading time:** 17 min · **Exercise:** 45 min
+**Level:** Practitioner · **Reading time:** 18 min · **Exercise:** 45 min
 
 > **In one sentence:** After this chapter you can name the three ingredients behind robot agents that reached expert level, explain where language models fit into that recipe, and apply the same reward-design discipline to a software agent.
 
@@ -43,9 +43,9 @@ The model never runs the simulation itself; it sees only the training results of
 
 ### Whole-body control: a teacher that cheats, a student that cannot
 
-Balance is a skill people cannot put into words, and Fan says reinforcement learning is the right tool for exactly such skills, because it finds the behavior by trial and error. In his example the network that keeps a humanoid upright and coordinates its arms and legs, what he calls **whole-body control**, needs 1.5 million parameters, not billions. HOVER is his network for the job ([19:31](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=1171)).
+Balance is a skill people cannot put into words, and Fan says reinforcement learning is the right tool for exactly such skills, because it finds the behavior by trial and error. He calls the task of keeping a humanoid balanced and coordinating its arms and legs **whole-body control**; the network that does it, he says, needs 1.5 million parameters, not billions. HOVER is that network ([19:31](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=1171)).
 
-Training has two stages. In the first, reinforcement learning in simulation produces a teacher policy that may read **privileged information**, exact values a simulator knows, such as the position and velocity of every joint, which a real robot cannot sense. The teacher works, and it cheats. Second, those inputs are masked out, and a student policy is trained by supervised learning to imitate the teacher without them. Fan finds this route more stable than training the student directly with reinforcement learning: train the easy version first, then learn the harder one from it. Masking a different subset of inputs makes the same network accept several kinds of command, so one controller can take orders from many devices.
+Training has two stages. In the first, reinforcement learning in simulation produces a teacher policy that reads **privileged information**, exact values a simulator knows, such as the position and velocity of every joint, which a real robot cannot sense. The teacher works, and it cheats. Second, those inputs are masked out, and a student policy is trained by supervised learning to imitate the teacher without them. Fan finds this route more stable than training the student directly with reinforcement learning: train the easy version first, then learn the harder one from it. Masking a different subset of inputs makes the same network accept several kinds of command, so one controller can take orders from many devices.
 
 ## What the practitioners say
 
@@ -60,7 +60,7 @@ Training has two stages. In the first, reinforcement learning in simulation prod
   - *Training:* after about a day on a bank of PlayStations it beat the best human lap times on an empty track, after about a week in races ([14:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=840)). The ingredients include experience replay (store each step and reuse it), n-step returns (score an action by several later rewards, not one) and a critic that learns how likely very good and very bad outcomes are; that last algorithm cut almost a second off a lap ([48:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=2880), [50:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=3000)). On one track its lap times were compared with the hundred best reported by people worldwide; after 24 hours it beat almost all of them ([50:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=3000)).
   - *Data curation:* being faster was not enough. The team put twenty cars on the track and staged one car behind one, two, three or seven others, so that the agent met traffic, and mixed scenarios into each training batch by hand; the team has since worked on automated methods for the mix. The slipstream pass, a defensive line and a double crossover pass emerged; none was programmed or rewarded on its own ([52:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=3120), [54:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=3240)).
   - *Result, as he recounts it:* humans won in July 2021. After months of fixes, the agents beat four top drivers that October and finished first and second in an eight-car race against four humans. They are now a permanent opponent in the game, with an adjustable skill level. Driver Emily Jones said she learned from watching them ([14:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=840), [56:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=3360), [58:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=3480)).
-- **Ad hoc teamwork.** Someone joining a pickup game of basketball cooperates straight away with people he has never met, and Stone wants the same from an agent. **Ad hoc teamwork** is the problem of building one agent that works well with teammates it has never trained beside and has no say in choosing. His example is a disaster rescue in which many teams bring robots of their own; nobody should have to reprogram them to act as one team. The problem was introduced in a challenge paper at AAAI 2010, and his lab has studied it in theory and in experiment since ([26:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=1560)).
+- **Ad hoc teamwork.** Someone joining a pickup game of basketball cooperates straight away with people he has never met, and Stone wants the same from an agent. **Ad hoc teamwork** is the problem of building one agent that works well with teammates it has no say in choosing. His example is a disaster rescue in which many different people bring robots; nobody should have to reprogram them to act as one team. The problem was introduced in a challenge paper at AAAI 2010, and his lab has studied it in theory and in experiment since ([26:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=1560)).
 
 ### Jim Fan (November 2024): data is the bottleneck
 
@@ -130,14 +130,16 @@ def reward_a(state, action, next_state):  # candidate a model wrote for you
 3. GT Sophy was first too aggressive, then too timid. What changed in between?
 4. What did the two kittens in Held and Hein's experiment share, and what differed?
 5. What does Voyager store in its skill library?
+6. HOVER is trained in two stages. What is each stage for?
 
 <details><summary>Show answers</summary>
 
 1. B. Each candidate is scored by training an agent against it.
 2. Varying physical parameters such as gravity and friction across simulated worlds, so a policy does not depend on one imperfect simulation and still works in reality.
-3. Reward signals against collisions, above all those judged the agent's fault. Stone does not say a penalty made it timid: it was too concerned about causing a collision.
+3. Reward signals against collisions, especially those it would be judged at fault for. Stone does not say a penalty made it timid: it braked because it was too worried about causing a collision.
 4. The same visual experience. Only the active kitten controlled its own motion.
 5. Each learned behavior as executable code, retrieved by a description of what it does.
+6. A teacher policy is first trained by reinforcement learning in simulation with privileged information, which only a simulator can supply. A student policy then learns, by supervised learning, to imitate the teacher without those inputs; Fan says this is more stable than training the student directly with reinforcement learning.
 
 </details>
 

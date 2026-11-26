@@ -78,7 +78,7 @@ Search can also improve the agent, not only one run. The successful traces it fi
 | VisualWebArena | 2024 | The same style, with tasks that need images | Execution-based; screenshots allowed |
 | OSWorld | 2024 | 369 tasks on a real desktop operating system | Execution-based scripts on a VM |
 
-When you compare computer-use benchmarks, Xiong names five properties that set OSWorld apart: its environment is executable and can be controlled, it scales to new environments, it accepts multimodal observations, it includes tasks that cross applications, and a task may begin from an intermediate state. The tasks take longer as well, which he reads as a sign that they are more complex: by his account the median completion time is about 100 to 110 seconds, against 30 to 40 for WebArena, and some tasks need 900 seconds or more ([24:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=1440)).
+When you compare computer-use benchmarks, Xiong names five properties that set OSWorld apart: its environment is executable and can be controlled, it scales to new environments, it accepts multimodal observations, it includes tasks that cross applications, and a task may begin from an intermediate state. The tasks take longer as well, which he reads as a sign that they are more complex: by his account the median completion time is about 100 to 110 seconds, where WebArena's is 30 to 40, and some tasks need 900 seconds or more ([24:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=1440)).
 
 ## What the practitioners say
 
