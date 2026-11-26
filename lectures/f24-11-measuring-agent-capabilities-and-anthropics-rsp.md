@@ -8,13 +8,13 @@
 
 ## Before you watch
 
-Read [Evaluating Capabilities and Risks](../03-evaluation/06-evaluating-capabilities-and-risks.md) first; most parts of the lecture have a section there.
+Read [Evaluating Capabilities and Risks](../03-evaluation/06-evaluating-capabilities-and-risks.md) first; about half the parts of the lecture have a section there.
 
 ## The lecture, part by part
 
 ### [0:00–4:30](https://www.youtube.com/watch?v=6y2AnWol7oo&t=0) Measurement and elicitation
 
-A capability is only what you can elicit: a prompt that asks for step-by-step reasoning draws out behavior that was already there, and new techniques keep arriving, so a release claim must survive them. With agents, which act in the real world, measurement matters more.
+The capability you measure is only what you manage to elicit: a prompt that asks for step-by-step reasoning draws out behavior that was already there, and new techniques keep arriving, so a release claim must survive them. With agents, which act in the real world, measurement matters more.
 **In this book:** [Evaluating Capabilities and Risks › Why capability evaluation is harder than ordinary evaluation](../03-evaluation/06-evaluating-capabilities-and-risks.md#why-capability-evaluation-is-harder-than-ordinary-evaluation).
 
 ### [4:30–10:45](https://www.youtube.com/watch?v=6y2AnWol7oo&t=270) Scaling, a coding demo, and longer tasks ahead
@@ -34,17 +34,17 @@ Biosafety handles pathogens that exist; the policy must forecast levels not yet 
 
 ### [28:40–38:30](https://www.youtube.com/watch?v=6y2AnWol7oo&t=1720) Computer use: demo, mechanism, prompt injection, defense in depth
 
-Computer use gives the model tools for mouse, keyboard and screenshots; training started from prompt descriptions, then practice in a sandbox. A demo has Claude edit a website through the laptop's own apps. The risk is indirect prompt injection, such as near-white text ordering data theft. The defense is layered: a disposable virtual machine, an instruction hierarchy and reliable oversight models.
+Computer use gives the model tools for mouse, keyboard and screenshots; training started from prompt descriptions, then practice in a sandbox. A demo has Claude edit a website through the laptop's own apps. The risk is indirect prompt injection, such as near-white text ordering data theft. The defense is layered: a disposable virtual machine, an instruction hierarchy and reliable oversight models; the last two, he says, still need solving.
 **In this book:** [Jailbreaks and Prompt Injection › The path of an indirect injection](../04-safety-and-security/02-jailbreaks-and-prompt-injection.md#the-path-of-an-indirect-injection) · [Multimodal Agents: Web and Computer Use](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md).
 
 ### [38:30–46:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=2310) A second demo; benchmarks and governance
 
-A second demo fills in a vendor form from a spreadsheet and a customer-relationship system; the agent loop hands control back to the user between actions. Anthropic cannot measure capabilities alone. SWE-bench Verified and a desktop benchmark are reproducible from containers, general across tasks and languages, and close to the real world. On governance, he describes ceding control to board members who hold no financial stake as AI grows more powerful.
+A second demo fills in a vendor form from a spreadsheet and a customer-relationship system; the agent loop keeps Claude acting tool after tool and at some point hands control back to the user. Anthropic cannot measure capabilities alone. SWE-bench Verified and a desktop benchmark are reproducible from containers, general across tasks and languages, and close to the real world. On governance, he describes ceding control to board members who hold no financial stake as AI grows more powerful.
 **In this book:** nothing beyond this guide; nearest: [Evaluating Agents: Trajectories and Environments › Benchmark design and contamination](../03-evaluation/04-evaluating-agents-trajectories-and-environments.md#benchmark-design-and-contamination).
 
 ## What to take away
 
-- A capability is what a test manages to elicit; the environment is part of the test.
+- A test measures only the capability it manages to elicit; the environment is part of the test.
 - Tie safety commitments to capability levels in advance, publish the testing, and expect safeguards to lag.
 - Benchmarks saturate fast; make them reproducible and realistic.
 
