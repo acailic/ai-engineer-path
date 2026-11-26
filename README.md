@@ -19,7 +19,20 @@ Start with [how to use this repository](#how-to-use-this-repository). If you alr
 
 ## Who it is for
 
-A software engineer who has never worked with ML or LLMs, who is comfortable with Python, Git and the terminal, and who wants to get from zero to professional level. You do not need to have trained a model. You do need the habit of asking what a component assumes, what happens when it fails, and how you would know.
+A software engineer who has never worked with ML or LLMs and wants to get from zero to professional level.
+
+### What you need before you start
+
+| | Needed? | What that means |
+|---|---|---|
+| **Python** | Yes | You can read and write a script of a few hundred lines, and use Git and the terminal. |
+| **Machine learning** | No | The course starts from zero. You do not need to have trained a model. |
+| **Math** | Not for the main path | The statistics you need for evaluation (error bars, comparing two runs) are taught in [Statistics for Evals](03-evaluation/05-statistics-for-evals.md). Part 10 and Capstone 5 are easier with some linear algebra and PyTorch. |
+| **A GPU** | Not for the main path | The examples run on any laptop. Part 10 and Capstone 5 need a rented GPU, by the hour. |
+| **An API key** | For Capstone 1 | The examples need none. Capstone 1 calls a hosted model, which costs from a few cents to a few dollars per evaluation run. |
+| **A habit** | Yes | Asking what a component assumes, what happens when it fails, and how you would know. |
+
+Part 10 (how a language model is built, from Stanford CS336) is the hardest part of the course and comes last. Skip it on a first pass if you only want to build with models.
 
 ## What "professional level" means here
 
