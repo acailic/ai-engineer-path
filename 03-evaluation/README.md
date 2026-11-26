@@ -68,7 +68,7 @@ Each guide maps one lecture from its first minute to its last and says where thi
 | Lecture | Lecturer | Length | Parts no chapter teaches | Guide |
 |---|---|---|---|---|
 | Agent Evaluation & Project Overview | Berkeley course staff | 1:36:00 | 0 of 12 | [open guide](../lectures/f25-04-agent-evaluation-and-project-overview.md) |
-| Practical Lessons from Deploying Real-World AI Agents | Clay Bavor (Sierra) | 48:00 | 6 of 16 | [open guide](../lectures/f25-09-practical-lessons-from-deploying-real-world-ai.md) |
+| Practical Lessons from Deploying Real-World AI Agents | Clay Bavor (Sierra) | 48:00 | 5 of 16 | [open guide](../lectures/f25-09-practical-lessons-from-deploying-real-world-ai.md) |
 | Measuring Agent capabilities and Anthropic's RSP | Ben Mann (Anthropic) | 46:00 | 1 of 6 | [open guide](../lectures/f24-11-measuring-agent-capabilities-and-anthropics-rsp.md) |
 
 ## Sources

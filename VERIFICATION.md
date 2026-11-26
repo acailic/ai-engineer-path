@@ -6,14 +6,14 @@ What was checked in this repository, how, and what was left out. The checks ran 
 
 These checks ran on 2026-11-25, after the second review.
 
-- **Internal links.** 2,636 checked, none broken; 4,840 with the lecture guides on 2026-11-26, none broken.
+- **Internal links.** 2,636 checked, none broken; 4,928 with the lecture guides on 2026-11-26, none broken.
 - **External links.** 181 links other than YouTube. Three refuse automated requests: two DOI links into the ACM Digital Library and one Medium post. They open in a browser.
 - **arXiv citations.** 119 citations to 103 distinct papers. Every title and year matches the arXiv record.
 - **Lecture citations.** 1,459 links point to a moment in a lecture video. Each was checked against the two-minute block of the machine transcript at that moment.
 - **Overlap with the sources.** About 2.5 million words of sources were compared with the chapters. The longest passage a chapter shares with a source is 23 words: a quotation with an attribution, an author list or a paper title.
 - **Diagrams.** 81 diagrams in 80 chapters. Each passes Mermaid's own parser, and each has a caption before it and a plain sentence after it.
 - **Code.** 66 Python listings run on their own, and 17 tests pass in four pytest suites. Two more suites fail on purpose, as their chapters describe, to show tests catching planted errors. A third needs a paid model and is labelled as pseudocode that does not run as pasted. The remaining listings that do not run alone are labelled in their chapters: they need a package such as numpy or PyTorch, or a file the reader creates. The four programs in `examples/` are identical to their chapter listings and run.
-- **Chapter shape.** Every chapter has the same required sections, a level tag, a self-check with answers and a sources list. The longest chapter is 4,208 words including code, diagrams and link addresses.
+- **Chapter shape.** Every chapter has the same required sections, a level tag, a self-check with answers and a sources list. The longest chapter is 4,184 words including code, diagrams and link addresses.
 
 ## The verification pass
 
@@ -77,14 +77,14 @@ The chapters cite a lecture where they make a claim taken from it. They do not r
 
 | Course | Guides | Parts | Parts no chapter teaches |
 |---|---|---|---|
-| [UC Berkeley LLM Agents MOOC, Fall 2024](lectures/README.md#uc-berkeley-llm-agents-mooc-fall-2024) | 12 | 173 | 38 |
-| [UC Berkeley Advanced LLM Agents MOOC, Spring 2025](lectures/README.md#uc-berkeley-advanced-llm-agents-mooc-spring-2025) | 12 | 175 | 32 |
-| [UC Berkeley Agentic AI MOOC, Fall 2025](lectures/README.md#uc-berkeley-agentic-ai-mooc-fall-2025) | 12 | 162 | 24 |
-| [MIT 6.5940 TinyML and Efficient Deep Learning Computing, Fall 2024](lectures/README.md#mit-65940-tinyml-and-efficient-deep-learning-computing-fall-2024) | 23 | 410 | 31 |
+| [UC Berkeley LLM Agents MOOC, Fall 2024](lectures/README.md#uc-berkeley-llm-agents-mooc-fall-2024) | 12 | 173 | 28 |
+| [UC Berkeley Advanced LLM Agents MOOC, Spring 2025](lectures/README.md#uc-berkeley-advanced-llm-agents-mooc-spring-2025) | 12 | 175 | 20 |
+| [UC Berkeley Agentic AI MOOC, Fall 2025](lectures/README.md#uc-berkeley-agentic-ai-mooc-fall-2025) | 12 | 162 | 17 |
+| [MIT 6.5940 TinyML and Efficient Deep Learning Computing, Fall 2024](lectures/README.md#mit-65940-tinyml-and-efficient-deep-learning-computing-fall-2024) | 23 | 410 | 26 |
 | [Stanford CS336 Language Modeling from Scratch, Spring 2026](lectures/README.md#stanford-cs336-language-modeling-from-scratch-spring-2026) | 18 | 287 | 9 |
-| Total | 77 | 1,207 | 134 |
+| Total | 77 | 1,207 | 100 |
 
-In 134 of the 1,207 parts, 11%, the guide's writer found no chapter section that teaches the same thing, and the guide explains the part itself. That is the measure of how much of the lectures the chapters do not cover. It is largest for the MIT course, where 31 of 410 parts are explained only in the guide, and smallest for CS336, with 9 of 287. The count rests on each writer's judgement of what counts as the same thing, so read it as an estimate.
+In 100 of the 1,207 parts, 8%, the guide's writer found no chapter section that teaches the same thing, and the guide explains the part itself. That is the measure of how much of the lectures the chapters do not cover. It is largest for the MIT course, where 26 of 410 parts are explained only in the guide, and smallest for CS336, with 9 of 287. The count rests on each writer's judgement of what counts as the same thing, so read it as an estimate.
 
 An automatic check runs on every guide before it is published. For each guide it confirms that:
 
@@ -103,7 +103,7 @@ What the check cannot see is whether a guide understood the lecture correctly. E
 - **The chapters checked against the corrected claims.** A claim that one reader of a lecture got wrong, another reader of the same lecture may have got wrong too. For every claim corrected in a guide, the chapters were searched for the same claim and the passage was re-read against the lecture: for the guides of all four courses, 387 changed claims were checked and 45 sentences in 26 chapters corrected.
 Names are the weakest point: the machine transcript can garble a name, so a guide prefers the names as the lecture's slides spell them and otherwise says "the lecturer". If a guide and the lecture disagree, the lecture wins.
 
-**Moved into the chapters, 2026-11-26.** So far this has been done for sixteen chapters: the two chapters of part 09 that collect lectures without a chapter of their own, the chapter of part 06 on formal mathematics, five chapters of part 01, three chapters of part 03 and the first five chapters of part 09. Each of them now teaches, in text written from the lecture with a link to the moment in the video, the parts of its lectures that only a guide had taught; the guide's line for such a part points to the chapter section. The two chapters that were reviewed first (09/10 and 09/11) needed 19 and 16 corrections in their added text, which is why every enlarged chapter is read a second time against the lectures before it counts as checked.
+**Moved into the chapters, 2026-11-26.** By the evening of 2026-11-26 thirty chapters had been enlarged this way, in every part that was written from lectures, and the parts that only a guide teaches had fallen from 231 to about 100 of 1,207. The added text has not had the reading that the rest of the book has had. In the first three enlarged chapters that were read a second time against the lectures, roughly one added sentence in five was corrected: numbers the lecturer gave differently, a claim he had not made, a passage copied in eight or more words, and once a chapter that had grown past its word limit. Those three (the two summary chapters of part 09 and the chapter on formal mathematics) are corrected; the other twenty-seven enlarged chapters are being read the same way, and until that is done their added passages count as unchecked.
 
 ## Glossary
 

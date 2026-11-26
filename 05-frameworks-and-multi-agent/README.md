@@ -64,10 +64,10 @@ Each guide maps one lecture from its first minute to its last and says where thi
 | Lecture | Lecturer | Length | Parts no chapter teaches | Guide |
 |---|---|---|---|---|
 | Agentic AI Frameworks & AutoGen + Building a Multimodal Knowledge Assistant | Chi Wang (AutoGen-AI); Jerry Liu (LlamaIndex) | 1:06:00 | 0 of 17 | [open guide](../lectures/f24-03-agentic-ai-frameworks-and-autogen-building-a.md) |
-| Multi-Agent AI | Noam Brown (OpenAI) | 56:00 | 2 of 18 | [open guide](../lectures/f25-06-multi-agent-ai.md) |
-| Multi-Agent Systems in the Era of LLMs | Oriol Vinyals (Google DeepMind) | 1:00:00 | 1 of 16 | [open guide](../lectures/f25-10-multi-agent-systems-in-the-era-of-llms.md) |
+| Multi-Agent AI | Noam Brown (OpenAI) | 56:00 | 0 of 18 | [open guide](../lectures/f25-06-multi-agent-ai.md) |
+| Multi-Agent Systems in the Era of LLMs | Oriol Vinyals (Google DeepMind) | 1:00:00 | 0 of 16 | [open guide](../lectures/f25-10-multi-agent-systems-in-the-era-of-llms.md) |
 | Enterprise trends for generative AI, and key components of building successful agents/applications | Burak Gokturk (Google) | 1:04:00 | 2 of 17 | [open guide](../lectures/f24-04-enterprise-trends-for-generative-ai-and-key.md) |
-| AI Agents for Enterprise Workflows | Nicolas Chapados (ServiceNow) | 1:12:00 | 4 of 14 | [open guide](../lectures/f24-07-ai-agents-for-enterprise-workflows.md) |
+| AI Agents for Enterprise Workflows | Nicolas Chapados (ServiceNow) | 1:12:00 | 3 of 14 | [open guide](../lectures/f24-07-ai-agents-for-enterprise-workflows.md) |
 
 ## Where to go next
 
