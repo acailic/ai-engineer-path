@@ -24,7 +24,7 @@ An early Chinese typewriter carried thousands of characters, and its speed depen
 
 ### [10:29–19:36](https://www.youtube.com/watch?v=xqRAS6rAouo&t=629) New algorithms keep coming
 
-Closed models still lead, but open-source models such as DeepSeek and Qwen catch up in about six months, and usage reported by the routing site openrouter.ai grew about tenfold in a year. He reads each new wave as an older idea returning: mixture of experts as sparse parameters, test-time scaling as prediction repeated along time, reinforcement learning as scoring a whole rollout.
+Closed models still lead, but open-source models such as DeepSeek and Qwen catch up in about six months, and usage reported by the routing site openrouter.ai grew about tenfold in a year, by his figure; the numbers he gives, 50 to 60 billion tokens a day then and 4.9 trillion now, imply about a hundredfold. He reads each new wave as an older idea returning: mixture of experts as sparse parameters, test-time scaling as prediction repeated along time, reinforcement learning as scoring a whole rollout.
 **In this book:** [How Agent System Designs Evolve › What the practitioners say](../02-building-agents/06-how-agent-system-designs-evolve.md#what-the-practitioners-say) · [From Base Model to Assistant: Post-Training › 4. Reinforcement learning with verifiable rewards](../01-foundations/03-from-base-model-to-assistant-post-training.md#4-reinforcement-learning-with-verifiable-rewards).
 
 ### [19:36–28:57](https://www.youtube.com/watch?v=xqRAS6rAouo&t=1176) Consumer applications: hype, fluidity and who pays
@@ -44,17 +44,17 @@ AI infrastructure is now a third pillar of IT strategy because AI workloads diff
 
 ### [50:00–59:14](https://www.youtube.com/watch?v=xqRAS6rAouo&t=3000) Hardware back toward the mainframe, and a problem outside text
 
-A 1985 supercomputer acted as one machine on a shared bus; the cloud era replaced it with small, swappable servers; AI goes back toward the mainframe, with rack-scale systems whose switches let every processor reach every other machine's memory, so a model need not be split across machines. He closes with a digital twin of an airport that finds taxiways silently blocking traffic: hard real problems take data that is not text and return actions that are not text.
+A 1985 supercomputer acted as one machine on a shared bus; the cloud era replaced it with small, swappable servers; AI goes back toward the mainframe, with rack-scale systems whose switches let every processor reach every other machine's memory, so a model need not be split across machines. He closes with a digital twin of an airport used to look for taxiways that unknowingly block traffic: hard real problems take data that is not text and return actions that are not text.
 **In this book:** nothing beyond this guide.
 
 ### [59:14–71:15](https://www.youtube.com/watch?v=xqRAS6rAouo&t=3554) Questions: what hyperscalers sell, what tokens cost, why retrieval stays
 
-Hyperscalers now sell results or tokens rather than resources, but many training jobs are still not written to be interrupted and rerun. Some applications pay more for tokens than they collect; he expects falling prices to close that gap within a year. Retrieval is not obsolete: it runs as cheap coarse ranking followed by fine ranking by a language model, and the unclear line between common knowledge and supplied facts feeds hallucination. Work also moves poorly between clouds: training wants its machines on one rack, and petabytes of data travel slowly.
+Hyperscalers are shifting, he says, from selling resources to selling workloads, results or tokens, but many training jobs are still not written to be interrupted and rerun. Some applications pay more for tokens than they collect; he expects a Moore's-law equivalent in token economics, so an application that loses half its money breaks even next year at the same quality. Retrieval is not obsolete: it runs as cheap coarse ranking followed by fine ranking by a language model, and the unclear line between common knowledge and supplied facts feeds hallucination. Work also moves poorly between clouds: training wants its machines on one rack, and petabytes of data travel slowly.
 **In this book:** [How Agent System Designs Evolve › What the practitioners say](../02-building-agents/06-how-agent-system-designs-evolve.md#what-the-practitioners-say) · [Memory and Knowledge for Agents › What the practitioners say](../02-building-agents/04-memory-and-knowledge-for-agents.md#what-the-practitioners-say).
 
 ### [71:15–1:20:00](https://www.youtube.com/watch?v=xqRAS6rAouo&t=4275) Questions: startup lessons
 
-Technical founders, he says, build from the inside out and underweight attention, which matters as much as the product; his own useful skill is speaking both languages, papers with researchers and machines with engineers. Startups do better in enterprise verticals that big labs will not focus on than in training another foundation model, and robotics and phone-side intelligence will need efficient models and compute near the user. His hardest problem was GPU supply: procuring capacity and negotiating contract terms consumed the founders' time.
+Technical founders, he says, build from the inside out and underweight attention, which matters as much as the product; his own useful skill is speaking both languages, papers with researchers and machines with engineers. Training another foundation model, he says, calls for strong financial backing and talented researchers, while startups do better in enterprise verticals that big labs will not focus on, and robotics and phone-side intelligence will need efficient models and compute near the user. His hardest problem was GPU supply: procuring capacity and negotiating contract terms consumed the founders' time.
 **In this book:** nothing beyond this guide.
 
 ## What to take away
