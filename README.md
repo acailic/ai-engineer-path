@@ -1,5 +1,7 @@
 # AI Engineer Path
 
+> **You need:** Python, Git and the terminal. **You do not need:** any ML, advanced math or a GPU to start. [Details](#what-you-need-before-you-start)
+
 A free, self-contained course distilled from six open university courses:
 
 1. **UC Berkeley** — [LLM Agents MOOC](https://rdi.berkeley.edu/llm-agents/f24) (Fall 2024)
@@ -12,10 +14,6 @@ A free, self-contained course distilled from six open university courses:
 It turns them into one path that takes a software engineer **with no machine-learning background to a professional level** in building with large language models: how the models work, how to build agents, how to evaluate them, how to secure them, how to ship them, and how to run them cheaply. Nothing is copied: every explanation is rewritten, and every chapter links back to the lectures and readings it draws on ([sources](SOURCES.md)).
 
 It has 101 chapters in eleven parts, five capstone projects, five checklists, four runnable example programs and 77 lecture guides.
-
-You can also read it as a website: **[acailic.github.io/ai-engineer-path](https://acailic.github.io/ai-engineer-path/)**. Every page there has a **Read aloud** button that reads the page to you with your browser's own voices, follows the text, and lets you change the speed and the voice. It works in Chrome, Edge and Safari, on a computer and on a phone; it needs no account.
-
-Start with [how to use this repository](#how-to-use-this-repository). If you already know what you want, go to the [roadmap](ROADMAP.md), the [table of contents](#table-of-contents) or the [glossary](GLOSSARY.md).
 
 ## Who it is for
 
@@ -33,6 +31,12 @@ A software engineer who has never worked with ML or LLMs and wants to get from z
 | **A habit** | Yes | Asking what a component assumes, what happens when it fails, and how you would know. |
 
 Part 10 (how a language model is built, from Stanford CS336) is the hardest part of the course and comes last. Skip it on a first pass if you only want to build with models.
+
+## Start here
+
+You can also read it as a website: **[acailic.github.io/ai-engineer-path](https://acailic.github.io/ai-engineer-path/)**. Every page there has a **Read aloud** button that reads the page to you with your browser's own voices, follows the text, and lets you change the speed and the voice. It works in Chrome, Edge and Safari, on a computer and on a phone; it needs no account.
+
+Start with [how to use this repository](#how-to-use-this-repository). If you already know what you want, go to the [roadmap](ROADMAP.md), the [table of contents](#table-of-contents) or the [glossary](GLOSSARY.md).
 
 ## What "professional level" means here
 
