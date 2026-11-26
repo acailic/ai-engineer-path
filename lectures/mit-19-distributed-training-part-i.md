@@ -45,7 +45,7 @@ The server collects the gradients by reduce, since it sums them. Each worker pay
 ### [26:00–31:25](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=1560) Parallel and recursive-halving all-reduce
 
 Running all reductions at once gives O(1) time and O(n²) total bandwidth, too much. Recursive halving, also called the butterfly all-reduce, combines the virtues. With eight nodes, each first exchanges with its neighbour at offset 1, then at offset 2, then at offset 4; after log n cycles, three here, every node has every contribution. Han's lab uses this rather than a central server.
-**In this book:** nothing beyond this guide; nearest: [Parallelism › 2. Data parallelism](../10-llm-internals/06-parallelism.md#2-data-parallelism).
+**In this book:** [Parallelism › How it works, step by step › 1. The vocabulary](../10-llm-internals/06-parallelism.md#1-the-vocabulary).
 
 ### [31:25–36:50](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=1885) Where training memory goes, and ZeRO-1 and ZeRO-2
 

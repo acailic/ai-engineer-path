@@ -40,7 +40,7 @@ There is a zoo of activations, from ReLU and GELU to SwiGLU, GeGLU and more. A p
 ### [27:16–30:42](https://www.youtube.com/watch?v=lVynu4bo1rY&t=1636) Serial and parallel blocks
 
 Normally attention and the feed-forward layer run one after the other. A systems-minded person sees a dependency and asks whether they could run in parallel, with their outputs added together. GPT-J did it and PaLM did it; done right, the norms are shared and the matrix products fused, and Cohere followed. It has fallen out of use in the past two years: the serial form is now optimized well enough that the parallel form's small gain no longer pays for its loss of representational power, effectively half the depth. His conclusion from how short this list is: apart from the norm, the biases and the gate, the original transformer has stood the test of time. Alternatives to attention wait for the next lecture.
-**In this book:** nothing beyond this guide; nearest: [Transformer Architectures and Hyperparameters › What the practitioners say](../10-llm-internals/03-transformer-architectures-and-hyperparameters.md#what-the-practitioners-say).
+**In this book:** [Transformer Architectures and Hyperparameters › What the practitioners say](../10-llm-internals/03-transformer-architectures-and-hyperparameters.md#what-the-practitioners-say).
 
 ### [30:42–34:00](https://www.youtube.com/watch?v=lVynu4bo1rY&t=1842) Why position has to be added, and why relative
 

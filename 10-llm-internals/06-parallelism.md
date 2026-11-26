@@ -1,6 +1,6 @@
 # 06. Parallelism
 
-**Level:** Professional · **Reading time:** 15 min · **Exercise:** 45 min
+**Level:** Professional · **Reading time:** 20 min · **Exercise:** 45 min
 **Prerequisites:** [GPUs, TPUs and Kernels](05-gpus-tpus-and-kernels.md), for the single-GPU picture, and [Resource Accounting](02-resource-accounting-flops-memory-and-arithmetic-intensity.md), for the 12 bytes per parameter of mixed-precision Adam.
 
 > **In one sentence:** After this chapter you can name what each parallelism strategy splits and what it costs in communication, and estimate the memory that sharding saves per GPU.
@@ -110,7 +110,7 @@ Shard the width: each weight matrix is split into pieces that live on different 
 - **Expert parallelism** places different experts of a mixture-of-experts layer on different GPUs and routes tokens with all-to-all (Chapter 04). It complicates combinations: experts change only the MLPs, not the attention, so you want high tensor parallelism for the attention and low for the experts. Recent systems decouple the two ([58:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=3480), [60:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=3600)).
 - **Sequence parallelism** and **context parallelism** split the sequence length, which matters for long inputs. Context parallelism, or ring attention, spreads the activations of a long sequence across accelerators and passes them around a ring. It is used in long-context extension and in serving ([60:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=3600)).
 - **Activation recomputation** returns from Chapter 02: recompute instead of storing, to fit more. Hashimoto's counterintuitive tip: more recomputation can raise throughput, because saved memory becomes a larger batch, and pipelines need large batches ([72:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=4320)).
-- **Ulysses** is the other sequence-parallel method in Han's Lecture 19: it repartitions the attention layers, where ring attention passes the sequence around a ring. His lab has recently combined the two into a 2D parallelism that follows the hardware: the eight GPUs within a node talk to each other at a higher bandwidth than nodes do across the network, so Ulysses is used inside each node and ring attention carries the sequence from node to node ([66:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=3960)). The paper is open source.
+- **Ulysses** is the other sequence-parallel method in Han's Lecture 19: it repartitions the attention layers, where ring attention passes the sequence around a ring. His lab has recently combined the two into a 2D parallelism that follows the hardware: within a node, its eight GPUs talk to each other at a higher bandwidth than nodes do across the network, so Ulysses is used inside each node and ring attention carries the sequence from node to node ([66:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=3960)). The paper is open source.
 
 ### 7. Putting it together
 

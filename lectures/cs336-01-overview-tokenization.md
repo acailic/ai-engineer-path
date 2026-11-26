@@ -35,7 +35,7 @@ Three kinds of knowledge are at stake. Mechanics, what a transformer or model pa
 ### [11:37–19:27](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=697) A short history, and why open models matter
 
 Shannon used language models in the 1950s to measure the entropy of English, and n-gram models long served translation and speech. The neural lineage runs through LSTMs, Bengio's 2003 neural language model, sequence-to-sequence models, Adam, attention and the transformer, then mixture of experts and model parallelism. ELMo and BERT were fine-tuned; OpenAI embraced scaling from GPT through GPT-3, with emergent in-context learning; Google's answer was under-trained, and DeepMind's compute-optimal laws were a wake-up call. Early open efforts, EleutherAI, Meta's first attempt and BigScience, produced weak models; in three years Llama, Mistral and Chinese models such as DeepSeek and Qwen brought open weights close to closed ones, and AI2, NVIDIA and the Marin project publish paper, code and data too, without which the course could not exist. The idea of a language model moved from fine-tuning to prompting to conversation to agents, while the fundamentals, GPUs, stochastic gradients and transformers, held; only context lengths grew.
-**In this book:** nothing beyond this guide; nearest: [The Language Modeling Pipeline and Tokenization › How CS336 frames the whole pipeline](../10-llm-internals/01-the-language-modeling-pipeline-and-tokenization.md#how-cs336-frames-the-whole-pipeline).
+**In this book:** [The Language Modeling Pipeline and Tokenization › What the practitioners say](../10-llm-internals/01-the-language-modeling-pipeline-and-tokenization.md#what-the-practitioners-say).
 
 ### [19:27–27:24](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=1167) The course itself
 
@@ -60,7 +60,7 @@ Given 10 to the 25th floating-point operations, tens of millions of dollars, whi
 ### [53:42–1:00:22](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3222) Unit four: data
 
 Data quality decides how good a model is, and data reflects what the model should do. Evaluation comes first and splits in two: internal metrics need smoothness across scales and meaningful relative differences, and perplexity still captures intrinsic quality well; external metrics need ecological validity. Many diverse evaluations beat one average, and data absent from the internet avoids contamination. Data must be actively curated, web pages, books, papers, code, as in the Pile of 2021, amid legal disputes over copyrighted and unlicensed material. Processing turns HTML, PDFs and repositories into text, filters, deduplicates and mixes sources, and increasingly generates synthetic data; data serves pre-training, mid-training with high-quality and long-context data, and post-training. Assignment 4 starts from a raw web crawl.
-**In this book:** nothing beyond this guide; nearest: [Training Data › The core idea](../10-llm-internals/10-training-data.md#the-core-idea).
+**In this book:** [Training Data › The core idea](../10-llm-internals/10-training-data.md#the-core-idea).
 
 ### [1:00:22–1:05:06](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3622) Unit five: alignment, and the efficiency lens
 

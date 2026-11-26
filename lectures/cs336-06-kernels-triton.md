@@ -35,7 +35,7 @@ Each thread may use at most 255 registers, and an SM has a fixed number, so thre
 ### [14:21–16:51](https://www.youtube.com/watch?v=xnDHaNUvHBg&t=861) Bank conflicts
 
 Shared memory is split into 32 banks, each four bytes wide, and in one clock cycle each bank serves at most one thread. Threads that hit the same bank wait in turn: a bank conflict. The worst case is 32 threads reading the first column of a matrix at once, a 32-way conflict. Reading rows would avoid it, but a matrix product reads along the rows of its first matrix and down the columns of its second, and transposes happen, so the order is not always free to choose. The remedy, which he does not develop, is swizzling, an arrangement of shared memory that avoids conflicts.
-**In this book:** nothing beyond this guide; nearest: [GPUs, TPUs and Kernels › 2. The hardware facts that decide speed](../10-llm-internals/05-gpus-tpus-and-kernels.md#2-the-hardware-facts-that-decide-speed).
+**In this book:** [GPUs, TPUs and Kernels › How it works, step by step › 2. The hardware facts that decide speed](../10-llm-internals/05-gpus-tpus-and-kernels.md#2-the-hardware-facts-that-decide-speed).
 
 ### [16:51–19:05](https://www.youtube.com/watch?v=xnDHaNUvHBg&t=1011) Coalescing, and the last wave
 
@@ -85,7 +85,7 @@ PTX is the intermediate assembly language the Triton compiler emits. He shows it
 ### [58:05–65:20](https://www.youtube.com/watch?v=xnDHaNUvHBg&t=3485) Softmax when a row fits in a block
 
 Softmax exponentiates and normalizes each row of a matrix. The naive PyTorch version computes each row's maximum for numerical stability, subtracts it, exponentiates, sums and divides. Each step is a kernel that reads and writes high bandwidth memory: five reads of the whole matrix and three writes, where far fewer are needed. The Triton version makes each row a block, because rows do not interact and blocks share no memory. The block size is the number of columns, rounded to a power of two for luck; there is one block per row; the pointers and the strides are passed in. Masked positions are filled with negative infinity, which acts as zero, and the rest is the naive computation: maximum, subtract, exponentiate, sum, divide, store. When everything fits in a block, Triton is nearly plain PyTorch. To a question: a softmax down a column only needs the strides changed.
-**In this book:** nothing beyond this guide; nearest: [GPUs, TPUs and Kernels › 5. Triton](../10-llm-internals/05-gpus-tpus-and-kernels.md#5-triton).
+**In this book:** [GPUs, TPUs and Kernels › How it works, step by step › 5. Triton](../10-llm-internals/05-gpus-tpus-and-kernels.md#5-triton).
 
 ### [65:20–72:00](https://www.youtube.com/watch?v=xnDHaNUvHBg&t=3920) A row longer than a block: tiles
 

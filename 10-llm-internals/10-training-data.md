@@ -1,6 +1,6 @@
 # 10. Training Data
 
-**Level:** Practitioner · **Reading time:** 16 min · **Exercise:** 90 min
+**Level:** Practitioner · **Reading time:** 17 min · **Exercise:** 90 min
 
 > **In one sentence:** After this chapter you can describe the pipeline that turns a web crawl into pretraining text, and build its three workhorses: a rule-based filter, an exact-duplicate remover and a near-duplicate detector.
 

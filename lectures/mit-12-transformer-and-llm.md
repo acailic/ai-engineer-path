@@ -20,7 +20,7 @@ A new chapter which, he says, is the course's most exciting, with much that is m
 ### [4:00–12:00](https://www.youtube.com/watch?v=EV6xb4xY708&t=240) Before transformers
 
 Language tasks divide into discriminative ones, which classify a given sentence (sentiment, entailment), and generative ones, which produce new tokens (modelling, translation, summarization). Recurrent networks kept a fixed working memory, constant in size but poor at long dependencies, and their step-by-step dependence limited parallel training. Convolutions over a window of three tokens see little context unless stacked. Bidirectional recurrent networks served as encoders, unidirectional ones as decoders. The deep problem: language has no locality, since an early word may relate to a much later one, and relating two distant tokens took as many steps as the distance between them.
-**In this book:** nothing beyond this guide; nearest: [Transformer Architectures and Hyperparameters › 2. Attention and position](../10-llm-internals/03-transformer-architectures-and-hyperparameters.md#2-attention-and-position).
+**In this book:** [Transformer Architectures and Hyperparameters › How it works, step by step › 2. Attention and position](../10-llm-internals/03-transformer-architectures-and-hyperparameters.md#2-attention-and-position).
 
 ### [12:00–16:00](https://www.youtube.com/watch?v=EV6xb4xY708&t=720) Tokens and embeddings
 
@@ -60,7 +60,7 @@ Assembled, the block reads tokens, embeds them with position information, mixes 
 ### [34:00–38:00](https://www.youtube.com/watch?v=EV6xb4xY708&t=2040) Encoder-decoder and encoder-only models
 
 After a break, design variants. The original transformer was an encoder-decoder: the encoder reads the source sentence and the decoder generates the answer token by token, as in translation, semantic similarity and summarization. BERT is encoder-only, with two pre-training objectives: masked language modelling, hiding about 15% of the tokens and predicting them with access to both neighbours, and next-sentence prediction, now rarely used. Its mask is full, and the pre-trained model is fine-tuned for each downstream task.
-**In this book:** nothing beyond this guide; nearest: [Transformer Architectures and Hyperparameters › How it works, step by step](../10-llm-internals/03-transformer-architectures-and-hyperparameters.md#how-it-works-step-by-step).
+**In this book:** [Transformer Architectures and Hyperparameters › How it works, step by step › 5. Three families: encoder-decoder, encoder-only, decoder-only](../10-llm-internals/03-transformer-architectures-and-hyperparameters.md#5-three-families-encoder-decoder-encoder-only-decoder-only).
 
 ### [38:00–40:00](https://www.youtube.com/watch?v=EV6xb4xY708&t=2280) Decoder-only models
 

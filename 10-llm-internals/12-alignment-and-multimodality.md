@@ -1,6 +1,6 @@
 # 12. Alignment and Multimodality
 
-**Level:** Professional · **Reading time:** 14 min · **Exercise:** 45 min
+**Level:** Professional · **Reading time:** 18 min · **Exercise:** 45 min
 **Prerequisites:** [Post-Training: SFT, RLHF and RLVR](11-post-training-sft-rlhf-and-rlvr.md), for SFT, RLHF and GRPO, and [The Language Modeling Pipeline and Tokenization](01-the-language-modeling-pipeline-and-tokenization.md), for what a token is, and [Transformer Architectures and Hyperparameters](03-transformer-architectures-and-hyperparameters.md), for RoPE.
 
 > **In one sentence:** After this chapter you can state what CS336 means by alignment, and explain how an image becomes tokens that a language model can read, and why generating images calls for a different tool.
@@ -82,7 +82,7 @@ flowchart LR
 
 The projector is the only bridge between the two modalities: everything to its right is an ordinary language model working on tokens.
 
-That is one of two routes. Song Han's Lecture 14 in the MIT course names the other, a **cross-attention** model, with Flamingo as its example ([40:00](https://www.youtube.com/watch?v=OCdwWfVoQ-Q&t=2400)). The language model stays frozen, and the image enters through cross-attention layers. A vision encoder turns it into visual tokens, and a **perceiver resampler** adjusts their number. In Han's example three images of three by three patches give 27 tokens. Keys and values are these 27 tokens together with five learned queries, 32 in all; the queries are the five learned ones, so the output is five vectors, however many frames and tokens went in. In each cross-attention layer the keys and values come from the visual tokens and the queries from the text. A **tanh gate** scales what the layer adds. It starts at zero, so the model at first is the plain language model, and training gradually teaches it how much vision to let in. Han shows it learning in context, a chinchilla, a shiba and then a flamingo, and, asked about a picture of two teddy bears on the moon, answering that they are having a conversation and using what looks like a computer.
+That is one of two routes. Song Han's Lecture 14 in the MIT course names the other, a **cross-attention** model, with Flamingo as its example ([40:00](https://www.youtube.com/watch?v=OCdwWfVoQ-Q&t=2400)). The language model stays frozen, and the image enters through cross-attention layers. A vision encoder turns it into visual tokens, and a **perceiver resampler** adjusts their number. In Han's example three images of three by three patches give 27 tokens. Keys and values are these 27 tokens together with five learned queries, 32 in all; the queries are the five learned ones, so the output is five vectors, however many frames and tokens went in. In each cross-attention layer the keys and values come from the visual tokens and the queries from the text. A **tanh gate** scales what the layer adds. It starts at zero, so the model at first is the plain language model, and training gradually teaches it how much vision to let in. Han shows it learning in context, a chinchilla, a shiba and then a flamingo, and, shown an image of two teddy bears on the moon, answering that they are having a conversation and using what looks like a computer.
 
 ### 4. Resolution
 

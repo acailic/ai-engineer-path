@@ -55,7 +55,7 @@ Fine-tuning adds little to a well-trained model, so the change should compress w
 ### [40:00–48:00](https://www.youtube.com/watch?v=OCdwWfVoQ-Q&t=2400) Vision-language models through cross-attention
 
 After a break, multimodal models, in two styles. Flamingo keeps the language model frozen and injects images through cross-attention. A vision encoder turns an image into tokens, and a perceiver resampler reduces a variable number of them to a fixed count: in Han's example 27 image tokens are concatenated with 5 learned queries, attention gives a 5 by 32 map, and the output is 5 tokens whatever the input length. In each layer the queries come from the text and the keys and values from these visual tokens, with a tanh gate initialized to zero, so the model starts as a pure language model and learns how much vision to admit. It learns in context, a chinchilla and a shiba demonstrated and a flamingo named; holds a dialogue about two teddy bears using a computer on the moon; and recognizes Chicago from its aquarium and Tokyo from its tower.
-**In this book:** nothing beyond this guide; nearest: [Alignment and Multimodality › Part two: the core idea of multimodality](../10-llm-internals/12-alignment-and-multimodality.md#part-two-the-core-idea-of-multimodality).
+**In this book:** [Alignment and Multimodality › How it works, step by step › 3. The standard recipe: encoder, projector, language model](../10-llm-internals/12-alignment-and-multimodality.md#3-the-standard-recipe-encoder-projector-language-model).
 
 ### [48:00–54:00](https://www.youtube.com/watch?v=OCdwWfVoQ-Q&t=2880) Tokens in, tokens out: PaLM-E and VILA
 

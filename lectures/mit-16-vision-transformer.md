@@ -75,7 +75,7 @@ Labels are expensive, and vision transformers want large data. After a break, tw
 ### [34:00–38:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=2040) Masked image modelling
 
 Masked image modelling borrows from BERT's masked language model, which hides a word and predicts it. Patches are masked, the visible ones pass through a heavy encoder, and a light decoder reconstructs the whole image, 25 tokens from 8 in his example. Objects reappear from few pixels: a bus, a dog, a clock. The best mask ratio is 70 to 75%, against 15% for BERT, which tells Han that images carry less information per token than language and tolerate more masking. The accuracy is higher than that of the baseline.
-**In this book:** nothing beyond this guide; nearest: [Alignment and Multimodality › 1. CLIP: learning what images mean from their captions](../10-llm-internals/12-alignment-and-multimodality.md#1-clip-learning-what-images-mean-from-their-captions).
+**In this book:** [Alignment and Multimodality › How it works, step by step › 1. CLIP: learning what images mean from their captions](../10-llm-internals/12-alignment-and-multimodality.md#1-clip-learning-what-images-mean-from-their-captions).
 
 ### [38:00–42:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=2280) From understanding to generation
 

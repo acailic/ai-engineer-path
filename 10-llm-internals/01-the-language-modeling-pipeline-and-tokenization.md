@@ -1,6 +1,6 @@
 # 01. The Language Modeling Pipeline and Tokenization
 
-**Level:** Practitioner · **Reading time:** 16 min · **Exercise:** 90 min
+**Level:** Practitioner · **Reading time:** 20 min · **Exercise:** 90 min
 
 > **In one sentence:** After this chapter you can turn any string into token IDs with a byte-pair encoding tokenizer you wrote yourself, and you can name the five pieces that CS336 builds to get from raw text to a trained language model.
 
