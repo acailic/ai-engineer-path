@@ -156,7 +156,7 @@ Build a 5 by 5 grid world in Python: a start cell, a goal cell, walls, and moves
 2. Because many actions on such a site change state and cannot be undone, such as placing an order or opening an account, so backtracking is impossible and exploring is unsafe.
 3. A world-model call predicts the state that follows a candidate action. A value call estimates how close that imagined state is to the goal.
 4. The model translates the request in plain language into a symbolic description. The solver finds an itinerary that satisfies all constraints.
-5. Far better data and parameter efficiency: a model ten times smaller reached high accuracy with about one twentieth of the training examples, as reported in the lecture.
+5. Far better data and parameter efficiency: by his summary, about the same performance with a model ten times smaller and a tenth of the training examples.
 6. When the agent will face similar tasks again, so that the written lesson can be reused on a later attempt.
 
 </details>

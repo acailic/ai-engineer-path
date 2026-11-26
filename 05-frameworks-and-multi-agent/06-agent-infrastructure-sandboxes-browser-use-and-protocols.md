@@ -178,12 +178,13 @@ Nicolas Chapados of ServiceNow gave the first part of the lecture of October 21,
 - **Two kinds of benchmark.** WebArena runs on local copies of open-source sites such as Reddit and GitLab: easy to run in parallel, but limited to open-source software and complex to install. Benchmarks on the open web are more realistic (real latency) and less reliable ([40:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=2400)).
 - **WorkArena.** A benchmark of 600 workplace tasks on the ServiceNow product, as of the lecture: open-source benchmark, closed product. The simplest tasks sort or filter a list, search a knowledge base and read a dashboard. A back-end API checks the result ([42:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=2520)). His slides say the harder WorkArena++ set was far from solved.
 - **Reproducibility.** AgentLab, work in progress in his account, is meant to store standardized traces (records of observations and actions) in public repositories, with package versions and dates, so old results can be re-checked while the web changes ([54:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=3240)).
-- **Five open difficulties** ([56:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=3360)):
+- **Six open difficulties** ([56:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=3360)):
   1. Long context: web pages run to tens or hundreds of thousands of tokens, even as accessibility trees, and little of it matters.
   2. Long-term planning: what lies two or three pages ahead is invisible from the current page.
   3. Learning from mistakes: he cites Agent Q, which combines tree search with a fine-tuning method called DPO.
   4. Multimodality: tasks such as ordering a shirt like one shown in a picture need vision.
   5. Cost and speed: the demo videos were sped up. Shrinking the context is one way forward.
+  6. Safety: white-on-white text on a page hijacked the demonstrated agent, and a malicious browser extension could hijack an agent into a wire transfer.
 
 Vinyals, in a different lecture, notes that AlphaStar's in-game actions were API calls with typed arguments, emitted one at a time by a hand-built network, and calls that "strikingly close to tool use"; he names MCP as one such interface ([16:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=960)). As engineering judgment, the difference is that a language model can learn a tool interface from its description.
 

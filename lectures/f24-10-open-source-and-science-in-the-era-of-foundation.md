@@ -74,7 +74,7 @@ Open-source models are, he says, still far weaker than the best open-weight and 
 
 ### [44:00–46:32](https://www.youtube.com/watch?v=f3KKx9LWntQ&t=2640) Three results that needed the full recipe
 
-With control over data, algorithm and architecture the lecturer's group changed each in turn. A data mixture chosen by distributionally robust optimization, instead of weights set by hand, trained a model 2.6 times faster. An optimizer using second-order information, a clipped diagonal Hessian, was twice as fast as the optimizer it was compared with. And the Backpack language model, an architecture more interpretable than a transformer, allows precise edits: an intervention on hidden units makes the model believe that HP, not Apple, made the MacBook.
+With control over data, algorithm and architecture the lecturer's group changed each in turn. A data mixture chosen by distributionally robust optimization, instead of weights set by hand, trained a model 2.6 times faster. An optimizer using second-order information, a clipped diagonal Hessian, was twice as fast as Adam. And the Backpack language model, an architecture more interpretable than a transformer, allows precise edits: an intervention on hidden units makes the model believe that HP, not Apple, made the MacBook.
 **In this book:** [Agents for Scientific Discovery › Percy Liang (November 2024): access decides what you can find out](../06-frontier-applications/03-agents-for-scientific-discovery.md#percy-liang-november-2024-access-decides-what-you-can-find-out).
 
 ### [46:32–50:00](https://www.youtube.com/watch?v=f3KKx9LWntQ&t=2792) Three ways to get compute

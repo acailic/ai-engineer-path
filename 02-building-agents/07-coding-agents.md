@@ -168,14 +168,14 @@ Neubig walks through a ladder of test sets. Each step adds realism ([12:00](http
 | Test set | The task | What it adds | What it leaves out |
 |---|---|---|---|
 | HumanEval, MBPP | Small functions from a docstring | Nothing: a first sanity check | Software engineering. Neubig compares it to interview puzzles |
-| CoNaLa, ODEX | Answers mined from Stack Overflow | Many libraries | Short snippets, not whole programs |
+| CoNaLa, ODEX | CoNaLa mines answers from Stack Overflow; ODEX adds execution-based scoring | Many libraries | Short snippets, not whole programs |
 | ARCADE | Data-science notebooks | Context and incremental work | Small scale |
 | SWE-bench | A real GitHub issue, scored by the tests added with the fix | A whole repository, a precise change | Refactoring, features, documentation |
 | Design2Code | Reproduce a web page from a screenshot | Visual input and output | Anything but front ends |
 
 Three cautions from the lecture:
 
-- **Bias.** SWE-bench keeps only issues whose fix came with new tests, which skews it toward bug fixes ([16:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=960)).
+- **Bias.** SWE-bench keeps only high-quality repositories and only issues whose fix came with new tests, which skews it toward bug fixes ([16:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=960)).
 - **Leakage.** Models train on public code, so some test problems were seen during training. He cites ARCADE, where new notebooks were harder than published ones, and LiveCodeBench, which exists to measure this gap ([19:16](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1156)).
 - **The metric.** The common measure is **pass@k**: the chance that at least one of *k* generated samples passes the tests. To estimate it without noise, the HumanEval authors generate *n* larger than *k* samples, count the *c* that pass, and compute 1 − C(n−c, k) / C(n, k), where C(a, b) is the number of ways to choose b items out of a. Text-overlap scores such as BLEU, which measures shared word sequences between two texts, exist but ignore whether the code runs.
 

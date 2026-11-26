@@ -116,7 +116,7 @@ Khattab's Fall 2024 lecture makes five points.
 
 - **Models propose, search disposes.** The optimizer uses language models to draft instructions and examples without assuming they are good at it. In his words, a model gives you twenty candidates and nineteen are poor; trying many is what finds the good one ([32:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=1920)).
 - **Ground the proposals.** An instruction writer does better when it sees more than past prompts and scores: worked examples for that module, a summary of the data set, and a description of the program's own code ([48:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2880), [50:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3000)).
-- **Show, don't tell.** On a benchmark of many programs, bootstrapped demonstrations gave the clearest gains. Optimized instructions helped most on tasks with many conditional rules, where a few examples cannot show every case ([56:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3360), [58:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3480)).
+- **Show, don't tell.** On a benchmark of many programs, optimizing with demonstrations gave the larger jumps, and in isolation, he says, nothing beat bootstrapped ones. Optimized instructions helped most on tasks with many conditional rules, where a few examples cannot show every case ([56:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3360), [58:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3480)).
 
 His summary: write about ten lines of declarative code, state an objective, pick an optimizer, and spend your effort on which modules to build and how to connect them ([58:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3480)). As he tells it, Toronto researchers used it to win a medical question-answering competition against 15 other groups, and a Maryland researcher who had spent 20 hours on prompts for a text classifier beat his own system with DSPy in 10 minutes ([34:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2040), [36:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2160)). On his slides from October 2024, DSPy was in production use at JetBlue, Databricks, Walmart, VMware, Replit and others. For where DSPy sits among agent frameworks, see [Part 05](../05-frameworks-and-multi-agent/01-the-agent-framework-landscape.md).
 
@@ -126,7 +126,7 @@ His summary: write about ten lines of declarative code, state an objective, pick
 2. **Tiny data.** Khattab notes that instruction optimization can overfit a very small training set ([56:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3360)). Fix: keep a held-out set and compare on it.
 3. **Hand-written prompts inside modules.** Fix: move wording into signatures and let the optimizer supply instructions and examples.
 4. **Expecting magic from one proposal.** Fix: treat the optimizer as a search and give it a call budget.
-5. **Tuning instructions before examples.** Fix: start with bootstrapped demonstrations, which gave the largest gains in his results.
+5. **Tuning instructions before examples.** Fix: start with bootstrapped demonstrations, which nothing beat in isolation in his results.
 6. **Trusting an old tutorial's API.** Fix: work from the current documentation and pin the library version.
 
 ## Try it
