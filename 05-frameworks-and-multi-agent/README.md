@@ -37,8 +37,6 @@ The lectures are from September 2024 to November 2025. This field moves, so the 
 - **MCP is described from its documentation**, opened the same day, plus the 2025 revisions of its specification, which were not re-opened.
 - **Sandbox and browser-use products were not re-checked.** Chapter 06 describes categories and selection criteria and names no products as recommendations.
 
-Chapters carry two kinds of HTML comment for maintainers. `SOURCE GAP` marks something the lecture notes do not contain. `VERIFY` marks a claim that was not checked against a primary page for this edition. They are invisible in the rendered pages.
-
 ## Capstone project
 
 A grounded assistant for one company workflow. It brings the whole part together.

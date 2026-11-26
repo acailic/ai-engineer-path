@@ -64,7 +64,7 @@ Standards and lists worth knowing about, with the chapter that places them:
 - The OWASP Top 10 for LLM Applications (2025) and the OWASP list for agentic applications (2026) ([Threat Modeling LLM Applications and Agents](../04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md)).
 - The Model Context Protocol, a standard for connecting models to tools and data ([Agent Infrastructure: Sandboxes, Browser Use and Protocols](../05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md)).
 - The Agent2Agent protocol, for agents that exchange tasks ([the case study](../03-evaluation/08-case-study-the-green-agent-and-white-agent-project.md)).
-- Laws and standards for AI, on a dated map ([Policy, Governance and Standards](../04-safety-and-security/09-policy-governance-and-standards.md)). The repository marks their state as of 2026-11-24 as not verified.
+- Laws and standards for AI, on a dated map ([Policy, Governance and Standards](../04-safety-and-security/09-policy-governance-and-standards.md)). Its table lists what could be verified as of November 2026. Check the current text before you rely on an entry.
 
 ### 4. Read a paper or a model release with five questions
 
@@ -72,9 +72,9 @@ Standards and lists worth knowing about, with the chapter that places them:
 2. **Against what baseline?** An accuracy means little alone. Ask for the baseline and the reduction in error ([Measuring Model Quality](../08-quality-assurance/02-measuring-model-quality.md)).
 3. **How many runs, and what are the error bars?** Answers are sampled, so a difference without a standard error is not evidence ([Why LLM Outputs Are Noisy](../01-foundations/07-why-llm-outputs-are-noisy.md), [Statistics for Evals](../03-evaluation/05-statistics-for-evals.md)).
 4. **Is the evaluation valid?** Held-out data, no contamination, a benchmark that is not saturated, tasks like real use ([Evaluating Agents: Trajectories and Environments](../03-evaluation/04-evaluating-agents-trajectories-and-environments.md)).
-5. **Who is speaking, and what can they show?** A vendor reports on its own product. [Agents in the Enterprise](../05-frameworks-and-multi-agent/07-agents-in-the-enterprise.md) presents one such lecture as a vendor's view. Access bounds evaluation: API access, open weights and open source allow different questions ([Agents for Scientific Discovery](../06-frontier-applications/03-agents-for-scientific-discovery.md)).
+5. **Who is speaking, and what can they show?** A vendor reports on its own product. [Agents in the Enterprise](../05-frameworks-and-multi-agent/07-agents-in-the-enterprise.md) builds on lectures by speakers from Google and ServiceNow. Access bounds evaluation: API access, open weights and open source allow different questions ([Agents for Scientific Discovery](../06-frontier-applications/03-agents-for-scientific-discovery.md)).
 
-For a model release, add three. What does the model card measure, per slice, and what does it leave out ([Deploying a Model](../07-ml-in-production/07-deploying-a-model.md))? What is the license? What is withheld: the data, the recipe, or both?
+For a model release, add three. What does the model card state, and what does it leave out ([Deploying a Model](../07-ml-in-production/07-deploying-a-model.md))? What is the license? What is withheld: the data, the recipe, or both?
 
 Then do the one thing that beats reading. Run your own evaluation set on the new model, and let the regression gate speak before the announcement does ([Evals in Production](../03-evaluation/07-evals-in-production.md)).
 
@@ -103,16 +103,16 @@ A fashion item fails most of the tests: the name of a framework, a leaderboard r
 Three readings from this repository's own record. Each is a habit.
 
 1. **Read the definition, not the label.** A Berkeley slide prints its all-runs reliability metric as "pass@k" while defining pass^k. This course keeps the two apart ([A Minimal Evaluation Harness](../03-evaluation/02-a-minimal-eval-harness.md)).
-2. **Check the source passage.** [AI for Cyber Defense and Vulnerability Detection](../04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) marks one of its figures as resting on a partial transcript. Such a number is a lead, not a fact.
+2. **Check the source passage.** [AI for Cyber Defense and Vulnerability Detection](../04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) marks its Project Zero links as taken from the lecture slides and not opened for the chapter. Such a link is a lead, not a fact.
 3. **Date the status.** Part 05 records AutoGen as archived as of November 2026 ([AutoGen: Conversation Programming](../05-frameworks-and-multi-agent/02-autogen-conversation-programming.md)). Before you build on any framework, check its repository on the day you decide.
 
-The chapters mark the places where a source was not available in full. Search a chapter's raw text for `VERIFY` and `SOURCE GAP` before you rely on a number in it.
+Where a source was not opened, a chapter says so in its Sources list. Read that list before you rely on a number in it.
 
 ## What the practitioners say
 
 - **Rules should rest on measured risk.** Dawn Song's case for evidence-based AI policy is that measuring the risk is itself a research job ([Policy, Governance and Standards](../04-safety-and-security/09-policy-governance-and-standards.md)). Read an announcement the same way. Ask for the measurement.
 - **Access decides what an evaluation can show.** Percy Liang separates API access, open weights and open source by the questions each allows ([Agents for Scientific Discovery](../06-frontier-applications/03-agents-for-scientific-discovery.md)).
-- **Each part keeps its own outlook.** [Course Summary and Outlook](../09-efficient-deep-learning/11-course-summary-and-outlook.md) maps part 09 in six steps and offers a routine for keeping up with a fast-moving field. The routine is that chapter's own, and it says so.
+- **Each part keeps its own outlook.** [Course Summary and Outlook](../09-efficient-deep-learning/11-course-summary-and-outlook.md) places every efficiency technique on one map, adds a six-step procedure, and offers a routine for keeping up with a fast-moving field. The routine is that chapter's own, and it says so.
 - **Building is what lasts.** The CS336 handouts allow AI tools for explanations and forbid them for implementation, because a tool can do the assignment and leave no learning behind ([Building Your Own](../10-llm-internals/13-building-your-own-a-roadmap-through-the-assignments.md)). New tools do not change that.
 
 ## Pitfalls
@@ -173,7 +173,7 @@ Build your sources file in 30 minutes.
 ## Sources
 
 - [SOURCES](../SOURCES.md): every lecture, its speakers and its link. Course addresses as listed there: Berkeley [Fall 2024](https://rdi.berkeley.edu/llm-agents/f24), [Spring 2025](https://rdi.berkeley.edu/adv-llm-agents/sp25) and [Fall 2025](https://rdi.berkeley.edu/agentic-ai/f25); Kästner's [book](https://mlip-cmu.github.io/book/) and [course](https://mlip-cmu.github.io/); MIT [6.5940](https://hanlab.mit.edu/courses/2024-fall-65940); Stanford [CS336](https://cs336.stanford.edu/).
-- Web pages opened for this chapter, both on 2026-11-24: [cs336.stanford.edu](https://cs336.stanford.edu/), read. The Berkeley Fall 2025 address above returned an HTTP 404 error and could not be read. The other addresses were not checked.
+- Web pages opened for this chapter: [cs336.stanford.edu](https://cs336.stanford.edu/), read on 2026-11-24. The Berkeley Fall 2025 address above returned an HTTP 404 error on 2026-11-24 and loaded when opened again on 2026-11-25 and on 2026-11-26. The other addresses were not checked.
 - [A Minimal Evaluation Harness](../03-evaluation/02-a-minimal-eval-harness.md), [Statistics for Evals](../03-evaluation/05-statistics-for-evals.md), [Evals in Production](../03-evaluation/07-evals-in-production.md), [the green agent case study](../03-evaluation/08-case-study-the-green-agent-and-white-agent-project.md) (part 03)
 - [Threat Modeling LLM Applications and Agents](../04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md), [Defenses: Guardrails, Detection and Secure Design](../04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md), [AI for Cyber Defense and Vulnerability Detection](../04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md), [Policy, Governance and Standards](../04-safety-and-security/09-policy-governance-and-standards.md) (part 04)
 - [AutoGen: Conversation Programming](../05-frameworks-and-multi-agent/02-autogen-conversation-programming.md), [Agent Infrastructure: Sandboxes, Browser Use and Protocols](../05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md), [Agents in the Enterprise](../05-frameworks-and-multi-agent/07-agents-in-the-enterprise.md) (part 05)

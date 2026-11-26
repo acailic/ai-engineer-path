@@ -43,13 +43,15 @@ Defending the model itself is covered in [Defenses and Guardrails](../04-safety-
 
 ### 2. Threat-model the whole system
 
+Start from a **security mindset**: any component may be compromised, any user may misbehave, any input may be malicious. Perfect security is out of reach, so the goal is to reduce risk ([chapter 28](https://mlip-cmu.github.io/book/28-security-and-privacy.html)).
+
 **Threat modeling** is a structured review of a system's design for security threats, done early in design or as an audit. Kästner describes five stages (chapter 28):
 
 1. **Attacker goals and capabilities.** Teenagers trying to bypass a filter for bragging rights and a state-backed team with patience and budget call for different defenses. The more likely attacker may deserve more attention than the stronger one.
 2. **System structure.** Draw a data-flow diagram that includes every store, the training and serving components, and monitoring. Show how training and inference data can be influenced, including by the people who label it.
 3. **Threats.** Inspect every component and connection against a checklist. The book names STRIDE, a method from Microsoft with six categories: spoofing an identity, tampering with data, repudiation, in which a user denies an action, information disclosure, denial of service, and elevation of privilege (chapter 28).
 4. **Risk.** Rate each threat by likelihood and by damage if it succeeds, on rough scales, and rank by the product. The absolute scores do not matter. The order does.
-5. **Implement and test defenses.** Prefer proven standards and libraries over new security ideas, and bring in experts (chapter 28).
+5. **Implement and test defenses.** Prefer proven standards and libraries over new security ideas, and bring in experts (chapter 28). Some weaknesses are coding mistakes, such as unsanitized input or a misused cryptographic library. The OWASP Top 10 for web applications and MITRE's CWE list the common ones, and **static analysis**, which reads code without running it, catches many during continuous integration, a practice marketed as DevSecOps ([chapter 28](https://mlip-cmu.github.io/book/28-security-and-privacy.html)).
 
 ### 3. Apply the two design principles
 
@@ -65,7 +67,7 @@ Intrusion detection watches for unusual behavior. Kästner notes that the 2017 E
 ### 5. Design for privacy
 
 - **Collect less.** Decide what the service needs and stop there (chapter 28).
-- **Know what a model can infer.** ML can predict age, gender, race, or political leaning from a few queries or posts, cheaply and at scale (chapter 28).
+- **Know what a model can infer.** ML can predict age, gender, race, or political leaning from a few queries or posts, cheaply and at scale. Data merged from several sources, each shared for another purpose, sharpens such predictions, and users rarely see that coming (chapter 28).
 - **Count what you send to a provider.** Text placed in a prompt is data disclosed to the model's operator. Redact it, and read the provider's terms for how inputs may be reused.
 - **Explain and offer controls.** A **privacy policy** is the public record of the system's privacy decisions. Fine-grained controls give users more agency than one blanket agreement (chapter 28).
 

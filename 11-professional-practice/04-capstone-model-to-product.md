@@ -22,7 +22,7 @@ You finish with a small service and a folder of documents that show why each des
 1. **Goals and requirements.** Four goal layers, one measure each, and requirements in three kinds.
 2. **A baseline and a decision.** The simplest rule, measured, and a written answer to "is ML worth it here?".
 3. **A quality report.** A confusion matrix, precision and recall per class, and a slice table.
-4. **A mistake analysis.** System failures, an FMEA table, a fault tree, and the design changes.
+4. **A mistake analysis.** System failures, an [FMEA](../GLOSSARY.md) table, a [fault tree](../GLOSSARY.md), and the design changes.
 5. **A pipeline.** One command runs data checks, training, the evaluation gate and the export.
 6. **A deployment.** The model behind an interface, with guardrails, a fallback and a model card.
 7. **An operations plan.** Objectives, monitors, a rehearsed rollback, a kill switch, and an incident response plan.
@@ -43,7 +43,7 @@ The model can be a logistic regression or a small set of decision trees on text 
 
 ## Milestones
 
-### Milestone 1: goals, requirements and the decision (5 to 7 hours)
+### Milestone 1: goals, requirements and the decision (7 to 9 hours)
 
 Read [When to Use ML, and When Not To](../07-ml-in-production/02-when-to-use-ml-and-when-not-to.md), [Goals and Requirements](../07-ml-in-production/03-goals-and-requirements.md) and [Measuring Model Quality](../08-quality-assurance/02-measuring-model-quality.md).
 
@@ -54,7 +54,7 @@ Write the goals at four layers. Organization: tickets reach the right team soone
 - [ ] A cost table for the ML component: building, running and maintaining it.
 - [ ] A written decision to use ML or not, with the reduction in error that the model must show over the baseline.
 - [ ] At least 1,000 labeled tickets in 3 to 10 classes, or a written reason for fewer. They are split into training, validation and test sets.
-- [ ] Two people labeled the same 50 tickets on their own, and the share on which they agree is recorded. A low share is a label problem before it is a model problem ([Data Quality](../08-quality-assurance/06-data-quality.md)).
+- [ ] Two people labeled the same 50 tickets on their own, and the share on which they agree is recorded. Working alone, label them again after a week. A low share is a label problem before it is a model problem ([Data Quality](../08-quality-assurance/06-data-quality.md)).
 
 ### Milestone 2: measure quality and find where it fails (6 to 8 hours)
 
@@ -76,8 +76,8 @@ Read [Planning for Mistakes](../07-ml-in-production/04-planning-for-mistakes.md)
 - [ ] A fault tree for the worst failure, with its minimal cut sets. No cut set of size one remains without a written decision to accept it.
 - [ ] Every automated action is labeled automate, prompt or augment.
 - [ ] Guardrails in plain code: only labels from the list, the confidence threshold, the timeout with its fallback.
-- [ ] End-to-end tests with a hostile stub of the model. An unknown label is rejected. A low confidence sends the ticket to the general queue. A dead model sends every ticket there.
-- [ ] Components with one responsibility each, and interfaces that say what happens on failure. One decision record.
+- [ ] End-to-end tests with a hostile [stub](../GLOSSARY.md) of the model, a fake that returns the failures you choose. An unknown label is rejected. A low confidence sends the ticket to the general queue. A dead model sends every ticket there.
+- [ ] Components with one responsibility each, and interfaces that say what happens on failure. One [decision record](../GLOSSARY.md).
 - [ ] Numbers for latency, cost per prediction and model size, with the hard constraints marked.
 
 ### Milestone 4: build the pipeline and deploy (8 to 10 hours)
@@ -101,7 +101,7 @@ Read [Planning for Operations](../07-ml-in-production/10-planning-for-operations
 - [ ] Telemetry that shows whether the model was right: re-routes, appeals, reopen requests.
 - [ ] A canary plan. A new model sees a share of the tickets first. The stop condition is written down. The rollback is rehearsed and timed.
 - [ ] The kill switch is tested. The model's action is off, and the tickets flow to the general queue.
-- [ ] An incident response plan with an on-call rotation and a runbook for each alert. One drill.
+- [ ] An incident response plan with an on-call rotation and a [runbook](../GLOSSARY.md) for each alert. One drill.
 - [ ] Guards for drift. A renamed field is caught. A retraining trigger or schedule is written down.
 
 ## You are done when
@@ -116,7 +116,7 @@ Read [Planning for Operations](../07-ml-in-production/10-planning-for-operations
 
 ## Effort, tools and cost
 
-Plan on 35 to 45 hours over three to four weeks. You need Python 3.10 or newer and a library for classical machine learning. For the data, use your own labeled tickets with personal data removed, or a public dataset whose license allows your use. Models of this kind train on a laptop at this data size. A container and a continuous integration service are optional. Hosting the service in the cloud costs money. A library call behind an interface is enough to pass the tests.
+Plan on 35 to 45 hours over three to four weeks. You need Python 3.10 or newer and a library for classical machine learning, such as scikit-learn, which [Pipeline Quality](../08-quality-assurance/07-pipeline-quality.md) names. For the data, use your own labeled tickets with personal data removed, or a public dataset whose license allows your use. Models of this kind train on a laptop at this data size. A container and a continuous integration service are optional. Hosting the service in the cloud costs money. A library call behind an interface is enough to pass the tests.
 
 ## Stretch goals
 
@@ -183,7 +183,7 @@ The project is the exercise. Start with one hour:
 3. Add an independent event that must also fail, such as a second check or a person's review. Or remove the event by redesigning, so that it can no longer occur.
 4. Two encoders drift apart. The model is then trained on features that differ from the ones it sees in production. That mismatch is training–serving skew.
 5. The failure modes you need to survive but cannot produce on demand: an unknown label, a low confidence, a dead or slow model.
-6. Any three of: the re-route rate per team, the share of "wrong team?" appeals, reopen requests, the fallback rate, and the latency of the model component.
+6. The re-route rate per team, the share of "wrong team?" appeals, and reopen requests. The fallback rate and the latency show only that the service runs.
 
 </details>
 

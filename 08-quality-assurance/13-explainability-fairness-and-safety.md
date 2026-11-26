@@ -45,6 +45,8 @@ For an LLM system, add one rule. The reasons a model writes for its own answer a
 
 ## Fairness: choose a criterion and defend it
 
+The book separates **harms of allocation**, where a group gets fewer resources or worse service, from **harms of representation**, where output reinforces a stereotype or demeans a group ([chapter 26](https://mlip-cmu.github.io/book/26-fairness.html)). Failing German writers causes the first. Calling every doctor "he" causes the second.
+
 Kästner measures fairness over **protected attributes**, the features that divide the demographic groups of concern. His legal overview lists the characteristics that federal anti-discrimination law protects in the US, among them race, religion, national origin, sex, sexual orientation and gender identity, age from forty, and pregnancy, with further rules for domains such as housing, credit, and employment (chapter 26). He describes three model-level criteria (chapter 26):
 
 | Criterion | It requires | Weakness |
@@ -68,9 +70,10 @@ A criterion is measured, and then worked on at four places in the pipeline (chap
 - **Data collection.** In Kästner's view this often has the most leverage, because unequal error rates usually trace back to groups with less, or worse, training data.
 - **Toolkits.** IBM's AI Fairness 360 and Microsoft's Fairlearn compute the common measures and fit into test infrastructure.
 
-Three further points from chapter 26:
+Four further points from chapter 26:
 
 - **It is a system concern.** Fairness requirements belong in the system requirements and are broken down into requirements for each component, with the protected attributes and the chosen criterion written down. Teams negotiate them across their interfaces.
+- **Mitigate outside the model.** The system can drop a distinction it does not need, suppress a category the model gets insultingly wrong, and have a person review rejections first.
 - **Document the results.** A **model card** records intended use, intended users, the demographic factors considered, accuracy per subpopulation, the evaluation data, and limitations. Kästner pairs it with a **datasheet** for the training data, which records how the data was collected and which subpopulations it represents.
 - **Monitor it.** Group fairness is cheap to watch in production, because it needs no labels: alert when positive rates diverge between groups. Equalized odds is hard, because a missed case is difficult to observe. Also watch for a spike in complaints from one group, and prepare an incident response plan that can shut a feature down (chapter 26). [Testing and Experimenting in Production](09-testing-and-experimenting-in-production.md) supplies the machinery.
 
@@ -83,6 +86,8 @@ Kästner reports that what fairness work gets done is usually pushed by individu
 He borrows an example from Nancy Leveson: a tank of flammable gas. Thicker walls make the tank less likely to burst. When it does, they make the burst more violent. A relief valve serves safety better than thicker walls, by returning the system to a safe state.
 
 By the same reasoning, a more accurate model is a step toward safety and not safety itself. Accuracy and robustness improve reliability (chapter 27). [Guardrails](08-system-quality-end-to-end-tests-and-guardrails.md) are the relief valves.
+
+Robustness has a use at inference time ([chapter 27](https://mlip-cmu.github.io/book/27-safety.html)): check each prediction against small changes it should withstand, and route one that flips to a fallback or a person.
 
 Kästner describes safety engineering in four steps (chapter 27):
 

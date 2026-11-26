@@ -90,7 +90,7 @@ When you need a tool, follow [Tool Design and Function Calling](../02-building-a
 
 **Decision.** List how the feature fails, and make sure that one wrong prediction cannot reach a customer on its own.
 
-[Planning for Mistakes](../07-ml-in-production/04-planning-for-mistakes.md) separates a **component mistake** (the model predicts the wrong team) from a **system failure** (a customer waits three days). The first always happens. The job is to stop it from becoming the second. The method has four moves: write the system failures, work forward with an [FMEA](../GLOSSARY.md) table, work backward with a [fault tree](../GLOSSARY.md), and read the **minimal cut sets**, the smallest groups of failures that together cause a system failure. A cut set of size one is a finding.
+[Planning for Mistakes](../07-ml-in-production/04-planning-for-mistakes.md) separates a **component mistake** (the model predicts the wrong team) from a **system failure** (a customer waits three days). The first always happens. The job is to stop it from becoming the second. Its first four steps are to write the system failures, work forward with an [FMEA](../GLOSSARY.md) table, work backward with a [fault tree](../GLOSSARY.md), and read the **minimal cut sets**, the smallest groups of failures that together cause a system failure. A cut set of size one is a finding.
 
 For the refund assistant, the dangerous cut sets have one shape: *model wrong, and nothing stops the action*. So we choose three of the chapter's six strategies:
 
@@ -112,7 +112,7 @@ Label every automated action *automate*, *prompt* or *augment*. A refund under t
 
 1. No single layer holds. Build **defense in depth**, layers whose weaknesses differ.
 2. Prompt-level defenses lower the success rate. Controls in code are what hold. A **policy gate** on tool calls stops an injected instruction whatever wording it used, because it checks the action and not the text.
-3. Measure what you built. Run a harmless injection suite. Report the **attack success rate** and the task success rate on benign tasks side by side, as [Red-Teaming and Safety Evaluation](../04-safety-and-security/06-red-teaming-and-safety-evaluation.md) describes.
+3. Measure what you built. Run a harmless injection suite. Report the **attack success rate**, successful attacks divided by attack attempts, and the task success rate on benign tasks side by side, as [Red-Teaming and Safety Evaluation](../04-safety-and-security/06-red-teaming-and-safety-evaluation.md) describes.
 
 The review ends with three numbers: the attack success rate, the share of benign tasks that the defenses block, and the count of blocked calls in the log.
 
@@ -137,17 +137,17 @@ The review ends with three numbers: the attack success rate, the share of benign
 
 **Decision.** Watch signals that show whether the model was right, not only whether the service is up.
 
-Latency and error rate say that the service runs. They say nothing about quality. [Evals in Production](../03-evaluation/07-evals-in-production.md) names signals that carry meaning: the **escalation rate** (the share of attempts handed to a person), **repeat contact** (a customer returns about the same issue, a sign of a wrong answer that looked fine), and **guardrail triggers**. [Planning for Operations](../07-ml-in-production/10-planning-for-operations.md) turns the "detect by" column of the mistake analysis into monitors, dashboards, alerts and a **runbook** for each alert.
+Latency and error rate say that the service runs. They say nothing about quality. [Evals in Production](../03-evaluation/07-evals-in-production.md) names signals that carry meaning: the **escalation rate** (the share of attempts handed to a person), **repeat contact** (a customer returns about the same issue, a sign of a wrong answer that looked fine), and **guardrail triggers**. [Planning for Operations](../07-ml-in-production/10-planning-for-operations.md) turns the failure modes of the mistake analysis into monitors, dashboards, alerts and a **runbook** for each alert.
 
 Log every call with the model version, the prompt version and the settings. [Responsible Engineering, Versioning and Reproducibility](../08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) explains why. An LLM samples its words, so an incident cannot be reconstructed from the input alone.
 
-**Artifact:** a dashboard with five signals (wrong refunds, guardrail triggers, escalation rate, repeat contact, cost per ticket), a threshold for each, and a runbook.
+**Artifact:** a dashboard with five signals (wrong refunds, guardrail triggers, escalation rate, repeat contact, cost per ticket), a threshold for each, and a runbook. The dashboard can be a script that prints the five numbers from the log.
 
 ### 9. Make the first iteration
 
 **Decision.** Change one thing, on evidence.
 
-Read the traces of the failed attempts. [Slicing: Finding Where the Model Fails](../08-quality-assurance/03-slicing.md) shows how to find the subgroup that carries the failures. Add the failures to the evaluation set. This is the **data flywheel**: production failures become evaluation tasks that gate the next release. Make one change, run the paired comparison, and keep the change only if the evaluation improves beyond the noise. [Automating the Pipeline](../07-ml-in-production/08-automating-the-pipeline.md) puts the comparison into continuous integration, so that a regression blocks the release.
+Read the traces of the failed attempts. [Slicing: Finding Where the Model Fails](../08-quality-assurance/03-slicing.md) shows how to find the subgroup that carries the failures. Add the failures to the evaluation set. This is the **data flywheel**: production failures become evaluation tasks that gate the next release. Make one change, run the paired comparison, and keep the change only if the evaluation improves beyond the noise. [Automating the Pipeline](../07-ml-in-production/08-automating-the-pipeline.md) puts the evaluation gate into the pipeline, so that a regression blocks the release.
 
 **Artifact:** one change, a before-and-after report, and a written decision.
 
@@ -193,7 +193,7 @@ Run the nine steps on one feature of your own. Use a side project if you cannot 
 
 **Deliverable:** a folder with the nine artifacts, each shorter than two pages, and the code that produced the numbers.
 
-**You are done when** another engineer can read the folder in fifteen minutes and answer seven questions. What is good enough? What is the baseline? What does the evaluation say? What is the smallest cut set? What stops an injection? What sends the rollout back? What changes next?
+**You are done when** the folder holds nine files, one per artifact, beside the code that produced their numbers, and the files together answer seven questions. What is good enough? What is the baseline? What does the evaluation say? What is the smallest cut set? What stops an injection? What sends the rollout back? What changes next?
 
 ## Key takeaways
 

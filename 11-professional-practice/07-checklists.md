@@ -39,12 +39,12 @@ The five checklists follow the order of a project. Copy the ones you need.
 
 - [ ] The goal is written at four layers, organization, product, users and model, with one measure for each. ([Goals and Requirements](../07-ml-in-production/03-goals-and-requirements.md))
 - [ ] "Good enough" is a number for this use and this data. It is not the word "correct". ([From Models to Systems and Products](../07-ml-in-production/01-from-models-to-systems-and-products.md))
-- [ ] I can name who is harmed by a wrong output, and how badly. ([Planning for Mistakes](../07-ml-in-production/04-planning-for-mistakes.md))
-- [ ] I measured the simplest baseline, a rule or a keyword, and wrote down the cost of anything smarter. ([When to Use ML, and When Not To](../07-ml-in-production/02-when-to-use-ml-and-when-not-to.md))
-- [ ] I chose workflow or agent, and wrote down why the steps do or do not vary. ([The Anatomy of an Agent](../02-building-agents/01-the-anatomy-of-an-agent.md))
+- [ ] A written list names who is harmed by a wrong output, and how badly. ([Planning for Mistakes](../07-ml-in-production/04-planning-for-mistakes.md))
+- [ ] The simplest baseline, a rule or a keyword, is measured, and the cost of anything smarter is written down. ([When to Use ML, and When Not To](../07-ml-in-production/02-when-to-use-ml-and-when-not-to.md))
+- [ ] Workflow or agent is chosen, and the page says why the steps do or do not vary. ([The Anatomy of an Agent](../02-building-agents/01-the-anatomy-of-an-agent.md))
 - [ ] The environment is defined: what the system may read and what it may change. Everything else is out of reach. ([The Anatomy of an Agent](../02-building-agents/01-the-anatomy-of-an-agent.md))
 - [ ] Every automated action is labeled automate, prompt or augment. ([Planning for Mistakes](../07-ml-in-production/04-planning-for-mistakes.md))
-- [ ] The data exists, I may use it, and I know how good its labels are. ([Data Quality](../08-quality-assurance/06-data-quality.md))
+- [ ] The data exists, you may use it, and its label quality is known. ([Data Quality](../08-quality-assurance/06-data-quality.md))
 - [ ] Model work and system work are joined by an interface contract, with decision points set in advance. ([Process Models: Planning and Iteration](../08-quality-assurance/10-process-models-planning-and-iteration.md))
 - [ ] Someone who knows the users read this page. ([Planning for Mistakes](../07-ml-in-production/04-planning-for-mistakes.md))
 
@@ -52,7 +52,7 @@ The five checklists follow the order of a project. Copy the ones you need.
 
 - [ ] Every task has its expected outcome written down before the first run. ([A Minimal Evaluation Harness](../03-evaluation/02-a-minimal-eval-harness.md))
 - [ ] A cheap oracle grades what a program can check. A judge calibrated against human labels grades the rest. ([Evaluation Is the Product](../03-evaluation/01-evaluation-is-the-product.md), [LLM-as-a-Judge and Rubrics](../03-evaluation/03-llm-as-a-judge-and-rubrics.md))
-- [ ] I read failed and passed attempts, to catch a grader that is too strict or too loose. ([A Minimal Evaluation Harness](../03-evaluation/02-a-minimal-eval-harness.md))
+- [ ] Failed and passed attempts were read, to catch a grader that is too strict or too loose. ([A Minimal Evaluation Harness](../03-evaluation/02-a-minimal-eval-harness.md))
 - [ ] Every task runs several times, and pass^k is reported beside pass@k. ([A Minimal Evaluation Harness](../03-evaluation/02-a-minimal-eval-harness.md))
 - [ ] Scores carry standard errors, and two versions are compared on the same tasks, paired. ([Statistics for Evals](../03-evaluation/05-statistics-for-evals.md))
 - [ ] A held-out set was never opened during development. ([A Minimal Evaluation Harness](../03-evaluation/02-a-minimal-eval-harness.md))
@@ -81,10 +81,9 @@ The five checklists follow the order of a project. Copy the ones you need.
 ### 4. Pre-deployment and rollout
 
 - [ ] A mistake analysis exists, with an FMEA table and a fault tree. No cut set of size one is left without a written acceptance. ([Planning for Mistakes](../07-ml-in-production/04-planning-for-mistakes.md))
-- [ ] The fallback for a model that is down, slow or returning garbage is defined and tested. ([Planning for Mistakes](../07-ml-in-production/04-planning-for-mistakes.md))
-- [ ] Guardrails in plain code bound the damage of a wrong output, and are tested with a hostile stub of the model. ([System Quality: End-to-End Tests and Guardrails](../08-quality-assurance/08-system-quality-end-to-end-tests-and-guardrails.md))
+- [ ] Guardrails in plain code bound the damage of a wrong output, the fallback for a model that is down, slow or returning garbage is defined, and both are tested with a hostile [stub](../GLOSSARY.md) of the model. ([System Quality: End-to-End Tests and Guardrails](../08-quality-assurance/08-system-quality-end-to-end-tests-and-guardrails.md), [Planning for Mistakes](../07-ml-in-production/04-planning-for-mistakes.md))
 - [ ] The end-to-end tests and the acceptance tests pass on the whole system. ([System Quality: End-to-End Tests and Guardrails](../08-quality-assurance/08-system-quality-end-to-end-tests-and-guardrails.md))
-- [ ] Code, prompts, data, models and settings carry versions, and a decision record exists. ([Responsible Engineering, Versioning and Reproducibility](../08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md))
+- [ ] Code, prompts, data, models and settings carry versions, and a [decision record](../GLOSSARY.md) exists. ([Responsible Engineering, Versioning and Reproducibility](../08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md))
 - [ ] Telemetry can tell whether the model was right in production. ([Testing and Experimenting in Production](../08-quality-assurance/09-testing-and-experimenting-in-production.md))
 - [ ] The pipeline re-runs with one command, and the evaluation gate runs in continuous integration. ([Automating the Pipeline](../07-ml-in-production/08-automating-the-pipeline.md))
 - [ ] Service-level objectives are written for the system and for the model component. ([Planning for Operations](../07-ml-in-production/10-planning-for-operations.md))
@@ -99,7 +98,7 @@ The five checklists follow the order of a project. Copy the ones you need.
 - [ ] Contain first: the kill switch or the rollback. The rest of the system keeps running. ([Planning for Operations](../07-ml-in-production/10-planning-for-operations.md))
 - [ ] Record the versions of the model, the prompt, the data and the settings. The decision record shows what ran. ([Responsible Engineering, Versioning and Reproducibility](../08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md))
 - [ ] Pull the traces of the affected attempts. Every attempt was traced. ([Evals in Production](../03-evaluation/07-evals-in-production.md))
-- [ ] Measure the blast radius: which users, how many, and since when. ([Testing and Experimenting in Production](../08-quality-assurance/09-testing-and-experimenting-in-production.md))
+- [ ] The [blast radius](../GLOSSARY.md) is measured: which users, how many, and since when. ([Planning for Operations](../07-ml-in-production/10-planning-for-operations.md))
 - [ ] Name the failure: a component mistake or a system failure, and which FMEA row it belongs to. ([Planning for Mistakes](../07-ml-in-production/04-planning-for-mistakes.md))
 - [ ] If an attack is suspected, keep the blocked-call log and add the payload to the versioned adversarial data set. ([Red-Teaming and Safety Evaluation](../04-safety-and-security/06-red-teaming-and-safety-evaluation.md))
 - [ ] The affected people are told, and they have a way to appeal. ([Planning for Mistakes](../07-ml-in-production/04-planning-for-mistakes.md), [Security, Privacy, Transparency and Accountability](../08-quality-assurance/14-security-privacy-transparency-and-accountability.md))
@@ -122,7 +121,7 @@ The third state is the only one the checklist accepts.
 
 ## What the practitioners say
 
-- **Two checklists come from the book.** Kästner's chapter 7 ends with one for every design review of a model-backed feature and one for each run of the mistake analysis ([Planning for Mistakes](../07-ml-in-production/04-planning-for-mistakes.md)). Checklists 1 and 4 extend them to agents and LLMs.
+- **Two checklists come from the mistake analysis.** [Planning for Mistakes](../07-ml-in-production/04-planning-for-mistakes.md), which rests on Kästner's chapter 7, ends with one for every design review of a model-backed feature and one for each run of the analysis. Checklists 1 and 4 extend them to agents and LLMs.
 - **Test the evaluator.** The Berkeley course staff end their checklist for the evaluating agent with test cases of known verdicts ([the green agent case study](../03-evaluation/08-case-study-the-green-agent-and-white-agent-project.md)). It is the eleventh item of checklist 2.
 - **A gate on everything is a rubber stamp.** Dawn Song's three rules for a human approval gate ([Defenses: Guardrails, Detection and Secure Design](../04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md)). The last rule of this chapter borrows it.
 - **A launch checklist exists in operations.** [Planning for Operations](../07-ml-in-production/10-planning-for-operations.md) places it beside the rollback and the incident plan.
@@ -144,7 +143,7 @@ Copy checklist 1 into the repository of a project you are working on. Spend 30 m
 
 **Deliverable:** the filled checklist, with a file name beside every tick and an owner and a date beside every empty box.
 
-**You are done when** every tick names a file, and at least one item changed what you were about to do.
+**You are done when** every tick names a file, and one line at the end names one item that changed what you were about to do, or says that none did.
 
 **Stretch goal:** write the item you wish had been on the list after your last incident, and add it to the right checklist.
 

@@ -44,7 +44,7 @@ Start from [`examples/minimal_agent.py`](../examples/minimal_agent.py). Keep fou
 - The model behind one method, `step(messages, tools)`.
 - `ScriptedModel`, the deterministic stand-in that replays fixed decisions. It lets you test the loop without an API key.
 - The tool registry. A failing tool returns an `Error:` text to the model instead of raising.
-- Three stop conditions: a final answer, a step limit, and a time or token budget.
+- Two stop conditions, a final answer and a step limit. Keep both, and add the third that the anatomy chapter asks for, a time or token budget.
 
 Add one class whose `step` makes a single chat API call and maps the provider's tool-call format to the loop's dictionary. No chapter shows a real call. Each provider publishes an SDK, its official client library, whose quick start shows three things: how the key reaches the code (an environment variable, such as `PROVIDER_API_KEY`); the request, a list of messages plus the tool schemas in JSON; and the response, whose tool calls hold a name and an argument string in JSON. Write the system prompt to state the rules: which tools exist, that a missing contact or a full day means "tell the user and change nothing", and when to stop.
 
@@ -69,7 +69,7 @@ Leave out any tool that deletes or moves events in the base project. It would gi
 
 ## The evaluation set
 
-Each task record has six fields: `id`, `goal` (the request), `expected` (the end state), `must_call` (required calls, in order), `forbid_call`, and `tag`. Eight examples:
+Each task record has six fields: `id`, `goal` (the request), `expected` (the end state, and for a `cannot` task the phrase the final message must contain), `must_call` (required calls, in order), `forbid_call`, and `tag`. Eight examples:
 
 | id | Request (`goal`) | Expected end state | `must_call` | `forbid_call` |
 |---|---|---|---|---|
@@ -90,7 +90,7 @@ Build five slices of at least six tasks each, 30 in total:
 - **`cannot`**: the request cannot be fulfilled. The right behavior is to change nothing and say why.
 - **`unclear`**: the request is ambiguous. The right behavior is to ask.
 
-Keep two rules. First, every task is checkable by comparing two states, so no judge is needed. Second, the `cannot` and `unclear` slices are part of the set, not an afterthought. An agent that acts on a request it cannot fulfill is worse than one that asks.
+Keep two rules. First, every task is checkable by comparing two states and searching the final message for that phrase, so no judge is needed. Second, the `cannot` and `unclear` slices are part of the set, not an afterthought. An agent that acts on a request it cannot fulfill is worse than one that asks.
 
 Hold back two tasks per slice, 10 of the 30. Nobody opens them while developing. The other 20 form the development set.
 
@@ -107,13 +107,13 @@ The harness chapter defines the metrics, and they carry over unchanged:
 | Cost | How many tokens and dollars does one attempt cost? |
 | Latency and steps | What are the median and the 95th percentile of one attempt? |
 
-Report every metric for every slice, with its standard error. With 30 tasks and a score near one half, the standard error is about 0.09. A difference of two tasks between two versions is noise on this set. Use the paired comparison from the statistics chapter before you call a change an improvement.
+Report every metric for every slice, with its standard error. With 30 tasks and a score near one half, the standard error is about 0.09. A difference of two tasks between two versions is noise on this set. Use the paired comparison from the statistics chapter, saved as [`examples/eval_stats.py`](../examples/eval_stats.py), before you call a change an improvement.
 
 ## Milestones
 
 ### Milestone 1: the environment and the tools (6 to 8 hours)
 
-No model is involved yet. `ScriptedModel` drives the loop.
+No model is involved yet. `ScriptedModel` drives the loop. A test is a function that asserts a condition. Part 08 writes them for `pytest`; a plain function that you call by hand also counts.
 
 - [ ] A test drives one call that changes the workspace, resets it, and finds the fixture again.
 - [ ] Each tool returns an error text, and raises nothing, when given bad arguments.
@@ -133,13 +133,13 @@ Build it before the real agent. It does the green agent's job in the Berkeley pr
 - [ ] A full run with the real model finishes: 30 tasks, three attempts each.
 - [ ] You read 20 failed traces and write down three causes.
 
-### Milestone 4: harden and improve (6 to 8 hours)
+### Milestone 4: harden and improve (6 to 9 hours)
 
 - [ ] One change, to the prompt, a tool description, or an error message, is tested with a paired comparison on the development set. The decision is written down.
-- [ ] A gate script exits with a non-zero code when a metric is worse than the baseline.
+- [ ] A gate script exits with a non-zero code (`sys.exit(1)`) when a metric is worse than the baseline.
 - [ ] Each slice has a one-line note on its main failure.
 
-### Milestone 5: package (3 to 4 hours)
+### Milestone 5: package (4 to 5 hours)
 
 - [ ] One command runs the whole evaluation and writes the report.
 - [ ] The README answers three questions. What is the environment? What are the stop conditions? Which errors go back to the model?
@@ -218,7 +218,7 @@ The project is the exercise. Start with one hour:
 
 <details><summary>Show answers</summary>
 
-1. Without it you cannot keep or reject a change on evidence, and the first tasks would be written to fit the agent you already built. The evaluator is also tested with scripted agents of known verdicts, which is only possible before the real agent exists.
+1. Without it you cannot keep or reject a change on evidence, and the first tasks would be written to fit the agent you already built. The evaluator is also first tested with scripted agents of known verdicts, before any model call costs money.
 2. Outcome pass and process fail. The two are graded separately because they fail independently.
 3. A leftover change from one task makes the next task pass or fail for the wrong reason. A reset inside the harness makes every run start from the fixture.
 4. Reliability. The outcome score is an average over attempts. pass^3 counts a task only when every attempt succeeds.

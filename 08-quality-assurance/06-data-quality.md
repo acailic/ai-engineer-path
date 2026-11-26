@@ -97,13 +97,15 @@ Only the schema check can reject a batch on its own; the other two guards raise 
 
 Cleaning has less leverage than collecting well. According to a 2019 study the book cites, 65 percent of studied teams at a large tech company had some control over how their data was collected and curated (chapter 16). Kästner names three levers: the forms and incentives people use to enter data, what the telemetry records, and how labeling tasks are specified and paid for (chapter 16).
 
+Data entry and labeling are often added to a person's regular job for little or no extra pay. When quality drops, the easy answer is to blame the workers and watch them more closely. Kästner argues instead for examining how the form, task, and incentives shaped what they entered, and for agreeing on quality goals with them, since they hold domain knowledge data scientists often lack ([chapter 16](https://mlip-cmu.github.io/book/16-data-quality.html)).
+
 ### 6. Document the data
 
 Write down the purpose, the origin, how it was collected, which checks passed, the distribution of subpopulations, and the known limitations. Kästner points to the **datasheets for datasets** template, which asks 57 questions about a data set's motivation, composition, collection, uses, and maintenance, and to data catalogs that index an organization's data sets with their schemas attached (chapter 16).
 
 ### 7. For an LLM feature, widen what counts as data
 
-A prompt-based component also consumes retrieved documents, tool outputs, earlier turns of the conversation, and the examples inside the prompt. Each is data. A retrieval index that is stale, or a tool that returns an error message in place of a result, is a data quality bug that looks like a model mistake.
+A prompt-based component also consumes retrieved documents, tool outputs, earlier turns of the conversation, and the examples inside the prompt. Each is data. A retrieval index that is stale, or a tool that returns an error message in place of a result, is a data quality bug that looks like a model mistake. You control these sources to different degrees and trust them differently, from your own knowledge base to an outside tool's reply. Kästner counts such sources among the reasons why data quality concerns the whole product, not a single cleaning step (chapter 16).
 
 ## Worked example
 

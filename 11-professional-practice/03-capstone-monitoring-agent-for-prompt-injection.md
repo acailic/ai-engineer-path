@@ -96,7 +96,7 @@ Every payload is a harmless classroom example: an instruction hidden in a tool r
 
 **Size.** Ten families in three placements give 30 attack tasks, each built on a benign task from Capstone 1. Hold back two families: write the rules and the prompt on eight, and report the two held-out families on their own, the honest number.
 
-**The benign set.** Run the 30 Capstone 1 tasks three times. They give roughly 200 to 300 untrusted messages. Add at least ten **hard negatives**, messages that look like injections and are not. Two examples are an event titled "Security training: spotting emails that say 'ignore previous instructions'" and a contact note that reads "Ask before booking longer calls".
+**The benign set.** Write 200 benign messages in the three placements of the attack set: event notes, contact notes and inbox bodies. The tool results of the 30 Capstone 1 tasks, run three times, add to them. Include at least ten **hard negatives**, messages that look like injections and are not. Two examples are an event titled "Security training: spotting emails that say 'ignore previous instructions'" and a contact note that reads "Ask before booking longer calls".
 
 ## The detection metric
 
@@ -136,7 +136,7 @@ A false positive costs you a blocked customer. Decide how to handle it before th
 
 ## Milestones
 
-### Milestone 1: threat model and event stream (4 to 5 hours)
+### Milestone 1: threat model and event stream (4 to 6 hours)
 
 - [ ] The threat model has its six rows filled in for your agent.
 - [ ] A run of three tasks emits every event with a provenance label.
@@ -159,11 +159,11 @@ A false positive costs you a blocked customer. Decide how to handle it before th
 ### Milestone 4: inline, inside the budget (8 to 10 hours)
 
 - [ ] The 95th percentile of the added latency is inside the budget, or the monitor stays out of band and the report says why.
-- [ ] The timeout fallback works, tested with a stub that sleeps.
+- [ ] The timeout fallback works, tested with a [stub](../GLOSSARY.md) that sleeps.
 - [ ] The attack success rate and the utility are recorded with the monitor off and on.
 - [ ] With the monitor's model replaced by a stub that says "benign", the policy gate alone still blocks the sensitive tool.
 
-### Milestone 5: report and package (4 to 5 hours)
+### Milestone 5: report and package (4 to 6 hours)
 
 - [ ] The report has all seven numbers, with the versions of both models and both prompts, and the date.
 - [ ] The README has a paragraph titled "What this monitor does not stop", naming the other layers.
@@ -202,7 +202,7 @@ Without a budget, finish milestones 1 and 2 with a scripted task agent, and buil
 
 ## Try it
 
-The project is the exercise. For a first hour, put the text of family 1 into a `notes` field of one event in your Capstone 1 fixture, and run the agent once. That run is your baseline attack success rate.
+The project is the exercise. For a first hour, put the text of family 1 into a `notes` field of one event in your Capstone 1 fixture, make `list_events` return the note, and run the agent once on a task that lists that day. That run is your baseline attack success rate.
 
 ## Key takeaways
 

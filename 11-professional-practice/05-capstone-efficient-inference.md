@@ -13,14 +13,14 @@ After every compression the questions are the same. What did it cost in quality?
 
 ## The goal
 
-Take one small open model. Measure its latency, memory and quality. Compress it, with quantization at minimum and pruning or distillation as optional stages. Then report the trade-off between size, speed and quality, in numbers that another engineer can check.
+Take one small open model, a file from a model hub such as Hugging Face. Measure its latency, memory and quality. Compress it, with quantization at minimum and [pruning](../09-efficient-deep-learning/03-pruning-and-sparsity.md) or [distillation](../09-efficient-deep-learning/06-knowledge-distillation.md) as optional stages. Then report the trade-off between size, speed and quality, in numbers that another engineer can check.
 
 ## Two tracks
 
 | Track | Model | Hardware | What it teaches |
 |---|---|---|---|
 | A | A small open classifier, or another small model you can load | Any laptop | The whole procedure, end to end, with nothing hidden |
-| B | A small open-weights language model | A laptop that can load it. A GPU only for training-based stages | Where the money is: quantizing the weights and the cache of past tokens |
+| B | A small open-weights language model | A laptop that can load it. A GPU only for training-based stages | Where the money is: quantizing the weights and the [cache of past tokens](../GLOSSARY.md) |
 
 Do track A first. It takes 8 to 12 hours. Then do track B. Both run on a laptop. Numbers measured on a CPU are real numbers. They are not GPU numbers, and the report says so.
 
@@ -36,7 +36,7 @@ Do track A first. It takes 8 to 12 hours. Then do track B. Both run on a laptop.
 
 Start track B at a billion parameters or fewer. Weight memory is parameters times bytes. A billion parameters take about 2 GB in 16-bit, 1 GB in 8-bit, and 0.5 GB in 4-bit, before the cache and the overhead.
 
-One pitfall from the quantization chapter decides what you can promise. A smaller file is not a faster model unless the inference engine, the program that loads the model and runs it, has a fast kernel for that format. Which engine supports which format changes quickly. As of 2026-11-24, check the documentation of the engine you pick. [Efficient LLM Inference and Deployment](../09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) covers the serving side.
+One pitfall from the quantization chapter decides what you can promise. A smaller file is not a faster model unless the inference engine, the program that loads the model and runs it, has a fast [kernel](../GLOSSARY.md) for that format. Which engine supports which format changes quickly. As of 2026-11-24, check the documentation of the engine you pick. [Inference](../10-llm-internals/08-inference.md) names four engines. [Efficient LLM Inference and Deployment](../09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) covers the serving side.
 
 ## Deliverables
 
@@ -56,15 +56,17 @@ Read [Neural Network Basics for Efficiency](../09-efficient-deep-learning/02-neu
 - [ ] Latency measured after warm-up, at least 20 times, one input at a time. Reported as a median and a 95th percentile. For a language model: time to first token and tokens per second, at a fixed prompt length and output length.
 - [ ] Peak memory during one inference, recorded.
 - [ ] Hardware, engine and their versions, written down.
-- [ ] Track B: the size of the cache of past tokens at your prompt length, estimated and set beside the weights. [Inference](../10-llm-internals/08-inference.md) shows how to bound a model's speed from memory bandwidth and that cache.
+- [ ] Track B: the size of the cache of past tokens at your prompt length, estimated and set beside the weights. [Inference](../10-llm-internals/08-inference.md) shows how to bound a model's speed from memory bandwidth and that cache. Per token, the cache takes `2 × layers × heads × head size × bytes per value`.
+
+No chapter shows how to time a call. Read `time.perf_counter()` before and after one call, discard three warm-up calls, and report the median and the 95th percentile of the rest. For peak memory, start `tracemalloc` before the call and read its peak after it. A deep-learning framework allocates mostly outside it: use its own peak counter and name it.
 
 ### Milestone 2: build the quality evaluation first (3 to 5 hours)
 
 Read [A Minimal Evaluation Harness](../03-evaluation/02-a-minimal-eval-harness.md) and [Evaluating Language Models](../10-llm-internals/09-evaluating-language-models.md).
 
-- [ ] A fixed set of at least 50 tasks with answers a program can check, or a labeled test set for a classifier.
-- [ ] Track B: a held-out text for perplexity, beside the task set.
-- [ ] The baseline score, with a standard error.
+- [ ] A fixed set of at least 50 tasks with answers a program can check, or a labeled test set for a classifier. For a language model, fifty arithmetic questions in the harness's task format will do.
+- [ ] Track B: a held-out text for [perplexity](../GLOSSARY.md), beside the task set.
+- [ ] The baseline score, with a [standard error](../03-evaluation/05-statistics-for-evals.md).
 - [ ] A written limit: the largest quality loss you accept.
 
 The fourth pitfall of the quantization chapter is judging quality by one prompt or by perplexity alone. Its fix is to run an evaluation set against the float baseline.
@@ -79,7 +81,7 @@ Read [Quantization](../09-efficient-deep-learning/04-quantization.md), and the c
 - [ ] Track B: only the weights are quantized. Activations stay in floating point, which is the quantization chapter's choice for language models on one machine.
 - [ ] The size arithmetic is checked again for each variant.
 
-Follow the chapter's procedure: fix a float baseline, compute the scales, calibrate on a few hundred representative inputs, quantize, and evaluate on real tasks.
+Follow the chapter's procedure: fix a float baseline, compute the [scales](../GLOSSARY.md), run a few hundred representative inputs to record each activation's range, quantize, and evaluate on real tasks.
 
 ### Milestone 4 (optional): prune or distill (6 to 10 hours)
 
@@ -109,7 +111,7 @@ Read [Quality Attributes of ML Components](../07-ml-in-production/06-quality-att
 
 ## Effort, tools and cost
 
-Track A takes 8 to 12 hours. Track B takes 15 to 25 hours. You need Python 3.10 or newer, NumPy (the quantization chapter's snippet uses it), the library that loads your model, and for track B an inference engine that supports the quantized format.
+Track A takes 8 to 12 hours. Track B takes 17 to 25 hours. You need Python 3.10 or newer, NumPy (the quantization chapter's snippet uses it), the library that loads your model, and for track B an inference engine that supports the quantized format.
 
 The project is free on a laptop. A rented GPU costs money. You need one for the optional stage, for GPU latency numbers, and for any training-based compression. [Building Your Own](../10-llm-internals/13-building-your-own-a-roadmap-through-the-assignments.md) lists prices for one GPU type, with their date. Check current prices before you budget.
 
@@ -137,7 +139,7 @@ The project is free on a laptop. A rented GPU costs money. You need one for the 
 
 ## What the practitioners say
 
-- **Quantization is the workhorse.** Song Han calls it the most widely used compression technique in industry, and 8-bit mature ([Quantization](../09-efficient-deep-learning/04-quantization.md)).
+- **Quantization is the workhorse.** Song Han calls it very widely used in industry, and 8-bit mature ([Quantization](../09-efficient-deep-learning/04-quantization.md)).
 - **Post-training first.** His order: try post-training quantization, and move to quantization-aware training only when the evaluation shows a real loss. The same chapter.
 - **Generation is limited by memory.** The inference chapter of part 10 bounds a model's speed from memory bandwidth ([Inference](../10-llm-internals/08-inference.md)).
 - **Argue on the front.** Kästner's method for quality attributes: cut the design space with hard constraints, and argue only among the designs left ([Quality Attributes of ML Components](../07-ml-in-production/06-quality-attributes-of-ml-components.md)).

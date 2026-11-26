@@ -32,11 +32,11 @@ Path A tells you when you are right. Path B is closer to everyday work.
 
 | Stage | You build | It teaches | Chapters of part 10 | Compute |
 |---|---|---|---|---|
-| 1. Tokenizer | A byte-level BPE tokenizer | How text becomes integers, and the trade-off in vocabulary size | [01](../10-llm-internals/01-the-language-modeling-pipeline-and-tokenization.md) | CPU |
+| 1. Tokenizer | A byte-level [BPE](../GLOSSARY.md) tokenizer | How text becomes integers, and the trade-off in vocabulary size | [01](../10-llm-internals/01-the-language-modeling-pipeline-and-tokenization.md) | CPU |
 | 2. Model and loop | A Transformer, the loss, an optimizer, a training loop | How the pieces fit into one program, and what each costs | [02](../10-llm-internals/02-resource-accounting-flops-memory-and-arithmetic-intensity.md), [03](../10-llm-internals/03-transformer-architectures-and-hyperparameters.md) | One GPU, for hours |
 | 3. Fast and predictable | A profile, one optimization, a scaling-law fit | Measure before optimizing. Predict before spending | [05](../10-llm-internals/05-gpus-tpus-and-kernels.md), [06](../10-llm-internals/06-parallelism.md), [07](../10-llm-internals/07-scaling-laws.md) | One to several GPUs |
 | 4. Data | HTML to text, filters, deduplication | How far one data decision moves the loss | [10](../10-llm-internals/10-training-data.md) | CPU, then a GPU |
-| 5. Alignment | Instruction tuning, then RLVR with a math grader | Generate, score, update | [11](../10-llm-internals/11-post-training-sft-rlhf-and-rlvr.md) | One GPU |
+| 5. Alignment | [Instruction tuning](../GLOSSARY.md), then RLVR with a math grader | Generate, score, update | [11](../10-llm-internals/11-post-training-sft-rlhf-and-rlvr.md) | One GPU |
 
 **RLVR** is reinforcement learning from verifiable rewards. A program, such as a test or an answer check, gives the reward.
 
@@ -58,18 +58,18 @@ For prices, see the table in [Building Your Own](../10-llm-internals/13-building
 - [ ] Encoding a text and decoding it again returns the original, for a file with punctuation, characters outside ASCII, and a special token.
 - [ ] No merge crosses a pre-tokenization boundary.
 - [ ] The compression ratio, in bytes per token, is reported for the training text and for held-out text.
-- [ ] The vocabulary size is a parameter, and you can say what changes when it grows.
+- [ ] The vocabulary size is a parameter, and the README states what changed when you trained two sizes, with the compression ratio of each.
 
 ### Stage 2: the model, the optimizer and the loop (6 to 8 weeks)
 
 This stage is the half-way mark in effort.
 
-- [ ] The model makes the common choices: pre-norm, RMSNorm, no bias terms, a gated MLP, rotary positions. Every deviation is written down with its reason.
+- [ ] The model makes the common choices of [chapter 03](../10-llm-internals/03-transformer-architectures-and-hyperparameters.md): pre-norm, RMSNorm, no bias terms, a gated MLP, rotary positions. Every deviation is written down with its reason.
 - [ ] The loss on held-out text falls below a value you wrote down before training.
 - [ ] The loop saves a checkpoint and restores it. Training continues with the same loss on the next step.
 - [ ] Sampling gives ten short texts that you read. On TinyStories they tell a story.
 - [ ] One page of accounting: parameters, bytes, FLOPs per step as six times parameters times tokens, measured tokens per second, and model FLOPs utilization.
-- [ ] Every correctness check ran on the CPU before any GPU time was spent.
+- [ ] Every correctness check ran on the CPU before any GPU time was spent, and its passing test log is kept.
 
 ### Stage 3: fast and predictable (3 to 4 weeks)
 
@@ -81,7 +81,7 @@ This stage is the half-way mark in effort.
 ### Stage 4: data (3 to 4 weeks)
 
 - [ ] The pipeline takes a sample of raw HTML pages and returns clean text. You read twenty rejected and twenty kept samples.
-- [ ] Filters for harmful content and for personal information exist, each with a test.
+- [ ] Filters for harmful content and for personal information exist, each with a test. For a start, a regular expression that drops lines with an email address or a phone number will do.
 - [ ] Exact and near-duplicate removal is tested on a synthetic file with known duplicates.
 - [ ] Two data variants are trained on the same compute budget, and their loss is compared on one held-out set.
 
@@ -89,8 +89,8 @@ This stage is the half-way mark in effort.
 
 - [ ] A chat template, with a test that applies it and reads it back.
 - [ ] After instruction tuning, the model follows held-out instructions. The pass rate on at least fifty instructions is recorded.
-- [ ] After RLVR, the pass rate on a held-out set of math problems is higher than after instruction tuning alone. You confirmed that the inference server used the updated weights before each round.
-- [ ] You read twenty rollouts and found no reward hacking, which is passing the grader without doing the task.
+- [ ] After RLVR, the pass rate on a held-out set of math problems is higher than after instruction tuning alone. You confirmed that the inference server used the updated weights before each round, the trap [the roadmap chapter](../10-llm-internals/13-building-your-own-a-roadmap-through-the-assignments.md) names.
+- [ ] Twenty [rollouts](../GLOSSARY.md) are saved in a file, you read them, and none shows [reward hacking](../GLOSSARY.md), passing the grader without doing the task.
 
 ## You are done when
 
@@ -100,7 +100,7 @@ This stage is the half-way mark in effort.
 
 ## Effort, tools and cost
 
-Plan on about twenty weeks at ten hours a week for all five stages, as the roadmap chapter advises for self-study. The core, stages 1 and 2, takes about half of that. You need Python 3.10 or newer, a deep-learning library, and a GPU by the hour for training. Everything else runs on a laptop.
+Plan on about twenty weeks at ten hours a week for all five stages, as the roadmap chapter advises for self-study. The core, stages 1 and 2, takes about half of that. You need Python 3.10 or newer, the deep-learning library the assignments build on, PyTorch, and a GPU by the hour for training. Everything else runs on a laptop.
 
 Three shortcuts are reasonable:
 
@@ -124,7 +124,7 @@ Three shortcuts are reasonable:
 4. **Optimizing before profiling.** Fix: measure, change one thing, measure again.
 5. **Spreading the scaling budget thin.** Fix: a few budgets, several sizes at each, and the prediction written before you look.
 6. **Not looking at the data.** Fix: read rejected and kept samples before you trust a filter.
-7. **Stale weights during RL.** The inference server and the trainer hold separate copies. Fix: confirm the update before each round.
+7. **Stale weights during RL.** The inference server and the trainer hold separate copies. Fix: confirm the update before each round, as [the roadmap chapter](../10-llm-internals/13-building-your-own-a-roadmap-through-the-assignments.md) warns.
 8. **Buying GPU time before the CPU checks pass.** Fix: the last box of stage 2 is a gate.
 9. **A loss without its held-out set named.** Fix: every reported loss names the data it was measured on.
 10. **Comparing runs with different tokenizers or data.** Fix: change one thing at a time.
@@ -141,7 +141,7 @@ Three shortcuts are reasonable:
 The project is the exercise. Start with one hour:
 
 1. Clone the first assignment repository, or create an empty one.
-2. Run its test command. Every unimplemented test fails with `NotImplementedError`.
+2. Run its test command, `uv run pytest`. Every unimplemented test fails with `NotImplementedError`.
 3. Make one test pass: encode a short sentence, decode it, and get the sentence back.
 
 **You are done with the first hour when** one tokenizer test passes, and you have written a five-line plan that says which parts you will do on a CPU and which need a GPU.

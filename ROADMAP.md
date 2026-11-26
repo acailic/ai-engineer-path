@@ -12,7 +12,7 @@ If you have never worked with a model, start with path A or path B.
 | [B. Full path](#path-b-full-path-from-zero-to-professional-in-sixteen-weeks) | A software engineer with no ML background who wants the whole discipline | 16 weeks | about 4, then about 12 | about 160 |
 | [C. Classical ML engineers](#path-c-for-engineers-who-already-know-classical-ml) | Someone who already trains and tests classifiers, and needs the parts that are new with LLMs | 10 weeks | about 8 to 9 | about 85 |
 | [D. Edge and efficiency](#path-d-edge-and-efficiency) | Someone who must make a model smaller, faster or cheaper | 6 weeks | about 8 | about 48 |
-| [E. Inside language models](#path-e-inside-language-models) | Someone who wants to build a language model from its first pieces | 20 weeks | about 10 | about 190 |
+| [E. Inside language models](#path-e-inside-language-models) | Someone who wants to build a language model from its first pieces | 20 weeks | about 10 | about 200 |
 
 ## How the hours were estimated
 
@@ -42,7 +42,7 @@ You read 17 chapters, in 7 hours 20 minutes, and you do Capstone 1. The order fo
 
 ## Path B. Full path: from zero to professional in sixteen weeks
 
-Every chapter, in order, with three capstones. Reading is 35 hours. The capstones are about 110 hours. The first four weeks are light. From week 5 on, plan for about 12 hours a week.
+Every chapter, in order, with three capstones. Reading is 35 hours. The capstones are 95 to 125 hours. The first four weeks are light. From week 5 on, plan for about 12 hours a week.
 
 | Week | Read | Do | Hours |
 |---|---|---|---|
