@@ -101,7 +101,7 @@ Han's picture for dynamic batching is a bus that leaves "when it's full or when 
 
 ### 6. Long context: extend, then verify
 
-- **Extend** by interpolating the [rotary position encoding](../GLOSSARY.md): the same position range is mapped onto larger angles, which took LLaMA from 2k to 32k tokens with fine-tuning (Lecture 15, slide 5). **LongLoRA** makes that fine-tuning cheaper with sparse attention during training and full attention at inference (slides 7 to 12).
+- **Extend** by interpolating the [rotary position encoding](../GLOSSARY.md): the rotary angle is halved, so that a doubled position range fits into the angles the model already knows; this took LLaMA from 2k to 32k tokens with fine-tuning (Lecture 15, slide 5). **LongLoRA** makes that fine-tuning cheaper with sparse attention during training and full attention at inference (slides 7 to 12).
 - **Verify.** Models are worst at using information from the middle of a long input: the "lost in the middle" curve (Lecture 15, slide 14). Han's conclusion is that fluent answers and good perplexity prove nothing; use a needle-in-a-haystack test or LongBench ([16:00](https://www.youtube.com/watch?v=kgTWKjbnrBA&t=960)).
 - **Consider not extending.** On the LongBench results he cites, retrieval and context compression help, but less than models built for long context ([22:00](https://www.youtube.com/watch?v=kgTWKjbnrBA&t=1320)).
 
