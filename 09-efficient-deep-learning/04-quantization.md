@@ -143,11 +143,11 @@ Not every layer needs the same bit width. Han's advice (Lecture 6, [66:00](https
 
 ### Binary and ternary weights
 
-At one bit, arithmetic turns into logic. **Binary quantization** keeps only the sign of each weight: positive becomes +1 and negative −1, so the multiplications vanish and only additions and subtractions remain. The weights then need 32 times less memory, and the work roughly halves by his count (Lecture 6, [48:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=2880)). The sign function alone costs heavily: on his 4 × 4 example matrix it lost 21 points of accuracy, with a quantization error of 9.28. A floating-point scale that keeps the sum of absolute values unchanged, 1.05 here, brought accuracy to 0.2% above the baseline ([50:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3000)).
+At one bit, arithmetic turns into logic. **Binary quantization** keeps only the sign of each weight: positive becomes +1 and negative −1, so multiplications become additions and subtractions. The weights then need 32 times less memory, and the work roughly halves by his count (Lecture 6, [48:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=2880)). The sign function alone costs heavily: the quantization error on his 4 × 4 example matrix is 9.28, and an AlexNet-based network lost 21 points of accuracy (Lecture 6, [50:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3000)). A floating-point scale that keeps the sum of absolute values unchanged, 1.05 here, brought accuracy to 0.2% above the baseline ([52:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3120)).
 
-Binarize the activations as well and a dot product becomes bitwise. **XNOR** gives 1 when two bits agree and 0 otherwise, and **popcount** counts the ones, so for two sign vectors of length n the dot product is 2 × popcount − n, with the doubling done by a one-bit shift (Lecture 6, [52:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3120)). Both operations are cheap in hardware: by his estimate, memory shrinks 32 times and computation roughly 58 times. Accuracy is the price: XNOR-Net recovers some of it, yet with weights and activations both binarized the loss stays visible.
+Binarize the activations as well and a dot product becomes bitwise. **XNOR** gives 1 when two bits agree and 0 otherwise, and **popcount** counts the ones, so for two sign vectors of length n the dot product is 2 × popcount − n, with the doubling done by a one-bit shift (Lecture 6, [52:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3120)). Both operations are cheap in hardware: by his estimate, memory shrinks 32 times and computation roughly 58 times. Accuracy is the price: XNOR-Net, which adds scale factors, recovers some of it, yet the loss stays visible.
 
-**Ternary weight networks** add a middle value. A threshold Δ, placed by rule of thumb at 0.7 times the average absolute value (0.73 on his matrix), sorts each weight into +1, 0 or −1, and a scale keeps the sum of absolute values the same. Accuracy went from 60% with binary weights to 65%, and full precision gives 69%. **Trained ternary quantization** lets the network learn two scales instead of the fixed one, one for each sign, and comes closer still (Lecture 6, [58:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3480)).
+**Ternary weight networks** add a middle value. A threshold Δ, placed by rule of thumb at 0.7 times the average absolute value (0.73 on his matrix), sorts each weight into +1, 0 or −1, and a scale keeps the sum of absolute values the same (Lecture 6, [58:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3480)). On ResNet-18, his slide shows accuracy going from 60.8% with binary weights to 65.3%, against 69.6% at full precision. **Trained ternary quantization** instead trains two scales, one per sign, and comes closer still ([60:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3600)).
 
 ### What each option costs and when to choose it
 
@@ -159,7 +159,7 @@ Binarize the activations as well and a dot product becomes bitwise. **XNOR** giv
 | K-means codebook | 1/8 at 4 bits | small after fine-tuning | none to quantize | storage is the only concern |
 | Binary or ternary | 1/8 to 1/16 | large | training | special hardware |
 
-Lower is not always better. Han puts the usual sweet spot at roughly 4 bits, as of his lecture, and adds that it might move lower in the future (Lecture 6, [62:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3720)). His reason is a mismatch: memory shrinks linearly with the bit width, while the computation shrinks faster, quadratically by his account. The expensive part, memory, therefore shrinks more slowly, and the returns diminish. He also advises against turning one design knob to an extreme: pruning, quantization, distillation and architecture search work best together.
+Lower is not always better. Han puts the usual sweet spot at roughly 4 bits, as of his lecture, though it might move lower (Lecture 6, [62:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3720)). His reason is a mismatch: memory shrinks linearly with the bit width, while by his account the computation shrinks quadratically, so memory, the expensive part, shrinks more slowly and the returns diminish. He also advises against turning one design knob to an extreme: use pruning, quantization, distillation and architecture search together.
 
 ## Worked example
 
@@ -205,7 +205,7 @@ What to observe:
 - On hardware trends, as of his Fall 2024 lecture: NVIDIA's Blackwell generation supports micro-tensor scaling, and its FP4 tensor cores (matrix-multiply units) have twice the theoretical throughput of the FP8 and INT8 cores (Lecture 6, slide 23; [16:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=960)).
 - His Deep Compression pipeline prunes, quantizes with a codebook, retrains the codebook, repeats, and then encodes the weights with different bit lengths. SqueezeNet went from 4.8 MB to 0.47 MB (Lecture 5, [46:00](https://www.youtube.com/watch?v=ymAzUz3qlIA&t=2760)).
 - He draws the parallel with pruning: layers differ in sensitivity, so they should get different bit widths (Lecture 6, [0:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=0)).
-- The bit width alone does not decide quality; the method does. His example is LLaVA, a model that answers questions about an image. At 4 bits with plain round to nearest it misreads a meme; with AWQ, an activation-aware method, it describes the meme correctly (Lecture 1, [40:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2400)). His conclusion is that a proper method speeds up visual language models too, not only language models.
+- The bit width alone does not decide quality; the method does. His example is LLaVA, which answers questions about an image. At 4 bits with plain round to nearest it misreads a meme; with AWQ, an activation-aware method, it describes the meme correctly (Lecture 1, [40:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2400)). Proper quantization, he concludes, speeds up visual language models too.
 
 ## Pitfalls
 
@@ -237,7 +237,7 @@ Quantize the weights of a small trained classifier with the `quantize` function 
 - Outliers force coarse steps. Per-channel or group scales, and rescaling activations into weights, contain the damage.
 - Try post-training quantization first. Move to quantization-aware training only when the evaluation shows a real loss.
 - Keep sensitive layers in higher precision.
-- Roughly 4 bits is the sweet spot these days, by Han's account. Lower is not always better, and no single lever should be pushed to an extreme.
+- By Han's account, roughly 4 bits is the sweet spot. Lower is not always better, and no single lever should be pushed to an extreme.
 
 ## Self-check
 
@@ -247,6 +247,7 @@ Quantize the weights of a small trained classifier with the `quantize` function 
 4. A small model loses 4 accuracy points after 4-bit post-training quantization. What do you try before quantization-aware training?
 5. What does the straight-through estimator do?
 6. Why does k-means codebook quantization not speed up arithmetic on its own?
+7. Weights and activations are both binarized. How is a dot product computed then, and at what price?
 
 <details><summary>Show answers</summary>
 
@@ -256,6 +257,7 @@ Quantize the weights of a small trained classifier with the `quantize` function 
 4. Use per-channel or group scales, and check the clipping range. Only then move to QAT.
 5. It lets the gradient pass through the rounding step as if rounding were the identity function.
 6. The indices are looked up in a floating-point table first, and the arithmetic stays floating point. Only storage shrinks.
+7. With XNOR and popcount: 2 × popcount − n. The price is a large, still visible loss of accuracy.
 
 </details>
 

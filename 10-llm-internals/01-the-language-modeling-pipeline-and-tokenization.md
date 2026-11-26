@@ -1,6 +1,6 @@
 # 01. The Language Modeling Pipeline and Tokenization
 
-**Level:** Practitioner · **Reading time:** 20 min · **Exercise:** 90 min
+**Level:** Practitioner · **Reading time:** 21 min · **Exercise:** 90 min
 
 > **In one sentence:** After this chapter you can turn any string into token IDs with a byte-pair encoding tokenizer you wrote yourself, and you can name the five pieces that CS336 builds to get from raw text to a trained language model.
 
@@ -175,9 +175,11 @@ His organizing lens is efficiency, and he applies it to every unit, including da
 
 His advice for someone with an application has three steps, in order: prompt a model, fine-tune a model, and only as a last resort pretrain your own, because pretraining is a pain and expensive. He adds that watching lectures is not enough: "you learn really by doing the assignments" ([22:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=1320)).
 
-Liang sets the course inside a short history ([11:37](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=697)). In the 1950s Shannon measured the entropy of English with language models, and n-gram models served translation and speech for a long time. The neural line began with LSTMs and with Bengio's neural language model of 2003, a feed-forward network over a small context. Sequence-to-sequence models came next, then Adam, the attention mechanism and the Transformer, and on top of those mixture of experts and model parallelism. By the late 2010s the fashion was to fine-tune ELMo or BERT on each downstream task. A Google paper had foreshadowed the prompt-in, response-out view, but OpenAI opened the way by embracing scaling, from GPT to GPT-3, which showed in-context learning. Google's own large answer turned out under-trained, and the compute-optimal scaling laws of DeepMind, not yet part of Google at the time, were a wake-up call.
+Liang sets the course inside a short history ([11:37](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=697)). In the 1950s Shannon measured the entropy of English with language models, and n-gram models served translation and speech for a long time. The neural line began with LSTMs and with Bengio's neural language model of 2003, a feed-forward network over a small context. Sequence-to-sequence models came next, then Adam, the attention mechanism and the Transformer, and on top of those mixture of experts and model parallelism. By the late 2010s the fashion was to fine-tune ELMo or BERT on each downstream task. A Google paper had foreshadowed the prompt-in, response-out view, but OpenAI opened the way by embracing scaling, from GPT to GPT-3, which showed in-context learning. Google's own PaLM turned out somewhat under-trained, and the compute-optimal scaling laws of DeepMind's Chinchilla were a wake-up call; by his account, DeepMind was not yet part of Google at the time.
 
-He stresses the open ecosystem for one reason. The early attempts, EleutherAI, Meta's first model and BigScience among them, were not strong. In about three years the Llama series, Mistral and the Chinese models DeepSeek and Qwen brought **open weights**, released model parameters, close to closed ones: a little behind or comparable, he says, and which one depends on whom you ask and on how you benchmark. The Marin project, which Liang works on, and also AI2 and NVIDIA go further and release the paper, the code and the data with the weights. Without such work, he says, the course could not exist. Even those papers leave out details, the data mixture among them, so the models cannot be reproduced. What changed in a decade is what a model is asked to do: it was fine-tuned, then prompted, then talked to, and now acts as an agent. The fundamentals held, in his view: GPUs and kernels, stochastic gradients, the Transformer and attention. The demands grew instead, longer contexts above all, which makes inference efficiency matter more.
+He stresses the open ecosystem for one reason ([14:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=840)). The early attempts, EleutherAI, Meta's first model and BigScience among them, were not strong. In the last three years the Llama series, Mistral and the Chinese models DeepSeek and Qwen brought **open weights**, released model parameters, close to those of closed models: a little behind or comparable, he says, and which one depends on whom you ask and on how you benchmark. The Marin project, which Liang works on, and also AI2 and NVIDIA go further and set out to provide the paper, the code and the data with the weights. Without such work, he says, the course could not exist. Even the papers of the open models leave out details, the data mixture among them, so the models cannot be reproduced.
+
+What changed in a decade is what a model is asked to do: it was fine-tuned, then prompted, then talked to, and now acts as an agent. The fundamentals held, in his view: GPUs and kernels, stochastic gradients, the Transformer and attention. The demands grew instead: longer contexts, which makes inference efficiency matter even more.
 
 On tokenization itself, Lecture 1 makes four points:
 
@@ -250,6 +252,11 @@ You are done when:
    - B. No merge was learned for the byte sequences of that variant
    - C. The tokenizer rejects words at the start of a string
    - D. The encoder sorts tokens before merging
+6. What does Lecture 1 say about the models of AI2, NVIDIA and the Marin project?
+   - A. They release open weights and nothing more
+   - B. They provide the paper, the code and the data besides the weights, yet details such as the data mixture stay unknown
+   - C. They provide everything, so anyone can reproduce the models exactly
+   - D. They keep the weights closed and publish the paper only
 
 <details><summary>Show answers</summary>
 
@@ -258,12 +265,13 @@ You are done when:
 3. A. Each round merges the most frequent adjacent pair in the current sequence.
 4. C. The 256 raw byte IDs plus 1,000 merged IDs.
 5. B. `T` and `t` are different bytes, so the merges learned for `the` never apply to `The`.
+6. B. These projects go beyond open weights with paper, code and data, but Liang notes that even such papers omit details, the data mixture among them.
 
 </details>
 
 ## Sources
 
-- **Lecture:** Percy Liang, "Lecture 1: Overview, Tokenization", Stanford CS336 Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=JuoVZkPBiKk) · [guide](../lectures/cs336-01-overview-tokenization.md), used at [three kinds of knowledge](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=360), [learn by doing](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=1320), [efficiency lens](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3840), [tokenization](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3960), [what replaces tokenization](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=4680)
+- **Lecture:** Percy Liang, "Lecture 1: Overview, Tokenization", Stanford CS336 Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=JuoVZkPBiKk) · [guide](../lectures/cs336-01-overview-tokenization.md), used at [three kinds of knowledge](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=360), [learn by doing](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=1320), [history and open models](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=697), [efficiency lens](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3840), [tokenization](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3960), [what replaces tokenization](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=4680)
 - **Course:** Stanford CS336, [course page](https://cs336.stanford.edu/)
 - **Reading:** Philip Gage, "A New Algorithm for Data Compression" (1994), where BPE was introduced
 - **Reading:** Rico Sennrich, Barry Haddow and Alexandra Birch, "Neural Machine Translation of Rare Words with Subword Units" (2016): [arXiv](https://arxiv.org/abs/1508.07909)
