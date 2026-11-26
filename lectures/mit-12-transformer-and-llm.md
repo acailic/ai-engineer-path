@@ -8,13 +8,13 @@
 
 ## Before you watch
 
-The chapter [Transformer Architectures and Hyperparameters](../10-llm-internals/03-transformer-architectures-and-hyperparameters.md) covers the same architecture from Stanford's course, and [Efficient LLM Inference and Deployment](../09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) uses this lecture for the KV cache. Only matrix multiplication and the softmax are assumed.
+The chapter [Transformer Architectures and Hyperparameters](../10-llm-internals/03-transformer-architectures-and-hyperparameters.md) covers the same architecture from Stanford's course, and [Efficient LLM Inference and Deployment](../09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) uses this lecture for the KV cache. Little beyond matrix multiplication and the softmax is assumed.
 
 ## The lecture, part by part
 
 ### [0:00–4:00](https://www.youtube.com/watch?v=EV6xb4xY708&t=0) What language models now do
 
-A new chapter, the course's most modern. Han prompted ChatGPT, launched in late 2022, to write a syllabus for this course, and it did; Google Translate, GitHub Copilot and GPT-4V, which solves a geometry problem from a figure, follow. In one example a rider asks how to lower a bike seat, sends photos, and the model explains the quick-release lever, then identifies the bolt on his own bike and picks the right tool by reading the manual and the toolbox together. Serving and training such models is expensive, and long conversations, or video with hundreds of tokens per frame, make the KV cache grow linearly. This lecture explains the workload before the next one accelerates it.
+A new chapter which, he says, is the course's most exciting, with much that is modern. Han prompted ChatGPT, launched in late 2022, to write a syllabus for this course, and it did; Google Translate, GitHub Copilot and GPT-4V, which solves a geometry problem from a figure, follow. In one example a rider asks how to lower a bike seat, sends photos, and the model explains the quick-release lever, then identifies the bolt on his own bike and picks the right tool by reading the manual and the toolbox together. Serving and training such models is expensive, and long conversations, or video with hundreds of tokens per frame, make the KV cache grow linearly. This lecture explains the workload before the next one accelerates it.
 **In this book:** [Efficient LLM Inference and Deployment › What the practitioners say](../09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md#what-the-practitioners-say).
 
 ### [4:00–12:00](https://www.youtube.com/watch?v=EV6xb4xY708&t=240) Before transformers
@@ -24,7 +24,7 @@ Language tasks divide into discriminative ones, which classify a given sentence 
 
 ### [12:00–16:00](https://www.youtube.com/watch?v=EV6xb4xY708&t=720) Tokens and embeddings
 
-The transformer block has these parts: tokenizer, embedding, attention, feed-forward layer, layer norm, residual connection, positional encoding and a final linear head. A token is a piece of a word: a 110-word paragraph becomes 162 tokens. One-hot encoding over a vocabulary of 100,000 stores mostly zeros; an embedding gives each token a dense vector, learned end to end for the task, after early methods such as word2vec and GloVe.
+The transformer block has these parts: tokenizer, embedding, attention, feed-forward layer, layer norm, residual connection, positional encoding and a final linear head. A token is a piece of a word: a 110-word paragraph becomes 162 tokens. One-hot encoding over a vocabulary of 100,000 stores mostly zeros; an embedding gives each token a dense vector, learned end to end for the task, after early methods such as Word2Vec and GloVe.
 **In this book:** [The Language Modeling Pipeline and Tokenization › The core idea](../10-llm-internals/01-the-language-modeling-pipeline-and-tokenization.md#the-core-idea).
 
 ### [16:00–20:00](https://www.youtube.com/watch?v=EV6xb4xY708&t=960) Attention as retrieval
@@ -44,7 +44,7 @@ Attention mixes tokens but adds no elementwise nonlinearity, so a feed-forward l
 
 ### [26:00–30:00](https://www.youtube.com/watch?v=EV6xb4xY708&t=1560) Layer normalization, before or after
 
-Layer norm normalizes across the feature dimension rather than the batch, with a learned scale and bias. Han urges attention to these two parameters: few in number, they can absorb scaling operations, as in SmoothQuant or rotations, since multiplication is linear. Post-norm places the norm after the attention; pre-norm before it, outside the residual branch. Pre-norm now dominates for training stability and because it folds into the prologue of a matrix multiplication in one kernel.
+Layer norm normalizes across the feature dimension rather than the batch, with a learned scale and bias. Han urges attention to these two parameters: few in number, they can absorb scaling operations, as in SmoothQuant or rotations, since multiplication is linear. Post-norm places the norm after the attention; pre-norm before it, outside the residual branch. Pre-norm is now the more popular choice, for training stability and because it folds into the prologue of a matrix multiplication in one kernel.
 **In this book:** [Transformer Architectures and Hyperparameters › 1. Normalization](../10-llm-internals/03-transformer-architectures-and-hyperparameters.md#1-normalization).
 
 ### [30:00–32:00](https://www.youtube.com/watch?v=EV6xb4xY708&t=1800) Residuals and absolute positions
@@ -69,7 +69,7 @@ GPT, a generative pre-trained transformer, is decoder-only: trained to predict t
 
 ### [40:00–44:00](https://www.youtube.com/watch?v=EV6xb4xY708&t=2400) Relative positions, and ALiBi
 
-Absolute encoding changes the input embeddings, so position flows through the whole network. Relative encoding changes only the attention scores, by a bias or by modifying queries and keys, because the scores depend only on those. Its advantage is extrapolation: a model trained on short sequences can be tested on a whole book or film. Attention with linear biases, ALiBi, adds to each score a term that depends on the distance between the query's and the key's positions, scaled by a strength set per head.
+Absolute encoding changes the input embeddings, so position flows through the whole network. Relative encoding changes only the attention scores, by a bias or by modifying queries and keys, because the scores depend only on those. Its advantage is extrapolation: a model trained on short sequences can be tested on a whole book or film. Attention with linear biases, ALiBi, adds to each score a term that depends on the distance between the query's and the key's positions, multiplied by a strength that is set by hand.
 **In this book:** [Transformer Architectures and Hyperparameters › 2. Attention and position](../10-llm-internals/03-transformer-architectures-and-hyperparameters.md#2-attention-and-position).
 
 ### [44:00–50:00](https://www.youtube.com/watch?v=EV6xb4xY708&t=2640) Rotary position embedding
@@ -94,12 +94,12 @@ For the 70-billion model, 512 tokens take over a gigabyte of cache, 4,000 tokens
 
 ### [1:00:00–1:04:00](https://www.youtube.com/watch?v=EV6xb4xY708&t=3600) Multi-query and grouped-query attention
 
-The remedy shares keys and values. Multi-query attention keeps many query heads but one key and one value head, shrinking the cache most but losing capacity. Grouped-query attention, GQA, lets a group of query heads, typically eight, share one key and value head. Han likens the three to standard, depthwise and grouped convolution: a trade of capacity against cost. With grouped-query attention the 70-billion model's cache fell from 328 gigabytes to under 80, within one GPU, while its accuracy matched full multi-head attention, whereas multi-query sometimes lost a little.
+The remedy shares keys and values. Multi-query attention keeps many query heads but one key and one value head, shrinking the cache most but losing much capacity. Grouped-query attention, GQA, lets a group of query heads, typically eight, share one key and value head. Han likens the three to standard, depthwise and grouped convolution: a trade of capacity against cost. With grouped-query attention the 70-billion model's cache fell from 328 gigabytes to under 80, fitting a single H100 node; at large model sizes its accuracy matches full multi-head attention, he says, whereas multi-query sometimes loses a little.
 **In this book:** [Efficient LLM Inference and Deployment › 3. Shrink the KV cache](../09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md#3-shrink-the-kv-cache) · [Inference › 3. Shrink the KV cache](../10-llm-internals/08-inference.md#3-shrink-the-kv-cache).
 
 ### [1:04:00–1:06:00](https://www.youtube.com/watch?v=EV6xb4xY708&t=3840) SwiGLU
 
-The last change replaces the feed-forward layer with a gated linear unit. SwiGLU has three matrix multiplications of size 8d over 3, which together match the old 4d twice over, an elementwise gate between two of their results, and the Swish activation. The first two multiplications can be fused into one kernel, and the accuracy is good.
+The last change replaces the feed-forward layer with a gated linear unit. SwiGLU has three matrix multiplications of size 8d over 3, which together match the old 4d twice over, an elementwise gate between two of their results, and the Swish activation. The first two multiplications can be fused into one kernel, and the results are good.
 **In this book:** [Transformer Architectures and Hyperparameters › 3. The MLP and gating](../10-llm-internals/03-transformer-architectures-and-hyperparameters.md#3-the-mlp-and-gating).
 
 ### [1:06:00–1:10:00](https://www.youtube.com/watch?v=EV6xb4xY708&t=3960) Scale, emergent abilities, and in-context learning
@@ -109,7 +109,7 @@ Models keep growing because scale unlocks abilities. On modified arithmetic, whe
 
 ### [1:10:00–1:18:00](https://www.youtube.com/watch?v=EV6xb4xY708&t=4200) Open models, from OPT to Llama 3
 
-Open models caught up from 2022. Meta's OPT came in sizes from 125 million to 175 billion with ReLU, pre-norm and a decoder-only design. Llama added SwiGLU and rotary embedding; its 7-billion model has 32 layers, a 2k context, a 4k hidden size and 32 heads. Llama 2 extended the context to 4k, doubled the training tokens to 2 trillion, added grouped-query attention and a chat version aligned by supervised fine-tuning. Llama 3 trained on 15 trillion tokens, from 1.8 trillion, with 50 times the FLOPs; its flagship has 405 billion parameters, an 8k context and a long-context variant, and it was tuned by supervised fine-tuning, rejection sampling and direct preference optimization. Mistral 7B beat Llama 2's 34-billion model with sliding-window attention, later dropped. The Chinchilla rule says data must grow with parameters; Llama models train on far more tokens than that so that inference is cheaper at a given accuracy.
+Open models caught up from 2022. Meta's OPT came in sizes from 125 million to 175 billion with ReLU, pre-norm and a decoder-only design. Llama added SwiGLU and rotary embedding; its 7-billion model has 32 layers, a 2k context, a 4k hidden size and 32 heads. Llama 2 extended the context to 4k, doubled the training tokens to 2 trillion, added grouped-query attention and a chat version aligned by supervised fine-tuning. Llama 3 trained on 15 trillion tokens, from 1.8 trillion, with 50 times the FLOPs; its flagship has 405 billion parameters, an 8k context and a long-context variant, and it was tuned by supervised fine-tuning, rejection sampling and direct preference optimization. Mistral 7B beat Llama 2's 34-billion model with sliding-window attention, later dropped. The Chinchilla rule says data must grow with parameters; Llama models train on far more tokens than that, spending more on training so that inference costs less and a model of the same size is more accurate.
 **In this book:** [Attention Alternatives and Mixture of Experts › 2. Mix local and global layers](../10-llm-internals/04-attention-alternatives-and-mixture-of-experts.md#2-mix-local-and-global-layers) · [Scaling Laws › 2. Pick a method for the trade-off](../10-llm-internals/07-scaling-laws.md#2-pick-a-method-for-the-trade-off) · [Efficient LLM Inference and Deployment › What the practitioners say](../09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md#what-the-practitioners-say).
 
 ## What to take away
