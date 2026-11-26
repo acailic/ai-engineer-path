@@ -135,7 +135,7 @@ On the recipe, the slide summary is that most of the work is data curation, heav
 
 On CLIP, the lecturer reminds the class to read its results with the fact that its design decisions were tuned for image classification, not for fine-grained tasks.
 
-His closing position on generation: comprehension wants semantics, generation wants fine detail, and the two may demand different things. His description of the current best arrangement is continuous encoders for understanding, a Transformer in the middle, and diffusion models for generation, with video balanced against text because video carries less information per token.
+His closing position on generation: comprehension wants semantics, generation wants fine detail, and the two may demand different things. His description of the current best arrangement is continuous encoders for understanding, a Transformer in the middle, and diffusion models for generation, with video balanced against text because video carries a lower information density than text.
 
 Lecture 1 gives the context for why this is one lecture. Liang listed multimodality among the topics the course does not cover in depth ([22:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=1320)).
 
