@@ -51,6 +51,8 @@ Lecture 17 spends almost all its time on the first. The long-term target is an *
 
 Trained on 400 million pairs ([8:00](https://www.youtube.com/watch?v=26FtD08ZpOU&t=480)), CLIP classifies ImageNet better without labels than a ResNet, the standard image classifier of that time, trained on ImageNet's 1.2 million labeled images ([16:00](https://www.youtube.com/watch?v=26FtD08ZpOU&t=960)). Two limits matter later. The training objective is about choosing between captions, so the image embedding captures meaning, not fine detail. And the softmax runs across the whole batch, which pushes batch sizes very high.
 
+Captions are one way to train a vision encoder without labels. Song Han's Lecture 16 shows another, **masked image modelling**, which borrows from BERT's masked language modelling, described in [Transformer Architectures and Hyperparameters](03-transformer-architectures-and-hyperparameters.md) ([34:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=2040)). Some patches of the image are hidden. A heavy encoder processes only the visible ones, and a light decoder receives its output together with the hidden positions and rebuilds the whole image, 25 patches from 8 in his example. The heavy part sees few tokens, so the light part can afford to see many. The best mask ratio is about 70 to 75%, against about 15% for BERT, and Han reports a higher accuracy than the baseline. His reading of the ratio is that images carry less information per token, and more redundancy, than language, so more of them can be hidden and still recovered.
+
 ### 2. SigLIP: the same idea with a cheaper loss
 
 **SigLIP** replaces the comparison across the batch with a yes-or-no question for every image-caption pair: do they match? Batch size no longer sets the difficulty. In the figures quoted in the lecture, CLIP took 10 days on 256 TPUv3 chips and SigLIP 5 days on 32 TPUv4 ([24:00](https://www.youtube.com/watch?v=26FtD08ZpOU&t=1440)).
@@ -79,6 +81,8 @@ flowchart LR
 ```
 
 The projector is the only bridge between the two modalities: everything to its right is an ordinary language model working on tokens.
+
+That is one of two routes. Song Han's Lecture 14 in the MIT course names the other, a **cross-attention** model, with Flamingo as its example ([40:00](https://www.youtube.com/watch?v=OCdwWfVoQ-Q&t=2400)). The language model stays frozen, and the image enters through extra attention layers. A vision encoder turns it into visual tokens, and a **perceiver resampler** adjusts their number. In Han's example three images of three by three patches give 27 tokens. Five learned queries are joined to them as keys and values, the queries are the five learned ones, and the output is five vectors, however many frames and tokens went in. In each cross-attention layer the keys and values come from the visual tokens and the queries from the text. A **tanh gate** scales what the layer adds. It starts at zero, so the model at first is the plain language model, and training gradually teaches it how much vision to let in. Han shows it learning in context, a chinchilla, a shiba and then a flamingo, and holding a dialogue about two teddy bears using a computer on the moon.
 
 ### 4. Resolution
 
@@ -214,6 +218,8 @@ You are done when:
 - **Lecture:** Stanford CS336, "Lecture 17: Alignment - Multimodality", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=26FtD08ZpOU) · [guide](../lectures/cs336-17-alignment-multimodality.md), used at [tokens](https://www.youtube.com/watch?v=26FtD08ZpOU&t=120), [OCR](https://www.youtube.com/watch?v=26FtD08ZpOU&t=2160), [closing](https://www.youtube.com/watch?v=26FtD08ZpOU&t=4560)
 - **Lecture:** Stanford CS336, "Lecture 15: Mid/Post-Training" (what "good" means): [video](https://www.youtube.com/watch?v=2oH6PWPrYFo&t=2760)
 - **Lecture:** Percy Liang, "Lecture 1: Overview, Tokenization" (alignment unit): [video](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3600)
+- **Lecture:** Song Han, "Lecture 14: LLM Post-Training", MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024): [video](https://www.youtube.com/watch?v=OCdwWfVoQ-Q) · [guide](../lectures/mit-14-llm-post-training.md), used at [cross-attention models](https://www.youtube.com/watch?v=OCdwWfVoQ-Q&t=2400)
+- **Lecture:** Song Han, "Lecture 16: Vision Transformer", MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024): [video](https://www.youtube.com/watch?v=v0jYDgaVzlk) · [guide](../lectures/mit-16-vision-transformer.md), used at [masked image modelling](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=2040)
 - **Reading:** Alec Radford et al., "Learning Transferable Visual Models From Natural Language Supervision" (2021): [arXiv](https://arxiv.org/abs/2103.00020)
 - **Reading:** Xiaohua Zhai et al., "Sigmoid Loss for Language Image Pre-Training" (2023): [arXiv](https://arxiv.org/abs/2303.15343)
 - **Reading:** Haotian Liu, Chunyuan Li, Qingyang Wu and Yong Jae Lee, "Visual Instruction Tuning" (2023): [arXiv](https://arxiv.org/abs/2304.08485)

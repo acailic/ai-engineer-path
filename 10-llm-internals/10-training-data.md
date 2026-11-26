@@ -35,6 +35,8 @@ Training itself comes in stages, and data quality rises along them:
 
 The lecturer notes that the lines are blurry and that some large models now ship only in their post-trained form ([2:00](https://www.youtube.com/watch?v=-qm0ln33G24&t=120)).
 
+Work on data starts before the first download. Percy Liang's overview of the unit in Lecture 1 puts evaluation first ([53:42](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3222)). Data quality decides how good the model will be, and data reflects what the model is meant to do, whether that is speaking several languages, holding a conversation or running long agentic coding tasks. Evaluation defines those capabilities, and it comes in two kinds that are often conflated. **Internal metrics** guide model development, so they must be smooth across scales and show meaningful relative differences; perplexity still captures a model's intrinsic quality well. **External metrics** go to customers and reviewers, and there ecological validity matters. Run them on data that is not on the internet, which avoids contamination, and keep many of them, because one average mixes different things. In his description, mid-training data is the high-quality data placed at the end of pre-training, long-context data such as large code repositories or books included, and post-training data is conversations or agentic traces with tool calls.
+
 ## How it works, step by step
 
 ### 1. Get raw data
@@ -126,7 +128,7 @@ A strong model can write training data. In pretraining, Nemotron-CC has a model 
 
 ### 7. The legal layer
 
-Almost everything online is copyrighted. Using it needs a license or a fair-use argument. As of the lecture, US courts had found training to be fair use in two cases, and obtaining the books by piracy to be unlawful in one, with a reported $1.5 billion settlement. The lecturer stresses that the rulings are narrow: they do not make any training on copyrighted content fair use ([Lecture 13, 28:00](https://www.youtube.com/watch?v=-qm0ln33G24&t=1680), [30:00](https://www.youtube.com/watch?v=-qm0ln33G24&t=1800)). The area is active and evolving, so treat this as a snapshot.
+Almost everything online is copyrighted. Using it needs a license or a fair-use argument. As of the lecture, US courts had found training to be fair use in two cases, and obtaining the books by piracy to be unlawful in one, with a reported $1.5 billion settlement. The lecturer stresses that the rulings are narrow: they do not make any training on copyrighted content fair use ([Lecture 13, 28:00](https://www.youtube.com/watch?v=-qm0ln33G24&t=1680), [30:00](https://www.youtube.com/watch?v=-qm0ln33G24&t=1800)). The area is active and evolving, so treat this as a snapshot. One decision is easy to overlook. In Liang's example from Lecture 1, a lot of code on GitHub carries no license at all, and whoever collects the data has to decide whether to read that as permissive or to be conservative and assume it is not ([Lecture 1, 53:42](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3222)).
 
 ## Worked example
 
@@ -269,6 +271,7 @@ You are done when:
 
 - **Lecture:** Stanford CS336, "Lecture 13: Data (Sources, Datasets)", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=-qm0ln33G24) · [guide](../lectures/cs336-13-data-sources-datasets.md), used at [why data is secret](https://www.youtube.com/watch?v=-qm0ln33G24&t=0), [stages](https://www.youtube.com/watch?v=-qm0ln33G24&t=120), [closing](https://www.youtube.com/watch?v=-qm0ln33G24&t=4800)
 - **Lecture:** Stanford CS336, "Lecture 14: Data", Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=5sxHosTLPF8) · [guide](../lectures/cs336-14-data-filtering-deduplication-mixing-synthetic.md), used at [language ID](https://www.youtube.com/watch?v=5sxHosTLPF8&t=720), [thresholds](https://www.youtube.com/watch?v=5sxHosTLPF8&t=960), [simulated scarcity](https://www.youtube.com/watch?v=5sxHosTLPF8&t=4080), [closing](https://www.youtube.com/watch?v=5sxHosTLPF8&t=5040)
+- **Lecture:** Percy Liang, "Lecture 1: Overview, Tokenization", Stanford CS336 Language Modeling from Scratch (Spring 2026): [video](https://www.youtube.com/watch?v=JuoVZkPBiKk) · [guide](../lectures/cs336-01-overview-tokenization.md), used at [evaluation before data](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3222)
 - **Reading:** Common Crawl: [commoncrawl.org](https://commoncrawl.org/)
 - **Reading:** Colin Raffel et al., "Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer" (2019), the paper that introduced C4: [arXiv](https://arxiv.org/abs/1910.10683)
 - **Reading:** Guilherme Penedo et al., "The FineWeb Datasets: Decanting the Web for the Finest Text Data at Scale" (2024): [arXiv](https://arxiv.org/abs/2406.17557)

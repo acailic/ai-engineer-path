@@ -138,6 +138,14 @@ The passages are processed once, when the index is built; each question then nee
 
 **Yangqing Jia (Fall 2025)** makes one point from the infrastructure side: retrieval and accurate data-processing pipelines are what matter ([68:00](https://www.youtube.com/watch?v=xqRAS6rAouo&t=4080)). The hard part of moving AI workloads is data locality, getting the data next to the machines that read it ([70:00](https://www.youtube.com/watch?v=xqRAS6rAouo&t=4200)). For an agent, the knowledge store is infrastructure: where it lives, how fast it can be read, and how it is kept accurate.
 
+**Percy Liang (Stanford, Fall 2024)** shows a memory design built to imitate people. In an earlier paper, his group placed 25 agents, all built on one architecture, in a town called Smallville. Each keeps a **memory stream**, a log of everything it observes, most of it as unremarkable as a neat desk. The stream cannot fit in a prompt, so each turn retrieves a small subset by scoring every memory on three factors:
+
+- **Recency.** What happened lately deserves more attention.
+- **Importance.** How much an event matters: a wedding beats a tidy desk.
+- **Relevance.** How a memory fits the current context: while the agent looks for its water bottle, memories of where it saw the bottle count for more.
+
+The three scores slim the stream as the agent goes. **Reflection** then abstracts groups of these low-level memories into higher-level ones: an agent's reading about urban design becomes, step by step, a dedication to research. An agent that reacted to single memories would stay in the weeds, he says; reflection gives it a direction. Because people talk, the agents talk too: in the simulation, news of a Valentine's Day party spreads from agent to agent through the town ([14:45](https://www.youtube.com/watch?v=f3KKx9LWntQ&t=885)).
+
 ## Pitfalls
 
 1. **Storing everything.** An index of everything retrieves noise. Fix: decide per source whether it belongs in memory, and test retrieval hit rate.
@@ -194,6 +202,7 @@ Add memory to the agent from [Chapter 01](01-the-anatomy-of-an-agent.md).
 
 - **Lecture:** Yu Su, "Reasoning, Memory and Planning of Language Agents", UC Berkeley Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=zvI4UN2_i-w) · [guide](../lectures/sp25-03-on-reasoning-memory-and-planning-of-language.md), used at [non-parametric memory](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=1320), [receptivity to evidence](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=1440), [limits of embedding retrieval](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=1560), [hippocampal indexing](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=1680), [pattern completion](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=1800), [how HippoRAG is built and searched](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=1920), [HippoRAG's results](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=2160), [HippoRAG 2 and takeaways](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=2400)
 - **Lecture:** Yangqing Jia, "Evolution of System Designs from an AI Engineer Perspective", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=xqRAS6rAouo) · [guide](../lectures/f25-02-evolution-of-system-designs-from-an-ai-engineer.md), used at [retrieval pipelines](https://www.youtube.com/watch?v=xqRAS6rAouo&t=4080), [data locality](https://www.youtube.com/watch?v=xqRAS6rAouo&t=4200)
+- **Lecture:** Percy Liang, "Open-Source and Science in the Era of Foundation Models", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=f3KKx9LWntQ) · [guide](../lectures/f24-10-open-source-and-science-in-the-era-of-foundation.md), used at [a memory stream with retrieval and reflection](https://www.youtube.com/watch?v=f3KKx9LWntQ&t=885)
 - **Reading:** Bernal Jiménez Gutiérrez, Yiheng Shu, et al., "HippoRAG: Neurobiologically Inspired Long-Term Memory for Large Language Models" (2024): [link](https://arxiv.org/abs/2405.14831)
 - **Reading:** Jian Xie, Kai Zhang, et al., "Adaptive Chameleon or Stubborn Sloth: Revealing the Behavior of Large Language Models in Knowledge Conflicts" (2023): [link](https://arxiv.org/abs/2305.13300)
 - **Reading:** Nelson F. Liu, Kevin Lin, et al., "Lost in the Middle: How Language Models Use Long Contexts" (2023): [link](https://arxiv.org/abs/2307.03172)

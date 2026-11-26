@@ -159,7 +159,7 @@ Binarize the activations as well and a dot product becomes bitwise. **XNOR** giv
 | K-means codebook | 1/8 at 4 bits | small after fine-tuning | none to quantize | storage is the only concern |
 | Binary or ternary | 1/8 to 1/16 | large | training | special hardware |
 
-Lower is not always better. Han puts the usual sweet spot at roughly 4 bits, as of his lecture, and adds that it might move lower in the future (Lecture 6, [1:02:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3720)). His reason is a mismatch: memory shrinks linearly with the bit width, while the computation shrinks faster, quadratically by his account. The expensive part, memory, therefore shrinks more slowly, and the returns diminish. He also advises against turning one design knob to an extreme: pruning, quantization, distillation and architecture search work best together.
+Lower is not always better. Han puts the usual sweet spot at roughly 4 bits, as of his lecture, and adds that it might move lower in the future (Lecture 6, [62:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3720)). His reason is a mismatch: memory shrinks linearly with the bit width, while the computation shrinks faster, quadratically by his account. The expensive part, memory, therefore shrinks more slowly, and the returns diminish. He also advises against turning one design knob to an extreme: pruning, quantization, distillation and architecture search work best together.
 
 ## Worked example
 

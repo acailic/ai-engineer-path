@@ -130,7 +130,7 @@ In practice, do not trust a model to be robust to the order of facts in user-wri
 
 Chen's advice on budget comes from studies of inference scaling: allocate the compute per problem according to its difficulty. Easy problems need few samples. She also notes that the right model depends on the budget. A small budget favors more samples from a lighter model. A large budget justifies a stronger model for the problems a light model cannot solve at all ([78:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4680)).
 
-Hajishirzi's s1 recipe spends the budget on a longer thought instead of more samples. Her team filtered 59,000 hard questions down to 1,000, trained on reasoning traces from a thinking model, and got about the same results as with the full set ([1:04:51](https://www.youtube.com/watch?v=cMiu3A7YBks&t=3891)). At inference, **budget forcing** sets the length of the thought: when the model stops early, "wait" is appended and it continues. Accuracy rose with the tokens generated, and in her comparison this beat majority voting.
+Hajishirzi's s1 recipe spends the budget on a longer thought instead of more samples. Her team filtered 59,000 hard questions down to 1,000, trained on reasoning traces from a thinking model, and got about the same results as with the full set ([64:51](https://www.youtube.com/watch?v=cMiu3A7YBks&t=3891)). At inference, **budget forcing** sets the length of the thought: when the model stops early, "wait" is appended and it continues. Accuracy rose with the tokens generated, and in her comparison this beat majority voting.
 
 ## Worked example
 
