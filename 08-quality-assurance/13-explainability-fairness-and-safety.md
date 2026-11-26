@@ -33,9 +33,12 @@ The first is about **explainability**, the second about **fairness**, the third 
 | Why this one prediction? | Feature influences | Attribute the prediction to inputs (the book names LIME and SHAP) |
 | What is the smallest rule behind it? | **Anchor** | Find the few conditions that suffice for the prediction |
 | What would change it? | **Counterfactual** | Find a small change to the input that flips the result |
+| Which past cases does it resemble? | **Similarity-based** | Show the nearest labeled training examples; needs an understandable distance and meaningful examples |
 | What is odd in the training data? | Prototypes and criticisms | Typical examples, and outliers poorly covered by them |
 
 Most of these work without access to the model's internals (chapter 25), which is why outside auditors use surrogates on models available only through an API. Two details from the book help in practice. **LIME** learns a small linear model of the decision boundary, the border between the model's answers, near one input. Its influence values are known to be unstable, and **SHAP**, built on Shapley values, a rule for splitting a prediction fairly among the inputs, has largely replaced it as the more stable choice. Every prediction has many counterfactuals, so a tool must choose among them, usually the counterfactual that changes little, or that touches few inputs (chapter 25).
+
+One more tool debugs the training data. **Influential instances** are training examples that move the decision boundaries far more than the others. They are often outliers, possibly mislabeled, from regions where training data is sparse: Kästner's example is one eighty-five-year-old who keeps being arrested and bends the model's use of age. To find them, retrain with one example left out at a time and compare the resulting models; cheaper approximations exist for many models.
 
 Kästner's running example is a commercial tool that scores a defendant's risk of re-offending. Journalists at ProPublica found that Black defendants were almost twice as likely as white defendants to be labeled high risk without then re-offending. The model's internals were not open to inspection. Researchers have trained a simple points-based scorecard from the same data, as accurately, that a judge can read in full and audit (chapter 25).
 
@@ -46,6 +49,8 @@ For an LLM system, add one rule. The reasons a model writes for its own answer a
 ## Fairness: choose a criterion and defend it
 
 The book separates **harms of allocation**, where a group gets fewer resources or worse service, from **harms of representation**, where output reinforces a stereotype or demeans a group ([chapter 26](https://mlip-cmu.github.io/book/26-fairness.html)). Failing German writers causes the first. Calling every doctor "he" causes the second.
+
+Not every use of a protected attribute counts as wrongful discrimination. The question is whether the use is justified, and that depends on the domain. In the US, the customer's sex may not enter a mortgage decision, while a diagnosis may need the patient's sex, because some conditions are far more common in one sex. One system can do both kinds of harm at once: a hiring model that ranks women lower withholds interview slots, gives them a worse service and reinforces a stereotype.
 
 Kästner measures fairness over **protected attributes**, the features that divide the demographic groups of concern. His legal overview lists the characteristics that federal anti-discrimination law protects in the US, among them race, religion, national origin, sex, sexual orientation and gender identity, age from forty, and pregnancy, with further rules for domains such as housing, credit, and employment (chapter 26). He describes three model-level criteria (chapter 26):
 
@@ -77,6 +82,8 @@ Four further points from chapter 26:
 - **Document the results.** A **model card** records intended use, intended users, the demographic factors considered, accuracy per subpopulation, the evaluation data, and limitations. Kästner pairs it with a **datasheet** for the training data, which records how the data was collected and which subpopulations it represents.
 - **Monitor it.** Group fairness is cheap to watch in production, because it needs no labels: alert when positive rates diverge between groups. Equalized odds is hard, because a missed case is difficult to observe. Also watch for a spike in complaints from one group, and prepare an incident response plan that can shut a feature down (chapter 26). [Testing and Experimenting in Production](09-testing-and-experimenting-in-production.md) supplies the machinery.
 
+Two cautions complete the second point. Human review is no cure by itself. In a study of predictive policing that Kästner cites, officers used a prediction as a pretext when it matched their own bias and ignored it when it did not; a model that looks objective can make an existing bias harder to question. Review is best aimed where the model is weakest: in the bank example, people look at applications from first-time buyers, from lower incomes and with unusual employment. And automated decisions feed the next training data, so Kästner suggests training only on applications a person has reviewed.
+
 Kästner reports that what fairness work gets done is usually pushed by individuals acting as internal activists, almost always without institutional support. His advice is to start early, when requirements and data collection are still open, and to use a checklist such as Microsoft's AI Fairness Checklist (chapter 26).
 
 ## Safety: reliability is not safety
@@ -88,6 +95,8 @@ He borrows an example from Nancy Leveson: a tank of flammable gas. Thicker walls
 By the same reasoning, a more accurate model is a step toward safety and not safety itself. Accuracy and robustness improve reliability (chapter 27). [Guardrails](08-system-quality-end-to-end-tests-and-guardrails.md) are the relief valves.
 
 Robustness has a use at inference time ([chapter 27](https://mlip-cmu.github.io/book/27-safety.html)): check each prediction against small changes it should withstand, and route one that flips to a fallback or a person.
+
+The first question is what an input should withstand. Kästner's example is a stop-sign detector that must tolerate poor light, rain on the lens and a tilted sign. Each anticipated disturbance defines a neighborhood of inputs, and a prediction counts as robust when the inputs in that neighborhood get the same answer. A prediction that passes deserves more confidence. Tools that prove this are expensive, often thousands of inferences per check, so they rarely run in production. No model is robust everywhere, because some inputs always lie near a decision boundary. Robustness is a building block for a safe system, not a safety claim.
 
 Kästner describes safety engineering in four steps (chapter 27):
 

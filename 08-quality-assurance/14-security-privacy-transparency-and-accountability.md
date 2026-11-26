@@ -45,6 +45,8 @@ Defending the model itself is covered in [Defenses and Guardrails](../04-safety-
 
 Start from a **security mindset**: any component may be compromised, any user may misbehave, any input may be malicious. Perfect security is out of reach, so the goal is to reduce risk ([chapter 28](https://mlip-cmu.github.io/book/28-security-and-privacy.html)).
 
+The mindset does not come naturally to every developer, and many dislike the negative thinking it asks for. Kästner's remedies are training, building security into the process, and above all bringing in experts ([chapter 28](https://mlip-cmu.github.io/book/28-security-and-privacy.html)).
+
 **Threat modeling** is a structured review of a system's design for security threats, done early in design or as an audit. Kästner describes five stages (chapter 28):
 
 1. **Attacker goals and capabilities.** Teenagers trying to bypass a filter for bragging rights and a state-backed team with patience and budget call for different defenses. The more likely attacker may deserve more attention than the stronger one.
@@ -69,11 +71,14 @@ Intrusion detection watches for unusual behavior. Kästner notes that the 2017 E
 - **Collect less.** Decide what the service needs and stop there (chapter 28).
 - **Know what a model can infer.** ML can predict age, gender, race, or political leaning from a few queries or posts, cheaply and at scale. Data merged from several sources, each shared for another purpose, sharpens such predictions, and users rarely see that coming (chapter 28).
 - **Count what you send to a provider.** Text placed in a prompt is data disclosed to the model's operator. Redact it, and read the provider's terms for how inputs may be reused.
+- **Keep stored data available and private.** Training data, evaluation sets and logs hold customer text, and later audits and retraining depend on them. Redundant storage and backups protect them from a failed disk or a deleted table; authentication and encryption keep out everyone but the people who need access. Remove identifying details before storage where you can, though Kästner warns that anonymization is notoriously tricky, because models infer missing data well ([chapter 28](https://mlip-cmu.github.io/book/28-security-and-privacy.html)). He notes that an organization can provide the storage infrastructure, with its backups and security, for all teams to build on ([chapter 16](https://mlip-cmu.github.io/book/16-data-quality.html)).
 - **Explain and offer controls.** A **privacy policy** is the public record of the system's privacy decisions. Fine-grained controls give users more agency than one blanket agreement (chapter 28).
 
 ### 6. Be transparent, and name who is accountable
 
 Kästner separates transparency about the model's *existence* from transparency about *how it works* (chapter 29). In a 2015 study he cites, 62 percent of surveyed Facebook users did not know that an algorithm curated their feed rather than showing every post, and many reacted with surprise and anger when told. He also cites reports of managers who did not know that an automated tool had discarded applicants before they saw them.
+
+Before writing a notice, name its goal: trust at the right level, so that users know when to check the model; support for an appeal; or a feeling of autonomy and dignity. Kästner warns that trust the system has not earned puts users at risk, and says to test the design with users ([chapter 29](https://mlip-cmu.github.io/book/29-transparency-and-accountability.html)).
 
 1. **Say that a model is involved**, where it affects people. Hiding it removes the chance to appeal, and users feel deceived when they find out.
 2. **Explain at a useful level.** Users form a mental model of how a system decides, correct or not, and they need some understanding to point out a mistake. For high-stakes decisions such as loans, hiring, or housing, Kästner considers explicit explanations and a stated level of certainty important. For low-stakes ones, such as spelling correction, automation without explanation can be acceptable (chapter 29). Show sources next to generated claims.
@@ -140,6 +145,7 @@ You are done when the threats are ranked, when each mitigation has a test with h
 - **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 28: [link](https://mlip-cmu.github.io/book/28-security-and-privacy.html)
 - **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 29: [link](https://mlip-cmu.github.io/book/29-transparency-and-accountability.html)
 - **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 23, for the principle lists cited above: [chapter 23](https://mlip-cmu.github.io/book/23-responsible-engineering.html)
+- **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 16, for data storage: [chapter 16](https://mlip-cmu.github.io/book/16-data-quality.html)
 
 ## Next
 

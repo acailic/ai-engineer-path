@@ -13,7 +13,6 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Ablation** | Running a system again with one ingredient removed, to measure that ingredient's effect. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
 | **Accelerator chip** | A processor built for model arithmetic. | [07.09](07-ml-in-production/09-scaling-the-system.md) |
 | **Accelerator intensity** | A chip's peak FLOP/s divided by its memory bandwidth. | [10.02](10-llm-internals/02-resource-accounting-flops-memory-and-arithmetic-intensity.md) |
-| **Acceptance test** | A test of the whole product from the users' or business's perspective. | [08.08](08-quality-assurance/08-system-quality-end-to-end-tests-and-guardrails.md) |
 | **Acceptance test** | A test that the product serves the users' needs, which validates that the right system was built. | [08.08](08-quality-assurance/08-system-quality-end-to-end-tests-and-guardrails.md) |
 | **Accessibility tree** | The operating system's list of interface elements with their roles and names. | [06.01](06-frontier-applications/01-multimodal-agents-web-and-computer-use.md) |
 | **Accountability** | The state in which a named person or role answers for each kind of automated decision and affected people can appeal. | [08.14](08-quality-assurance/14-security-privacy-transparency-and-accountability.md) |
@@ -381,7 +380,6 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **File localization** | Finding the files that a request is about. | [02.07](02-building-agents/07-coding-agents.md) |
 | **Filter bubble** | A situation in which personalization shows a person only content that agrees with views they already hold. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
 | **Fine-tuning** | Training a copy of an existing model on new examples to change its behavior. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
-| **Fire drill** | A deliberate injection of a problem into a running system to confirm that monitoring alerts the right people. | [08.08](08-quality-assurance/08-system-quality-end-to-end-tests-and-guardrails.md) |
 | **Fire drill** | A problem deliberately injected into a running system to confirm that monitoring alerts the right people. | [08.08](08-quality-assurance/08-system-quality-end-to-end-tests-and-guardrails.md) |
 | **Fitness** | A candidate's score, typically accuracy under the cost constraint. | [09.05](09-efficient-deep-learning/05-neural-architecture-search.md) |
 | **Fixed pipeline** | A workflow with a few hard-coded steps, each a model call. | [02.06](02-building-agents/06-how-agent-system-designs-evolve.md) |
@@ -509,6 +507,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Inference latency** | The time one prediction takes, usually reported as a percentile. | [07.06](07-ml-in-production/06-quality-attributes-of-ml-components.md) |
 | **Inference throughput** | The number of predictions a component can make per unit of time. | [07.06](07-ml-in-production/06-quality-attributes-of-ml-components.md) |
 | **Inference-time scaling** | Spending more computation per problem at inference time to raise accuracy. | [01.06](01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) |
+| **Influential instances** | Training examples that shape a model's decision boundaries far more than the others; often mislabeled outliers where training data is sparse. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
 | **Informal mathematics** | Mathematics written as prose, LaTeX or papers, which carries no guarantee. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Information flow control** (also called: Taint tracking) | Tracking labeled data as it moves through a system, also called taint tracking. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
 | **Infrastructure as code** | Describing servers, containers and pipeline steps in files under version control. | [07.08](07-ml-in-production/08-automating-the-pipeline.md) |
@@ -519,7 +518,6 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Input schema** | A JSON description of the arguments a tool accepts. | [05.06](05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md) |
 | **Instruction hierarchy** | A model-level defense in which the model is trained to privilege some instructions over others. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
 | **Instrumentation** | The code added to a system so that it produces telemetry. | [07.10](07-ml-in-production/10-planning-for-operations.md) |
-| **Integration test** | A test of several components working together. | [08.08](08-quality-assurance/08-system-quality-end-to-end-tests-and-guardrails.md) |
 | **Integration test** | A test that several components work together, between a unit test of one component and a system test of the whole product. | [08.08](08-quality-assurance/08-system-quality-end-to-end-tests-and-guardrails.md) |
 | **Integrity** | The goal that the system and its data are not altered, on purpose or by accident, and stay accurate. | [04.01](04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md) |
 | **Interface** | The contract for using a component: what goes in, what comes out, and what happens when it fails. | [07.05](07-ml-in-production/05-architecture-for-ml-systems.md) |
@@ -839,7 +837,6 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Proof state** | At one step of a formal proof, the list of what is known and what remains to be shown. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Propagation** | The spread of injected or false content from one compromised agent to others. | [04.03](04-safety-and-security/03-agent-specific-attacks.md) |
 | **Protected attribute** | A feature that divides the demographic groups for which wrongful discrimination is a concern. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
-| **Protected attribute** | A feature that divides the demographic groups for which discrimination is a concern. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
 | **Provenance (lineage)** | The record of where a value came from and who modified it. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
 | **Prover model** | The model that proposes tactics for the current proof state. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Proxy** (also called: Proxy measure) | A measure that stands in for something that cannot be observed directly. | [07.03](07-ml-in-production/03-goals-and-requirements.md) |
@@ -1002,6 +999,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Signature (DSPy)** | A declaration of the input fields and the output field of one step. | [02.05](02-building-agents/05-compound-ai-systems-and-dspy.md) |
 | **Sim to real** | Moving a policy trained in simulation onto a physical robot. | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **SIMD** | Single instruction, multiple data: one instruction applied to several values at once. | [09.07](09-efficient-deep-learning/07-tinyml-microcontrollers-and-tinyengine.md) |
+| **Similarity-based explanation** | An explanation of a prediction that shows the nearest labeled training examples. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
 | **Simulated workspace** | A fake environment, such as a calendar and a to-do list loaded from a file, that an agent can change only through its tools and that resets to the same state. | [11.02](11-professional-practice/02-capstone-task-agent-with-evals.md) |
 | **Simulator** (also called: Environment simulator) | A program that imitates an environment so that trials are cheap. | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **Single control** | A setting in which the agent operates every tool and the user only talks. | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
@@ -1037,7 +1035,6 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **StateFlow** | A group chat that encodes a finite state machine: one agent per state, transitions fixed in advance. | [05.02](05-frameworks-and-multi-agent/02-autogen-conversation-programming.md) |
 | **Stateless** | Holding no memory between requests, as a plain RAG pipeline does. | [05.03](05-frameworks-and-multi-agent/03-llamaindex-knowledge-assistants.md) |
 | **Static analysis** | Inspecting code for problems without running it. | [02.07](02-building-agents/07-coding-agents.md) |
-| **Static analysis** | Inspecting code for problems without running it. | [08.14](08-quality-assurance/14-security-privacy-transparency-and-accountability.md) |
 | **Statistical test** | A calculation of how unlikely a result is if only chance were at work. | [08.03](08-quality-assurance/03-slicing.md) |
 | **Statistically significant** | Unlikely to be caused by sampling noise alone; in practice larger than about two standard errors of the difference. | [03.05](03-evaluation/05-statistics-for-evals.md) |
 | **Stdio transport** | Carrying protocol messages through a local program's standard input and output. | [05.06](05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md) |
@@ -1074,14 +1071,12 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **System failure** | A violation of a system requirement in the real world. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
 | **System of record** | The database that holds the real state of a business, such as whether an order was refunded. | [03.07](03-evaluation/07-evals-in-production.md) |
 | **System prompt** | A separate input field for instructions that apply to a whole conversation. | [01.04](01-foundations/04-using-llms-tokens-context-and-sampling.md) |
-| **System test** | An end-to-end test of whether the whole product meets its requirements. | [08.08](08-quality-assurance/08-system-quality-end-to-end-tests-and-guardrails.md) |
 | **System test** | A test that the whole product meets its requirements end to end, which verifies that the system was built right. | [08.08](08-quality-assurance/08-system-quality-end-to-end-tests-and-guardrails.md) |
 
 ## T
 
 | Term | Definition | Defined in |
 |---|---|---|
-| **T-shaped** | Deep in one specialty and able to follow the work of the others. | [08.11](08-quality-assurance/11-teams-and-technical-debt.md) |
 | **T-shaped** (also called: T-shaped person) | Deep expertise in one specialty with working knowledge of the neighboring ones. | [07.01](07-ml-in-production/01-from-models-to-systems-and-products.md) |
 | **Tactic** | One small formal proof step, such as applying a known lemma. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Task** | One item of a dataset: an input plus what an acceptable result looks like. | [03.02](03-evaluation/02-a-minimal-eval-harness.md) |
@@ -1176,7 +1171,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Value function** | A model that estimates how close a run is to success; tree search uses it to score intermediate states. | [06.01](06-frontier-applications/01-multimodal-agents-web-and-computer-use.md) |
 | **Value model** | A second network, as large as the policy, that estimates the reward to come at each token; PPO needs it and GRPO drops it. | [10.11](10-llm-internals/11-post-training-sft-rlhf-and-rlvr.md) |
 | **Variant** | A bug similar to one already found, in another place in the same project. | [04.08](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
-| **Variant** | A version of an artifact that exists side by side with another, such as the two models of an A/B test. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
+| **Variant (A/B test)** | A version of an artifact that exists side by side with another, such as the two models of an A/B test. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
 | **Variant analysis** | Searching a project for bugs similar to one that was just fixed. | [04.08](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
 | **Vector** | An ordered list of numbers. | [01.02](01-foundations/02-how-large-language-models-are-trained.md) |
 | **Vector database** | A store that finds the vectors nearest to a query's embedding. | [05.03](05-frameworks-and-multi-agent/03-llamaindex-knowledge-assistants.md) |
@@ -1221,6 +1216,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Working memory** | The part of memory that lives in the context window and is paid for at every step. | [02.01](02-building-agents/01-the-anatomy-of-an-agent.md) |
 | **World model** | A model that predicts the next state from a state and an action. | [02.03](02-building-agents/03-planning-search-and-decision-making.md) |
 | **Wrapper** | An application that is only a prompt and one model call behind an API. | [02.06](02-building-agents/06-how-agent-system-designs-evolve.md) |
+| **Wrongful discrimination** | Use of a protected attribute in a decision that is not justified in that domain, such as a customer's sex in a mortgage decision. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
 | **WSD schedule** | A learning-rate schedule with warmup, stable and decay phases, which lets checkpoints be reused. | [10.07](10-llm-internals/07-scaling-laws.md) |
 
 ## Z
