@@ -67,7 +67,7 @@ One guide per lecture of the four courses, in [`lectures/`](lectures/README.md).
 | MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024) | 23 | 23 |
 | Stanford CS336 Language Modeling from Scratch (Spring 2026) | 18 | 18 |
 
-In the guides: 1,207 parts of lectures, of which 163 (14%) are taught by no chapter and are explained only in the guide.
+In the guides: 1,207 parts of lectures, of which 134 (11%) are taught by no chapter and are explained only in the guide.
 
 What is checked: each guide passes an automatic check before it is published (the parts cover the lecture end to end, every part links to its moment in the video, every link to a chapter section resolves, no passage is copied from the lecture). What is not checked: no person has read a guide against its lecture. An AI reviewer read every guide a second time against the whole lecture on 2026-11-26 and corrected it. If a guide and the lecture disagree, the lecture wins.
 
@@ -258,7 +258,7 @@ The chapters were checked in two ways, described in [VERIFICATION.md](VERIFICATI
 
 **Lecture guides, 2026-11-25 and 2026-11-26.** All 77 lectures now have a guide: 1,207 parts. Before a guide is published, an automatic check confirms that its parts cover the lecture end to end without a gap or an overlap, that every part links to the second of the video that its heading names, that every link to a chapter section resolves, and that no run of eight or more words is copied from the lecture outside quotation marks.
 
-**Glossary, 2026-11-25.** Every row of the glossary was checked against the chapter it links to: 12 definitions corrected, 7 links moved to a better chapter, 13 duplicates merged, 16 rows removed and 24 added. The glossary has 1,159 terms.
+**Glossary, 2026-11-25.** Every row of the glossary was checked against the chapter it links to: 12 definitions corrected, 7 links moved to a better chapter, 13 duplicates merged, 16 rows removed and 24 added. The glossary has 1,199 terms.
 
 **Not verified:**
 

@@ -49,12 +49,12 @@ Each guide maps one lecture from its first minute to its last and says where thi
 |---|---|---|---|---|
 | LLM Agents Overview | Yann Dubois (OpenAI) | 2:00:00 | 2 of 13 | [open guide](../lectures/f25-01-llm-agents-overview.md) |
 | LLM Reasoning | Denny Zhou (Google DeepMind) | 1:04:00 | 3 of 18 | [open guide](../lectures/f24-01-llm-reasoning.md) |
-| LLM agents: brief history and overview | Shunyu Yao (OpenAI) | 1:10:00 | 3 of 11 | [open guide](../lectures/f24-02-llm-agents-brief-history-and-overview.md) |
-| Inference-Time Techniques for LLM Reasoning | Xinyun Chen (Google DeepMind) | 1:22:00 | 3 of 12 | [open guide](../lectures/sp25-01-inference-time-techniques-for-llm-reasoning.md) |
-| Learning to reason with LLMs | Jason Weston (Meta) | 1:18:00 | 6 of 11 | [open guide](../lectures/sp25-02-learning-to-reason-with-llms.md) |
-| Predictable Noise in LLM | Sida Wang (Meta) | 44:00 | 3 of 9 | [open guide](../lectures/f25-07-predictable-noise-in-llm.md) |
-| Post-Training Verifiable Agents | Jiantao Jiao (NVIDIA) | 1:18:00 | 1 of 15 | [open guide](../lectures/f25-03-post-training-verifiable-agents.md) |
-| Open Training Recipes for Reasoning in Language Models | Hanna Hajishirzi (University of Washington) | 1:22:00 | 3 of 13 | [open guide](../lectures/sp25-04-open-training-recipes-for-reasoning-in-language.md) |
+| LLM agents: brief history and overview | Shunyu Yao (OpenAI) | 1:10:00 | 1 of 11 | [open guide](../lectures/f24-02-llm-agents-brief-history-and-overview.md) |
+| Inference-Time Techniques for LLM Reasoning | Xinyun Chen (Google DeepMind) | 1:22:00 | 1 of 12 | [open guide](../lectures/sp25-01-inference-time-techniques-for-llm-reasoning.md) |
+| Learning to reason with LLMs | Jason Weston (Meta) | 1:18:00 | 3 of 11 | [open guide](../lectures/sp25-02-learning-to-reason-with-llms.md) |
+| Predictable Noise in LLM | Sida Wang (Meta) | 44:00 | 2 of 9 | [open guide](../lectures/f25-07-predictable-noise-in-llm.md) |
+| Post-Training Verifiable Agents | Jiantao Jiao (NVIDIA) | 1:18:00 | 0 of 15 | [open guide](../lectures/f25-03-post-training-verifiable-agents.md) |
+| Open Training Recipes for Reasoning in Language Models | Hanna Hajishirzi (University of Washington) | 1:22:00 | 2 of 13 | [open guide](../lectures/sp25-04-open-training-recipes-for-reasoning-in-language.md) |
 
 ## Where to go next
 
