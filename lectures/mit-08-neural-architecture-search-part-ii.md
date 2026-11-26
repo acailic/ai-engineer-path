@@ -4,7 +4,7 @@
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=5ty12mNV4Sg) · **Slides:** [slides](https://www.dropbox.com/scl/fi/kaia5vvmdwb2bj0xnbihm/Lec08-Neural-Architecture-Search-II.pdf?rlkey=vkp9i12ljbk4jmdfp05j3ctdy&st=hincmob7&dl=0)
 **Chapters that cite this lecture:** [05. Neural Architecture Search](../09-efficient-deep-learning/05-neural-architecture-search.md)
 
-> **In one sentence:** Song Han continues architecture search: how to estimate accuracy cheaply, why FLOPs mislead and measured latency must drive the search (ProxylessNAS), how one once-for-all network yields a model for every device, and how far the idea spreads, from GANs to accelerators and quantum circuits.
+> **In one sentence:** Song Han continues architecture search: how to estimate accuracy cheaply, why FLOPs mislead and measured latency must drive the search (ProxylessNAS), how one once-for-all network yields a model for every device, how the accelerator can be searched together with the network, and how far the once-for-all idea spreads, from GANs to quantum circuits.
 
 ## Before you watch
 
@@ -14,7 +14,7 @@ The chapter [Neural Architecture Search](../09-efficient-deep-learning/05-neural
 
 ### [0:00–2:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=0) Plan
 
-The last of the two lectures on architecture search. The goal stands: design an accurate model from scratch with low latency, low energy and small storage, after last week's building blocks, search spaces and search strategies. Today: estimating performance quickly, hardware awareness, searching without training, searching the hardware architecture together with the network, and applications from language models to point clouds.
+The last of the two lectures on architecture search. The goal stands: design an accurate model from scratch with low latency, low energy and small storage, after the previous lecture's building blocks, search spaces and search strategies. Today: estimating performance quickly, hardware awareness, searching without training, searching the hardware architecture together with the network, and applications from language models to point clouds.
 **In this book:** [Neural Architecture Search › Step 4. Estimate performance without paying full price](../09-efficient-deep-learning/05-neural-architecture-search.md#step-4-estimate-performance-without-paying-full-price).
 
 ### [2:00–4:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=120) Training from scratch is too expensive
@@ -24,7 +24,7 @@ Accuracy can be estimated the plain way: train each candidate to convergence and
 
 ### [4:00–6:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=240) Inheriting weights: Net2Net
 
-A cheaper way changes the architecture of a trained model while keeping it mathematically equal. Net2WiderNet widens a layer by replicating a hidden neuron and halving the weights that lead to it; Net2DeeperNet deepens the network by inserting a layer initialized as the identity mapping. No retraining is needed, and a search controller can use these two moves as its actions while inheriting the parent's weights.
+A cheaper way changes the architecture of a trained model while keeping it mathematically equal. Net2WiderNet widens a layer by replicating a hidden neuron and halving weights; Net2DeeperNet deepens the network by inserting a layer initialized as the identity mapping. No retraining is needed, and a search controller can use these two moves as its actions while inheriting the parent's weights.
 **In this book:** [Neural Architecture Search › Step 4. Estimate performance without paying full price](../09-efficient-deep-learning/05-neural-architecture-search.md#step-4-estimate-performance-without-paying-full-price).
 
 ### [6:00–8:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=360) Hypernetworks
@@ -74,7 +74,7 @@ Searching anew for every chip is too costly. The once-for-all approach trains a 
 
 ### [34:00–40:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=2040) How the once-for-all network is built
 
-Four dimensions are made elastic while weights are shared. Kernel size: the centre of a 7 by 7 kernel serves as the 5 by 5, whose centre serves as the 3 by 3, so 49 weights cover all three instead of 83. Depth: a block of four layers can run with three or two by letting the output skip layers. Width: channels are sorted by importance and the first few kept. Resolution: sampled at random per batch, which changes the workload but not the weights. A student asks whether training the small models ruins the large one; Han answers that every sampled model updates the shared weights, so large and small are sampled in turn.
+Four dimensions are made elastic while weights are shared. Kernel size: the centre of a 7 by 7 kernel, through a learned transformation matrix, serves as the 5 by 5, whose centre serves as the 3 by 3, so 49 weights cover all three instead of 83. Depth: a block of four layers can run with three or two by letting the output skip layers. Width: channels are sorted by importance and the first few kept. Resolution: sampled at random per batch, which changes the workload but not the weights. A student asks whether training the small models ruins the large one; Han answers that large and small are sampled in turn, so the large one is not destroyed, and confirms that training a small one still updates the shared weights.
 **In this book:** [Neural Architecture Search › Step 6. Train once for many devices: once-for-all](../09-efficient-deep-learning/05-neural-architecture-search.md#step-6-train-once-for-many-devices-once-for-all).
 
 ### [40:00–44:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=2400) Roofline, and results across hardware
@@ -84,12 +84,12 @@ A roofline chart plots realized operations per second against arithmetic intensi
 
 ### [44:00–50:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=2640) Zero-shot NAS: judging an architecture without training
 
-Can an architecture be judged without any training? Han presents heuristics on randomly initialized networks. One scores a network by how much a small perturbation of the input changes the output and by the variance of its batch-normalization statistics: a good network responds to its input. Another, GradSign, rests on the idea that a good network has densely packed local minima, so gradients computed on different samples should mostly share a sign; counting matching signs is cheap. Han calls these coarse checks, since weights matter too, but reports that they work well.
+Can an architecture be judged without any training? Han presents heuristics on randomly initialized networks. One, ZenNAS, scores a network by how much a small perturbation of the input changes the output and by the variance of its batch-normalization statistics: a good network responds to its input. Another, GradSign, rests on the idea that a good network has densely packed local minima, so gradients computed on different samples should mostly share a sign; counting matching signs is cheap. Of the first, Han says it is a coarse check, since weights matter too, yet reports that it works quite well, at least in that paper.
 **In this book:** nothing beyond this guide; nearest: [Neural Architecture Search › Step 4. Estimate performance without paying full price](../09-efficient-deep-learning/05-neural-architecture-search.md#step-4-estimate-performance-without-paying-full-price).
 
 ### [50:00–1:02:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=3000) Searching the accelerator too
 
-When the chip itself can be designed, hardware, network and the compiler mapping between them can be searched together, in one evolutionary loop that minimizes the energy-delay product. The hardware space covers buffer sizes, the number of processing elements and their connectivity; the compiler's covers loop order, tiling and data flow; the network's covers layers, channels, kernels and precision. Choices such as which dimension to parallelize in space or in which order to loop are not numbers, so the method gives each dimension an importance value, sorts them, parallelizes the most important ones in space and runs the least important in the innermost loop. Sizing alone improved the energy-delay product by about a fifth; searching connectivity as well, and the network with it, improved it further, and the found data flow differed from a designer's.
+When the chip itself can be designed, hardware, network and the compiler mapping between them can be searched together, in one evolutionary loop, in a method called NAAS for neural accelerator architecture search, that minimizes the energy-delay product. The hardware space covers buffer sizes, the number of processing elements and their connectivity; the compiler's covers loop order, tiling and data flow; the network's covers layers, channels, kernels and precision. Choices such as which dimension to parallelize in space or in which order to loop are not numbers, so the method gives each dimension an importance value, sorts them, parallelizes the most important ones in space and runs the least important in the innermost loop. Sizing alone improved the energy-delay product by about a fifth, or by 2.1 times as Han also puts it; searching connectivity as well, and the network with it, improved it further, and the found data flow differed from a designer's.
 **In this book:** nothing beyond this guide; nearest: [Neural Architecture Search › Step 5. Make it hardware-aware](../09-efficient-deep-learning/05-neural-architecture-search.md#step-5-make-it-hardware-aware).
 
 ### [1:02:00–1:06:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=3720) Application: transformers, and a chip
@@ -99,12 +99,12 @@ The once-for-all idea carries over to transformers: one large network with many 
 
 ### [1:06:00–1:12:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=3960) Applications: point clouds, image editing, pose
 
-For LiDAR segmentation in self-driving, SPVNAS raised a slow baseline from 3.4 to 9 frames per second. AnyCost GAN edits photos with a small generator in 0.3 seconds on a laptop and runs the full network once at the end; a student notes that such models differ from pruned ones only in being trained with shared weights, which pays when many sizes must switch seamlessly. Hardware-aware search also made pose estimation four to five times faster on a mobile CPU; his group released models for gaze estimation in driver monitoring and for on-device segmentation.
+For LiDAR segmentation in self-driving, SPVNAS raised a slow baseline from 3.4 to 9 frames per second. Anycost GAN edits photos with a small generator in 0.3 seconds on a laptop and runs the full network once at the end; such models differ from pruned ones only in being trained with shared weights, a difference that pays when many sizes must switch seamlessly. Hardware-aware search also made pose estimation four to five times faster on a mobile CPU; his group released models for gaze estimation in driver monitoring and for on-device segmentation.
 **In this book:** [Neural Architecture Search › Step 6. Train once for many devices: once-for-all](../09-efficient-deep-learning/05-neural-architecture-search.md#step-6-train-once-for-many-devices-once-for-all).
 
 ### [1:12:00–1:18:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=4320) Quantum circuits, language models, and a summary
 
-The same recipe applies outside neural networks. Quantum circuits suffer noise, so a measured classifier lost accuracy against theory, from about 80% to 40%; searching sub-circuits of a super-circuit for noise-robust ones raised it to 85% on a real quantum computer. NVIDIA's adaptive language-model inference uses a similar idea, with routers choosing how much of each layer to run on cloud, desktop and mobile hardware. Han closes: performance estimation, ProxylessNAS and once-for-all, to be used in Lab 3; next comes knowledge distillation.
+The same recipe applies outside neural networks. Quantum circuits suffer noise, so a measured classifier lost accuracy against theory, from about 80% to 40%; searching sub-circuits of a super-circuit for noise-robust ones raised it to 85% on a real quantum computer. NVIDIA's adaptive language-model inference, Flextron, uses a similar idea, with routers choosing how much of each layer to run on cloud, desktop and mobile hardware. Han closes: performance estimation, ProxylessNAS and once-for-all, to be used in Lab 3; next comes knowledge distillation.
 **In this book:** [Neural Architecture Search › Step 6. Train once for many devices: once-for-all](../09-efficient-deep-learning/05-neural-architecture-search.md#step-6-train-once-for-many-devices-once-for-all).
 
 ## What to take away
