@@ -35,12 +35,12 @@ She ranks models in five levels: accurate and secure against every attack; accur
 ### [37:17–45:05](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=2237) SQL Injection Attacks
 
 Classically, a top-ten web vulnerability: a program concatenates an unsanitized username and password into a SELECT … FROM USERS query, and a crafted username makes it run as admin. Two published vulnerabilities in agent applications then put the model in the chain. A tool that turns sentences into SQL and runs them drops the students table when asked; elsewhere a semicolon in the input appends a second, hostile query.
-**In this book:** nothing beyond this guide; nearest: [03. Agent-Specific Attacks › What each class looks like](../04-safety-and-security/03-agent-specific-attacks.md#what-each-class-looks-like).
+**In this book:** [Agent-Specific Attacks › Pitfalls](../04-safety-and-security/03-agent-specific-attacks.md#pitfalls).
 
 ### [45:05–48:47](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=2705) Remote Code Execution
 
 Traditionally a request reaches a vulnerable API that invokes code execution; unsanitized, it runs an attacker's code. A single published vulnerability, in the agent framework SuperAGI, puts the model in that chain: input goes into the prompt, the model writes code, and the application evaluates the reply directly. Asked for code that removes an important file, it produces it, and the code runs unchecked.
-**In this book:** nothing beyond this guide; nearest: [03. Agent-Specific Attacks › What each class looks like](../04-safety-and-security/03-agent-specific-attacks.md#what-each-class-looks-like).
+**In this book:** [Agent-Specific Attacks › Pitfalls](../04-safety-and-security/03-agent-specific-attacks.md#pitfalls).
 
 ### [48:47–1:00:47](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=2927) Prompt Injection and Backdoors
 

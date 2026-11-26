@@ -16,7 +16,7 @@ Read [01. Threat Modeling LLM Applications and Agents › List the assets](../04
 
 Song opens on a week when an AI lab had just passed 50% on a hard reasoning benchmark, and cites an international AI safety report from about 100 researchers in 30 countries. Her definitions frame the lecture: safety keeps a system from harming the world, security keeps malicious outsiders from harming the system, and safety mechanisms must themselves survive attack, since adversaries follow every new technology.
 
-**In this book:** nothing beyond this guide; nearest: [01. Threat Modeling LLM Applications and Agents › The core idea](../04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md#the-core-idea).
+**In this book:** [Threat Modeling LLM Applications and Agents › What the practitioners say](../04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md#what-the-practitioners-say).
 
 ### [2:40–15:08](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=160) Agentic AI security overview
 
@@ -46,7 +46,7 @@ Indirect injection needs no direct access to the agent: a résumé ends with `ig
 
 In one study an agent planned by retrieving past trajectories from a retrieval database; an attacker slipped a handful of poisoned ones into it, optimized so they surface only when a chosen trigger appears in the request, with no retraining. A second case, in an office assistant, plants a document that tells the agent to demand re-authentication whenever payroll comes up, and the user's credentials go to the attacker.
 
-**In this book:** nothing beyond this guide; nearest: [03. Agent-Specific Attacks › What each class looks like](../04-safety-and-security/03-agent-specific-attacks.md#what-each-class-looks-like).
+**In this book:** [Agent-Specific Attacks › How it works, step by step › What each class looks like](../04-safety-and-security/03-agent-specific-attacks.md#what-each-class-looks-like).
 
 ### [51:24–1:14:34](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=3084) Evaluation and red teaming
 

@@ -40,7 +40,7 @@ Such attacks also break the safety alignment of language models. DecodingTrust, 
 ### [28:00–34:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=1680) Poisoning and backdoors
 
 These attacks come at inference time. At training time, in pre-training or fine-tuning, attackers can poison the data so that the model learns a backdoor. Her group was among the first to study this: a facial-recognition system trained with a few stealthy poisoned images recognized anyone wearing one particular pair of glasses as a chosen target user. A recent result from Anthropic carried the idea to large language models: poisoned examples tagged with a trigger phrase survived supervised fine-tuning, so that a prompt containing the trigger produced vulnerable, exploitable code. A few adversarially designed examples added during fine-tuning can also undo alignment.
-**In this book:** nothing beyond this guide; nearest: [Trustworthiness Beyond Injection › 2. Robustness: the same failure, with a push](../04-safety-and-security/07-trustworthiness-beyond-injection.md#2-robustness-the-same-failure-with-a-push).
+**In this book:** [Trustworthiness Beyond Injection › How it works, step by step › 2. Robustness: the same failure, with a push](../04-safety-and-security/07-trustworthiness-beyond-injection.md#2-robustness-the-same-failure-with-a-push).
 
 ### [34:00–40:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=2040) Agents: who harms whom, and how
 
@@ -75,12 +75,12 @@ Ideally safety would come with quantitative guarantees. An example from a new Qu
 ### [1:08:00–1:14:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=4080) Misuse: will frontier AI help attackers or defenders?
 
 AI is dual-use: in attackers' hands it enables scams, misinformation and more. She takes cybersecurity as the concrete case. Traditionally attackers and defenders contend over software written by people; now frontier AI can assist both sides and systems are hybrids of symbolic programs and neural networks. The question is which side gains more, and it needs a careful analysis of attacks, of defences and of the asymmetry between them. Attacks on machines: her group wrote some of the first papers on deep learning for binary-code similarity and vulnerability detection, and agents now break into websites through simple web flaws and exploit simple known vulnerabilities. Her recent work grades the impact of AI at each stage of a cyberattack, from not affected to research demonstration, real-world demonstration and large-scale deployment.
-**In this book:** nothing beyond this guide; nearest: [AI for Cyber Defense and Vulnerability Detection › What the practitioners say](../04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md#what-the-practitioners-say).
+**In this book:** [AI for Cyber Defense and Vulnerability Detection › What the practitioners say](../04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md#what-the-practitioners-say).
 
 ### [1:14:00–1:19:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=4440) Attacks on humans, and reactive defence
 
 Some stages already see large-scale real-world use; others are still early. Humans are the weakest link: many intrusions begin with social engineering, phishing is the most common threat to businesses and individuals, and generative AI has raised the scale and sophistication of social engineering. In Hong Kong a finance worker transferred about 25 million dollars after a video call in which deepfakes played the company's chief financial officers. Her analysis puts AI's impact on attacking humans already high and scalable. Defence has three paradigms: reactive (detect and block), proactive bug finding, and secure by construction. For reactive defence, AI improves detection but attackers also use it to evade; detection needs few false alarms and misses, and attacks may come too fast to answer, so AI may help attackers more.
-**In this book:** nothing beyond this guide; nearest: [AI for Cyber Defense and Vulnerability Detection › What it means for risk](../04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md#what-it-means-for-risk).
+**In this book:** [AI for Cyber Defense and Vulnerability Detection › What the practitioners say](../04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md#what-the-practitioners-say).
 
 ### [1:19:00–1:25:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=4740) Bug finding, asymmetry, and building security in
 

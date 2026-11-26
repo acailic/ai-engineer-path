@@ -1,6 +1,6 @@
 # 01. Threat Modeling LLM Applications and Agents
 
-**Level:** Practitioner · **Reading time:** 25 min · **Exercise:** 90 min
+**Level:** Practitioner · **Reading time:** 26 min · **Exercise:** 90 min
 **Prerequisites:** [The Anatomy of an Agent](../02-building-agents/01-the-anatomy-of-an-agent.md)
 
 > **In one sentence:** After this chapter you can write a one-page threat model of an LLM application or agent, with its assets, attackers, trust boundaries, and one control for each serious path.
@@ -171,6 +171,8 @@ Dawn Song gave versions of this lecture in three terms, and the frame grew each 
 
 She also draws the line between **safety** and **security**. Security protects the system from outsiders. Safety means the system does no harm to the outside world. Safety has to assume adversaries, she says, because a compromised system cannot keep its own safety promises ([2:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=120)).
 
+Her Fall 2025 opening gives the reasons to expect attackers. An international AI safety report, written with about 100 leading AI researchers from 30 countries, sets out a wide range of AI risks ([0:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=0)). Attackers, she says, have always followed each new technology, and the stakes rise with AI: as it is used in more and more systems, attackers have a growing incentive to compromise it, and the more capable it becomes, the more severe the harm its misuse can do. That is the setting a threat model assumes.
+
 Teams that already use the MITRE ATT&CK knowledge base for conventional systems can look at its companion for AI systems, [MITRE ATLAS](https://atlas.mitre.org/).
 
 ## Pitfalls
@@ -224,7 +226,7 @@ You are done when every tool and every outside data source appears in at least o
 ## Sources
 
 - **Lecture:** Dawn Song, "Towards building safe and secure agentic AI", UC Berkeley Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=ti6yPE2VPZc) · [guide](../lectures/sp25-12-towards-building-safe-and-secure-agentic-ai.md), used at [CIA goals](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=840), [new assets](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=960), [wider attack surface](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=1080), [seven-step walkthrough](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=1320), [uses of the output](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=1680), [security levels](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=1920), [misuse](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=2160), [little defense for hybrid systems](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=4560)
-- **Lecture:** Dawn Song, "Agentic AI Safety & Security", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=CvZDJxd4LKM) · [guide](../lectures/f25-12-agentic-ai-safety-and-security.md), used at [hybrid systems](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=240), [symbolic and neural components](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=360), [classic bugs through model output](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=1560), [résumé example](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2040), [calendar example](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2640), [re-authentication example](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=3000)
+- **Lecture:** Dawn Song, "Agentic AI Safety & Security", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=CvZDJxd4LKM) · [guide](../lectures/f25-12-agentic-ai-safety-and-security.md), used at [reasons to expect attackers](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=0), [hybrid systems](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=240), [symbolic and neural components](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=360), [classic bugs through model output](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=1560), [résumé example](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2040), [calendar example](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2640), [re-authentication example](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=3000)
 - **Lecture:** Dawn Song, "Towards Building Safe & Trustworthy AI Agents and A Path for Science- and Evidence-based AI Policy", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=QAgR4uQ15rc) · [guide](../lectures/f24-12-towards-building-safe-and-trustworthy-ai-agents.md), used at [safety and security](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=120), [four questions](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=2160), [kinds of harm](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=2280)
 - **Web:** OWASP Gen AI Security Project, "OWASP Top 10 for LLM Applications 2025": [list](https://genai.owasp.org/llm-top-10/), opened 2026-11-24
 - **Web:** OWASP Gen AI Security Project, "OWASP Top 10 For Agentic Applications 2026": [list](https://genai.owasp.org/top-10-for-agentic-applications-2026/), opened 2026-11-24

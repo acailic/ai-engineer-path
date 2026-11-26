@@ -1,6 +1,6 @@
 # 03. Agent-Specific Attacks
 
-**Level:** Practitioner · **Reading time:** 25 min · **Exercise:** 60 min
+**Level:** Practitioner · **Reading time:** 27 min · **Exercise:** 60 min
 **Prerequisites:** [Jailbreaks and Prompt Injection](02-jailbreaks-and-prompt-injection.md)
 
 > **In one sentence:** After this chapter you can name the five attack classes that only exist because a system is an agent, map each one to the part of the agent it corrupts, and rank the exposures of your own agent.
@@ -61,6 +61,8 @@ Four of the five are attacks. Excessive agency is the reason a small attack beco
 **Memory poisoning.** The agent saves a summary of something it read. If that text contained an instruction, the instruction is now stored, and retrieval serves it to every later task. One plant, many triggers. The attack persists across sessions and survives changes to your prompt.
 
 **Retrieval poisoning.** The knowledge base is shared, so anyone who can add a document can add an instruction. The attacker writes the document so that it matches many queries.
+
+Song's Fall 2025 case study shows where the harm can land ([48:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2880)). An attacker adds one malicious document to the knowledge base of Microsoft Copilot, an office assistant that retrieves documents to decide which actions to take. The document tells the agent that a question about payroll calls for re-authentication: ask for the user's credentials, then send the user to a website the attacker controls. A user who asks where to find payroll information is told to re-authenticate with an email address and a password, and is given a link. The user complies, clicks, and the credentials go to the attacker ([50:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=3000)). Song calls such attacks stealthy and targeted: the instruction waits for one topic, payroll. On an exposure map, a poisoned store can reach the user as well as the tools.
 
 **Tool poisoning.** A tool has a description that the model reads to decide when to call it. An attacker who controls the tool's description can hide an instruction in it. The model reads the instruction every time it lists its tools.
 
@@ -143,6 +145,7 @@ OWASP's Top 10 for Agentic Applications 2026 (opened November 2026) gives shared
 - **Sharing one memory across users.** One user's data or poison becomes every user's problem.
 - **Trusting another agent's output as a system message.** A sub-agent that read poisoned text passes the poison on.
 - **Checking what goes in, and not what is written back.** A filter on inputs does not remove a poisoned note that the agent itself saved.
+- **Hoping the model will refuse.** SQL injection and remote code execution are old vulnerabilities: a request with unsanitized input reaches a vulnerable API, which builds a query from it or invokes code execution. With an agent, the model joins that chain as a new link. In Song's Spring 2025 cases it did what was asked: it turned a request into the SQL that dropped a table and into the code that removed a file ([42:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=2520), [46:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=2760)). Put the check where the query or the code runs.
 - **Forgetting the agent as a weapon.** Misuse by the person holding the tools needs no injection at all.
 
 ## Try it
@@ -185,7 +188,7 @@ You are done when every store and every outside source in your agent appears on 
 ## Sources
 
 - **Lecture:** Dawn Song, "Towards building safe and secure agentic AI", UC Berkeley Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=ti6yPE2VPZc) · [guide](../lectures/sp25-12-towards-building-safe-and-secure-agentic-ai.md), used at [output reaching tools](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=1680), [published CVE examples](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=2400), [misuse](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=2160), [attack surface](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=3360)
-- **Lecture:** Dawn Song, "Agentic AI Safety & Security", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=CvZDJxd4LKM) · [guide](../lectures/f25-12-agentic-ai-safety-and-security.md), used at [coding agent example](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2280), [AgentPoison](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2640), [AgentPoison trigger](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2760), [web agent example](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=3960), [coding agent red-team example](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=4200)
+- **Lecture:** Dawn Song, "Agentic AI Safety & Security", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=CvZDJxd4LKM) · [guide](../lectures/f25-12-agentic-ai-safety-and-security.md), used at [coding agent example](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2280), [AgentPoison](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2640), [AgentPoison trigger](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2760), [fake re-authentication](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=3000), [web agent example](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=3960), [coding agent red-team example](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=4200)
 - **Web:** OWASP Gen AI Security Project, "OWASP Top 10 For Agentic Applications 2026": [list](https://genai.owasp.org/top-10-for-agentic-applications-2026/), opened 2026-11-24
 - **Reading:** Chen et al., "AgentPoison: Red-teaming LLM Agents via Poisoning Memory or Knowledge Bases" (NeurIPS 2024), as cited on the lecture slides
 

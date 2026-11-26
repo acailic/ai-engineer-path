@@ -267,6 +267,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Data locality** | Keeping data close to the machines that read it. | [02.04](02-building-agents/04-memory-and-knowledge-for-agents.md) |
 | **Data mix** | The shares of different kinds of text, such as code, books, science or languages, in training data. | [01.02](01-foundations/02-how-large-language-models-are-trained.md) |
 | **Data parallelism** | Replicating the model on every GPU and giving each a different slice of the batch. | [10.06](10-llm-internals/06-parallelism.md) |
+| **data poisoning** | An attack on the training data, in pre-training or fine-tuning, that makes the model learn a backdoor | [04.07](04-safety-and-security/07-trustworthiness-beyond-injection.md) |
 | **Data provenance** | Tracking the origin of a value and who modified it, which builds trust in data and helps debugging. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
 | **Data quality** | Fitness of data for use by the model and the operators. | [08.06](08-quality-assurance/06-data-quality.md) |
 | **Data warehouse** | Curated data in a fixed shape, organized for analysis. | [07.09](07-ml-in-production/09-scaling-the-system.md) |
@@ -320,6 +321,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **DSPy** | A framework for writing language-model programs as declarative modules and optimizing them. | [02.05](02-building-agents/05-compound-ai-systems-and-dspy.md) |
 | **Dual control** | A setting in which both the agent and the simulated user can act through tools in a shared world. | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
 | **Dual use** | The property of a technology that serves a peaceful and a hostile purpose, so that one and the same model can rescue and attack. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
+| **dual-use** | Said of a technology that brings great benefits and, in the hands of attackers, enables harm | [04.08](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
 | **DualFormer** | A successor to Searchformer, trained on partially removed traces, that switches between a fast and a slow mode. | [02.03](02-building-agents/03-planning-search-and-decision-making.md) |
 | **DuoAttention** | A method that classifies attention heads into retrieval heads with full cache and streaming heads with a window. | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
 | **Durable idea** | An idea that keeps its value across model generations because it has a mechanism, appears in several sources and has a metric. | [11.08](11-professional-practice/08-staying-current.md) |
