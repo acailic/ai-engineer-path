@@ -169,4 +169,4 @@ Build a cost sheet with one line per family.
 
 ## Next
 
-→ [Course Summary and Outlook](11-course-summary-and-outlook.md): what the course treats as the frontier, and how to keep track of it.
+→ [Course Summary and Outlook](17-course-summary-and-outlook.md): what the course treats as the frontier, and how to keep track of it.

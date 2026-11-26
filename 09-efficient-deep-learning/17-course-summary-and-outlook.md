@@ -1,4 +1,4 @@
-# 11. Course Summary and Outlook
+# 17. Course Summary and Outlook
 
 **Level:** Foundation · **Reading time:** 21 min · **Exercise:** 20 min
 **Prerequisites:** [Why Efficiency Matters](01-why-efficiency-matters.md) and the four compression chapters, [03](03-pruning-and-sparsity.md) to [06](06-knowledge-distillation.md)

@@ -26,7 +26,7 @@ This part follows **MIT 6.5940, TinyML and Efficient Deep Learning Computing, Fa
 | 08 | [Efficient LLM Inference and Deployment](08-efficient-llm-inference-and-deployment.md) | Practitioner | 24 | prefill and decode, KV cache, attention, batching, speculative decoding, long context |
 | 09 | [LLM Post-Training and On-Device Training](09-llm-post-training-and-on-device-training.md) | Practitioner | 15 | parameter-efficient fine-tuning, quantized training, training on the device |
 | 10 | [Efficient Vision, Generative Models and Distributed Training](10-efficient-vision-generative-models-and-distributed-training.md) | Practitioner | 15 | vision transformers, GANs and diffusion, parallelism across machines |
-| 11 | [Course Summary and Outlook](11-course-summary-and-outlook.md) | Foundation | 12 | one map of the whole part, the course's open topics, a routine for staying current |
+| 17 | [Course Summary and Outlook](17-course-summary-and-outlook.md) | Foundation | 12 | one map of the whole part, the course's open topics, a routine for staying current |
 
 "Min" is reading time. Each chapter header also gives the time for its exercise.
 

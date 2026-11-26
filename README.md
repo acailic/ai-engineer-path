@@ -222,7 +222,7 @@ What is checked: each guide passes an automatic check before it is published (th
 | [Efficient LLM Inference and Deployment](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) | Practitioner | 24 min | Weights, the KV cache, prefill, decode, batching |
 | [LLM Post-Training and On-Device Training](09-efficient-deep-learning/09-llm-post-training-and-on-device-training.md) | Practitioner | 15 min | Adapters, LoRA, the memory of a fine-tuning run |
 | [Efficient Vision, Generative Models and Distributed Training](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) | Practitioner | 15 min | A survey of three areas |
-| [Course Summary and Outlook](09-efficient-deep-learning/11-course-summary-and-outlook.md) | Foundation | 12 min | A map of the part, and a routine for keeping up |
+| [Course Summary and Outlook](09-efficient-deep-learning/17-course-summary-and-outlook.md) | Foundation | 12 min | A map of the part, and a routine for keeping up |
 
 ### [Part 10 · LLM internals: language modeling from scratch](10-llm-internals/README.md)
 

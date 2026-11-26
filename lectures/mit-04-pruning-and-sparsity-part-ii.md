@@ -2,7 +2,7 @@
 
 **Lecturer:** Song Han (MIT) · **Course:** MIT 6.5940 TinyML and Efficient Deep Learning Computing, Fall 2024, lecture 4 · **Length:** 1:10:00
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=upaZrpXkELc) · **Slides:** [slides](https://www.dropbox.com/scl/fi/w5baiyci5cxl1ozpy6lsr/Lec04-Pruning-II.pdf?rlkey=6qxc1nz20isy9izwnqfebtukg&st=59gy1eal&dl=0)
-**Chapters that cite this lecture:** [03. Pruning and Sparsity](../09-efficient-deep-learning/03-pruning-and-sparsity.md) · [11. Course Summary and Outlook](../09-efficient-deep-learning/11-course-summary-and-outlook.md)
+**Chapters that cite this lecture:** [03. Pruning and Sparsity](../09-efficient-deep-learning/03-pruning-and-sparsity.md) · [11. Course Summary and Outlook](../09-efficient-deep-learning/17-course-summary-and-outlook.md)
 
 > **In one sentence:** Song Han finishes pruning: how to choose a pruning ratio for each layer (sensitivity analysis, the reinforcement-learning agent AMC, NetAdapt), how to fine-tune, and how hardware from the Efficient Inference Engine to sparse tensor cores, TorchSparse and PointAcc runs sparse networks.
 
@@ -70,7 +70,7 @@ His rule of thumb: an acceleration is worth engineering only if the theoretical 
 ### [42:00–46:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=2520) A retrospective: what lasted
 
 Invited seven years later to write a retrospective, Han lists what succeeded: special-purpose hardware made sparse operations cheap even at 50% density; EIE used both weight and activation sparsity and fine-grained patterns; and its weight-only quantization, 4 bits in memory decoded to 16-bit arithmetic, now called W4A16, was reborn in language models through GPTQ, AWQ, llama.cpp and MLC. What did not: the design did not scale to arrays of processors, for which the suggested improvement is structured sparsity such as 2:4; control flow and storage were heavy, since every non-zero needs pointers and indices, which coarser pruning relieves; and it served fully connected layers, a limit that matters less now that transformers are all fully connected. Fitting everything in SRAM suited TinyML, yet startups now chain SRAM-only chips with pipeline parallelism to run large models.
-**In this book:** [Pruning and Sparsity › Step 5: Match the hardware](../09-efficient-deep-learning/03-pruning-and-sparsity.md#step-5-match-the-hardware) · [Course Summary and Outlook › What the course leaves open](../09-efficient-deep-learning/11-course-summary-and-outlook.md#what-the-course-leaves-open).
+**In this book:** [Pruning and Sparsity › Step 5: Match the hardware](../09-efficient-deep-learning/03-pruning-and-sparsity.md#step-5-match-the-hardware) · [Course Summary and Outlook › What the course leaves open](../09-efficient-deep-learning/17-course-summary-and-outlook.md#what-the-course-leaves-open).
 
 ### [46:00–48:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=2760) Be lazy
 

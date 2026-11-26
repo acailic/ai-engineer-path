@@ -65,11 +65,11 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **All-to-all** | Every rank sending a different slice to every other rank. | [10.06](10-llm-internals/06-parallelism.md) |
 | **Allow-list** | A list of the only destinations or actions that are permitted. | [05.06](05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md) |
 | **AlphaProof** | DeepMind's system that combines autoformalization, imitation, reinforcement learning and test-time RL on Lean proofs. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
-| **Amplitude encoding** | Loading an input vector into the state vector, so n features need only the base-2 logarithm of n qubits | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
+| **Amplitude encoding** | Loading an input vector into the state vector, so n features need only the base-2 logarithm of n qubits | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
 | **Analogical prompting** | Asking a model to first recall a similar problem and its solution, then solve the new problem. | [01.05](01-foundations/05-prompting-and-in-context-learning.md) |
 | **Anchor** | The few conditions on an input that suffice to produce a given prediction. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
 | **AND gate, OR gate** | The two ways causes combine in a fault tree: all are needed, or one is enough. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
-| **Angle encoding** | Storing each value in a rotation angle, one gate per value, with no state-preparation circuit | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
+| **Angle encoding** | Storing each value in a rotation angle, one gate per value, with no state-preparation circuit | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
 | **Annotated run** | A run that a person reviewed and labeled, used to measure a user simulator's own error rate. | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
 | **Annotator** (also called: Labeler) | A person who labels examples or grades outputs by hand. | [03.03](03-evaluation/03-llm-as-a-judge-and-rubrics.md) |
 | **Anomaly detection** | Flagging behavior that differs from the normal pattern. | [04.05](04-safety-and-security/05-runtime-monitoring-and-detection.md) |
@@ -81,7 +81,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **API access** | Using a model only through prompts and responses, which allows measuring behavior. | [06.03](06-frontier-applications/03-agents-for-scientific-discovery.md) |
 | **API agent** | An agent that uses software by calling functions the software exposes. | [05.06](05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md) |
 | **Appeal path** | A route by which a person can have an automated decision reversed. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
-| **Arbitrary encoding** | Combining several encodings in one circuit: rotations, then CNOT gates, then rotations | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
+| **Arbitrary encoding** | Combining several encodings in one circuit: rotations, then CNOT gates, then rotations | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
 | **ARC-AGI** | A benchmark of puzzles that test how well a model learns reasoning patterns from demonstration examples. | [01.06](01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) |
 | **Architectural style** | A common overall structure for systems, such as client-server or three tiers. | [07.05](07-ml-in-production/05-architecture-for-ml-systems.md) |
 | **Architectural view** | A picture of a system that shows one concern and hides the rest. | [07.05](07-ml-in-production/05-architecture-for-ml-systems.md) |
@@ -122,11 +122,11 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Backpropagation** | The algorithm that computes how each weight should change by reading every intermediate result again. | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **Bake-off** | Running two implementations on the same cases and comparing success, cost and latency. | [05.01](05-frameworks-and-multi-agent/01-the-agent-framework-landscape.md) |
 | **Bank conflict** | Two threads needing the same shared-memory bank in one cycle, which forces them to wait. | [10.05](10-llm-internals/05-gpus-tpus-and-kernels.md) |
-| **Barren plateau** | A region where a quantum circuit's gradients vanish as it grows, stalling training. | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
+| **Barren plateau** | A region where a quantum circuit's gradients vanish as it grows, stalling training. | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
 | **Base model** | A model that has only been pre-trained: it continues text and does not follow instructions. | [01.02](01-foundations/02-how-large-language-models-are-trained.md) |
 | **Baseline** | The simplest version of a solution, measured so that anything smarter can be compared with it. | [07.02](07-ml-in-production/02-when-to-use-ml-and-when-not-to.md) |
 | **Basic event** | A cause in a fault tree that is not split further; model failure is usually treated as one. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
-| **Basis encoding** | Storing a binary string as one basis state of the qubits | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
+| **Basis encoding** | Storing a binary string as one basis state of the qubits | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
 | **Batch** | A group of requests or inputs processed together to reuse the weights. | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **batch normalization** | A normalization layer whose set is one channel, across the whole batch and every position; common in convolutional networks | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **Batch processing** | One long computation over a large snapshot of data, built for throughput. | [07.09](07-ml-in-production/09-scaling-the-system.md) |
@@ -149,7 +149,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Black-box test** | A check that you can print every message and edit every prompt a framework sends to the model. | [05.01](05-frameworks-and-multi-agent/01-the-agent-framework-landscape.md) |
 | **Blast radius** | The share of users and systems exposed to the consequences of a failed experiment or release. | [11.07](11-professional-practice/07-checklists.md) |
 | **Blinded grading** | Grading by experts who are not told which deliverable came from the model, as the graders of GDPval are. | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
-| **Bloch sphere** | The sphere whose points are the states of one qubit; a single-qubit gate rotates it | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
+| **Bloch sphere** | The sphere whose points are the states of one qubit; a single-qubit gate rotates it | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
 | **Blue/green deployment** | Switching all traffic from an old version to a new one at once. | [08.09](08-quality-assurance/09-testing-and-experimenting-in-production.md) |
 | **Blueprint** | A decomposition of a research proof into definitions and lemmas arranged as a dependency graph, written in LaTeX before each node is proved in Lean | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Bootstrap** | Estimating uncertainty by resampling the observed data with replacement. | [01.07](01-foundations/07-why-llm-outputs-are-noisy.md) |
@@ -199,7 +199,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Closed-ended task** | A task with few possible answers, so a program can check them. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
 | **Cluster** | A group of observations that depend on the same source, such as repeated attempts on one task. | [03.05](03-evaluation/05-statistics-for-evals.md) |
 | **Clustered standard error** | A standard error that treats each cluster as one source of evidence. | [03.05](03-evaluation/05-statistics-for-evals.md) |
-| **CNOT** | Controlled NOT, a two-qubit gate that flips the target qubit only when the control qubit is 1. | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
+| **CNOT** | Controlled NOT, a two-qubit gate that flips the target qubit only when the control qubit is 1. | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
 | **Coalescing** | Combining the memory accesses of a warp's threads into a few full cache-line transfers. | [10.05](10-llm-internals/05-gpus-tpus-and-kernels.md) |
 | **Code action** | An action expressed as code or a shell command that does several things at once. | [02.07](02-building-agents/07-coding-agents.md) |
 | **Code browser** | A tool that lets an agent jump to definitions and follow cross-references as an IDE does. | [04.08](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
@@ -367,8 +367,8 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **endogenous risks** | Su's name for safety risks that arise from the agent itself, usually from its incompetence, such as a mistaken action that cannot be undone | [02.01](02-building-agents/01-the-anatomy-of-an-agent.md) |
 | **Energy-delay product** | Energy multiplied by latency: a single figure that a joint hardware and network search minimizes. | [09.05](09-efficient-deep-learning/05-neural-architecture-search.md) |
 | **Ensemble** | Several models answering the same question in parallel, combined by average or vote. | [07.07](07-ml-in-production/07-deploying-a-model.md) |
-| **Entanglement** | A joint state of two qubits whose measurements agree, 00 or 11, however far apart the qubits are | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
-| **Entangling capacity** | How strongly a circuit entangles its qubits, on the Meyer-Wallach scale from 0 to 1 | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
+| **Entanglement** | A joint state of two qubits whose measurements agree, 00 or 11, however far apart the qubits are | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
+| **Entangling capacity** | How strongly a circuit entangles its qubits, on the Meyer-Wallach scale from 0 to 1 | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
 | **Entropy** | The uncertainty in a model's choice of the next token; it is low when one token gets almost all the probability. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
 | **Entropy collapse** | A late stage of RL in which a model becomes certain of one answer per prompt and stops exploring. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
 | **Enum** | A closed list of allowed values for an argument. | [02.02](02-building-agents/02-tool-design-and-function-calling.md) |
@@ -404,7 +404,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Exploratory data analysis** | Summarizing and plotting data to learn its shape before writing checks. | [08.06](08-quality-assurance/06-data-quality.md) |
 | **Exponent** | The bits of a floating-point number that set its power of two, and so its range. | [09.04](09-efficient-deep-learning/04-quantization.md) |
 | **Exposure** | The Secret Sharer metric: how much more probable a model makes an inserted canary than a random string it never saw. | [04.07](04-safety-and-security/07-trustworthiness-beyond-injection.md) |
-| **Expressivity** | How much of the state space a circuit can cover | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
+| **Expressivity** | How much of the state space a circuit can cover | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
 | **external metrics** | Evaluation numbers reported to customers and reviewers, where ecological validity matters | [10.10](10-llm-internals/10-training-data.md) |
 | **External validity** | Whether a measure still holds outside the data it was designed on. | [07.03](07-ml-in-production/03-goals-and-requirements.md) |
 | **Extra mistakes** | A slice's mistakes minus the mistakes the overall error rate predicts for a group of that size. | [08.03](08-quality-assurance/03-slicing.md) |
@@ -517,7 +517,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Group quantization** | Giving each small block of weights its own scale, needed at 4 bits and below. | [09.04](09-efficient-deep-learning/04-quantization.md) |
 | **Grouped convolution** | A convolution split into independent groups of channels, with weights divided by the group count. | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **Grouped-query attention (GQA)** | Attention in which several query heads share one key-value head, which shrinks the KV cache. | [10.08](10-llm-internals/08-inference.md) |
-| **Grover's search** | The quantum algorithm for searching an unstructured space with a quadratic speed-up over classical search. | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
+| **Grover's search** | The quantum algorithm for searching an unstructured space with a quadratic speed-up over classical search. | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
 | **GRPO** | An RL algorithm that samples several answers per question and reinforces those that score above the group's average. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
 | **GT Sophy** | A racing agent trained with reinforcement learning in the Gran Turismo driving game. | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **Guardrail** (also called: input guard, output guard) | A check that runs on untrusted input before the model (an input guard) or on the model's output, including its tool calls (an output guard), and stops a mistaken or dangerous action before it reaches a user or a system. Guardrails are usually plain code. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
@@ -683,7 +683,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Load-balancing loss** | A training term that penalizes uneven use of experts. | [10.04](10-llm-internals/04-attention-alternatives-and-mixture-of-experts.md) |
 | **Locality-sensitive hashing** | Banding MinHash signatures so that similar documents become candidate pairs with high probability. | [10.10](10-llm-internals/10-training-data.md) |
 | **Lock-in** | The cost of leaving a framework because your application has grown into its shape. | [05.01](05-frameworks-and-multi-agent/01-the-agent-framework-landscape.md) |
-| **Logical qubit** | A qubit built from several physical ones by error correction. | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
+| **Logical qubit** | A qubit built from several physical ones by error correction. | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
 | **Logits** | The raw scores a model outputs for each choice, before normalization. | [09.06](09-efficient-deep-learning/06-knowledge-distillation.md) |
 | **Long-horizon task** | A task that needs many steps in order, where the reward comes only at the end. | [06.01](06-frontier-applications/01-multimodal-agents-web-and-computer-use.md) |
 | **Long-term memory** | Anything stored outside the context and loaded back later, such as files, a database or a search index. | [02.01](02-building-agents/01-the-anatomy-of-an-agent.md) |
@@ -710,7 +710,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Mathlib** | The open-source Lean library of formalized mathematics. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Max tokens** | A request parameter that stops generation after a set number of output tokens. | [01.04](01-foundations/04-using-llms-tokens-context-and-sampling.md) |
 | **MCUNet** | Song Han's TinyML framework that pairs the TinyNAS architecture search with the TinyEngine inference library so that a model fits and runs on a microcontroller. | [09.07](09-efficient-deep-learning/07-tinyml-microcontrollers-and-tinyengine.md) |
-| **Measurement** | Reading a qubit; it returns one random classical bit and collapses the state | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
+| **Measurement** | Reading a qubit; it returns one random classical bit and collapses the state | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
 | **Membership inference** (also called: Membership inference attack) | Learning whether a given record was part of a model's training data. | [08.14](08-quality-assurance/14-security-privacy-transparency-and-accountability.md) |
 | **Memorization** | A model assigning much higher probability to text it saw in training than to text it did not. | [04.07](04-safety-and-security/07-trustworthiness-beyond-injection.md) |
 | **Memory** | What an agent stores and re-reads between tasks and sessions. | [04.03](04-safety-and-security/03-agent-specific-attacks.md) |
@@ -805,8 +805,8 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Neural component** | The model in a hybrid system, which turns text into text by probability. | [04.01](04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md) |
 | **Neural network** | A function built by stacking many simple arithmetic steps whose numbers are the parameters. | [01.02](01-foundations/02-how-large-language-models-are-trained.md) |
 | **Nines** | A count of the nines in a service's uptime; five nines is 99.999 percent, a level Bavor says frontier models do not reach. | [01.04](01-foundations/04-using-llms-tokens-context-and-sampling.md) |
-| **NISQ era** | Noisy intermediate-scale quantum, the current period of noisy devices with few qubits | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
-| **No-cloning theorem** | The rule that a quantum state cannot be copied, which blocks skip connections in quantum circuits | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
+| **NISQ era** | Noisy intermediate-scale quantum, the current period of noisy devices with few qubits | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
+| **No-cloning theorem** | The rule that a quantum state cannot be copied, which blocks skip connections in quantum circuits | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
 | **No-press Diplomacy** | The board game Diplomacy without the negotiation messages. | [05.04](05-frameworks-and-multi-agent/04-multi-agent-systems-i-games-and-self-play.md) |
 | **Node** | One machine of a cluster; GPUs in the same node are linked more tightly than GPUs in different nodes. | [10.06](10-llm-internals/06-parallelism.md) |
 | **Non-determinism** (also called: Non-deterministic) | The property that the same input can give a different output, because the model picks text partly at random. | [03.01](03-evaluation/01-evaluation-is-the-product.md) |
@@ -874,8 +874,8 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Parameter** (also called: Parameters) | A value inside a model that training sets, such as a weight. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
 | **Parameter policy** | A policy that outputs the settings of an existing controller, such as a navigation stack, instead of raw actions. | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **Parameter-efficient fine-tuning (PEFT)** | Freezing the pretrained weights and training a small set of parameters instead. | [09.09](09-efficient-deep-learning/09-llm-post-training-and-on-device-training.md) |
-| **Parameter-shift rule** | The analytic gradient of a circuit: run it twice with an angle moved up and down by π/2 and take half the difference | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
-| **Parameterized quantum circuit** | A circuit in which some gates carry learned angles and others are fixed; the model of quantum machine learning | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
+| **Parameter-shift rule** | The analytic gradient of a circuit: run it twice with an angle moved up and down by π/2 and take half the difference | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
+| **Parameterized quantum circuit** | A circuit in which some gates carry learned angles and others are fixed; the model of quantum machine learning | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
 | **Parametric memory** | Knowledge stored in a model's weights. | [02.04](02-building-agents/04-memory-and-knowledge-for-agents.md) |
 | **Pareto front** | The designs left after dominated ones are dropped: each is better than the others on at least one quality. | [07.06](07-ml-in-production/06-quality-attributes-of-ml-components.md) |
 | **Parse** | To turn a document into typed elements: text blocks, tables, figures. | [05.03](05-frameworks-and-multi-agent/03-llamaindex-knowledge-assistants.md) |
@@ -938,7 +938,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Privilege separation** | Splitting a system into parts with different permissions, so that a compromised part cannot borrow the permissions of another. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
 | **privileged information** | Exact values that a simulator knows, such as the position and velocity of every joint, but a real robot cannot sense | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **Proactive defense** | A defense that finds and fixes bugs before attackers reach them; the second of three defense paradigms. | [04.08](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
-| **Probabilistic gradient pruning** | Updating only the parameters with the largest accumulated gradients, so that small noisy gradients are never computed | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
+| **Probabilistic gradient pruning** | Updating only the parameters with the largest accumulated gradients, so that small noisy gradients are never computed | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
 | **Process violation** | A required tool call that is missing or out of order, or a forbidden tool call. | [03.02](03-evaluation/02-a-minimal-eval-harness.md) |
 | **Processing element** | One unit of the compute array of an accelerator. | [09.05](09-efficient-deep-learning/05-neural-architecture-search.md) |
 | **Profiling** | Recording which kernels ran and for how long, to see where time goes. | [10.05](10-llm-internals/05-gpus-tpus-and-kernels.md) |
@@ -982,12 +982,12 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Quantization error** | The difference between a value and its quantized replacement. | [09.04](09-efficient-deep-learning/04-quantization.md) |
 | **Quantization granularity** | How many weights share one scale: a whole tensor, a channel, or a small group. | [09.04](09-efficient-deep-learning/04-quantization.md) |
 | **Quantization-aware training** | Fine-tuning a model with quantization simulated in the forward pass. | [09.04](09-efficient-deep-learning/04-quantization.md) |
-| **Quantum circuit** | The three stages of a quantum program: initialize the qubits, apply gates, measure, with optional classical post-processing | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
-| **Quantum simulator** | A classical program that computes a circuit's state vector, which a real device does not expose; its time and memory grow exponentially with the number of qubits. | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
-| **Quantum supremacy** | A computation that a quantum device performs better than the best classical computer, shown by Google a few years before Lecture 22 | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
-| **Quantum utility** | A computation that is hard to run classically but not yet useful, demonstrated by IBM | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
-| **Qubit** | A quantum bit, the unit of information in a quantum computer. | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
-| **Qubit mapping** | Choosing the physical qubits that carry a circuit and inserting SWAP gates where the device's topology requires them | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
+| **Quantum circuit** | The three stages of a quantum program: initialize the qubits, apply gates, measure, with optional classical post-processing | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
+| **Quantum simulator** | A classical program that computes a circuit's state vector, which a real device does not expose; its time and memory grow exponentially with the number of qubits. | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
+| **Quantum supremacy** | A computation that a quantum device performs better than the best classical computer, shown by Google a few years before Lecture 22 | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
+| **Quantum utility** | A computation that is hard to run classically but not yet useful, demonstrated by IBM | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
+| **Qubit** | A quantum bit, the unit of information in a quantum computer. | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
+| **Qubit mapping** | Choosing the physical qubits that carry a circuit and inserting SWAP gates where the device's topology requires them | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
 | **Query decomposition** | Splitting one question into sub-questions that can be answered separately. | [05.03](05-frameworks-and-multi-agent/03-llamaindex-knowledge-assistants.md) |
 | **Query, key and value** | The three vectors a token produces in attention: its query is compared with every key, and the scores weight a sum of the values. | [10.03](10-llm-internals/03-transformer-architectures-and-hyperparameters.md) |
 
@@ -1136,7 +1136,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Shared expert** | An expert that every token uses, in addition to the routed experts. | [10.04](10-llm-internals/04-attention-alternatives-and-mixture-of-experts.md) |
 | **Shared history** | The list of messages of a conversation; it can be printed, replayed and tested. | [05.02](05-frameworks-and-multi-agent/02-autogen-conversation-programming.md) |
 | **Shared memory** | Fast memory inside one streaming multiprocessor that the threads of a thread block share, used to reuse a value loaded from global memory. | [10.05](10-llm-internals/05-gpus-tpus-and-kernels.md) |
-| **Shor's algorithm** | The quantum algorithm that factors large integers with an exponential speed-up over classical machines. | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
+| **Shor's algorithm** | The quantum algorithm that factors large integers with an exponential speed-up over classical machines. | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
 | **short-term memory** | Shunyu Yao's name for the context window of an agent: you can only append to it, its size is fixed, and it is gone when the task ends | [01.04](01-foundations/04-using-llms-tokens-context-and-sampling.md) |
 | **Should criterion** | A quality preference asserted as a pass rate over many cases. | [08.05](08-quality-assurance/05-testing-generative-and-llm-components.md) |
 | **Side effect** | A change a tool makes outside its own run, such as sending an email, which a retry may repeat. | [02.02](02-building-agents/02-tool-design-and-function-calling.md) |
@@ -1174,7 +1174,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Specification** | A description of what a component must do, which other developers rely on; ML components lack one. | [07.01](07-ml-in-production/01-from-models-to-systems-and-products.md) |
 | **Speculative decoding** (also called: Speculative sampling) | A small model drafts several tokens and the large model checks them in one pass, with output distributed exactly as the large model alone. | [10.08](10-llm-internals/08-inference.md) |
 | **Spotlighting** | Marking where untrusted data begins and ends in a prompt so that the model can tell it from instructions. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
-| **SPSA** | Simultaneous perturbation stochastic approximation, which perturbs all parameters at once and estimates every gradient from two evaluations | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
+| **SPSA** | Simultaneous perturbation stochastic approximation, which perturbs all parameters at once and estimates every gradient from two evaluations | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
 | **SQL injection** | An attack in which attacker-chosen text becomes part of a database query; in an agent the text can arrive through model output. | [04.01](04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md) |
 | **SRAM** | The small, fast working memory that holds activations at run time and loses its content without power. | [09.07](09-efficient-deep-learning/07-tinyml-microcontrollers-and-tinyengine.md) |
 | **Stack machine** | A simple computer model whose program is a list of instructions that push values onto a stack and combine the top ones. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
@@ -1183,7 +1183,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Stale gradient** | A gradient from an earlier iteration that is applied late, as in delayed gradient averaging. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
 | **Standard error** | The typical distance between an estimate and the true value; for pass-or-fail scores the square root of p(1 − p)/n. | [03.05](03-evaluation/05-statistics-for-evals.md) |
 | **State** | The situation an agent is in at one moment. | [02.03](02-building-agents/03-planning-search-and-decision-making.md) |
-| **State vector** | The list of complex amplitudes that describes a quantum system; it doubles in length with every qubit | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
+| **State vector** | The list of complex amplitudes that describes a quantum system; it doubles in length with every qubit | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
 | **State-space model** | A layer that keeps a fixed-size state updated at every step, such as Mamba-2. | [10.04](10-llm-internals/04-attention-alternatives-and-mixture-of-experts.md) |
 | **StateFlow** | A group chat that encodes a finite state machine: one agent per state, transitions fixed in advance. | [05.02](05-frameworks-and-multi-agent/02-autogen-conversation-programming.md) |
 | **Stateless** | Holding no memory between requests, as a plain RAG pipeline does. | [05.03](05-frameworks-and-multi-agent/03-llamaindex-knowledge-assistants.md) |
@@ -1209,16 +1209,16 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Structured index** | A network of concepts and their links, stored beside the embeddings, that lets retrieval follow associations. | [02.04](02-building-agents/04-memory-and-knowledge-for-agents.md) |
 | **Structured output** | Model output constrained to a format such as JSON that code can parse. | [01.04](01-foundations/04-using-llms-tokens-context-and-sampling.md) |
 | **Stub** (also called: Scripted model, stub model) | A deterministic fake that stands in for a real system behind the same interface. | [03.02](03-evaluation/02-a-minimal-eval-harness.md) |
-| **Subcircuit** | A candidate circuit contained in a supercircuit, which inherits the supercircuit's parameters. | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
+| **Subcircuit** | A candidate circuit contained in a supercircuit, which inherits the supercircuit's parameters. | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
 | **Super-population** | The infinite set of questions that an evaluation's questions were drawn from. | [03.05](03-evaluation/05-statistics-for-evals.md) |
-| **Supercircuit** | A circuit large enough to contain every candidate, trained once so that its subcircuits can be ranked without training each. | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
-| **Superposition** | A weighted sum of the 0 state and the 1 state, with two complex numbers as weights | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
+| **Supercircuit** | A circuit large enough to contain every candidate, trained once so that its subcircuits can be ranked without training each. | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
+| **Superposition** | A weighted sum of the 0 state and the 1 state, with two complex numbers as weights | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
 | **Supervised fine-tuning (SFT)** | Continuing a model's training with the next-token loss on good answers to prompts. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
 | **Supervised learning** | Learning from pairs of input and label. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
 | **Supply chain attack** | An attack in which something imported, such as a model file, a package, or a data set, was already malicious. | [04.01](04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md) |
 | **SurCo** | A method that learns a simple stand-in for a hard optimization objective and solves it with an existing solver. | [02.03](02-building-agents/03-planning-search-and-decision-making.md) |
 | **surrogate model** | In MIPRO, a model fitted to predict the quality of any combination of instructions and demonstrations, so that the search knows which combination to try next | [02.05](02-building-agents/05-compound-ai-systems-and-dspy.md) |
-| **SWAP gate** | A two-qubit gate that exchanges the states of two qubits. | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
+| **SWAP gate** | A two-qubit gate that exchanges the states of two qubits. | [09.17](09-efficient-deep-learning/17-course-summary-and-outlook.md) |
 | **SWE-bench** | A benchmark of real GitHub issues, scored by the tests added with each fix. | [02.07](02-building-agents/07-coding-agents.md) |
 | **SwiGLU** | A gated MLP that uses the Swish function. | [10.03](10-llm-internals/03-transformer-architectures-and-hyperparameters.md) |
 | **Swish** | An activation function found by architecture search, x multiplied by the sigmoid of x, hard to build in hardware | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
