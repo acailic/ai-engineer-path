@@ -362,6 +362,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **End-state check** (also called: Execution-based evaluation) | A comparison of the final state of an environment with the goal state. | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
 | **End-user audit** | Letting users from minority groups try a system before it is released widely, to find discriminatory behavior that the developers did not test for | [08.04](08-quality-assurance/04-testing-without-oracles.md) |
 | **endogenous risks** | Su's name for safety risks that arise from the agent itself, usually from its incompetence, such as a mistaken action that cannot be undone | [02.01](02-building-agents/01-the-anatomy-of-an-agent.md) |
+| **Energy-delay product** | Energy multiplied by latency: a single figure that a joint hardware and network search minimizes. | [09.05](09-efficient-deep-learning/05-neural-architecture-search.md) |
 | **Ensemble** | Several models answering the same question in parallel, combined by average or vote. | [07.07](07-ml-in-production/07-deploying-a-model.md) |
 | **Entanglement** | A joint state of two qubits whose measurements agree, 00 or 11, however far apart the qubits are | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
 | **Entangling capacity** | How strongly a circuit entangles its qubits, on the Meyer-Wallach scale from 0 to 1 | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
@@ -388,6 +389,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Excessive agency** | An agent holding more permission, autonomy, or trust than its task needs, which turns a small attack into a large effect. | [04.03](04-safety-and-security/03-agent-specific-attacks.md) |
 | **Exemplar** | One worked example in a prompt. | [01.05](01-foundations/05-prompting-and-in-context-learning.md) |
 | **exogenous risks** | Su's name for safety risks that come from the environment an agent acts in, such as a web page written to trick it | [02.01](02-building-agents/01-the-anatomy-of-an-agent.md) |
+| **Expected latency** | The latency a layer is expected to have: the sum over its choices of probability times latency, which a differentiable search adds to the loss. | [09.05](09-efficient-deep-learning/05-neural-architecture-search.md) |
 | **Experience buffer** | A store of recent samples that a PPO implementation takes its updates from. | [10.11](10-llm-internals/11-post-training-sft-rlhf-and-rlvr.md) |
 | **Experience replay** | Storing each step of an agent's experience and reusing it many times in training. | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **Expert parallelism** | Placing different experts on different GPUs and routing tokens to them. | [10.06](10-llm-internals/06-parallelism.md) |
@@ -498,6 +500,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Gradient** (also called: Gradients) | The direction that raises the loss fastest; training steps the parameters the opposite way. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
 | **Gradient accumulation** | Adding up gradients over several small batches before updating the parameters. | [10.02](10-llm-internals/02-resource-accounting-flops-memory-and-arithmetic-intensity.md) |
 | **Gradient compression** | Sending only the largest or a low-rank approximation of the gradients to cut communication. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
+| **GradSign** | A zero-shot heuristic that rates a randomly initialized network by how often gradients from different samples share a sign. | [09.05](09-efficient-deep-learning/05-neural-architecture-search.md) |
 | **Greedy decoding** | Always taking the single most probable next token. | [01.06](01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) |
 | **Green agent** | In Berkeley's course project, the hosting agent that defines the assessment and reports the metrics. | [03.08](03-evaluation/08-case-study-the-green-agent-and-white-agent-project.md) |
 | **Ground truth** | The known correct facts for a task, given to a judge so that it can tell an invention from a fact. | [03.03](03-evaluation/03-llm-as-a-judge-and-rubrics.md) |
@@ -932,6 +935,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Proactive defense** | A defense that finds and fixes bugs before attackers reach them; the second of three defense paradigms. | [04.08](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
 | **Probabilistic gradient pruning** | Updating only the parameters with the largest accumulated gradients, so that small noisy gradients are never computed | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
 | **Process violation** | A required tool call that is missing or out of order, or a forbidden tool call. | [03.02](03-evaluation/02-a-minimal-eval-harness.md) |
+| **Processing element** | One unit of the compute array of an accelerator. | [09.05](09-efficient-deep-learning/05-neural-architecture-search.md) |
 | **Profiling** | Recording which kernels ran and for how long, to see where time goes. | [10.05](10-llm-internals/05-gpus-tpus-and-kernels.md) |
 | **Progent** | Dawn Song's group's programmable privilege control for agents, with human-written baseline policies and task-specific contextual policies enforced on each action. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
 | **Program retry** | An automatic repeat of a failed call after a transient error. | [02.02](02-building-agents/02-tool-design-and-function-calling.md) |
@@ -1394,6 +1398,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | Term | Definition | Defined in |
 |---|---|---|
 | **z-score** | A gap divided by its standard error. | [03.05](03-evaluation/05-statistics-for-evals.md) |
+| **ZenNAS** | A zero-shot heuristic that rates a randomly initialized network by how much its output changes under a small change of its input, plus the variance of its batch-normalization statistics. | [09.05](09-efficient-deep-learning/05-neural-architecture-search.md) |
 | **ZeRO** | Data parallelism with the optimizer state, gradients and, in stage 3, parameters sharded across GPUs. | [10.06](10-llm-internals/06-parallelism.md) |
 | **Zero point** | In linear quantization, the integer that stands for the real number zero. | [09.04](09-efficient-deep-learning/04-quantization.md) |
 | **Zero-day** | A vulnerability that was previously unknown to the software's authors. | [04.08](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
