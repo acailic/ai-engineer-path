@@ -41,7 +41,7 @@ Neubig presents the second style through CodeAct, which acts by writing code and
 
 ### 3. Context
 
-The agent starts with the issue text and a repository it has never seen. Getting the right code into the context is the hard part. Neubig calls this **file localization**: finding the files a request is about. In his words, it "might even be the biggest problem in coding agents nowadays" ([38:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2280)). Four designs from his lecture:
+The agent starts with the issue text and a repository it has never seen. Getting the right code into the context is the hard part. Neubig calls this **file localization**: finding the files that a request is about. In his words, it "might even be the biggest problem in coding agents nowadays" ([38:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2280)). Four designs from his lecture:
 
 1. Let the user name the files. Accurate, but it only works for people who know the project.
 2. Give the agent a search tool and let it explore.
@@ -86,8 +86,6 @@ flowchart TD
     A --> M
     M --> N["Next model decision"]
 ```
-
-A refused edit changes nothing and tells the model what to do next, so the next attempt can succeed.
 
 The paper reports 12.5% of SWE-bench solved with GPT-4 Turbo, and large drops when the line limit, the search tools or the syntax check were removed.
 
@@ -170,14 +168,14 @@ Neubig walks through a ladder of test sets. Each step adds realism ([12:00](http
 | HumanEval, MBPP | Small functions from a docstring | Nothing: a first sanity check | Software engineering. Neubig compares it to interview puzzles |
 | CoNaLa, ODEX | CoNaLa mines answers from Stack Overflow; ODEX adds execution-based scoring | Many libraries | Short snippets, not whole programs |
 | ARCADE | Data-science notebooks | Context and incremental work | Small scale |
-| SWE-bench | A real GitHub issue, scored by the tests added with the fix | A whole repository, a precise change | Refactoring, features, documentation |
+| SWE-bench | A real GitHub issue, scored by the tests that came with the fix | A whole repository, a precise change | Refactoring, features, documentation |
 | Design2Code | Reproduce a web page from a screenshot | Visual input and output | Anything but front ends |
 
 Three cautions from the lecture:
 
 - **Bias.** SWE-bench keeps only high-quality repositories and only issues whose fix came with new tests, which skews it toward bug fixes ([16:00](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=960)).
 - **Leakage.** Models train on public code, so some test problems were seen during training. He cites ARCADE, where new notebooks were harder than published ones, and LiveCodeBench, which exists to measure this gap ([19:16](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1156)).
-- **The metric.** The common measure is **pass@k**: the chance that at least one of *k* generated samples passes the tests. To estimate it without noise, the HumanEval authors generate *n* larger than *k* samples, count the *c* that pass, and compute 1 − C(n−c, k) / C(n, k), where C(a, b) is the number of ways to choose b items out of a. Text-overlap scores such as BLEU, which measures shared word sequences between two texts, exist but ignore whether the code runs.
+- **The metric.** The common measure is **pass@k**: the probability that one or more of *k* generated samples passes the tests. To estimate it without noise, the HumanEval authors generate *n* larger than *k* samples, count the *c* that pass, and compute 1 − C(n−c, k) / C(n, k), where C(a, b) is the number of ways to choose b items out of a. Text-overlap scores such as BLEU, which measures shared word sequences between two texts, exist but ignore whether the code runs.
 
 General evaluation methods are in [Part 03](../03-evaluation/06-evaluating-capabilities-and-risks.md).
 
@@ -196,11 +194,11 @@ Graham Neubig is a professor at CMU and the maintainer of OpenHands. His Fall 20
 
 The lecture is from October 2024. Product names and benchmark scores have moved since; treat the tools as examples and the design lessons as the durable part.
 
-**Charles Sutton (Google DeepMind, Spring 2025)** frames the choice as how to spend compute at test time ([40:00](https://www.youtube.com/watch?v=JCk6qJtaCSU&t=2400)). A dynamic agent such as SWE-agent lets the model pick its strategy: after a failed test it may search the code further or adjust the patch. A procedural system such as Agentless suits a task that a simple workflow solves: its tools run around the model, not inside it, so there are fewer tool errors, and an early mistake is less likely to derail the run. A dynamic agent chooses whether to extend a failed patch or start over; Agentless generates and tests. He guesses that generate-and-test suits small patches and that flexibility wins on long, complex changes. A bare shell, SWE-agent and Agentless form a continuum whose best point moves with model capability and task complexity.
+**Charles Sutton (Google DeepMind, Spring 2025)** frames the choice as how to spend compute at test time ([40:00](https://www.youtube.com/watch?v=JCk6qJtaCSU&t=2400), [41:50](https://www.youtube.com/watch?v=JCk6qJtaCSU&t=2510)). A dynamic agent such as SWE-agent lets the model pick its strategy: after a failed test it may search the code further, adjust the patch or start over. A procedural system such as Agentless suits a task that a simple workflow solves, and it works by generate-and-test: its tools run around the model, not inside it, which means fewer tool errors and makes it rarer that an early mistake derails the run. His guess is that small patches suit generate-and-test better and that flexibility pays off on long, complex changes. A bare shell, SWE-agent and Agentless lie on a continuum whose best point moves with model capability and task complexity.
 
-Two more of his examples sit between those poles ([43:34](https://www.youtube.com/watch?v=JCk6qJtaCSU&t=2614)). AutoCodeRover searches with tools that index classes and methods as an IDE does, so the agent can ask for a class or a method by name. It runs two dynamic agents in turn, one to gather context and one to write the patch, each with its own system instruction and tools, and only the first one's result passes to the second. RepairAgent makes the design a state machine: each state has its own system instruction, and the model's next tool call decides the transition. A code search keeps it in the information-gathering state; a call to write the fix moves it on.
+He gives two more examples ([43:34](https://www.youtube.com/watch?v=JCk6qJtaCSU&t=2614)). AutoCodeRover searches with tools that index classes and methods as an IDE does, so the agent can ask for a class or a method by name. It runs two dynamic agents one after the other: the first gathers context, the second writes the patch. Each has its own system instruction and tools, and only the first result passes to the second. RepairAgent makes the design a state machine: every state carries its own system instruction, and the tool call the model makes next decides the transition. A code search leaves it in the information-gathering state; calling the tool that writes the fix moves it on ([46:30](https://www.youtube.com/watch?v=JCk6qJtaCSU&t=2790)).
 
-He also describes an industrial agent he knows from inside, a research agent at Google that fixes internal issues in a monorepo too large for a laptop. Its evaluation was built as SWE-bench was, from internal bugs and fixes filtered by heuristics such as a change in tests and the size of the patch; the patches people wrote for it are larger and touch more files than SWE-bench's ([48:00](https://www.youtube.com/watch?v=JCk6qJtaCSU&t=2880)). His list of the design space these agents share: which tools; who writes the control flow (dynamic, a state machine, recursive sub-agents, or plain code); the wording of instructions, tool descriptions and summaries of tool outputs; a sandbox for model-generated code; contact with external services; and when to ask a human.
+He also describes an industrial agent built by colleagues at Google, a research agent for internal issues in a monorepo too large for a laptop. Its evaluation was built like SWE-bench's, on internal bugs and fixes that heuristics filter, such as a change in the tests and the size of a patch; the patches people wrote for it are larger and touch more files than SWE-bench's ([48:00](https://www.youtube.com/watch?v=JCk6qJtaCSU&t=2880)). His list of the design space they share: which tools; how the control flow is written (dynamic, a state machine, recursive sub-agents, or plain code); the wording of instructions, tool descriptions and summaries of tool outputs; a sandbox for model-written code; reaching external services; and when a human should be asked.
 
 ## What coding agents teach about any agent
 
@@ -249,6 +247,7 @@ Take a small open-source project with a failing test. Run an open-source coding 
 4. Why is SWE-bench biased toward bug fixes?
 5. How is pass@k estimated without generating exactly k samples?
 6. What are Neubig's three safety mitigations?
+7. When does Sutton expect generate-and-test to beat an agent's flexibility?
 
 <details><summary>Show answers</summary>
 
@@ -258,6 +257,7 @@ Take a small open-source project with a failing test. Run an open-source coding 
 4. It keeps only issues whose fix arrived with new tests, because it needs tests to score the fix. Such fixes are mostly bug fixes.
 5. Generate n samples, more than k. Count the c that pass. Compute one minus the number of ways to choose k samples out of the n−c failing ones, divided by the number of ways to choose k out of n.
 6. Sandboxing the execution environment, giving the agent least-privilege credentials, and auditing each action after it is generated and before it runs.
+7. By his guess, on smaller patches; on longer, more complex changes he expects flexibility to pay off.
 
 </details>
 

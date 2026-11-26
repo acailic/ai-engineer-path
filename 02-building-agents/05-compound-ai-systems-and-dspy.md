@@ -13,7 +13,7 @@ The prompt is doing five jobs at once: it describes the task, it chooses a think
 
 ## The core idea
 
-A **compound AI system** is a modular program in which language models play specialized roles instead of answering as one black box. A retrieval pipeline is one: a search step feeds passages to a model that writes the answer. Omar Khattab, the creator of DSPy, gives five reasons to build this way (slides 7 to 12, [2:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=120), [4:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=240)):
+A **compound AI system** is a program built of modules in which each language model call does one specialized job, instead of one model answering the whole request as a black box. A retrieval pipeline is one: a search step feeds passages to a model that writes the answer. Omar Khattab, the creator of DSPy, gives five reasons to build this way (slides 7 to 12, [2:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=120), [4:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=240)):
 
 | Reason | What it means |
 |---|---|
@@ -50,11 +50,11 @@ Three families of optimizers appear in the lecture:
 |---|---|---|
 | Bootstrap few-shot | Demonstrations, worked input-output examples placed in the prompt | Runs the program, keeps traces that scored well, searches over subsets |
 | Instruction proposal | The wording of instructions | A model proposes candidates, given earlier candidates and their scores |
-| MIPRO | Both together | Bootstraps examples, proposes instructions, then a Bayesian optimizer, a probabilistic model that predicts the score of a combination from earlier trials, picks what to try next; each candidate is scored on a small sample of the validation set ([52:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3120), [54:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3240)) |
+| MIPRO | Both together | Bootstraps examples, proposes instructions, then a Bayesian optimizer, a probabilistic model that predicts the score of a combination from earlier trials, picks what to try next ([52:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3120), [54:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3240)) |
 
-The optimizers in the table share one setting ([38:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2280)). The weights stay frozen: the optimizer does not assume access to them or to log probabilities, and changes only the instructions and the demonstrations. It expects few example inputs, perhaps 200 rather than tens of thousands, and few model calls. The metric is defined apart from the program. Some metrics need labels; others do not, such as one that only checks that the answer is grounded in the retrieved context. Two difficulties follow. The search space is a vast discrete one with no gradients to follow. And **credit assignment**, deciding which of many changes helped and which hurt, is hard: a change that improves one module on its own can lower the whole program, because a later module assumed something about the earlier module's output.
+The optimizers in the table share one setting ([38:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2280)). The weights stay frozen: the optimizer does not assume access to them or to log probabilities, and changes only the instructions and the demonstrations. It expects few example inputs, perhaps 200 rather than tens of thousands, and few model calls. Some metrics need labels; one that does not only checks whether the answer is grounded in the retrieved context. The metric stands apart from the program. Two difficulties follow. The search space is a vast discrete one with no gradients to follow. And **credit assignment**, deciding which of many changes helped and which hurt, is hard: a change that improves one module on its own can lower the whole program, because a later module assumed something about the earlier module's output.
 
-Khattab says language models are not yet good at that assignment, so MIPRO borrows from hyperparameter search. Each module has two bulky parameters, the instruction and the list of demonstrations, and MIPRO fits a **surrogate model**, a model that predicts the quality of a combination of such parameters. A candidate combination runs on a mini-batch, perhaps 30 of 200 examples; the score updates the surrogate model, and the next proposals tend to improve, which he says random search does not manage ([52:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3120)).
+Khattab says language models are not yet good at that assignment, so MIPRO borrows from hyperparameter search ([52:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3120)). Each module carries two bulky parameters, its instruction and its list of demonstrations, and the probabilistic model is a **surrogate model**, fitted to predict the quality of any combination of them. A candidate combination runs on a mini-batch, perhaps 30 of 200 examples; the score updates the surrogate model, and the next proposals tend to improve, which he says random search does not manage ([54:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3240)).
 
 ## Worked example
 
@@ -120,10 +120,10 @@ Khattab's Fall 2024 lecture makes six points.
 
 - **Two systems show the range.** A Stanford system for Wikipedia-style articles with citations divides the work into far finer parts than a retrieve-and-answer pipeline: brainstorm, outline, revise the outline, write questions for each section, retrieve sources, synthesize. A model call then works with what it was given instead of recalling facts, which Khattab calls easier, and the finer parts let a team iterate on quality. AlphaCodium, a system for generating code, thinks over the problem and over any public tests, writes several solutions, ranks them by how they perform, and repeats. That is inference-time scaling: more compute spent after the question has arrived ([6:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=360)).
 - **Models propose, search disposes.** The optimizer uses language models to draft instructions and examples without assuming they are good at it. In his words, a model gives you twenty candidates and nineteen are poor; trying many is what finds the good one ([32:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=1920)).
-- **Ground the proposals.** An instruction writer does better when it sees more than past prompts and scores: worked examples for that module, a summary of the data set, and a description of the program's own code ([48:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2880), [50:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3000)).
-- **Show, don't tell.** On a benchmark of many programs, optimizing with demonstrations gave the larger jumps, and in isolation, he says, nothing beat bootstrapped ones. Optimized instructions helped most on tasks with many conditional rules, where a few examples cannot show every case ([56:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3360), [58:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3480)).
+- **Ground the proposals.** An instruction writer does better when it sees more than past prompts and scores: worked examples for that module, a summary of the whole data set, and a description of the program's own code ([48:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2880), [50:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3000)).
+- **Show, don't tell.** On a benchmark of many programs, optimizing with demonstrations gave the larger jumps, and in isolation, he says, nothing beat bootstrapped ones on many tasks. Optimized instructions helped most on tasks with many conditional rules, where a few examples cannot show every case ([56:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3360), [58:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3480)).
 
-His summary: write about ten lines of declarative code, state an objective, pick an optimizer, and spend your effort on which modules to build and how to connect them ([58:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3480)). As he tells it, Toronto researchers used it to win a medical question-answering competition against 15 other groups, and a Maryland researcher who had spent 20 hours on prompts for a text classifier beat his own system with DSPy in 10 minutes ([34:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2040), [36:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2160)). On his slides from October 2024, DSPy was in production use at JetBlue, Databricks, Walmart, VMware, Replit and others. For where DSPy sits among agent frameworks, see [Part 05](../05-frameworks-and-multi-agent/01-the-agent-framework-landscape.md).
+His summary: about ten lines of declarative code, an objective and an optimizer, with your effort spent on choosing the modules and on how they connect ([58:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3480)). As he tells it, Toronto researchers used it to win a medical question-answering competition against 15 other groups, and a Maryland researcher who had spent 20 hours on prompts for a text classifier beat his own system with DSPy in 10 minutes ([34:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2040), [36:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2160)). On his slides from October 2024, DSPy was in production use at JetBlue, Databricks, Walmart, VMware, Replit and others. For where DSPy sits among agent frameworks, see [Part 05](../05-frameworks-and-multi-agent/01-the-agent-framework-landscape.md).
 
 His larger hope, he says, is that open research leads AI progress again, and he expects that to come through modularity rather than through tricks tied to one model, which stop mattering when the model changes. The separation of the five roles is his example: a new optimizer or a new inference-time strategy fits every program that already exists, so each user could change about one line of code to benefit, if the new piece is built well ([62:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3720)).
 
@@ -133,7 +133,7 @@ His larger hope, he says, is that open research leads AI progress again, and he 
 2. **Tiny data.** Khattab notes that instruction optimization can overfit a very small training set ([56:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3360)). Fix: keep a held-out set and compare on it.
 3. **Hand-written prompts inside modules.** Fix: move wording into signatures and let the optimizer supply instructions and examples.
 4. **Expecting magic from one proposal.** Fix: treat the optimizer as a search and give it a call budget.
-5. **Tuning instructions before examples.** Fix: start with bootstrapped demonstrations, which nothing beat in isolation in his results.
+5. **Tuning instructions before examples.** Fix: start with bootstrapped demonstrations, which on many tasks nothing beat in isolation in his results.
 6. **Trusting an old tutorial's API.** Fix: work from the current documentation and pin the library version.
 7. **Improving one module on its own.** A change that helps one step can hurt a later step that relied on the old output. Fix: score whole programs on a held-out set, as the optimizers do, not a module in isolation.
 
@@ -169,6 +169,7 @@ Build and optimize a two-step program on a task with known answers.
 4. How does a bootstrap optimizer obtain its worked examples?
 5. Why must the metric be written separately from the program?
 6. On which kind of task did optimized instructions help most in Khattab's results?
+7. A change raises one module's own score. Why can the whole program score lower, and how does MIPRO choose the next combination to try?
 
 <details><summary>Show answers</summary>
 
@@ -178,6 +179,7 @@ Build and optimize a two-step program on a task with known answers.
 4. It runs the unoptimized program on training inputs, records every module's input and output, and keeps the traces whose final output passes the metric.
 5. So the optimizer can maximize the goal while the program's modules, connections and wording all change. A metric inside the program would change with it.
 6. Tasks with many isolated conditional rules, where a handful of examples cannot show every case and the rule itself must be stated.
+7. Because the modules interact: a later module may have relied on the earlier module's old output. That is credit assignment, which Khattab says language models are not yet good at. MIPRO's Bayesian optimizer relies on a surrogate model that predicts the score of a combination from earlier trials; each candidate is scored on a mini-batch, and that score updates the surrogate model.
 
 </details>
 

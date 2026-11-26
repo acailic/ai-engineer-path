@@ -281,6 +281,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **data poisoning** | An attack on the training data, in pre-training or fine-tuning, that makes the model learn a backdoor | [04.07](04-safety-and-security/07-trustworthiness-beyond-injection.md) |
 | **Data provenance** | Tracking the origin of a value and who modified it, which builds trust in data and helps debugging. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
 | **Data quality** | Fitness of data for use by the model and the operators. | [08.06](08-quality-assurance/06-data-quality.md) |
+| **Data synthesis** | Having models or people generate training data, such as agentic tasks with their graders. | [02.08](02-building-agents/08-training-models-for-agentic-tasks.md) |
 | **Data warehouse** | Curated data in a fixed shape, organized for analysis. | [07.09](07-ml-in-production/09-scaling-the-system.md) |
 | **Data-science trajectory** | The particular order in which a project moves through data-science steps, such as goal-first or data-first. | [08.10](08-quality-assurance/10-process-models-planning-and-iteration.md) |
 | **DDIM** | The denoising diffusion implicit model, a sampler that changes inference only, so that steps can be skipped while the FID stays stable | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
@@ -1109,6 +1110,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Self-debugging** | Improving generated code with feedback from running it and from unit tests. | [01.06](01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) |
 | **Self-Discover** | A method in which the model picks the reasoning strategies that suit a task from a given list and composes them into a reasoning structure, with no written demonstrations | [01.05](01-foundations/05-prompting-and-in-context-learning.md) |
 | **Self-distillation** | Distillation in which the student has the same architecture and size as its teacher. | [09.06](09-efficient-deep-learning/06-knowledge-distillation.md) |
+| **Self-improvement (of a model)** | A model improving itself by reflecting on what went wrong in an earlier attempt. | [02.08](02-building-agents/08-training-models-for-agentic-tasks.md) |
 | **Self-play** | Training in which an agent improves by playing against copies of itself. | [05.04](05-frameworks-and-multi-agent/04-multi-agent-systems-i-games-and-self-play.md) |
 | **Self-preference** | The tendency of a model to rate its own output higher. | [03.03](03-evaluation/03-llm-as-a-judge-and-rubrics.md) |
 | **Self-regulation** | An organization's own principles and policies, which no one outside that organization enforces. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
@@ -1301,6 +1303,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Training set** | The part of the data that the training loop learns from. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
 | **Training-serving skew** (also called: Training–serving skew) | A mismatch between training and serving: the code that prepares inputs differs, or the production data differs from the training data. | [07.07](07-ml-in-production/07-deploying-a-model.md) |
 | **Training-time multi-agent** | Using a population of agents to train or select one agent. | [05.05](05-frameworks-and-multi-agent/05-multi-agent-systems-ii-the-llm-era.md) |
+| **Training-time scaling** | Raising a model's quality by spending more compute on its training, here on reinforcement learning. | [02.08](02-building-agents/08-training-models-for-agentic-tasks.md) |
 | **Trajectory** (also called: Transcript) | The ordered record of one attempt: every message, tool call and result. | [03.01](03-evaluation/01-evaluation-is-the-product.md) |
 | **Trajectory evaluation** | Grading whether the steps an agent took were allowed. | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
 | **Transformer** | The network architecture behind LLMs, built from stacked layers that use attention. | [01.02](01-foundations/02-how-large-language-models-are-trained.md) |
