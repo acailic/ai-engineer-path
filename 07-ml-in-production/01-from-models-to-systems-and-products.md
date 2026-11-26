@@ -37,7 +37,7 @@ Kästner describes three views of the same work (chapter 2). Each one answers a 
 | Pipeline (MLOps) | ML engineering | Can we retrain, deploy and monitor reliably, again and again? | It ends at the model's API |
 | System (product) | The whole team | Does the product reach its goal, safely? | Nothing, if you do it properly |
 
-**MLOps** is the name for automating the **pipeline**: everything that produces, deploys and updates the ML component. It is necessary. It is also still model-centric: the pipeline provides an API for the rest of the system and does not look beyond that API.
+**MLOps** is the name for automating the **pipeline**: everything that produces, deploys and updates the ML component. It is necessary. It is also still model-centric: the pipeline hands the rest of the system an API and never looks past it.
 
 ### The analogy, and where it breaks
 
@@ -94,7 +94,7 @@ For each automated decision, pick one of three patterns:
 | Automated, with an appeal path | Acts, then lets a person reverse it | Fraud detection on an auction site: take the listing down, let the seller appeal |
 | Human confirms | Proposes, and waits for a person | Audit-risk estimate in tax software: show it, ask the user what to do |
 
-Asking or appealing gives people control ([chapter 2](https://mlip-cmu.github.io/book/02-from-models-to-systems.html)). Kästner's warning is that humans are generally poor at monitoring systems and may have no chance of checking a prediction even if they try. A human who clicks "approve" on two hundred correct suggestions will approve the wrong one too. Human review is a design decision, not a safety guarantee.
+Asking or appealing gives people control ([chapter 2](https://mlip-cmu.github.io/book/02-from-models-to-systems.html)). Kästner's warning is that people watch running systems poorly and often have no way to verify a prediction, try as they might. A human who clicks "approve" on two hundred correct suggestions will approve the wrong one too. Human review is a design decision, not a safety guarantee.
 
 ### Know your role
 
@@ -266,7 +266,7 @@ Include:
 2. A specification states the correct output for each input, and for an ML task nobody can write that down. If we could, we would write the function by hand and not need a model.
 3. Evaluation on labeled real tickets before release, and monitoring or sampling of predictions in production.
 4. B. The system's output changes user behavior, which changes the data the next model learns from. A and C are maintenance events. D is an ordinary performance fix.
-5. B. The pipeline covers producing, deploying and updating the ML component. The system view adds the non-ML components, the users and the environment.
+5. B. The pipeline covers producing the ML component, deploying it and updating it. The system view adds the non-ML components, the users and the environment.
 6. Non-ML code that caps the toasting time; a temperature sensor that cuts power above a threshold; a thermal fuse, a hardware part that breaks the circuit when it overheats.
 
 </details>

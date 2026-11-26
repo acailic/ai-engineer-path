@@ -47,7 +47,7 @@ Kästner calls an interface the place where teams negotiate. It is rarely fully 
 
 ### Reason with views
 
-You cannot hold a whole system in one picture. An **architectural view** shows one concern and hides the rest. Kästner compares this to city maps: a street map, a cycling map, a tourist map and a flood-zone map all describe the same city, each keeping the details that serve one purpose. The comparison fails in one place. City maps describe a place that exists. Architecture views describe a system that nobody has built yet, so two views can contradict each other until someone reconciles them.
+You cannot hold a whole system in one picture. An **architectural view** shows one concern and hides the rest. Kästner compares this to city maps: the ordinary street map, the map for cyclists, the one for visitors and the one of flood zones all describe the same city, each keeping the details that serve one purpose. The comparison fails in one place. City maps describe a place that exists. Architecture views describe a system that nobody has built yet, so two views can contradict each other until someone reconciles them.
 
 ### Use what others have learned
 

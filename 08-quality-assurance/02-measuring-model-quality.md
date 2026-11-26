@@ -73,7 +73,7 @@ Then report the **reduction in error**: how much of the baseline's mistake rate 
 reduction in error = ((1 − baseline accuracy) − (1 − model accuracy)) / (1 − baseline accuracy)
 ```
 
-Going from 50 to 75 percent accuracy halves the error. Going from 99.9 to 99.99 percent removes 90 percent of it, although the two numbers look almost identical (chapter 15).
+Going from 50 to 75 percent accuracy halves the error. Moving from 99.9 percent to 99.99 percent removes 90 percent of it, although the two numbers look almost identical (chapter 15).
 
 ### 4. Decide which data the number comes from
 

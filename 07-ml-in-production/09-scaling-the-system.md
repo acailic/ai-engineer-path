@@ -70,7 +70,7 @@ flowchart LR
 
 A query is answered from two results merged: the exact batch result and the approximate stream result for whatever arrived since the last batch run.
 
-**Training.** Training a large model is a distributed job in its own right. For GPT-3, released in 2020, Kästner reports an estimate of 355 years of sequential training, done instead on a cluster with 285,000 CPU cores and 10,000 GPUs, at an estimated cost of nearly 5 million US dollars for one run. Kästner's picture of distributed training is the **parameter server**. Each worker machine learns from a slice of the data. A central server collects and merges the adjustments. Workers send only the changes above a threshold, because all of GPT-3's parameters would amount to 700 gigabytes after every batch. Merging partial updates adds noise, one reason training is not reproducible ([chapter 06](06-quality-attributes-of-ml-components.md)).
+**Training.** Training a large model is a distributed job in its own right. For GPT-3, released in 2020, Kästner reports an estimate of 355 years of sequential training, done instead on 10,000 GPUs with 285,000 CPU cores behind them, at an estimated cost of nearly 5 million US dollars for one run. Kästner's picture of distributed training is the **parameter server**. Each worker machine learns from a slice of the data. A central server collects and merges the adjustments. Workers send only the changes above a threshold, because all of GPT-3's parameters would amount to 700 gigabytes after every batch. Merging partial updates adds noise, one reason training is not reproducible ([chapter 06](06-quality-attributes-of-ml-components.md)).
 
 **Caching.** A **cache** keeps the result of an expensive computation and reuses it. Kästner uses it in three places: predictions for inputs that repeat ([chapter 07](07-deploying-a-model.md)), feature vectors (the feature store in the same chapter), and values derived from a data lake, such as aggregates, kept in a database so that the raw data is not processed again ([chapter 12](https://mlip-cmu.github.io/book/12-scaling-the-system.html)). A feature built on an LLM caches the same way, for example the numerical form of a stored document. A cache goes stale the moment the model changes. So every cache needs an invalidation rule, such as the model version in the cache key.
 
@@ -132,7 +132,7 @@ For an **agent**, one task can last minutes and make dozens of model calls. A si
 
 ## What the practitioners say
 
-- **Scaling knowledge is not specific to ML.** Kästner's aim in chapter 12 is a basic understanding of the key concepts and their trade-offs, enough to select appropriate techniques. Teams almost always build on existing abstractions instead of writing their own.
+- **Scaling knowledge is not specific to ML.** Kästner's aim in chapter 12 is that readers grasp the key ideas and how they trade off, well enough to pick suitable techniques. Teams almost always build on existing abstractions instead of writing their own.
 - **Use all three options, in order.** Better algorithms and faster machines help first. Distribution carries the rest.
 - **Distribution happens for two reasons.** Systems need it for scale, and also because the application runs on distributed hardware such as mobile apps.
 - **Planning varies.** Some teams estimate workloads and simulate designs, with queueing theory. More build on scalable infrastructure and deal with scale when it arrives. Kästner accepts that this can be prudent technical debt.

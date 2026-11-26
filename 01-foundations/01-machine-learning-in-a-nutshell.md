@@ -119,7 +119,7 @@ Four habits take the place of exact-output tests:
 
 Kästner describes a second shift, triggered by large language models. Many projects no longer train a model per task. A **foundation model** is a large general-purpose model that somebody else trained. You customize it with a **prompt**: the text you pass in, which acts as the function's argument.
 
-His example is toxicity detection. Instead of training a classifier on examples of toxic and non-toxic language, you send the model a prompt such as: answer only yes or no, is the following sentence toxic, followed by the sentence. He lists two ways to customize a foundation model:
+His example is toxicity detection. Instead of training a classifier on labeled samples of toxic and harmless language, you send the model a prompt such as "Answer only yes or no. Is the following sentence toxic:", followed by the sentence. He lists two ways to customize a foundation model:
 
 - **Fine-tuning:** train a copy of it on your own examples.
 - **In-context learning:** put information or examples into the prompt. [Chapter 05](05-prompting-and-in-context-learning.md) covers this in depth.

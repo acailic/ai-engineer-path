@@ -52,7 +52,7 @@ A **service-level objective (SLO)** is a target for an operational quality of th
 Kästner's running example in chapter 13 is a blogging platform with fifty thousand authors and a spam filter powered by a fine-tuned large language model, one trained further on the site's own data, of fifty billion parameters. Three of his points:
 
 - **Write SLOs for the system and for each component.** They are not the same. His blogging platform keeps meeting its SLO while its spam filter is down, because comments wait in a queue.
-- **Negotiate the numbers.** Raising availability from 99.9 to 99.99 percent cuts the allowed downtime from about nine hours a year to fifty-two minutes. For many products the extra infrastructure is not worth it. He describes operations as risk management, not the avoidance of all risk.
+- **Negotiate the numbers.** Raising availability from 99.9 percent to 99.99 percent cuts the allowed downtime from about nine hours a year to fifty-two minutes. For many products the extra infrastructure is not worth it. He describes operations as risk management, not the avoidance of all risk.
 - **An SLO can become a contract**, called a service-level agreement, with consequences for missing it.
 
 ### Step 2: Make it observable
@@ -272,7 +272,7 @@ Include:
    - B. Retrain the model at once on the most recent tickets.
    - C. Raise the alert threshold so that the monitor stops firing.
    - D. Alert a person, who checks for a release or a real-world change.
-5. Raising availability from 99.9 to 99.99 percent changes the allowed downtime per year from what to what?
+5. Raising availability from 99.9 percent to 99.99 percent changes the allowed downtime per year from what to what?
 6. Name five parts of an incident response plan.
 
 <details><summary>Show answers</summary>

@@ -111,7 +111,7 @@ Kästner's test for a precise measure: imagine arguing in front of a judge that 
 |---|---|---|
 | Measure | What quantity, under what conditions? | 90 percent of chatbot requests get a response within X ms under normal load |
 | Data collection | Which data, gathered how? | Log the time of every request and every response on the server |
-| **Operationalization** | How do you compute the number from the data? | Take the fastest 90 percent of the last 24 hours and report the slowest among them |
+| **Operationalization** | How do you compute the number from the data? | Keep the quickest 90 percent of requests from the previous 24 hours and report the largest latency among them |
 
 **Operationalization** is the rule that turns raw observations into a number.
 
