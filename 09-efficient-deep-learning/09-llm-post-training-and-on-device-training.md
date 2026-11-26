@@ -1,6 +1,6 @@
 # 09. LLM Post-Training and On-Device Training
 
-**Level:** Practitioner · **Reading time:** 15 min · **Exercise:** 45 min
+**Level:** Practitioner · **Reading time:** 16 min · **Exercise:** 45 min
 **Prerequisites:** [Quantization](04-quantization.md); for the fine-tuning vocabulary, [from base model to assistant](../01-foundations/03-from-base-model-to-assistant-post-training.md)
 
 > **In one sentence:** After this chapter you can pick a parameter-efficient fine-tuning method for a model you want to adapt, size its memory, and decide whether the training can happen on the device instead of in the cloud.
@@ -68,7 +68,7 @@ Worked numbers for one 4,096 × 4,096 weight matrix:
 
 **On-device training** adapts a model where the data is created. Han gives the reason in his Fall 2024 lecture on the subject: a gradient is not safe to share. His **deep leakage from gradients** slides show input images and text reconstructed from gradients alone, for vision models and for BERT, a language model (Lecture 21, [10:00](https://www.youtube.com/watch?v=1YuD_5UQxsA&t=600)). His slide concludes that, if training data can be recovered this way, sharing the gradient is not safe. Adding noise as a defense also disrupts the model, he says: only very strong noise stops the leak ([12:00](https://www.youtube.com/watch?v=1YuD_5UQxsA&t=720)). So even federated learning, where devices send updates instead of data ([2:00](https://www.youtube.com/watch?v=1YuD_5UQxsA&t=120)), has a privacy hole. His repair is the compression from the previous lecture: prune the gradients before sending. In his test, 99% of the gradients could be pruned without hurting accuracy, and beyond about 70% there was nothing left to match, so the leak stopped (same block).
 
-The attack is also cheap to build. Han describes deep leakage as about 20 lines of PyTorch: start from a dummy input and a dummy label, compute their gradient, and change the dummy input until its gradient matches the shared one. Pruning breaks that matching. With 1% of the gradient left, he says, the attack has many variables and few equations, so the equations cannot be solved. He points to public code and demonstrations on his lab's website (Lecture 21, [12:00](https://www.youtube.com/watch?v=1YuD_5UQxsA&t=720)).
+The attack is also cheap to build. Han describes deep leakage as about 20 lines of PyTorch: start from a dummy input and a dummy label, compute their gradient, and change the dummy input until its gradient matches the shared one. Pruning breaks that matching. With 1% of the gradient left, he says, the attack has many variables and few equations, so the equations cannot be solved. He adds that the method's code and its website are public on his lab's domain (Lecture 21, [12:00](https://www.youtube.com/watch?v=1YuD_5UQxsA&t=720)).
 
 The obstacle is memory. Training keeps every intermediate activation for the backward pass. Four of Han's remedies:
 

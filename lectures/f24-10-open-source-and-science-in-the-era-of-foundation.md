@@ -65,12 +65,12 @@ Given two sets of weights, the test asks whether they were trained independently
 ### [38:02–40:10](https://www.youtube.com/watch?v=f3KKx9LWntQ&t=2282) What open weights give, and what they keep fixed
 
 Open-weight models have been immensely valuable: they enable work on interpretability, fine-tuning, distillation and model merging, with reproducibility and no fear of deprecation. They also raise new questions, such as the independence test, and they teach us about API models. Two cautions remain. Arbitrary surgery on weights, averaging them or removing layers, has no guarantee of producing a coherent model, and a model usually has to be fine-tuned to heal afterwards. And researchers are still confined to a blueprint: a transformer with the particular weights a company chose.
-**In this book:** nothing beyond this guide; nearest: [Agents for Scientific Discovery › Percy Liang (November 2024): access decides what you can find out](../06-frontier-applications/03-agents-for-scientific-discovery.md#percy-liang-november-2024-access-decides-what-you-can-find-out).
+**In this book:** [Agents for Scientific Discovery › What the practitioners say › Percy Liang (November 2024): access decides what you can find out](../06-frontier-applications/03-agents-for-scientific-discovery.md#percy-liang-november-2024-access-decides-what-you-can-find-out).
 
 ### [40:10–44:00](https://www.youtube.com/watch?v=f3KKx9LWntQ&t=2410) What open source means for models
 
 Open-source models are, he says, still far weaker than the best open-weight and API models. Open source comes from software, with roots in the hacker culture of MIT in the 1950s and in open science, and it stands for creativity, exploration, transparency, collaboration and resistance to authority; Richard Stallman and Linus Torvalds built the ecosystem around GNU and Linux, and the Open Source Initiative defined the term in 1998. It is now defining it for AI through four freedoms: use without asking permission, study, modify and share. In practice that requires the parameters without restrictions, the code including training and data processing, since data shapes behaviour, and information about the data rather than the data itself, because most web text is copyrighted and redistributing it invites lawsuits. Compute is not in the definition, but without it nobody can modify a model by retraining.
-**In this book:** nothing beyond this guide; nearest: [Agents for Scientific Discovery › Percy Liang (November 2024): access decides what you can find out](../06-frontier-applications/03-agents-for-scientific-discovery.md#percy-liang-november-2024-access-decides-what-you-can-find-out).
+**In this book:** [Agents for Scientific Discovery › What the practitioners say › Percy Liang (November 2024): access decides what you can find out](../06-frontier-applications/03-agents-for-scientific-discovery.md#percy-liang-november-2024-access-decides-what-you-can-find-out).
 
 ### [44:00–46:32](https://www.youtube.com/watch?v=f3KKx9LWntQ&t=2640) Three results that needed the full recipe
 
@@ -85,7 +85,7 @@ The question he often gets is whether these results would hold at a larger scale
 ### [50:00–54:00](https://www.youtube.com/watch?v=f3KKx9LWntQ&t=3000) Conclusion
 
 Other fields have won multi-billion-dollar infrastructure for open research, such as the Human Genome Project, the James Webb telescope and the Large Hadron Collider, and the problems pursued in public differ from those a company pursues. The lecture's theme is that access shapes research: with an API you build agents, with weights you can also fine-tune, distill and inspect, and each step down widens the questions. Most research now lives inside APIs and fixed weights; to make fundamental progress, researchers must be able to question the data, the architecture and the training algorithm instead of sitting in a local optimum. The long-term goal is to understand how data and architecture map to behaviour, a question that is hard even with full access and, he says, hopeless with only an API, and compute is the main obstacle on the way.
-**In this book:** nothing beyond this guide; nearest: [Agents for Scientific Discovery › Percy Liang (November 2024): access decides what you can find out](../06-frontier-applications/03-agents-for-scientific-discovery.md#percy-liang-november-2024-access-decides-what-you-can-find-out).
+**In this book:** [Agents for Scientific Discovery › What the practitioners say › Percy Liang (November 2024): access decides what you can find out](../06-frontier-applications/03-agents-for-scientific-discovery.md#percy-liang-november-2024-access-decides-what-you-can-find-out).
 
 ## What to take away
 

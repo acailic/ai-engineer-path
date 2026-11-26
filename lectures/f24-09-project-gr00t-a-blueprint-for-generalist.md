@@ -28,7 +28,7 @@ At NVIDIA's 2024 developer conference, humanoid robots from partner companies sh
 
 The name, he explains, expands to Generalist Robot 00 Technology; the key word is **generalist**. His template is language processing, which once held a separate system for every task, each with its own pipelines. Then one general model arrived that could be prompted for any task and was specialized again by prompting, fine-tuning and distilling into smaller experts that beat the original specialists. Robotics is still at the specialist stage, and GR00T is meant to be its generalist moment.
 
-**In this book:** nothing beyond this guide; nearest: [02. Embodied Agents and Robotics › How it works, step by step](../06-frontier-applications/02-embodied-agents-and-robotics.md#how-it-works-step-by-step).
+**In this book:** [Embodied Agents and Robotics › What the practitioners say › Jim Fan (November 2024): data is the bottleneck](../06-frontier-applications/02-embodied-agents-and-robotics.md#jim-fan-november-2024-data-is-the-bottleneck).
 
 ### [9:19–13:51](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=559) The data pyramid principle
 
@@ -46,7 +46,7 @@ Below simulation comes internet text and video, the largest and noisiest tier. R
 
 Reinforcement learning suits skills people cannot explain, such as balance, which needs only 1.5 million parameters. Coordinating the limbs this way is whole-body control, and HOVER is one such network, trained in two stages. First, reinforcement learning in simulation yields a teacher policy that may read exact values a simulator knows. Those inputs are then masked out, and a student policy learns by supervised learning to match the teacher without them, a route more stable than direct reinforcement learning. Masking any subset lets the same network take several command types.
 
-**In this book:** nothing beyond this guide; nearest: [02. Embodied Agents and Robotics › How it works, step by step](../06-frontier-applications/02-embodied-agents-and-robotics.md#how-it-works-step-by-step).
+**In this book:** [Embodied Agents and Robotics › How it works, step by step › Whole-body control: a teacher that cheats, a student that cannot](../06-frontier-applications/02-embodied-agents-and-robotics.md#whole-body-control-a-teacher-that-cheats-a-student-that-cannot).
 
 ### [27:13–34:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=1633) Generative simulation: RoboCasa and MimicGen
 
@@ -58,7 +58,7 @@ Teleoperated demonstrations arrive at about 20 an hour. A scene needs objects, l
 
 Generated data helps, with limits: on a simple one-arm task, 5,000 generated demonstrations added little over 1,000. DexMimicGen extends the method to two hands and to dexterous hands, sorting subtasks into parallel ones (both arms pick at once), coordinated ones (both lift a tray) and sequential ones (one step must finish first). On these harder tasks the gain is large: 50 times more generated data, from 100 human demonstrations, made the tasks work; one architecture, based on diffusion models, scored best.
 
-**In this book:** nothing beyond this guide; nearest: [02. Embodied Agents and Robotics › How it works, step by step](../06-frontier-applications/02-embodied-agents-and-robotics.md#how-it-works-step-by-step).
+**In this book:** [Embodied Agents and Robotics › What the practitioners say › Jim Fan (November 2024): data is the bottleneck](../06-frontier-applications/02-embodied-agents-and-robotics.md#jim-fan-november-2024-data-is-the-bottleneck).
 
 ### [38:12–46:42](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=2292) The foundation agent principle and Eureka
 

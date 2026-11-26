@@ -20,7 +20,7 @@ Language models already answer questions well. The next step is systems that do 
 ### [2:13–5:21](https://www.youtube.com/watch?v=RPINOYM12RU&t=133) Two demonstrations, honestly labelled
 
 An agent finds a well-reviewed Thai restaurant in Pittsburgh and books a table for the earliest date, then stops because a confirmation code is needed; another finds a similar shirt on Amazon. The lecturer calls these heavily cherry-picked: in about 30 attempts one succeeded. Each attempt shows the same three parts, a task, a chain of reasoning and one action at a time. A commercial agent of early 2025 points the same way, in his view, and the lecture then names three topics: a benchmark for multimodal agents, search at inference time, and training data.
-**In this book:** nothing beyond this guide; nearest: [Multimodal Agents › Why this matters](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#why-this-matters).
+**In this book:** [Multimodal Agents: Web and Computer Use › What the practitioners say › Ruslan Salakhutdinov (March 2025): the gap, the failures, the fixes](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#ruslan-salakhutdinov-march-2025-the-gap-the-failures-the-fixes).
 
 ### [5:21–8:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=321) WebArena and why HTML alone is not enough
 
@@ -65,7 +65,7 @@ Success within ten samples rises with the number of samples, yet the space is ex
 ### [44:00–48:06](https://www.youtube.com/watch?v=RPINOYM12RU&t=2640) The limits of search
 
 Backtracking here replays the recorded actions from the start, which is slow. On the real web some actions are destructive: an order cannot be unmade, and an airline blocks or re-prices a flood of bookings, so learning by trying there is very hard. Search can also improve the policy itself: the traces it finds become training data for supervised fine-tuning or reinforcement learning, and a value function can be fine-tuned instead of prompted with Monte Carlo rollouts. Better base models and more efficient search are both needed.
-**In this book:** nothing beyond this guide; nearest: [Multimodal Agents › 5. Spend more compute after a failure](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#5-spend-more-compute-after-a-failure).
+**In this book:** [Multimodal Agents: Web and Computer Use › How it works, step by step › The limits of search](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#the-limits-of-search).
 
 ### [48:06–56:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=2886) The data problem and a pipeline that makes tasks
 
@@ -85,7 +85,7 @@ The top million pages were filtered to about 150,000 live sites, dropping harmfu
 ### [68:04–74:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=4084) The same design in a robot
 
 The recipe transfers to physical agents: observe an image with depth, segment the scene, plan at a high level, act at a low level. In the lab's system a language model writes the plan, a sequencing module grounds each step with segmentation, inverse kinematics and a motion planner, and a small policy learned by reinforcement learning executes the motion. It solved about 25 long-horizon tasks across four benchmarks with about 85% success and transferred to a real robot and unseen objects at 80 to 90%.
-**In this book:** nothing beyond this guide; nearest: [Multimodal Agents › What this means for someone building agents](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#what-this-means-for-someone-building-agents).
+**In this book:** [Multimodal Agents: Web and Computer Use › What the practitioners say › Ruslan Salakhutdinov (March 2025): the gap, the failures, the fixes](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#ruslan-salakhutdinov-march-2025-the-gap-the-failures-the-fixes).
 
 ### [74:00–1:18:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=4440) Robustness and safety
 

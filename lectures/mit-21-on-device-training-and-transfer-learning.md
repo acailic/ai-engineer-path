@@ -35,7 +35,7 @@ The demo starts as noise and resolves into the training image. A batch of seven 
 ### [12:00–16:00](https://www.youtube.com/watch?v=1YuD_5UQxsA&t=720) A defence that costs nothing
 
 Gradient pruning from the previous lecture also defends. Prune 99% of the gradients and the top-1 accuracy stays, while the leak disappears beyond about 70% pruned: with one percent of the gradient to match, the attack has many unknowns and few equations. Han notes that deep leakage takes about 20 lines of PyTorch, and that the code and the project website are public on the lab's domain.
-**In this book:** nothing beyond this guide; nearest: [LLM Post-Training and On-Device Training › Training on the device](../09-efficient-deep-learning/09-llm-post-training-and-on-device-training.md#training-on-the-device).
+**In this book:** [LLM Post-Training and On-Device Training › How it works: the PEFT menu › Training on the device](../09-efficient-deep-learning/09-llm-post-training-and-on-device-training.md#training-on-the-device).
 
 ### [16:00–20:00](https://www.youtube.com/watch?v=1YuD_5UQxsA&t=960) The memory bottleneck
 

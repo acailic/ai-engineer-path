@@ -45,7 +45,7 @@ Intermediate features: teacher and student should resemble each other layer by l
 ### [16:00–20:00](https://www.youtube.com/watch?v=Ubj3QXv4rjw&t=960) Sparsity and relations inside the network
 
 Sparsity patterns can be matched too: after a ReLU, the set of neurons that stay active. Relational knowledge goes one step further and matches two tensors at once. A teacher with 32 layers and a student with 14 layers both have three stages; within a stage, the relation between a module's input and its output can be summarized, after reducing the spatial dimension, as a matrix of input channels by output channels, whatever the counts, and that relation is matched.
-**In this book:** nothing beyond this guide; nearest: [Knowledge Distillation › 3. What to match](../09-efficient-deep-learning/06-knowledge-distillation.md#3-what-to-match).
+**In this book:** [Knowledge Distillation › How it works, step by step › 3. What to match](../09-efficient-deep-learning/06-knowledge-distillation.md#3-what-to-match).
 
 ### [20:00–22:00](https://www.youtube.com/watch?v=Ubj3QXv4rjw&t=1200) Relations across samples
 
@@ -80,7 +80,7 @@ Box regression can be turned into classification: divide each axis into bins, si
 ### [38:00–44:00](https://www.youtube.com/watch?v=Ubj3QXv4rjw&t=2280) Segmentation and GAN compression
 
 For semantic segmentation, a label per pixel, a discriminator is added: the student must produce embeddings that the discriminator cannot tell from the teacher's. GAN Compression distills image-to-image models with three losses, on intermediate features, on reconstruction and on a conditional GAN term. On a small mobile GPU the horse-to-zebra model went from 56.8 to 3.5 GFLOPs, from 12 to 40 frames per second, with a better FID, 53 against 61.5; an edges-to-shoes model on a Jetson Nano rose from 1.6 to 3.9 frames per second, enough to make drawing interactive.
-**In this book:** nothing beyond this guide; nearest: [Knowledge Distillation › 5. Beyond classification](../09-efficient-deep-learning/06-knowledge-distillation.md#5-beyond-classification).
+**In this book:** [Knowledge Distillation › How it works, step by step › 5. Beyond classification](../09-efficient-deep-learning/06-knowledge-distillation.md#5-beyond-classification).
 
 ### [44:00–48:00](https://www.youtube.com/watch?v=Ubj3QXv4rjw&t=2640) Language models
 

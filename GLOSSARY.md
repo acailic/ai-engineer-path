@@ -28,6 +28,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Activation memory** | The memory holding a layer's intermediate results while it runs. | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **Activation sparsity** | Zeros in the intermediate results, for example in point-cloud data, that a sparse kernel can skip. | [09.03](09-efficient-deep-learning/03-pruning-and-sparsity.md) |
 | **Active parameters** | The parameters one token passes through, as opposed to the model's total parameters. | [10.04](10-llm-internals/04-attention-alternatives-and-mixture-of-experts.md) |
+| **ad hoc teamwork** | The problem of building one agent that cooperates with teammates it did not train with and cannot choose | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **Adam** | An optimizer that combines momentum, the average of past gradients, with the average of their squares to scale each update. | [10.02](10-llm-internals/02-resource-accounting-flops-memory-and-arithmetic-intensity.md) |
 | **Adapter** | A small trainable layer inserted into each transformer block. | [09.09](09-efficient-deep-learning/09-llm-post-training-and-on-device-training.md) |
 | **Adapter (DSPy)** | The part that lays a module's fields out as a prompt and parses the output back. | [02.05](02-building-agents/05-compound-ai-systems-and-dspy.md) |
@@ -98,6 +99,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Attempt** | One run of one task by the system under test. | [03.02](03-evaluation/02-a-minimal-eval-harness.md) |
 | **Attention** | The step in which each token weighs how relevant the earlier tokens are and updates its vector with what it finds. | [01.02](01-foundations/02-how-large-language-models-are-trained.md) |
 | **Attention head** | One of the parallel attention sub-calculations of a layer; KV heads are the ones that produce keys and values. | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
+| **Attention map** | The table of attention weights of a transformer layer, with one row and one column per token, `N × N` in size | [09.06](09-efficient-deep-learning/06-knowledge-distillation.md) |
 | **Attention sink** | A token, usually among the first, that attracts a large share of attention regardless of meaning. | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
 | **Attribution** | The share of statements in an answer that the cited sources support. | [05.07](05-frameworks-and-multi-agent/07-agents-in-the-enterprise.md) |
 | **Audit trail** | The record of events that lets you reconstruct a run afterwards. | [04.05](04-safety-and-security/05-runtime-monitoring-and-detection.md) |
@@ -240,6 +242,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Critical batch size** | The batch size beyond which doubling the batch saves less than half the steps. | [10.07](10-llm-internals/07-scaling-laws.md) |
 | **Cross-entropy** | The usual training loss for classifiers, which rewards a high probability on the correct label. | [09.06](09-efficient-deep-learning/06-knowledge-distillation.md) |
 | **CUDA** | NVIDIA's programming language for writing code that runs on its GPUs. | [10.05](10-llm-internals/05-gpus-tpus-and-kernels.md) |
+| **CUDA cores** | The other kind of unit on a GPU; work such as scaling runs on them, best after the main loop | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
 | **Curriculum** | A graded sequence of problems, one of the three ingredients Hubert names for systems that beat experts. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Cut set** | A group of basic events that together trigger the system failure. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
 | **CVE** | A public identifier for one known vulnerability. | [04.03](04-safety-and-security/03-agent-specific-attacks.md) |
@@ -343,6 +346,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Enum** | A closed list of allowed values for an argument. | [02.02](02-building-agents/02-tool-design-and-function-calling.md) |
 | **Environment** | What an agent acts on and observes, such as a file system, a browser, an API or a database. | [01.08](01-foundations/08-a-short-history-of-llm-agents.md) |
 | **Environment injection** | Planting text in an agent's environment so that it acts on it; indirect injection with an agent as the target. | [04.03](04-safety-and-security/03-agent-specific-attacks.md) |
+| **Epilogue** | The step after the main loop of a matrix multiplication kernel; a kernel that applies its scales there runs efficiently | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
 | **Epsilon (privacy budget)** | The knob of a differential privacy guarantee; smaller is stricter. | [04.07](04-safety-and-security/07-trustworthiness-beyond-injection.md) |
 | **Equalized odds** | A fairness criterion requiring similar error rates across groups. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
 | **Escalation rate** | The share of attempts handed off to a person. | [03.07](03-evaluation/07-evals-in-production.md) |
@@ -444,6 +448,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Gate** | An automatic check that fails a change when a metric regresses. | [03.07](03-evaluation/07-evals-in-production.md) |
 | **Gated MLP** | An MLP variant that multiplies one projection by another element by element before the output projection. | [10.03](10-llm-internals/03-transformer-architectures-and-hyperparameters.md) |
 | **GeLU** | A smooth activation function similar to ReLU, common in Transformers. | [10.02](10-llm-internals/02-resource-accounting-flops-memory-and-arithmetic-intensity.md) |
+| **generalist** | One model for many tasks, from which smaller specialists are then derived by prompting, fine-tuning or distilling | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **Generalization** | Performing well on inputs the model never saw during training. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
 | **Generation** (also called: Decode) | The phase that generates one token per step, limited by memory traffic. | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
 | **Generative model** | A model that produces text or images rather than choosing a label. | [08.02](08-quality-assurance/02-measuring-model-quality.md) |
@@ -872,6 +877,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Privacy** | The ability of a person to control what information about them is shared and how it is used. | [08.14](08-quality-assurance/14-security-privacy-transparency-and-accountability.md) |
 | **Privacy policy** | The public document describing what a system collects and how it may use and share it. | [08.14](08-quality-assurance/14-security-privacy-transparency-and-accountability.md) |
 | **Privilege separation** | Splitting a system into parts with different permissions, so that a compromised part cannot borrow the permissions of another. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
+| **privileged information** | Exact values that a simulator knows, such as the position and velocity of every joint, but a real robot cannot sense | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **Probabilistic gradient pruning** | Updating only the parameters with the largest accumulated gradients, so that small noisy gradients are never computed | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
 | **Process violation** | A required tool call that is missing or out of order, or a forbidden tool call. | [03.02](03-evaluation/02-a-minimal-eval-harness.md) |
 | **Profiling** | Recording which kernels ran and for how long, to see where time goes. | [10.05](10-llm-internals/05-gpus-tpus-and-kernels.md) |
@@ -955,6 +961,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Regularized best response** | A best response that gives each action a probability in proportion to how well it scores, instead of always picking the single best action. | [05.04](05-frameworks-and-multi-agent/04-multi-agent-systems-i-games-and-self-play.md) |
 | **Reinforcement learning (RL)** | Training by trial and error in which outputs that earn a higher reward are made more likely. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
 | **Rejection sampling** | Generating many answers and keeping only those that pass a checker or ranker. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
+| **Relational distillation** | A distillation loss that matches a relation between two tensors, such as a module's input and its output, or between the features of different samples, instead of the content of one tensor | [09.06](09-efficient-deep-learning/06-knowledge-distillation.md) |
 | **Reliability** | The absence of defects: how often a system or component performs as specified. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
 | **ReLU** | An activation function that sets negative values to zero. | [10.02](10-llm-internals/02-resource-accounting-flops-memory-and-arithmetic-intensity.md) |
 | **ReLU6** | A ReLU whose output is limited to 6, a purely empirical limit that narrows the range to quantize | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
@@ -1141,6 +1148,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **SwiGLU** | A gated MLP that uses the Swish function. | [10.03](10-llm-internals/03-transformer-architectures-and-hyperparameters.md) |
 | **Swish** | An activation function found by architecture search, x multiplied by the sigmoid of x, hard to build in hardware | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **Symbolic component** | Ordinary code in a hybrid system, written and parsed by rules. | [04.01](04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md) |
+| **symbolic regression** | Finding an equation from observations, for example a law of planetary motion from measurements of Mars | [06.03](06-frontier-applications/03-agents-for-scientific-discovery.md) |
 | **Symmetric quantization** | Linear quantization with a zero point of zero, used for weights centered on zero. | [09.04](09-efficient-deep-learning/04-quantization.md) |
 | **Synthetic data** | Training text written or rephrased by a model. | [10.10](10-llm-internals/10-training-data.md) |
 | **System** | All components working together toward one goal, inside an environment. | [07.01](07-ml-in-production/01-from-models-to-systems-and-products.md) |
@@ -1170,6 +1178,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Temporal Shift Module** | Moving part of a video network's channels between frames to add temporal modeling with no multiplies. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
 | **Tensor** | A block of numbers with a shape; the form of all data, parameters and intermediate results in training. | [10.02](10-llm-internals/02-resource-accounting-flops-memory-and-arithmetic-intensity.md) |
 | **Tensor core** | One of the matrix-multiply units on recent NVIDIA GPUs. | [09.03](09-efficient-deep-learning/03-pruning-and-sparsity.md) |
+| **Tensor cores** | One of the two kinds of unit on a GPU that a kernel can run on; the main loop of a matrix multiplication belongs on them | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
 | **Tensor parallelism** | Splitting each weight matrix across GPUs, with every GPU handling every token. | [10.06](10-llm-internals/06-parallelism.md) |
 | **ternary weight networks** | Networks whose weights are quantized to +1, 0 and −1 by a threshold at 0.7 times the average absolute value | [09.04](09-efficient-deep-learning/04-quantization.md) |
 | **Test-time RL** | Training the prover on one target problem by solving easier generated variants and learning from each. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
@@ -1188,6 +1197,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Time per output token** | The delay between consecutive generated tokens. | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
 | **Time to first token** | The delay before the first output token appears, spent mostly on processing the prompt. | [01.04](01-foundations/04-using-llms-tokens-context-and-sampling.md) |
 | **Time-boxed spike** | A fixed-length experiment that answers whether a problem is tractable. | [08.10](08-quality-assurance/10-process-models-planning-and-iteration.md) |
+| **TinyChat** | Han's inference engine for 4-bit language models: low-level code under a Python interface, for processors from cloud GPUs to edge devices | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
 | **TinyEngine** | The inference library that executes a searched model efficiently on a microcontroller. | [09.07](09-efficient-deep-learning/07-tinyml-microcontrollers-and-tinyengine.md) |
 | **TinyML** | Machine learning on devices with kilobytes of memory and milliwatt power budgets, typically microcontrollers. | [09.07](09-efficient-deep-learning/07-tinyml-microcontrollers-and-tinyengine.md) |
 | **TinyNAS** | A two-stage architecture search that first scales the search space to a tiny memory budget, then searches inside it. | [09.07](09-efficient-deep-learning/07-tinyml-microcontrollers-and-tinyengine.md) |
@@ -1295,6 +1305,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Wet lab** | Experimental work with real reagents and materials. | [06.03](06-frontier-applications/03-agents-for-scientific-discovery.md) |
 | **White agent** | In Berkeley's course project, a participant agent: the one being tested. | [03.08](03-evaluation/08-case-study-the-green-agent-and-white-agent-project.md) |
 | **White-box attack** | An attack that uses access to the model's internals, for example to follow gradients. | [04.02](04-safety-and-security/02-jailbreaks-and-prompt-injection.md) |
+| **whole-body control** | Coordinating the motors of arms and legs so that a humanoid stays balanced, walks and manipulates | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **Window attention** | Attention restricted to a local window of patches, with linear instead of quadratic cost. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
 | **Winograd convolution** | A transformation that computes a 3 × 3 convolution with fewer multiplications. | [09.07](09-efficient-deep-learning/07-tinyml-microcontrollers-and-tinyengine.md) |
 | **Workflow** | A set of LLM calls connected by code that decides their order. | [01.08](01-foundations/08-a-short-history-of-llm-agents.md) |

@@ -55,7 +55,7 @@ The scale for each channel is its average activation magnitude raised to a power
 ### [34:00–38:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=2040) TinyChat: running 4-bit weights
 
 TinyChat is Han's inference engine: low-level code under a Python interface, for CPUs and GPUs from cloud to edge. Computers address bytes, so two 4-bit weights share a byte; TinyChat stores them interleaved, so that a mask with 0x0F and a shift by four unpack a vector of weights in two operations, about 20% faster on ARM NEON. It also fuses whole operations into single kernels, the attention from query-key product through softmax to the value multiplication, and the matrix multiplications, since each kernel launch is costly.
-**In this book:** nothing beyond this guide; nearest: [Efficient LLM Inference and Deployment › 1. Quantization: weight-only or weights and activations](../09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md#1-quantization-weight-only-or-weights-and-activations).
+**In this book:** [Efficient LLM Inference and Deployment › How it works: count first › 1. Quantization: weight-only or weights and activations](../09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md#1-quantization-weight-only-or-weights-and-activations).
 
 ### [38:00–44:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=2280) What AWQ delivers
 
@@ -70,7 +70,7 @@ After a break: the two methods serve different regimes. SmoothQuant gives W8A8, 
 ### [48:00–52:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=2880) Where dequantization belongs
 
 Han dissects quantized matrix multiplication on a GPU. TensorRT's INT8 kernel keeps the main loop in the tensor core and scales in the epilogue, on CUDA cores, which is efficient. A W4A4 kernel that rescales partial sums in FP16 inside the loop is slow: partial sums take more registers than inputs. AWQ converts 4-bit weights to FP16 inputs once and multiplies in FP16. QServe converts 4-bit weights to 8-bit integers and multiplies in INT8, scaling in the epilogue. The lesson: dequantize outside the main loop and never dequantize partial sums.
-**In this book:** nothing beyond this guide; nearest: [Efficient LLM Inference and Deployment › 1. Quantization: weight-only or weights and activations](../09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md#1-quantization-weight-only-or-weights-and-activations).
+**In this book:** [Efficient LLM Inference and Deployment › How it works: count first › 1. Quantization: weight-only or weights and activations](../09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md#1-quantization-weight-only-or-weights-and-activations).
 
 ### [52:00–56:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=3120) A 4-bit cache, and the order of operations
 

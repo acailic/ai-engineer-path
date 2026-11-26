@@ -45,7 +45,7 @@ No single metric fits every task, so each task can get its own evaluation script
 ### [24:00–28:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=1440) How it compares
 
 Against other benchmarks, OSWorld offers a controllable executable environment, scales to new environments, supports multimodal observations, includes cross-application tasks and can start from an intermediate state. Its tasks are also longer: a median completion time near 100 to 110 seconds against 30 to 40 seconds for a widely used screen benchmark, with some tasks taking 900 seconds or more. The team then tested open and closed models.
-**In this book:** nothing beyond this guide; nearest: [Multimodal Agents › Benchmarks to know](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#benchmarks-to-know).
+**In this book:** [Multimodal Agents: Web and Computer Use › How it works, step by step › Benchmarks to know](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#benchmarks-to-know).
 
 ### [28:00–30:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=1680) First results
 
@@ -55,7 +55,7 @@ Four settings were tested: the accessibility tree only (simplified, because it i
 ### [30:00–36:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=1800) What changes the score
 
 People are stable across settings, within three to five points; models swing, and two models from one company differ by ten points under Set-of-Marks. Higher screenshot resolution helps the screenshot setting clearly and Set-of-Marks less, because its text already carries information. More history helps Set-of-Marks and hurts the screenshot setting, a sign that models read text better than pure images. The accessibility tree is long, about 6,000 tokens at the 90th percentile, which limits how much history fits.
-**In this book:** nothing beyond this guide; nearest: [Multimodal Agents › Caiming Xiong (March 2025): the environment, the data, a vision-only agent](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#caiming-xiong-march-2025-the-environment-the-data-a-vision-only-agent).
+**In this book:** [Multimodal Agents: Web and Computer Use › What the practitioners say › Caiming Xiong (March 2025): the environment, the data, a vision-only agent](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#caiming-xiong-march-2025-the-environment-the-data-a-vision-only-agent).
 
 ### [36:00–40:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=2160) Robustness, newer models and step limits
 
@@ -80,17 +80,17 @@ The pipeline produced 10,000 trajectories, not its maximum, with about 12 steps 
 ### [58:00–62:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=3480) Can calling tools improve understanding itself?
 
 Open vision-language models are far from perfect at grounding, reasoning and using outside knowledge. TACO teaches them to reason and to call actions, and after training the model generates thoughts and actions, takes in what the actions return and continues until it reaches a result. The data is synthetic, he says, because the web does not carry it. His examples include one that queries external text knowledge rather than relying on the vision model alone, and one that mixes reading text in a region with calculation.
-**In this book:** nothing beyond this guide; nearest: [Multimodal Agents › What this means for someone building agents](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#what-this-means-for-someone-building-agents).
+**In this book:** [Multimodal Agents: Web and Computer Use › What the practitioners say › Caiming Xiong (March 2025): the environment, the data, a vision-only agent](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#caiming-xiong-march-2025-the-environment-the-data-a-vision-only-agent).
 
 ### [62:00–66:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=3720) Two ways to synthesize reasoning-and-action data
 
 In model-based generation, a frontier model receives an image and a question with its answer and writes reasoning with tool calls, or without them; the output is checked, and failures become plain question-answer pairs. In programmatic generation there is no question: detection, depth and text-reading models add annotations to an image, and hand-written templates turn them into questions about counting, two- and three-dimensional spatial reasoning, and mixtures, with the actions needed to answer.
-**In this book:** nothing beyond this guide; nearest: [Multimodal Agents › Caiming Xiong (March 2025): the environment, the data, a vision-only agent](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#caiming-xiong-march-2025-the-environment-the-data-a-vision-only-agent).
+**In this book:** [Multimodal Agents: Web and Computer Use › What the practitioners say › Caiming Xiong (March 2025): the environment, the data, a vision-only agent](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#caiming-xiong-march-2025-the-environment-the-data-a-vision-only-agent).
 
 ### [66:00–70:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=3960) Three findings
 
 The capability had to be fine-tuned; showing examples in the prompt did not work. With actions, models solved tasks they could not solve before, so understanding too improves with tools, which he sees as another direction worth exploring. The gains held across several benchmarks, not just one, and quality of the data counted more than quantity: simply adding more did not raise performance, a lesson he calls not new.
-**In this book:** nothing beyond this guide; nearest: [Multimodal Agents › Caiming Xiong (March 2025): the environment, the data, a vision-only agent](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#caiming-xiong-march-2025-the-environment-the-data-a-vision-only-agent).
+**In this book:** [Multimodal Agents: Web and Computer Use › What the practitioners say › Caiming Xiong (March 2025): the environment, the data, a vision-only agent](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#caiming-xiong-march-2025-the-environment-the-data-a-vision-only-agent).
 
 ### [70:00–78:00](https://www.youtube.com/watch?v=n__Tim8K2IY&t=4200) AGUVIS: three problems and the design
 

@@ -1,6 +1,6 @@
 # 06. Knowledge Distillation
 
-**Level:** Practitioner · **Reading time:** 18 min · **Exercise:** 60 min
+**Level:** Practitioner · **Reading time:** 23 min · **Exercise:** 60 min
 **Prerequisites:** [Neural Network Basics for Efficiency](02-neural-network-basics-for-efficiency.md)
 
 > **In one sentence:** After this chapter you can set up a teacher-student training run with a distillation loss, choose what the student should match, and say when distillation beats pruning, quantization or architecture search for your goal.

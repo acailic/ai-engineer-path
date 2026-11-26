@@ -50,7 +50,7 @@ Off-the-shelf navigation stacks carry many opaque parameters that differ between
 ### [26:00–28:33](https://www.youtube.com/watch?v=iDhzzugMOLA&t=1560) Ad hoc teamwork
 
 People join a pickup basketball game and cooperate at once with strangers. Ad hoc teamwork asks for an agent that cooperates with teammates it did not train with and cannot choose, as when a disaster rescue brings together robots from many different people. The lab posed the problem in 2010 and has studied it theoretically and in experiments since. He wants such robots to work out on the fly how to work together, without being reprogrammed.
-**In this book:** nothing beyond this guide; nearest: [Embodied Agents and Robotics › What the practitioners say](../06-frontier-applications/02-embodied-agents-and-robotics.md#what-the-practitioners-say).
+**In this book:** [Embodied Agents and Robotics › What the practitioners say › Peter Stone (December 2025): agents are older than the buzzword](../06-frontier-applications/02-embodied-agents-and-robotics.md#peter-stone-december-2025-agents-are-older-than-the-buzzword).
 
 ### [28:33–34:50](https://www.youtube.com/watch?v=iDhzzugMOLA&t=1713) Why real-world reinforcement learning needs a new action space
 
