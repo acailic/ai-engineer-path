@@ -169,7 +169,7 @@ The round trip `decode(encode(corpus)) == corpus` holds.
 
 ## What the practitioners say
 
-Percy Liang opens the course with a claim about what a small-scale course can teach. He sorts knowledge into three kinds: mechanics (how things work), mindset (squeezing the hardware, taking scaling seriously) and intuitions (which data and modeling choices work). The first two transfer to frontier models. Intuitions only partly do, because small models behave differently: in an old plot he shows, the share of FLOPs (floating-point operations) spent in the MLP (feed-forward) layers is about 44% at small scale and about 80% at 175B parameters ([6:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=360)).
+Percy Liang opens the course with a claim about what a small-scale course can teach. He sorts knowledge into three kinds: mechanics (how things work), mindset (squeezing the hardware, taking scaling seriously) and intuitions (which data and modeling choices work). The first two transfer to a larger scale. Intuitions only partly do, because small models behave differently: in an old plot he shows, the share of FLOPs (floating-point operations) spent in the MLP (feed-forward) layers is about 44% at small scale and about 80% at 175B parameters ([6:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=360)).
 
 His organizing lens is efficiency, and he applies it to every unit, including data: "We don't want to waste time updating gradients on a bunch of redundant bad data" ([64:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=3840)). With a fixed compute budget, time spent on bad data is time not spent on good data.
 

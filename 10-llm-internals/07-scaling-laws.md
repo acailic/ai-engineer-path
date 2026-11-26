@@ -159,7 +159,7 @@ You are done when:
 - Fix a compute budget, sweep model size at a few smaller budgets, take the best, and extrapolate. IsoFLOP is the default method.
 - Chinchilla's answer was about 20 tokens per parameter for compute-optimal training. Inference cost argues for smaller models trained longer.
 - Batch size and learning rate must be carried across scale by a rule: critical batch size, muP or a direct search.
-- The WSD schedule makes converged checkpoints cheap. Predictability matters as much as optimality, and no method is a silver bullet.
+- The WSD schedule makes converged checkpoints cheap. Predictability matters at least as much as optimality, and no method is a silver bullet.
 
 ## Self-check
 
