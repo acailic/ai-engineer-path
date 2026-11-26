@@ -96,7 +96,12 @@ An automatic check runs on every guide before it is published. For each guide it
 
 The check caught wrong seconds, links to sections that do not exist, copied phrases and parts that were too short, guide after guide. They were corrected before publication.
 
-What the check cannot see is whether a guide understood the lecture correctly. Each guide was written by an AI writer who read the lecture once, through the machine transcript. Nobody has read a guide a second time against the lecture, and no second reviewer went over the guides. Names are the weakest point: the machine transcript can garble a name, so a guide prefers the names as the lecture's slides spell them and otherwise says "the lecturer". If a guide and the lecture disagree, the lecture wins.
+What the check cannot see is whether a guide understood the lecture correctly.Each guide was written by an AI writer who read the lecture once, through the machine transcript. On 2026-11-26 a second reading began, again by AI and not by a person:
+
+- **Numbers and names, all 77 guides.** Every number and every capitalized name in each guide was compared mechanically with the lecture's text and slides. Of the numbers, 57 were not found in that form; read one by one, 53 were forms the machine made (a number spoken in words, a value derived from two others) and 4 were wrong and were corrected. Every name was found.
+- **Second reading, 23 guides from beginning to end and 3 in part.** An AI reviewer read the guide and then the whole lecture and corrected every statement the lecture does not support. Done are the 12 guides of the Fall 2024 course, 9 of the Spring 2025 course and 2 of the Fall 2025 course. Each needed between 2 and 16 corrections: numbers the lecturer gave differently, claims never made, a conclusion of the guide presented as the lecturer's statement, content filed under the wrong part, and part boundaries that cut a thought in two. A sample of 18 corrections was re-read against the lecture by hand and all held. The reviewer sometimes replaced a well-known name that the machine garbles (Hugging Face, FLAML, ICLR) by a vague description; these were restored by hand.
+- **Not yet read a second time: 51 guides**, all guides of the MIT and Stanford courses and most of the Fall 2025 course.
+Names are the weakest point: the machine transcript can garble a name, so a guide prefers the names as the lecture's slides spell them and otherwise says "the lecturer". If a guide and the lecture disagree, the lecture wins.
 
 ## Glossary
 
@@ -114,8 +119,8 @@ The same files are published as a website, <https://acailic.github.io/ai-enginee
 - **Fast-moving facts.** Model names, prices, APIs, products and regulation are true as of the date each chapter gives, usually the lecture date or 2026-11-24.
 - **External links.** Links other than those named above were not all reopened, and YouTube links were not checked. The Fall 2025 Berkeley course page address in [SOURCES.md](SOURCES.md) returned an HTTP 404 error on 2026-11-24.
 - **The transcripts.** They are machine-made and can garble names. The lectures are the authority: a chapter that disagrees with its source is wrong.
-- **The lecture guides.** They passed the automatic check described above and were not read a second time.
-- **Coverage of the book.** The chapters of parts 07 and 08 were checked statement by statement against the book *Machine Learning in Production*, but not for coverage. A word-overlap count flagged 82 of its 399 sections as possibly reflected only in part, and those sections were not read against the chapters.
+- **The lecture guides.** 51 of the 77 passed the automatic check only: nobody has read them a second time against the lecture (all guides of the MIT and Stanford courses and most of the Fall 2025 course). The other 26 were read a second time by an AI reviewer, not by a person, and corrected.
+- **Coverage of the book.** The chapters of parts 07 and 08 were checked statement by statement against the book *Machine Learning in Production*, and their coverage was reviewed from 2026-11-26. A word-overlap count had flagged 82 of its 399 sections as possibly reflected only in part; these sections were read against the chapters, in 10 groups. Eight groups are finished and the sections a reader needs were added to the chapters; the groups for book chapters 8 to 13 and for chapter 15 are not finished. The review also found 35 sentences in 19 chapters that repeated the book's wording without quotation marks; all were rephrased, and the longest passage a chapter now shares with the book outside quotation marks is a paper title.
 
 ## Further limitations by part
 

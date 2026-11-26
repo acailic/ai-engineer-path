@@ -27,7 +27,7 @@ Every part heading links to the moment in the video where the part begins.
 |---|---|---|---|---|---|---|
 | 1 | Inference-Time Techniques for LLM Reasoning | Xinyun Chen (Google DeepMind) | 1:22:00 | 12 | 3 | [open](sp25-01-inference-time-techniques-for-llm-reasoning.md) |
 | 2 | Learning to reason with LLMs | Jason Weston (Meta) | 1:18:00 | 11 | 6 | [open](sp25-02-learning-to-reason-with-llms.md) |
-| 3 | On Reasoning, Memory, and Planning of Language Agents | Yu Su (Ohio State University) | 1:34:00 | 11 | 4 | [open](sp25-03-on-reasoning-memory-and-planning-of-language.md) |
+| 3 | On Reasoning, Memory, and Planning of Language Agents | Yu Su (Ohio State University) | 1:34:00 | 11 | 5 | [open](sp25-03-on-reasoning-memory-and-planning-of-language.md) |
 | 4 | Open Training Recipes for Reasoning in Language Models | Hanna Hajishirzi (University of Washington) | 1:22:00 | 13 | 3 | [open](sp25-04-open-training-recipes-for-reasoning-in-language.md) |
 | 5 | Coding Agents and AI for Vulnerability Detection | Charles Sutton (Google DeepMind) | 1:28:00 | 20 | 5 | [open](sp25-05-coding-agents-and-ai-for-vulnerability-detection.md) |
 | 6 | Multimodal Autonomous AI Agents | Ruslan Salakhutdinov (CMU / Meta) | 1:18:00 | 16 | 3 | [open](sp25-06-multimodal-autonomous-ai-agents.md) |
@@ -106,4 +106,4 @@ Every part heading links to the moment in the video where the part begins.
 | 17 | Alignment: multimodality |  | 1:18:00 | 13 | 0 | [open](cs336-17-alignment-multimodality.md) |
 | 18 | Guest lecture: Dan Fu |  | 1:12:00 | 13 | 0 | [open](cs336-18-guest-lecture-dan-fu.md) |
 
-In all: 1207 parts, of which 230 (19%) teach something no chapter teaches; 198,861 words.
+In all: 1207 parts, of which 231 (19%) teach something no chapter teaches; 199,856 words.

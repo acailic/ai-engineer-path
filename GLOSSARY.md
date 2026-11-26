@@ -239,6 +239,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Dashboard** | A live view of telemetry trends. | [07.10](07-ml-in-production/10-planning-for-operations.md) |
 | **Data augmentation** | Training on transformed copies of the examples to reduce overfitting. | [09.06](09-efficient-deep-learning/06-knowledge-distillation.md) |
 | **Data cache** | The store where a researcher agent keeps retrieved material for a writer agent. | [05.03](05-frameworks-and-multi-agent/03-llamaindex-knowledge-assistants.md) |
+| **Data engineer** | A specialist in large-scale data systems who pulls data out of many sources and moves it between systems, and who builds the ML pipelines. | [07.10](07-ml-in-production/10-planning-for-operations.md) |
 | **Data flywheel** | The loop in which production failures become evaluation tasks that gate the next release. | [03.07](03-evaluation/07-evals-in-production.md) |
 | **Data integrity** | Strict conformance of data to its schema. | [08.06](08-quality-assurance/06-data-quality.md) |
 | **Data lake** | Raw data in many shapes, kept cheaply until it is needed. | [07.09](07-ml-in-production/09-scaling-the-system.md) |
@@ -272,6 +273,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Development copilot** | A model that works synchronously with a developer, one action at a time. | [02.01](02-building-agents/01-the-anatomy-of-an-agent.md) |
 | **DevSecOps** | Running automated security checks such as static analysis as part of continuous integration, so that security work belongs to the delivery pipeline instead of coming at the end. | [08.14](08-quality-assurance/14-security-privacy-transparency-and-accountability.md) |
 | **Differentiable** | Having a derivative, so that one can compute how the output changes when any parameter moves a little. | [01.02](01-foundations/02-how-large-language-models-are-trained.md) |
+| **Differentiable augmentation** | Applying the same transformation to real and generated images during GAN training, so that the loss flows back through the transformation to the generator. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
 | **Differential privacy** | A guarantee that a training result is nearly the same whether or not one person's record is in the data. | [04.07](04-safety-and-security/07-trustworthiness-beyond-injection.md) |
 | **Differential testing** | Comparing a model's output with a reference implementation or with several other models instead of with a label. | [08.04](08-quality-assurance/04-testing-without-oracles.md) |
 | **Diffusion model** | A generative model that produces an image by removing noise over many steps. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
@@ -395,6 +397,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Formal mathematics** | Mathematics written as source code in a proof assistant, where a compiling proof is correct. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Formal verification** | A mathematical proof that a design keeps a stated property. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
 | **Formaliser model** | The model that turns a problem into a Lean statement. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
+| **Forward process** | The step-by-step addition of Gaussian noise to a clean image that a diffusion model learns to reverse. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
 | **Foundation model** | A large general-purpose model trained by someone else and customized with a prompt. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
 | **Four-fifths rule** | A rule of thumb from US employment-law discourse that a disadvantaged group's selection rate be at least 80 percent of the other group's. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
 | **FP16, BF16, FP8, FP4** (also called: bf16) | Floating-point formats with 16, 16, 8 and 4 bits; BF16 trades precision for the range of FP32. | [09.04](09-efficient-deep-learning/04-quantization.md) |
@@ -669,6 +672,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Model security level** | Dawn Song's L0 to L4 scale, from an accurate and secure model (L0) to a malicious one (L4); design for L2. | [04.01](04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md) |
 | **Model size** | The storage needed for a model's weights: parameters times bits per parameter. | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **Model-based planning (simulate-then-act)** | Imagining each candidate action with a world model and executing only the best. | [02.03](02-building-agents/03-planning-search-and-decision-making.md) |
+| **Model-centric** | A view of ML work that stops at the model or at the pipeline that produces it and leaves out the rest of the system and its environment. | [07.01](07-ml-in-production/01-from-models-to-systems-and-products.md) |
 | **Module (DSPy)** | The strategy for carrying out a signature, such as a plain prediction or step-by-step reasoning. | [02.05](02-building-agents/05-compound-ai-systems-and-dspy.md) |
 | **Momentum** | An optimizer's running average of past gradients. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
 | **Monitor (in Privtrans)** | The small privileged part of a program that holds permissions and exports a narrow interface; not the runtime monitor of chapter 05. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
