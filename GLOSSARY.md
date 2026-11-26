@@ -270,6 +270,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Decision boundary** | Where one label ends and the next begins, which a classifier learns. | [01.05](01-foundations/05-prompting-and-in-context-learning.md) |
 | **Decision record** | A stored description of one production decision that ties its output to the exact inputs and versions that produced it. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
 | **Deduplication** | Removing repeated documents or passages from a data set. | [10.10](10-llm-internals/10-training-data.md) |
+| **Deep gradient compression** | A 2017 method of Han's group: prune gradients, accumulate the rest locally, and add momentum correction, warm-up and gradient clipping to keep the accuracy. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
 | **Deep leakage from gradients** | Reconstructing a model's input data from its shared gradients. | [09.09](09-efficient-deep-learning/09-llm-post-training-and-on-device-training.md) |
 | **Defense in depth** | Several layers of defense whose weaknesses differ, so that an attack has to defeat all of them. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
 | **Delayed gradient averaging** | Applying the averaged gradient from `d` iterations back while computation continues, with the worker's own stale share removed | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
@@ -401,6 +402,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Feedback loop** | A cycle in which a system's predictions change the environment and so change the data the next model learns from. | [07.01](07-ml-in-production/01-from-models-to-systems-and-products.md) |
 | **Few-shot prompting** (also called: Few-shot) | Including a handful of worked examples in the prompt before the real input. | [01.05](01-foundations/05-prompting-and-in-context-learning.md) |
 | **Fictitious play** | Self-play in which each player best-responds to the opponent's average play so far; the average converges. | [05.04](05-frameworks-and-multi-agent/04-multi-agent-systems-i-games-and-self-play.md) |
+| **FID** | An image-quality score for generated images that is better when it is lower; it climbs as a GAN's or a sampler's output degrades. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
 | **File localization** | Finding the files that a request is about. | [02.07](02-building-agents/07-coding-agents.md) |
 | **Filter bubble** | A situation in which personalization shows a person only content that agrees with views they already hold. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
 | **Fine-tuning** | Training a copy of an existing model on new examples to change its behavior. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
@@ -535,6 +537,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Inference latency** | The time one prediction takes, usually reported as a percentile. | [07.06](07-ml-in-production/06-quality-attributes-of-ml-components.md) |
 | **Inference throughput** | The number of predictions a component can make per unit of time. | [07.06](07-ml-in-production/06-quality-attributes-of-ml-components.md) |
 | **Inference-time scaling** | Spending more computation per problem at inference time to raise accuracy. | [01.06](01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) |
+| **InfiniBand** | A network link for data centers; Han cites 400 gigabits a second for it, against up to 1 gigabit for Ethernet. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
 | **Influential instances** | Training examples that shape a model's decision boundaries far more than the others; often mislabeled outliers where training data is sparse. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
 | **Informal mathematics** | Mathematics written as prose, LaTeX or papers, which carries no guarantee. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Information flow control** (also called: Taint tracking) | Tracking labeled data as it moves through a system, also called taint tracking. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
@@ -1085,6 +1088,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **SRAM** | The small, fast working memory that holds activations at run time and loses its content without power. | [09.07](09-efficient-deep-learning/07-tinyml-microcontrollers-and-tinyengine.md) |
 | **Stack trace** | The report a program prints when it crashes, written for developers rather than for the model. | [02.02](02-building-agents/02-tool-design-and-function-calling.md) |
 | **Stakeholder** | Any person or organization with an interest in the system or affected by it. | [07.03](07-ml-in-production/03-goals-and-requirements.md) |
+| **Stale gradient** | A gradient from an earlier iteration that is applied late, as in delayed gradient averaging. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
 | **Standard error** | The typical distance between an estimate and the true value; for pass-or-fail scores the square root of p(1 − p)/n. | [03.05](03-evaluation/05-statistics-for-evals.md) |
 | **State** | The situation an agent is in at one moment. | [02.03](02-building-agents/03-planning-search-and-decision-making.md) |
 | **State vector** | The list of complex amplitudes that describes a quantum system; it doubles in length with every qubit | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
@@ -1242,6 +1246,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Vector** | An ordered list of numbers. | [01.02](01-foundations/02-how-large-language-models-are-trained.md) |
 | **Vector database** | A store that finds the vectors nearest to a query's embedding. | [05.03](05-frameworks-and-multi-agent/03-llamaindex-knowledge-assistants.md) |
 | **Vector search** | Finding the stored chunks whose embeddings are closest to the embedding of a question. | [02.04](02-building-agents/04-memory-and-knowledge-for-agents.md) |
+| **Velocity** | The optimizer's momentum term, a running combination of past gradients that updates the weights in place of the raw gradient. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
 | **Velocity, validation, versioning** | Three goals of MLOps practice named in an interview study: fast iteration, automated checking with quick feedback, and keeping versions for recovery. | [07.10](07-ml-in-production/10-planning-for-operations.md) |
 | **Verbosity bias** | The tendency of a judge to score longer outputs higher when they add nothing. | [03.03](03-evaluation/03-llm-as-a-judge-and-rubrics.md) |
 | **Verifiable reward** | A reward that a program computes by checking an answer, such as a string match or a passing unit test. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
@@ -1264,6 +1269,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | Term | Definition | Defined in |
 |---|---|---|
 | **W4A16** | Shorthand for 4-bit weights with 16-bit activations. | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
+| **Warm-up** | Starting a training run with a small learning rate and little gradient pruning and raising both, because the weights move fastest early in training | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
 | **Warp** | A group of 32 threads that execute the same instruction at the same time. | [10.05](10-llm-internals/05-gpus-tpus-and-kernels.md) |
 | **Wave quantization** | Idle SMs in the last round of thread-block scheduling when blocks do not divide evenly among SMs. | [10.05](10-llm-internals/05-gpus-tpus-and-kernels.md) |
 | **Weak supervision** | Producing training labels with rules instead of hand labeling. | [08.03](08-quality-assurance/03-slicing.md) |
@@ -1303,5 +1309,6 @@ One definition per term, and one term per concept. The name in bold is the one t
 | Term | Definition | Defined in |
 |---|---|---|
 | **2:4 sparsity** | A fixed pattern with at most two non-zero weights in every block of four, which supporting hardware can skip. | [09.03](09-efficient-deep-learning/03-pruning-and-sparsity.md) |
+| **3D CNN** | A convolutional network whose kernels also run over time, so it models low-, middle- and high-level information jointly at the price of four-dimensional weights. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
 | **90th percentile** | The value that 9 of 10 attempts stay below; a tail measure that reports slow cases a mean hides. | [03.07](03-evaluation/07-evals-in-production.md) |
 | **95% confidence interval** (also called: 95% interval) | A range built so that it would contain the true value in 95% of repeated evaluations. | [03.05](03-evaluation/05-statistics-for-evals.md) |
