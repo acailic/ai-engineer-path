@@ -258,7 +258,7 @@ The chapters were checked in two ways, described in [VERIFICATION.md](VERIFICATI
 
 **Lecture guides, 2026-11-25 and 2026-11-26.** All 77 lectures now have a guide: 1,207 parts. Before a guide is published, an automatic check confirms that its parts cover the lecture end to end without a gap or an overlap, that every part links to the second of the video that its heading names, that every link to a chapter section resolves, and that no run of eight or more words is copied from the lecture outside quotation marks.
 
-**Glossary, 2026-11-25.** Every row of the glossary was checked against the chapter it links to: 12 definitions corrected, 7 links moved to a better chapter, 13 duplicates merged, 16 rows removed and 24 added. The glossary has 1,253 terms.
+**Glossary, 2026-11-25.** Every row of the glossary was checked against the chapter it links to: 12 definitions corrected, 7 links moved to a better chapter, 13 duplicates merged, 16 rows removed and 24 added. The glossary has 1,282 terms.
 
 **Not verified:**
 
