@@ -20,9 +20,9 @@ Take one small open model, a file from a model hub such as Hugging Face. Measure
 | Track | Model | Hardware | What it teaches |
 |---|---|---|---|
 | A | A small open classifier, or another small model you can load | Any laptop | The whole procedure, end to end, with nothing hidden |
-| B | A small open-weights language model | A laptop that can load it. A GPU only for training-based stages | Where the money is: quantizing the weights and the [cache of past tokens](../GLOSSARY.md) |
+| B | A small open-weights language model | A laptop that can load it. A GPU only for training-based stages | Where the money is: quantizing the weights and the [KV cache](../GLOSSARY.md) |
 
-Do track A first. It takes 8 to 12 hours. Then do track B. Both run on a laptop. Numbers measured on a CPU are real numbers. They are not GPU numbers, and the report says so.
+Do track A first. It takes 8 to 12 hours and works through the five deliverables in one pass; the milestones below are track B's. Then do track B. Both run on a laptop. Numbers measured on a CPU are real numbers. They are not GPU numbers, and the report says so.
 
 ## What hardware is needed
 
