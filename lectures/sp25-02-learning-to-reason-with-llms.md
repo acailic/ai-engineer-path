@@ -40,7 +40,7 @@ The same intermediate tokens can repair other failures. Chain-of-Verification ha
 ### [35:47–46:30](https://www.youtube.com/watch?v=_MNlLhU33H0&t=2147) Self-rewarding language models
 
 Human judges struggle to label the code and mathematics that models now write, so the model judges itself instead. A self-rewarding language model scores its own responses from 0 to 5; the highest and lowest of four candidates form a preference pair for DPO. Over three iterations a 70-billion-parameter Llama 2 model's win rate rose from about 10% to 20%, near a version of GPT-4, but it gained little on mathematics, code and reasoning.
-**In this book:** nothing beyond this guide; nearest: [From Base Model to Assistant: Post-Training › 3. Preference tuning: reward models, RLHF and DPO](../01-foundations/03-from-base-model-to-assistant-post-training.md#3-preference-tuning-reward-models-rlhf-and-dpo).
+**In this book:** [From Base Model to Assistant: Post-Training › How it works, step by step › 3. Preference tuning: reward models, RLHF and DPO](../01-foundations/03-from-base-model-to-assistant-post-training.md#3-preference-tuning-reward-models-rlhf-and-dpo).
 
 ### [46:30–54:37](https://www.youtube.com/watch?v=_MNlLhU33H0&t=2790) Reasoning with verifiable rewards
 
@@ -50,7 +50,7 @@ To improve reasoning, the reward comes from the known answer instead of a judge:
 ### [54:37–1:00:30](https://www.youtube.com/watch?v=_MNlLhU33H0&t=3277) Thinking LLMs: chain of thought without a verifier
 
 Reasoning is useful for tasks without a checkable answer too, such as writing a poem. Thought Preference Optimization applies the same loop there: the model writes internal thoughts, a draft and a final response, and an LLM judge scores the response. Early iterations fall below the model's direct baseline, which was already tuned to answer without thinking; by iterations three and four it overtakes it on AlpacaEval and ArenaHard.
-**In this book:** nothing beyond this guide; nearest: [From Base Model to Assistant: Post-Training › 3. Preference tuning: reward models, RLHF and DPO](../01-foundations/03-from-base-model-to-assistant-post-training.md#3-preference-tuning-reward-models-rlhf-and-dpo).
+**In this book:** [From Base Model to Assistant: Post-Training › How it works, step by step › 3. Preference tuning: reward models, RLHF and DPO](../01-foundations/03-from-base-model-to-assistant-post-training.md#3-preference-tuning-reward-models-rlhf-and-dpo).
 
 ### [1:00:30–1:10:00](https://www.youtube.com/watch?v=_MNlLhU33H0&t=3630) Improving the judge: meta-rewarding and thinking judges
 

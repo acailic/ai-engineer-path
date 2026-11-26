@@ -20,7 +20,7 @@ Sida Wang traces a path from learning by human feedback, through code models and
 ### [1:39–4:21](https://www.youtube.com/watch?v=HV8pugcFVO0&t=99) Evaluating LLM benchmarks
 
 A 10% gain on ImageNet, with a test set of 100,000 images, was beyond doubt. Generative and agentic benchmarks are slow to build and run; the gains reported on them are small, many fail the conventional test for significance, and the sets keep shrinking: MNIST had 10,000 examples and MMLU about as many, HumanEval has 164, LiveCodeBench aims for about a thousand, and SWEbench-style runs number in the hundreds while spending hundreds of thousands of tokens and hours.
-**In this book:** nothing beyond this guide; nearest: [07 › Why this matters](../01-foundations/07-why-llm-outputs-are-noisy.md#why-this-matters).
+**In this book:** [Why LLM Outputs Are Noisy, and What To Do About It › How it works, step by step › 6. Treat small, hard benchmarks with suspicion](../01-foundations/07-why-llm-outputs-are-noisy.md#6-treat-small-hard-benchmarks-with-suspicion).
 
 ### [4:21–11:02](https://www.youtube.com/watch?v=HV8pugcFVO0&t=261) Exploratory data analysis
 

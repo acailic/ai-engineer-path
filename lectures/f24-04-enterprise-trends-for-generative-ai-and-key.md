@@ -30,7 +30,7 @@ Supervised fine-tuning needs tens of thousands of expert answers. Preference tun
 ### [11:15–15:57](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=675) A multimodal model and a long context
 
 Gemini accepts image, text, audio and video from the start, and the context of Gemini 1.5 reaches a million tokens in public preview, with internal trials up to ten million. The needle-in-a-haystack test hides one sentence, image or clip in a long input and checks that the model finds it: green for found, red for missed. An open research question is whether a model with a huge context will replace keyword or embedding search.
-**In this book:** nothing beyond this guide; nearest: [Using LLMs: Tokens, Context and Sampling › The core idea](../01-foundations/04-using-llms-tokens-context-and-sampling.md#the-core-idea).
+**In this book:** [Using LLMs: Tokens, Context and Sampling › How it works, step by step › 1. Count everything in tokens](../01-foundations/04-using-llms-tokens-context-and-sampling.md#1-count-everything-in-tokens).
 
 ### [15:57–20:43](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=957) Enterprise trends: speed and access
 

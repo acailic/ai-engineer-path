@@ -65,7 +65,7 @@ RLVR needs only final answers or verifiable constraints, and optimizes with PPO 
 ### [1:04:51–1:12:30](https://www.youtube.com/watch?v=cMiu3A7YBks&t=3891) s1: 1,000 examples and budget forcing
 
 s1 is a minimal recipe for test-time scaling. From 59,000 difficult math and logic questions, filtering for quality, difficulty and diversity leaves 1,000, with reasoning traces distilled from a thinking model; the full set performs about the same. Budget forcing sets the length of thought: when the model tries to stop early, a word telling it to wait is appended, and a long run is cut off. Accuracy rises with the tokens generated.
-**In this book:** nothing beyond this guide; nearest: [Reasoning in LLMs: From Chain-of-Thought to Search › 5. Choosing how to spend the budget](../01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md#5-choosing-how-to-spend-the-budget).
+**In this book:** [Reasoning in LLMs: From Chain-of-Thought to Search › How it works, step by step › 5. Choosing how to spend the budget](../01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md#5-choosing-how-to-spend-the-budget).
 
 ### [1:12:30–1:15:04](https://www.youtube.com/watch?v=cMiu3A7YBks&t=4350) Self-guided generation at inference time
 

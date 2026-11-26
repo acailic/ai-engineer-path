@@ -45,7 +45,7 @@ Once the screen is captioned and sentences are mapped to key presses, many tasks
 ### [24:37–38:28](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=1477) Long-term memory
 
 The context window is the agent's short-term memory: append-only, bounded (a thousand tokens two years ago, a million now, ten million next year), and gone once the task ends. Reflexion adds a very simple long-term memory: a program fails its unit tests, the agent writes down why and reads the note next time. No gradient is taken: feedback can be a test result or a compiler error, and the agent updates text, which steers later behavior. A later game agent saves each skill as code, and Generative Agents gives about twenty townsfolk a log of events plus conclusions drawn from it. Weights are memory too, so any agent reduces to memory, action space and decision procedure.
-**In this book:** nothing beyond this guide; nearest: [04. Using LLMs: Tokens, Context and Sampling › 2. The call does not remember](../01-foundations/04-using-llms-tokens-context-and-sampling.md#2-the-call-does-not-remember).
+**In this book:** [Using LLMs: Tokens, Context and Sampling › How it works, step by step › 2. The call does not remember](../01-foundations/04-using-llms-tokens-context-and-sampling.md#2-the-call-does-not-remember).
 
 ### [38:28–43:26](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=2308) Three paradigms of agents
 
@@ -65,7 +65,7 @@ First, lessons: some of the most important work is sometimes also the simplest (
 ### [59:17–1:10:00](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=3557) Interfaces and robustness
 
 Two directions close the talk. Interface: in the lecturer's coding agent, a file search that returns ten results at once beat listing directories or paging one hit at a time, with the same model and prompt, because models read longer contexts than people can hold. Robustness: more samples raise the chance of one correct program, but customer service needs every attempt to succeed. In his benchmark with a simulated user and company tools, the share of tasks solved on every sample falls as samples grow, for every model size.
-**In this book:** nothing beyond this guide; nearest: [07. Why LLM Outputs Are Noisy, and What To Do About It › 4. Know what repeated answers buy](../01-foundations/07-why-llm-outputs-are-noisy.md#4-know-what-repeated-answers-buy).
+**In this book:** [Why LLM Outputs Are Noisy, and What To Do About It › What the practitioners say](../01-foundations/07-why-llm-outputs-are-noisy.md#what-the-practitioners-say).
 
 ## What to take away
 

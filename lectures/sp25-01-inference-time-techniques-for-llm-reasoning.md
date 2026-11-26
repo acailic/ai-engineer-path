@@ -20,7 +20,7 @@ After the course welcome, she defines an LLM-based agent: a language model that 
 ### [8:23–13:23](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=503) Inference-time scaling and demos
 
 o1 solves competition mathematics and programming problems that earlier models struggled with, and o3 shows that accuracy keeps rising as more compute is spent per problem. On ARC-AGI, a benchmark of pattern puzzles, earlier models score under 25% without special techniques; o3 matches an average human annotator with about $20 of compute per task and reaches 87.5% with about $1,000 per problem. The demos show what changed: a long hidden thought precedes the answer.
-**In this book:** nothing beyond this guide; nearest: [Reasoning in LLMs: From Chain-of-Thought to Search › The core idea](../01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md#the-core-idea).
+**In this book:** [Reasoning in LLMs: From Chain-of-Thought to Search › The core idea](../01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md#the-core-idea).
 
 ### [13:23–24:55](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=803) Getting a chain of thought
 
@@ -40,7 +40,7 @@ Chain of thought makes the computation variable: harder problems get more tokens
 ### [39:17–43:58](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=2357) Dynamic examples and Self-Discover
 
 Real languages have more grammar rules and a larger vocabulary than SCAN, so one prompt may not hold every rule a problem needs. A follow-up method, evaluated on CFQ, keeps the two-stage decomposition and selects for each subproblem the examples with the most relevant rules. Self-Discover hands the model a list of dozens of reasoning strategies and has it compose the ones that suit the task into a structure to follow.
-**In this book:** nothing beyond this guide; nearest: [Prompting and In-Context Learning › 4. Let the model supply the examples](../01-foundations/05-prompting-and-in-context-learning.md#4-let-the-model-supply-the-examples).
+**In this book:** [Prompting and In-Context Learning › How it works, step by step › 4. Let the model supply the examples](../01-foundations/05-prompting-and-in-context-learning.md#4-let-the-model-supply-the-examples).
 
 ### [43:58–52:38](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=2638) Recap, then self-consistency
 

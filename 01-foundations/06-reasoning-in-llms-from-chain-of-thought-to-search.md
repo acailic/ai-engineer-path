@@ -1,6 +1,6 @@
 # 06. Reasoning in LLMs: From Chain-of-Thought to Search
 
-**Level:** Practitioner · **Reading time:** 30 min · **Exercise:** 90 min
+**Level:** Practitioner · **Reading time:** 32 min · **Exercise:** 90 min
 **Prerequisites:** [Prompting and In-Context Learning](05-prompting-and-in-context-learning.md) (few-shot prompting and chain-of-thought)
 
 > **In one sentence:** After this chapter you can choose between chain-of-thought, self-consistency, search and iterative refinement for a reasoning task, and you know when "review your answer" makes things worse.
@@ -26,6 +26,8 @@ There are three ways to spend it:
 3. **Better paths.** Change the prompt so that each candidate is stronger. [Chapter 05](05-prompting-and-in-context-learning.md) covered this.
 
 A useful analogy for the first two is getting a second opinion. Ask five colleagues the same question and take the majority. The analogy breaks on independence. Colleagues know different things and can argue it out. Samples from one model share every blind spot, so they repeat the same wrong path.
+
+Xinyun Chen puts numbers on the trend ([8:23](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=503)). On ARC-AGI, a set of pattern puzzles, most models before o1 stay below 25% when they answer directly. o3, given about $20 of compute per task, matches the average human annotator. Given about $1,000 per problem, it reaches 87.5%. She calls that a very expensive way to solve one task. It shows what the model can do when inference cost is no object.
 
 ## How it works, step by step
 
@@ -127,6 +129,8 @@ In practice, do not trust a model to be robust to the order of facts in user-wri
 | Self-review without a check | Rounds of revision | Nothing | Avoid for reasoning |
 
 Chen's advice on budget comes from studies of inference scaling: allocate the compute per problem according to its difficulty. Easy problems need few samples. She also notes that the right model depends on the budget. A small budget favors more samples from a lighter model. A large budget justifies a stronger model for the problems a light model cannot solve at all ([78:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4680)).
+
+Hajishirzi's s1 recipe spends the budget on a longer thought instead of more samples. Her team filtered 59,000 hard questions down to 1,000, trained on reasoning traces from a thinking model, and got about the same results as with the full set ([1:04:51](https://www.youtube.com/watch?v=cMiu3A7YBks&t=3891)). At inference, **budget forcing** sets the length of the thought: when the model stops early, "wait" is appended and it continues. Accuracy rose with the tokens generated, and in her comparison this beat majority voting.
 
 ## Worked example
 
@@ -258,7 +262,8 @@ This calls a paid API 17 times per problem or more. With a small model and short
 ## Sources
 
 - **Lecture:** Denny Zhou, "LLM Reasoning: Key Ideas and Limitations", LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=QL-FS_Zcmyo) · [guide](../lectures/f24-01-llm-reasoning.md), used at [first-token decoding](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2280), [self-consistency](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2760), [limits of self-correction](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3240), [the need for oracle feedback](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3360), [premise order](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3480), [reordered rules](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=3600)
-- **Lecture:** Xinyun Chen, "Inference-Time Techniques for LLM Reasoning", Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=g0Dwtf3BH-0) · [guide](../lectures/sp25-01-inference-time-techniques-for-llm-reasoning.md), used at [self-consistency](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=2760), [clustering code by outputs](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3240), [universal self-consistency](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3360), [verifiers](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3480), [tree search](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3720), [iterative self-improvement](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3960), [Reflexion](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4080), [self-debugging](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4200), [budget allocation](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4680), [design principle](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4800)
+- **Lecture:** Xinyun Chen, "Inference-Time Techniques for LLM Reasoning", Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=g0Dwtf3BH-0) · [guide](../lectures/sp25-01-inference-time-techniques-for-llm-reasoning.md), used at [self-consistency](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=2760), [clustering code by outputs](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3240), [universal self-consistency](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3360), [verifiers](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3480), [tree search](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3720), [iterative self-improvement](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3960), [Reflexion](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4080), [self-debugging](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4200), [budget allocation](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4680), [design principle](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4800), [o3 on ARC-AGI](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=503)
+- **Lecture:** Hanna Hajishirzi, "Open Training Recipes for Reasoning in Language Models", Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=cMiu3A7YBks) · [guide](../lectures/sp25-04-open-training-recipes-for-reasoning-in-language.md), used at [budget forcing](https://www.youtube.com/watch?v=cMiu3A7YBks&t=3891)
 - **Lecture:** Jason Weston, "Learning to Reason with LLMs", Advanced LLM Agents MOOC (Spring 2025): [video](https://www.youtube.com/watch?v=_MNlLhU33H0) · [guide](../lectures/sp25-02-learning-to-reason-with-llms.md), used at [System 1 and System 2](https://www.youtube.com/watch?v=_MNlLhU33H0&t=120), [from prompting to training](https://www.youtube.com/watch?v=_MNlLhU33H0&t=2040)
 
 ## Next

@@ -50,7 +50,7 @@ Because every channel is now digital, the methods of website engineering, contro
 ### [17:15–23:16](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1035) Why voice is a pipeline, and what latency hides
 
 Speech-to-speech models are smaller and, in his experience, uncontrollable, so a reliable voice agent today is a pipeline: speech to text, a reasoning loop, then a synthesizer. Every ten milliseconds counts. The clock starts when the person stops talking, not when the audio ends, so the system must detect the end of an utterance early and may start several reasoning and synthesis runs to be ready; filler phrases cover the wait. Because model latency varies between roughly 500 and 2,500 milliseconds, Sierra sends the same request to the provider several times and uses the first answer. Interruptions are a second problem: a listener's "uh-huhs" should not stop the agent, a real objection should, and Sierra fine-tuned its own models to tell them apart. Failover from one model provider to another is needed because frontier models do not offer the reliability of hardened cloud services.
-**In this book:** nothing beyond this guide; nearest: [Using LLMs: Tokens, Context and Sampling › 8. A cost and latency mental model](../01-foundations/04-using-llms-tokens-context-and-sampling.md#8-a-cost-and-latency-mental-model).
+**In this book:** [Using LLMs: Tokens, Context and Sampling › What the practitioners say](../01-foundations/04-using-llms-tokens-context-and-sampling.md#what-the-practitioners-say).
 
 ### [23:16–25:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1396) Measuring speech-to-text accuracy
 

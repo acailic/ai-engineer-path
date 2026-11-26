@@ -146,6 +146,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Bootstrap** | Estimating uncertainty by resampling the observed data with replacement. | [01.07](01-foundations/07-why-llm-outputs-are-noisy.md) |
 | **Bootstrapping (few-shot)** | Keeping the traces of runs that passed the metric and using them as worked examples in prompts. | [02.05](02-building-agents/05-compound-ai-systems-and-dspy.md) |
 | **Bubble** | Time in a pipeline when some GPUs wait for others. | [10.06](10-llm-internals/06-parallelism.md) |
+| **budget forcing** | Setting the length of a model's thought at inference: when the model stops early, "wait" is appended and it goes on; a run that is too long is cut off | [01.06](01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) |
 | **Byte-pair encoding (BPE)** | A method that learns a vocabulary by repeatedly merging the most frequent pair of adjacent units, starting from bytes. | [10.01](10-llm-internals/01-the-language-modeling-pipeline-and-tokenization.md) |
 
 ## C
@@ -722,6 +723,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Nanobody** | A small protein that can bind a target, used in the Virtual Lab's COVID-19 case study. | [06.03](06-frontier-applications/03-agents-for-scientific-discovery.md) |
 | **Naptime** | The first name of Google Project Zero's project for finding vulnerabilities with language models. | [04.08](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
 | **Needle in a haystack** | A test that hides one fact at varying depths in a long document and asks the model to find it. | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
+| **needle-in-a-haystack test** | A test that hides one sentence, image or clip in a long input and checks whether the model finds it | [01.04](01-foundations/04-using-llms-tokens-context-and-sampling.md) |
 | **Nested chat** | A chat pattern in which a matching message starts a private sub-conversation whose summary returns as the reply. | [05.02](05-frameworks-and-multi-agent/02-autogen-conversation-programming.md) |
 | **Network augmentation** | Treating a tiny model as a subnetwork of wider models during training, to give it extra supervision. | [09.06](09-efficient-deep-learning/06-knowledge-distillation.md) |
 | **Neural and symbolic decision making** | Splitting decisions between a learned model, which handles language and vague goals, and an algorithm, which handles constraints and guarantees. | [02.03](02-building-agents/03-planning-search-and-decision-making.md) |
@@ -1008,6 +1010,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Self-consistency** (also called: Consensus) | Sampling several complete answers and returning the most frequent final answer. | [01.06](01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) |
 | **Self-correction** | Asking a model to review and revise its own answer, which brings no net gain without an external check. | [01.06](01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) |
 | **Self-debugging** | Improving generated code with feedback from running it and from unit tests. | [01.06](01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) |
+| **Self-Discover** | A method in which the model picks the reasoning strategies that suit a task from a given list and composes them into a reasoning structure, with no written demonstrations | [01.05](01-foundations/05-prompting-and-in-context-learning.md) |
 | **Self-distillation** | Distillation in which the student has the same architecture and size as its teacher. | [09.06](09-efficient-deep-learning/06-knowledge-distillation.md) |
 | **Self-play** | Training in which an agent improves by playing against copies of itself. | [05.04](05-frameworks-and-multi-agent/04-multi-agent-systems-i-games-and-self-play.md) |
 | **Self-preference** | The tendency of a model to rate its own output higher. | [03.03](03-evaluation/03-llm-as-a-judge-and-rubrics.md) |
@@ -1034,6 +1037,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Shared expert** | An expert that every token uses, in addition to the routed experts. | [10.04](10-llm-internals/04-attention-alternatives-and-mixture-of-experts.md) |
 | **Shared history** | The list of messages of a conversation; it can be printed, replayed and tested. | [05.02](05-frameworks-and-multi-agent/02-autogen-conversation-programming.md) |
 | **Shared memory** | Fast memory inside one streaming multiprocessor that the threads of a thread block share, used to reuse a value loaded from global memory. | [10.05](10-llm-internals/05-gpus-tpus-and-kernels.md) |
+| **short-term memory** | Shunyu Yao's name for the context window of an agent: you can only append to it, its size is fixed, and it is gone when the task ends | [01.04](01-foundations/04-using-llms-tokens-context-and-sampling.md) |
 | **Should criterion** | A quality preference asserted as a pass rate over many cases. | [08.05](08-quality-assurance/05-testing-generative-and-llm-components.md) |
 | **Side effect** | A change a tool makes outside its own run, such as sending an email, which a retry may repeat. | [02.02](02-building-agents/02-tool-design-and-function-calling.md) |
 | **SigLIP** | A contrastive image-text model that scores each pair on its own instead of across the batch. | [10.12](10-llm-internals/12-alignment-and-multimodality.md) |
@@ -1146,6 +1150,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Text agent** | An agent whose actions and observations are both in language. | [01.08](01-foundations/08-a-short-history-of-llm-agents.md) |
 | **The World and the Machine** | The distinction between statements about the real world and statements about the software. | [07.03](07-ml-in-production/03-goals-and-requirements.md) |
 | **Theory of mind** | Reasoning about what other agents believe and intend. | [05.04](05-frameworks-and-multi-agent/04-multi-agent-systems-i-games-and-self-play.md) |
+| **thought preference optimization** | Weston's follow-up to self-rewarding models: the model is trained by DPO to write a chain of thought on tasks with no verifier, with a judge scoring only the final response | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
 | **Thread block** | A group of GPU threads that share memory and run on one SM. | [10.05](10-llm-internals/05-gpus-tpus-and-kernels.md) |
 | **Threat model** | A written answer to three questions about a system before defenses are built: what must be protected, who would attack it, and where their input can enter. | [04.01](04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md) |
 | **Threat modeling** | A structured review of a system's design for security threats, in five stages. | [08.14](08-quality-assurance/14-security-privacy-transparency-and-accountability.md) |

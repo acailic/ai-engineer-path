@@ -1,6 +1,6 @@
 # 04. Using LLMs: Tokens, Context and Sampling
 
-**Level:** Foundation · **Reading time:** 25 min · **Exercise:** 60 min
+**Level:** Foundation · **Reading time:** 30 min · **Exercise:** 60 min
 **Prerequisites:** [How Large Language Models Are Trained](02-how-large-language-models-are-trained.md) (tokens and the generate-one-token loop)
 
 > **In one sentence:** After this chapter you can read a model's API parameters, predict what a call will cost and how long it will take, and get output that your code can parse.
@@ -41,6 +41,8 @@ Context windows are extended after the main pre-training run. Dubois's slides gi
 
 A large window is not a license to fill it. Each token costs money and time on every call, and accuracy on a detail buried in a very long input is not guaranteed.
 
+That accuracy can be tested. Burak Gokturk shows the **needle-in-a-haystack test**: hide one sentence, image or clip, the needle, in a long input and check whether the model finds it ([11:15](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=675)). In Google's results for Gemini, which takes image, text, audio and video as input and was tried internally with up to ten million tokens of context, green marks a found needle and red a missed one. He leaves one question open: now that context can be this large, will a model replace traditional search, by keyword or by embedding?
+
 ### 2. The call does not remember
 
 Each API call is independent. The provider does not keep your previous turn. For a conversation, you send the whole history every time. Turn nine costs more than turn one because turn nine includes turns one to eight in its input.
@@ -64,6 +66,8 @@ sequenceDiagram
 ```
 
 The API keeps nothing between calls, so the input grows with every turn, while the system prompt at the top stays the same.
+
+Shunyu Yao, in his Fall 2024 lecture, describes the context window as an agent's **short-term memory** ([24:37](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=1477)). It has three limits. You can only append to it. Its size is fixed. And it is gone when the task ends, so an agent that solves a hard problem today starts from nothing tomorrow unless the model is fine-tuned. What must persist goes outside the model, into a **long-term memory**: text that the program writes and reads back later. His simplest example is Reflexion. When a program fails its tests, the agent notes what it missed and reads that note before the next attempt. Nothing is trained. The feedback may be the output of a test run or an error from the compiler, and the thing that changes is text, which steers the next run. He names two larger stores: the game-playing agent Voyager keeps each learned skill as code, and Generative Agents has each of its roughly twenty townspeople keep a diary of what happened and add conclusions drawn from it.
 
 ### 3. Control randomness with temperature and top-p
 
@@ -152,6 +156,14 @@ The Berkeley lectures leave this ground to the API documentation. Dubois closes 
 
 - **Generation is a loop.** His slides list the steps of inference: tokenize, forward, predict the probability of the next token, sample, detokenize. Temperature and top-p act in the "sample" step, and the max-tokens parameter decides when the loop is stopped from outside.
 - **Sampling is a feature.** Denny Zhou shows in his Fall 2024 lecture that always taking the most likely token can start an answer on the wrong foot, and that exploring alternatives finds correct reasoning paths ([38:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2280)). His example is an apple-counting question that a model answers wrongly when its first token is a bare number. A low temperature is a tool for reproducibility, not a setting for every task.
+
+Clay Bavor describes what latency means inside voice agents at Sierra ([17:15](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1035)). Besides the pipeline itself, three of his observations are worth keeping:
+
+- **Latency varies from call to call.** He gives the slow tail as roughly 500 to 2,500 milliseconds. Sierra fires off identical requests to the provider and takes whichever answer arrives first. It trades money for time.
+- **The user's clock starts early.** In voice, the wait runs from the moment the person stops talking, not from the end of the audio received. So it has to spot quickly that the person has finished speaking. Sierra starts several reasoning and speech-synthesis runs so that an answer is ready, and filler phrases such as "Let me look up that for you" cover the rest.
+- **Model providers are less reliable than cloud services.** In his account, frontier models do not reach the five or six nines of uptime of hardened cloud services, so failing over from one provider to another is part of the design.
+
+He builds voice as a chain of speech to text, then a reasoning loop, then a synthesizer, because the audio-to-audio models he tried were smaller and easy to steer off course.
 
 Evan Miller's paper, covered in [Chapter 07](07-why-llm-outputs-are-noisy.md), adds the rule for evaluations: measure at the settings you deploy. Do not lower the temperature only to make the numbers calm.
 
@@ -244,7 +256,10 @@ This makes about 25 paid calls, more with the stretch goal. At the example price
 
 - **Documentation:** Anthropic, "Messages" API reference (parameters `max_tokens`, `stop_sequences`, `system`, `stream`, `cache_control`), accessed November 24, 2026: [reference](https://platform.claude.com/docs/en/api/messages). Temperature and top-p were not visible on the fetched page.
 - **Lecture:** Yann Dubois, "Introduction to training LLMs for AI agents", LLM Agents MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=r1qZpYAmqmg) · [guide](../lectures/f25-01-llm-agents-overview.md), used at [tokens](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=0), and on his slides for the inference loop, the tokenizer and the outlook
+- **Lecture:** Burak Gokturk, "Enterprise trends for generative AI, and key components of building successful agents/applications", LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=Sy1psHS3w3I) · [guide](../lectures/f24-04-enterprise-trends-for-generative-ai-and-key.md), used at [the needle-in-a-haystack test](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=675)
+- **Lecture:** Shunyu Yao, "LLM agents: brief history and overview", LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=RM6ZArd2nVc) · [guide](../lectures/f24-02-llm-agents-brief-history-and-overview.md), used at [long-term memory](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=1477)
 - **Lecture:** Denny Zhou, "LLM Reasoning: Key Ideas and Limitations", LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=QL-FS_Zcmyo) · [guide](../lectures/f24-01-llm-reasoning.md), used at [greedy decoding versus alternatives](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2280), [the comparison](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2520)
+- **Lecture:** Clay Bavor, "Practical Lessons from Deploying Real-World AI Agents", Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=sfJM4LaiYsM) · [guide](../lectures/f25-09-practical-lessons-from-deploying-real-world-ai.md), used at [voice latency](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1035)
 
 ## Next
 
