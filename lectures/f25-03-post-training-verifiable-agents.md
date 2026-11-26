@@ -14,12 +14,12 @@ Read [From Base Model to Assistant: Post-Training](../01-foundations/03-from-bas
 
 ### [0:00–4:04](https://www.youtube.com/watch?v=3l0Zxus34es&t=0) From chatbots to verifiable agents
 
-Chatbots were trained by RLHF to match human preference. An agentic model must also align with feedback from an environment and maximize verifiable rewards. The chatbot recipe he recaps: rank responses, train a reward model, then optimize it with SFT, PPO or GRPO.
+Chatbots were trained by RLHF to match human preference. An agentic model must also align with feedback from an environment and maximize verifiable rewards. The chatbot recipe he recaps: rank responses, train a reward model, then use it to train the model with SFT, PPO or GRPO.
 **In this book:** [From Base Model to Assistant: Post-Training › 4. Reinforcement learning with verifiable rewards](../01-foundations/03-from-base-model-to-assistant-post-training.md#4-reinforcement-learning-with-verifiable-rewards) · [Training Models for Agentic Tasks › The core idea](../02-building-agents/08-training-models-for-agentic-tasks.md#the-core-idea).
 
 ### [4:04–6:53](https://www.youtube.com/watch?v=3l0Zxus34es&t=244) What an agentic model must do
 
-Conversation has no single correct answer. Enterprise tasks involve people, code repositories, software systems and tools: the model must read the environment's full state, act, and give an answer a clear verifier accepts, since a wrong one can crash the system. Engineering cannot rescue a weak model.
+Conversation usually has no single correct answer. Enterprise tasks involve people, code repositories, software systems and tools: the model must read the environment's full state, act, and give an answer a clear verifier accepts, since a wrong one can crash the system. Engineering can hardly rescue a weak model.
 **In this book:** [Training Models for Agentic Tasks › The core idea](../02-building-agents/08-training-models-for-agentic-tasks.md#the-core-idea).
 
 ### [6:53–11:30](https://www.youtube.com/watch?v=3l0Zxus34es&t=413) Three hard steps: data, evaluation, training
@@ -44,12 +44,12 @@ Evaluation must test for generalization, since no data set covers every environm
 
 ### [26:15–31:42](https://www.youtube.com/watch?v=3l0Zxus34es&t=1575) The benchmarks that exist
 
-SWE-bench asks for real GitHub issues to be fixed, under several harnesses, each offering a different set of tools. Other sets cover many tools and scenarios: τ-bench, BFCL, ComplexFuncBench. Unit tests check structured output such as JSON, which rules cannot repair later.
+SWE-bench asks for real GitHub issues to be fixed, under several harnesses, each offering a different set of tools. Other sets cover many tools and scenarios: τ-bench, BFCL, ComplexFuncBench. Unit tests check structured output such as JSON, which rules cannot repair later. He would also test many capabilities, among them HLE, AIME and SWE-bench, combined with different harnesses.
 **In this book:** [Coding Agents › How coding agents are evaluated](../02-building-agents/07-coding-agents.md#how-coding-agents-are-evaluated).
 
 ### [31:42–38:27](https://www.youtube.com/watch?v=3l0Zxus34es&t=1902) Holistic evaluation and benchmark quality
 
-Evaluation should stay holistic: many tasks and verifiers, harnesses swapped to reveal drops, capability sets such as HLE, AIME and SWE-bench. A benchmark needs watching for hardness (a set everyone scores high on proves nothing), separability (strong models above weak ones) and diversity. Many public benchmarks beat a few private ones.
+Evaluation should stay holistic: many tasks and verifiers, harnesses swapped to reveal drops. A benchmark needs watching for hardness (on a set everyone scores high on, a gain is no clear progress), separability (strong models above weak ones) and diversity. He wants far more benchmarks: a private one is good, but a static one may lose credibility, and many public ones are hard to overfit all at once.
 **In this book:** [Evaluating Agents: Trajectories and Environments › Benchmark design and contamination](../03-evaluation/04-evaluating-agents-trajectories-and-environments.md#benchmark-design-and-contamination).
 
 ### [38:27–42:29](https://www.youtube.com/watch?v=3l0Zxus34es&t=2307) The principle of training
@@ -64,12 +64,12 @@ SFT is imitation: it raises the likelihood of demonstration trajectories so the 
 
 ### [49:06–56:56](https://www.youtube.com/watch?v=3l0Zxus34es&t=2946) No settled algorithm; three pillars
 
-Current recipes do not follow from machine-learning theory, and he expects them to be replaced. Three pillars for RL: train longer, without saturating on one answer; train on harder tasks, though not impossible ones; see many different responses with high-quality reward feedback.
+Current recipes do not follow from machine-learning theory, and he does not claim they will still be right in ten years. Three pillars for RL: train longer, without saturating on one answer; train on harder tasks, though not impossible ones; see many different responses with high-quality reward feedback.
 **In this book:** [From Base Model to Assistant: Post-Training › 5. Jiao's recipe: imitate, then explore](../01-foundations/03-from-base-model-to-assistant-post-training.md#5-jiaos-recipe-imitate-then-explore).
 
 ### [56:56–1:05:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=3416) Train longer: entropy collapse and three remedies
 
-Entropy is the uncertainty of the model's next-token choice. Left alone, RL raises reward and lowers entropy until one answer gets 99% and exploration stops. Remedies: score only the model's own attempts (on-policy), which does better on MATH-500 and AIME; raise the upper clipping threshold (DAPO); add a loss that rewards entropy (Skywork-Open-Reasoner-1).
+Entropy is the uncertainty of the model's next-token choice. Left alone, RL raises reward and lowers entropy until the model is 99% sure of its next token and gives one answer only. Remedies: score only the model's own attempts (on-policy), which does better on MATH-500 and AIME; raise the upper clipping threshold (DAPO); add a loss that rewards entropy (Skywork-Open-Reasoner-1).
 **In this book:** [From Base Model to Assistant: Post-Training › 5. Jiao's recipe: imitate, then explore](../01-foundations/03-from-base-model-to-assistant-post-training.md#5-jiaos-recipe-imitate-then-explore).
 
 ### [1:05:00–1:12:00](https://www.youtube.com/watch?v=3l0Zxus34es&t=3900) Train harder: which prompts teach
@@ -90,7 +90,7 @@ Good demonstrations for SFT; for RL, train longer, sample better, train harder. 
 ## What to take away
 
 - A verifier is not one number: tests, proof and browser checks, and cost.
-- Narrow coverage and weak verifiers, more than weak models, are what break in use.
+- Narrow coverage and weak verifiers are what break in use.
 - Keep SFT light and diverse; in RL, watch for entropy collapse.
 - Judge a benchmark by hardness, separability and diversity, not by score alone.
 

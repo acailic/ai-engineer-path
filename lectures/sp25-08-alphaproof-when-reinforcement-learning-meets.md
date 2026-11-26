@@ -4,7 +4,7 @@
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=3gaEMscOMAU) · **Slides:** [slides](https://rdi.berkeley.edu/llm-agents-mooc/slides/alphaproof.pdf)
 **Chapters that cite this lecture:** [04. Agents for Formal Mathematics](../06-frontier-applications/04-agents-for-formal-mathematics.md) · [05. What Frontier Domains Teach About Agents](../06-frontier-applications/05-what-frontier-domains-teach-about-agents.md)
 
-> **In one sentence:** Thomas Hubert tells how mathematics became code, how reinforcement learning learned to master games from scratch, and how the two met in AlphaProof, the system that reached silver-medal level at the 2024 International Mathematical Olympiad by proving in Lean.
+> **In one sentence:** Thomas Hubert tells how mathematics became code, how reinforcement learning learned to master games from scratch, and how the two met in AlphaProof, which proved three problems in Lean and, with AlphaGeometry solving a fourth, reached silver-medal level at the 2024 International Mathematical Olympiad.
 
 ## Before you watch
 
@@ -29,7 +29,7 @@ Writing mathematics in code is the next phase of that arc. Several languages exi
 
 ### [11:06–17:00](https://www.youtube.com/watch?v=3gaEMscOMAU&t=666) What perfect verification unlocks
 
-A proof assistant says "correct" or "incomplete" with perfect certainty, so giant proofs can be trusted and checking delegated to the machine; concerns about correctness, mostly felt in abstract fields, disappear. The whole software stack applies. Mathematics becomes a video game whose levels are theorems, with instant feedback, always a harder level, and a meaningful reward; some enthusiasts work at it 14 hours a day. It suits education, since detail can adapt to the reader (the lecturer's father got stuck in week four of an online course on Galois theory, and the professor did not answer). Terence Tao argues that formalization will unlock massive collaboration: most papers have one or two authors and five is the maximum, because each author must check the others' work, but with a trusted checker thousands could contribute, as hundreds do on Mathlib.
+A proof assistant says "correct" or "incomplete" with perfect certainty, so giant proofs can be trusted and checking delegated to the machine; concerns about correctness, mostly felt in abstract fields, disappear. The whole software stack applies. Mathematics becomes a video game whose levels are theorems, with instant feedback, always a harder level, and a meaningful reward; some enthusiasts say they could do it 14 hours a day. It suits education, since detail can adapt to the reader (the lecturer's father got stuck in week four of an online course on Galois theory, and the professor did not answer). Terence Tao argues that formalization will unlock massive collaboration: most papers have one or two authors and five is the maximum, because each author must check the others' work, but with a trusted checker thousands could contribute, as hundreds do on Mathlib.
 **In this book:** nothing beyond this guide; nearest: [Agents for Formal Mathematics › Why agents benefit](../06-frontier-applications/04-agents-for-formal-mathematics.md#why-agents-benefit).
 
 ### [17:00–18:00](https://www.youtube.com/watch?v=3gaEMscOMAU&t=1020) Why few mathematicians use it
@@ -72,17 +72,17 @@ The entry was run like an Apollo program: can the system solve the problems at a
 Day one: for the two problems that needed an answer, AlphaProof disproved 99% of the wrong candidates within minutes, a sign it understood them. Day two: AlphaGeometry solved the geometry problem in seconds; the combinatorics problem was so tricky that the human experts could not formalize it that day; on the hardest problem, a functional equation, the system disproved only 7% of guesses. By Thursday it had proved half of one problem, having split it into cases by itself, and arguably all of another. On Friday an automated email announced a full proof of the hardest problem; it was pasted into official Lean and accepted at once, and full proofs of two more followed. Final: three problems fully solved by AlphaProof and one by AlphaGeometry, no partial point on a fifth, silver-medal score one point below gold, with more time and compute than the students had.
 **In this book:** [Agents for Formal Mathematics › Demonstrated, and expected](../06-frontier-applications/04-agents-for-formal-mathematics.md#demonstrated-and-expected).
 
-### [56:54–1:00:00](https://www.youtube.com/watch?v=3gaEMscOMAU&t=3414) The hardest problem, and the gaps
+### [56:54–1:00:30](https://www.youtube.com/watch?v=3gaEMscOMAU&t=3414) The hardest problem, and the gaps
 
 Only 5 of 609 students solved that problem completely, and a Fields medallist spent a couple of hours on it without success; the lecturer does not claim Fields-medal level. Gaps hurt: without the geometry system the team might have had to write that part of Mathlib or have skipped geometry; in one proof a needed theorem was missing from the library, so the problem was harder than necessary; a combinatorics problem about agents and strategies was very hard to formalize for lack of the needed library functions. The system made no progress on the two combinatorics problems and used orders of magnitude more compute than people. It landed on the moon; the next trip should be more efficient.
 **In this book:** [Agents for Formal Mathematics › Demonstrated, and expected](../06-frontier-applications/04-agents-for-formal-mathematics.md#demonstrated-and-expected).
 
-### [1:00:00–1:04:00](https://www.youtube.com/watch?v=3gaEMscOMAU&t=3600) The two models, and where problems come from
+### [1:00:30–1:04:40](https://www.youtube.com/watch?v=3gaEMscOMAU&t=3630) The two models, and where problems come from
 
 A formaliser model turns a problem in natural language into Lean, since human problems exist in prose and translating them by hand does not scale. A prover model reads the current tactic state and samples several candidate next lines; placed in an AlphaZero-style search, it adds one line at a time, Lean returns the new state, and the search explores little-visited paths as well as likely ones. The team passed about a million informal problems through the formaliser with about a hundred translations each. A translation that Lean accepts as well-formed is at least a statement that is true or false.
 **In this book:** [Agents for Formal Mathematics › The AlphaProof recipe](../06-frontier-applications/04-agents-for-formal-mathematics.md#the-alphaproof-recipe).
 
-### [1:04:00–1:08:00](https://www.youtube.com/watch?v=3gaEMscOMAU&t=3840) Imitate, then reinforce
+### [1:04:40–1:08:00](https://www.youtube.com/watch?v=3gaEMscOMAU&t=3880) Imitate, then reinforce
 
 The prover starts from a model pre-trained on code and is trained with supervision on Mathlib, about 100,000 definitions, 200,000 theorems and 300,000 lines of proof, to predict the next step of human proofs. That gives a good prior but solves close to 0% of olympiad-type problems, few of which Mathlib contains. Reinforcement learning follows: for each formal problem the system searches for a proof or a disproof, Lean verifies, and the prover is reinforced on its successes. It proves the easiest problems first, learns from them and climbs rung by rung to olympiad strength. The method is deliberately not tuned to the olympiad; the proving strategies were discovered by the model.
 **In this book:** [Agents for Formal Mathematics › The AlphaProof recipe](../06-frontier-applications/04-agents-for-formal-mathematics.md#the-alphaproof-recipe).
@@ -102,7 +102,7 @@ Most human mathematics is still in natural language, though the team is getting 
 - Lean verifies proofs perfectly, which makes mathematics a place to practise and lets many people collaborate safely.
 - Trial and error at scale, grounded feedback, search and a curriculum took systems from random play to superhuman; Lean supplies the first two for mathematics.
 - AlphaProof translated about a million problems, imitated human proofs, reinforced against Lean, and learned from variants of a problem at test time.
-- It reached silver-medal score at the 2024 olympiad with far more compute than the students; library gaps and unsupportable areas are the next obstacles.
+- It reached silver-medal score at the 2024 olympiad, AlphaGeometry supplying the fourth solved problem, with far more compute than the students; library gaps and unsupportable areas are the next obstacles.
 
 ## Sources
 

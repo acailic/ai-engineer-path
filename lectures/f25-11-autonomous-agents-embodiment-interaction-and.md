@@ -19,7 +19,7 @@ The lecturer sets out to give a broad view of autonomous agents, with emphasis o
 
 ### [2:29–8:11](https://www.youtube.com/watch?v=iDhzzugMOLA&t=149) What an agent is
 
-An agent senses its environment and acts on it through effectors, the parts that move; a chatbot that waits to be invoked is a borderline case, an autonomous agent runs a continuous loop in which each action changes the next sensation. A robot differs only in that its environment is physical, so all robots are agents but not all agents are robots. A complete agent perceives, decides (by planning, teamwork or modelling others) and acts. The question that has guided the lecturer's lab since his 1998 thesis: to what degree can agents learn among teammates and adversaries in real-time dynamic domains?
+An agent senses its environment and acts on it through effectors (in a robot, the motors); a chatbot that waits to be invoked is a borderline case, an autonomous agent runs a continuous loop in which each action changes the next sensation. A robot differs only in that its environment is physical, so all robots are agents but not all agents are robots. A complete agent perceives, decides (by planning, teamwork or modelling others) and acts. The question that has guided the lecturer's lab since his 1998 thesis: to what degree can agents learn among teammates and adversaries in real-time dynamic domains?
 **In this book:** [Embodied Agents and Robotics › The core idea](../06-frontier-applications/02-embodied-agents-and-robotics.md#the-core-idea).
 
 ### [8:11–13:11](https://www.youtube.com/watch?v=iDhzzugMOLA&t=491) Robot soccer and other inspirations
@@ -37,34 +37,34 @@ With a team at Sony AI the lecturer trained agents, by reinforcement learning in
 A second Sony team published a benchmark for human-centric vision. Instead of scraping social media, the team collected 10,000 images from 81 countries with consent: everyone pictured was paid and chose the labels that describe them. That is too small for training and enough for evaluation. The authors used it to confirm known biases of vision-language models and to find new ones.
 **In this book:** nothing beyond this guide; nearest: [Embodied Agents and Robotics › What this means for someone building agents](../06-frontier-applications/02-embodied-agents-and-robotics.md#what-this-means-for-someone-building-agents).
 
-### [19:11–22:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=1151) Learning from a person's approval
+### [19:11–23:10](https://www.youtube.com/watch?v=iDhzzugMOLA&t=1151) Learning from a person's approval
 
-A former student built a system, TAMER, in which a person says good move or bad move while the agent plays Tetris. Plain reinforcement learning needed hundreds of thousands of games; with this feedback the agent cleared hundreds of lines by its third game. It learns faster but ends weaker, in line with the "bitter lesson" that human input can lower the final performance, so a follow-up learns from both sources. An extension moved from textual to image input, which the lecturer calls the first reinforcement learning from human feedback. A later system reads implicit cues, such as passengers' fear in a car.
+A former student built a system, TAMER, in which a person says good move or bad move while the agent plays Tetris. Plain reinforcement learning needed hundreds of thousands of games; with this feedback the agent cleared hundreds of lines by its third game. It learns faster but ends weaker, in line with the "bitter lesson" that human input can lower the final performance, so a follow-up learns from both sources. An extension moved to image input, which the lecturer calls the first reinforcement learning from human feedback. A later system learns from implicit cues, an idea he illustrates with frightened passengers in a car.
 **In this book:** [Embodied Agents and Robotics › Peter Stone (December 2025): agents are older than the buzzword](../06-frontier-applications/02-embodied-agents-and-robotics.md#peter-stone-december-2025-agents-are-older-than-the-buzzword).
 
-### [22:00–26:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=1320) Navigation: learn the settings, not the actions
+### [23:10–26:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=1390) Navigation: learn the settings, not the actions
 
 Off-the-shelf navigation stacks carry many opaque parameters that differ between corridors, open spaces and tight passages, and a roboticist had to tune them for each place. The lab treats the stack as a black box and learns only its settings, a parameter policy. The human input can be a remote-controlled demonstration, an intervention when the robot errs, good-move and bad-move feedback, or none at all.
 **In this book:** [Embodied Agents and Robotics › Peter Stone (December 2025): agents are older than the buzzword](../06-frontier-applications/02-embodied-agents-and-robotics.md#peter-stone-december-2025-agents-are-older-than-the-buzzword).
 
 ### [26:00–28:33](https://www.youtube.com/watch?v=iDhzzugMOLA&t=1560) Ad hoc teamwork
 
-People join a pickup basketball game and cooperate at once with strangers. Ad hoc teamwork asks for an agent that cooperates with teammates it did not train with and cannot choose, as when robots from several teams meet at a disaster site. The lab posed the problem in 2010 and has studied it theoretically and in experiments since. The related multi-agent lectures in this course cover cooperation when the teammates can be designed together.
+People join a pickup basketball game and cooperate at once with strangers. Ad hoc teamwork asks for an agent that cooperates with teammates it did not train with and cannot choose, as when a disaster rescue brings together robots from many different people. The lab posed the problem in 2010 and has studied it theoretically and in experiments since. He wants such robots to work out on the fly how to work together, without being reprogrammed.
 **In this book:** nothing beyond this guide; nearest: [Embodied Agents and Robotics › What the practitioners say](../06-frontier-applications/02-embodied-agents-and-robotics.md#what-the-practitioners-say).
 
-### [28:33–34:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=1713) Why real-world reinforcement learning needs a new action space
+### [28:33–34:50](https://www.youtube.com/watch?v=iDhzzugMOLA&t=1713) Why real-world reinforcement learning needs a new action space
 
-A recent paper from the lab teaches a robot whole-body mobile manipulation, such as wiping a whiteboard while avoiding a bin, by reinforcement learning on the real robot, with no demonstrations. A robot cannot run millions of trials overnight; a faithful simulator is costly and a crude one does not transfer; collecting demonstrations is expensive. Random commands to every motor would exhaust the battery or the patience first. The idea: learn a small, abstract action space in a crude simulator by unsupervised reinforcement learning, exploration with no reward, the way a baby in a playpen plays without a task.
+A recent paper from the lab teaches a robot whole-body mobile manipulation, such as wiping a whiteboard while avoiding a bin, by reinforcement learning on the real robot, with no demonstrations. A robot cannot run millions of trials overnight; a faithful simulator is costly and a crude one does not always transfer; collecting demonstrations is expensive. Random commands to every motor would exhaust the battery or the patience first. The idea: learn a small, abstract action space in a crude simulator by unsupervised reinforcement learning, exploration with no reward, the way a baby in a playpen plays without a task.
 **In this book:** [Embodied Agents and Robotics › Peter Stone (December 2025): agents are older than the buzzword](../06-frontier-applications/02-embodied-agents-and-robotics.md#peter-stone-december-2025-agents-are-older-than-the-buzzword).
 
-### [34:00–38:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=2040) A structured latent action space
+### [34:50–38:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=2090) A structured latent action space
 
-A latent action space has a few dimensions whose values produce meaningfully different behaviour. Earlier work had shown that an agent can discover diverse skills on its own; the lab made the space disentangled, so that changing one variable moves only the base, only the arm or only the camera. Two rewards do it: one for skill diversity and a hand-coded safety term against self-collision. The decoder that maps latent actions to motor commands is trained in the crude simulator and then frozen.
+A latent action space has a few dimensions whose values produce meaningfully different behaviour. Earlier work had shown that an agent can discover diverse skills on its own; the lab made the space disentangled, so that changing one variable moves only the base, only the arm or only the camera. Two rewards do it: one that makes changing a single latent variable change only one aspect of behaviour, and a hand-coded safety term against self-collision. The decoder that maps latent actions to motor commands is trained in the crude simulator and then frozen.
 **In this book:** [Embodied Agents and Robotics › Peter Stone (December 2025): agents are older than the buzzword](../06-frontier-applications/02-embodied-agents-and-robotics.md#peter-stone-december-2025-agents-are-older-than-the-buzzword).
 
 ### [38:00–44:15](https://www.youtube.com/watch?v=iDhzzugMOLA&t=2280) Learning the task on the real robot in 40 minutes
 
-A factorized version of a popular actor-critic algorithm exploits the structure: each reward term, such as where the base is or what the arm touches, depends on one action factor, and a learned mask records which. The robot then learns from its own camera and joint angles. From random motion it learned to wipe the board in 40 minutes; the same action space served four tasks, with higher success and fewer safety violations than methods that learn in the raw action space, each trained in under an hour. The lesson is to use simulation to prepare learning, not to transfer a policy. The lab is also testing whether foundation models can supply common sense instead of low-level control.
+A factorized version of a popular actor-critic algorithm exploits the structure: each reward term, such as where the base is or what the arm touches, depends on only some action factors, and a learned mask records which. The robot then learns from its own camera and joint angles. From random motion it learned to wipe the board in 40 minutes; the same action space served four tasks, each trained in under an hour, with higher success and fewer safety violations than learning everything in simulation or two existing methods, one of which learns in the raw action space. The lesson is to use simulation to prepare learning, not to transfer a policy. The lab is also testing whether foundation models can supply common sense instead of low-level control.
 **In this book:** [Embodied Agents and Robotics › Peter Stone (December 2025): agents are older than the buzzword](../06-frontier-applications/02-embodied-agents-and-robotics.md#peter-stone-december-2025-agents-are-older-than-the-buzzword).
 
 ### [44:15–52:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=2655) Inside the racing agent: control
@@ -74,15 +74,15 @@ The agent acts ten times a second at the edge of control: any faster and it spin
 
 ### [52:00–56:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=3120) Inside the racing agent: tactics
 
-Speed alone does not win races. The state now included nearby cars, with a reward for passing and a penalty for being passed. The team staged traffic on purpose: one car behind one, two, three or seven others, starting on a straight or in a corner. The agent learned the slipstream pass and a double crossover pass without being told or rewarded for them specifically. The mix of such situations in the training data was engineered by hand for the paper and is chosen automatically since.
+Speed alone does not win races. The state now included nearby cars, with a reward for passing and a penalty for being passed. The team staged traffic on purpose: one car behind one, two, three or seven others, starting on a straight or in a corner. The agent learned the slipstream pass and a double crossover pass without being told or rewarded for them specifically. The mix of such situations in the training data was engineered by hand for the paper; the team has since worked on choosing it automatically.
 **In this book:** [Embodied Agents and Robotics › Peter Stone (December 2025): agents are older than the buzzword](../06-frontier-applications/02-embodied-agents-and-robotics.md#peter-stone-december-2025-agents-are-older-than-the-buzzword).
 
-### [56:00–1:00:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=3360) Inside the racing agent: etiquette
+### [56:00–59:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=3360) Inside the racing agent: etiquette
 
-A human steward judges what is sportsmanlike, so the agent must not push rivals off the track. Extra rewards achieved that but made it timid: it once braked and let a human pass. The final rewards target collisions, above all those judged the agent's fault. In October 2021 the agents finished first and second in an eight-car race against four humans; a driver said she had learned from watching them.
+A human steward judges what is sportsmanlike, so the agent must not push rivals off the track. It must not be too timid either: it once braked and let a human pass, being too concerned about causing a collision. The team added reward signals against collisions, above all those judged the agent's fault. In October 2021 the agents finished first and second in an eight-car race against four humans; a driver said she had learned from watching them.
 **In this book:** [Embodied Agents and Robotics › Peter Stone (December 2025): agents are older than the buzzword](../06-frontier-applications/02-embodied-agents-and-robotics.md#peter-stone-december-2025-agents-are-older-than-the-buzzword) · [Embodied Agents and Robotics › Pitfalls](../06-frontier-applications/02-embodied-agents-and-robotics.md#pitfalls).
 
-### [1:00:00–1:02:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=3600) Style, difficulty and conclusion
+### [59:00–1:02:00](https://www.youtube.com/watch?v=iDhzzugMOLA&t=3540) Style, difficulty and conclusion
 
 Rewarding drifting produced a spin into corners that no human driver uses. To be fun in the game the agent needed an adjustable skill level. The lecturer closes: agents have been studied for a long time, and interaction, learning and embodiment are their key parts.
 **In this book:** [Embodied Agents and Robotics › Peter Stone (December 2025): agents are older than the buzzword](../06-frontier-applications/02-embodied-agents-and-robotics.md#peter-stone-december-2025-agents-are-older-than-the-buzzword).
@@ -90,9 +90,9 @@ Rewarding drifting produced a spin into corners that no human driver uses. To be
 ## What to take away
 
 - An agent senses, decides and acts in a continuous loop; robots are agents with a body.
-- Feedback from people speeds up learning a thousandfold in trials but caps the final skill; combine it with autonomous learning.
+- Feedback from people cuts the trials needed from hundreds of thousands of games to three, but caps the final skill; combine it with autonomous learning.
 - On a real robot, learn a small structured action space in a crude simulator first; the task then takes minutes, not days.
-- A metric is a reward: agents exploit it unless its unwanted sides are penalized too.
+- An agent optimizes the reward it is given, so unwanted behaviour such as tyre slip, leaving the track or collisions must be penalized too.
 
 ## Sources
 

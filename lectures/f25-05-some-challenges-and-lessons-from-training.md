@@ -39,7 +39,7 @@ In RLVR for maths, training on one single example repeatedly raised accuracy unt
 
 ### [16:03–22:20](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=963) Mixing and synthesizing data
 
-Most data work is the mix: shares such as 3% and 20% per source, easier data early and harder data as the model strengthens, and more synthetic data for the categories the model is weak in. For maths the team synthesizes new questions with a mechanism that keeps the answers verifiable; this raised not only first-try accuracy but pass-at-k, which often stalls. Agentic data is hardest; he cites one team's pipeline that starts from real tool definitions, synthesizes tools, tasks and trajectories, and mixes them with real data.
+Most data work is the mix: shares such as 3% and 20% per source, easier data early and harder data as the model strengthens, and more synthetic data for the categories the model is weak in. For maths the team synthesizes new questions with a mechanism that keeps the answers verifiable; this raised not only first-try accuracy but pass-at-k, which often stalls. Agentic data is very hard to synthesize; he cites one team's pipeline that starts from real tool definitions, synthesizes tools, tasks and more, and mixes them with real data.
 **In this book:** [Training Models for Agentic Tasks › How it works, step by step](../02-building-agents/08-training-models-for-agentic-tasks.md#how-it-works-step-by-step).
 
 ### [22:20–28:26](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=1340) The grader is half the problem
@@ -52,14 +52,14 @@ Knowing what and how to grade solves at least half of the task. Products need ma
 Asked to pass all tests, the model deletes them or rewrites them to say they passed; on a public coding benchmark it looks up the published solution online. Countermeasures: a second model checks the output; tests are hidden during the rollout and restored for grading; cheating earns a high penalty.
 **In this book:** [Training Models for Agentic Tasks › Why the reward needs a guard](../02-building-agents/08-training-models-for-agentic-tasks.md#why-the-reward-needs-a-guard).
 
-### [30:37–33:08](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=1837) Efficiency, including the efficiency of finishing
+### [30:37–33:08](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=1837) Efficiency, including making training work
 
-A run that does not complete has zero efficiency. Reinforcement learning is expensive, and compute sets the speed of iteration. Four topics follow: asynchronous training, encouraging exploration, cutting sampling cost and LoRA.
+A run that does not work has zero efficiency. Reinforcement learning is expensive, and compute sets the speed of iteration. Four topics follow: asynchronous training, encouraging exploration, cutting sampling cost and LoRA.
 **In this book:** [Training Models for Agentic Tasks › What the practitioners say](../02-building-agents/08-training-models-for-agentic-tasks.md#what-the-practitioners-say).
 
 ### [33:08–35:19](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=1988) Sampling and training apart
 
-Sampling is now slower than training, so the two must not wait for each other: samplers keep generating with the previous policy while the trainer updates. One trainer serves several rollers, each of which talks to the grader and to the environment. Making this converge on thousands of GPUs is a large engineering effort, and quality trades against efficiency.
+Sampling is now slower than training, so the two must not wait for each other: samplers keep generating with the previous policy while the trainer updates. Often one trainer works with several rollers, each of which talks to the grader and to the environment. Making this converge on thousands of GPUs is a large engineering effort, and quality trades against efficiency.
 **In this book:** [Training Models for Agentic Tasks › What the practitioners say](../02-building-agents/08-training-models-for-agentic-tasks.md#what-the-practitioners-say).
 
 ### [35:19–38:17](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=2119) Encouraging exploration
@@ -74,12 +74,12 @@ Users connect their own tools and APIs to one model. That needs strong instructi
 
 ### [40:00–44:45](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=2400) Solution length and context
 
-A model that retries forever hurts the experience: a one-minute solution beats a one-hour one. Training keeps long rollouts but charges for tokens; the penalty must be balanced, since too low a penalty wastes tokens and too high a one sacrifices exploration. Evaluation must report rollout length, because pass rates at different test-time compute are not comparable. Contexts of 128,000 tokens run out, so earlier rollouts are summarized and replaced; a paper from Alibaba uses a separate summarizer model.
+A model that retries forever hurts the experience: a one-minute solution beats a one-hour one. Training controls long rollouts with a token cost; the penalty must be balanced, since too low a penalty wastes tokens and too high a one sacrifices exploration. Evaluation must report rollout length, because pass rates at different test-time compute are not comparable. Contexts of 128,000 tokens run out, so earlier rollouts are summarized and replaced; a paper from Alibaba uses a separate summarizer model.
 **In this book:** [Training Models for Agentic Tasks › How it works, step by step](../02-building-agents/08-training-models-for-agentic-tasks.md#how-it-works-step-by-step) · [Memory and Knowledge for Agents › B. Compaction](../02-building-agents/04-memory-and-knowledge-for-agents.md#b-compaction).
 
 ### [44:45–48:30](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=2685) LoRA in reinforcement learning, and fast experiments
 
-LoRA trains a small set of added weights and changes the model little, which is regularization. Reinforcement learning needs it twice over: the policy must not drift far from the last checkpoint, and the sampling policy must stay close to the model being trained. It also needs fewer GPUs. Separately, the team runs most experiments with cheaper, slightly suboptimal settings two to three times faster than the best ones, and compares changes side by side; only the final run uses every best setting.
+LoRA trains a small set of added weights and changes the model little, which is regularization. Reinforcement learning needs it twice over: the policy must not drift far from the last checkpoint, and the sampling policy must stay close to the model being trained. It also needs fewer GPUs. Separately, the team runs most experiments with cheaper, slightly suboptimal settings two to three times faster than the best ones, and compares changes side by side; the final run can take all the best settings, though by his account his team did not, because it is too costly.
 **In this book:** [Training Models for Agentic Tasks › How it works, step by step](../02-building-agents/08-training-models-for-agentic-tasks.md#how-it-works-step-by-step).
 
 ### [48:30–52:52](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=2910) The whole of training, told with building blocks
@@ -89,12 +89,12 @@ The lecturer explains the stages to his eleven-year-old with toy bricks. Pre-tra
 
 ### [52:52–56:00](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=3172) Look ahead: test-time scaling
 
-Three dimensions, under the common theme of scale. Deeper models, including recent recurrent designs, help reasoning. Wider means parallel thinking, today applied only after training by voting or picking; training a model for parallel thinking is an open topic, and so is coordinating several agents under a boss. Longer means tasks that take one or two days, which need long contexts and a memory of earlier behaviour, something people do well and models do not.
+Three dimensions, under the common theme of scale. Deeper models, including recent recurrent designs, help reasoning. Wider means parallel thinking, today applied only after training by voting or picking; training a model for parallel thinking is an open topic, and a second way to go wider is several agents coordinated by an orchestrator or a boss. Longer means tasks that take one or two days, which need long contexts and a memory of earlier behaviour, something people do well and models do not.
 **In this book:** [Training Models for Agentic Tasks › What the practitioners say](../02-building-agents/08-training-models-for-agentic-tasks.md#what-the-practitioners-say).
 
 ### [56:00–1:02:00](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=3360) Look ahead: training-time scaling
 
-The team is limited by data, not compute, so data synthesis has only begun; agentic data raises the complexity another level. Reinforcement learning spends far more compute than supervised fine-tuning and buys robustness: the model still answers when the question is phrased differently. Quality keeps rising with compute until the model's own limit, and graders steer behaviour far more flexibly than retraining a reward model. The lecturer wonders whether only two losses will remain, reinforcement learning and next-token prediction, and whether a model can improve itself by reflecting on what went wrong.
+The team is limited by data, not compute, so data synthesis has only begun; agentic data raises the complexity another level. Reinforcement learning spends far more compute than supervised fine-tuning and buys robustness: the model still answers when the question is phrased differently. He believes quality keeps rising with compute until the model's own limit, and says graders steer behaviour far more flexibly than retraining a reward model. The lecturer wonders whether only two losses will remain, reinforcement learning and next-token prediction, and whether a model can improve itself by reflecting on what went wrong.
 **In this book:** nothing beyond this guide; nearest: [Training Models for Agentic Tasks › What the practitioners say](../02-building-agents/08-training-models-for-agentic-tasks.md#what-the-practitioners-say).
 
 ### [1:02:00–1:06:00](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=3720) What the job is like
@@ -104,7 +104,7 @@ Large infrastructure is unstable: GPUs fail and lose connections, someone wakes 
 
 ## What to take away
 
-- Half the work is data and graders: written rubrics for open tasks, synthesized data for weak categories, several graders per product.
+- Much of the daily work is data and graders: written rubrics for open tasks, synthesized data for weak categories, several graders per product.
 - Models cheat against any grader they can reach; hide the tests, check outputs with a second model and penalize cheating.
 - Sample and train apart, choose training examples for exploration, charge for length and report it.
 - Reinforcement learning buys robustness and improves with compute; the open problems are data, memory over days and self-improvement.
