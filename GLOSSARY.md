@@ -14,6 +14,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Accelerator chip** | A processor built for model arithmetic. | [07.09](07-ml-in-production/09-scaling-the-system.md) |
 | **Accelerator intensity** | A chip's peak FLOP/s divided by its memory bandwidth. | [10.02](10-llm-internals/02-resource-accounting-flops-memory-and-arithmetic-intensity.md) |
 | **Acceptance test** | A test of the whole product from the users' or business's perspective. | [08.08](08-quality-assurance/08-system-quality-end-to-end-tests-and-guardrails.md) |
+| **Acceptance test** | A test that the product serves the users' needs, which validates that the right system was built. | [08.08](08-quality-assurance/08-system-quality-end-to-end-tests-and-guardrails.md) |
 | **Accessibility tree** | The operating system's list of interface elements with their roles and names. | [06.01](06-frontier-applications/01-multimodal-agents-web-and-computer-use.md) |
 | **Accountability** | The state in which a named person or role answers for each kind of automated decision and affected people can appeal. | [08.14](08-quality-assurance/14-security-privacy-transparency-and-accountability.md) |
 | **Accuracy (of a measure)** | How close a measure's values lie, on average, to the true value. | [07.03](07-ml-in-production/03-goals-and-requirements.md) |
@@ -70,6 +71,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Annotator** (also called: Labeler) | A person who labels examples or grades outputs by hand. | [03.03](03-evaluation/03-llm-as-a-judge-and-rubrics.md) |
 | **Anomaly detection** | Flagging behavior that differs from the normal pattern. | [04.05](04-safety-and-security/05-runtime-monitoring-and-detection.md) |
 | **Anomaly detection (data)** | Learned checks that flag values unusual for the data's distribution. | [08.06](08-quality-assurance/06-data-quality.md) |
+| **Anonymization** | Removing identifying information or sensitive attributes from stored data, which is hard because models can infer what is missing. Only in the proposal above; the course mentions anonymized logs in 08/09, step 3 of "How it works", without defining the term. | [08.09](08-quality-assurance/09-testing-and-experimenting-in-production.md) |
 | **Anti-classification** | A fairness criterion requiring that protected attributes never change the output. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
 | **Antipattern** | A common practice that looks helpful and causes harm. | [07.08](07-ml-in-production/08-automating-the-pipeline.md) |
 | **AnyRes** | Splitting a high-resolution image into encoder-sized tiles and concatenating their tokens. | [10.12](10-llm-internals/12-alignment-and-multimodality.md) |
@@ -228,6 +230,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Curriculum** | A graded sequence of problems, one of the three ingredients Hubert names for systems that beat experts. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Cut set** | A group of basic events that together trigger the system failure. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
 | **CVE** | A public identifier for one known vulnerability. | [04.03](04-safety-and-security/03-agent-specific-attacks.md) |
+| **CWE (Common Weakness Enumeration)** | A community-developed list, hosted by MITRE, of the kinds of software and hardware weaknesses that lead to security vulnerabilities. | [08.14](08-quality-assurance/14-security-privacy-transparency-and-accountability.md) |
 
 ## D
 
@@ -244,6 +247,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Data locality** | Keeping data close to the machines that read it. | [02.04](02-building-agents/04-memory-and-knowledge-for-agents.md) |
 | **Data mix** | The shares of different kinds of text, such as code, books, science or languages, in training data. | [01.02](01-foundations/02-how-large-language-models-are-trained.md) |
 | **Data parallelism** | Replicating the model on every GPU and giving each a different slice of the batch. | [10.06](10-llm-internals/06-parallelism.md) |
+| **Data provenance** | Tracking the origin of a value and who modified it, which builds trust in data and helps debugging. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
 | **Data quality** | Fitness of data for use by the model and the operators. | [08.06](08-quality-assurance/06-data-quality.md) |
 | **Data warehouse** | Curated data in a fixed shape, organized for analysis. | [07.09](07-ml-in-production/09-scaling-the-system.md) |
 | **Data-science trajectory** | The particular order in which a project moves through data-science steps, such as goal-first or data-first. | [08.10](08-quality-assurance/10-process-models-planning-and-iteration.md) |
@@ -262,10 +266,12 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Dereference** | To follow a node's reference back to the source element it describes. | [05.03](05-frameworks-and-multi-agent/03-llamaindex-knowledge-assistants.md) |
 | **Design pattern** | A named, reusable solution to a design problem, with its known benefits and pitfalls. | [07.05](07-ml-in-production/05-architecture-for-ml-systems.md) |
 | **Design space** | All combinations of design choices for a component. | [07.06](07-ml-in-production/06-quality-attributes-of-ml-components.md) |
+| **Deskilling** | The loss of skilled work when automation leaves most people following a machine's instructions while a few maintain the machines. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
 | **Detection rate** | The share of attack tasks that a detector flags. | [11.03](11-professional-practice/03-capstone-monitoring-agent-for-prompt-injection.md) |
 | **Detector** | The rule or model that decides whether an observation is a problem. | [04.05](04-safety-and-security/05-runtime-monitoring-and-detection.md) |
 | **Determinism** | The property of giving the same output for the same input every time. | [07.06](07-ml-in-production/06-quality-attributes-of-ml-components.md) |
 | **Development copilot** | A model that works synchronously with a developer, one action at a time. | [02.01](02-building-agents/01-the-anatomy-of-an-agent.md) |
+| **DevSecOps** | Running automated security checks such as static analysis as part of continuous integration, so that security work belongs to the delivery pipeline instead of coming at the end. | [08.14](08-quality-assurance/14-security-privacy-transparency-and-accountability.md) |
 | **Differentiable** | Having a derivative, so that one can compute how the output changes when any parameter moves a little. | [01.02](01-foundations/02-how-large-language-models-are-trained.md) |
 | **Differential privacy** | A guarantee that a training result is nearly the same whether or not one person's record is in the data. | [04.07](04-safety-and-security/07-trustworthiness-beyond-injection.md) |
 | **Differential testing** | Comparing a model's output with a reference implementation or with several other models instead of with a label. | [08.04](08-quality-assurance/04-testing-without-oracles.md) |
@@ -277,6 +283,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Distribution (of inputs)** | The full range of real inputs and how often each occurs. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
 | **Doer-checker pattern** | A design in which a second component watches the effects of the component that acts and intervenes when they are wrong. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
 | **DOM tree** | The page's source code represented as text, exact but often long and without layout. | [06.01](06-frontier-applications/01-multimodal-agents-web-and-computer-use.md) |
+| **Domain knowledge** | Expertise about the field the data comes from, such as how a shipment is really recorded, which the people who collect the data hold and the data scientists who use it often lack. Used in my addition to step 5, not defined as a term. | [08.06](08-quality-assurance/06-data-quality.md) |
 | **Domain randomization** | Varying physical parameters such as gravity and friction across simulated worlds so a policy still works in reality. | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **Dominated design** | A design that is worse than another on every quality attribute. | [07.06](07-ml-in-production/06-quality-attributes-of-ml-components.md) |
 | **DPO** | Direct preference optimization, which trains a model directly on preferred and rejected answer pairs without a separate reward model. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
@@ -286,6 +293,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Dropout** | A training method that randomly switches off parts of the model. | [04.07](04-safety-and-security/07-trustworthiness-beyond-injection.md) |
 | **DSPy** | A framework for writing language-model programs as declarative modules and optimizing them. | [02.05](02-building-agents/05-compound-ai-systems-and-dspy.md) |
 | **Dual control** | A setting in which both the agent and the simulated user can act through tools in a shared world. | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
+| **Dual use** | The property of a technology that serves a peaceful and a hostile purpose, so that one and the same model can rescue and attack. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
 | **DualFormer** | A successor to Searchformer, trained on partially removed traces, that switches between a fast and a slow mode. | [02.03](02-building-agents/03-planning-search-and-decision-making.md) |
 | **DuoAttention** | A method that classifies attention heads into retrieval heads with full cache and streaming heads with a window. | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
 | **Durable idea** | An idea that keeps its value across model generations because it has a mechanism, appears in several sources and has a metric. | [11.08](11-professional-practice/08-staying-current.md) |
@@ -371,8 +379,10 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Few-shot prompting** (also called: Few-shot) | Including a handful of worked examples in the prompt before the real input. | [01.05](01-foundations/05-prompting-and-in-context-learning.md) |
 | **Fictitious play** | Self-play in which each player best-responds to the opponent's average play so far; the average converges. | [05.04](05-frameworks-and-multi-agent/04-multi-agent-systems-i-games-and-self-play.md) |
 | **File localization** | Finding the files that a request is about. | [02.07](02-building-agents/07-coding-agents.md) |
+| **Filter bubble** | A situation in which personalization shows a person only content that agrees with views they already hold. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
 | **Fine-tuning** | Training a copy of an existing model on new examples to change its behavior. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
 | **Fire drill** | A deliberate injection of a problem into a running system to confirm that monitoring alerts the right people. | [08.08](08-quality-assurance/08-system-quality-end-to-end-tests-and-guardrails.md) |
+| **Fire drill** | A problem deliberately injected into a running system to confirm that monitoring alerts the right people. | [08.08](08-quality-assurance/08-system-quality-end-to-end-tests-and-guardrails.md) |
 | **Fitness** | A candidate's score, typically accuracy under the cost constraint. | [09.05](09-efficient-deep-learning/05-neural-architecture-search.md) |
 | **Fixed pipeline** | A workflow with a few hard-coded steps, each a model call. | [02.06](02-building-agents/06-how-agent-system-designs-evolve.md) |
 | **Flakiness** | Variation in test results between runs caused by sampled outputs or judges rather than by the code. | [08.05](08-quality-assurance/05-testing-generative-and-llm-components.md) |
@@ -455,6 +465,8 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Handoff** | A run-time pattern in which one active agent at a time passes the task, with context, to another. | [05.05](05-frameworks-and-multi-agent/05-multi-agent-systems-ii-the-llm-era.md) |
 | **Hard constraint** | A limit on a quality attribute that cannot be negotiated. | [07.06](07-ml-in-production/06-quality-attributes-of-ml-components.md) |
 | **Hard negative** | A benign input that looks like an attack, kept in the evaluation set so that a detector's false positive rate is measured where the detector is most likely to be wrong. | [11.03](11-professional-practice/03-capstone-monitoring-agent-for-prompt-injection.md) |
+| **Harms of allocation** | Harm in which a group receives fewer resources or a worse service because of a discriminatory decision. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
+| **Harms of representation** | Harm in which output skews how a group is portrayed, reinforces a stereotype, or demeans people, without allocating anything. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
 | **Harness (agent)** (also called: Scaffold) | The code around a model in an agent: its tools, context rules and stop conditions. | [02.06](02-building-agents/06-how-agent-system-designs-evolve.md) |
 | **Harness (evaluation)** | The program that runs every task of a dataset on a system, scores each attempt and reports metrics. | [03.02](03-evaluation/02-a-minimal-eval-harness.md) |
 | **Hazard** | A system condition in which an accident can happen. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
@@ -469,6 +481,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Hippocampal indexing theory** | The theory that raw memories live in the cortex and an index in the hippocampus links them. | [02.04](02-building-agents/04-memory-and-knowledge-for-agents.md) |
 | **HippoRAG** | A retrieval method with a structured index, inspired by the indexing of human memory. | [02.04](02-building-agents/04-memory-and-knowledge-for-agents.md) |
 | **Host (MCP)** | The AI application that connects to servers through clients. | [05.06](05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md) |
+| **Hostile stub** | A stub model that returns the failures you choose, such as an unknown label or a low confidence, so that guardrails and fallbacks can be tested. | [11.04](11-professional-practice/04-capstone-model-to-product.md) |
 | **Hot standby** | A spare copy of a component that takes over when the main copy fails. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
 | **Human approval gate** | A pause before a critical action until a person approves it, showing the real arguments, with no answer meaning no action. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
 | **Human in the loop** (also called: Control point, Human oversight) | A design in which a person checks, confirms or can reverse a model-driven decision. | [04.05](04-safety-and-security/05-runtime-monitoring-and-detection.md) |
@@ -492,6 +505,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Incremental training** | Training that adds new data to an existing model without starting over. | [07.06](07-ml-in-production/06-quality-attributes-of-ml-components.md) |
 | **Indirect injection** | A prompt injection in which the attacker plants the instruction where the application will read it. | [04.02](04-safety-and-security/02-jailbreaks-and-prompt-injection.md) |
 | **Inference** | Calling a trained model on a new input. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
+| **Inference engine** | The program that loads a model and runs it; whether it has a fast kernel for a format decides if a smaller file is also faster. | [11.05](11-professional-practice/05-capstone-efficient-inference.md) |
 | **Inference latency** | The time one prediction takes, usually reported as a percentile. | [07.06](07-ml-in-production/06-quality-attributes-of-ml-components.md) |
 | **Inference throughput** | The number of predictions a component can make per unit of time. | [07.06](07-ml-in-production/06-quality-attributes-of-ml-components.md) |
 | **Inference-time scaling** | Spending more computation per problem at inference time to raise accuracy. | [01.06](01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) |
@@ -506,6 +520,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Instruction hierarchy** | A model-level defense in which the model is trained to privilege some instructions over others. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
 | **Instrumentation** | The code added to a system so that it produces telemetry. | [07.10](07-ml-in-production/10-planning-for-operations.md) |
 | **Integration test** | A test of several components working together. | [08.08](08-quality-assurance/08-system-quality-end-to-end-tests-and-guardrails.md) |
+| **Integration test** | A test that several components work together, between a unit test of one component and a system test of the whole product. | [08.08](08-quality-assurance/08-system-quality-end-to-end-tests-and-guardrails.md) |
 | **Integrity** | The goal that the system and its data are not altered, on purpose or by accident, and stay accurate. | [04.01](04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md) |
 | **Interface** | The contract for using a component: what goes in, what comes out, and what happens when it fails. | [07.05](07-ml-in-production/05-architecture-for-ml-systems.md) |
 | **Interface contract** | Fixed inputs, outputs, latency, and cost limits that let model work and system work proceed independently. | [08.10](08-quality-assurance/10-process-models-planning-and-iteration.md) |
@@ -569,6 +584,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Least-to-most prompting** | Splitting a problem into subquestions and answering them easiest first. | [01.05](01-foundations/05-prompting-and-in-context-learning.md) |
 | **Lemma** | A smaller theorem, already proved, that a later proof can apply as one step. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Levels of evaluation** | The four places a "does it work" question can sit: component, trajectory, outcome and online. | [03.01](03-evaluation/01-evaluation-is-the-product.md) |
+| **Lineage** | How data flows between files and processes inside a system, as opposed to edits made to individual rows. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
 | **Linear attention** | Attention without the softmax, computed through a fixed-size state so cost is linear in sequence length. | [10.04](10-llm-internals/04-attention-alternatives-and-mixture-of-experts.md) |
 | **Linear quantization** | An affine mapping between integers and real numbers, `r = S (q - Z)`. | [09.04](09-efficient-deep-learning/04-quantization.md) |
 | **Linter** | A tool that flags suspicious or invalid code. | [02.07](02-building-agents/07-coding-agents.md) |
@@ -734,6 +750,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Over-optimization** | A model learning to please a learned reward model in ways people did not intend. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
 | **Over-tainting** | Labeling so much data as untrusted that the labels stop being useful. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
 | **Overfitting** | Fitting the training examples so closely, by memorizing them, that performance on new inputs suffers. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
+| **OWASP Top 10** | A public list from the Open Worldwide Application Security Project of the ten most critical security risks to web applications; OWASP also publishes lists for LLM and agent applications. | [08.14](08-quality-assurance/14-security-privacy-transparency-and-accountability.md) |
 
 ## P
 
@@ -822,6 +839,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Proof state** | At one step of a formal proof, the list of what is known and what remains to be shown. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Propagation** | The spread of injected or false content from one compromised agent to others. | [04.03](04-safety-and-security/03-agent-specific-attacks.md) |
 | **Protected attribute** | A feature that divides the demographic groups for which wrongful discrimination is a concern. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
+| **Protected attribute** | A feature that divides the demographic groups for which discrimination is a concern. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
 | **Provenance (lineage)** | The record of where a value came from and who modified it. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
 | **Prover model** | The model that proposes tactics for the current proof state. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Proxy** (also called: Proxy measure) | A measure that stands in for something that cannot be observed directly. | [07.03](07-ml-in-production/03-goals-and-requirements.md) |
@@ -896,6 +914,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Retrieval** | A search that puts matching documents into the prompt. | [01.04](01-foundations/04-using-llms-tokens-context-and-sampling.md) |
 | **Retrieval hit rate** | How often the retrieval step fetches a chunk that contains the answer. | [02.04](02-building-agents/04-memory-and-knowledge-for-agents.md) |
 | **Retrieval poisoning** | Planting documents in a knowledge base so that they are retrieved and followed. | [04.03](04-safety-and-security/03-agent-specific-attacks.md) |
+| **Revision** | A version of an artifact that replaces an earlier one in time. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
 | **Reward** | A score given to a model's output during training, which the model is trained to maximize. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
 | **Reward hacking** | Passing the grader without doing the task. | [02.08](02-building-agents/08-training-models-for-agentic-tasks.md) |
 | **Reward model** | A model trained on preference comparisons to score answers. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
@@ -905,6 +924,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **RMSNorm** | Normalization that only rescales by the root mean square, without subtracting a mean or adding a bias. | [10.03](10-llm-internals/03-transformer-architectures-and-hyperparameters.md) |
 | **RoboCasa** | A framework that generates many simulated kitchen scenes from which robot data can be produced. | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **Robustness** | The stability of a model's output when its input changes a little. | [07.06](07-ml-in-production/06-quality-attributes-of-ml-components.md) |
+| **Robustness check at inference time** | Testing one prediction against the small input changes it should survive, so that a prediction that flips can be routed to a fallback or a person. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
 | **Rollback** | Returning a system to its previous version. | [07.10](07-ml-in-production/10-planning-for-operations.md) |
 | **Rollout** | One run of a policy in an environment from start to finish. | [02.08](02-building-agents/08-training-models-for-agentic-tasks.md) |
 | **Rollout level** | One step of a staged release, such as shadow, staff only, a small share of traffic, or all users, which opens on evidence and closes on a named stop condition. | [11.01](11-professional-practice/01-how-to-ship-an-llm-feature-end-to-end.md) |
@@ -943,6 +963,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Search space** | The set of candidate architectures a search may choose from. | [09.05](09-efficient-deep-learning/05-neural-architecture-search.md) |
 | **Search strategy** | The rule for picking the next candidate, such as grid, random, reinforcement learning or evolution. | [09.05](09-efficient-deep-learning/05-neural-architecture-search.md) |
 | **Searchformer** | A small transformer trained to output an A* search trace before the plan. | [02.03](02-building-agents/03-planning-search-and-decision-making.md) |
+| **Security mindset** | The habit of designing as if any component could be compromised, any user could misbehave and any input could be malicious, with reduced risk rather than perfect security as the goal. | [08.14](08-quality-assurance/14-security-privacy-transparency-and-accountability.md) |
 | **Seed** (also called: Random seed) | A number that fixes the random choices of a run, so that a training run or an evaluation attempt can be repeated exactly. | [03.02](03-evaluation/02-a-minimal-eval-harness.md) |
 | **Self-consistency** (also called: Consensus) | Sampling several complete answers and returning the most frequent final answer. | [01.06](01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) |
 | **Self-correction** | Asking a model to review and revise its own answer, which brings no net gain without an external check. | [01.06](01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) |
@@ -950,6 +971,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Self-distillation** | Distillation in which the student has the same architecture and size as its teacher. | [09.06](09-efficient-deep-learning/06-knowledge-distillation.md) |
 | **Self-play** | Training in which an agent improves by playing against copies of itself. | [05.04](05-frameworks-and-multi-agent/04-multi-agent-systems-i-games-and-self-play.md) |
 | **Self-preference** | The tendency of a model to rate its own output higher. | [03.03](03-evaluation/03-llm-as-a-judge-and-rubrics.md) |
+| **Self-regulation** | An organization's own principles and policies, which no one outside that organization enforces. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
 | **Self-rewarding language model** | A model that scores its own answers and trains on those scores in a loop. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
 | **Semantic noise** | Variation in results that comes from which questions were in an evaluation set and how they were worded. | [01.07](01-foundations/07-why-llm-outputs-are-noisy.md) |
 | **Sensemaking** | Reading large, complex or uncertain contexts. | [02.04](02-building-agents/04-memory-and-knowledge-for-agents.md) |
@@ -1015,6 +1037,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **StateFlow** | A group chat that encodes a finite state machine: one agent per state, transitions fixed in advance. | [05.02](05-frameworks-and-multi-agent/02-autogen-conversation-programming.md) |
 | **Stateless** | Holding no memory between requests, as a plain RAG pipeline does. | [05.03](05-frameworks-and-multi-agent/03-llamaindex-knowledge-assistants.md) |
 | **Static analysis** | Inspecting code for problems without running it. | [02.07](02-building-agents/07-coding-agents.md) |
+| **Static analysis** | Inspecting code for problems without running it. | [08.14](08-quality-assurance/14-security-privacy-transparency-and-accountability.md) |
 | **Statistical test** | A calculation of how unlikely a result is if only chance were at work. | [08.03](08-quality-assurance/03-slicing.md) |
 | **Statistically significant** | Unlikely to be caused by sampling noise alone; in practice larger than about two standard errors of the difference. | [03.05](03-evaluation/05-statistics-for-evals.md) |
 | **Stdio transport** | Carrying protocol messages through a local program's standard input and output. | [05.06](05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md) |
@@ -1052,14 +1075,17 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **System of record** | The database that holds the real state of a business, such as whether an order was refunded. | [03.07](03-evaluation/07-evals-in-production.md) |
 | **System prompt** | A separate input field for instructions that apply to a whole conversation. | [01.04](01-foundations/04-using-llms-tokens-context-and-sampling.md) |
 | **System test** | An end-to-end test of whether the whole product meets its requirements. | [08.08](08-quality-assurance/08-system-quality-end-to-end-tests-and-guardrails.md) |
+| **System test** | A test that the whole product meets its requirements end to end, which verifies that the system was built right. | [08.08](08-quality-assurance/08-system-quality-end-to-end-tests-and-guardrails.md) |
 
 ## T
 
 | Term | Definition | Defined in |
 |---|---|---|
+| **T-shaped** | Deep in one specialty and able to follow the work of the others. | [08.11](08-quality-assurance/11-teams-and-technical-debt.md) |
 | **T-shaped** (also called: T-shaped person) | Deep expertise in one specialty with working knowledge of the neighboring ones. | [07.01](07-ml-in-production/01-from-models-to-systems-and-products.md) |
 | **Tactic** | One small formal proof step, such as applying a known lemma. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Task** | One item of a dataset: an input plus what an acceptable result looks like. | [03.02](03-evaluation/02-a-minimal-eval-harness.md) |
+| **Task agent** | An agent that carries out small office tasks such as scheduling a meeting or adding a to-do, in a simulated workspace. | [11.02](11-professional-practice/02-capstone-task-agent-with-evals.md) |
 | **Task decomposition** | Splitting a goal into sub-goals inside a plan. | [02.03](02-building-agents/03-planning-search-and-decision-making.md) |
 | **Task validity** | The property that success at a task demonstrates the capability you meant to measure. | [03.01](03-evaluation/01-evaluation-is-the-product.md) |
 | **Teacher and student** (also called: Student, Teacher) | The large fixed model that provides targets, and the small model that learns from them. | [09.06](09-efficient-deep-learning/06-knowledge-distillation.md) |
@@ -1130,6 +1156,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Ultimatum game** | A game in which one player splits a sum and the other accepts the split or leaves both with nothing. | [05.04](05-frameworks-and-multi-agent/04-multi-agent-systems-i-games-and-self-play.md) |
 | **Unconstrained flow** | A design in which the model chooses the next step among the tools it was given. | [05.01](05-frameworks-and-multi-agent/01-the-agent-framework-landscape.md) |
 | **Undeclared consumer** | A script that depends on data whose origin nobody declared. | [07.08](07-ml-in-production/08-automating-the-pipeline.md) |
+| **Unicorn** | A developer said to combine expertise in modeling, software engineering, product and the domain, whom Kästner considers rare or nonexistent. | [08.11](08-quality-assurance/11-teams-and-technical-debt.md) |
 | **Unintended memorization** | Memorization of training data that is irrelevant to what the model was meant to learn. | [04.07](04-safety-and-security/07-trustworthiness-beyond-injection.md) |
 | **Unit test** | A test of one function or component in isolation. | [08.01](08-quality-assurance/01-quality-assurance-basics-and-the-oracle-problem.md) |
 | **Universal self-consistency** | Letting a model choose which of several free-form answers is most consistent with the others. | [01.06](01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) |
@@ -1149,6 +1176,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Value function** | A model that estimates how close a run is to success; tree search uses it to score intermediate states. | [06.01](06-frontier-applications/01-multimodal-agents-web-and-computer-use.md) |
 | **Value model** | A second network, as large as the policy, that estimates the reward to come at each token; PPO needs it and GRPO drops it. | [10.11](10-llm-internals/11-post-training-sft-rlhf-and-rlvr.md) |
 | **Variant** | A bug similar to one already found, in another place in the same project. | [04.08](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
+| **Variant** | A version of an artifact that exists side by side with another, such as the two models of an A/B test. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
 | **Variant analysis** | Searching a project for bugs similar to one that was just fixed. | [04.08](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
 | **Vector** | An ordered list of numbers. | [01.02](01-foundations/02-how-large-language-models-are-trained.md) |
 | **Vector database** | A store that finds the vectors nearest to a query's embedding. | [05.03](05-frameworks-and-multi-agent/03-llamaindex-knowledge-assistants.md) |
