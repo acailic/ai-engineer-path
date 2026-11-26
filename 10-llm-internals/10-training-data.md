@@ -65,7 +65,7 @@ Keep documents above a threshold. Some pipelines keep probabilistically, in prop
 
 | Filter | How it works | Example from the lectures |
 |---|---|---|
-| Hand rules | Regular expressions and counts | C4 kept lines ending in punctuation with five or more words, and dropped pages with fewer than three sentences: 1.4 trillion tokens down to 156 billion |
+| Hand rules | Regular expressions and counts | C4 kept lines ending in punctuation with more than five words, and dropped pages with fewer than three sentences: 1.4 trillion tokens down to 156 billion |
 | Language | A fastText classifier for 176 languages | Dolma keeps pages with English probability of at least 0.5 |
 | Quality | A classifier with positives from trusted sources and negatives from the crawl | DCLM used instruction data and simple explanations as positives and got 3.8 trillion tokens from a 240-trillion-token pool |
 | Domain | Rules plus a model of the domain | OpenMathText kept math-like text; its 14.7 billion tokens trained models that beat others trained on 20 times more |
@@ -126,7 +126,7 @@ A strong model can write training data. In pretraining, Nemotron-CC has a model 
 
 ### 7. The legal layer
 
-Almost everything online is copyrighted. Using it needs a license or a fair-use argument. As of the lecture, US courts had found training on lawfully obtained books to be fair use in two cases, and obtaining them by piracy to be unlawful in one, with a reported $1.5 billion settlement. The lecturer stresses that the rulings are narrow: they do not make any training on copyrighted content fair use ([Lecture 13, 28:00](https://www.youtube.com/watch?v=-qm0ln33G24&t=1680), [30:00](https://www.youtube.com/watch?v=-qm0ln33G24&t=1800)). The area is active and evolving, so treat this as a snapshot.
+Almost everything online is copyrighted. Using it needs a license or a fair-use argument. As of the lecture, US courts had found training to be fair use in two cases, and obtaining the books by piracy to be unlawful in one, with a reported $1.5 billion settlement. The lecturer stresses that the rulings are narrow: they do not make any training on copyrighted content fair use ([Lecture 13, 28:00](https://www.youtube.com/watch?v=-qm0ln33G24&t=1680), [30:00](https://www.youtube.com/watch?v=-qm0ln33G24&t=1800)). The area is active and evolving, so treat this as a snapshot.
 
 ## Worked example
 
