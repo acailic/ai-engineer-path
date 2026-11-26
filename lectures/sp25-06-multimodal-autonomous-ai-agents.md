@@ -14,22 +14,22 @@ Read [Multimodal Agents: Web and Computer Use](../06-frontier-applications/01-mu
 
 ### [0:00–2:13](https://www.youtube.com/watch?v=RPINOYM12RU&t=0) Why agents, beyond chat
 
-Language models already answer questions well. The next step is systems that do laborious computer and web tasks: setting up a cloud machine, turning a paper into slides, working a spreadsheet. The lecture covers web agents: how to evaluate them, how to search at inference time, and how to get training data.
+Language models already answer questions well. The next step is systems that do laborious computer and web tasks: setting up a cloud machine, turning a paper into slides, working a spreadsheet. The lecture focuses on web agents: what they are and how to evaluate them.
 **In this book:** [Multimodal Agents › Why this matters](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#why-this-matters).
 
 ### [2:13–5:21](https://www.youtube.com/watch?v=RPINOYM12RU&t=133) Two demonstrations, honestly labelled
 
-An agent finds a well-reviewed Thai restaurant in Pittsburgh and books a table for the earliest date, then stops because a confirmation code is needed; another finds a shirt like the one in a photo. The lecturer calls these heavily cherry-picked: in about 30 attempts one succeeded. Each attempt shows the same three parts, a task, a chain of reasoning and one action at a time. A commercial agent of early 2025 points the same way, in his view, and the lecture then turns to measuring how far the research systems still are from that goal.
+An agent finds a well-reviewed Thai restaurant in Pittsburgh and books a table for the earliest date, then stops because a confirmation code is needed; another finds a similar shirt on Amazon. The lecturer calls these heavily cherry-picked: in about 30 attempts one succeeded. Each attempt shows the same three parts, a task, a chain of reasoning and one action at a time. A commercial agent of early 2025 points the same way, in his view, and the lecture then names three topics: a benchmark for multimodal agents, search at inference time, and training data.
 **In this book:** nothing beyond this guide; nearest: [Multimodal Agents › Why this matters](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#why-this-matters).
 
 ### [5:21–8:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=321) WebArena and why HTML alone is not enough
 
-WebArena is a self-hosted copy of shopping, forum and code-hosting sites. People solve about 78% of its tasks, the language models of the time about 14%. Its tasks use the page source only, and source is messy: interactive elements do not render in it, a page can fill 100,000 tokens, and it carries no spatial layout. VisualWebArena adds visual grounding.
+WebArena is a self-hosted copy of shopping, forum and code-hosting sites. People solve about 78% of its tasks, the language models of the time about 14%. Its tasks use the page source only, and source is messy: interactive elements do not display correctly in it, a page can fill 100,000 tokens, and it conveys spatial layout poorly. VisualWebArena adds visual grounding.
 **In this book:** [Multimodal Agents › Ruslan Salakhutdinov (March 2025): the gap, the failures, the fixes](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#ruslan-salakhutdinov-march-2025-the-gap-the-failures-the-fixes).
 
 ### [8:00–11:48](https://www.youtube.com/watch?v=RPINOYM12RU&t=480) VisualWebArena's tasks
 
-The environment is a simulator with the same three site types. Tasks need sight: find the exact bicycle listed at a high price and offer ten dollars less in a comment; buy the cheapest colour photo printer and ship it to the address in a photo that is upside down; read a chart to learn which region produced most sugarcane in 2021, then look up that region's gross domestic product on another site.
+The environment is a simulator with the same three site types. Tasks need sight: find the exact bicycle listed for 300 to 500 dollars and offer ten dollars less in a comment; buy the cheapest colour photo printer and ship it to the address in a photo that is upside down; read a chart to learn which region produced most sugarcane in 2021, then look up that region's gross domestic product on another site.
 **In this book:** [Multimodal Agents › Benchmarks to know](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#benchmarks-to-know).
 
 ### [11:48–17:15](https://www.youtube.com/watch?v=RPINOYM12RU&t=708) The environment and how it scores
@@ -44,7 +44,7 @@ Raw source is cluttered. Set-of-Mark draws a box with an ID around each clickabl
 
 ### [20:19–24:44](https://www.youtube.com/watch?v=RPINOYM12RU&t=1219) How far models are from people
 
-Text alone reaches about 9% of the tasks; adding captions of the images, then a multimodal model, then Set-of-Mark, brings the best of 2024 to about 18%, while students at CMU reached 85 to 86%. People fail in silly ways: they compare two bicycles and stop, or fill the cart and forget to order, which counts as failure. Newer models score higher each year; a model of 2025 reached about 90% on WebArena but the best remain near 20% on the visual tasks.
+Text alone reaches about 9% of the tasks; adding captions of the images, then a multimodal model, then Set-of-Mark, brings the score to about 18%, while students at CMU reached 85 to 86%. People fail in silly ways: they compare two bicycles and stop, or fill the cart and forget to order, which counts as failure. By his account the models climb and GPT-4o now hits something like 90%, yet the best of today still sit near 20% on these tasks, far below people.
 **In this book:** [Multimodal Agents › Ruslan Salakhutdinov (March 2025): the gap, the failures, the fixes](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#ruslan-salakhutdinov-march-2025-the-gap-the-failures-the-fixes).
 
 ### [24:44–30:22](https://www.youtube.com/watch?v=RPINOYM12RU&t=1484) Architecture and failure modes
@@ -54,22 +54,22 @@ An agent observes, parses, forms a high-level plan and executes low-level action
 
 ### [30:22–34:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=1822) Errors compound; sample again
 
-A model right 90% of the time per step succeeds on about 4% of 30-step tasks. A click at one point changes everything after it, and typing makes the action space huge. The simplest remedy is search by repeated sampling: run the agent to its stop, check the result with a verifier, and run again if it failed. It is inefficient, yet the lecturer notes that reasoning models train on the same idea with thinking tokens. Success within ten samples rises with the number of samples.
+A model right 90% of the time per step succeeds on about 4% of 30-step tasks. A click at one point changes everything after it, and typing makes the action space huge. The simplest remedy is search by repeated sampling: run the agent to its stop, check the result with a verifier, and run again if it failed. It is inefficient, yet the lecturer notes that reasoning models train on the same idea with thinking tokens.
 **In this book:** [Multimodal Agents › 5. Spend more compute after a failure](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#5-spend-more-compute-after-a-failure).
 
 ### [34:00–44:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=2040) Tree search guided by a value function
 
-To explore an exponential space with direction, a value function scores each intermediate state with its probability of success. The method is best-first search with three ingredients: the base agent proposes its most likely actions; the environment can be reset to an earlier state; and a value function, here a large model acting as judge on the whole trace, with self-consistency. The search follows an action, sees the value drop, backtracks and tries the next. It improves results on both benchmarks; more expansions help, and so does choosing depth against breadth. A good value function matters as much as the base policy, and judging a trace is easier than choosing the next click. Future models will have trained value functions.
+Success within ten samples rises with the number of samples, yet the space is exponential; to explore it with direction, a value function scores each intermediate state with its probability of success. The method is best-first search with three ingredients: the base agent proposes its most likely actions; the environment can be reset to an earlier state; and a value function, here a large model acting as judge on the whole trace, with self-consistency. The search follows an action, sees the value drop, backtracks and tries the next. It improves results on both benchmarks; more expansions help, and depth against breadth is a further choice to make. A good value function is essential, as is a good base policy, and judging a trace is easier than choosing the next click. He expects the next generation of models to have trained value functions.
 **In this book:** [Multimodal Agents › 5. Spend more compute after a failure](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#5-spend-more-compute-after-a-failure).
 
 ### [44:00–48:06](https://www.youtube.com/watch?v=RPINOYM12RU&t=2640) The limits of search
 
-Backtracking here replays the recorded actions from the start, which is slow. On the real web some actions are destructive: an order cannot be unmade, and an airline blocks or re-prices a flood of bookings, so agents cannot learn by trying there. Search can also improve the policy itself: the traces it finds become training data for supervised fine-tuning or reinforcement learning, and a value function can be fine-tuned instead of prompted with Monte Carlo rollouts. Better base models and more efficient search are both needed.
+Backtracking here replays the recorded actions from the start, which is slow. On the real web some actions are destructive: an order cannot be unmade, and an airline blocks or re-prices a flood of bookings, so learning by trying there is very hard. Search can also improve the policy itself: the traces it finds become training data for supervised fine-tuning or reinforcement learning, and a value function can be fine-tuned instead of prompted with Monte Carlo rollouts. Better base models and more efficient search are both needed.
 **In this book:** nothing beyond this guide; nearest: [Multimodal Agents › 5. Spend more compute after a failure](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#5-spend-more-compute-after-a-failure).
 
 ### [48:06–56:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=2886) The data problem and a pipeline that makes tasks
 
-Language models train on text scraped from the web; a task with its full sequence of actions cannot be scraped, and companies pay for it in-house. The team's pipeline uses open Llama models for every step. First, a model reads a real site and proposes realistic tasks a user could finish in one session, restricted to tasks that do not change the site's state. Starting from about a million sites, most tasks are information seeking and many need several steps: fonts suited to a children's book, the meaning of an ancient symbol, the newest fabric designs of a small studio.
+Language models train on text scraped from the web; a task with its full sequence of actions cannot be scraped, and companies pay for it in-house. The team's pipeline uses open Llama models for every step. First, a model is given a site's domain and proposes realistic tasks a user could finish in one session, restricted to tasks that do not change the site's state. Starting from about a million sites, most tasks are information seeking and many need several steps: fonts suited to a children's book, the meaning of an ancient symbol, the newest fabric designs of a small studio.
 **In this book:** [Multimodal Agents › Ruslan Salakhutdinov (March 2025): the gap, the failures, the fixes](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#ruslan-salakhutdinov-march-2025-the-gap-the-failures-the-fixes).
 
 ### [56:00–64:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=3360) Verifying success with a model as judge
@@ -79,7 +79,7 @@ A model then executes the task, and another pass judges from the action sequence
 
 ### [64:00–68:04](https://www.youtube.com/watch?v=RPINOYM12RU&t=3840) Collecting at scale
 
-The top million pages were filtered to about 150,000 live sites, dropping harmful ones with about 97% detection. About 89% of generated tasks were feasible, and completion was judged with 82% accuracy. Training on synthetic and human data together scaled better than human data alone and raised step accuracy. Human annotation concentrates on popular sites; synthetic tasks help most on the tail. Some 385 million domains remain, and the procedure could run as reinforcement learning at internet scale, with care because the real web cannot be reset.
+The top million pages were filtered to about 150,000 live sites, dropping harmful ones with about 97% detection. About 89% of generated tasks were feasible, and completion was judged with 82% accuracy. On the small benchmarks Mind2Web and WebLINX, training on synthetic and human data together scaled better than human data alone and raised step accuracy. Human annotation concentrates on popular sites; synthetic tasks help most on the tail. Some 385 million domains remain, and the procedure could run as reinforcement learning at internet scale, with care because the state of the real web cannot be changed.
 **In this book:** [Multimodal Agents › Ruslan Salakhutdinov (March 2025): the gap, the failures, the fixes](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#ruslan-salakhutdinov-march-2025-the-gap-the-failures-the-fixes).
 
 ### [68:04–74:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=4084) The same design in a robot
@@ -89,12 +89,12 @@ The recipe transfers to physical agents: observe an image with depth, segment th
 
 ### [74:00–1:18:00](https://www.youtube.com/watch?v=RPINOYM12RU&t=4440) Robustness and safety
 
-An agent that books the right flight 80% of the time is unacceptable; asking for clarification is a missing skill. Agents are also brittle: an image altered so that its caption becomes an instruction made the agent post flattering comments on a product page. The lecturer retells two reports about a computer-use agent that stopped a long screen recording and left a coding demo to browse photos of Yellowstone; one wrong action without search to recover explains them.
+An agent that books the right flight 80% of the time is unacceptable; asking for clarification is a missing skill. Agents are also brittle: an image altered so that its caption becomes an instruction made the agent post flattering comments on a product page. The lecturer retells two reports about a computer-use agent that stopped a long screen recording and left a coding demo to browse photos of Yellowstone; he explains them by a wrong action with no search to recover from.
 **In this book:** [Multimodal Agents › Ruslan Salakhutdinov (March 2025): the gap, the failures, the fixes](../06-frontier-applications/01-multimodal-agents-web-and-computer-use.md#ruslan-salakhutdinov-march-2025-the-gap-the-failures-the-fixes).
 
 ## What to take away
 
-- On visual web tasks the best models of 2024 solved under a fifth; people solved almost all, and execution-based verifiers make the gap measurable.
+- On visual web tasks the best models solved under a fifth; people solved almost all, and execution-based verifiers make the gap measurable.
 - Errors compound over a long task; sampling again, then tree search with a value function, recovers some of the loss.
 - Training data for agents does not exist on the web; models can propose, execute and verify tasks on real sites without changing them.
 - Reliability and robustness to altered pages are the open problems before agents handle anything valuable.
