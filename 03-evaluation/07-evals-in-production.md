@@ -74,7 +74,7 @@ Always split these by intent, the kind of request. An average over all requests 
 
 **Even a simple metric hides a definition.** Latency looks easy to measure. For a voice agent, Bavor says, what matters is the time from the moment the person stops talking to the moment the agent starts to answer, not from the end of the audio the agent was analyzing. Detecting that the person really stopped is so hard that Sierra starts several reasoning attempts and keeps the one that fits ([20:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1200)). The time a model takes to answer also varies a lot: in his figures, the 90th percentile can be 500 milliseconds for one model and 2,500 for another. So Sierra sends the same request to the provider several times and uses the first answer that returns. For an evaluation this means two things. Define the start and the end of a latency measurement in the user's terms. And report a tail, such as the 90th percentile, the value that 9 of 10 attempts stay below, not only the mean.
 
-**The channel sets the style.** Bavor's team found that the text output of an ordinary chat model "just completely falls over" on the phone: it sounds far too long ([25:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1500)). Speech on the phone is shorter, goes back and forth, and acknowledges more. So Sierra tunes an agent's style for each channel, even between a text message and a chat window on the web. Matching the caller's emotion matters too, he says, though without voice-to-voice models the pipeline is relatively limited there. The details are rules a builder has to state: whether a phone number is spoken as eight hundred or as single digits, and how addresses and names are pronounced. Choosing the voice is a person's job at Sierra: a full-time **voice sommelier**, an unofficial title, listens to voices, rates them on graveliness, breathiness, nasality, verbal fry and the like, and matches them to a company's brand. Two things follow for evaluation. A rule written for chat, such as a limit on length, does not carry over to the phone. And a quality such as a voice is captured only through a named set of dimensions.
+**The channel sets the style.** Bavor's team found that the text output of an ordinary chat model "just completely falls over" on the phone: it sounds far too long ([25:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1500)). Speech on the phone is shorter, goes back and forth, and acknowledges more. So Sierra tunes an agent's style for each channel, even between a text message and a chat window on the web. Matching the caller's emotion matters too, he says, though without voice-to-voice models, which take sound in and give sound out, the usual pipeline of speech to text, reasoning and synthesis is relatively limited there. The details are rules a builder has to state: whether 9000 is read as nine thousand or digit by digit, and how addresses and names are pronounced. Matching a voice to a company is a person's job at Sierra: a full-time **voice sommelier**, an unofficial title, listens to voices, rates them on graveliness, breathiness, nasality, verbal fry and the like, and helps the company choose one that fits its brand. Two things follow for evaluation. A rule written for chat, such as a limit on length, does not carry over to the phone. And a quality such as a voice is captured only through a named set of dimensions.
 
 ### 3. Use user feedback with care
 
@@ -90,7 +90,7 @@ For an LLM system the same works with three adjustments:
 - **Use tolerance.** A metric that moves by less than the noise is not a regression.
 - **Pin the conditions.** Fix the model version, the temperature, and the seeds. A model name that silently points to a new version breaks the comparison.
 
-**Keep what the agent should do under version control.** Bavor says that Sierra's platform lets an engineering team state what the agent should do, not how, in a declarative language that hides the model calls, so that developing, releasing and versioning the agent happen inside the team's usual software development lifecycle, in its source repository ([14:30](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=870)). Operations teams, often closest to the customers, get no-code tools instead. The design rests on a choice he names just before: the means of communication should not count as part of how an agent is built. Ask what it should know and what it should be able to do, then let it pick up whatever channel a customer uses. His expectation is that the separate teams that run phone, chat and e-mail today collapse into one agent, defined once and present everywhere ([4:54](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=294)). For this step, that description is the thing the gate versions and tests.
+**Keep what the agent should do under version control.** Bavor says that Sierra's platform lets an engineering team state what the agent should do, not how, in a declarative language that hides the model calls, so that developing, releasing and versioning the agent happen inside the team's usual software development lifecycle, in its source repository ([16:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=960)). Operations teams, often closest to the customers, get no-code tools instead. The design rests on a choice he names just before: the means of communication should not count as part of how an agent is built. Ask what it should know and what it should be able to do, then let it pick up whatever channel a customer uses. His expectation is that phone, chat and e-mail, each run by its own team today, collapse into one agent, defined once and present everywhere ([4:54](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=294)). For this step, that description is the thing the gate versions and tests.
 
 ### 5. Run the flywheel
 
@@ -244,6 +244,11 @@ What to observe:
    B. To grow the regression set faster each month
    C. To lower the cost of each evaluation run
    D. To calibrate a judge against human labels
+7. An agent's answers are limited to 40 words in chat. What follows for the same agent on the phone?
+   A. The same limit, because the agent is defined once
+   B. A rule of its own, because text written for chat sounds far too long when spoken
+   C. No limit at all, because a call is shorter than a chat
+   D. A longer limit, because callers want more detail
 
 <details><summary>Show answers</summary>
 
@@ -253,12 +258,13 @@ What to observe:
 4. B. `regressions` lists `cost`. The exit code tells the pipeline, and a person makes the trade.
 5. C. It is a controlled experiment with a rollback path.
 6. A. Tuning against the regression set inflates its scores. The fresh sample is the check.
+7. B. Chat text, Bavor says, "just completely falls over" on the phone: it sounds far too long. Sierra tunes an agent's style for each channel, so a rule for chat does not carry over.
 
 </details>
 
 ## Sources
 
-- **Lecture:** Clay Bavor, "Practical Lessons from Deploying Real-World AI Agents", UC Berkeley Agentic AI MOOC, Fall 2025: [video](https://www.youtube.com/watch?v=sfJM4LaiYsM) · [guide](../lectures/f25-09-practical-lessons-from-deploying-real-world-ai.md), used at [the agent iceberg](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=480), [every channel is digital](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=840), [metrics that fit](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1440), [AI to check AI](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=2400), [the agent defined in code](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=870), [style per channel](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1500).
+- **Lecture:** Clay Bavor, "Practical Lessons from Deploying Real-World AI Agents", UC Berkeley Agentic AI MOOC, Fall 2025: [video](https://www.youtube.com/watch?v=sfJM4LaiYsM) · [guide](../lectures/f25-09-practical-lessons-from-deploying-real-world-ai.md), used at [the agent iceberg](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=480), [every channel is digital](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=840), [metrics that fit](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1440), [AI to check AI](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=2400), [the agent defined in code](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=960), [style per channel](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1500).
 - **Reading:** Kumar Pandya and Sachi Shah, "Voice Sims: test agents in real world conditions before they talk to your customers", Sierra blog (September 11, 2025): [link](https://sierra.ai/blog/voice-sims-test-agents-in-real-world-conditions-before-they-talk-to-your-customers).
 - **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 14, sections on continuous integration and testing in production: [link](https://mlip-cmu.github.io/book/14-quality-assurance-basics.html).
 
