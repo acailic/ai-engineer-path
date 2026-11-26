@@ -52,12 +52,12 @@ Each guide maps one lecture from its first minute to its last and says where thi
 | Lecture | Lecturer | Length | Parts no chapter teaches | Guide |
 |---|---|---|---|---|
 | Introduction | Song Han (MIT) | 1:06:00 | 0 of 17 | [open guide](../lectures/mit-01-introduction.md) |
-| Transformer and LLM | Song Han (MIT) | 1:18:00 | 2 of 20 | [open guide](../lectures/mit-12-transformer-and-llm.md) |
+| Transformer and LLM | Song Han (MIT) | 1:18:00 | 0 of 20 | [open guide](../lectures/mit-12-transformer-and-llm.md) |
 | Efficient LLM Deployment | Song Han (MIT) | 1:18:00 | 0 of 20 | [open guide](../lectures/mit-13-efficient-llm-deployment.md) |
-| LLM Post Training | Song Han (MIT) | 1:18:00 | 1 of 17 | [open guide](../lectures/mit-14-llm-post-training.md) |
+| LLM Post Training | Song Han (MIT) | 1:18:00 | 0 of 17 | [open guide](../lectures/mit-14-llm-post-training.md) |
 | Long Context LLM | Song Han (MIT) | 1:14:00 | 0 of 19 | [open guide](../lectures/mit-15-long-context-llm.md) |
 | Basics of Deep Learning | Song Han (MIT) | 52:00 | 1 of 17 | [open guide](../lectures/mit-02-basics-of-deep-learning.md) |
-| Distributed Training (Part I) | Song Han (MIT) | 1:10:00 | 2 of 17 | [open guide](../lectures/mit-19-distributed-training-part-i.md) |
+| Distributed Training (Part I) | Song Han (MIT) | 1:10:00 | 1 of 17 | [open guide](../lectures/mit-19-distributed-training-part-i.md) |
 | Distributed Training (Part II) | Song Han (MIT) | 1:00:00 | 2 of 16 | [open guide](../lectures/mit-20-distributed-training-part-ii.md) |
 | On-Device Training and Transfer Learning | Song Han (MIT) | 1:06:00 | 0 of 16 | [open guide](../lectures/mit-21-on-device-training-and-transfer-learning.md) |
 | Pruning and Sparsity (Part I) | Song Han (MIT) | 58:00 | 0 of 15 | [open guide](../lectures/mit-03-pruning-and-sparsity-part-i.md) |
@@ -70,7 +70,7 @@ Each guide maps one lecture from its first minute to its last and says where thi
 | MCUNet: TinyML on Microcontrollers | Song Han (MIT) | 1:08:00 | 1 of 18 | [open guide](../lectures/mit-10-mcunet-tinyml-on-microcontrollers.md) |
 | TinyEngine and Parallel Processing | Song Han (MIT) | 1:12:00 | 0 of 15 | [open guide](../lectures/mit-11-tinyengine-and-parallel-processing.md) |
 | Course Summary + Quantum Machine Learning I | Song Han (MIT) | 1:24:00 | 1 of 19 | [open guide](../lectures/mit-22-course-summary-quantum-machine-learning-i.md) |
-| Vision Transformer | Song Han (MIT) | 1:02:00 | 1 of 18 | [open guide](../lectures/mit-16-vision-transformer.md) |
+| Vision Transformer | Song Han (MIT) | 1:02:00 | 0 of 18 | [open guide](../lectures/mit-16-vision-transformer.md) |
 | GAN, Video, and Point Cloud | Song Han (MIT) | 1:12:00 | 5 of 17 | [open guide](../lectures/mit-17-gan-video-and-point-cloud.md) |
 | Diffusion Model | Song Han (MIT) | 1:12:00 | 5 of 18 | [open guide](../lectures/mit-18-diffusion-model.md) |
 | Quantum Machine Learning II | Song Han (MIT) | 1:14:00 | 2 of 20 | [open guide](../lectures/mit-23-quantum-machine-learning-ii.md) |

@@ -67,7 +67,7 @@ One guide per lecture of the four courses, in [`lectures/`](lectures/README.md).
 | MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024) | 23 | 23 |
 | Stanford CS336 Language Modeling from Scratch (Spring 2026) | 18 | 18 |
 
-In the guides: 1,207 parts of lectures, of which 100 (8%) are taught by no chapter and are explained only in the guide.
+In the guides: 1,207 parts of lectures, of which 69 (6%) are taught by no chapter and are explained only in the guide.
 
 What is checked: each guide passes an automatic check before it is published (the parts cover the lecture end to end, every part links to its moment in the video, every link to a chapter section resolves, no passage is copied from the lecture). What is not checked: no person has read a guide against its lecture. An AI reviewer read every guide a second time against the whole lecture on 2026-11-26 and corrected it. If a guide and the lecture disagree, the lecture wins.
 
@@ -250,7 +250,7 @@ The [lecture guides](lectures/README.md) were made the same way, from the same m
 
 The chapters were checked in two ways, described in [VERIFICATION.md](VERIFICATION.md) with the results per part.
 
-**Automated checks, run on 2026-11-25.** All 2,636 internal links resolved at that point; the count is 4,928 with the lecture guides, all resolving on 2026-11-26. All 119 arXiv citations (103 papers) carry the title and year of the arXiv record. All 1,459 links to a moment in a lecture were checked against the transcript at that moment. No chapter shares more than 23 words in a row with a source. The 66 standalone Python listings run, and 16 tests pass.
+**Automated checks, run on 2026-11-25.** All 2,636 internal links resolved at that point; the count is 4,962 with the lecture guides, all resolving on 2026-11-26. All 119 arXiv citations (103 papers) carry the title and year of the arXiv record. All 1,459 links to a moment in a lecture were checked against the transcript at that moment. No chapter shares more than 23 words in a row with a source. The 66 standalone Python listings run, and 16 tests pass.
 
 **The verification pass, 2026-11-24.** Every statement that a chapter attributes to a lecture or to the book was compared with the source at the cited place. About 1,500 statements were checked and more than 210 corrected. In 72 chapters, passages were deepened with the lecturers' own content.
 
@@ -258,7 +258,7 @@ The chapters were checked in two ways, described in [VERIFICATION.md](VERIFICATI
 
 **Lecture guides, 2026-11-25 and 2026-11-26.** All 77 lectures now have a guide: 1,207 parts. Before a guide is published, an automatic check confirms that its parts cover the lecture end to end without a gap or an overlap, that every part links to the second of the video that its heading names, that every link to a chapter section resolves, and that no run of eight or more words is copied from the lecture outside quotation marks.
 
-**Glossary, 2026-11-25.** Every row of the glossary was checked against the chapter it links to: 12 definitions corrected, 7 links moved to a better chapter, 13 duplicates merged, 16 rows removed and 24 added. The glossary has 1,222 terms.
+**Glossary, 2026-11-25.** Every row of the glossary was checked against the chapter it links to: 12 definitions corrected, 7 links moved to a better chapter, 13 duplicates merged, 16 rows removed and 24 added. The glossary has 1,253 terms.
 
 **Not verified:**
 

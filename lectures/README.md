@@ -12,12 +12,12 @@ Every part heading links to the moment in the video where the part begins.
 | 2 | LLM agents: brief history and overview | Shunyu Yao (OpenAI) | 1:10:00 | 11 | 1 | [open](f24-02-llm-agents-brief-history-and-overview.md) |
 | 3 | Agentic AI Frameworks & AutoGen + Building a Multimodal Knowledge Assistant | Chi Wang (AutoGen-AI); Jerry Liu (LlamaIndex) | 1:06:00 | 17 | 0 | [open](f24-03-agentic-ai-frameworks-and-autogen-building-a.md) |
 | 4 | Enterprise trends for generative AI, and key components of building successful agents/applications | Burak Gokturk (Google) | 1:04:00 | 17 | 2 | [open](f24-04-enterprise-trends-for-generative-ai-and-key.md) |
-| 5 | Compound AI Systems & the DSPy Framework | Omar Khattab (Databricks) | 1:06:00 | 16 | 5 | [open](f24-05-compound-ai-systems-and-the-dspy-framework.md) |
+| 5 | Compound AI Systems & the DSPy Framework | Omar Khattab (Databricks) | 1:06:00 | 16 | 1 | [open](f24-05-compound-ai-systems-and-the-dspy-framework.md) |
 | 6 | Agents for Software Development | Graham Neubig (CMU) | 1:02:00 | 13 | 4 | [open](f24-06-agents-for-software-development.md) |
 | 7 | AI Agents for Enterprise Workflows | Nicolas Chapados (ServiceNow) | 1:12:00 | 14 | 3 | [open](f24-07-ai-agents-for-enterprise-workflows.md) |
-| 8 | Towards a unified framework of Neural and Symbolic Decision Making | Yuandong Tian (Meta AI, FAIR) | 1:10:00 | 16 | 7 | [open](f24-08-towards-a-unified-framework-of-neural-and.md) |
+| 8 | Towards a unified framework of Neural and Symbolic Decision Making | Yuandong Tian (Meta AI, FAIR) | 1:10:00 | 16 | 0 | [open](f24-08-towards-a-unified-framework-of-neural-and.md) |
 | 9 | Project GR00T: A Blueprint for Generalist Robotics | Jim Fan (NVIDIA) | 58:00 | 11 | 0 | [open](f24-09-project-gr00t-a-blueprint-for-generalist.md) |
-| 10 | Open-Source and Science in the Era of Foundation Models | Percy Liang (Stanford) | 54:00 | 15 | 2 | [open](f24-10-open-source-and-science-in-the-era-of-foundation.md) |
+| 10 | Open-Source and Science in the Era of Foundation Models | Percy Liang (Stanford) | 54:00 | 15 | 0 | [open](f24-10-open-source-and-science-in-the-era-of-foundation.md) |
 | 11 | Measuring Agent capabilities and Anthropic's RSP | Ben Mann (Anthropic) | 46:00 | 6 | 1 | [open](f24-11-measuring-agent-capabilities-and-anthropics-rsp.md) |
 | 12 | Towards Building Safe & Trustworthy AI Agents and A Path for Science- and Evidence-based AI Policy | Dawn Song (UC Berkeley) | 1:46:00 | 19 | 0 | [open](f24-12-towards-building-safe-and-trustworthy-ai-agents.md) |
 
@@ -27,9 +27,9 @@ Every part heading links to the moment in the video where the part begins.
 |---|---|---|---|---|---|---|
 | 1 | Inference-Time Techniques for LLM Reasoning | Xinyun Chen (Google DeepMind) | 1:22:00 | 12 | 1 | [open](sp25-01-inference-time-techniques-for-llm-reasoning.md) |
 | 2 | Learning to reason with LLMs | Jason Weston (Meta) | 1:18:00 | 11 | 3 | [open](sp25-02-learning-to-reason-with-llms.md) |
-| 3 | On Reasoning, Memory, and Planning of Language Agents | Yu Su (Ohio State University) | 1:34:00 | 11 | 5 | [open](sp25-03-on-reasoning-memory-and-planning-of-language.md) |
+| 3 | On Reasoning, Memory, and Planning of Language Agents | Yu Su (Ohio State University) | 1:34:00 | 11 | 2 | [open](sp25-03-on-reasoning-memory-and-planning-of-language.md) |
 | 4 | Open Training Recipes for Reasoning in Language Models | Hanna Hajishirzi (University of Washington) | 1:22:00 | 13 | 2 | [open](sp25-04-open-training-recipes-for-reasoning-in-language.md) |
-| 5 | Coding Agents and AI for Vulnerability Detection | Charles Sutton (Google DeepMind) | 1:28:00 | 20 | 3 | [open](sp25-05-coding-agents-and-ai-for-vulnerability-detection.md) |
+| 5 | Coding Agents and AI for Vulnerability Detection | Charles Sutton (Google DeepMind) | 1:28:00 | 20 | 0 | [open](sp25-05-coding-agents-and-ai-for-vulnerability-detection.md) |
 | 6 | Multimodal Autonomous AI Agents | Ruslan Salakhutdinov (CMU / Meta) | 1:18:00 | 16 | 0 | [open](sp25-06-multimodal-autonomous-ai-agents.md) |
 | 7 | Multimodal Agents: From Perception to Action | Caiming Xiong (Salesforce AI Research) | 1:30:00 | 19 | 1 | [open](sp25-07-multimodal-agents-from-perception-to-action.md) |
 | 8 | AlphaProof: when reinforcement learning meets formal mathematics | Thomas Hubert (Google DeepMind) | 1:16:00 | 17 | 2 | [open](sp25-08-alphaproof-when-reinforcement-learning-meets.md) |
@@ -46,7 +46,7 @@ Every part heading links to the moment in the video where the part begins.
 | 2 | Evolution of system designs from an AI engineer perspective | Yangqing Jia (NVIDIA) | 1:20:00 | 9 | 2 | [open](f25-02-evolution-of-system-designs-from-an-ai-engineer.md) |
 | 3 | Post-Training Verifiable Agents | Jiantao Jiao (NVIDIA) | 1:18:00 | 15 | 0 | [open](f25-03-post-training-verifiable-agents.md) |
 | 4 | Agent Evaluation & Project Overview | Berkeley course staff | 1:36:00 | 12 | 0 | [open](f25-04-agent-evaluation-and-project-overview.md) |
-| 5 | Some Challenges and Lessons from Training Agentic Models | Weizhu Chen (Microsoft) | 1:06:00 | 18 | 4 | [open](f25-05-some-challenges-and-lessons-from-training.md) |
+| 5 | Some Challenges and Lessons from Training Agentic Models | Weizhu Chen (Microsoft) | 1:06:00 | 18 | 2 | [open](f25-05-some-challenges-and-lessons-from-training.md) |
 | 6 | Multi-Agent AI | Noam Brown (OpenAI) | 56:00 | 18 | 0 | [open](f25-06-multi-agent-ai.md) |
 | 7 | Predictable Noise in LLM | Sida Wang (Meta) | 44:00 | 9 | 2 | [open](f25-07-predictable-noise-in-llm.md) |
 | 8 | AI Agents to Automate Scientific Discoveries | James Zou (Stanford) | 1:02:00 | 11 | 0 | [open](f25-08-ai-agents-to-automate-scientific-discoveries.md) |
@@ -70,14 +70,14 @@ Every part heading links to the moment in the video where the part begins.
 | 9 | Knowledge Distillation | Song Han (MIT) | 1:00:00 | 18 | 2 | [open](mit-09-knowledge-distillation.md) |
 | 10 | MCUNet: TinyML on Microcontrollers | Song Han (MIT) | 1:08:00 | 18 | 1 | [open](mit-10-mcunet-tinyml-on-microcontrollers.md) |
 | 11 | TinyEngine and Parallel Processing | Song Han (MIT) | 1:12:00 | 15 | 0 | [open](mit-11-tinyengine-and-parallel-processing.md) |
-| 12 | Transformer and LLM | Song Han (MIT) | 1:18:00 | 20 | 2 | [open](mit-12-transformer-and-llm.md) |
+| 12 | Transformer and LLM | Song Han (MIT) | 1:18:00 | 20 | 0 | [open](mit-12-transformer-and-llm.md) |
 | 13 | Efficient LLM Deployment | Song Han (MIT) | 1:18:00 | 20 | 0 | [open](mit-13-efficient-llm-deployment.md) |
-| 14 | LLM Post Training | Song Han (MIT) | 1:18:00 | 17 | 1 | [open](mit-14-llm-post-training.md) |
+| 14 | LLM Post Training | Song Han (MIT) | 1:18:00 | 17 | 0 | [open](mit-14-llm-post-training.md) |
 | 15 | Long Context LLM | Song Han (MIT) | 1:14:00 | 19 | 0 | [open](mit-15-long-context-llm.md) |
-| 16 | Vision Transformer | Song Han (MIT) | 1:02:00 | 18 | 1 | [open](mit-16-vision-transformer.md) |
+| 16 | Vision Transformer | Song Han (MIT) | 1:02:00 | 18 | 0 | [open](mit-16-vision-transformer.md) |
 | 17 | GAN, Video, and Point Cloud | Song Han (MIT) | 1:12:00 | 17 | 5 | [open](mit-17-gan-video-and-point-cloud.md) |
 | 18 | Diffusion Model | Song Han (MIT) | 1:12:00 | 18 | 5 | [open](mit-18-diffusion-model.md) |
-| 19 | Distributed Training (Part I) | Song Han (MIT) | 1:10:00 | 17 | 2 | [open](mit-19-distributed-training-part-i.md) |
+| 19 | Distributed Training (Part I) | Song Han (MIT) | 1:10:00 | 17 | 1 | [open](mit-19-distributed-training-part-i.md) |
 | 20 | Distributed Training (Part II) | Song Han (MIT) | 1:00:00 | 16 | 2 | [open](mit-20-distributed-training-part-ii.md) |
 | 21 | On-Device Training and Transfer Learning | Song Han (MIT) | 1:06:00 | 16 | 0 | [open](mit-21-on-device-training-and-transfer-learning.md) |
 | 22 | Course Summary + Quantum Machine Learning I | Song Han (MIT) | 1:24:00 | 19 | 1 | [open](mit-22-course-summary-quantum-machine-learning-i.md) |
@@ -87,12 +87,12 @@ Every part heading links to the moment in the video where the part begins.
 
 | # | Lecture | Lecturer | Length | Parts | Guide only | Guide |
 |---|---|---|---|---|---|---|
-| 1 | Overview, tokenization |  | 1:20:00 | 14 | 3 | [open](cs336-01-overview-tokenization.md) |
+| 1 | Overview, tokenization |  | 1:20:00 | 14 | 1 | [open](cs336-01-overview-tokenization.md) |
 | 2 | PyTorch (einops), resource accounting (FLOPs, memory, arithmetic intensity) |  | 1:18:00 | 18 | 0 | [open](cs336-02-pytorch-einops-resource-accounting-flops-memory.md) |
-| 3 | Architectures, hyperparameters |  | 1:30:00 | 20 | 1 | [open](cs336-03-architectures-hyperparameters.md) |
+| 3 | Architectures, hyperparameters |  | 1:30:00 | 20 | 0 | [open](cs336-03-architectures-hyperparameters.md) |
 | 4 | Attention alternatives and mixture of experts |  | 1:28:00 | 20 | 0 | [open](cs336-04-attention-alternatives-and-mixture-of-experts.md) |
 | 5 | GPUs, TPUs |  | 1:20:00 | 18 | 0 | [open](cs336-05-gpus-tpus.md) |
-| 6 | Kernels, Triton |  | 1:28:00 | 19 | 2 | [open](cs336-06-kernels-triton.md) |
+| 6 | Kernels, Triton |  | 1:28:00 | 19 | 0 | [open](cs336-06-kernels-triton.md) |
 | 7 | Parallelism I |  | 1:22:00 | 11 | 1 | [open](cs336-07-parallelism-i.md) |
 | 8 | Parallelism II |  | 1:22:00 | 16 | 0 | [open](cs336-08-parallelism-ii.md) |
 | 9 | Scaling laws I |  | 1:18:00 | 17 | 0 | [open](cs336-09-scaling-laws-i.md) |
@@ -106,4 +106,4 @@ Every part heading links to the moment in the video where the part begins.
 | 17 | Alignment: multimodality |  | 1:18:00 | 13 | 0 | [open](cs336-17-alignment-multimodality.md) |
 | 18 | Guest lecture: Dan Fu |  | 1:12:00 | 13 | 0 | [open](cs336-18-guest-lecture-dan-fu.md) |
 
-In all: 1207 parts, of which 100 (8%) teach something no chapter teaches; 201,531 words.
+In all: 1207 parts, of which 69 (6%) teach something no chapter teaches; 201,422 words.
