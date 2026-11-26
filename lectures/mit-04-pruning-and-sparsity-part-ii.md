@@ -24,7 +24,7 @@ Non-uniform pruning, a different ratio per layer, beats uniform pruning: on a pl
 
 ### [8:00–10:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=480) Reading the curves
 
-The curves double as a sanity check: accuracy should not move at small ratios and should be near zero at large ones, otherwise the code or the granularity is wrong. The measurements are taken before retraining and assume layers are independent; Han acknowledges that layers can be co-sensitive, which the method ignores to keep the number of experiments small. A simple heuristic follows: pick an accuracy loss to tolerate, 5% or 10%, and read off each layer's ratio where its curve crosses it.
+The curves double as a sanity check: accuracy should not move at small ratios and should be very low at large ones, otherwise the code or the granularity is wrong. The measurements are taken before retraining and assume layers are independent; Han acknowledges that layers can be co-sensitive, which the method ignores because otherwise the computation would be too much. A simple heuristic follows: pick an accuracy loss to tolerate, 5% or 10%, and read off each layer's ratio where its curve crosses it.
 **In this book:** [Pruning and Sparsity › Step 3: Choose the ratio for each layer](../09-efficient-deep-learning/03-pruning-and-sparsity.md#step-3-choose-the-ratio-for-each-layer).
 
 ### [10:00–14:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=600) Automating the choice: AMC
@@ -34,12 +34,12 @@ The heuristic is not optimal, since it ignores interactions between layers. It a
 
 ### [14:00–16:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=840) What the agent found
 
-Pruning ResNet-50 at equal accuracy, a human expert, Han himself in 2017, left 29% of weights in place after about a week of work on four small GPUs; the agent left 20% after a few GPU hours. Its policy is explainable. Plotted layer by layer over four rounds of gradual pruning, the density forms a regular zigzag: 1 by 1 convolutions keep more weights, having less redundancy, while 3 by 3 convolutions are pruned harder.
+Pruning ResNet-50 at equal accuracy, a human expert, Han himself in 2017, left 29% of weights in place after about a week of work on four old GPUs in a single server; the agent left 20% after a few GPU hours. Its policy is explainable. Plotted layer by layer over four rounds of gradual pruning, the density forms a regular zigzag: 1 by 1 convolutions keep more weights, having less redundancy, while 3 by 3 convolutions are pruned harder.
 **In this book:** [Pruning and Sparsity › Step 3: Choose the ratio for each layer](../09-efficient-deep-learning/03-pruning-and-sparsity.md#step-3-choose-the-ratio-for-each-layer).
 
 ### [16:00–18:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=960) From ratios to a faster phone
 
-On a Samsung phone, MobileNet 1.0 ran at 569 million MACs, 70.6% top-1 accuracy, 119 milliseconds and 20 megabytes. Told to halve the operations, AMC produced a model with 285 million MACs, the same accuracy, 1.8 times lower latency and 14.3 megabytes. Given a target latency instead, 59.7 milliseconds, it found the most accurate model that meets it, something hard to design by hand. Uniformly shrinking every layer does worse on both counts.
+On a Samsung phone, MobileNet 1.0 ran at 569 million MACs, 70.6% top-1 accuracy, 119 milliseconds and 20 megabytes. Told to halve the operations, AMC produced a model with 285 million MACs, nearly the same accuracy (70.5% against 70.6%), 1.8 times lower latency and 14.3 megabytes. Given a target latency instead, 59.7 milliseconds, it found the most accurate model that meets it, something hard to design by hand. Uniformly shrinking every layer does worse on both counts.
 **In this book:** [Pruning and Sparsity › Step 3: Choose the ratio for each layer](../09-efficient-deep-learning/03-pruning-and-sparsity.md#step-3-choose-the-ratio-for-each-layer).
 
 ### [18:00–22:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=1080) NetAdapt: a rule-based search
@@ -52,14 +52,14 @@ NetAdapt, from Google, reaches per-layer ratios by rule. Define a small latency 
 Before the systems half, Han covers fine-tuning. It recovers up to 2.5% of accuracy; the learning rate should usually drop 10 to 100 times, though it depends on the case, because the model already sits near a good minimum. Iterative pruning, 30% then 50% then 70% with fine-tuning between steps, beats pruning 70% at once, and raised AlexNet's compression from 5 times to 9 times. Regularization during fine-tuning pushes weights toward zero; L1 and L2 differ little in his experience, his 2015 work used L2 and Network Slimming used L1 on channel scales, so compare them. He then sums up the algorithm half and takes a break.
 **In this book:** [Pruning and Sparsity › Step 4: Fine-tune, a little at a time](../09-efficient-deep-learning/03-pruning-and-sparsity.md#step-4-fine-tune-a-little-at-a-time).
 
-### [28:00–32:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=1680) The Efficient Inference Engine: three sparsities
+### [28:00–32:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=1680) The Efficient Inference Engine: three sources of savings
 
 Three systems follow: EIE for weight and activation sparsity, sparse tensor cores for 2:4 sparsity, and TorchSparse with a point-cloud accelerator for activation sparsity. EIE, the Efficient Inference Engine, compresses a model before running it instead of deploying the dense one, since memory traffic costs more than arithmetic. It exploits weight sparsity: at 90% sparsity computation falls ten times and memory only five, because indices must be stored; activation sparsity, about 70% of zeros after ReLU, dynamic with the input, which saves about three times the computation and no weight memory; and 4-bit weights, found sufficient with weight sharing, four times smaller than FP16.
 **In this book:** [Pruning and Sparsity › Step 5: Match the hardware](../09-efficient-deep-learning/03-pruning-and-sparsity.md#step-5-match-the-hardware).
 
 ### [32:00–38:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=1920) Inside EIE
 
-Han showed in 2016 that 4 bits suffice for weights, and the same holds for modern language models such as Llama 2 and Llama 3 with weight-only quantization. On the hardware side, a pruned matrix is stored in compressed sparse column form: only non-zero weights, each with its relative distance to the previous non-zero, plus pointers to where each column starts; the work is split over several processing elements. At run time zeros in the activation are skipped and each non-zero activation is broadcast to the elements, which multiply and accumulate. One element holds an activation queue of non-zeros only, uses the activation's position to fetch weights from the sparse matrix in SRAM, decodes 4-bit codes to 16-bit values through a k-means codebook, and ends with a unit that detects non-zero outputs for the next layer. Because compression makes weights small enough for SRAM instead of DRAM, energy and delay fall. Fully connected layers needed ten to thirty times fewer operations; LSTMs gained less, as their activations are dense without ReLU.
+Han showed in 2016 that 4 bits suffice for weights, and the same holds for modern language models such as Llama 2 and Llama 3 with weight-only quantization. On the hardware side, a pruned matrix is stored in compressed sparse column form: only non-zero weights, each with its relative distance to the previous non-zero, plus pointers to where each column starts; the work is split over several processing elements. At run time zeros in the activation are skipped and each non-zero activation is broadcast to the elements, which multiply and accumulate. One element holds an activation queue of non-zeros only, uses the activation's position to fetch weights from the sparse matrix in SRAM, decodes 4-bit codes to 16-bit values through a k-means codebook, and ends with a unit that detects non-zero outputs for the next layer. Because compression makes weights small enough for SRAM instead of DRAM, energy and delay fall. Fully connected layers needed ten to thirty-three times fewer operations; LSTMs gained less, as their activations are dense without ReLU.
 **In this book:** [Pruning and Sparsity › Step 5: Match the hardware](../09-efficient-deep-learning/03-pruning-and-sparsity.md#step-5-match-the-hardware).
 
 ### [38:00–42:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=2280) What counts as worth accelerating
@@ -69,12 +69,12 @@ His rule of thumb: an acceleration is worth engineering only if the theoretical 
 
 ### [42:00–46:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=2520) A retrospective: what lasted
 
-Invited seven years later to write a retrospective, Han lists what succeeded: special-purpose hardware made sparse operations cheap even at 50% density; EIE used both weight and activation sparsity and fine-grained patterns; and its weight-only quantization, 4 bits in memory decoded to 16-bit arithmetic, now called W4A16, was reborn in language models through GPTQ, AWQ, llama.cpp and MLC. What did not: the design did not scale to arrays of processors, where structured 2:4 sparsity won; control flow and storage were heavy, since every non-zero needs pointers and indices, which coarser pruning relieves; and it served fully connected layers, a limit that matters less now that transformers are all fully connected. Fitting everything in SRAM suited TinyML, yet startups now chain SRAM-only chips with pipeline parallelism to run large models.
+Invited seven years later to write a retrospective, Han lists what succeeded: special-purpose hardware made sparse operations cheap even at 50% density; EIE used both weight and activation sparsity and fine-grained patterns; and its weight-only quantization, 4 bits in memory decoded to 16-bit arithmetic, now called W4A16, was reborn in language models through GPTQ, AWQ, llama.cpp and MLC. What did not: the design did not scale to arrays of processors, for which the suggested improvement is structured sparsity such as 2:4; control flow and storage were heavy, since every non-zero needs pointers and indices, which coarser pruning relieves; and it served fully connected layers, a limit that matters less now that transformers are all fully connected. Fitting everything in SRAM suited TinyML, yet startups now chain SRAM-only chips with pipeline parallelism to run large models.
 **In this book:** [Pruning and Sparsity › Step 5: Match the hardware](../09-efficient-deep-learning/03-pruning-and-sparsity.md#step-5-match-the-hardware) · [Course Summary and Outlook › What the course leaves open](../09-efficient-deep-learning/11-course-summary-and-outlook.md#what-the-course-leaves-open).
 
 ### [46:00–48:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=2760) Be lazy
 
-His lesson from the work is a one-line motto: "First principle of efficient AI is to be lazy." Avoid redundant computation, reject work quickly when a value is zero, use fewer bits, or delay the work. Each domain has its own opening: image editing needs only the edited region; language has redundant tokens, so attention can be sparse; video has temporal redundancy, so a shift can replace 3D convolution; point clouds are mostly empty space.
+His lesson from the work is a one-line motto: "First principle of efficient AI is to be lazy." Avoid redundant computation, reject work quickly when a value is zero, use fewer bits, or delay the work. Each domain has its own opening: image editing needs only the edited region; language has redundant tokens, so attention can be sparse; video has temporal redundancy, so a simple shift can model the temporal dimension instead of 3D convolution; point clouds are mostly empty space.
 **In this book:** [Pruning and Sparsity › Step 5: Match the hardware](../09-efficient-deep-learning/03-pruning-and-sparsity.md#step-5-match-the-hardware).
 
 ### [48:00–52:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=2880) Sparse tensor cores for 2:4 sparsity
@@ -84,7 +84,7 @@ NVIDIA's sparse tensor cores accelerate 2:4 weight sparsity. In an 8 by 8 matrix
 
 ### [52:00–56:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=3120) Sparse convolution keeps the pattern
 
-Activation sparsity comes next, with TorchSparse and an accelerator named PointAcc. Ordinary convolution dilutes sparsity: a sparse input spreads out, and after a few layers the feature map is dense. Sparse convolution computes an output only where the input is non-zero, so input and output share the same pattern of non-zeros. In his 3 by 3 example the dense form needs nine multiplications and the sparse form two, per channel.
+Activation sparsity comes next, with TorchSparse and an accelerator named PointAcc. Ordinary convolution dilutes sparsity: a sparse input spreads out, and after a few layers the feature map is dense. Sparse convolution computes an output only where the input is non-zero, so input and output share the same pattern of non-zeros. In his 3 by 3 example the dense form needs nine matrix multiplications and the sparse form two, each over the channel dimension.
 **In this book:** [Pruning and Sparsity › Step 5: Match the hardware](../09-efficient-deep-learning/03-pruning-and-sparsity.md#step-5-match-the-hardware).
 
 ### [56:00–1:02:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=3360) The rule map, and adaptive grouping
@@ -99,7 +99,7 @@ TorchSparse++ overlaps memory access with computation, for 3D perception in auto
 
 ### [1:04:00–1:06:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=3840) PointAcc: the rule map in hardware
 
-PointAcc moves the rule map into a specialized accelerator. For a weight at offset (−1, −1), the input point cloud is shifted by adding the offset to every index; the shifted input and the output are merge-sorted, and a hardware intersection unit finds the indices present in both. Those pairs are the interactions of that weight. The accelerator is much faster and more energy-efficient than CPU or GPU for this step.
+PointAcc moves the rule map into a specialized accelerator. For a weight at offset (−1, −1), the input point cloud is shifted by adding the reverse offset, here (1, 1), to every index; the shifted input and the output are merge-sorted, and a hardware intersection unit finds the indices present in both. Those pairs are the interactions of that weight. The accelerator is much faster and more energy-efficient than CPU or GPU.
 **In this book:** [Pruning and Sparsity › Step 5: Match the hardware](../09-efficient-deep-learning/03-pruning-and-sparsity.md#step-5-match-the-hardware).
 
 ### [1:06:00–1:10:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=3960) Summary
@@ -111,7 +111,7 @@ Han recaps the lecture in two halves. Algorithms: pruning ratios by sensitivity 
 
 - Layers tolerate different pruning ratios: measure each layer's sensitivity or let a search such as AMC or NetAdapt choose, and prune gradually with fine-tuning between steps.
 - Fine-grained sparsity compresses most but costs indices and control flow; 2:4 sparsity gives up half of that for hardware that can skip known slots.
-- EIE's weight-only 4-bit storage with 16-bit arithmetic returned years later as the standard way to run language models.
+- EIE's weight-only 4-bit storage with 16-bit arithmetic returned years later as a popular way to run language models.
 - Be lazy: avoid work, skip zeros, use fewer bits, delay what can wait.
 
 ## Sources
