@@ -191,7 +191,7 @@ What to observe:
 ## What the practitioners say
 
 - Han calls quantization very widely adopted in industry, on phones, edge devices and in the cloud (Lecture 6, [0:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=0)).
-- 8-bit quantization is mature, most hardware has 8-bit integer units, and integer models showed a better latency-accuracy trade-off than float on the ResNet-50 and InceptionV3 charts he showed (Lecture 5, [64:00](https://www.youtube.com/watch?v=ymAzUz3qlIA&t=3840)).
+- 8-bit quantization is mature, most hardware has 8-bit integer units, and integer models showed a better latency-accuracy trade-off than float on his plot, and a second chart compared floating-point with integer accuracy for ResNet-50 and Inception-V3 (Lecture 5, [64:00](https://www.youtube.com/watch?v=ymAzUz3qlIA&t=3840)).
 - On hardware trends, as of his Fall 2024 lecture: NVIDIA's Blackwell generation supports micro-tensor scaling, and its FP4 tensor cores (matrix-multiply units) have twice the theoretical throughput of the FP8 and INT8 cores (Lecture 6, slide 23; [16:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=960)).
 - His Deep Compression pipeline prunes, quantizes with a codebook, retrains the codebook, repeats, and then encodes the weights with different bit lengths. SqueezeNet went from 4.8 MB to 0.47 MB (Lecture 5, [46:00](https://www.youtube.com/watch?v=ymAzUz3qlIA&t=2760)).
 - He draws the parallel with pruning: layers differ in sensitivity, so they should get different bit widths (Lecture 6, [0:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=0)).
