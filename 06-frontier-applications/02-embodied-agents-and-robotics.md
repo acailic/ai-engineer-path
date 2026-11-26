@@ -126,7 +126,7 @@ def reward_a(state, action, next_state):  # candidate a model wrote for you
 
 1. B. Each candidate is scored by training an agent against it.
 2. Varying physical parameters such as gravity and friction across simulated worlds, so a policy does not depend on one imperfect simulation and still works in reality.
-3. The reward signals: penalties for avoidable and at-fault collisions were added, then balanced.
+3. Reward signals against collisions, above all those judged the agent's fault. Stone does not say a penalty made it timid: it was too concerned about causing a collision.
 4. The same visual experience. Only the active kitten controlled its own motion.
 5. Each learned behavior as executable code, retrieved by a description of what it does.
 
