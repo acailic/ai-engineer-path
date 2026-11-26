@@ -146,6 +146,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Black-box attack** | An attack that uses only success or failure as feedback. | [04.02](04-safety-and-security/02-jailbreaks-and-prompt-injection.md) |
 | **Black-box test** | A check that you can print every message and edit every prompt a framework sends to the model. | [05.01](05-frameworks-and-multi-agent/01-the-agent-framework-landscape.md) |
 | **Blast radius** | The share of users and systems exposed to the consequences of a failed experiment or release. | [11.07](11-professional-practice/07-checklists.md) |
+| **Blinded grading** | Grading by experts who are not told which deliverable came from the model, as the graders of GDPval are. | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
 | **Bloch sphere** | The sphere whose points are the states of one qubit; a single-qubit gate rotates it | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
 | **Blue/green deployment** | Switching all traffic from an old version to a new one at once. | [08.09](08-quality-assurance/09-testing-and-experimenting-in-production.md) |
 | **Blueprint** | A decomposition of a research proof into definitions and lemmas arranged as a dependency graph, written in LaTeX before each node is proved in Lean | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
@@ -244,6 +245,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Counterfactual explanation** | A statement of a small change to an input that would have produced a different prediction. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
 | **Coverage** | The share of code lines, branches, or requirements that a test suite executes. | [08.01](08-quality-assurance/01-quality-assurance-basics-and-the-oracle-problem.md) |
 | **Critical batch size** | The batch size beyond which doubling the batch saves less than half the steps. | [10.07](10-llm-internals/07-scaling-laws.md) |
+| **CRMArena** | Salesforce's benchmark of nine customer-relationship workflows for three roles, run in its own sandbox on synthetic data and scored mostly by an exact match on identifiers. | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
 | **Cross-entropy** | The usual training loss for classifiers, which rewards a high probability on the correct label. | [09.06](09-efficient-deep-learning/06-knowledge-distillation.md) |
 | **CUDA** | NVIDIA's programming language for writing code that runs on its GPUs. | [10.05](10-llm-internals/05-gpus-tpus-and-kernels.md) |
 | **CUDA cores** | The other kind of unit on a GPU; work such as scaling runs on them, best after the main loop | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
@@ -279,6 +281,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Debugging** | Finding the cause of a failure that testing or monitoring revealed. | [08.01](08-quality-assurance/01-quality-assurance-basics-and-the-oracle-problem.md) |
 | **Decision boundary** | Where one label ends and the next begins, which a classifier learns. | [01.05](01-foundations/05-prompting-and-in-context-learning.md) |
 | **Decision record** | A stored description of one production decision that ties its output to the exact inputs and versions that produced it. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
+| **Declarative language** | A language in which a team states what the agent should do, not how. | [03.07](03-evaluation/07-evals-in-production.md) |
 | **decoder-only** | A model whose causal mask lets each token look only at the ones before it; the family of GPT and of the models the chapter describes | [10.03](10-llm-internals/03-transformer-architectures-and-hyperparameters.md) |
 | **Deduplication** | Removing repeated documents or passages from a data set. | [10.10](10-llm-internals/10-training-data.md) |
 | **Deep gradient compression** | A 2017 method of Han's group: prune gradients, accumulate the rest locally, and add momentum correction, warm-up and gradient clipping to keep the accuracy. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
@@ -459,6 +462,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **GAN** | Generative adversarial network: a generator and a discriminator trained against each other. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
 | **Gate** | An automatic check that fails a change when a metric regresses. | [03.07](03-evaluation/07-evals-in-production.md) |
 | **Gated MLP** | An MLP variant that multiplies one projection by another element by element before the output projection. | [10.03](10-llm-internals/03-transformer-architectures-and-hyperparameters.md) |
+| **GDPval** | OpenAI's benchmark of realistic knowledge-work assignments with reference files, whose deliverables are ranked by blinded experts of the same occupation against their own, with time and cost compared as well. | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
 | **GeLU** | A smooth activation function similar to ReLU, common in Transformers. | [10.02](10-llm-internals/02-resource-accounting-flops-memory-and-arithmetic-intensity.md) |
 | **generalist** | One model for many tasks, from which smaller specialists are then derived by prompting, fine-tuning or distilling | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **Generalization** | Performing well on inputs the model never saw during training. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
@@ -627,6 +631,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Latency budget** | A written limit on how much time a check may add to each step of a system, fixed before the check goes on the path between a model and its effect. | [11.03](11-professional-practice/03-capstone-monitoring-agent-for-prompt-injection.md) |
 | **Latency table** | Per-operator timings measured once on the target device and summed to estimate a model's latency. | [09.05](09-efficient-deep-learning/05-neural-architecture-search.md) |
 | **Latent diffusion** | Running a diffusion model in a compressed latent space instead of on pixels. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
+| **Latent variables** | Hidden properties, such as an agent's skill or a customer's shopping habits, that a data generator varies so that synthetic tasks follow realistic causal patterns. | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
 | **layer normalization** | A normalization layer whose set is every channel and position of one input, so that each token is normalized before attention | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **LayerNorm** | Normalization that subtracts the mean and divides by the standard deviation, then scales and shifts. | [10.03](10-llm-internals/03-transformer-architectures-and-hyperparameters.md) |
 | **Leading indicator** | A measure that is easy to observe now and is expected to move with later success. | [07.03](07-ml-in-production/03-goals-and-requirements.md) |
@@ -1314,6 +1319,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Vocabulary** | The fixed list of all tokens a model can use. | [01.02](01-foundations/02-how-large-language-models-are-trained.md) |
 | **Vocabulary size** | The number of distinct tokens a model can read or produce. | [10.01](10-llm-internals/01-the-language-modeling-pipeline-and-tokenization.md) |
 | **voice sommelier** | The person at Sierra, under an unofficial title, who listens to voices, rates them on a fixed set of dimensions and matches them to a company's brand | [03.07](03-evaluation/07-evals-in-production.md) |
+| **Voice-to-voice model** | A model that takes sound in and gives sound out, with no separate transcription and synthesis. | [03.07](03-evaluation/07-evals-in-production.md) |
 | **Voyager** | An open-ended agent that plays Minecraft with no fixed goal, saving each learned behavior as code in a skill library. | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **VQ-VAE** | A network that compresses an image into a list of discrete codes and reconstructs it. | [10.12](10-llm-internals/12-alignment-and-multimodality.md) |
 
