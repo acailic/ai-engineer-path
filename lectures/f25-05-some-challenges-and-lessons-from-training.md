@@ -35,7 +35,7 @@ For open questions human experts no longer write one answer; they write criteria
 ### [12:24–16:03](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=744) Reinforcement learning from one example
 
 In RLVR for maths, training on one single example repeatedly raised accuracy until it came close to training on more than 1,000 examples on the same test set. The model is not memorizing; it is learning how the building blocks of maths fit together. Not any example works: the team picks one for which the model's sampled answers differ widely, because varied rollouts give the signal to learn from. Reinforcement-learning data is thus chosen for exploration, unlike data for supervised fine-tuning or preference tuning.
-**In this book:** nothing beyond this guide; nearest: [Training Models for Agentic Tasks › How it works, step by step](../02-building-agents/08-training-models-for-agentic-tasks.md#how-it-works-step-by-step).
+**In this book:** [Training Models for Agentic Tasks › What the practitioners say](../02-building-agents/08-training-models-for-agentic-tasks.md#what-the-practitioners-say).
 
 ### [16:03–22:20](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=963) Mixing and synthesizing data
 
@@ -95,7 +95,7 @@ Three dimensions, under the common theme of scale. Deeper models, including rece
 ### [56:00–1:02:00](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=3360) Look ahead: training-time scaling
 
 The team is limited by data, not compute, so data synthesis has only begun; agentic data raises the complexity another level. Reinforcement learning spends far more compute than supervised fine-tuning and buys robustness: the model still answers when the question is phrased differently. He believes quality keeps rising with compute until the model's own limit, and says graders steer behaviour far more flexibly than retraining a reward model. The lecturer wonders whether only two losses will remain, reinforcement learning and next-token prediction, and whether a model can improve itself by reflecting on what went wrong.
-**In this book:** nothing beyond this guide; nearest: [Training Models for Agentic Tasks › What the practitioners say](../02-building-agents/08-training-models-for-agentic-tasks.md#what-the-practitioners-say).
+**In this book:** [Training Models for Agentic Tasks › What the practitioners say](../02-building-agents/08-training-models-for-agentic-tasks.md#what-the-practitioners-say).
 
 ### [1:02:00–1:06:00](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=3720) What the job is like
 

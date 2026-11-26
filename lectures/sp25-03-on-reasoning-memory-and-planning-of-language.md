@@ -30,12 +30,12 @@ Language as communication brings instruction following and in-context learning; 
 ### [8:56–12:34](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=536) Why call it reasoning, and why language agents
 
 One mechanism, token generation, blends perception-like, intuitive and symbolic steps, as in a model's description of an image, which justifies the word reasoning. Of the many names in use, the one he prefers for this generation is language agents: language is their most salient trait, in multimodal agents it still does the heavy lifting, and that command of language need not come from a language model, which may be a means to an end.
-**In this book:** nothing beyond this guide; nearest: [01. The Anatomy of an Agent › How it works, step by step](../02-building-agents/01-the-anatomy-of-an-agent.md#how-it-works-step-by-step).
+**In this book:** [The Anatomy of an Agent › What the practitioners say](../02-building-agents/01-the-anatomy-of-an-agent.md#what-the-practitioners-say).
 
 ### [12:34–16:51](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=754) Core competencies framework
 
 Language agents, he argues, continue a long line of agent designs; a multimodal language model is the first to unify several senses in one representation, making them highly expressive and adaptive, with fuzzy, semi-explicit reasoning. His map of the field stacks core competencies in a loose hierarchy: perception, memory and embodiment at the bottom, reasoning, world models and planning above, plus cross-cutting concerns such as safety and evaluation.
-**In this book:** nothing beyond this guide; nearest: [03. Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
+**In this book:** [The Anatomy of an Agent › What the practitioners say](../02-building-agents/01-the-anatomy-of-an-agent.md#what-the-practitioners-say).
 
 ### [16:51–25:25](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=1011) Modeling long-term memory
 
@@ -65,7 +65,7 @@ Planning means choosing actions that end in a state passing the goal test; langu
 ### [1:29:10–1:34:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=5350) Future directions and conclusions
 
 Open problems remain in continual learning and personalization, in reasoning without reliable rewards, in genuine world models and in long horizons. Safety keeps him up at night: the attack surface of a web agent is essentially the whole internet, where a deep research agent can be tricked by a seemingly benign website into revealing private information; he separates endogenous risks, which stem from the agent's own incompetence, from exogenous risks, which come from the external environment. He also sees exciting applications: agentic search or deep research, workflow automation and agents for science.
-**In this book:** nothing beyond this guide; nearest: [07. Coding Agents › 6. Safety](../02-building-agents/07-coding-agents.md#6-safety).
+**In this book:** [The Anatomy of an Agent › What the practitioners say](../02-building-agents/01-the-anatomy-of-an-agent.md#what-the-practitioners-say).
 
 ## What to take away
 

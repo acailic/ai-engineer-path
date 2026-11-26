@@ -40,7 +40,7 @@ The model translates the request into a JSON description; flights and hotels are
 ### [15:13–20:23](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=913) Hybrid one, continued: dialogue that gathers what is missing
 
 Real users start with a rough idea, so a follow-up agent asks questions over several rounds until it has the details, then writes the JSON. It is trained against a written constitution with four demands: accurate, proactive (ask useful questions, not random ones), efficient and adaptive to the traveller, and credible (few hallucinations). With 50 traveller personas that each hide critical facts, several rounds of direct preference optimization made the agent collect more of the overall and of the critical information than an untuned model. A related paper replaces the human judge with an agent that checks every step of the target agent and gives richer feedback.
-**In this book:** nothing beyond this guide; nearest: [Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
+**In this book:** [Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
 
 ### [20:23–24:32](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=1223) Hybrid two: the solver teaches the model
 
@@ -55,7 +55,7 @@ The search-augmented model is far more efficient: with 15 million parameters and
 ### [32:50–41:26](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=1970) Dualformer: one model, fast and slow
 
 A long trace can cost thousands of tokens. Dualformer trains on a mixture in which parts of the trace are dropped at random, down to the plan alone. The mixture beats training on plans only or on full traces, and the outputs are more diverse, which helps when more compute is spent at test time. The model also switches by itself between a fast mode (it starts with a plan token and answers at once) and a slow mode (it starts with a create token and searches), and does better than either dedicated model; forcing the first token selects the mode. Dropping sentences from maths explanations in the same way gives shorter reasoning and slightly better accuracy. On mazes it beats a reasoning model of 2024, which the lecturer calls an unfair comparison because that model was not fine-tuned on the data.
-**In this book:** nothing beyond this guide; nearest: [Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
+**In this book:** [Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
 
 ### [41:26–47:25](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=2486) Hybrid three: train the model and the solver together
 
@@ -70,27 +70,27 @@ One variant optimizes the coefficients at test time by backpropagation (slow, go
 ### [49:34–54:02](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=2974) Photonic design, and the limits
 
 The same method designs a device on an 80 by 80 grid of nanometre-scale cells that bends or splits light by diffraction. The design space is binary and constrained by the size of the brush that will carve it, and the loss comes from a physical simulation. The method converges more smoothly than the standard approach without a neural network. Limits remain: the objective must be differentiable, a solver is called in every training step, and that solver must be differentiable.
-**In this book:** nothing beyond this guide; nearest: [Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
+**In this book:** [Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
 
 ### [54:02–56:36](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=3242) Two stories about what models learn
 
 One camp expects emergent abilities from scale. The other says a model mostly retrieves patterns seen in training. An Apple study supports the second: adding irrelevant sentences to a maths word-problem benchmark, which does not change the answers, makes every model's score drop sharply. The lecturer calls it a core problem to understand what representation a language model uses for reasoning and planning.
-**In this book:** nothing beyond this guide; nearest: [Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
+**In this book:** [Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
 
 ### [56:36–1:02:00](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=3396) Modular addition and the Fourier basis
 
 The task is addition modulo a number: two inputs, one output, easy to memorize. Networks trained on it do not build a lookup table; earlier work found that they represent numbers with sine and cosine features. The lecturer studies a two-layer network with one-hot inputs and quadratic activations, moves everything into the Fourier domain, and finds that the hidden neurons respond strongly at a few frequencies. Counting neurons per frequency shows sharp peaks at orders four and six, for moduli 7, 23, 71 and 127.
-**In this book:** nothing beyond this guide; nearest: [Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
+**In this book:** [Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
 
 ### [1:02:00–1:06:00](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=3720) Why four and six: the algebra of the loss
 
 Only very strong weight decay changes this picture: every solution collapses to zero. The mean-squared loss is rewritten as one minus a term plus three sums of squares. Setting the term to one and the squares to zero is a sufficient condition for a global optimum. The space of two-layer networks, with concatenation of neurons as addition and a product along the hidden units as multiplication, forms a semi-ring, and two terms of the loss are ring homomorphisms: they respect that addition and multiplication. So two partial solutions, each satisfying one term, can be multiplied into a solution that satisfies both. Global optima of order six and order four can be built this way, with no gradient descent at all.
-**In this book:** nothing beyond this guide; nearest: [Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
+**In this book:** [Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
 
 ### [1:06:00–1:10:00](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=3960) What gradient descent finds is the constructed solution
 
 Networks trained by gradient descent land almost entirely on the order-four and order-six solutions. Factorizing them under the ring multiplication, 95% split into a two times a three or a two times a two, as the construction predicts, and, entry by entry, 98% of the solutions match the constructed forms. The implication: a network trained by gradient descent converged to a solution that is symbolic. Perhaps larger networks do the same in a form nobody has constructed yet, and solutions could one day be assembled algebraically from small ones.
-**In this book:** nothing beyond this guide; nearest: [Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
+**In this book:** [Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
 
 ## What to take away
 

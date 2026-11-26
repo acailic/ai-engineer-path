@@ -1,6 +1,6 @@
 # 07. Coding Agents
 
-**Level:** Practitioner · **Reading time:** 30 min · **Exercise:** 90 min
+**Level:** Practitioner · **Reading time:** 34 min · **Exercise:** 90 min
 **Prerequisites:** [Tool Design and Function Calling](02-tool-design-and-function-calling.md) (observations, errors, the agent-computer interface)
 
 > **In one sentence:** After this chapter you can describe how a coding agent is put together, choose its action space and safety setup, read a coding benchmark with its limits in mind, and carry the lessons over to agents in other domains.
@@ -196,7 +196,7 @@ Graham Neubig is a professor at CMU and the maintainer of OpenHands. His Fall 20
 
 The lecture is from October 2024. Product names and benchmark scores have moved since; treat the tools as examples and the design lessons as the durable part.
 
-**Charles Sutton (Google DeepMind, Spring 2025)** frames the choice as how to spend compute at test time ([40:00](https://www.youtube.com/watch?v=JCk6qJtaCSU&t=2400)). A dynamic agent such as SWE-agent lets the model pick its strategy: after a failed test it may search the code further or adjust the patch. A procedural system such as Agentless suits a task that a simple workflow solves: its tools run around the model, not inside it, so there are fewer tool errors, and an early mistake cannot derail the run. A dynamic agent chooses whether to extend a failed patch or start over; Agentless generates and tests. He guesses that generate-and-test suits small patches and that flexibility wins on long, complex changes. A bare shell, SWE-agent and Agentless form a continuum whose best point moves with model capability and task complexity.
+**Charles Sutton (Google DeepMind, Spring 2025)** frames the choice as how to spend compute at test time ([40:00](https://www.youtube.com/watch?v=JCk6qJtaCSU&t=2400)). A dynamic agent such as SWE-agent lets the model pick its strategy: after a failed test it may search the code further or adjust the patch. A procedural system such as Agentless suits a task that a simple workflow solves: its tools run around the model, not inside it, so there are fewer tool errors, and an early mistake is less likely to derail the run. A dynamic agent chooses whether to extend a failed patch or start over; Agentless generates and tests. He guesses that generate-and-test suits small patches and that flexibility wins on long, complex changes. A bare shell, SWE-agent and Agentless form a continuum whose best point moves with model capability and task complexity.
 
 Two more of his examples sit between those poles ([43:34](https://www.youtube.com/watch?v=JCk6qJtaCSU&t=2614)). AutoCodeRover searches with tools that index classes and methods as an IDE does, so the agent can ask for a class or a method by name. It runs two dynamic agents in turn, one to gather context and one to write the patch, each with its own system instruction and tools, and only the first one's result passes to the second. RepairAgent makes the design a state machine: each state has its own system instruction, and the model's next tool call decides the transition. A code search keeps it in the information-gathering state; a call to write the fix moves it on.
 

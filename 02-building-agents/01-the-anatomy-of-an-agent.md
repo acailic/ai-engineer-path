@@ -1,6 +1,6 @@
 # 01. The Anatomy of an Agent
 
-**Level:** Practitioner · **Reading time:** 30 min · **Exercise:** 60 min
+**Level:** Practitioner · **Reading time:** 35 min · **Exercise:** 60 min
 **Prerequisites:** [A Short History of LLM Agents](../01-foundations/08-a-short-history-of-llm-agents.md) (the definition of "agent" used here)
 
 > **In one sentence:** After this chapter you can name the five parts of any single-agent system, decide when you should not build one, and write a working agent loop in plain Python without a framework.

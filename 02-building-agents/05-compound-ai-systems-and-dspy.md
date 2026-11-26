@@ -1,6 +1,6 @@
 # 05. Compound AI Systems and DSPy
 
-**Level:** Practitioner · **Reading time:** 30 min · **Exercise:** 60 min
+**Level:** Practitioner · **Reading time:** 36 min · **Exercise:** 60 min
 **Prerequisites:** [Memory and Knowledge for Agents](04-memory-and-knowledge-for-agents.md) (retrieval); [The Anatomy of an Agent](01-the-anatomy-of-an-agent.md) (the loop)
 
 > **In one sentence:** After this chapter you can write a language-model pipeline as a short declarative program and tune its prompts with a metric and an optimizer instead of by hand.

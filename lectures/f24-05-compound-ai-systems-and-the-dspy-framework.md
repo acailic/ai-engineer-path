@@ -25,7 +25,7 @@ A compound AI system is a modular program in which language models play speciali
 ### [6:00–8:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=360) Two further wins of composition
 
 A Stanford system for writing Wikipedia-style articles splits the work into much finer components: it brainstorms, generates outlines, revises them, poses questions for each section of the outline, retrieves sources and synthesizes information. A model then only has to work with what it is given instead of remembering facts, which raises quality. A system for generating code, AlphaCodium, reflects on the problem and on public tests, generates various solutions, ranks them by performance and iterates. The five advantages named are quality, control, transparency, efficiency and inference-time scaling.
-**In this book:** nothing beyond this guide; nearest: [Compound AI Systems and DSPy › The core idea](../02-building-agents/05-compound-ai-systems-and-dspy.md#the-core-idea).
+**In this book:** [Compound AI Systems and DSPy › What the practitioners say](../02-building-agents/05-compound-ai-systems-and-dspy.md#what-the-practitioners-say).
 
 ### [8:00–12:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=480) A prompt hides five different jobs
 
@@ -60,7 +60,7 @@ Toronto researchers won a medical question-answering competition against 15 team
 ### [38:00–42:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2280) The setting of the optimizer paper
 
 The metric is defined apart from the program: some metrics need labels, others only check that the answer is grounded in retrieved context. The weights stay frozen; only instructions and few-shot demonstrations are optimized, without log probabilities or labels for intermediate steps, with few example inputs (perhaps 200) and few model calls. Two difficulties follow: a vast discrete search space, and credit assignment, because a local improvement in one module can hurt a module that relied on its output.
-**In this book:** nothing beyond this guide; nearest: [Compound AI Systems and DSPy › What the practitioners say](../02-building-agents/05-compound-ai-systems-and-dspy.md#what-the-practitioners-say).
+**In this book:** [Compound AI Systems and DSPy › How it works, step by step](../02-building-agents/05-compound-ai-systems-and-dspy.md#how-it-works-step-by-step).
 
 ### [42:00–46:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2520) Three ways to search
 
@@ -75,7 +75,7 @@ A model that writes instructions works blind unless it sees the program. So the 
 ### [52:00–56:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3120) MIPRO: a surrogate model for credit assignment
 
 Language models are poor at credit assignment, so MIPRO borrows from hyperparameter search. Each module has two bulky parameters: the instruction and the list of demonstrations. MIPRO bootstraps demonstrations, proposes candidate instructions with a grounded proposer, then fits a surrogate model that predicts the quality of any combination. It evaluates a proposed combination on a mini-batch of about 30 of 200 examples, feeds the score back, and repeats; its proposals improve over time, unlike random search.
-**In this book:** nothing beyond this guide; nearest: [Compound AI Systems and DSPy › What the practitioners say](../02-building-agents/05-compound-ai-systems-and-dspy.md#what-the-practitioners-say).
+**In this book:** [Compound AI Systems and DSPy › How it works, step by step](../02-building-agents/05-compound-ai-systems-and-dspy.md#how-it-works-step-by-step).
 
 ### [56:00–58:51](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3360) What helps most on a benchmark of programs
 
@@ -90,7 +90,7 @@ Programs are more accurate, controllable and transparent than a model alone. Wri
 ### [1:02:00–1:06:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3720) Why open research should lead again
 
 The lecturer closes with a goal: let open research lead progress again. Progress will come through modularity, as when different groups built attention, transformers and convolutions, not from ad hoc tricks that die with the next model. The work is to scope programs well, to develop inference-time strategies that anyone can apply to a signature, and to devise optimizers that lift every program at once.
-**In this book:** nothing beyond this guide; nearest: [Compound AI Systems and DSPy › What the practitioners say](../02-building-agents/05-compound-ai-systems-and-dspy.md#what-the-practitioners-say).
+**In this book:** [Compound AI Systems and DSPy › What the practitioners say](../02-building-agents/05-compound-ai-systems-and-dspy.md#what-the-practitioners-say).
 
 ## What to take away
 

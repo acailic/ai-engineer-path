@@ -1,6 +1,6 @@
 # 03. Planning, Search and Decision-Making
 
-**Level:** Practitioner · **Reading time:** 30 min · **Exercise:** 60 min
+**Level:** Practitioner · **Reading time:** 37 min · **Exercise:** 60 min
 **Prerequisites:** [Tool Design and Function Calling](02-tool-design-and-function-calling.md) (actions and observations); [Reasoning in LLMs: From Chain of Thought to Search](../01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) (chain of thought and search as a reasoning technique)
 
 > **In one sentence:** After this chapter you can choose how much deliberation an agent should do before each action, pick between letting the model decide and handing a sub-problem to a solver, and explain the cost of each choice.

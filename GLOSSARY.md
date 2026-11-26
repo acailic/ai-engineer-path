@@ -241,9 +241,11 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Conversation programming** | Building an agent system as a conversation between agents, where the message history is the whole program state. | [05.02](05-frameworks-and-multi-agent/02-autogen-conversation-programming.md) |
 | **Convolution** | A layer in which each output depends only on a small window of inputs. | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **Copra** | An in-context theorem-proving agent that trains nothing and proposes steps for the proof assistant to execute. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
+| **core competencies** | Yu Su's name for the abilities an agent needs (perception, memory and embodiment at the bottom; reasoning, world models and planning above), arranged in a loose hierarchy that issues such as safety and evaluation cut across | [02.01](02-building-agents/01-the-anatomy-of-an-agent.md) |
 | **Cost per prediction** | The operating cost of one prediction, including a share of the training cost. | [07.06](07-ml-in-production/06-quality-attributes-of-ml-components.md) |
 | **Counterfactual explanation** | A statement of a small change to an input that would have produced a different prediction. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
 | **Coverage** | The share of code lines, branches, or requirements that a test suite executes. | [08.01](08-quality-assurance/01-quality-assurance-basics-and-the-oracle-problem.md) |
+| **credit assignment** | Deciding which of many changes to a program of several modules helped and which hurt, when a change in one module can break a later module that relied on the old output | [02.05](02-building-agents/05-compound-ai-systems-and-dspy.md) |
 | **Critical batch size** | The batch size beyond which doubling the batch saves less than half the steps. | [10.07](10-llm-internals/07-scaling-laws.md) |
 | **CRMArena** | Salesforce's benchmark of nine customer-relationship workflows for three roles, run in its own sandbox on synthetic data and scored mostly by an exact match on identifiers. | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
 | **Cross-entropy** | The usual training loss for classifiers, which rewards a high probability on the correct label. | [09.06](09-efficient-deep-learning/06-knowledge-distillation.md) |
@@ -352,6 +354,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **encoder-only** | A model made of a bidirectional encoder alone, such as BERT, whose full attention mask lets every token look at every other | [10.03](10-llm-internals/03-transformer-architectures-and-hyperparameters.md) |
 | **End-state check** (also called: Execution-based evaluation) | A comparison of the final state of an environment with the goal state. | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
 | **End-user audit** | Letting users from minority groups try a system before it is released widely, to find discriminatory behavior that the developers did not test for | [08.04](08-quality-assurance/04-testing-without-oracles.md) |
+| **endogenous risks** | Su's name for safety risks that arise from the agent itself, usually from its incompetence, such as a mistaken action that cannot be undone | [02.01](02-building-agents/01-the-anatomy-of-an-agent.md) |
 | **Ensemble** | Several models answering the same question in parallel, combined by average or vote. | [07.07](07-ml-in-production/07-deploying-a-model.md) |
 | **Entanglement** | A joint state of two qubits whose measurements agree, 00 or 11, however far apart the qubits are | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
 | **Entangling capacity** | How strongly a circuit entangles its qubits, on the Meyer-Wallach scale from 0 to 1 | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
@@ -377,6 +380,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Exact match** | A score of 1 when the answer equals an accepted answer after normalization, else 0. | [03.02](03-evaluation/02-a-minimal-eval-harness.md) |
 | **Excessive agency** | An agent holding more permission, autonomy, or trust than its task needs, which turns a small attack into a large effect. | [04.03](04-safety-and-security/03-agent-specific-attacks.md) |
 | **Exemplar** | One worked example in a prompt. | [01.05](01-foundations/05-prompting-and-in-context-learning.md) |
+| **exogenous risks** | Su's name for safety risks that come from the environment an agent acts in, such as a web page written to trick it | [02.01](02-building-agents/01-the-anatomy-of-an-agent.md) |
 | **Experience buffer** | A store of recent samples that a PPO implementation takes its updates from. | [10.11](10-llm-internals/11-post-training-sft-rlhf-and-rlvr.md) |
 | **Experience replay** | Storing each step of an agent's experience and reusing it many times in training. | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **Expert parallelism** | Placing different experts on different GPUs and routing tokens to them. | [10.06](10-llm-internals/06-parallelism.md) |
@@ -625,6 +629,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Label** | The wanted output attached to a training input. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
 | **Label leakage** | A model learning a shortcut that predicts the label in the data but will not hold in production. | [08.02](08-quality-assurance/02-measuring-model-quality.md) |
 | **Lambda architecture** | A design in which batch jobs recompute everything on a schedule and stream processing keeps results fresh in between. | [07.09](07-ml-in-production/09-scaling-the-system.md) |
+| **language agents** | Yu Su's preferred name for the current generation of agents, because language is their most salient trait, whether or not a language model supplies it | [02.01](02-building-agents/01-the-anatomy-of-an-agent.md) |
 | **Large language model (LLM)** | A neural network that gives a probability for every possible next token of a text sequence. | [01.02](01-foundations/02-how-large-language-models-are-trained.md) |
 | **LaSR (symbolic regression with a learned concept library)** | A search for an equation that fits a data set which also names the abstract concepts behind each equation in natural language. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Latency** | The delay to complete one request. | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
@@ -690,6 +695,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Memory hierarchy** | The chain of storage levels from registers to cache to main memory, each larger and slower. | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **Memory layer** | Stored questions and answers that let an assistant keep context between conversations. | [05.03](05-frameworks-and-multi-agent/03-llamaindex-knowledge-assistants.md) |
 | **Memory poisoning** | Planting content in an agent's memory so that later tasks follow it. | [04.03](04-safety-and-security/03-agent-specific-attacks.md) |
+| **memory stream** | An agent's log of everything it observes, most of it mundane; too long for a prompt, so a small subset is retrieved each turn | [02.04](02-building-agents/04-memory-and-knowledge-for-agents.md) |
 | **Memory-bound** | Limited by data movement rather than arithmetic, because arithmetic intensity is below the chip's. | [10.02](10-llm-internals/02-resource-accounting-flops-memory-and-arithmetic-intensity.md) |
 | **meta-judge** | The part a model plays when it compares two of its own judgments and says which is better | [03.03](03-evaluation/03-llm-as-a-judge-and-rubrics.md) |
 | **meta-rewarding** | A method in which one model follows instructions, judges the responses and also judges its own judgments, so that it is trained on preference pairs between judgments as well as between responses | [03.03](03-evaluation/03-llm-as-a-judge-and-rubrics.md) |
@@ -808,6 +814,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Open-source access** | Having the data, architecture and training procedure, which allows questioning every design choice. | [06.03](06-frontier-applications/03-agents-for-scientific-discovery.md) |
 | **Open-weight access** | Having the trained model itself, which allows fine-tuning, distillation and inspection. | [06.03](06-frontier-applications/03-agents-for-scientific-discovery.md) |
 | **Open-weight model** | A model whose parameters are published. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
+| **open-weight models** | Models whose weights anyone can download, named in a United States executive order as dual-use foundation models with widely available weights; "widely" because licences still restrict use | [02.08](02-building-agents/08-training-models-for-agentic-tasks.md) |
 | **Operationalization** | The rule that computes a measure's number from raw observations. | [07.03](07-ml-in-production/03-goals-and-requirements.md) |
 | **Operations** | All tasks, infrastructure and processes for deploying, running and updating a system in production. | [07.10](07-ml-in-production/10-planning-for-operations.md) |
 | **Optimization loop (red teaming)** | Dawn Song's frame for automatic red teaming: generate candidates, inject, score, feed back, update. | [04.06](04-safety-and-security/06-red-teaming-and-safety-evaluation.md) |
@@ -1174,6 +1181,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Supervised learning** | Learning from pairs of input and label. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
 | **Supply chain attack** | An attack in which something imported, such as a model file, a package, or a data set, was already malicious. | [04.01](04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md) |
 | **SurCo** | A method that learns a simple stand-in for a hard optimization objective and solves it with an existing solver. | [02.03](02-building-agents/03-planning-search-and-decision-making.md) |
+| **surrogate model** | In MIPRO, a model fitted to predict the quality of any combination of instructions and demonstrations, so that the search knows which combination to try next | [02.05](02-building-agents/05-compound-ai-systems-and-dspy.md) |
 | **SWAP gate** | A two-qubit gate that exchanges the states of two qubits. | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
 | **SWE-bench** | A benchmark of real GitHub issues, scored by the tests added with each fix. | [02.07](02-building-agents/07-coding-agents.md) |
 | **SwiGLU** | A gated MLP that uses the Swish function. | [10.03](10-llm-internals/03-transformer-architectures-and-hyperparameters.md) |

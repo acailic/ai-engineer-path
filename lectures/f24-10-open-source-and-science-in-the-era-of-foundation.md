@@ -40,7 +40,7 @@ Here the agent has a server, its code and a shell; it must find a vulnerability,
 ### [14:45–19:07](https://www.youtube.com/watch?v=f3KKx9LWntQ&t=885) Simulating people: retrieval and reflection
 
 The second class of agents imitates people. In an earlier paper the group placed 25 agents in a town called Smallville, each built on the same architecture. Retrieval from the memory stream scores memories by recency, by importance (a tidy desk matters little, a wedding much) and by relevance to the current context, for instance when looking for a water bottle. Reflection abstracts groups of low-level memories into higher-level ones, so that reading about urban design becomes dedication to research, which gives an agent a purpose beyond reacting to details. Because people talk, the agents talk too, and the simulation shows how news of a Valentine's Day party spreads through the town.
-**In this book:** nothing beyond this guide; nearest: [Memory and Knowledge for Agents › The core idea](../02-building-agents/04-memory-and-knowledge-for-agents.md#the-core-idea).
+**In this book:** [Memory and Knowledge for Agents › What the practitioners say](../02-building-agents/04-memory-and-knowledge-for-agents.md#what-the-practitioners-say).
 
 ### [19:07–24:00](https://www.youtube.com/watch?v=f3KKx9LWntQ&t=1147) Simulating real individuals
 
@@ -50,7 +50,7 @@ Those agents were invented. To simulate real people the group borrowed interview
 ### [24:00–26:00](https://www.youtube.com/watch?v=f3KKx9LWntQ&t=1440) Agents that learn, and what open weights are
 
 All these agents are static: an off-the-shelf model plus prompts. AlphaGo had two phases, learning from human games and then improving by reinforcement learning, and language models are, by his account, still at the first phase; an agent working in an environment can collect reward signals, which opens the second. That needs deeper access than an API. Open-weight models are, in the wording of a US executive order, "dual-use foundation models with widely available weights"; widely rather than simply available, because licences restrict use, for example above 700 million monthly active users for Llama.
-**In this book:** nothing beyond this guide; nearest: [Training Models for Agentic Tasks › The core idea](../02-building-agents/08-training-models-for-agentic-tasks.md#the-core-idea).
+**In this book:** [Training Models for Agentic Tasks › What the practitioners say](../02-building-agents/08-training-models-for-agentic-tasks.md#what-the-practitioners-say).
 
 ### [26:00–31:10](https://www.youtube.com/watch?v=f3KKx9LWntQ&t=1560) What the weights reveal
 

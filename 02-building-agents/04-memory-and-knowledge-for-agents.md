@@ -1,6 +1,6 @@
 # 04. Memory and Knowledge for Agents
 
-**Level:** Practitioner · **Reading time:** 30 min · **Exercise:** 60 min
+**Level:** Practitioner · **Reading time:** 33 min · **Exercise:** 60 min
 **Prerequisites:** [The Anatomy of an Agent](01-the-anatomy-of-an-agent.md) (the loop and its `messages` list)
 
 > **In one sentence:** After this chapter you can decide what an agent keeps in its context and what it stores outside, compact a long run without losing the thread, and build retrieval that answers questions spread over several documents.
