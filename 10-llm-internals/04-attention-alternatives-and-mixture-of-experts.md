@@ -109,7 +109,7 @@ Four reasons explain the popularity, all from the lecture's slides: more paramet
 - Make routing noisy, as with the Gaussian perturbation of Shazeer et al. (2017) or the multiplicative jitter of Fedus et al. (2022).
 - Add a **load-balancing loss** that penalizes uneven expert usage, because hardware is wasted when a few experts receive everything.
 
-Hashimoto reads the Switch Transformer's balancing loss through its gradient. For each expert it multiplies the fraction of tokens sent to it by the router's probability mass on it, so the more tokens an expert attracts, the harder its probability is pushed down ([64:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=3840)). DeepSeek-V3 replaces the loss with a per-expert bias that is updated online to steer tokens toward underused experts. Hashimoto's wish is plain: "I wish I could just get rid of the load balancing loss" ([68:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=4080)). Olmo's ablation shows why it stays: without the loss, almost every token goes to two experts, the rest sit idle, and the training loss climbs.
+Hashimoto reads the Switch Transformer's balancing loss through its gradient. For each expert it multiplies the fraction of tokens sent to it by the router's probability mass on it, so the more tokens an expert attracts, the harder its probability is pushed down ([64:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=3840)). DeepSeek-V3 replaces some auxiliary losses with a per-expert bias that is updated online to steer tokens toward underused experts, though some remain against extreme imbalance. Hashimoto's wish is plain: "I wish I could just get rid of the load balancing loss" ([68:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=4080)). Olmo's ablation shows why it stays: without the loss, almost every token goes to two experts, the rest sit idle, and the training loss climbs.
 
 **Systems.** Experts sit on different devices, so a token may have to travel. Expert parallelism adds a third axis once data parallelism has hit its batch-size limit and model parallelism has run out of places to cut. The computation also maps onto the structured sparse matrix multiplies that GPUs support natively ([72:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=4320)). Nemotron 3 shrinks the activations before sending them: it down-projects the residual stream first, so the routed experts work on a smaller vector while the shared expert, which is never sent, keeps the full size ([74:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=4440)).
 
@@ -139,7 +139,7 @@ What to observe:
 
 ## What the practitioners say
 
-The lecture's headline on linear attention is a warning. MiniMax M1 and MiniMax-Text-01 use a 7-to-1 hybrid, seven linear layers per full attention layer, and Hashimoto calls its performance strong. He adds: "no one has thus far really proven out fully linear time attention mechanisms at scale" ([10:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=600)). Everything he shows is a hybrid.
+The lecture's headline on linear attention is a warning. MiniMax M1 and MiniMax-Text-01 use a 7-to-1 hybrid, seven linear layers per full attention layer, and Hashimoto calls its performance strong. He adds: "no one has thus far really proven out fully linear time attention mechanisms at scale" ([10:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=600)). Every linear-time example he shows is a hybrid.
 
 The examples he gives: Nemotron 3 mixes Mamba layers and attention at roughly 3 to 1, and Qwen 3.5 and Qwen Next are 3-to-1 hybrids of gated DeltaNet and attention. Qwen Next decodes with much higher throughput than Qwen 3 as context grows, and the hybrid costs little performance in his comparison. His caveat is that controlled studies are few. One, from ByteDance Seed and UC Santa Cruz, increases the number of non-attention layers from left to right: performance degrades, but for the best variants there is basically no hit at low ratios ([18:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=1080)).
 
@@ -147,7 +147,7 @@ On MoE stability, he points to the router **z-loss** from Zoph et al. (2022), an
 
 **Upcycling** is a cheaper way to start: copy a trained dense model into an MoE and continue training. The slides list MiniCPM (top-2 of 8 experts, about 4B active) and an early Qwen MoE (built from the 1.8B model, top-4 of 60, with 4 shared). It has fallen out of use: Hashimoto has not seen a single upcycled model in the year of the lecture ([78:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=4680)).
 
-He closes with the DeepSeek line as a lesson in evolution ([82:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=4920)). Version 1 already had shared and fine-grained experts, top-k routing and a standard balancing loss; he calls it the platonic ideal of an MoE. Version 2, at 236B total and 21B active, added device routing and auxiliary losses that balance devices and communication. His reading: successful training is not only deep learning, it is also about respecting your systems. Version 3 kept the expert design and switched to balancing without an auxiliary loss.
+He closes with the DeepSeek line as a lesson in evolution ([82:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=4920)). Version 1 already had shared and fine-grained experts, top-k routing and a standard balancing loss; he calls it the platonic ideal of an MoE. Version 2, at 236B total and 21B active, added device routing and auxiliary losses that balance devices and communication. His reading: successful training is not only deep learning, it is also about respecting your systems. Version 3 kept the expert design and replaced some auxiliary losses with a per-expert bias updated online.
 
 Two extra pieces of V3 get a mention. **Multi-head latent attention** stores a compressed vector per token instead of full keys and values (Chapter 08 covers it). **Multi-token prediction** trains the model to predict several future tokens at once, which gives it a built-in speculative decoder, an idea he admires but says has not caught on ([84:00](https://www.youtube.com/watch?v=cKSwj_qZ8Jg&t=5040)).
 
@@ -216,7 +216,7 @@ You are done when:
 <details><summary>Show answers</summary>
 
 1. B. `Q (Kᵀ V)` builds a fixed-size state, so the work per token does not grow with length.
-2. B. Every example in the lecture is a hybrid, such as 7 to 1 or 3 to 1.
+2. B. Every linear-time example in the lecture is a hybrid, such as 7 to 1 or 3 to 1.
 3. C. Parameters grow with the number of experts, compute with k plus shared experts.
 4. B. Balance keeps every device busy. The top-k choice is the reason for noise and jitter, not for balancing.
 5. C. A bias adjusted online steers tokens toward underused experts.
