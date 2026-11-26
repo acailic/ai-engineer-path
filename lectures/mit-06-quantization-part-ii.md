@@ -14,12 +14,12 @@ The chapter [Quantization](../09-efficient-deep-learning/04-quantization.md) cov
 
 ### [0:00–4:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=0) Recap and plan
 
-Quantization matters as much in the vision era as in the era of large language models, on phones, edge devices and in the cloud, and Han reports a shortage of engineers who know it. Today's plan: post-training quantization, quantization-aware training, binary and ternary quantization, and automatic mixed precision. Recapping: k-means quantization stores a codebook and 2-bit or 4-bit indices but computes in floating point, which saves storage only, still valuable for language-model inference one request at a time, where weights are the memory bottleneck; linear quantization represents weights and activations as integers with a zero point and a scale and computes in integer arithmetic.
+Quantization matters both in the vision era and in the era of large language models, on phones, edge devices and in the cloud, and Han reports a shortage of engineers who know it. Today's plan: post-training quantization, quantization-aware training, binary and ternary quantization, and automatic mixed precision. Recapping: k-means quantization stores a codebook and 2-bit or 4-bit indices but computes in floating point, which saves storage only, still valuable for language-model inference one request at a time, where weights are the memory bottleneck; linear quantization represents weights and activations as integers with a zero point and a scale and computes in integer arithmetic.
 **In this book:** [Quantization › Why this matters](../09-efficient-deep-learning/04-quantization.md#why-this-matters) · [Quantization › The core idea](../09-efficient-deep-learning/04-quantization.md#the-core-idea).
 
 ### [4:00–6:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=240) Three knobs, and granularity
 
-Linear quantization rests on three choices, and the lecture takes them in turn: granularity, the range of values to keep, and rounding (is 1.5 rounded to 1, to 2, or at random?). As in pruning, granularity ranges from one scale for a whole tensor to one per channel and, going below 4 bits, to group quantization: per-vector scaling and the MX data types.
+Linear quantization rests on three choices, and the lecture takes them in turn: granularity, the range of values to keep, and rounding (is 1.5 rounded to 1, to 2, or at random?). As in pruning, granularity ranges from one scale for a whole tensor to one per channel and, at 4 bits and below, to group quantization: per-vector scaling and the MX data types.
 **In this book:** [Quantization › 3. Post-training quantization](../09-efficient-deep-learning/04-quantization.md#3-post-training-quantization).
 
 ### [6:00–8:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=360) Why one scale per tensor is not enough
@@ -34,7 +34,7 @@ With 2 bits and symmetric quantization, per-tensor uses the largest absolute val
 
 ### [14:00–16:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=840) Why groups: Blackwell and FP4
 
-Lower precision needs more accurate representation and more flexibility, so the group shrinks further. The occasion is NVIDIA's Blackwell generation, far faster than Hopper, with a new FP4 tensor core: Han's slide rates FP16 and BF16 at 4.5 petaflops, INT8 and FP8 at 9, and FP4 at 18. To keep FP4 models accurate, Blackwell introduces micro tensor scaling, which is what group quantization provides: a fine-grained scale per small group.
+Lower precision needs more accurate representation and more flexibility, so the group shrinks further. The occasion is NVIDIA's Blackwell generation, far faster than Hopper, with a new FP4 tensor core: Han's slide rates FP16 and BF16 at 4.5 petaflops, INT8, FP8 and FP6 at 9, and FP4 at 18. To keep FP4 models accurate, Blackwell introduces micro tensor scaling, which is what group quantization provides: a fine-grained scale per small group.
 **In this book:** [Quantization › 3. Post-training quantization](../09-efficient-deep-learning/04-quantization.md#3-post-training-quantization).
 
 ### [16:00–20:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=960) Two levels of scale
@@ -44,17 +44,17 @@ Per-vector scaled quantization gives each sub-vector its own scale on top of a g
 
 ### [20:00–24:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=1200) A hierarchy of scales, and the MX formats
 
-The scales form levels: level zero per channel in FP16, negligible when a model has thousands of channels; level one per group of 16 in INT4. The MX formats go further and share exponent bits. MX4 stores each value as a sign bit and two mantissa bits, shares one exponent bit between two values and an 8-bit exponent between 16: three bits plus one half plus one half make four. MX6 has four mantissa bits, giving six, and MX9 seven, giving nine. These are the representations that make fine-grained low precision usable.
+The scales form levels. Per-channel quantization has only level zero: a scale per channel in FP16, negligible when a model has thousands of channels. Per-vector scaled quantization puts level zero on each group of 16, as a 4-bit integer, with a scale per channel in FP16 above it. The MX formats go further and share exponent bits. MX4 stores each value as a sign bit and two mantissa bits, shares one exponent bit between two values and an 8-bit exponent between 16: three bits plus one half plus one half make four. MX6 has four mantissa bits, giving six, and MX9 seven, giving nine. These are the representations that keep fine-grained low precision accurate.
 **In this book:** [Quantization › 3. Post-training quantization](../09-efficient-deep-learning/04-quantization.md#3-post-training-quantization) · [Quantization › What the practitioners say](../09-efficient-deep-learning/04-quantization.md#what-the-practitioners-say).
 
-### [24:00–26:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=1440) Where the range comes from
+### [24:00–28:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=1440) Where the range comes from
 
 The range of activations changes with the input, and the scale depends on it, so statistics must be gathered before deployment. A model trained in-house can track its minimum and maximum during training with an exponential moving average, whose discount factor says how much the latest batches count; a factor of one ignores all history. Most models are downloaded already trained, with no access to the training run, so a calibration set of images or text is run instead and its range is assumed representative.
 **In this book:** [Quantization › 3. Post-training quantization](../09-efficient-deep-learning/04-quantization.md#3-post-training-quantization).
 
-### [26:00–30:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=1560) Clipping the range
+### [28:00–30:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=1680) Clipping the range
 
-Even on a calibration set the true minimum and maximum are usually the wrong choice. Activations have a long tail of rare extreme values; keeping them spends most of the levels on empty space. Clipping the range inward gives finer steps for the bulk of values at the cost of flattening the few outliers onto the edge. For a Laplacian distribution the optimum has a closed form; real activations rarely follow one, so in practice the range is chosen to minimize the KL divergence, a measure of information lost, between the distributions before and after quantization.
+Even on a calibration set the true minimum and maximum are usually the wrong choice. Activations have a long tail of rare extreme values; keeping them wastes much of the representation on nearly empty corners. Clipping the range inward gives finer steps for the bulk of values at the cost of flattening the few outliers onto the edge. For a Laplacian distribution the optimum has a closed form; real activations rarely follow one, so in practice the range is chosen to minimize the KL divergence, a measure of information lost, between the distributions before and after quantization.
 **In this book:** [Quantization › 3. Post-training quantization](../09-efficient-deep-learning/04-quantization.md#3-post-training-quantization).
 
 ### [30:00–36:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=1800) Choosing the range by KL divergence
@@ -64,12 +64,12 @@ Han illustrates with activations spread from 0 to 400 but mostly below 40. Clipp
 
 ### [36:00–40:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=2160) Rounding
 
-Round-to-nearest is conventional and not optimal, because weights are correlated: the best rounding for each weight alone is not the best for the tensor. Randomness helps, as it did for pruning: rounding 0.5 up or down at random. AdaRound goes further and learns a perturbation between 0 and 1, produced by a rectified sigmoid from a tensor the size of the weights and pushed toward 0 or 1 by a regularizer; the perturbation is added and the result rounded. Han sums up: zero point, granularity from per tensor to groups, MX formats, range clipping and rounding.
+Round-to-nearest is conventional and not optimal, because weights are correlated: the best rounding for each weight alone is not the best for the tensor. Randomness helps: rounding 0.5 up or down at random. AdaRound goes further and learns a perturbation between 0 and 1, produced by a rectified sigmoid from a tensor the size of the weights and pushed toward 0 or 1 by a regularizer; the perturbation is added and the result rounded. Han sums up: zero point, granularity from per tensor to groups, MX formats, range clipping and rounding.
 **In this book:** [Quantization › 3. Post-training quantization](../09-efficient-deep-learning/04-quantization.md#3-post-training-quantization).
 
 ### [40:00–42:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=2400) Not enough for small models
 
-With these techniques large models such as GoogLeNet and ResNet keep their accuracy, but small ones such as MobileNet still lose 1 to 2% even after everything, which is too much. The answer is fine-tuning: quantization-aware training, QAT. For k-means models that meant updating the centroids; for linear quantization it is more involved.
+With these techniques large models such as GoogLeNet and ResNet keep their accuracy, but small ones such as MobileNet, he says, still lose about 10% and 2% accuracy even after everything, which is too much. The answer is fine-tuning: quantization-aware training, QAT. For k-means models that meant updating the centroids; for linear quantization it is more involved.
 **In this book:** [Quantization › 4. Quantization-aware training](../09-efficient-deep-learning/04-quantization.md#4-quantization-aware-training).
 
 ### [42:00–46:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=2520) Quantization-aware training
@@ -79,7 +79,7 @@ During training a full-precision copy of the weights is kept in the background, 
 
 ### [46:00–48:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=2760) What QAT buys
 
-On Han's slide quantization-aware training lifts a model whose post-training accuracy was nearly nothing, 0.1%, to 70%, and another from 59% to 70%; for models already robust, such as some NAS and MobileNet models, the gain is marginal. Large language models are too costly to train this way often, so for them the goal is post-training quantization that needs no fine-tuning, covered later in the course.
+On Han's slide quantization-aware training lifts a model whose post-training accuracy was nearly nothing, 0.1%, to 70%, and in a second case from 59% to 70%; for models already robust, such as some NAS and MobileNet models, the gain is marginal. Large language models are too costly to train this way often, so for them the goal is post-training quantization that needs no fine-tuning, covered later in the course.
 **In this book:** [Quantization › 4. Quantization-aware training](../09-efficient-deep-learning/04-quantization.md#4-quantization-aware-training).
 
 ### [48:00–52:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=2880) Binary weights
@@ -89,7 +89,7 @@ Binary quantization keeps only the sign: a positive weight becomes +1 and a nega
 
 ### [52:00–58:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3120) Binary weights and activations: XNOR and popcount
 
-Binarizing the activations too turns a dot product into bitwise operations. The XNOR of two bits is 1 when they agree and 0 otherwise, so counting the ones gives the number of agreeing pairs; the dot product equals twice that count minus n. A popcount and a shift replace multiply and add, both cheap in hardware: 32 times less memory and roughly 58 times less computation by his estimate. XNOR-Net improves accuracy, yet with both weights and activations binarized the loss remains visible; his group published an FPGA implementation that uses only these two operations.
+Binarizing the activations too turns a dot product into bitwise operations. The XNOR of two bits is 1 when they agree and 0 otherwise, so counting the ones gives the number of agreeing pairs; the dot product equals twice that count minus n. A popcount and a shift replace multiply and add, both cheap in hardware: 32 times less memory and roughly 58 times less computation by his estimate. XNOR-Net improves accuracy, yet with both weights and activations binarized the loss remains visible; he published an open-source FPGA implementation that uses only XNOR and popcount.
 **In this book:** nothing beyond this guide; nearest: [Quantization › What each option costs and when to choose it](../09-efficient-deep-learning/04-quantization.md#what-each-option-costs-and-when-to-choose-it).
 
 ### [58:00–1:02:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3480) Ternary weights
@@ -110,7 +110,7 @@ As with pruning, layers differ in sensitivity, so each can have its own bit widt
 ## What to take away
 
 - One scale per tensor wastes range on outliers; per-channel scales, and below 4 bits per-group scales such as the MX formats, buy accuracy back at a small storage cost.
-- Choose the range by clipping a calibration set so that as little information as possible is lost, and do not assume round-to-nearest is best.
+- Choose the range on a calibration set by clipping it so that as little information as possible is lost, and do not assume round-to-nearest is best.
 - When post-training quantization falls short, fine-tune with fake quantization and the straight-through estimator.
 - Binary and ternary weights trade accuracy for bitwise arithmetic; about 4 bits is the usual sweet spot, and the right width differs by layer.
 
