@@ -1,6 +1,6 @@
 # 01. The Agent Framework Landscape
 
-**Level:** Practitioner · **Reading time:** 12 min · **Exercise:** 45 min
+**Level:** Practitioner · **Reading time:** 16 min · **Exercise:** 45 min
 **Prerequisites:** [The Anatomy of an Agent](../02-building-agents/01-the-anatomy-of-an-agent.md)
 
 > **In one sentence:** After this chapter you can say what an agent framework does for you, what it takes away, and choose between five layers of abstraction for a task using numbers you measured yourself.
@@ -122,6 +122,8 @@ Chi Wang (then at AutoGen-AI) and Jerry Liu (LlamaIndex) shared the lecture of S
 - **A low bar for the word "agent".** Liu offers what he calls a very rough definition: "a computer program that has non-zero LLM calls" ([58:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3480)). One toolkit should then cover both ends. LlamaIndex's workflows are event-driven: steps pass messages, and a step can be plain Python or a model call.
 - **Production looks ordinary.** In production, Liu says, each agent workflow sits behind an API, agent communication goes through a central message queue, and a human-in-the-loop step is a service that waits for a person's reply ([62:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3720)). Those are distributed-systems problems that existed long before LLMs.
 
+In the Fall 2025 course, Clay Bavor of Sierra, which sells a platform for building agents, takes the build-or-buy question from the vendor's side: companies ask him why they should not just build their own. To most engineers, he says, the job looks small: choose a model, choose a search index, connect a few tools and APIs, and the work is done. After two and a half years of building customer-facing agents, his list of what else has to be right is longer: how the agent is versioned and released, how you watch what it does, how you stop it from making things up, and how you keep it inside the law, since a financial-services agent must not give financial advice and a healthcare agent must not diagnose. Voice adds latency, proper nouns and accents, and some people try to poison the context with injected prompts ([8:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=480)). Building agents, he says, still feels like the web in 1997: no standard stack existed, people assembled applications piece by piece, and a magazine reported that one bank paid 13 million dollars to turn a business-card site into one web form ([10:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=600)).
+
 The AutoGen status in this chapter comes from its documentation page, opened on November 24, 2026. The current status of LangGraph, CrewAI and the other frameworks was not re-checked for this edition; treat them as examples of a layer, not as a buying guide.
 
 ## Pitfalls
@@ -192,6 +194,7 @@ Stretch goal: switch the model provider in both implementations and record how m
 ## Sources
 
 - **Lecture:** Chi Wang and Jerry Liu, "Agentic AI Frameworks & AutoGen + Building a Multimodal Knowledge Assistant", UC Berkeley LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=OOdtmCMSOo4) · [guide](../lectures/f24-03-agentic-ai-frameworks-and-autogen-building-a.md), used at [Wang's framing](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=0), [three steps](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=600), [starting points](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=1200), [open question](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=2160), [constrained flows](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3360), [production](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3720)
+- **Lecture:** Clay Bavor, "Practical Lessons from Deploying Real-World AI Agents", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=sfJM4LaiYsM) · [guide](../lectures/f25-09-practical-lessons-from-deploying-real-world-ai.md), used at [what has to be right](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=480), [the web in 1997](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=600)
 - **Web:** Microsoft, AutoGen documentation (layers, install commands, archive notice): [microsoft.github.io/autogen/stable](https://microsoft.github.io/autogen/stable/), opened November 24, 2026
 
 ## Next

@@ -30,7 +30,7 @@ Companies run phone, chat and email as separate channels, each with its own team
 ### [8:00–10:46](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=480) The agent iceberg
 
 To an engineer inside a company, building an agent looks like choosing a model, picking a search index and wiring up a few tools. Below that surface Bavor lists what else has to be right: version control and release management for the agent, observing what it does, keeping it from inventing facts, and keeping it inside the law, for instance no financial advice in banking and no diagnosis in healthcare. In voice there is latency, names and accents to handle, and there are people who try to poison the context. His comparison is the web in 1997, with no standard stack yet and, as a magazine reported, a bank paying $13 million for a site with a single form.
-**In this book:** nothing beyond this guide; nearest: [The Agent Framework Landscape › What a framework solves, and what it costs](../05-frameworks-and-multi-agent/01-the-agent-framework-landscape.md#what-a-framework-solves-and-what-it-costs).
+**In this book:** [The Agent Framework Landscape › What the practitioners say](../05-frameworks-and-multi-agent/01-the-agent-framework-landscape.md#what-the-practitioners-say).
 
 ### [10:46–12:22](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=646) From technology to product
 

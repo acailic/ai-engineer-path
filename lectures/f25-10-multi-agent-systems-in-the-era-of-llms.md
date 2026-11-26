@@ -35,7 +35,7 @@ Playing online from the office against opponents who had opted in, that network 
 ### [11:51–14:07](https://www.youtube.com/watch?v=ntjOxjZMaac&t=711) What later projects took from the games
 
 Reporters at the time did not see what playing games had to do with the real world; Vinyals answers with a timeline. Games were a sandbox for trying ideas and for scaling up neural networks, and the projects on it took algorithms or lessons from those before. After StarCraft came early work on coding, DeepMind's first language models such as Chinchilla, vision-language models such as Flamingo and Gato, and AlphaFold, which borrowed from transformers and from distilling data. Today most of the research and the resources go into one very large project, Gemini, which he co-leads technically and which aims at the most general system possible; playing a game is now one of many abilities.
-**In this book:** nothing beyond this guide; nearest: [Multi-Agent Systems II: The LLM Era › Vinyals: why a population helps, at training time](../05-frameworks-and-multi-agent/05-multi-agent-systems-ii-the-llm-era.md#vinyals-why-a-population-helps-at-training-time).
+**In this book:** [Multi-Agent Systems II: The LLM Era › What the practitioners say › Vinyals: why a population helps, at training time](../05-frameworks-and-multi-agent/05-multi-agent-systems-ii-the-llm-era.md#vinyals-why-a-population-helps-at-training-time).
 
 ### [14:07–20:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=847) Three training stages, and actions as API calls
 

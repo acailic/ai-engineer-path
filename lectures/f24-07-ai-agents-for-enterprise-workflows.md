@@ -70,7 +70,7 @@ A page holds hundreds of thousands of tokens, little of it relevant. The target 
 ### [1:00:01–1:04:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=3601) A team of agents around one ticket
 
 The lecture returns to the access problem from the start. Before the human agent opens the ticket, one agent proposes a plan as a list of steps, and an orchestrator asks her to approve it. Other agents then execute the sub-tasks, and the agent that changes permissions asks for confirmation again before anything destructive. Two human approvals are built into the flow; the agents do the rest of the work.
-**In this book:** nothing beyond this guide; nearest: [Agents in the Enterprise › The core idea](../05-frameworks-and-multi-agent/07-agents-in-the-enterprise.md#the-core-idea).
+**In this book:** [Agents in the Enterprise › How it works, step by step: from notebook to workflow](../05-frameworks-and-multi-agent/07-agents-in-the-enterprise.md#how-it-works-step-by-step-from-notebook-to-workflow).
 
 ### [1:04:00–1:08:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=3840) Measuring the impact on knowledge work
 

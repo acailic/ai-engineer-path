@@ -205,6 +205,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Cold start** | The delay before a fresh sandbox or process is ready to use. | [05.06](05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md) |
 | **Collective operation** | A communication pattern in which every rank takes part at once, such as all-reduce. | [10.06](10-llm-internals/06-parallelism.md) |
 | **Common Crawl** | A public snapshot of web pages, used as raw material for pre-training data. | [01.02](01-foundations/02-how-large-language-models-are-trained.md) |
+| **common knowledge** | In Brown's wording, a strategy that the opponent knows, while the outcomes of its random choices stay unknown | [05.04](05-frameworks-and-multi-agent/04-multi-agent-systems-i-games-and-self-play.md) |
 | **Compaction** | Shortening an agent's history by replacing older steps with a summary. | [02.04](02-building-agents/04-memory-and-knowledge-for-agents.md) |
 | **Complete mediation** | The principle that every access is checked, with no exceptions. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
 | **Complexity asymmetry** | The requirement that the simulated user stay less capable than the agent, so the task still needs the agent. | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
@@ -798,6 +799,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Oracle** (also called: External check, Test oracle) | A cheap, trusted procedure that says whether a result is correct, such as running a program. | [03.01](03-evaluation/01-evaluation-is-the-product.md) |
 | **Oracle (red teaming)** | A rule that decides whether an attack succeeded, such as a canary in an answer or a change of state. | [04.06](04-safety-and-security/06-red-teaming-and-safety-evaluation.md) |
 | **Oracle problem** | The difficulty of naming the expected output for an input, especially one that was generated automatically. | [08.01](08-quality-assurance/01-quality-assurance-basics-and-the-oracle-problem.md) |
+| **orchestrator** | The agent that shows a person the plan and asks for approval before the other agents carry the sub-tasks out | [05.07](05-frameworks-and-multi-agent/07-agents-in-the-enterprise.md) |
 | **OSWorld** | A 2024 benchmark of 369 tasks on a real desktop operating system, run in a virtual machine and scored by scripts. | [06.01](06-frontier-applications/01-multimodal-agents-web-and-computer-use.md) |
 | **Out-of-band check** | A check that runs beside the request path and reads the record of a run: it costs almost no latency but cannot block an action in time. | [04.05](04-safety-and-security/05-runtime-monitoring-and-detection.md) |
 | **Out-of-distribution input** (also called: Out-of-distribution data) | An input that differs strongly from the data a model was trained on. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |

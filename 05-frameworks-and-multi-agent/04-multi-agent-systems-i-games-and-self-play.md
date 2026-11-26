@@ -1,6 +1,6 @@
 # 04. Multi-Agent Systems I: Games and Self-Play
 
-**Level:** Practitioner · **Reading time:** 13 min · **Exercise:** 45 min
+**Level:** Practitioner · **Reading time:** 18 min · **Exercise:** 45 min
 **Prerequisites:** [From Base Model to Assistant: Post-Training](../01-foundations/03-from-base-model-to-assistant-post-training.md) (the words pre-training, post-training and chain of thought)
 
 > **In one sentence:** After this chapter you can say when a population of agents finds an unbeatable strategy on its own, when it cannot, and why human data is unavoidable when the goal is cooperation with people.
@@ -30,6 +30,12 @@ One answer: the player who wins head-to-head against anyone over a large sample,
 ### 2. Measure the distance from the top
 
 If you always throw rock, the best response is always paper and your exploitability is 1. The measure assumes the opponent knows your strategy, but not the outcome of your random choices ([4:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=240), [6:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=360)).
+
+Brown calls it a strong assumption, and fair to question. His reason: an AI that goes online and is used by billions of people has its weaknesses found and exploited sooner or later. So exploitability takes the hardest case, in which people have full access to your weights and know your exact probabilities over actions. In his words the strategy is **common knowledge** (known to the opponent); the outcome of a random process is not ([6:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=360)).
+
+Rock-paper-scissors holds even there. Throw each move with probability one third. The opponent knows the strategy but not the next throw, so the best it can do is tie: exploitability is zero. That is the minimax equilibrium, and it shows both sides of the guarantee. You do not lose in expectation, and you do not win in expectation either.
+
+Poker is different, he says. Its equilibrium strategy is much more complicated, and many of the opponent's actions lose money in expectation against it. What the opponent loses, you gain, so the equilibrium player profits from mistakes. He reports that poker professionals now play this way, and deviate only when they observe a weakness over the long run ([8:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=480)).
 
 ### 3. Why self-play is almost free in two-player zero-sum games
 
@@ -223,7 +229,7 @@ Stretch goal: implement regret matching for the first game and compare the explo
 
 ## Sources
 
-- **Lecture:** Noam Brown, "Multi-Agent AI", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=SrLcGdVOb9w) · [guide](../lectures/f25-06-multi-agent-ai.md), used at [AlphaGo analogy](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=0), [two answers](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=120), [exploitability](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=240), [self-play](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=600), [imperfect information](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=720), [fictitious play](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1080), [central claim](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1533), [ultimatum game](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1560), [self-play optimum](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1800), [Diplomacy](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1920), [DORA experiment](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2160), [why human data](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2280), [CICERO results](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2400), [Hanabi](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2520)
+- **Lecture:** Noam Brown, "Multi-Agent AI", UC Berkeley Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=SrLcGdVOb9w) · [guide](../lectures/f25-06-multi-agent-ai.md), used at [AlphaGo analogy](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=0), [two answers](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=120), [exploitability](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=240), [the assumption](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=360), [poker](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=480), [self-play](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=600), [imperfect information](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=720), [fictitious play](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1080), [central claim](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1533), [ultimatum game](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1560), [self-play optimum](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1800), [Diplomacy](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=1920), [DORA experiment](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2160), [why human data](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2280), [CICERO results](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2400), [Hanabi](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2520)
 - **Reading:** Anton Bakhtin, David Wu, Adam Lerer, Noam Brown, "Mastering the Game of No-Press Diplomacy via Human-Regularized Reinforcement Learning and Search" (NeurIPS 2021): [arXiv](https://arxiv.org/abs/2210.05492). Allan Dafoe et al., "Cooperative AI: machines must learn to find common ground" (Nature comment, 2021), cited on the lecture's slides.
 
 ## Next

@@ -30,7 +30,7 @@ Outside such games, he says, the nice properties go away. One player wins head t
 ### [6:00–9:36](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=360) Why the opponent is assumed to know your strategy
 
 Exploitability assumes that your strategy is common knowledge while the outcome of your random choices is not. The reason: a system used by billions will have its weaknesses found and used. For rock-paper-scissors the fix is to choose each move with probability one third, which ties every opponent but never wins. Poker is different: an equilibrium strategy makes many opponent moves losing moves, so the opponent's mistakes become your profit, and professionals now play that way and deviate only when they spot a weakness.
-**In this book:** nothing beyond this guide; nearest: [Multi-Agent Systems I › 2. Measure the distance from the top](../05-frameworks-and-multi-agent/04-multi-agent-systems-i-games-and-self-play.md#2-measure-the-distance-from-the-top).
+**In this book:** [Multi-Agent Systems I: Games and Self-Play › How it works, step by step › 2. Measure the distance from the top](../05-frameworks-and-multi-agent/04-multi-agent-systems-i-games-and-self-play.md#2-measure-the-distance-from-the-top).
 
 ### [9:36–12:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=576) Sound self-play needs no human data
 
@@ -85,7 +85,7 @@ Collect human data and train a model that imitates those humans; scale inference
 ### [42:55–46:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2575) Reasoning models improve fast
 
 The lecturer motivates cooperation between agents with the rise of reasoning models: performance rises with thinking time, and newer models reach the same performance with less of it. On competitive programming the percentile among contestants went from below the fifth in early 2022 to above the 99th in 2025, with a first place among humans in a major contest. Longer thinking has many challenges, he says, and he asks whether a model could be made to think for hours, days or weeks.
-**In this book:** nothing beyond this guide; nearest: [Multi-Agent Systems II › Brown: what parallel sampling buys](../05-frameworks-and-multi-agent/05-multi-agent-systems-ii-the-llm-era.md#brown-what-parallel-sampling-buys).
+**In this book:** [Multi-Agent Systems II: The LLM Era › What the practitioners say › Brown: what parallel sampling buys](../05-frameworks-and-multi-agent/05-multi-agent-systems-ii-the-llm-era.md#brown-what-parallel-sampling-buys).
 
 ### [46:00–48:41](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2760) Thinking is serial: two parallel alternatives, consensus and best of n
 
