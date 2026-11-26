@@ -29,7 +29,7 @@ At each step something can go wrong: a backdoor in the deployed model, a hostile
 
 ### [31:11–37:17](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=1871) Model Security Levels
 
-She ranks models in five levels: accurate and secure against every attack; accurate but open to prompt injection, jailbreaks and prompt leakage; also inaccurate; poisoned, with hidden backdoors; and fully malicious, where loading alone can trigger remote code execution. Real models sit below the top, so defenses must be layered, and misuse of the model must not become misuse of the agent.
+She ranks models in five levels: accurate and secure against every attack; accurate but open to prompt injection, jailbreaks and prompt leakage; also inaccurate; poisoned, with hidden backdoors; and fully malicious, where loading alone can trigger remote code execution. Models may fall short of the top level, so defenses must be layered, and misuse of the model must not become misuse of the agent.
 **In this book:** [01. Threat Modeling LLM Applications and Agents › Assume how good the model is](../04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md#6-assume-how-good-the-model-is).
 
 ### [37:17–45:05](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=2237) SQL Injection Attacks
@@ -49,7 +49,7 @@ A direct prompt injection is a user telling the model to disregard its system pr
 
 ### [1:00:47–1:16:20](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=3647) Evaluation and Risk Assessment
 
-Evaluation has to move from the standalone model to the whole system. Her AgentXploit red-teams black-box AI agents end to end with a weak attacker: no access to the user's query or the agent's internals, only a success-or-failure signal, and control only over external data sources. A fuzzer mutates seed instructions and injects them into that data, doubling the attack success rate of hand-crafted attacks and transferring to unseen tasks.
+Evaluation has to move from the standalone model to the whole system. Her AgentXploit red-teams black-box AI agents end to end with a weak attacker: unable to modify the user's query or access the agent's internals, given only a success-or-failure signal, and in control only of external data sources. A fuzzer mutates seed instructions and injects them into that data, doubling the attack success rate of hand-crafted attacks and transferring to unseen tasks.
 **In this book:** [06. Red-Teaming and Safety Evaluation › Families of attack generator](../04-safety-and-security/06-red-teaming-and-safety-evaluation.md#families-of-attack-generator).
 
 ### [1:16:20–1:25:58](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=4580) Defense Principles
@@ -59,7 +59,7 @@ She starts from three principles: defense in depth stacks layers, so that a hole
 
 ### [1:25:58–1:52:00](https://www.youtube.com/watch?v=ti6yPE2VPZc&t=5158) Action Policy Enforcement
 
-Because agents act, her group's Progent checks every tool call against a policy, and adding this programmable privilege control to an existing agent took about 10 changed lines. Policies are updated during a run, so a poisoned knowledge base cannot make an agent delete a database and an injected transfer to an attacker is stopped. Human-written policies give global guarantees and model-written ones adapt per task; together they cut attack success sharply. Open problems remain (agent identities, sandboxes, monitoring, information-flow tracking, formal verification), and the announced topics on misuse and policy were skipped.
+Because agents act, her group's Progent checks every tool call against a policy, and adding this programmable privilege control to an existing agent took about 10 changed lines. Policies are initialized for a request and updated during the run: a poisoned knowledge base cannot make an agent delete a database, and an injected transfer to an attacker is stopped. Human-written policies give global guarantees and model-written ones adapt per task; together they cut attack success sharply. Open problems remain (agent identities, privilege separation, monitoring, information-flow tracking, formal verification), and the announced topics on misuse and policy were skipped.
 **In this book:** [04. Defenses: Guardrails, Detection and Secure Design › Enforce least privilege on every action](../04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md#6-enforce-least-privilege-on-every-action).
 
 ## What to take away
