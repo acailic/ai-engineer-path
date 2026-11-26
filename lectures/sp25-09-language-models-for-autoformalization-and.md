@@ -4,7 +4,7 @@
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=cLhWEyMQ4mQ) · **Slides:** [slides](https://rdi.berkeley.edu/llm-agents-mooc/slides/mathverification.pdf)
 **Chapters that cite this lecture:** [04. Agents for Formal Mathematics](../06-frontier-applications/04-agents-for-formal-mathematics.md) · [05. What Frontier Domains Teach About Agents](../06-frontier-applications/05-what-frontier-domains-teach-about-agents.md)
 
-> **In one sentence:** Kaiyu Yang explains how language models are trained for mathematics, why that recipe stalls at research-level proofs, and how the proof assistant Lean restores verification: a retriever that supplies useful lemmas, a system that splits proof steps into a finite and an infinite kind, and a benchmark for translating Euclid into Lean.
+> **In one sentence:** Kaiyu Yang explains how language models are trained for mathematics, why that recipe stalls at research-level proofs, and how the proof assistant Lean restores verification: a retriever that supplies useful lemmas, a system that splits proof steps into a finite and an infinite kind, and a benchmark for translating Euclidean geometry into Lean.
 
 ## Before you watch
 
@@ -19,12 +19,12 @@ Each new model is judged on competition maths and coding. In November 2023 a hed
 
 ### [4:08–10:22](https://www.youtube.com/watch?v=cLhWEyMQ4mQ&t=248) How models are trained for maths
 
-First continued pre-training on maths pages from forums and papers gives a base maths model. Then supervised fine-tuning on problems with step-by-step solutions, sometimes calling Python, teaches it to solve problems; collecting that data is the most expensive part, because people must annotate and clean it. When only final answers exist, reinforcement learning works: the model writes a solution, its final answer is compared with the truth, and the result is the reward, optimized with an algorithm such as GRPO. This simple idea, long known, was first shown to train reasoning models by DeepSeek-R1. Its key is verifiability; whether it works for proofs is the lecture's question.
+First continued pre-training on maths pages from forums and papers gives a base maths model. Then supervised fine-tuning on problems with step-by-step solutions, sometimes calling Python, teaches it to solve problems; collecting that data is one of the most expensive parts, because people must annotate and clean it. When only final answers exist, reinforcement learning works: the model writes a solution, its final answer is compared with the truth, and the result is the reward, optimized with an algorithm such as GRPO. This simple idea, long known, was first shown to train reasoning models by DeepSeek-R1. Its key is verifiability; whether it works for proofs is the lecture's question. Every lab uses the same algorithms; infrastructure, engineering and data decide.
 **In this book:** [From Base Model to Assistant: Post-Training › 4. Reinforcement learning with verifiable rewards](../01-foundations/03-from-base-model-to-assistant-post-training.md#4-reinforcement-learning-with-verifiable-rewards).
 
 ### [10:22–14:59](https://www.youtube.com/watch?v=cLhWEyMQ4mQ&t=622) Why AI has not solved mathematics
 
-Every lab uses the same algorithms; infrastructure, engineering and data decide. Two gaps remain. Successes are mostly pre-college: a leading mathematician found that a reasoning model still struggles with research problems, which are novel and so have little training data, and the research-level benchmark was designed with numerical answers so that it can be scored. Second, models are good at guessing answers and poor at writing proofs: on an undergraduate competition most answers earned one or two points of ten, and on an olympiad every model scored about 5%, with errors such as flipping an inequality when multiplying by a positive number.
+Two gaps remain. Successes are mostly pre-college: a leading mathematician found that a reasoning model still struggles with research problems, which are novel and so have little training data, and the research-level benchmark was designed with numerical answers so that it can be scored. Second, models are good at guessing answers and poor at writing proofs: on an undergraduate competition most answers earned one or two points of ten, and on an olympiad every model scored about 5%, with errors such as flipping an inequality when multiplying by a positive number.
 **In this book:** [Agents for Formal Mathematics › Why this matters](../06-frontier-applications/04-agents-for-formal-mathematics.md#why-this-matters).
 
 ### [14:59–18:28](https://www.youtube.com/watch?v=cLhWEyMQ4mQ&t=899) Formal reasoning: a checker instead of data
@@ -32,24 +32,24 @@ Every lab uses the same algorithms; infrastructure, engineering and data decide.
 The lecturer's position paper argues for grounding mathematical reasoning in formal systems, here the proof assistant Lean. A checker verifies proofs and gives automatic feedback, which reduces the need for human data and makes evaluation rigorous. Formal mathematics is written like software: a file holds a proof as a tree of goals, files form projects, and one project builds on another's definitions.
 **In this book:** [Agents for Formal Mathematics › The core idea](../06-frontier-applications/04-agents-for-formal-mathematics.md#the-core-idea).
 
-### [18:28–22:00](https://www.youtube.com/watch?v=cLhWEyMQ4mQ&t=1108) Two tasks and a first prover
+### [18:28–23:15](https://www.youtube.com/watch?v=cLhWEyMQ4mQ&t=1108) Two tasks and a first prover
 
 Theorem proving takes a formal statement and asks for a formal proof, which Lean checks, leaving no room to hallucinate. Autoformalization translates informal mathematics into formal. For proving, the central question is the next step. Earlier systems learned it from human proofs with classical machine learning, later with neural networks, and only large language models brought a real jump. LeanDojo, published in 2023, released open data, tools and models: about 10,000 human-written theorems with their proof steps and the lemmas they use. Its model, the retrieval-augmented prover ReProver, encodes the current proof state and every lemma as vectors, retrieves the most similar lemmas, and generates the next step from state and lemmas.
 **In this book:** [Agents for Formal Mathematics › What the practitioners say](../06-frontier-applications/04-agents-for-formal-mathematics.md#what-the-practitioners-say).
 
-### [22:00–25:07](https://www.youtube.com/watch?v=cLhWEyMQ4mQ&t=1320) How a neural prover is built
+### [23:15–25:07](https://www.youtube.com/watch?v=cLhWEyMQ4mQ&t=1395) How a neural prover is built
 
 Two parts: a search over the tree of proof states, with depth-first or Monte Carlo search, and a model that proposes next steps at each node. Expert iteration improves it: the prover attempts new theorems, the new proofs join the training set, and a better prover is trained, with gains up to a saturation point.
 **In this book:** [Agents for Formal Mathematics › What the practitioners say](../06-frontier-applications/04-agents-for-formal-mathematics.md#what-the-practitioners-say).
 
-### [25:07–28:00](https://www.youtube.com/watch?v=cLhWEyMQ4mQ&t=1507) Two limits, and a small playground
+### [25:07–29:00](https://www.youtube.com/watch?v=cLhWEyMQ4mQ&t=1507) Two limits, and a small playground
 
-Human proofs online are few compared with Python code. Worse, the action space is infinite: Go has a fixed board, a proof allows endless tactics, so human data cannot cover it and exploration in reinforcement learning is hard; in the questions, the lecturer adds that choosing examples neither too easy nor too hard is the main difficulty of curricula. The team chose olympiad inequalities, whose proofs are regular: apply a known inequality such as AM-GM or Cauchy-Schwarz, or rewrite the formula so that one applies, though even then the branching is large.
+Human proofs online are few compared with Python code. Second, the action space is infinite: Go has a fixed board, a proof allows endless tactics, so human data cannot cover it and exploration in reinforcement learning is hard; in the questions, the lecturer adds that choosing examples neither too easy nor too hard is a major difficulty of curricula. The team chose olympiad inequalities, whose proofs are regular: apply a known inequality such as AM-GM or Cauchy-Schwarz, or rewrite the formula so that one applies, though even then the branching is large.
 **In this book:** [Agents for Formal Mathematics › What the practitioners say](../06-frontier-applications/04-agents-for-formal-mathematics.md#what-the-practitioners-say).
 
-### [28:00–33:15](https://www.youtube.com/watch?v=cLhWEyMQ4mQ&t=1680) LIPS: splitting steps into finite and infinite
+### [29:00–33:15](https://www.youtube.com/watch?v=cLhWEyMQ4mQ&t=1740) LIPS: splitting steps into finite and infinite
 
-On 20 inequalities, an early reasoning model proved none, two stronger ones three or four, and a human gold medallist at least 15. LIPS sorts steps into two kinds. Scaling applies an existing lemma to part of the formula; there are few lemmas and finitely many ways to apply each, so a symbolic algorithm can enumerate all of them. Rewriting changes the formula and is infinite, so it is left to the language model. Heuristics filter the candidates. LIPS solved 16 of the 20, against 4 for one reasoning model, and found a proof that an olympiad coach had declared impossible with AM-GM, using AM-GM with a clever rewrite. The lesson: domain insight can structure an infinite action space; whether this generalizes is open.
+On 20 inequalities, an early reasoning model proved none, two stronger ones three or four, and a human gold medallist at least 15. LIPS sorts steps into two kinds. Scaling applies an existing lemma to part of the formula; there is a finite number of lemmas and finitely many ways to apply each, so a symbolic algorithm can enumerate all of them. Rewriting changes the formula and is infinite, so it is left to the language model. Heuristics filter the candidates. LIPS solved 16 of the 20, against 4 for one reasoning model, and found a proof that an olympiad coach had declared impossible with AM-GM, using AM-GM with a clever rewrite. The lesson: domain insight can structure an infinite action space; whether this generalizes is open.
 **In this book:** [Agents for Formal Mathematics › What the practitioners say](../06-frontier-applications/04-agents-for-formal-mathematics.md#what-the-practitioners-say).
 
 ### [33:15–36:00](https://www.youtube.com/watch?v=cLhWEyMQ4mQ&t=1995) Autoformalizing statements: no reliable check
@@ -82,7 +82,7 @@ Without training, only with a few demonstrations, two versions of GPT-4 autoform
 - Training on answers works because answers can be checked; proofs and research maths lack both data and a check.
 - A proof assistant supplies the check, so the model learns from feedback instead of from scarce human proofs.
 - Retrieval narrows the next step; splitting steps into a finite kind for a symbolic algorithm and an infinite kind for the model structures the search.
-- Restricting autoformalization to one domain makes evaluation rigorous; doing it domain by domain is the open problem.
+- Restricting autoformalization to one domain makes evaluation rigorous; generalizing beyond that domain is the open problem.
 
 ## Sources
 
