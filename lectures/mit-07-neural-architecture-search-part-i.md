@@ -95,7 +95,7 @@ Random search samples designs at random and is the first thing to run, also in t
 ### [58:00–1:02:00](https://www.youtube.com/watch?v=3W146_T8eCs&t=3480) Gradient descent, and a differentiable latency
 
 Search can be made differentiable. Where a layer could be a 3 by 3, a 5 by 5 or a 1 by 1 convolution, the output is a weighted sum of all candidates and the weights, the probabilities of choosing each, are learned; training runs every candidate, which costs memory, and at inference the most probable path is kept. Latency can join the loss too: measure each building block's latency once, take the expected latency as the sum of probability times latency, and add it to the cross-entropy loss and the weight regularizer, so that gradient descent favours accurate and fast models at once.
-**In this book:** nothing beyond this guide; nearest: [Neural Architecture Search › Step 3. Choose a search algorithm](../09-efficient-deep-learning/05-neural-architecture-search.md#step-3-choose-a-search-algorithm).
+**In this book:** [Neural Architecture Search › How it works, step by step › Step 3: Choose a search algorithm](../09-efficient-deep-learning/05-neural-architecture-search.md#step-3-choose-a-search-algorithm).
 
 ### [1:02:00–1:06:00](https://www.youtube.com/watch?v=3W146_T8eCs&t=3720) Evolutionary search
 

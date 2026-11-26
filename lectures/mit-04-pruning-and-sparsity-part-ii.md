@@ -95,7 +95,7 @@ The kernel needs a rule map between input, output and weights, built weight by w
 ### [1:02:00–1:04:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=3720) TorchSparse++: sort neighbours together
 
 TorchSparse++ overlaps memory access with computation, for 3D perception in autonomous driving, with a kernel generator and an auto-tuner. Its trick is reordering: adjacent outputs are computed in parallel, so a neighbour's work is padded into each; treating each output's pattern as a binary number and sorting outputs by it puts similar patterns side by side, cutting redundant multiplications from 12 to 10 in his example, and splitting channels reduces them further, to 8, at a small cost in sorting.
-**In this book:** nothing beyond this guide; nearest: [Pruning and Sparsity › Step 5: Match the hardware](../09-efficient-deep-learning/03-pruning-and-sparsity.md#step-5-match-the-hardware).
+**In this book:** [Pruning and Sparsity › What the practitioners say](../09-efficient-deep-learning/03-pruning-and-sparsity.md#what-the-practitioners-say).
 
 ### [1:04:00–1:06:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=3840) PointAcc: the rule map in hardware
 

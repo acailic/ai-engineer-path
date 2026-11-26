@@ -1,6 +1,6 @@
 # 02. Neural Network Basics for Efficiency
 
-**Level:** Foundation · **Reading time:** 18 min · **Exercise:** 45 min
+**Level:** Foundation · **Reading time:** 21 min · **Exercise:** 45 min
 **Prerequisites:** [Why efficiency matters](01-why-efficiency-matters.md)
 
 > **In one sentence:** After this chapter you can take the shape of a layer and compute its parameter count, weight memory and operation count by hand, then say whether running it is limited by arithmetic or by moving data.
@@ -90,6 +90,31 @@ Two more layer types appear in every modern network. A **normalization layer** r
 ### 3. Attention, in one paragraph
 
 A **transformer** is the architecture behind modern language models. Its key step, **attention**, has every token compare itself with every other token. Han describes it as a [softmax](../GLOSSARY.md) over all pairs, giving an `M × N` attention map ([30:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1800)). The efficiency consequence: work grows with the square of the sequence length, and with the square of the resolution for images. He previews two answers: sparse attention, since not all tokens need to attend to each other, and FlashAttention, which cuts the memory movement and brings memory down to almost constant but leaves the FLOPs unchanged ([30:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1800)). [Chapter 08](08-efficient-llm-inference-and-deployment.md) covers what to do about it; the architecture itself is explained in [transformer architectures](../10-llm-internals/03-transformer-architectures-and-hyperparameters.md).
+
+### Normalization layers
+
+A normalization layer subtracts a mean from a block of activations and divides by the standard deviation, adding a tiny number to avoid dividing by zero. A learned scale and bias follow, so no representational power is lost. Batch normalization dates from about 2015 and made training more stable; layer normalization does the same job in transformers ([21:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1260)). They differ in which values are normalized together ([22:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1320)):
+
+| Variant | The set of values |
+|---|---|
+| **Batch normalization** | One channel, across the whole batch and every position. Common in convolutional networks. |
+| **Layer normalization** | Every channel and position of one input. In attention each token is normalized first; without that, Han says, the attention map is much harder to optimize. |
+| **Instance normalization** | The positions of one channel and input. |
+| **Group normalization** | Channels in groups, each normalized on its own. For a large channel count. |
+
+Two efficiency uses follow. Its only parameters are the scale and bias, so fine-tuning can update those alone. It can also absorb a rescaling such as SmoothQuant's, described in [Quantization](04-quantization.md), without an extra kernel call (a separate GPU routine).
+
+### Activation functions
+
+For Han, each popular activation function trades accuracy against efficiency ([24:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1440)). The chapter's `max(0, x)` is **ReLU**; the others alter one property of it:
+
+- **Sigmoid** stays between 0 and 1. The narrow, fixed range is easy to quantize, but the gradient vanishes at both ends.
+- **ReLU** gives a gradient of one on the positive side and brings sparsity for free: negative values become zero, so the feature map can be stored as a one-bit mask. Its costs are **dead neurons**, which no gradient revives, and a range with no upper bound, which is hard to quantize.
+- **ReLU6** limits its output to 6. Han calls the limit purely empirical; a narrower range is easier to quantize.
+- **Leaky ReLU** gives the negative side a small slope, so gradients flow there, but the sparsity is gone.
+- **Swish** came out of architecture search. It multiplies x by the sigmoid of x, hard to build in hardware, so **hard Swish** stands in for it: zero for x below −3, x itself above 3, and x times (x + 3) over 6 between them, as his slide has it ([26:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1560)).
+
+His summary: each has to do with efficiency, whether sparsity, quantization, dynamic range or ease of implementation.
 
 ### 4. Counting operations
 
@@ -277,7 +302,7 @@ Extend the script:
 
 ## Sources
 
-- **Lecture:** Song Han, "Lecture 2: Basics of Neural Networks", MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024): [video](https://www.youtube.com/watch?v=I0nKjPpZmMU) · [guide](../lectures/mit-02-basics-of-deep-learning.md), used at [Moore's law versus model size](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=0), [terms](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=120), [tensor dimensions](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=360), [grouped convolution](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1080), [activations versus parameters](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=2640), [one MAC, two FLOPs](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=2880), [latency and throughput](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1920), [MAC, FLOP and OP](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=3000)
+- **Lecture:** Song Han, "Lecture 2: Basics of Neural Networks", MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024): [video](https://www.youtube.com/watch?v=I0nKjPpZmMU) · [guide](../lectures/mit-02-basics-of-deep-learning.md), used at [Moore's law versus model size](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=0), [terms](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=120), [tensor dimensions](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=360), [grouped convolution](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1080), [activations versus parameters](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=2640), [one MAC, two FLOPs](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=2880), [latency and throughput](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1920), [MAC, FLOP and OP](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=3000), [normalization layers](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1260), [activation functions](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1440)
 - **Lecture:** Song Han, "Lecture 1: Introduction", MIT 6.5940 (Fall 2024): [training versus inference memory](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=480), [algorithm and system co-design](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3720)
 - **Reading:** Vincent Dumoulin, Francesco Visin, "A Guide to Convolution Arithmetic for Deep Learning" (2016): [arXiv](https://arxiv.org/abs/1603.07285)
 

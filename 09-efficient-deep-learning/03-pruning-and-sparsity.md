@@ -1,6 +1,6 @@
 # 03. Pruning and Sparsity
 
-**Level:** Practitioner · **Reading time:** 20 min · **Exercise:** 60 min
+**Level:** Practitioner · **Reading time:** 22 min · **Exercise:** 60 min
 **Prerequisites:** [Neural Network Basics for Efficiency](02-neural-network-basics-for-efficiency.md)
 
 > **In one sentence:** After this chapter you can remove a chosen share of a network's weights with a method you can justify, recover the accuracy with [fine-tuning](../GLOSSARY.md), and predict whether the result will run faster on your hardware.
@@ -59,6 +59,8 @@ The lesson: scattered pruning pays off at high sparsity or on special hardware. 
 Han's own position on which is best: it depends on the data set and the network, and it has to be tried experimentally (Lecture 3, [32:00](https://www.youtube.com/watch?v=EjsB0WgIfUM&t=1920)).
 
 Removing a neuron is a coarse version of weight pruning. In a linear layer it deletes one row of the weight matrix. In a convolution it deletes the whole kernel of one output channel (Lecture 3, [34:00](https://www.youtube.com/watch?v=EjsB0WgIfUM&t=2040)).
+
+The regression-based criterion has a mechanical form. Scoring a cut with the loss of the whole network is expensive: in a large language model the error has to pass through every layer (Lecture 3, [38:00](https://www.youtube.com/watch?v=EjsB0WgIfUM&t=2280)). So keep the change in one layer's output small instead, and the layer is a single matrix multiplication. Write its output as a sum over input channels: each channel contributes one activation column times one weight column, an **outer product**, with a scaling factor of its own ([40:00](https://www.youtube.com/watch?v=EjsB0WgIfUM&t=2400)). The goal is a sum that stays near the original output with as many factors as possible at zero; where a factor is zero, its channel is gone, and the output keeps its shape. Solving alternates: first solve for the factors with the weights held fixed, which picks the channels to prune; then solve for the weights with the factors held fixed; repeat. Han says this could help a lot for large language models, where passing the error back through every layer is very expensive ([44:00](https://www.youtube.com/watch?v=EjsB0WgIfUM&t=2640)).
 
 ### Step 3: Choose the ratio for each layer
 
@@ -165,6 +167,7 @@ What to observe:
 - His rule of thumb from the same lecture: about 90% of parameters can be removed without hurting accuracy (as stated at [10:00](https://www.youtube.com/watch?v=EjsB0WgIfUM&t=600)), and a pruned image-captioning model still describes a basketball scene correctly. In the same block he reports AlexNet pruned from 61 million parameters to 6.7 million, nine times fewer, while the MACs fell only three times: fewer parameters is not the same as fewer operations.
 - He puts a number on why memory matters: a 32-bit addition costs under 1 picojoule and a 32-bit DRAM access more than 600, so data movement is over two orders of magnitude more expensive than arithmetic ([2:00](https://www.youtube.com/watch?v=EjsB0WgIfUM&t=120)).
 - Pruning, low-rank approximation, quantization and distillation are orthogonal: they can be combined (Lecture 3, [56:00](https://www.youtube.com/watch?v=EjsB0WgIfUM&t=3360)).
+- TorchSparse++, the library that followed his TorchSparse, runs memory access and computation at the same time for the 3D perception that autonomous driving needs, helped by a generator of sparse kernels and a tuner that searches the design space (Lecture 4, [1:02:00](https://www.youtube.com/watch?v=upaZrpXkELc&t=3720)). Its trick is reordering. Neighbouring outputs are computed in parallel, so each one also does the work its neighbours need, and that padding is waste. If each output's sparsity pattern is read as a binary number and the outputs are sorted by it, similar patterns end up side by side: in his example the redundant multiplications fell from 12 to 10, and to 8 after splitting the channels, at the small cost of the sorting and the split.
 
 ## Pitfalls
 
@@ -219,8 +222,8 @@ Prune a small classifier three ways and report. In PyTorch, prune as in the NumP
 
 ## Sources
 
-- **Lecture:** Song Han, "Lecture 3: Pruning and Sparsity (Part I)", MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024): [video](https://www.youtube.com/watch?v=EjsB0WgIfUM) · [guide](../lectures/mit-03-pruning-and-sparsity-part-i.md), used at [formulation](https://www.youtube.com/watch?v=EjsB0WgIfUM&t=240), [scaling-based pruning](https://www.youtube.com/watch?v=EjsB0WgIfUM&t=1800), [second-order pruning](https://www.youtube.com/watch?v=EjsB0WgIfUM&t=1920), [neuron selection](https://www.youtube.com/watch?v=EjsB0WgIfUM&t=2040)
-- **Lecture:** Song Han, "Lecture 4: Pruning and Sparsity (Part II)", MIT 6.5940 (Fall 2024): [video](https://www.youtube.com/watch?v=upaZrpXkELc) · [guide](../lectures/mit-04-pruning-and-sparsity-part-ii.md), used at [granularity trade-off](https://www.youtube.com/watch?v=upaZrpXkELc&t=120), [EIE costs](https://www.youtube.com/watch?v=upaZrpXkELc&t=2640), [be lazy](https://www.youtube.com/watch?v=upaZrpXkELc&t=2760)
+- **Lecture:** Song Han, "Lecture 3: Pruning and Sparsity (Part I)", MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024): [video](https://www.youtube.com/watch?v=EjsB0WgIfUM) · [guide](../lectures/mit-03-pruning-and-sparsity-part-i.md), used at [formulation](https://www.youtube.com/watch?v=EjsB0WgIfUM&t=240), [scaling-based pruning](https://www.youtube.com/watch?v=EjsB0WgIfUM&t=1800), [second-order pruning](https://www.youtube.com/watch?v=EjsB0WgIfUM&t=1920), [neuron selection](https://www.youtube.com/watch?v=EjsB0WgIfUM&t=2040), [regression-based pruning](https://www.youtube.com/watch?v=EjsB0WgIfUM&t=2280)
+- **Lecture:** Song Han, "Lecture 4: Pruning and Sparsity (Part II)", MIT 6.5940 (Fall 2024): [video](https://www.youtube.com/watch?v=upaZrpXkELc) · [guide](../lectures/mit-04-pruning-and-sparsity-part-ii.md), used at [granularity trade-off](https://www.youtube.com/watch?v=upaZrpXkELc&t=120), [EIE costs](https://www.youtube.com/watch?v=upaZrpXkELc&t=2640), [be lazy](https://www.youtube.com/watch?v=upaZrpXkELc&t=2760), [sorting by sparsity pattern](https://www.youtube.com/watch?v=upaZrpXkELc&t=3720)
 - **Reading:** Song Han, Jeff Pool, John Tran, William Dally, "Learning Both Weights and Connections for Efficient Neural Networks" (NeurIPS 2015): [arXiv](https://arxiv.org/abs/1506.02626)
 - **Reading:** Jonathan Frankle, Michael Carbin, "The Lottery Ticket Hypothesis: Finding Sparse, Trainable Neural Networks" (ICLR 2019): [arXiv](https://arxiv.org/abs/1803.03635)
 - **Reading:** Asit Mishra, Jorge Albericio, Tarushree Gupta, Paulius Micikevicius, "Accelerating Sparse Deep Neural Networks" (2021): [arXiv](https://arxiv.org/abs/2104.08378)

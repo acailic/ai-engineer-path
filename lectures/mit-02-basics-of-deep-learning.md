@@ -60,7 +60,7 @@ Batch normalization arrived around 2015 to stabilize training, and layer normali
 ### [24:00–28:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1440) Activation functions, chosen for efficiency
 
 Each popular activation carries an efficiency story. The sigmoid ranges from 0 to 1, which makes it easy to quantize, but its gradient vanishes at both ends. ReLU keeps a gradient of one for positive inputs and brings natural sparsity, since negative inputs become zero: such a feature map needs only a one-bit mask, and zero times anything is zero. Its costs are dead neurons and a very large dynamic range that is hard to quantize. ReLU6 caps the output at 6, a purely empirical choice that narrows the range. Leaky ReLU adds a small slope below zero so that gradients flow there, giving up sparsity. Architecture search found Swish, which is x times a sigmoid of x, awkward to compute in hardware, so hard Swish approximates it: zero below −3, x above 3, and x times (x + 3) over 6 in between.
-**In this book:** nothing beyond this guide; nearest: [Neural Network Basics for Efficiency › 2. The convolution layer](../09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md#2-the-convolution-layer).
+**In this book:** [Neural Network Basics for Efficiency › How it works, step by step › Activation functions](../09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md#activation-functions).
 
 ### [28:00–32:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1680) Transformers and attention in outline
 

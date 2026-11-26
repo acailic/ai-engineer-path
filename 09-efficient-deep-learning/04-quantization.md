@@ -1,6 +1,6 @@
 # 04. Quantization
 
-**Level:** Practitioner · **Reading time:** 22 min · **Exercise:** 60 min
+**Level:** Practitioner · **Reading time:** 26 min · **Exercise:** 60 min
 **Prerequisites:** [Neural Network Basics for Efficiency](02-neural-network-basics-for-efficiency.md), [Pruning and Sparsity](03-pruning-and-sparsity.md)
 
 > **In one sentence:** After this chapter you can quantize a trained model to 8-bit or 4-bit weights with post-training quantization, judge whether the quality loss needs quantization-aware training, and read a floating-point format from its bit layout.
@@ -141,6 +141,14 @@ Worked numbers: activation column `j` peaks at 20, weight column `j` peaks at 0.
 
 Not every layer needs the same bit width. Han's advice (Lecture 6, [66:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3960)): cheap or memory-bound layers can stay in FP16 or FP32; compute-bound layers should go lower if they are not sensitive. Choosing per layer gives higher accuracy at the same latency, or the same accuracy at a lower latency, and the choice can be made automatically: the same hardware-aware search, Han says, can target model size, latency or energy.
 
+### Binary and ternary weights
+
+At one bit, arithmetic turns into logic. **Binary quantization** keeps only the sign of each weight: positive becomes +1 and negative −1, so the multiplications vanish and only additions and subtractions remain. The weights then need 32 times less memory, and the work roughly halves by his count (Lecture 6, [48:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=2880)). The sign function alone costs heavily: on his 4 × 4 example matrix it lost 21 points of accuracy, with a quantization error of 9.28. A floating-point scale that keeps the sum of absolute values unchanged, 1.05 here, brought accuracy to 0.2% above the baseline ([50:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3000)).
+
+Binarize the activations as well and a dot product becomes bitwise. **XNOR** gives 1 when two bits agree and 0 otherwise, and **popcount** counts the ones, so for two sign vectors of length n the dot product is 2 × popcount − n, with the doubling done by a one-bit shift (Lecture 6, [52:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3120)). Both operations are cheap in hardware: by his estimate, memory shrinks 32 times and computation roughly 58 times. Accuracy is the price: XNOR-Net recovers some of it, yet with weights and activations both binarized the loss stays visible.
+
+**Ternary weight networks** add a middle value. A threshold Δ, placed by rule of thumb at 0.7 times the average absolute value (0.73 on his matrix), sorts each weight into +1, 0 or −1, and a scale keeps the sum of absolute values the same. Accuracy went from 60% with binary weights to 65%, and full precision gives 69%. **Trained ternary quantization** lets the network learn two scales instead of the fixed one, one for each sign, and comes closer still (Lecture 6, [58:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3480)).
+
 ### What each option costs and when to choose it
 
 | Option | Size versus FP16 | Accuracy cost | Data needed | Choose when |
@@ -150,6 +158,8 @@ Not every layer needs the same bit width. Han's advice (Lecture 6, [66:00](https
 | QAT, 8-bit or 4-bit | 1/2 to 1/4 | smaller than PTQ | training data and compute | PTQ lost too much |
 | K-means codebook | 1/8 at 4 bits | small after fine-tuning | none to quantize | storage is the only concern |
 | Binary or ternary | 1/8 to 1/16 | large | training | special hardware |
+
+Lower is not always better. Han puts the usual sweet spot at roughly 4 bits, as of his lecture, and adds that it might move lower in the future (Lecture 6, [1:02:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3720)). His reason is a mismatch: memory shrinks linearly with the bit width, while the computation shrinks faster, quadratically by his account. The expensive part, memory, therefore shrinks more slowly, and the returns diminish. He also advises against turning one design knob to an extreme: pruning, quantization, distillation and architecture search work best together.
 
 ## Worked example
 
@@ -195,6 +205,7 @@ What to observe:
 - On hardware trends, as of his Fall 2024 lecture: NVIDIA's Blackwell generation supports micro-tensor scaling, and its FP4 tensor cores (matrix-multiply units) have twice the theoretical throughput of the FP8 and INT8 cores (Lecture 6, slide 23; [16:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=960)).
 - His Deep Compression pipeline prunes, quantizes with a codebook, retrains the codebook, repeats, and then encodes the weights with different bit lengths. SqueezeNet went from 4.8 MB to 0.47 MB (Lecture 5, [46:00](https://www.youtube.com/watch?v=ymAzUz3qlIA&t=2760)).
 - He draws the parallel with pruning: layers differ in sensitivity, so they should get different bit widths (Lecture 6, [0:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=0)).
+- The bit width alone does not decide quality; the method does. His example is LLaVA, a model that answers questions about an image. At 4 bits with plain round to nearest it misreads a meme; with AWQ, an activation-aware method, it describes the meme correctly (Lecture 1, [40:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2400)). His conclusion is that a proper method speeds up visual language models too, not only language models.
 
 ## Pitfalls
 
@@ -226,6 +237,7 @@ Quantize the weights of a small trained classifier with the `quantize` function 
 - Outliers force coarse steps. Per-channel or group scales, and rescaling activations into weights, contain the damage.
 - Try post-training quantization first. Move to quantization-aware training only when the evaluation shows a real loss.
 - Keep sensitive layers in higher precision.
+- Roughly 4 bits is the sweet spot these days, by Han's account. Lower is not always better, and no single lever should be pushed to an extreme.
 
 ## Self-check
 
@@ -250,8 +262,8 @@ Quantize the weights of a small trained classifier with the `quantize` function 
 ## Sources
 
 - **Lecture:** Song Han, "Lecture 5: Quantization (Part I)", MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024): [video](https://www.youtube.com/watch?v=ymAzUz3qlIA) · [guide](../lectures/mit-05-quantization-part-i.md), used at [model size](https://www.youtube.com/watch?v=ymAzUz3qlIA&t=0), [k-means storage](https://www.youtube.com/watch?v=ymAzUz3qlIA&t=2040), [k-means saves storage only](https://www.youtube.com/watch?v=ymAzUz3qlIA&t=2880), [zero point for weights](https://www.youtube.com/watch?v=ymAzUz3qlIA&t=3480), [8-bit maturity](https://www.youtube.com/watch?v=ymAzUz3qlIA&t=3840)
-- **Lecture:** Song Han, "Lecture 6: Quantization (Part II)", MIT 6.5940 (Fall 2024): [video](https://www.youtube.com/watch?v=wrcgWm_nUeE) · [guide](../lectures/mit-06-quantization-part-ii.md), used at [three topics](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=240), [granularity](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=360), [group quantization](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=960), [calibration](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=1440), [rounding](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=2280), [need for QAT](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=2400), [straight-through estimator](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=2760), [mixed precision](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3960)
-- **Lecture:** Song Han, "Lecture 1: Introduction", MIT 6.5940 (Fall 2024): [SmoothQuant as a course project](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2040)
+- **Lecture:** Song Han, "Lecture 6: Quantization (Part II)", MIT 6.5940 (Fall 2024): [video](https://www.youtube.com/watch?v=wrcgWm_nUeE) · [guide](../lectures/mit-06-quantization-part-ii.md), used at [three topics](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=240), [granularity](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=360), [group quantization](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=960), [calibration](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=1440), [rounding](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=2280), [need for QAT](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=2400), [straight-through estimator](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=2760), [mixed precision](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3960), [binary weights](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=2880), [XNOR and popcount](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3120), [ternary weights](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3480), [sweet spot near 4 bits](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3720)
+- **Lecture:** Song Han, "Lecture 1: Introduction", MIT 6.5940 (Fall 2024): [SmoothQuant as a course project](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2040), [4-bit quality depends on the method](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2280)
 - **Reading:** Benoit Jacob, Skirmantas Kligys, Bo Chen, et al., "Quantization and Training of Neural Networks for Efficient Integer-Arithmetic-Only Inference" (CVPR 2018): [arXiv](https://arxiv.org/abs/1712.05877)
 - **Reading:** Guangxuan Xiao, Ji Lin, Miguel Horn, et al., "SmoothQuant: Accurate and Efficient Post-Training Quantization for Large Language Models" (ICML 2023): [arXiv](https://arxiv.org/abs/2211.10438)
 - **Reading:** Markus Nagel, Marios Fournarakis, Rana Ali Amjad, et al., "A White Paper on Neural Network Quantization" (2021): [arXiv](https://arxiv.org/abs/2106.08295)

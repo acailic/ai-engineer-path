@@ -1,6 +1,6 @@
 # 01. Why Efficiency Matters
 
-**Level:** Foundation · **Reading time:** 10 min · **Exercise:** 30 min
+**Level:** Foundation · **Reading time:** 17 min · **Exercise:** 30 min
 **Prerequisites:** [How large language models are trained](../01-foundations/02-how-large-language-models-are-trained.md), for the big picture only
 
 > **In one sentence:** After this chapter you can name the four resources a model burns, estimate each one with a one-line calculation, and say which lever in this part reduces it.
@@ -125,6 +125,10 @@ Two more of Han's points are worth keeping. First, accuracy costs computation: h
 
 He also mentions that SmoothQuant, a quantization method you will meet in [Chapter 04](04-quantization.md), started as a course project two years earlier, and sketches the course's route to 4-bit: 16-bit to 8-bit with SmoothQuant, then 4-bit with AWQ, an activation-aware, weight-only method. SmoothQuant's key idea, as he puts it, is that activations, the values that pass between layers, hold a few very large values (outliers), so you scale the weights and the activations until the two are equalized and smoothed, which matrix multiplication allows because it is linear ([34:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2040)).
 
+Later in the lecture he shows the same bill arriving for newer kinds of input and output ([42:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2520)). Video costs context: he says a single frame takes about 200 tokens, so an hour-long video needs a very long one; the lecture promises long-context techniques that do without the naive approach, a cache of past tokens that grows linearly. Actions cost latency. Asked for rice chips out of a jar, a model plans the steps (open the jar, take a chip out, place it, close the jar), but the demo reached only three updates per second, he says, because of the computation and because the images went to a workstation across the internet and the results came back. Two well-known systems show the scale: AlphaGo ran on 1,920 CPUs and 280 GPUs, with an electricity bill of $3,000 per game by his account, and AlphaFold needed 16 TPU v3s and a few weeks of training ([46:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2760)).
+
+His hardware numbers explain why the course leans on software ([50:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3000)). A slide from his PhD advisor shows the inference performance of a single chip improving 300 times in eight years, and the steps are ones this part teaches: lower precision, with scalar FP32 giving way to FP16 and then to INT8 tensor cores (matrix-multiply units) in the V100, and a regular sparsity pattern in the A100, which [Pruning and Sparsity](03-pruning-and-sparsity.md) explains. From 2016 to 2024, he says, operations per second rose about 100 times from the P100 to the B100, while memory bandwidth almost doubled from the A100 to the H100 and more than doubled again from the H100 to the B100. His summary is that computation is cheap and memory is expensive ([52:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3120)). The limit that follows is power: he puts the A100 at 400 watts and the H100 and B100 at 700, and a whole node at about 10,000 watts, so cooling and power supply, not floor space, now constrain a data center. Software matters for the same reason: it takes a growing share of the cost of designing a chip, and models that change every day need hardware that is easy to reprogram.
+
 ## Pitfalls
 
 1. **Counting parameters when memory for intermediate results is the real limit.** Fix: measure peak memory at run time, not model size. Chapter 02 shows the difference.
@@ -178,7 +182,7 @@ Write a budget for one model. Find a model card or an announcement that states t
 
 ## Sources
 
-- **Lecture:** Song Han, "Lecture 1: Introduction", MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024): [video](https://www.youtube.com/watch?v=U7EPZv8Kh9w) · [guide](../lectures/mit-01-introduction.md), used at [supply and demand](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=180), [training cost and pipeline](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=240), [running a model on a laptop](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2040), [course map](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3600), [algorithm and system co-design](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3720)
+- **Lecture:** Song Han, "Lecture 1: Introduction", MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024): [video](https://www.youtube.com/watch?v=U7EPZv8Kh9w) · [guide](../lectures/mit-01-introduction.md), used at [supply and demand](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=180), [training cost and pipeline](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=240), [running a model on a laptop](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2040), [course map](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3600), [algorithm and system co-design](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3720), [costs of video, actions and famous systems](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2520), [hardware progress and power](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3000)
 - **Reading:** Song Han, Huizi Mao, William J. Dally, "Deep Compression: Compressing Deep Neural Networks with Pruning, Trained Quantization and Huffman Coding" (ICLR 2016): [arXiv](https://arxiv.org/abs/1510.00149)
 - **Reading:** Song Han et al., "EfficientML.ai" course site, slides and labs: [efficientml.ai](https://efficientml.ai)
 

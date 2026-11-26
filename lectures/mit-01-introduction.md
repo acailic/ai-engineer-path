@@ -65,12 +65,12 @@ Running language models locally, on laptops, in cars and robots, removes latency
 ### [38:00–42:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2280) Multimodal models
 
 Multimodal models project image, language, audio, video and action into one space; the challenge is aligning the representations. LLaVA describes an image in words; quantized to 4 bits with naive rounding it misreads a meme, while with AWQ it describes it correctly. His group's VILA turns an image into visual tokens with a vision transformer and concatenates them with text tokens: everything can be tokenized. The course covers how such models are trained, arguing that data and training recipe matter more than architecture: visual instruction tuning alone is not enough, image-text pairs alone are not enough, interleaved images and text are needed, and the blending proportions matter.
-**In this book:** nothing beyond this guide; nearest: [Quantization › Outliers in language models: the SmoothQuant idea](../09-efficient-deep-learning/04-quantization.md#outliers-in-language-models-the-smoothquant-idea).
+**In this book:** [Quantization › What the practitioners say](../09-efficient-deep-learning/04-quantization.md#what-the-practitioners-say).
 
 ### [42:00–48:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2520) What a visual language model can do, and what action costs
 
 Videos need long contexts, since each frame takes about 200 tokens, and the course covers long-context techniques that avoid a cache growing linearly. VILA answers questions about a video, predicts what happens next, as with a blender full of strawberries, which he calls a world model, and learns a task from examples without being told it: shown pairs of city images and names, it names the next city. It can also locate a photo he took on a trip. Running such a model on a laptop is extra credit in the last lab. Actions are another output: told to bring rice chips from a jar, a model plans opening the jar, taking a chip out, placing it and closing it, though at only three updates per second, because of the computational cost and because images travel over the internet to a workstation. The costs add up elsewhere too: AlphaGo used 1,920 CPUs and 280 GPUs, and AlphaFold trained on 16 TPUv3s for a few weeks.
-**In this book:** nothing beyond this guide; nearest: [Why Efficiency Matters › What the practitioners say](../09-efficient-deep-learning/01-why-efficiency-matters.md#what-the-practitioners-say).
+**In this book:** [Why Efficiency Matters › What the practitioners say](../09-efficient-deep-learning/01-why-efficiency-matters.md#what-the-practitioners-say).
 
 ### [48:00–50:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2880) Three pillars and hardware trends
 
@@ -80,7 +80,7 @@ The second half turns to the three pillars, algorithm, hardware and data, with h
 ### [50:00–54:45](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3000) Hardware progress, and its limits
 
 A slide from his advisor shows single-chip inference performance improving 300 times in eight years: from scalar FP32 to FP16 and then INT8 tensor cores in the V100, to structured sparsity in the A100. Software takes a growing share of design cost at advanced nodes, and with generative models changing daily, programmability matters; the course therefore uses existing hardware well rather than designing new chips. From P100 to B100 GPUs gained about 100 times in operations per second, and memory bandwidth more than doubled from H100 to B100, since computation is cheap and data movement expensive. Power is the new bottleneck: A100s draw 400 watts, H100s and B100s 700, and a node needs about 10,000 watts, so cooling rather than space limits a data centre. A lab tour later in the course will show the server room.
-**In this book:** nothing beyond this guide; nearest: [Why Efficiency Matters › Budgets to keep in mind](../09-efficient-deep-learning/01-why-efficiency-matters.md#budgets-to-keep-in-mind).
+**In this book:** [Why Efficiency Matters › What the practitioners say](../09-efficient-deep-learning/01-why-efficiency-matters.md#what-the-practitioners-say).
 
 ### [54:45–59:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3285) Memory, from cloud to microcontroller
 

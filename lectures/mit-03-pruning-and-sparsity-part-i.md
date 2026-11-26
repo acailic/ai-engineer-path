@@ -75,7 +75,7 @@ Neurons can be pruned too, which is coarse-grained weight pruning: removing one 
 ### [38:00–44:00](https://www.youtube.com/watch?v=EjsB0WgIfUM&t=2280) Regression-based pruning
 
 Supervising pruning with the end-to-end loss is expensive; for a large language model the signal would have to travel through every layer. Regression-based pruning instead minimizes the reconstruction error of one layer, a single matrix multiplication. The product of an activation block with a weight block splits into a sum over input channels, each term an outer product of one activation channel and one weight channel, with a scaling factor per term. The task is to keep the pruned output close to the original while making as many factors zero as possible; a zero factor removes that channel. Solving alternates: fix the weights and solve for the factors to pick channels, then fix the factors and solve for the weights, and repeat.
-**In this book:** nothing beyond this guide; nearest: [Pruning and Sparsity › Step 2: Choose the criterion](../09-efficient-deep-learning/03-pruning-and-sparsity.md#step-2-choose-the-criterion).
+**In this book:** [Pruning and Sparsity › How it works, step by step › Step 2: Choose the criterion](../09-efficient-deep-learning/03-pruning-and-sparsity.md#step-2-choose-the-criterion).
 
 ### [44:00–54:00](https://www.youtube.com/watch?v=EjsB0WgIfUM&t=2640) A demo on handwritten digits
 

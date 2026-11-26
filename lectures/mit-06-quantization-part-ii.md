@@ -85,22 +85,22 @@ On Han's slide quantization-aware training lifts a model whose post-training acc
 ### [48:00–52:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=2880) Binary weights
 
 Binary quantization keeps only the sign: a positive weight becomes +1 and a negative one −1. Multiplications disappear, leaving additions and subtractions; weights take 32 times less memory and the arithmetic roughly halves. Deterministic binarization by the sign function degrades accuracy heavily, and stochastic binarization, which flips values near zero at random, needs a hardware random-number generator. On the familiar 4 by 4 matrix, signs alone cost 21 points of accuracy with an error of 9.28; multiplying by a scale equal to the mean absolute value, 1.05 here, leaves accuracy 0.2% above the baseline.
-**In this book:** nothing beyond this guide; nearest: [Quantization › What each option costs and when to choose it](../09-efficient-deep-learning/04-quantization.md#what-each-option-costs-and-when-to-choose-it).
+**In this book:** [Quantization › How it works, step by step › Binary and ternary weights](../09-efficient-deep-learning/04-quantization.md#binary-and-ternary-weights).
 
 ### [52:00–58:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3120) Binary weights and activations: XNOR and popcount
 
 Binarizing the activations too turns a dot product into bitwise operations. The XNOR of two bits is 1 when they agree and 0 otherwise, so counting the ones gives the number of agreeing pairs; the dot product equals twice that count minus n. A popcount and a shift replace multiply and add, both cheap in hardware: 32 times less memory and roughly 58 times less computation by his estimate. XNOR-Net improves accuracy, yet with both weights and activations binarized the loss remains visible; he published an open-source FPGA implementation that uses only XNOR and popcount.
-**In this book:** nothing beyond this guide; nearest: [Quantization › What each option costs and when to choose it](../09-efficient-deep-learning/04-quantization.md#what-each-option-costs-and-when-to-choose-it).
+**In this book:** [Quantization › How it works, step by step › Binary and ternary weights](../09-efficient-deep-learning/04-quantization.md#binary-and-ternary-weights).
 
 ### [58:00–1:02:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3480) Ternary weights
 
 Adding zero to +1 and −1 gives ternary weight networks. A threshold Δ, set empirically at 0.7 times the mean absolute value (0.73 here), splits weights into positive, zero and negative; a scale that preserves the sum of absolute values follows. Accuracy rises from 60% for binary to 65%, short of 69% at full precision. Trained ternary quantization replaces the fixed scale with two learned ones, for the positive and the negative side, and comes closer still.
-**In this book:** nothing beyond this guide; nearest: [Quantization › What each option costs and when to choose it](../09-efficient-deep-learning/04-quantization.md#what-each-option-costs-and-when-to-choose-it).
+**In this book:** [Quantization › How it works, step by step › Binary and ternary weights](../09-efficient-deep-learning/04-quantization.md#binary-and-ternary-weights).
 
 ### [1:02:00–1:04:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3720) Lower is not always better
 
 Han places the methods on one line: floating-point weights and arithmetic; k-means, integer indices with a floating-point codebook; linear quantization, integers for both weights and arithmetic, today the most used; and binary and ternary weights with bitwise operations. Lower is not always better. About 4 bits is the usual sweet spot, because memory footprint shrinks linearly with precision while the work of low-level operations shrinks faster, and memory, the expensive part, shrinks more slowly. Pushing one knob to an extreme brings diminishing returns; pruning, quantization, distillation and architecture search should be used together.
-**In this book:** nothing beyond this guide; nearest: [Quantization › What each option costs and when to choose it](../09-efficient-deep-learning/04-quantization.md#what-each-option-costs-and-when-to-choose-it).
+**In this book:** [Quantization › How it works, step by step › What each option costs and when to choose it](../09-efficient-deep-learning/04-quantization.md#what-each-option-costs-and-when-to-choose-it).
 
 ### [1:04:00–1:10:00](https://www.youtube.com/watch?v=wrcgWm_nUeE&t=3840) Mixed precision, and a summary
 

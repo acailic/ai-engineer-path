@@ -85,12 +85,12 @@ A roofline chart plots realized operations per second against arithmetic intensi
 ### [44:00–50:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=2640) Zero-shot NAS: judging an architecture without training
 
 Can an architecture be judged without any training? Han presents heuristics on randomly initialized networks. One, ZenNAS, scores a network by how much a small perturbation of the input changes the output and by the variance of its batch-normalization statistics: a good network responds to its input. Another, GradSign, rests on the idea that a good network has densely packed local minima, so gradients computed on different samples should mostly share a sign; counting matching signs is cheap. Of the first, Han says it is a coarse check, since weights matter too, yet reports that it works quite well, at least in that paper.
-**In this book:** nothing beyond this guide; nearest: [Neural Architecture Search › Step 4. Estimate performance without paying full price](../09-efficient-deep-learning/05-neural-architecture-search.md#step-4-estimate-performance-without-paying-full-price).
+**In this book:** [Neural Architecture Search › How it works, step by step › Step 4: Estimate performance without paying full price](../09-efficient-deep-learning/05-neural-architecture-search.md#step-4-estimate-performance-without-paying-full-price).
 
 ### [50:00–1:02:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=3000) Searching the accelerator too
 
 When the chip itself can be designed, hardware, network and the compiler mapping between them can be searched together, in one evolutionary loop, in a method called NAAS for neural accelerator architecture search, that minimizes the energy-delay product. The hardware space covers buffer sizes, the number of processing elements and their connectivity; the compiler's covers loop order, tiling and data flow; the network's covers layers, channels, kernels and precision. Choices such as which dimension to parallelize in space or in which order to loop are not numbers, so the method gives each dimension an importance value, sorts them, parallelizes the most important ones in space and runs the least important in the innermost loop. Sizing alone improved the energy-delay product by about a fifth, or by 2.1 times as Han also puts it; searching connectivity as well, and the network with it, improved it further, and the found data flow differed from a designer's.
-**In this book:** nothing beyond this guide; nearest: [Neural Architecture Search › Step 5. Make it hardware-aware](../09-efficient-deep-learning/05-neural-architecture-search.md#step-5-make-it-hardware-aware).
+**In this book:** [Neural Architecture Search › What the practitioners say](../09-efficient-deep-learning/05-neural-architecture-search.md#what-the-practitioners-say).
 
 ### [1:02:00–1:06:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=3720) Application: transformers, and a chip
 

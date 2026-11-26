@@ -1,6 +1,6 @@
 # 05. Neural Architecture Search
 
-**Level:** Practitioner · **Reading time:** 15 min · **Exercise:** 45 min
+**Level:** Practitioner · **Reading time:** 17 min · **Exercise:** 45 min
 **Prerequisites:** [Neural Network Basics for Efficiency](02-neural-network-basics-for-efficiency.md), [Pruning and Sparsity](03-pruning-and-sparsity.md)
 
 > **In one sentence:** After this chapter you can define a search space and a cost model for a target device, run a small search over it, and decide when a once-for-all network saves you retraining a model per device.
@@ -74,6 +74,8 @@ An evolutionary loop:
 
 Han's version of the definition: "Mutation takes one input, crossover takes two inputs" (Lecture 7, [64:00](https://www.youtube.com/watch?v=3W146_T8eCs&t=3840)). His students implement it in the course lab.
 
+The gradient descent row needs more than one word. The choices can be made differentiable (Lecture 7, [58:00](https://www.youtube.com/watch?v=3W146_T8eCs&t=3480)). Where a layer might be a 3 × 3, a 5 × 5 or a 1 × 1 convolution, the layer's output becomes a weighted sum of all three, and the weights are learned probabilities of choosing each. The price is memory: training runs every candidate at once. At inference, only the path with the highest probability survives. Latency can be made differentiable too ([1:00:00](https://www.youtube.com/watch?v=3W146_T8eCs&t=3600)). Each building block's latency is measured beforehand; a layer's expected latency is the sum, over its choices, of probability times latency. Adding that term to the loss, next to the cross-entropy and the weight regularization, lets one gradient descent look for a model that is accurate and fast at the same time.
+
 ### Step 4: Estimate performance without paying full price
 
 | Method | Idea | Price |
@@ -82,6 +84,8 @@ Han's version of the definition: "Mutation takes one input, crossover takes two 
 | Inherit weights | candidates share weights trained once | cheaper; rankings are approximate |
 | Hypernetwork | one network generates the weights for any candidate | rarely used ([8:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=480)) |
 | Zero-shot | score an architecture without training it | cheapest; a research topic (slides 75 to 77) |
+
+The zero-shot row rests on heuristics, which Han introduces on networks with random weights (Lecture 8, [46:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=2760)). The first rates a network by the change in its output when its input is nudged a little, and by how widely its batch-normalization statistics vary; in that view a network is good when it responds to what it is given. The second, GradSign, starts from the thought that a good network keeps its sample-wise local minima close together, so the gradients from different samples mostly point the same way, and signs are cheap to count. He calls both coarse checks, because the weights matter too, yet says they work well, at least in the paper he shows.
 
 ### Step 5: Make it hardware-aware
 
@@ -159,6 +163,7 @@ What to observe:
 - Han puts accuracy first: low latency, low energy and small storage cannot rescue a model that gives poor answers (Lecture 7, [2:00](https://www.youtube.com/watch?v=3W146_T8eCs&t=120)).
 - Energy matters on both ends, in his telling: battery drain on phones, and cooling and emissions for data centers drawing megawatts (same passage).
 - On TinyNAS, the searched models use memory more evenly. The hand-designed MobileNetV2 had a per-layer peak 2.2 times its average; a flatter profile lets a larger model fit the same memory (Lecture 10, [28:00](https://www.youtube.com/watch?v=uR1KKhIhHEk&t=1680)).
+- The joint search that Step 5 describes covers three spaces (Lecture 8, [50:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=3000)): the hardware (buffer sizes, the size of its compute array, the number of processing elements (PEs) and how they connect), the compiler's mapping (loop order, tiling and data flow) and the network (layers, channels, kernel size and precision). In his measurements, sizing alone lowered the energy-delay product by about 20%; adding the connectivity and then the network to the search went further and gave a better trade-off between energy-delay product and accuracy ([1:01:00](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=3660)). The data flow it found parallelized the input height and the output channels, which he finds very different from a human design.
 
 ## Pitfalls
 
@@ -209,8 +214,8 @@ Extend the example.
 
 ## Sources
 
-- **Lecture:** Song Han, "Lecture 7: Neural Architecture Search (Part I)", MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024): [video](https://www.youtube.com/watch?v=3W146_T8eCs) · [guide](../lectures/mit-07-neural-architecture-search-part-i.md), used at [goals](https://www.youtube.com/watch?v=3W146_T8eCs&t=120), [search space size](https://www.youtube.com/watch?v=3W146_T8eCs&t=2280), [memory-aware spaces](https://www.youtube.com/watch?v=3W146_T8eCs&t=2880), [grid and random search](https://www.youtube.com/watch?v=3W146_T8eCs&t=3240), [mutation and crossover](https://www.youtube.com/watch?v=3W146_T8eCs&t=3840)
-- **Lecture:** Song Han, "Lecture 8: Neural Architecture Search (Part II)", MIT 6.5940 (Fall 2024): [video](https://www.youtube.com/watch?v=5ty12mNV4Sg) · [guide](../lectures/mit-08-neural-architecture-search-part-ii.md), used at [cost of training from scratch](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=120), [weight estimation strategies](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=480), [latency tables](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=1440), [once-for-all](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=2400), [applications](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=4440)
+- **Lecture:** Song Han, "Lecture 7: Neural Architecture Search (Part I)", MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024): [video](https://www.youtube.com/watch?v=3W146_T8eCs) · [guide](../lectures/mit-07-neural-architecture-search-part-i.md), used at [goals](https://www.youtube.com/watch?v=3W146_T8eCs&t=120), [search space size](https://www.youtube.com/watch?v=3W146_T8eCs&t=2280), [memory-aware spaces](https://www.youtube.com/watch?v=3W146_T8eCs&t=2880), [grid and random search](https://www.youtube.com/watch?v=3W146_T8eCs&t=3240), [mutation and crossover](https://www.youtube.com/watch?v=3W146_T8eCs&t=3840), [differentiable search and latency](https://www.youtube.com/watch?v=3W146_T8eCs&t=3480)
+- **Lecture:** Song Han, "Lecture 8: Neural Architecture Search (Part II)", MIT 6.5940 (Fall 2024): [video](https://www.youtube.com/watch?v=5ty12mNV4Sg) · [guide](../lectures/mit-08-neural-architecture-search-part-ii.md), used at [cost of training from scratch](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=120), [weight estimation strategies](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=480), [latency tables](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=1440), [once-for-all](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=2400), [applications](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=4440), [zero-shot heuristics](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=2640), [joint hardware and network search](https://www.youtube.com/watch?v=5ty12mNV4Sg&t=3000)
 - **Lecture:** Song Han, "Lecture 10: MCUNet and TinyML", MIT 6.5940 (Fall 2024): [TinyNAS](https://www.youtube.com/watch?v=uR1KKhIhHEk&t=1080)
 - **Reading:** Han Cai, Ligeng Zhu, Song Han, "ProxylessNAS: Direct Neural Architecture Search on Target Task and Hardware" (ICLR 2019): [arXiv](https://arxiv.org/abs/1812.00332)
 - **Reading:** Han Cai, Chuang Gan, Tianzhe Wang, Zhekai Zhang, Song Han, "Once-for-All: Train One Network and Specialize It for Efficient Deployment" (ICLR 2020): [arXiv](https://arxiv.org/abs/1908.09791)

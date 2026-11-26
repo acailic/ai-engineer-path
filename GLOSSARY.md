@@ -123,6 +123,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Basic event** | A cause in a fault tree that is not split further; model failure is usually treated as one. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
 | **Basis encoding** | Storing a binary string as one basis state of the qubits | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
 | **Batch** | A group of requests or inputs processed together to reuse the weights. | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
+| **batch normalization** | A normalization layer whose set is one channel, across the whole batch and every position; common in convolutional networks | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **Batch processing** | One long computation over a large snapshot of data, built for throughput. | [07.09](07-ml-in-production/09-scaling-the-system.md) |
 | **Bayesian optimizer** | A search method that picks the next trial from the results of earlier trials. | [02.05](02-building-agents/05-compound-ai-systems-and-dspy.md) |
 | **Behavior cloning** (also called: Imitation model) | Learning by copying demonstrated answers, which is what SFT does. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
@@ -135,6 +136,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Beta distribution** | A flexible probability distribution for values between 0 and 1, which fits per-question pass rates across models. | [01.07](01-foundations/07-why-llm-outputs-are-noisy.md) |
 | **Bias** | In a neural network, one extra learned number per output of a layer, added after the multiply. | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **Big Sleep** | Google Project Zero's agent that finds memory-safety bugs with a code browser, a scripting tool, and a debugger. | [04.08](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
+| **binary quantization** | Quantization that keeps only the sign of each weight, +1 or −1, so that multiplications become additions and subtractions | [09.04](09-efficient-deep-learning/04-quantization.md) |
 | **BitFit** | Parameter-efficient fine-tuning that trains only the bias terms. | [09.09](09-efficient-deep-learning/09-llm-post-training-and-on-device-training.md) |
 | **Bitter lesson** | Richard Sutton's argument that methods which make the best use of growing compute win in the long run. | [01.02](01-foundations/02-how-large-language-models-are-trained.md) |
 | **Black-box attack** | An attack that uses only success or failure as feedback. | [04.02](04-safety-and-security/02-jailbreaks-and-prompt-injection.md) |
@@ -470,6 +472,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Grounding (multimodal)** | Linking a phrase in an instruction to the thing on screen or in the world that it refers to. | [06.01](06-frontier-applications/01-multimodal-agents-web-and-computer-use.md) |
 | **Group chat** | A chat pattern in which several agents share one history and a manager picks the next speaker. | [05.02](05-frameworks-and-multi-agent/02-autogen-conversation-programming.md) |
 | **Group fairness** | A fairness criterion requiring similar rates of positive outcomes across groups; also called demographic parity. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
+| **group normalization** | A normalization layer that splits the channels into groups and normalizes each group on its own, used for a large channel count | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **Group quantization** | Giving each small block of weights its own scale, needed at 4 bits and below. | [09.04](09-efficient-deep-learning/04-quantization.md) |
 | **Grouped convolution** | A convolution split into independent groups of channels, with weights divided by the group count. | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **Grouped-query attention (GQA)** | Attention in which several query heads share one key-value head, which shrinks the KV cache. | [10.08](10-llm-internals/08-inference.md) |
@@ -491,6 +494,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Handoff** | A run-time pattern in which one active agent at a time passes the task, with context, to another. | [05.05](05-frameworks-and-multi-agent/05-multi-agent-systems-ii-the-llm-era.md) |
 | **Hard constraint** | A limit on a quality attribute that cannot be negotiated. | [07.06](07-ml-in-production/06-quality-attributes-of-ml-components.md) |
 | **Hard negative** | A benign input that looks like an attack, kept in the evaluation set so that a detector's false positive rate is measured where the detector is most likely to be wrong. | [11.03](11-professional-practice/03-capstone-monitoring-agent-for-prompt-injection.md) |
+| **hard Swish** | A hardware-friendly stand-in for Swish: zero below −3, x above 3, and a simple expression between them | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **Harms of allocation** | Harm in which a group receives fewer resources or a worse service because of a discriminatory decision. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
 | **Harms of representation** | Harm in which output skews how a group is portrayed, reinforces a stereotype, or demeans people, without allocating anything. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
 | **Harness (agent)** (also called: Scaffold) | The code around a model in an agent: its tools, context rules and stop conditions. | [02.06](02-building-agents/06-how-agent-system-designs-evolve.md) |
@@ -547,6 +551,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Inline check** | A check on the path between the model and its effect, which can block and adds latency to every step. | [04.05](04-safety-and-security/05-runtime-monitoring-and-detection.md) |
 | **Inner monologue** | A short piece of reasoning text an agent writes before each action. | [06.01](06-frontier-applications/01-multimodal-agents-web-and-computer-use.md) |
 | **Input schema** | A JSON description of the arguments a tool accepts. | [05.06](05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md) |
+| **instance normalization** | A normalization layer whose set is the positions of one channel and one input | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **Instruction hierarchy** | A model-level defense in which the model is trained to privilege some instructions over others. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
 | **Instrumentation** | The code added to a system so that it produces telemetry. | [07.10](07-ml-in-production/10-planning-for-operations.md) |
 | **Integration test** | A test that several components work together, between a unit test of one component and a system test of the whole product. | [08.08](08-quality-assurance/08-system-quality-end-to-end-tests-and-guardrails.md) |
@@ -602,9 +607,11 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Latency budget** | A written limit on how much time a check may add to each step of a system, fixed before the check goes on the path between a model and its effect. | [11.03](11-professional-practice/03-capstone-monitoring-agent-for-prompt-injection.md) |
 | **Latency table** | Per-operator timings measured once on the target device and summed to estimate a model's latency. | [09.05](09-efficient-deep-learning/05-neural-architecture-search.md) |
 | **Latent diffusion** | Running a diffusion model in a compressed latent space instead of on pixels. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
+| **layer normalization** | A normalization layer whose set is every channel and position of one input, so that each token is normalized before attention | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **LayerNorm** | Normalization that subtracts the mean and divides by the standard deviation, then scales and shifts. | [10.03](10-llm-internals/03-transformer-architectures-and-hyperparameters.md) |
 | **Leading indicator** | A measure that is easy to observe now and is expected to move with later success. | [07.03](07-ml-in-production/03-goals-and-requirements.md) |
 | **League** | A training population of main agents and exploiters that play each other. | [05.05](05-frameworks-and-multi-agent/05-multi-agent-systems-ii-the-llm-era.md) |
+| **Leaky ReLU** | A ReLU with a small slope on the negative side, so gradients flow there at the price of the sparsity | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **Lean** | The proof assistant used by AlphaProof and by most of the systems in this part. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Lean-STaR** | A method that trains a model to think in natural language before each formal tactic. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Learned detector** | A classifier trained to label inputs or outputs as attacks. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
@@ -785,6 +792,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Out-of-distribution input** (also called: Out-of-distribution data) | An input that differs strongly from the data a model was trained on. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
 | **Outcome evaluation** | Grading whether an attempt reached the goal state. | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
 | **Outcome validity** | The property that an evaluator's verdict faithfully reflects whether the task succeeded. | [03.01](03-evaluation/01-evaluation-is-the-product.md) |
+| **outer product** | The product of one activation channel and one weight channel, the term that regression-based pruning switches off with its scaling factor | [09.03](09-efficient-deep-learning/03-pruning-and-sparsity.md) |
 | **Outlier** | A value far outside the usual range of the data. | [08.06](08-quality-assurance/06-data-quality.md) |
 | **Over-optimization** | A model learning to please a learned reward model in ways people did not intend. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
 | **Over-tainting** | Labeling so much data as untrusted that the labels stop being useful. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
@@ -838,6 +846,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Policy gate** | Code that routes every tool call through a policy check with a default of deny. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
 | **Policy gradient** | A reinforcement learning update that pushes up the probability of actions in proportion to their reward. | [10.11](10-llm-internals/11-post-training-sft-rlhf-and-rlvr.md) |
 | **Pooling** | A parameter-free layer that shrinks an activation map by taking the maximum or average of small blocks. | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
+| **popcount** | An operation that counts the ones in an array of bits; with a shift and an offset it gives the dot product of two sign vectors | [09.04](09-efficient-deep-learning/04-quantization.md) |
 | **Population best response** | The best strategy against the mix of players actually present. | [05.04](05-frameworks-and-multi-agent/04-multi-agent-systems-i-games-and-self-play.md) |
 | **Position bias** | The tendency of a judge to favor the output listed first. | [03.03](03-evaluation/03-llm-as-a-judge-and-rubrics.md) |
 | **Position interpolation** | Rescaling rotary positions so a model trained on short contexts accepts longer ones. | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
@@ -948,6 +957,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Rejection sampling** | Generating many answers and keeping only those that pass a checker or ranker. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
 | **Reliability** | The absence of defects: how often a system or component performs as specified. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
 | **ReLU** | An activation function that sets negative values to zero. | [10.02](10-llm-internals/02-resource-accounting-flops-memory-and-arithmetic-intensity.md) |
+| **ReLU6** | A ReLU whose output is limited to 6, a purely empirical limit that narrows the range to quantize | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **Repeat contact** | A customer returning about the same issue within a fixed time, a sign of a wrong answer that looked fine. | [03.07](03-evaluation/07-evals-in-production.md) |
 | **Replication** | Storing the same data on several machines so that one can fail. | [07.09](07-ml-in-production/09-scaling-the-system.md) |
 | **Repository map** | A tree-shaped summary of a code base, built up front and placed in the context. | [02.07](02-building-agents/07-coding-agents.md) |
@@ -1052,6 +1062,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Should criterion** | A quality preference asserted as a pass rate over many cases. | [08.05](08-quality-assurance/05-testing-generative-and-llm-components.md) |
 | **Side effect** | A change a tool makes outside its own run, such as sending an email, which a retry may repeat. | [02.02](02-building-agents/02-tool-design-and-function-calling.md) |
 | **SigLIP** | A contrastive image-text model that scores each pair on its own instead of across the batch. | [10.12](10-llm-internals/12-alignment-and-multimodality.md) |
+| **sigmoid** | An activation function that stays between 0 and 1: easy to quantize, but its gradient vanishes at both ends | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **Sign test** | A test that asks how often one model wins on the questions where two models disagree. | [01.07](01-foundations/07-why-llm-outputs-are-noisy.md) |
 | **Signal-to-noise ratio** (also called: Signal to noise) | A benchmark's real improvement signal divided by its noise, with the gain from doubling model size as the signal in Wang's lecture. | [01.07](01-foundations/07-why-llm-outputs-are-noisy.md) |
 | **Signature (DSPy)** | A declaration of the input fields and the output field of one step. | [02.05](02-building-agents/05-compound-ai-systems-and-dspy.md) |
@@ -1128,6 +1139,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **SWAP gate** | A two-qubit gate that exchanges the states of two qubits. | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
 | **SWE-bench** | A benchmark of real GitHub issues, scored by the tests added with each fix. | [02.07](02-building-agents/07-coding-agents.md) |
 | **SwiGLU** | A gated MLP that uses the Swish function. | [10.03](10-llm-internals/03-transformer-architectures-and-hyperparameters.md) |
+| **Swish** | An activation function found by architecture search, x multiplied by the sigmoid of x, hard to build in hardware | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **Symbolic component** | Ordinary code in a hybrid system, written and parsed by rules. | [04.01](04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md) |
 | **Symmetric quantization** | Linear quantization with a zero point of zero, used for weights centered on zero. | [09.04](09-efficient-deep-learning/04-quantization.md) |
 | **Synthetic data** | Training text written or rephrased by a model. | [10.10](10-llm-internals/10-training-data.md) |
@@ -1159,6 +1171,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Tensor** | A block of numbers with a shape; the form of all data, parameters and intermediate results in training. | [10.02](10-llm-internals/02-resource-accounting-flops-memory-and-arithmetic-intensity.md) |
 | **Tensor core** | One of the matrix-multiply units on recent NVIDIA GPUs. | [09.03](09-efficient-deep-learning/03-pruning-and-sparsity.md) |
 | **Tensor parallelism** | Splitting each weight matrix across GPUs, with every GPU handling every token. | [10.06](10-llm-internals/06-parallelism.md) |
+| **ternary weight networks** | Networks whose weights are quantized to +1, 0 and −1 by a threshold at 0.7 times the average absolute value | [09.04](09-efficient-deep-learning/04-quantization.md) |
 | **Test-time RL** | Training the prover on one target problem by solving easier generated variants and learning from each. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Test-time sampling** | Running one agent several times in parallel and keeping one result. | [05.05](05-frameworks-and-multi-agent/05-multi-agent-systems-ii-the-llm-era.md) |
 | **Testing** | Executing software with selected inputs in a controlled setting to check that it behaves as expected. | [08.01](08-quality-assurance/01-quality-assurance-basics-and-the-oracle-problem.md) |
@@ -1190,6 +1203,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Top-p (nucleus sampling)** | A sampling parameter that keeps only the smallest set of tokens whose probabilities add up to p. | [01.04](01-foundations/04-using-llms-tokens-context-and-sampling.md) |
 | **TPU** | Google's machine-learning accelerator, structured like a GPU with a larger matrix-multiply unit. | [10.05](10-llm-internals/05-gpus-tpus-and-kernels.md) |
 | **Trace** | The recorded trajectory of one production attempt, with versions, cost and outcome. | [03.07](03-evaluation/07-evals-in-production.md) |
+| **trained ternary quantization** | Ternary quantization in which the network learns two scales, one per sign, instead of one fixed scale | [09.04](09-efficient-deep-learning/04-quantization.md) |
 | **Trainer** | The part of an RL system that updates the weights. | [02.08](02-building-agents/08-training-models-for-agentic-tasks.md) |
 | **Training** | The optimization loop that changes parameters to lower the loss on the training data. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
 | **Training data** | The examples a model learns from. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
@@ -1312,3 +1326,4 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **3D CNN** | A convolutional network whose kernels also run over time, so it models low-, middle- and high-level information jointly at the price of four-dimensional weights. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
 | **90th percentile** | The value that 9 of 10 attempts stay below; a tail measure that reports slow cases a mean hides. | [03.07](03-evaluation/07-evals-in-production.md) |
 | **95% confidence interval** (also called: 95% interval) | A range built so that it would contain the true value in 95% of repeated evaluations. | [03.05](03-evaluation/05-statistics-for-evals.md) |
+| **XNOR** | A bitwise operation that gives 1 when two bits agree and 0 otherwise | [09.04](09-efficient-deep-learning/04-quantization.md) |
