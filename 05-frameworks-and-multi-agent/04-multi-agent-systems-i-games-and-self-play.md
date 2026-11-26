@@ -1,6 +1,6 @@
 # 04. Multi-Agent Systems I: Games and Self-Play
 
-**Level:** Practitioner · **Reading time:** 18 min · **Exercise:** 45 min
+**Level:** Practitioner · **Reading time:** 19 min · **Exercise:** 45 min
 **Prerequisites:** [From Base Model to Assistant: Post-Training](../01-foundations/03-from-base-model-to-assistant-post-training.md) (the words pre-training, post-training and chain of thought)
 
 > **In one sentence:** After this chapter you can say when a population of agents finds an unbeatable strategy on its own, when it cannot, and why human data is unavoidable when the goal is cooperation with people.
@@ -31,11 +31,11 @@ One answer: the player who wins head-to-head against anyone over a large sample,
 
 If you always throw rock, the best response is always paper and your exploitability is 1. The measure assumes the opponent knows your strategy, but not the outcome of your random choices ([4:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=240), [6:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=360)).
 
-Brown calls it a strong assumption, and fair to question. His reason: an AI that goes online and is used by billions of people has its weaknesses found and exploited sooner or later. So exploitability takes the hardest case, in which people have full access to your weights and know your exact probabilities over actions. In his words the strategy is **common knowledge** (known to the opponent); the outcome of a random process is not ([6:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=360)).
+Brown calls it a strong assumption, and fair to question. His reason is that an AI that goes online and is used by billions of people has its weaknesses found and exploited sooner or later. So exploitability takes the hardest case, in which people have full access to your weights and know your exact probabilities over actions. The known strategy is **common knowledge**, in his words ([6:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=360)).
 
-Rock-paper-scissors holds even there. Throw each move with probability one third. The opponent knows the strategy but not the next throw, so the best it can do is tie: exploitability is zero. That is the minimax equilibrium, and it shows both sides of the guarantee. You do not lose in expectation, and you do not win in expectation either.
+Rock-paper-scissors has an answer even under that assumption: randomize. Throw each move with probability one third. The opponent knows the strategy but not the next throw, so the best it can do is tie, and your exploitability is zero. That is the minimax equilibrium, and it shows both sides of the guarantee: you do not lose in expectation, and you do not win in expectation either ([6:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=360)).
 
-Poker is different, he says. Its equilibrium strategy is much more complicated, and many of the opponent's actions lose money in expectation against it. What the opponent loses, you gain, so the equilibrium player profits from mistakes. He reports that poker professionals now play this way, and deviate only when they observe a weakness over the long run ([8:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=480)).
+Poker is different, he says. Its equilibrium strategy is much more complicated, and many of the opponent's actions lose money in expectation against it. What the opponent loses, you gain, so the equilibrium player profits from mistakes. He reports that poker professionals now play this way, and that over the long run they deviate when they observe a weakness in an opponent ([8:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=480)).
 
 ### 3. Why self-play is almost free in two-player zero-sum games
 
@@ -216,6 +216,11 @@ Stretch goal: implement regret matching for the first game and compare the explo
    B. Frozen game engines only
    C. Human imitation models
    D. A larger language model
+6. Exploitability assumes that the opponent knows your strategy. Why does Brown accept that assumption?
+   A. Because the outcome of every random choice is public
+   B. Because a deployed AI has its weaknesses found and used sooner or later
+   C. Because rock-paper-scissors has no equilibrium
+   D. Because self-play needs human data
 
 <details><summary>Show answers</summary>
 
@@ -224,6 +229,7 @@ Stretch goal: implement regret matching for the first game and compare the explo
 3. B. The opponent can ignore anything helpful to you.
 4. A. It is defined against a population, so it requires data about that population.
 5. C. Imitation models of people stand in for the human players.
+6. B. He calls it a strong assumption and takes the hardest case. In rock-paper-scissors, one third per move stays unexploitable under it, and still only ties.
 
 </details>
 

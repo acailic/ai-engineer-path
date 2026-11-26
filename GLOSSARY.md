@@ -141,6 +141,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Beta distribution** | A flexible probability distribution for values between 0 and 1, which fits per-question pass rates across models. | [01.07](01-foundations/07-why-llm-outputs-are-noisy.md) |
 | **Bias** | In a neural network, one extra learned number per output of a layer, added after the multiply. | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **Big Sleep** | Google Project Zero's agent that finds memory-safety bugs with a code browser, a scripting tool, and a debugger. | [04.08](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
+| **Binary code similarity detection** | The task of judging whether two pieces of compiled program do the same work. | [04.08](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
 | **binary quantization** | Quantization that keeps only the sign of each weight, +1 or −1, so that multiplications become additions and subtractions | [09.04](09-efficient-deep-learning/04-quantization.md) |
 | **BitFit** | Parameter-efficient fine-tuning that trains only the bias terms. | [09.09](09-efficient-deep-learning/09-llm-post-training-and-on-device-training.md) |
 | **Bitter lesson** | Richard Sutton's argument that methods which make the best use of growing compute win in the long run. | [01.02](01-foundations/02-how-large-language-models-are-trained.md) |
@@ -183,6 +184,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Chat template** | The fixed format, with roles, in which conversations are written for training and serving. | [10.11](10-llm-internals/11-post-training-sft-rlhf-and-rlvr.md) |
 | **Cheap talk** | Communication that costs nothing and binds nobody; useless in a two-player zero-sum equilibrium. | [05.04](05-frameworks-and-multi-agent/04-multi-agent-systems-i-games-and-self-play.md) |
 | **Cheese** | A cheap strategy that wins when the opponent is unprepared and tends to work across opponents. | [05.05](05-frameworks-and-multi-agent/05-multi-agent-systems-ii-the-llm-era.md) |
+| **Chinchilla (model)** | A DeepMind language model that Vinyals counts among the company's first; the scaling rule of thumb named after it is in the glossary. | [05.05](05-frameworks-and-multi-agent/05-multi-agent-systems-ii-the-llm-era.md) |
 | **Chinchilla rule of thumb** | About 20 training tokens per parameter for a compute-optimal model. | [01.02](01-foundations/02-how-large-language-models-are-trained.md) |
 | **Chunk** | One piece of a document, a few hundred tokens, stored for retrieval. | [02.04](02-building-agents/04-memory-and-knowledge-for-agents.md) |
 | **CIA triad** | The three classic security goals: confidentiality, integrity, and availability. | [04.01](04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md) |
@@ -202,6 +204,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Code action** | An action expressed as code or a shell command that does several things at once. | [02.07](02-building-agents/07-coding-agents.md) |
 | **Code browser** | A tool that lets an agent jump to definitions and follow cross-references as an IDE does. | [04.08](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
 | **Codebook** | The small table of allowed values that each index points to in k-means quantization. | [09.04](09-efficient-deep-learning/04-quantization.md) |
+| **Codeforces** | The contest website whose ratings of competitive programmers Brown plots language models against. | [05.05](05-frameworks-and-multi-agent/05-multi-agent-systems-ii-the-llm-era.md) |
 | **Codified knowledge** | The good practice that a community has written down; architectural styles and design patterns are this kind | [07.05](07-ml-in-production/05-architecture-for-ml-systems.md) |
 | **Coding agent** | An agent whose environment is a code base, which it reads, edits and runs. | [02.07](02-building-agents/07-coding-agents.md) |
 | **Cohen's kappa** | Agreement between two labelers after removing the agreement expected by chance. | [03.03](03-evaluation/03-llm-as-a-judge-and-rubrics.md) |
@@ -290,6 +293,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Deduplication** | Removing repeated documents or passages from a data set. | [10.10](10-llm-internals/10-training-data.md) |
 | **Deep gradient compression** | A 2017 method of Han's group: prune gradients, accumulate the rest locally, and add momentum correction, warm-up and gradient clipping to keep the accuracy. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
 | **Deep leakage from gradients** | Reconstructing a model's input data from its shared gradients. | [09.09](09-efficient-deep-learning/09-llm-post-training-and-on-device-training.md) |
+| **Deepfake** | A generated video or audio in which a person appears to say or do what they never did. | [04.08](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
 | **Defense in depth** | Several layers of defense whose weaknesses differ, so that an attack has to defeat all of them. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
 | **Delayed gradient averaging** | Applying the averaged gradient from `d` iterations back while computation continues, with the worker's own stale share removed | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
 | **Delimiter** | A marker placed around data in a prompt to tell the model where the data begins and ends; it is a hint, not a wall. | [04.02](04-safety-and-security/02-jailbreaks-and-prompt-injection.md) |
@@ -546,6 +550,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Hostile stub** | A stub model that returns the failures you choose, such as an unknown label or a low confidence, so that guardrails and fallbacks can be tested. | [11.04](11-professional-practice/04-capstone-model-to-product.md) |
 | **Hot standby** | A spare copy of a component that takes over when the main copy fails. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
 | **HOVER** | A neural network for whole-body control that accepts any combination of command types, so that one controller can be steered from several devices. | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
+| **Human agent** | A help-desk employee who works on tickets; in Chapados's example, the person who approves what the AI agents propose. | [05.07](05-frameworks-and-multi-agent/07-agents-in-the-enterprise.md) |
 | **Human approval gate** | A pause before a critical action until a person approves it, showing the real arguments, with no answer meaning no action. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
 | **Human in the loop** (also called: Control point, Human oversight) | A design in which a person checks, confirms or can reverse a model-driven decision. | [04.05](04-safety-and-security/05-runtime-monitoring-and-detection.md) |
 | **Hybrid deployment** | Splitting a model's work between the user's device and a server. | [07.07](07-ml-in-production/07-deploying-a-model.md) |
@@ -557,6 +562,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | Term | Definition | Defined in |
 |---|---|---|
 | **i.i.d. assumption** | The assumption that training and test examples are independent draws from the same distribution seen in production. | [08.02](08-quality-assurance/02-measuring-model-quality.md) |
+| **ICPC** | A programming contest that Brown calls one of the leading in the world; he reports a first place among its human contestants. | [05.05](05-frameworks-and-multi-agent/05-multi-agent-systems-ii-the-llm-era.md) |
 | **Idempotent** | Said of an operation that has the same effect when repeated as when called once. | [02.02](02-building-agents/02-tool-design-and-function-calling.md) |
 | **Im2col** | Rearranging convolution inputs into columns so the operation becomes matrix multiplication. | [09.07](09-efficient-deep-learning/07-tinyml-microcontrollers-and-tinyengine.md) |
 | **Imitation learning** | Learning a policy from demonstrations of the wanted behavior instead of from a reward. | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
@@ -879,6 +885,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **perceiver resampler** | A small attention step that turns any number of visual tokens into a fixed number of vectors: the tokens and a fixed set of learned queries form the keys and values, the learned queries alone are the queries | [10.12](10-llm-internals/12-alignment-and-multimodality.md) |
 | **Perfect information** | A game in which all players see the full state, as in chess. | [05.04](05-frameworks-and-multi-agent/04-multi-agent-systems-i-games-and-self-play.md) |
 | **Perplexity** | A model's average uncertainty about the next token on held-out text, computed from the probability it assigns; lower is better. | [10.09](10-llm-internals/09-evaluating-language-models.md) |
+| **Phishing** | Fraudulent messages that trick people into giving access or information. | [04.08](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
 | **PI agent** | The agent that plays the principal investigator: it chooses the expertise a project needs and creates the specialists. | [06.03](06-frontier-applications/03-agents-for-scientific-discovery.md) |
 | **Pipeline** (also called: ML pipeline) | Everything that produces, deploys and updates an ML component. | [07.01](07-ml-in-production/01-from-models-to-systems-and-products.md) |
 | **Pipeline jungle** | A pipeline of ad hoc scripts whose order and dependencies are not written down. | [07.08](07-ml-in-production/08-automating-the-pipeline.md) |
@@ -922,6 +929,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Privacy policy** | The public document describing what a system collects and how it may use and share it. | [08.14](08-quality-assurance/14-security-privacy-transparency-and-accountability.md) |
 | **Privilege separation** | Splitting a system into parts with different permissions, so that a compromised part cannot borrow the permissions of another. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
 | **privileged information** | Exact values that a simulator knows, such as the position and velocity of every joint, but a real robot cannot sense | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
+| **Proactive defense** | A defense that finds and fixes bugs before attackers reach them; the second of three defense paradigms. | [04.08](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
 | **Probabilistic gradient pruning** | Updating only the parameters with the largest accumulated gradients, so that small noisy gradients are never computed | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
 | **Process violation** | A required tool call that is missing or out of order, or a forbidden tool call. | [03.02](03-evaluation/02-a-minimal-eval-harness.md) |
 | **Profiling** | Recording which kernels ran and for how long, to see where time goes. | [10.05](10-llm-internals/05-gpus-tpus-and-kernels.md) |
@@ -983,6 +991,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Rate limit** | A service refusing calls beyond a quota. | [02.02](02-building-agents/02-tool-design-and-function-calling.md) |
 | **RDMA** | Direct memory access between machines that bypasses the CPU. | [10.06](10-llm-internals/06-parallelism.md) |
 | **ReAct** (also called: Interleaved reasoning, ReAct loop, ReAct-style loop) | A method in which an LLM interleaves thoughts, actions and observations in a loop. | [01.08](01-foundations/08-a-short-history-of-llm-agents.md) |
+| **Reactive defense** | A defense that detects attacks and blocks them; the first of three defense paradigms. | [04.08](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
 | **Reactive policy** | A policy that acts on its first choice without looking ahead. | [02.03](02-building-agents/03-planning-search-and-decision-making.md) |
 | **Real-to-sim-to-real** | Replaying a demonstration recorded on a real robot in simulation, multiplying it there and training a policy that goes back to the robot. | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **Reasoning (in an agent)** | Thinking in written steps, as in chain-of-thought, which adds no outside knowledge. | [01.08](01-foundations/08-a-short-history-of-llm-agents.md) |
@@ -1013,6 +1022,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Reliability** | The absence of defects: how often a system or component performs as specified. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
 | **ReLU** | An activation function that sets negative values to zero. | [10.02](10-llm-internals/02-resource-accounting-flops-memory-and-arithmetic-intensity.md) |
 | **ReLU6** | A ReLU whose output is limited to 6, a purely empirical limit that narrows the range to quantize | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
+| **Remote code execution** | An attack in which input makes the target run the attacker's code; in an agent the model can be made to write that code. | [04.03](04-safety-and-security/03-agent-specific-attacks.md) |
 | **Repeat contact** | A customer returning about the same issue within a fixed time, a sign of a wrong answer that looked fine. | [03.07](03-evaluation/07-evals-in-production.md) |
 | **Replication** | Storing the same data on several machines so that one can fail. | [07.09](07-ml-in-production/09-scaling-the-system.md) |
 | **Repository map** | A tree-shaped summary of a code base, built up front and placed in the context. | [02.07](02-building-agents/07-coding-agents.md) |
@@ -1082,6 +1092,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Search space** | The set of candidate architectures a search may choose from. | [09.05](09-efficient-deep-learning/05-neural-architecture-search.md) |
 | **Search strategy** | The rule for picking the next candidate, such as grid, random, reinforcement learning or evolution. | [09.05](09-efficient-deep-learning/05-neural-architecture-search.md) |
 | **Searchformer** | A small transformer trained to output an A* search trace before the plan. | [02.03](02-building-agents/03-planning-search-and-decision-making.md) |
+| **Secure by construction** | Building a system so that a class of flaw cannot exist; the third of three defense paradigms. | [04.08](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
 | **Security mindset** | The habit of designing as if any component could be compromised, any user could misbehave and any input could be malicious, with reduced risk rather than perfect security as the goal. | [08.14](08-quality-assurance/14-security-privacy-transparency-and-accountability.md) |
 | **Seed** (also called: Random seed) | A number that fixes the random choices of a run, so that a training run or an evaluation attempt can be repeated exactly. | [03.02](03-evaluation/02-a-minimal-eval-harness.md) |
 | **seL4** | A formally verified operating-system kernel. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
@@ -1137,6 +1148,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Slicing function** | A rule that decides whether an example belongs to a slice. | [08.03](08-quality-assurance/03-slicing.md) |
 | **SmoothQuant** | A per-channel rescaling that moves quantization difficulty from activations into weights. | [09.04](09-efficient-deep-learning/04-quantization.md) |
 | **SMT solver** | A program that decides whether a logical formula follows from given facts. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
+| **Social engineering** | Getting into a system by manipulating people rather than machines. | [04.08](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
 | **Softmax** | The function that turns scores into probabilities that add up to 1. | [01.02](01-foundations/02-how-large-language-models-are-trained.md) |
 | **Software architecture** | The early design decisions that matter most for a system's quality requirements and are expensive to reverse. | [07.05](07-ml-in-production/05-architecture-for-ml-systems.md) |
 | **Software vulnerability** | A bug with security consequences, such as an out-of-bounds write or SQL injection. | [04.08](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
@@ -1221,6 +1233,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **T-shaped** (also called: T-shaped person) | Deep expertise in one specialty with working knowledge of the neighboring ones. | [07.01](07-ml-in-production/01-from-models-to-systems-and-products.md) |
 | **Tacit knowledge** | What a designer knows from personal experience and has not written down | [07.05](07-ml-in-production/05-architecture-for-ml-systems.md) |
 | **Tactic** | One small formal proof step, such as applying a known lemma. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
+| **Tangled commits** | Commits in which a patch does more than fix the vulnerability, so that the fix is hard to isolate as training or test data. | [04.08](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
 | **tanh gate** | A learned scale on what a cross-attention layer adds, started at zero so that the model begins as the plain language model | [10.12](10-llm-internals/12-alignment-and-multimodality.md) |
 | **Task** | One item of a dataset: an input plus what an acceptable result looks like. | [03.02](03-evaluation/02-a-minimal-eval-harness.md) |
 | **Task agent** | An agent that carries out small office tasks such as scheduling a meeting or adding a to-do, in a simulated workspace. | [11.02](11-professional-practice/02-capstone-task-agent-with-evals.md) |

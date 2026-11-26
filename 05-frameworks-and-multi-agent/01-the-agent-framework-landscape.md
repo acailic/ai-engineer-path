@@ -1,6 +1,6 @@
 # 01. The Agent Framework Landscape
 
-**Level:** Practitioner · **Reading time:** 16 min · **Exercise:** 45 min
+**Level:** Practitioner · **Reading time:** 18 min · **Exercise:** 45 min
 **Prerequisites:** [The Anatomy of an Agent](../02-building-agents/01-the-anatomy-of-an-agent.md)
 
 > **In one sentence:** After this chapter you can say what an agent framework does for you, what it takes away, and choose between five layers of abstraction for a task using numbers you measured yourself.

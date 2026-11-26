@@ -1,6 +1,6 @@
 # 05. Multi-Agent Systems II: The LLM Era
 
-**Level:** Practitioner · **Reading time:** 19 min · **Exercise:** 90 min
+**Level:** Practitioner · **Reading time:** 20 min · **Exercise:** 90 min
 **Prerequisites:** [Multi-Agent Systems I: Games and Self-Play](04-multi-agent-systems-i-games-and-self-play.md)
 
 > **In one sentence:** After this chapter you can decide, with a measured reason, whether a second LLM agent earns its cost for a given task.
@@ -111,7 +111,7 @@ The scaling is the same outside the toy. In a June 2025 engineering report on it
 
 ### Vinyals: why a population helps, at training time
 
-- **Why games.** Reporters in the early days, he recalls, saw no use for game-playing in the real world. His answer is a timeline, which he says he maps fairly imperfectly. Games were a sandbox: a place to try ideas and to grow neural networks to a large scale. Each major project on the timeline passed algorithms or lessons to the next. StarCraft was followed by early work on coding, then the first DeepMind language models (Chinchilla among them), vision-language models (Flamingo, Gato) and AlphaFold, which drew, in his account, on transformers and on distilling data. Today, he says, research and resources are concentrated on a single very large project, Gemini; he co-leads it on the technical side, and the goal is a system as general as possible. A game is now one ability among many ([11:51](https://www.youtube.com/watch?v=ntjOxjZMaac&t=711)).
+- **Why games.** Reporters in the early days, he recalls, saw no use for game-playing in the real world. His answer is a timeline, which he says he maps fairly imperfectly. Games were a sandbox: a place to try ideas and to grow neural networks to a large scale. Each major project on the timeline passed algorithms or lessons to the next. StarCraft was followed by early work on coding, the first DeepMind language models (Chinchilla among them), the vision-language models Flamingo and Gato, and AlphaFold, which drew, in his account, on transformers and on distilling data. Today, he says, much of the research and many of the resources go into one project, almost, a very large one called Gemini, which he co-leads on the technical side, with the goal of the most general system possible. A game is now one ability among many ([11:51](https://www.youtube.com/watch?v=ntjOxjZMaac&t=711)).
 - **Why StarCraft was hard.** He describes it as chess in which you do not see the whole board: the game is partially observable, it runs in real time, and the action space mixes strategy with the control of single units. AlphaStar trained one neural network to issue every command and reached grandmaster status, which he puts at about the top 100 players per region ([6:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=360), [8:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=480)).
 - **Imitation first.** Reinforcement learning alone did not get far. A random policy (a rule that picks actions) achieves little. It did find a way to beat the hardest built-in AI, by sending all its workers to attack, which works until an opponent defends it. So the team used human games: more than one million replays, which they released, plus metadata about what the players built, given to the network as a conditioning signal (an extra input that tells it which style to play). He calls that a little like cheating, because it uses information from the end of the game. He compares it to prompting: tell the agent which units to build, or to play like a professional or a novice. His listed differences from LLMs: about 5 billion training tokens against more than a trillion, and instructions encoded as vectors, not language ([20:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=1200), [22:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=1320), [24:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=1440)).
 - **Non-transitivity.** Strength is one axis, measured by Elo (a rating in which a fixed gap means a fixed win chance) or by a leaderboard score. Within one slice of strength, agents can beat each other in cycles, as in rock-paper-scissors. Three models at the same score may each beat the next. Weak agents are highly non-transitive; at the very top a dominant strategy appears ([38:00](https://www.youtube.com/watch?v=ntjOxjZMaac&t=2280)).
@@ -141,7 +141,7 @@ Each round leaves the main agent with an answer to one more tactic, which is how
 
 ### Brown: what parallel sampling buys
 
-- **Why thinking time matters.** Brown's motivation is the rise of the reasoning models: the longer such a model thinks, the better it performs, and each newer version needs less thinking for the same performance ([42:55](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2575)). On his plot of competitive programming, a model from early 2022 sits below the fifth percentile of contestants and one from mid-2024 at the 10th. The reasoning models follow: above the median in September 2024, above the 90th percentile about three months later and above the 99th in April 2025, and he reports a first place among the human contestants in a leading contest. The models can probably think for about 15 or 20 minutes, he says, depending on the problem ([44:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2640)). He asks whether a model could think for hours, days or weeks ([46:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2760)).
+- **Why thinking time matters.** Brown's stated motivation for agents that cooperate is the rise of the reasoning models: the longer such a model thinks, the better it performs, and each newer version needs less thinking for the same performance ([42:55](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2575)). On his plot of competitive programming, a model from early 2022 sits below the fifth percentile of contestants and one from mid-2024 at the 10th. The reasoning models follow: above the median in September 2024, above the 90th percentile about three months later and above the 99th in April 2025. He also reports a first place among the human contestants of the ICPC, one of the leading programming contests in the world. The models can probably think for about 15 or 20 minutes, by his account, depending on the problem ([44:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2640)). He asks whether a model could think for hours, days or weeks ([46:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2760)).
 - **Latency.** Chain of thought is serial, so latency eventually becomes a bottleneck. best-of-N (sample several answers and keep the one that passes a check) and consensus (keep the most common answer) are parallel: lower latency, less compute-efficient ([46:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2760), [48:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2880)).
 - **Best-of-N needs a checker.** In many ways it works better than consensus, but it needs a problem whose solution is easy to verify ([48:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2880)).
 - **Diversity.** Use the best model for the particular query. He argues that routing is already a form of multi-agent AI: a model looks at the query and hands it to the model best suited to it. His analogy: nobody multiplies 15-digit numbers by hand, so a model should use a calculator ([48:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=2880), [50:00](https://www.youtube.com/watch?v=SrLcGdVOb9w&t=3000)).
@@ -222,6 +222,11 @@ Stretch goal: keep the multi-agent design but replace the critic's model with a 
    B. Rewards cannot be fully specified for LLM tasks
    C. LLMs have smaller contexts
    D. LLM users are always adversarial
+7. On Vinyals's timeline, what did the projects that followed StarCraft, AlphaFold among them, take from the games work?
+   A. Nothing; they were independent of it
+   B. Algorithms and lessons, because games had been a sandbox for trying ideas and scaling up neural networks
+   C. Replays of human StarCraft games
+   D. The win-and-loss signal of StarCraft
 
 <details><summary>Show answers</summary>
 
@@ -231,6 +236,7 @@ Stretch goal: keep the multi-agent design but replace the critic's model with a 
 4. B. At equal strength, A beats B, B beats C, and C beats A.
 5. B. Without new information the critic adds tokens, not accuracy.
 6. B. StarCraft has win and loss; open-ended LLM tasks do not.
+7. B. He says he maps the timeline fairly imperfectly. It ends with Gemini, where a game is one ability among many.
 
 </details>
 

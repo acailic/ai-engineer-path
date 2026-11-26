@@ -1,6 +1,6 @@
 # 07. Agents in the Enterprise
 
-**Level:** Practitioner · **Reading time:** 14 min · **Exercise:** 60 min
+**Level:** Practitioner · **Reading time:** 16 min · **Exercise:** 60 min
 **Prerequisites:** [LlamaIndex: Building a Knowledge Assistant](03-llamaindex-knowledge-assistants.md) (retrieval over private documents), [Tool Design and Function Calling](../02-building-agents/02-tool-design-and-function-calling.md)
 
 > **In one sentence:** After this chapter you can take an agent from a notebook to a company workflow, with a source on every claim, a human approval point, and the evaluation and model-cost decisions that a company needs.
@@ -41,7 +41,7 @@ Two terms carry the chapter. **Grounding** ties each statement to a source fetch
    - **Distillation.** A large **teacher** model labels the training data, even with soft labels (a probability per option instead of one answer), and a small **student** learns to reproduce them. That avoids manual labeling, and costs less latency and money ([44:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=2640), [46:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=2760)). Chapados's case study applies it.
 6. **Add the control points.** Function calling lets the model act, not only answer. Each action needs permissions, an approval threshold and a log.
 
-   Near the end of the lecture Chapados returns to his access problem from earlier, a user who lacks the permissions to see an article. In a company with agents deployed, the human agent does not even open the ticket first. One agent has already looked at it and proposes a solution, as a series of steps; an **orchestrator** (the agent that asks a person to approve the plan) shows her the plan. Once she approves, other agents each carry out one sub-task, and the agent that would change the user's access asks her a second time before doing anything destructive. The flow contains two approvals by a person; the agents do everything else ([60:01](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=3601), [62:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=3720)).
+   Near the end of the lecture Chapados returns to his access problem from earlier, a user who lacks the permissions to see an article, and describes how the case would run in a company with agents deployed. The human agent, Sandy in his example, does not even open the ticket first. One agent has already looked at it and proposes a solution as a series of steps, and an **orchestrator** (the agent that asks a person to approve the plan) shows her the plan. Once she approves, other agents each carry out one sub-task, and the agent that would change the user's access asks her a second time before doing anything destructive. The flow contains two approvals by a person; the agents do everything else ([60:01](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=3601), [62:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=3720)).
 7. **Evaluate.** Gokturk points to automatic side-by-side evaluation (two answers to the same input, compared by a rater), with the largest model as the rater, because human raters are scarce ([58:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=3480)). For workflow agents, check the end state, as the ServiceNow team does.
 8. **Manage prompts and models.** Gokturk lists what teams ask for: a prompt management system with storage, revision history, and the ability to convert a prompt from one model to another ([58:00](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=3480)).
 
@@ -157,6 +157,11 @@ Stretch goal: run 20 past cases through a draft-only agent and measure how often
    B. A small model trained to reproduce a larger model's answers
    C. A model used only for evaluation
    D. A prompt with one example
+6. In Chapados's picture of a help-desk case in a company with agents deployed, what does the human agent do?
+   A. Works through every manual step while the agents only write the notes
+   B. Approves the plan, and approves again before an agent changes the user's access
+   C. Writes the plan and assigns each sub-task by hand
+   D. Checks every sub-task before the next one starts
 
 <details><summary>Show answers</summary>
 
@@ -165,6 +170,7 @@ Stretch goal: run 20 past cases through a draft-only agent and measure how often
 3. A. He says few customers fine-tune all weights and that prompt tuning surprised him by how little it was used.
 4. B. The database state is checked, so other valid paths also pass.
 5. B. In the ServiceNow form-filling case study the slides call the student 330 times cheaper.
+6. B. An orchestrator shows her the plan, and the agent that would change the access asks again. The agents do everything else.
 
 </details>
 
