@@ -40,7 +40,7 @@ Computer use gives the model tools for mouse, keyboard and screenshots; training
 ### [38:30–46:00](https://www.youtube.com/watch?v=6y2AnWol7oo&t=2310) A second demo; benchmarks and governance
 
 A second demo fills in a vendor form from a spreadsheet and a customer-relationship system; the agent loop keeps Claude acting tool after tool and at some point hands control back to the user. Anthropic cannot measure capabilities alone. SWE-bench Verified and a desktop benchmark are reproducible from containers, general across tasks and languages, and close to the real world. On governance, he describes ceding control to board members who hold no financial stake as AI grows more powerful.
-**In this book:** nothing beyond this guide; nearest: [Evaluating Agents: Trajectories and Environments › Benchmark design and contamination](../03-evaluation/04-evaluating-agents-trajectories-and-environments.md#benchmark-design-and-contamination).
+**In this book:** [Evaluating Agents: Trajectories and Environments › Benchmark design and contamination](../03-evaluation/04-evaluating-agents-trajectories-and-environments.md#benchmark-design-and-contamination).
 
 ## What to take away
 

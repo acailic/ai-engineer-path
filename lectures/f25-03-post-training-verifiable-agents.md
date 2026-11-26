@@ -40,7 +40,7 @@ A system that works in a few environments breaks outside them, so data must cove
 ### [21:43–26:15](https://www.youtube.com/watch?v=3l0Zxus34es&t=1303) Five things an agent is expected to do
 
 Evaluation must test for generalization, since no data set covers every environment. He names five targets: work with many tools and many use cases, so a modified tool does not break the agent; cope with vaguely specified instructions, drawing out the user's intent in conversation while still emitting exactly formatted calls; work across software systems, not only the one it was built for; and stay robust, debugging problems like a good engineer. Each target maps to a family of benchmarks.
-**In this book:** nothing beyond this guide; nearest: [Evaluating Agents: Trajectories and Environments › Benchmark design and contamination](../03-evaluation/04-evaluating-agents-trajectories-and-environments.md#benchmark-design-and-contamination).
+**In this book:** [Evaluating Agents: Trajectories and Environments › Benchmark design and contamination](../03-evaluation/04-evaluating-agents-trajectories-and-environments.md#benchmark-design-and-contamination).
 
 ### [26:15–31:42](https://www.youtube.com/watch?v=3l0Zxus34es&t=1575) The benchmarks that exist
 

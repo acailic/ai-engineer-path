@@ -25,7 +25,7 @@ An open-ended task is verifiable when an oracle can check the output; otherwise 
 ### [20:00–28:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=1200) Static and dynamic benchmarks; a taxonomy of agent benchmarks
 
 A static benchmark keeps its test cases fixed, which makes results reproducible but lets training data absorb them. A dynamic one regenerates cases periodically, so it stays current and is harder to game. Benchmarks for agents then fall into three groups: those that test one capability, such as planning, tool calling or memory; those that test one application, such as web browsing, software engineering (SWE-bench Verified), cybersecurity (CyberGym, RedCode), science, law or finance; and those that cover many applications.
-**In this book:** nothing beyond this guide; nearest: [Evaluating Agents: Trajectories and Environments › Benchmark design and contamination](../03-evaluation/04-evaluating-agents-trajectories-and-environments.md#benchmark-design-and-contamination).
+**In this book:** [Evaluating Agents: Trajectories and Environments › Benchmark design and contamination](../03-evaluation/04-evaluating-agents-trajectories-and-environments.md#benchmark-design-and-contamination).
 
 ### [28:00–34:30](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=1680) Task validity, outcome validity and judging text
 
@@ -50,7 +50,7 @@ In τ-bench, an agent serves a simulated user through APIs while obeying a polic
 ### [56:00–1:04:45](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3360) Case studies: knowledge work and enterprise workflows
 
 GDPval, a benchmark from OpenAI, gives models realistic assignments written by professionals, with reference files, and has blinded experts compare the deliverables with their own, recording time and cost as well. CRMArena, built on Salesforce's sandbox, tests customer-relationship workflows for service, analyst and manager roles on synthetic data; it scores knowledge questions with F1 and the other tasks by exact match on identifiers, and reports reliability over repeated runs and efficiency in turns, tokens and dollars.
-**In this book:** nothing beyond this guide; nearest: [Evaluating Agents: Trajectories and Environments › 8. Report reliability, and the simulator's health](../03-evaluation/04-evaluating-agents-trajectories-and-environments.md#8-report-reliability-and-the-simulators-health).
+**In this book:** [Evaluating Agents: Trajectories and Environments › Benchmark design and contamination](../03-evaluation/04-evaluating-agents-trajectories-and-environments.md#benchmark-design-and-contamination).
 
 ### [1:04:45–1:14:00](https://www.youtube.com/watch?v=VfOA2a0dj4w&t=3885) Green agents
 

@@ -45,7 +45,7 @@ Memory is what turns transactions into a relationship that holds across many int
 ### [14:30–17:15](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=870) Developing on a platform
 
 Because every channel is now digital, the methods of website engineering, controlled experiments above all, can be applied to conversations; today a call center can only hand two scripts to two groups of a thousand people and hope. An agent should be defined once, by what it knows and can do, and then pick up any channel. Engineering teams use a declarative SDK that states what the agent should do and fits their release process; operations teams use no-code tools. A new data platform combines long-term memory, imported customer data, and the ability to place outbound calls.
-**In this book:** nothing beyond this guide; nearest: [Evals in Production › 6. Test in production, carefully](../03-evaluation/07-evals-in-production.md#6-test-in-production-carefully).
+**In this book:** [Evals in Production › How it works, step by step › 4. Gate every change on a regression run](../03-evaluation/07-evals-in-production.md#4-gate-every-change-on-a-regression-run).
 
 ### [17:15–23:16](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=1035) Why voice is a pipeline, and what latency hides
 

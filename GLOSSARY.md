@@ -312,6 +312,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **DualFormer** | A successor to Searchformer, trained on partially removed traces, that switches between a fast and a slow mode. | [02.03](02-building-agents/03-planning-search-and-decision-making.md) |
 | **DuoAttention** | A method that classifies attention heads into retrieval heads with full cache and streaming heads with a window. | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
 | **Durable idea** | An idea that keeps its value across model generations because it has a mechanism, appears in several sources and has a metric. | [11.08](11-professional-practice/08-staying-current.md) |
+| **dynamic benchmark** | A benchmark that updates or regenerates its test cases every week, month or season, so that it follows the data and is harder to game | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
 
 ## E
 
@@ -650,6 +651,8 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Memory layer** | Stored questions and answers that let an assistant keep context between conversations. | [05.03](05-frameworks-and-multi-agent/03-llamaindex-knowledge-assistants.md) |
 | **Memory poisoning** | Planting content in an agent's memory so that later tasks follow it. | [04.03](04-safety-and-security/03-agent-specific-attacks.md) |
 | **Memory-bound** | Limited by data movement rather than arithmetic, because arithmetic intensity is below the chip's. | [10.02](10-llm-internals/02-resource-accounting-flops-memory-and-arithmetic-intensity.md) |
+| **meta-judge** | The part a model plays when it compares two of its own judgments and says which is better | [03.03](03-evaluation/03-llm-as-a-judge-and-rubrics.md) |
+| **meta-rewarding** | A method in which one model follows instructions, judges the responses and also judges its own judgments, so that it is trained on preference pairs between judgments as well as between responses | [03.03](03-evaluation/03-llm-as-a-judge-and-rubrics.md) |
 | **Metamodel (stacking)** | A model that learns which of several other models to trust in which situation. | [07.07](07-ml-in-production/07-deploying-a-model.md) |
 | **Metamorphic relation** | A rule stating how two outputs must relate when the inputs differ in a prescribed way. | [08.04](08-quality-assurance/04-testing-without-oracles.md) |
 | **Metric** (also called: Measure) | A number that summarizes model quality on a data set, such as accuracy. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
@@ -1084,6 +1087,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **StateFlow** | A group chat that encodes a finite state machine: one agent per state, transitions fixed in advance. | [05.02](05-frameworks-and-multi-agent/02-autogen-conversation-programming.md) |
 | **Stateless** | Holding no memory between requests, as a plain RAG pipeline does. | [05.03](05-frameworks-and-multi-agent/03-llamaindex-knowledge-assistants.md) |
 | **Static analysis** | Inspecting code for problems without running it. | [02.07](02-building-agents/07-coding-agents.md) |
+| **static benchmark** | A benchmark whose test cases never change, which makes comparisons reproducible but lets the fixed cases end up in training data | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
 | **Statistical test** | A calculation of how unlikely a result is if only chance were at work. | [08.03](08-quality-assurance/03-slicing.md) |
 | **Statistically significant** | Unlikely to be caused by sampling noise alone; in practice larger than about two standard errors of the difference. | [03.05](03-evaluation/05-statistics-for-evals.md) |
 | **Stdio transport** | Carrying protocol messages through a local program's standard input and output. | [05.06](05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md) |
@@ -1243,6 +1247,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **VisualWebArena** | A 2024 extension of WebArena with tasks that need images. | [06.01](06-frontier-applications/01-multimodal-agents-web-and-computer-use.md) |
 | **Vocabulary** | The fixed list of all tokens a model can use. | [01.02](01-foundations/02-how-large-language-models-are-trained.md) |
 | **Vocabulary size** | The number of distinct tokens a model can read or produce. | [10.01](10-llm-internals/01-the-language-modeling-pipeline-and-tokenization.md) |
+| **voice sommelier** | The person at Sierra, under an unofficial title, who listens to voices, rates them on a fixed set of dimensions and matches them to a company's brand | [03.07](03-evaluation/07-evals-in-production.md) |
 | **Voyager** | An open-ended agent that plays Minecraft with no fixed goal, saving each learned behavior as code in a skill library. | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **VQ-VAE** | A network that compresses an image into a list of discrete codes and reconstructs it. | [10.12](10-llm-internals/12-alignment-and-multimodality.md) |
 

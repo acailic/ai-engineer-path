@@ -55,7 +55,7 @@ Reasoning is useful for tasks without a checkable answer too, such as writing a 
 ### [1:00:30–1:10:00](https://www.youtube.com/watch?v=_MNlLhU33H0&t=3630) Improving the judge: meta-rewarding and thinking judges
 
 Two further methods improve the judge itself. Meta-rewarding language models gives the model three roles, actor, judge and meta-judge, and trains it on preference pairs between judgments as well as between responses; its win rate passes that of self-rewarding training and keeps rising after the latter plateaus. The second trains a judge to think at length: evaluation becomes verifiable when it is known in advance which of two responses is better, a verdict that synthetic data supplies, and the trained model leads RewardBench.
-**In this book:** nothing beyond this guide; nearest: [LLM-as-a-Judge and Rubrics › 6. Fix or accept, then recalibrate](../03-evaluation/03-llm-as-a-judge-and-rubrics.md#6-fix-or-accept-then-recalibrate).
+**In this book:** [LLM-as-a-Judge and Rubrics › What the practitioners say](../03-evaluation/03-llm-as-a-judge-and-rubrics.md#what-the-practitioners-say).
 
 ### [1:10:00–1:14:00](https://www.youtube.com/watch?v=_MNlLhU33H0&t=4200) Summary, and reasoning without words
 
