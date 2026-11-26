@@ -30,7 +30,7 @@ The analogy: a model is like a JavaScript bundle. You build it (training), then 
 
 ### The gap that keeps widening
 
-In his Fall 2024 introduction to MIT 6.5940, Song Han shows a chart with two curves: the size of the largest language models and the memory of the largest accelerator chips ([2:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=120)). His slides list models growing from the 0.05B-parameter Transformer to GPT-3 at 175B and MT-NLG at 530B, while chip memory moved from 16 GB and 32 GB parts to 40 GB and 80 GB parts. Models grew by a factor of thousands. Memory grew by a factor of five.
+In his Fall 2024 introduction to MIT 6.5940, Song Han shows a chart with two curves: the size of the largest language models and the memory of the largest accelerator chips ([3:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=180)). His slides list models growing from the 0.05B-parameter Transformer to GPT-3 at 175B and MT-NLG at 530B, while chip memory moved from 16 GB and 32 GB parts to 40 GB and 80 GB parts. Models grew by a factor of thousands. Memory grew by a factor of five.
 
 His conclusion: the gap "is getting larger actually with recent years", and it drives up the price of training and serving ([4:00](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=240)).
 
@@ -178,7 +178,7 @@ Write a budget for one model. Find a model card or an announcement that states t
 
 ## Sources
 
-- **Lecture:** Song Han, "Lecture 1: Introduction", MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024): [video](https://www.youtube.com/watch?v=U7EPZv8Kh9w) · [guide](../lectures/mit-01-introduction.md), used at [supply and demand](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=120), [training cost and pipeline](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=240), [running a model on a laptop](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2040), [course map](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3600), [algorithm and system co-design](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3720)
+- **Lecture:** Song Han, "Lecture 1: Introduction", MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024): [video](https://www.youtube.com/watch?v=U7EPZv8Kh9w) · [guide](../lectures/mit-01-introduction.md), used at [supply and demand](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=180), [training cost and pipeline](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=240), [running a model on a laptop](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=2040), [course map](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3600), [algorithm and system co-design](https://www.youtube.com/watch?v=U7EPZv8Kh9w&t=3720)
 - **Reading:** Song Han, Huizi Mao, William J. Dally, "Deep Compression: Compressing Deep Neural Networks with Pruning, Trained Quantization and Huffman Coding" (ICLR 2016): [arXiv](https://arxiv.org/abs/1510.00149)
 - **Reading:** Song Han et al., "EfficientML.ai" course site, slides and labs: [efficientml.ai](https://efficientml.ai)
 

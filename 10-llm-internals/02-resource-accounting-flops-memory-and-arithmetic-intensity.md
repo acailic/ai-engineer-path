@@ -113,7 +113,7 @@ The last two rows are the reason training is efficient and generation is not. Li
 
 ### 6. Count memory for training
 
-With Adam, the optimizer state is two statistics per parameter in fp32: 8 bytes. Add 2 bytes for the bf16 parameter and 2 for its gradient: 12 bytes per parameter. AdaGrad keeps one statistic, 4 bytes. Liang demonstrates with AdaGrad, an optimizer from 2011 that predates Adam: in his framing, AdaGrad looks at the second moment of the gradient (its average square), momentum at the first (its average), and Adam combines the two ([66:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=3960)).
+With Adam, the optimizer state is two statistics per parameter in fp32: 8 bytes. Add 2 bytes for the bf16 parameter and 2 for its gradient: 12 bytes per parameter. AdaGrad keeps one statistic, 4 bytes. Liang demonstrates with AdaGrad, an optimizer from 2011 that predates Adam: in his framing, AdaGrad looks at the second moment of the gradient (its average square), momentum at the first (its average), and Adam combines the two ([66:50](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=4010)).
 
 Activations are the other cost. Training must keep the activations of every layer for the backward pass; his figure is batch size × model dimension × 2 bytes × number of layers ([72:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=4320)). Inference keeps only the current layer's. Two tools reduce memory:
 
