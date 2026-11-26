@@ -106,7 +106,9 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Autoencoder** | A network trained to reconstruct its input, used to flag inputs it reconstructs badly. | [09.07](09-efficient-deep-learning/07-tinyml-microcontrollers-and-tinyengine.md) |
 | **Autoformalization** | Translating a mathematical statement or proof from prose into formal code. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Automate, prompt, augment** | The three strengths of human interaction with a model, from acting without asking to only showing information. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
+| **Automated theorem prover** | A program that searches for a proof of a goal in some logic without a person writing each step; strong on small gaps, weak on long proofs. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Automation bias** | The tendency of people to accept a machine's suggestion. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
+| **Auxiliary lemma** | A lemma invented on the way to a theorem. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Availability** | The goal that authorized users get reliable and timely access to a service. | [04.01](04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md) |
 | **AWQ** | Activation-aware weight quantization: a 4-bit weight-only method that scales up the few channels that matter most before quantizing them. | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
 
@@ -230,6 +232,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Continuous batching** | Adding new requests to the running batch as they arrive. | [10.08](10-llm-internals/08-inference.md) |
 | **Continuous delivery (CD)** | Keeping every change that passes its checks ready to release through an automated process. | [07.08](07-ml-in-production/08-automating-the-pipeline.md) |
 | **Continuous integration (CI)** | The practice of running the test suite on every change, in a clean environment, and refusing to merge a change that breaks it. | [08.01](08-quality-assurance/01-quality-assurance-basics-and-the-oracle-problem.md) |
+| **Contrastive loss** | A training objective that pulls a proof state and its useful premises close in the embedding space and pushes useless premises away. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Control divergence** | Threads in a warp taking different branches, which then run one after another. | [10.05](10-llm-internals/05-gpus-tpus-and-kernels.md) |
 | **Control flow** | The rule for who acts next: your code, the model, or another agent. | [05.01](05-frameworks-and-multi-agent/01-the-agent-framework-landscape.md) |
 | **Control group** | The users who keep the old version in an experiment, for comparison. | [08.09](08-quality-assurance/09-testing-and-experimenting-in-production.md) |
@@ -293,6 +296,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Determinism** | The property of giving the same output for the same input every time. | [07.06](07-ml-in-production/06-quality-attributes-of-ml-components.md) |
 | **Development copilot** | A model that works synchronously with a developer, one action at a time. | [02.01](02-building-agents/01-the-anatomy-of-an-agent.md) |
 | **DevSecOps** | Running automated security checks such as static analysis as part of continuous integration, so that security work belongs to the delivery pipeline instead of coming at the end. | [08.14](08-quality-assurance/14-security-privacy-transparency-and-accountability.md) |
+| **Diagrammatic gap** | A step of a classical proof that nobody proves because the diagram makes it obvious, and that a proof assistant therefore needs to have formalized. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Differentiable** | Having a derivative, so that one can compute how the output changes when any parameter moves a little. | [01.02](01-foundations/02-how-large-language-models-are-trained.md) |
 | **Differentiable augmentation** | Applying the same transformation to real and generated images during GAN training, so that the loss flows back through the transformation to the generator. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
 | **Differential privacy** | A guarantee that a training result is nearly the same whether or not one person's record is in the data. | [04.07](04-safety-and-security/07-trustworthiness-beyond-injection.md) |
@@ -897,6 +901,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Prompt sensitivity** | The tendency of outputs to change when the wording, order or formatting of a prompt changes slightly. | [01.05](01-foundations/05-prompting-and-in-context-learning.md) |
 | **Prompt tuning** (also called: Prompt and prefix tuning) | Learning a vector to place in front of the prompt instead of writing examples. | [05.07](05-frameworks-and-multi-agent/07-agents-in-the-enterprise.md) |
 | **Proof assistant** | A program, also called an interactive theorem prover, that checks each step of a formal proof; Lean, Coq and Isabelle are examples. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
+| **Proof reconstruction** | The step of a hammer that turns the proof found by an automated prover into a proof the interactive prover can check. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Proof state** | At one step of a formal proof, the list of what is known and what remains to be shown. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Propagation** | The spread of injected or false content from one compromised agent to others. | [04.03](04-safety-and-security/03-agent-specific-attacks.md) |
 | **Protected attribute** | A feature that divides the demographic groups for which wrongful discrimination is a concern. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
@@ -981,6 +986,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Retrieval** | A search that puts matching documents into the prompt. | [01.04](01-foundations/04-using-llms-tokens-context-and-sampling.md) |
 | **Retrieval hit rate** | How often the retrieval step fetches a chunk that contains the answer. | [02.04](02-building-agents/04-memory-and-knowledge-for-agents.md) |
 | **Retrieval poisoning** | Planting documents in a knowledge base so that they are retrieved and followed. | [04.03](04-safety-and-security/03-agent-specific-attacks.md) |
+| **Retriever** | A model that ranks the premises of a library by how likely each is to help with the current proof state. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Reversible action** | An action that can be undone, so that a wrong prediction behind it usually does minor or temporary harm. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
 | **Revision** | A version of an artifact that replaces an earlier one in time. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
 | **Reward** | A score given to a model's output during training, which the model is trained to maximize. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
@@ -1034,6 +1040,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Searchformer** | A small transformer trained to output an A* search trace before the plan. | [02.03](02-building-agents/03-planning-search-and-decision-making.md) |
 | **Security mindset** | The habit of designing as if any component could be compromised, any user could misbehave and any input could be malicious, with reduced risk rather than perfect security as the goal. | [08.14](08-quality-assurance/14-security-privacy-transparency-and-accountability.md) |
 | **Seed** (also called: Random seed) | A number that fixes the random choices of a run, so that a training run or an evaluation attempt can be repeated exactly. | [03.02](03-evaluation/02-a-minimal-eval-harness.md) |
+| **seL4** | A formally verified operating-system kernel. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Self-consistency** (also called: Consensus) | Sampling several complete answers and returning the most frequent final answer. | [01.06](01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) |
 | **Self-correction** | Asking a model to review and revise its own answer, which brings no net gain without an external check. | [01.06](01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) |
 | **Self-debugging** | Improving generated code with feedback from running it and from unit tests. | [01.06](01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) |
@@ -1104,6 +1111,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **SPSA** | Simultaneous perturbation stochastic approximation, which perturbs all parameters at once and estimates every gradient from two evaluations | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
 | **SQL injection** | An attack in which attacker-chosen text becomes part of a database query; in an agent the text can arrive through model output. | [04.01](04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md) |
 | **SRAM** | The small, fast working memory that holds activations at run time and loses its content without power. | [09.07](09-efficient-deep-learning/07-tinyml-microcontrollers-and-tinyengine.md) |
+| **Stack machine** | A simple computer model whose program is a list of instructions that push values onto a stack and combine the top ones. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Stack trace** | The report a program prints when it crashes, written for developers rather than for the model. | [02.02](02-building-agents/02-tool-design-and-function-calling.md) |
 | **Stakeholder** | Any person or organization with an interest in the system or affected by it. | [07.03](07-ml-in-production/03-goals-and-requirements.md) |
 | **Stale gradient** | A gradient from an earlier iteration that is applied late, as in delayed gradient averaging. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
