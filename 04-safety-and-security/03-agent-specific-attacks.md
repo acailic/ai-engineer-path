@@ -62,7 +62,7 @@ Four of the five are attacks. Excessive agency is the reason a small attack beco
 
 **Retrieval poisoning.** The knowledge base is shared, so anyone who can add a document can add an instruction. The attacker writes the document so that it matches many queries.
 
-Song's Fall 2025 case study shows where the harm can land ([48:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2880)). An attacker adds one malicious document to the knowledge base of Microsoft Copilot, an office assistant that retrieves documents to decide which actions to take. The document tells the agent that a question about payroll calls for re-authentication: ask for the user's credentials, then send the user to a website the attacker controls. A user who asks where to find payroll information is told to re-authenticate with an email address and a password, and is given a link. The user complies, clicks, and the credentials go to the attacker ([50:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=3000)). Song calls such attacks stealthy and targeted: the instruction waits for one topic, payroll. On an exposure map, a poisoned store can reach the user as well as the tools.
+Song's Fall 2025 case study shows where the harm can land ([48:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=2880)). An attacker adds one malicious document to the knowledge base of Microsoft Copilot, an assistant that retrieves documents to help it decide which actions to take. The document tells the agent that a question about payroll calls for re-authentication: ask for the user's credentials, then send the user to a website the attacker controls. A user who asks where to find payroll information is told to re-authenticate with an email address and a password, and is given a link. The user complies, clicks, and the credentials go to the attacker ([50:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=3000)). Song calls such attacks stealthy and targeted: the instruction waits for one topic, payroll. On an exposure map, a poisoned store can reach the user as well as the tools.
 
 **Tool poisoning.** A tool has a description that the model reads to decide when to call it. An attacker who controls the tool's description can hide an instruction in it. The model reads the instruction every time it lists its tools.
 
@@ -174,6 +174,7 @@ You are done when every store and every outside source in your agent appears on 
 3. Why is excessive agency listed with the attacks although it needs no attacker?
 4. In the Fall 2025 red-team exercise on the OpenHands agent, what two things did the analyzer identify before the payload was written?
 5. What makes a poisoned retrieval document match many queries?
+6. In Song's Fall 2025 example, what does the poisoned document in Microsoft Copilot's knowledge base make the agent ask a user who has a question about payroll, and who is harmed?
 
 <details><summary>Show answers</summary>
 
@@ -182,6 +183,7 @@ You are done when every store and every outside source in your agent appears on 
 3. Because it decides how large the effect of any attack is. Reducing permissions is a control that needs no knowledge of the attack.
 4. The untrusted inputs the agent reads (GitHub issues and browsed pages) and the sensitive tools it can call (shell and Python).
 5. The attacker writes it in general terms, so that it is relevant to almost any request.
+6. To re-authenticate by giving an email address and a password, and to follow a link to a site the attacker controls. The user who complies loses the credentials, so the harm reaches the user, not only the tools.
 
 </details>
 

@@ -107,7 +107,7 @@ Compiling calls a paid API many times: each training example, times several cand
 
 ## What the practitioners say
 
-Khattab's Fall 2024 lecture makes five points.
+Khattab's Fall 2024 lecture makes six points.
 
 - **Fluency hides mistakes.** A monolithic model's errors are hard to see because the wrong answer reads as well as the right one. He shows one chat in which a model gave Stanford's founding year wrong and then returned parallel code with the very bug he had asked it to avoid ([0:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=0)). A pipeline lets you inspect the trace, the recorded inputs and outputs of every step.
 - **Composition raises quality fast.** His slide reports scores on HotpotQA, a public benchmark of questions whose answers combine several documents, from a year before the lecture: adding retrieval and then a second retrieval hop, each with an optimized program, moved GPT-3.5 from 34.3 to 54.7 and Llama-2-13B-Chat from 27.5 to 50.0 (slide 30). He adds that newer models score substantially higher ([28:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=1680)). A small model with an optimized program beat a larger one without.
@@ -125,7 +125,7 @@ Khattab's Fall 2024 lecture makes five points.
 
 His summary: write about ten lines of declarative code, state an objective, pick an optimizer, and spend your effort on which modules to build and how to connect them ([58:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3480)). As he tells it, Toronto researchers used it to win a medical question-answering competition against 15 other groups, and a Maryland researcher who had spent 20 hours on prompts for a text classifier beat his own system with DSPy in 10 minutes ([34:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2040), [36:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2160)). On his slides from October 2024, DSPy was in production use at JetBlue, Databricks, Walmart, VMware, Replit and others. For where DSPy sits among agent frameworks, see [Part 05](../05-frameworks-and-multi-agent/01-the-agent-framework-landscape.md).
 
-His larger hope, he says, is that open research leads AI progress again, and he expects that to come through modularity rather than through tricks tied to one model, which stop mattering when the model changes. The five roles are kept apart for that reason: a new optimizer or a new inference-time strategy fits every program that already exists, so each user could change about one line of code to benefit, if the new piece is built well ([62:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3720)).
+His larger hope, he says, is that open research leads AI progress again, and he expects that to come through modularity rather than through tricks tied to one model, which stop mattering when the model changes. The separation of the five roles is his example: a new optimizer or a new inference-time strategy fits every program that already exists, so each user could change about one line of code to benefit, if the new piece is built well ([62:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=3720)).
 
 ## Pitfalls
 

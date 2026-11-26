@@ -171,7 +171,7 @@ Dawn Song gave versions of this lecture in three terms, and the frame grew each 
 
 She also draws the line between **safety** and **security**. Security protects the system from outsiders. Safety means the system does no harm to the outside world. Safety has to assume adversaries, she says, because a compromised system cannot keep its own safety promises ([2:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=120)).
 
-Her Fall 2025 opening gives the reasons to expect attackers. An international AI safety report, written with about 100 leading AI researchers from 30 countries, sets out a wide range of AI risks ([0:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=0)). Attackers, she says, have always followed each new technology, and the stakes rise with AI: as it is used in more and more systems, attackers have a growing incentive to compromise it, and the more capable it becomes, the more severe the harm its misuse can do. That is the setting a threat model assumes.
+Her Fall 2025 opening gives the reasons to expect attackers. An international AI safety report, written with about 100 leading AI researchers from 30 countries, sets out a wide range of AI risks ([0:00](https://www.youtube.com/watch?v=CvZDJxd4LKM&t=0)). Attackers, she says, have always followed each new technology, and the stakes rise with AI: as it is used in more and more systems, attackers have a growing incentive to compromise those systems, and the more capable it becomes, the more severe the harm its misuse can do. That is the setting a threat model assumes.
 
 Teams that already use the MITRE ATT&CK knowledge base for conventional systems can look at its companion for AI systems, [MITRE ATLAS](https://atlas.mitre.org/).
 
@@ -212,6 +212,7 @@ You are done when every tool and every outside data source appears in at least o
 3. A colleague says the pay tool is safe because the system prompt forbids unauthorized payments. What is the flaw?
 4. Why does step 5 distinguish output used as a branch condition from output used as a function parameter?
 5. Name the three CIA goals and one asset that only exists because the system uses an LLM.
+6. Song says the stakes are higher with AI than with earlier technologies. What two reasons does she give?
 
 <details><summary>Show answers</summary>
 
@@ -220,6 +221,7 @@ You are done when every tool and every outside data source appears in at least o
 3. A system prompt is a request to the model, not a rule enforced by code. An inaccurate or attacked model can ignore it.
 4. A branch condition changes which code runs next. A function parameter reaches a tool such as a shell or database, where it can inject SQL or a command.
 5. Confidentiality, integrity, availability. Examples: the system prompt, the API key, the conversation history, the model's parameters.
+6. As AI is used in more systems, attackers have more to gain from compromising them. And as it grows more capable, the harm its misuse can do grows too. A threat model therefore assumes that attackers are present.
 
 </details>
 

@@ -85,11 +85,11 @@ Worked numbers: 3 input channels, 16 output channels, `K = 3`, `P = 1`, `S = 1`,
 
 The output block is about 1,800 times larger than the weights that produced it. That is Han's point: when a network is trained, the activation count, not the parameter count, is the memory bottleneck, because a batch multiplies them ([44:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=2640)). Step 5 explains why training must also keep every one of them.
 
-Two more layer types appear in every modern network; both come again after Step 3. A **normalization layer** rescales activations so training converges faster. An **activation function** is a simple nonlinearity applied to each value, such as `max(0, x)`.
+Two more layer types appear in every modern network; both come up again after Step 3. A **normalization layer** rescales activations so training converges faster. An **activation function** is a simple nonlinearity applied to each value, such as `max(0, x)`.
 
 ### 3. Attention, in one paragraph
 
-A **transformer** is the architecture behind modern language models. Its key step, **attention**, has every token compare itself with every other token. Han describes it as a [softmax](../GLOSSARY.md) over all pairs, giving an `M × N` attention map ([30:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1800)). The efficiency consequence: work grows as the square of the sequence length, and for images as the square of the resolution. He previews two answers: sparse attention, since not all tokens need to attend to each other, and FlashAttention, which cuts the memory movement and brings memory down to almost constant but leaves the FLOPs unchanged ([30:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1800)). [Chapter 08](08-efficient-llm-inference-and-deployment.md) covers what to do about it; the architecture itself is explained in [transformer architectures](../10-llm-internals/03-transformer-architectures-and-hyperparameters.md).
+A **transformer** is the architecture behind modern language models. Its key step, **attention**, has every token compare itself with every other token. Han describes it as a [softmax](../GLOSSARY.md) over all pairs, giving an `M × N` attention map ([30:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1800)). The efficiency consequence: work grows as the square of the number of tokens, and for images the token count itself grows as the square of the resolution. He previews two answers: sparse attention, since not all tokens need to attend to each other, and FlashAttention, which cuts the memory movement and brings memory down to almost constant but leaves the FLOPs unchanged ([30:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1800)). [Chapter 08](08-efficient-llm-inference-and-deployment.md) covers what to do about it; the architecture itself is explained in [transformer architectures](../10-llm-internals/03-transformer-architectures-and-hyperparameters.md).
 
 ### Normalization layers
 
@@ -102,19 +102,19 @@ A normalization layer subtracts a mean from a block of activations and divides b
 | **Instance normalization** | The positions of one channel and input. |
 | **Group normalization** | Channels in groups, each normalized on its own. For a large channel count. |
 
-Two efficiency uses follow. A normalization layer's only parameters are the scale and bias, so fine-tuning can update those alone. It can also absorb a rescaling such as SmoothQuant's, described in [Quantization](04-quantization.md), without an extra kernel call (a separate GPU routine).
+Two efficiency uses follow. A normalization layer has few parameters, only its scale and bias, so fine-tuning can update those alone, which makes it far more efficient in computation and parameters. It can also absorb a rescaling such as SmoothQuant's, described in [Quantization](04-quantization.md), without an extra kernel call (a separate GPU routine).
 
 ### Activation functions
 
-For Han, each popular activation function trades accuracy against efficiency ([24:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1440)). The chapter's `max(0, x)` is **ReLU**. He tells the functions as a sequence in which each answers a drawback of the one before:
+For Han, each popular activation function trades accuracy against efficiency ([24:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1440)). The chapter's `max(0, x)` is **ReLU**. He tells the functions as a progression in which each, down to Leaky ReLU, answers a drawback of the one before:
 
 - **Sigmoid** stays between 0 and 1. The narrow, fixed range is easy to quantize, but the gradient vanishes at both ends.
-- **ReLU** gives a gradient of one on the positive side and brings sparsity for free: negative values become zero, so the feature map can be stored as a one-bit mask. Its two costs are **dead neurons** (once a neuron's input is negative it outputs zero, and no gradient revives it) and a range with no upper bound, which is hard to quantize.
+- **ReLU** gives a gradient of one on the positive side and brings sparsity for free: negative values become zero, so the feature map (the block of activations a layer outputs) can be stored as a one-bit mask. Its two costs are **dead neurons** (once a neuron's input is negative it outputs zero, and no gradient revives it) and a range with no upper bound, which is hard to quantize.
 - **ReLU6** limits its output to 6. Han calls the limit purely empirical; a narrower range is easier to quantize.
 - **Leaky ReLU** gives the negative side a small slope, so gradients flow there, but the sparsity is gone.
 - **Swish** came out of architecture search. It multiplies x by the sigmoid of x, hard to build in hardware, so **hard Swish** stands in for it: zero for x below −3, x itself above 3, and x · (x + 3)/6 between them, as his slide has it ([26:00](https://www.youtube.com/watch?v=I0nKjPpZmMU&t=1560)).
 
-His summary: each has to do with efficiency, whether sparsity, quantization, dynamic range or ease of implementation.
+His summary: each has to do with efficiency, whether sparsity, quantization, dynamic range (the span of values a layer must represent) or ease of implementation.
 
 ### 4. Counting operations
 

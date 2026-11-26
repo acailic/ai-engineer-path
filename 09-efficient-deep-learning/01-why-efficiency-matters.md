@@ -1,6 +1,6 @@
 # 01. Why Efficiency Matters
 
-**Level:** Foundation · **Reading time:** 17 min · **Exercise:** 30 min
+**Level:** Foundation · **Reading time:** 18 min · **Exercise:** 30 min
 **Prerequisites:** [How large language models are trained](../01-foundations/02-how-large-language-models-are-trained.md), for the big picture only
 
 > **In one sentence:** After this chapter you can name the four resources a model burns, estimate each one with a one-line calculation, and say which lever in this part reduces it.

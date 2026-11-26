@@ -67,7 +67,7 @@ Song's lecture makes three points here.
 - Safety training is fragile under fine-tuning. Fine-tuning GPT-3.5 Turbo on ten adversarial examples, for less than $0.20 through the API, broke its guardrails, and fine-tuning on ordinary datasets could also weaken safety (Qi et al., as cited on the slide).
 - Attacks exist at every stage: at inference time (adversarial inputs, prompt engineering, jailbreaks) and at training time (data poisoning, backdoors).
 
-The third point has a history and a recent result. **Data poisoning** is an attack on the training data, in pre-training or in fine-tuning, that makes the model learn a **backdoor**: a trigger that switches on a behavior the attacker chose. Song's group was one of the first to study this attack in deep learning. Trained on a very small number of poisoned images, a face-recognition system still recognized people correctly, including people wearing other glasses, but it recognized anyone who wore one particular pair of physical glasses as a chosen target user ([30:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=1800)). Work that Anthropic published recently brought the idea to language models: the attacker added poisoned training examples that carry a trigger phrase, and when a prompt contains that phrase, the model writes vulnerable, exploitable code. The backdoor was still there after supervised fine-tuning ([30:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=1800), [32:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=1920)). A model can pass its safety training and still carry one.
+The third point has a history and a recent result. **Data poisoning** is an attack on the training data, in pre-training or in fine-tuning, that makes the model learn a **backdoor**: a trigger that switches on a behavior the attacker chose. Song's group was one of the first to study this attack in deep learning. Trained on a very small number of poisoned images, a face-recognition system still recognized people correctly, including people wearing other glasses, but it recognized anyone who wore one particular type of physical glasses as a chosen target user ([30:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=1800)). Work that Anthropic published recently brought the idea to language models: the attacker added poisoned training examples that carry a trigger phrase, and when a prompt contains that phrase, the model writes vulnerable, exploitable code. The backdoor was still there after supervised fine-tuning ([30:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=1800), [32:00](https://www.youtube.com/watch?v=QAgR4uQ15rc&t=1920)). A model can pass its safety training and still carry one.
 
 The lesson for a builder: the safety report describes the model the provider tested, not the model you get after your own fine-tuning. Re-run your safety tests after each fine-tune.
 
@@ -214,6 +214,7 @@ You are done when the report has both settings, states the number of pairs behin
 3. Why does a paired test change only the group marker between the two prompts?
 4. What is the difference between a benign and an adversarial environment in DecodingTrust?
 5. Why can an application builder usually not apply representation control to a hosted model?
+6. A model answers normally, except that a prompt with one particular phrase makes it write vulnerable code. What is this, how did it get into the model, and does safety training remove it?
 
 <details><summary>Show answers</summary>
 
@@ -222,6 +223,7 @@ You are done when the report has both settings, states the number of pairs behin
 3. So that any difference in output can only come from the marker, not from other differences in the prompt.
 4. The benign environment uses plain prompts. The adversarial environment adds a hostile system prompt, a hostile user prompt, or misleading examples in the prompt.
 5. It needs the model's internal activation vectors, which a hosted API normally does not expose.
+6. A backdoor. It was learned from poisoned training data, in pre-training or in fine-tuning, which is data poisoning. Song reports that it persisted after supervised fine-tuning, so passing safety training does not show that a model is free of one.
 
 </details>
 

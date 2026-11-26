@@ -122,7 +122,7 @@ Chi Wang (then at AutoGen-AI) and Jerry Liu (LlamaIndex) shared the lecture of S
 - **A low bar for the word "agent".** Liu offers what he calls a very rough definition: "a computer program that has non-zero LLM calls" ([58:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3480)). One toolkit should then cover both ends. LlamaIndex's workflows are event-driven: steps pass messages, and a step can be plain Python or a model call.
 - **Production looks ordinary.** In production, Liu says, each agent workflow sits behind an API, agent communication goes through a central message queue, and a human-in-the-loop step is a service that waits for a person's reply ([62:00](https://www.youtube.com/watch?v=OOdtmCMSOo4&t=3720)). Those are distributed-systems problems that existed long before LLMs.
 
-In the Fall 2025 course, Clay Bavor of Sierra, which sells a platform for building agents, takes the build-or-buy question from the vendor's side: companies ask him why they should not just build their own. To most engineers, he says, the job looks small: choose a model, choose a search index, connect a few tools and APIs, and the work is done. After two and a half years of building customer-facing agents, his list of what else has to be right is longer: how the agent is versioned and released, how you watch what it does, how you stop it from making things up, and how you keep it inside the law, since a financial-services agent must not give financial advice and a healthcare agent must not diagnose. Voice adds latency, proper nouns and accents, and some people try to poison the context with injected prompts ([8:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=480)). Building agents, he says, still feels like the web in 1997: no standard stack existed, people assembled applications piece by piece, and a magazine reported that one bank paid 13 million dollars to turn a business-card site into one web form ([10:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=600)).
+In the Fall 2025 course, Clay Bavor of Sierra, which sells a platform for building agents, answers companies that ask him why they should not build their own agent. To most engineers, he says, the job looks small. Choose a model, choose a search index, connect a few tools and APIs, and the work is done. After two and a half years of building customer-facing agents, his list of what else has to be right is longer. The agent has to be versioned and released, you have to be able to watch what it does, and it must neither make things up nor break the law: a financial-services agent must not give financial advice, and a healthcare agent must not diagnose. Voice has its own latency, proper nouns and accents to get right, and bad actors try to poison the context with injected prompts. His picture of all this is an iceberg: the model, the index and the tools lie above the water, and you need scuba tanks, he says, to see how much work lies under the surface ([8:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=480)). Even today, he says, building agents feels like building for the web in 1997. No standard stack existed, people assembled applications piece by piece, and the magazine Wired reported that one bank paid 13 million dollars to turn a business-card site into one web form ([10:00](https://www.youtube.com/watch?v=sfJM4LaiYsM&t=600)). Layers 1 and 2 of the table above cover the top of that iceberg. The rest is what a platform at layer 5 offers to take over, at the price the table names: lock-in.
 
 The AutoGen status in this chapter comes from its documentation page, opened on November 24, 2026. The current status of LangGraph, CrewAI and the other frameworks was not re-checked for this edition; treat them as examples of a layer, not as a buying guide.
 
@@ -180,6 +180,11 @@ Stretch goal: switch the model provider in both implementations and record how m
    B. The price of tokens
    C. Who decides the next step
    D. The programming language they use
+6. A team will build a customer-facing agent from a model, a search index and a few tools, and calls that the whole job. In Bavor's account, what is missing?
+   A. The programming language of the tools
+   B. Release and observation of the agent, false statements, legal limits and prompt injection
+   C. The number of model providers
+   D. The size of the context window
 
 <details><summary>Show answers</summary>
 
@@ -188,6 +193,7 @@ Stretch goal: switch the model provider in both implementations and record how m
 3. B. People wrote the control flow; the model only picks an option.
 4. B. The page carries an archive notice and points to Microsoft Agent Framework.
 5. C. In a workflow engine your code decides; in an agent loop the model decides.
+6. B. His iceberg has the model, the index and the tools above the water, and everything else below it.
 
 </details>
 
