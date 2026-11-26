@@ -182,7 +182,7 @@ What to observe:
 
 Zhou's closing caution belongs on every prompt author's desk: "keep in mind that LLMs are probabilistic models of generating next tokens" ([42:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2520)). He then demonstrates that they "are not humans" ([44:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2640)). A prompt that would annoy a person, such as six similar solved problems followed by "let's think step by step", is often exactly what helps a model.
 
-Chen's Spring 2025 lecture puts prompting in a sequence. Better prompts are the first and cheapest way to spend more compute at inference time. Sampling several answers and searching over them come next. That is the subject of [Chapter 06](06-reasoning-in-llms-from-chain-of-thought-to-search.md).
+Chen's Spring 2025 lecture puts prompting in a sequence. Better prompts are the first way to spend more compute at inference time: they let the model use more tokens on one solution. Sampling several answers and searching over them come next. That is the subject of [Chapter 06](06-reasoning-in-llms-from-chain-of-thought-to-search.md).
 
 Shunyu Yao makes a related point about exemplars in his Fall 2024 lecture. Showing the model a worked trajectory of thoughts, actions and observations is a way of *using* the model, not a fine-tuning trick: the same method works with one example, with a few, or with many turned into training data ([16:00](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=960)).
 
