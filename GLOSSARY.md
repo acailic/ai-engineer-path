@@ -468,6 +468,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Harness (agent)** (also called: Scaffold) | The code around a model in an agent: its tools, context rules and stop conditions. | [02.06](02-building-agents/06-how-agent-system-designs-evolve.md) |
 | **Harness (evaluation)** | The program that runs every task of a dataset on a system, scores each attempt and reports metrics. | [03.02](03-evaluation/02-a-minimal-eval-harness.md) |
 | **Hazard** | A system condition in which an accident can happen. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
+| **Hazard analysis** | Working out with safety-engineering methods how component mistakes can add up to a system failure. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
 | **HAZOP** | Hazard and Operability Study: a guided brainstorm that applies fixed guidewords to each component and output. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
 | **HBM** | High bandwidth memory, the GPU's main memory: large, and slower to reach than the caches on the chip. | [10.05](10-llm-internals/05-gpus-tpus-and-kernels.md) |
 | **Head dimension** | The width of one attention head; by convention the heads' widths add up to the model width. | [10.03](10-llm-internals/03-transformer-architectures-and-hyperparameters.md) |
@@ -911,6 +912,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Retrieval** | A search that puts matching documents into the prompt. | [01.04](01-foundations/04-using-llms-tokens-context-and-sampling.md) |
 | **Retrieval hit rate** | How often the retrieval step fetches a chunk that contains the answer. | [02.04](02-building-agents/04-memory-and-knowledge-for-agents.md) |
 | **Retrieval poisoning** | Planting documents in a knowledge base so that they are retrieved and followed. | [04.03](04-safety-and-security/03-agent-specific-attacks.md) |
+| **Reversible action** | An action that can be undone, so that a wrong prediction behind it usually does minor or temporary harm. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
 | **Revision** | A version of an artifact that replaces an earlier one in time. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
 | **Reward** | A score given to a model's output during training, which the model is trained to maximize. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
 | **Reward hacking** | Passing the grader without doing the task. | [02.08](02-building-agents/08-training-models-for-agentic-tasks.md) |
@@ -944,6 +946,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | Term | Definition | Defined in |
 |---|---|---|
 | **Safety** | The prevention of harm from system failure, treated as a property of the whole system rather than of the model. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
+| **Safety engineering** | The field that developed FMEA, fault trees and HAZOP, long standard in aviation, medical devices and nuclear plants, and now applied to ordinary products that contain a model. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
 | **Salient weights** | The few weight channels that matter most, identified by the activation distribution. | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
 | **Sampler** | The part of an RL system that generates rollouts. | [02.08](02-building-agents/08-training-models-for-agentic-tasks.md) |
 | **Sampling** | Choosing the next token according to the model's probability distribution. | [01.04](01-foundations/04-using-llms-tokens-context-and-sampling.md) |

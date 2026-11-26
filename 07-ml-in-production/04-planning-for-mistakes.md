@@ -49,9 +49,13 @@ So you do two things at once: improve the model, and build the rest of the syste
 
 Hybrids are common. Kästner describes a train that automates everything and prompts a remote operator only when an obstacle has not moved for twenty seconds.
 
+**Strategy 2 takes design.** If an action can be undone, a wrong prediction usually does minor or temporary harm. So build that in: keep a document's history, or pay return shipping for clothing a model picked. Otherwise add an appeal to a human reviewer ([chapter 7](https://mlip-cmu.github.io/book/07-planning-for-mistakes.html)).
+
 ## How it works, step by step
 
 A **mistake analysis** is a structured pass over one feature. It takes an afternoon for a small feature, with the engineer, the data scientist and someone who knows the users.
+
+FMEA, fault trees and HAZOP come from safety engineering, standard in aviation, medical devices and nuclear plants. Kästner argues they now matter for ordinary apps too, where a model can cause stress, financial loss or discrimination ([chapter 7](https://mlip-cmu.github.io/book/07-planning-for-mistakes.html)).
 
 1. **Write the system failures.** Use the REQ statements from the last chapter. Two or three is enough to start.
 2. **Work forward with FMEA.** For each component, list the ways it can fail.
