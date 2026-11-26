@@ -1,5 +1,7 @@
 # AI Engineer Path
 
+> **You need:** Python, Git and the terminal. **You do not need:** any ML, advanced math or a GPU to start. [Details](#what-you-need-before-you-start)
+
 A free, self-contained course distilled from six open university courses:
 
 1. **UC Berkeley** — [LLM Agents MOOC](https://rdi.berkeley.edu/llm-agents/f24) (Fall 2024)
@@ -13,13 +15,28 @@ It turns them into one path that takes a software engineer **with no machine-lea
 
 It has 101 chapters in eleven parts, five capstone projects, five checklists, four runnable example programs and 77 lecture guides.
 
+## Who it is for
+
+A software engineer who has never worked with ML or LLMs and wants to get from zero to professional level.
+
+### What you need before you start
+
+| | Needed? | What that means |
+|---|---|---|
+| **Python** | Yes | You can read and write a script of a few hundred lines, and use Git and the terminal. |
+| **Machine learning** | No | The course starts from zero. You do not need to have trained a model. |
+| **Math** | Not for the main path | The statistics you need for evaluation (error bars, comparing two runs) are taught in [Statistics for Evals](03-evaluation/05-statistics-for-evals.md). Part 10 and Capstone 5 are easier with some linear algebra and PyTorch. |
+| **A GPU** | Not for the main path | The examples run on any laptop. Part 10 and Capstone 5 need a rented GPU, by the hour. |
+| **An API key** | For Capstone 1 | The examples need none. Capstone 1 calls a hosted model, which costs from a few cents to a few dollars per evaluation run. |
+| **A habit** | Yes | Asking what a component assumes, what happens when it fails, and how you would know. |
+
+Part 10 (how a language model is built, from Stanford CS336) is the hardest part of the course and comes last. Skip it on a first pass if you only want to build with models.
+
+## Start here
+
 You can also read it as a website: **[acailic.github.io/ai-engineer-path](https://acailic.github.io/ai-engineer-path/)**. Every page there has a **Read aloud** button that reads the page to you with your browser's own voices, follows the text, and lets you change the speed and the voice. It works in Chrome, Edge and Safari, on a computer and on a phone; it needs no account.
 
 Start with [how to use this repository](#how-to-use-this-repository). If you already know what you want, go to the [roadmap](ROADMAP.md), the [table of contents](#table-of-contents) or the [glossary](GLOSSARY.md).
-
-## Who it is for
-
-A software engineer who has never worked with ML or LLMs, who is comfortable with Python, Git and the terminal, and who wants to get from zero to professional level. You do not need to have trained a model. You do need the habit of asking what a component assumes, what happens when it fails, and how you would know.
 
 ## What "professional level" means here
 
