@@ -136,7 +136,7 @@ What to observe:
 
 Wang's lecture is a researcher's audit of his own field. Two of his images are worth keeping:
 
-- **The kettle.** His kettle broke. He photographed the part and asked a model, which said it looked like a robot vacuum. He trusted its later advice less. His point: hard tasks have many steps, and with a fixed chance of error per step, the chance of going wrong somewhere grows with the number of steps ([14:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=840)). For a product, keep chains short and check intermediate results.
+- **The kettle.** His kettle broke. He took it apart, photographed it and asked a model, which said it looked like a robot vacuum. He trusted its later advice less. His point: hard tasks have many steps, and with a fixed chance of error per step, the chance of going wrong somewhere grows with the number of steps ([14:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=840)). For a product, keep chains short and check intermediate results.
 - **Complicated evaluations invite mistakes.** When an evaluation needs 100,000 tokens to describe, he says, few people look at the details, and errors survive (his slide 41, which links to a bug report on SWE-bench).
 
 His method for auditing a benchmark is to look for questions on which better models do worse. On MBPP several of those turned out to be real errors, later corrected in MBPP+. Models that reproduce the wrong answers are then suspects for having trained on the test data ([40:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2400)).

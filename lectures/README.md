@@ -106,4 +106,4 @@ Every part heading links to the moment in the video where the part begins.
 | 17 | Alignment: multimodality |  | 1:18:00 | 13 | 0 | [open](cs336-17-alignment-multimodality.md) |
 | 18 | Guest lecture: Dan Fu |  | 1:12:00 | 13 | 0 | [open](cs336-18-guest-lecture-dan-fu.md) |
 
-In all: 1207 parts, of which 163 (14%) teach something no chapter teaches; 201,586 words.
+In all: 1207 parts, of which 163 (14%) teach something no chapter teaches; 201,587 words.
