@@ -82,6 +82,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **API agent** | An agent that uses software by calling functions the software exposes. | [05.06](05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md) |
 | **Appeal path** | A route by which a person can have an automated decision reversed. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
 | **Arbitrary encoding** | Combining several encodings in one circuit: rotations, then CNOT gates, then rotations | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
+| **ARC-AGI** | A benchmark of puzzles that test how well a model learns reasoning patterns from demonstration examples. | [01.06](01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) |
 | **Architectural style** | A common overall structure for systems, such as client-server or three tiers. | [07.05](07-ml-in-production/05-architecture-for-ml-systems.md) |
 | **Architectural view** | A picture of a system that shows one concern and hides the rest. | [07.05](07-ml-in-production/05-architecture-for-ml-systems.md) |
 | **Architecturally significant requirement** | A quality requirement that can be met only by planning the whole system. | [07.05](07-ml-in-production/05-architecture-for-ml-systems.md) |
@@ -174,6 +175,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Capture the flag (CTF)** | A security contest with small problems to solve, used as benchmarks for agents. | [04.08](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
 | **Cascade (two-phase prediction)** | A design in which a small model decides whether to call an expensive one. | [07.07](07-ml-in-production/07-deploying-a-model.md) |
 | **Catastrophic forgetting** | A neural network losing old knowledge when it learns something new. | [02.04](02-building-agents/04-memory-and-knowledge-for-agents.md) |
+| **CFQ** | The Compositional Freebase Questions benchmark, on which Chen reports that dynamic least-to-most prompting beat fine-tuning on the full training set. | [01.05](01-foundations/05-prompting-and-in-context-learning.md) |
 | **Chain-of-thought (CoT)** (also called: Chain-of-thought prompting) | The reasoning steps a model writes before its final answer. Chain-of-thought prompting asks for them through worked examples or an instruction. | [01.05](01-foundations/05-prompting-and-in-context-learning.md) |
 | **Chaos engineering** (also called: Chaos testing) | Injecting faults into a running system to test its robustness. | [08.09](08-quality-assurance/09-testing-and-experimenting-in-production.md) |
 | **Chat model** | A model after post-training that follows instructions and converses, such as the models you call through an API. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
@@ -334,6 +336,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **DuoAttention** | A method that classifies attention heads into retrieval heads with full cache and streaming heads with a window. | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
 | **Durable idea** | An idea that keeps its value across model generations because it has a mechanism, appears in several sources and has a metric. | [11.08](11-professional-practice/08-staying-current.md) |
 | **dynamic benchmark** | A benchmark that updates or regenerates its test cases every week, month or season, so that it follows the data and is harder to game | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
+| **Dynamic least-to-most prompting** | A prompting method in which a model breaks a compositional question into sub-problems and each sub-problem gets its own examples. | [01.05](01-foundations/05-prompting-and-in-context-learning.md) |
 
 ## E
 
@@ -471,6 +474,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **generalist** | One model for many tasks, from which smaller specialists are then derived by prompting, fine-tuning or distilling | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **Generalization** | Performing well on inputs the model never saw during training. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
 | **Generation** (also called: Decode) | The phase that generates one token per step, limited by memory traffic. | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
+| **Generative agents** | A system of about twenty simulated townspeople, each keeping a diary of what happened and adding conclusions drawn from it, in Yao's example. | [01.04](01-foundations/04-using-llms-tokens-context-and-sampling.md) |
 | **Generative model** | A model that produces text or images rather than choosing a label. | [08.02](08-quality-assurance/02-measuring-model-quality.md) |
 | **Generator and critic** | A run-time pattern in which one agent produces and another checks it with new information. | [05.05](05-frameworks-and-multi-agent/05-multi-agent-systems-ii-the-llm-era.md) |
 | **Genetic algorithm** | A search that keeps the candidates that work, mutates them, and repeats. | [04.02](04-safety-and-security/02-jailbreaks-and-prompt-injection.md) |
@@ -658,6 +662,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Linear quantization** | An affine mapping between integers and real numbers, `r = S (q - Z)`. | [09.04](09-efficient-deep-learning/04-quantization.md) |
 | **Linter** | A tool that flags suspicious or invalid code. | [02.07](02-building-agents/07-coding-agents.md) |
 | **LIPS** | An inequality-proving system in which a language model proposes steps of two restricted types and symbolic reasoning verifies and prunes them. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
+| **LiveCodeBench** | A coding benchmark on which a model writes short programs; Wang gives its size as about a thousand problems. | [01.07](01-foundations/07-why-llm-outputs-are-noisy.md) |
 | **LLM agent** | An agent in which an LLM makes the step-by-step decisions. | [01.08](01-foundations/08-a-short-history-of-llm-agents.md) |
 | **LLM-as-a-judge** (also called: LLM as judge) | A model that reads an output and scores it against criteria. | [03.03](03-evaluation/03-llm-as-a-judge-and-rubrics.md) |
 | **Load balancer** | A component that spreads requests across several copies of a service. | [07.07](07-ml-in-production/07-deploying-a-model.md) |
@@ -785,6 +790,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Neural architecture search** | Automatically choosing a model's architecture from a defined search space under a cost constraint. | [09.05](09-efficient-deep-learning/05-neural-architecture-search.md) |
 | **Neural component** | The model in a hybrid system, which turns text into text by probability. | [04.01](04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md) |
 | **Neural network** | A function built by stacking many simple arithmetic steps whose numbers are the parameters. | [01.02](01-foundations/02-how-large-language-models-are-trained.md) |
+| **Nines** | A count of the nines in a service's uptime; five nines is 99.999 percent, a level Bavor says frontier models do not reach. | [01.04](01-foundations/04-using-llms-tokens-context-and-sampling.md) |
 | **NISQ era** | Noisy intermediate-scale quantum, the current period of noisy devices with few qubits | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
 | **No-cloning theorem** | The rule that a quantum state cannot be copied, which blocks skip connections in quantum circuits | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
 | **No-press Diplomacy** | The board game Diplomacy without the negotiation messages. | [05.04](05-frameworks-and-multi-agent/04-multi-agent-systems-i-games-and-self-play.md) |
@@ -982,6 +988,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Reasoning (in an agent)** | Thinking in written steps, as in chain-of-thought, which adds no outside knowledge. | [01.08](01-foundations/08-a-short-history-of-llm-agents.md) |
 | **Reasoning agent** | An agent that uses an LLM to reason in order to act. | [01.08](01-foundations/08-a-short-history-of-llm-agents.md) |
 | **Reasoning model** | A model trained with RL on checkable problems so that it writes a long chain of thought before its final answer. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
+| **Reasoning structure** | The steps Self-Discover composes for one task from a list of reasoning strategies, which the model then follows. | [01.05](01-foundations/05-prompting-and-in-context-learning.md) |
 | **Recall** | Of all the real positive cases, the share a model flagged. | [08.02](08-quality-assurance/02-measuring-model-quality.md) |
 | **Receptive field** | The set of inputs that one output value depends on. | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **recursive halving** | An all-reduce in which each node exchanges with nodes at doubling distances, so that after log n rounds every node holds the whole sum; also called butterfly all-reduce | [10.06](10-llm-internals/06-parallelism.md) |
@@ -1056,6 +1063,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 
 | Term | Definition | Defined in |
 |---|---|---|
+| **s1** | Hajishirzi's minimal recipe for test-time scaling: a model trained on 1,000 filtered questions with reasoning traces distilled from Gemini, then made to think longer by budget forcing. | [01.06](01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) |
 | **Safety** | The prevention of harm from system failure, treated as a property of the whole system rather than of the model. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
 | **Safety engineering** | The field that developed FMEA, fault trees and HAZOP, long standard in aviation, medical devices and nuclear plants, and now applied to ordinary products that contain a model. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
 | **Salient weights** | The few weight channels that matter most, identified by the activation distribution. | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
@@ -1218,6 +1226,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Task agent** | An agent that carries out small office tasks such as scheduling a meeting or adding a to-do, in a simulated workspace. | [11.02](11-professional-practice/02-capstone-task-agent-with-evals.md) |
 | **Task decomposition** | Splitting a goal into sub-goals inside a plan. | [02.03](02-building-agents/03-planning-search-and-decision-making.md) |
 | **Task validity** | The property that success at a task demonstrates the capability you meant to measure. | [03.01](03-evaluation/01-evaluation-is-the-product.md) |
+| **Tau-bench** | Yao's benchmark in which an agent serves a simulated customer through a company's tools; the share of tasks solved in every sample falls as the number of samples grows. | [01.07](01-foundations/07-why-llm-outputs-are-noisy.md) |
 | **Teacher and student** (also called: Student, Teacher) | The large fixed model that provides targets, and the small model that learns from them. | [09.06](09-efficient-deep-learning/06-knowledge-distillation.md) |
 | **Technical debt** | The future cost of a shortcut taken today. | [08.11](08-quality-assurance/11-teams-and-technical-debt.md) |
 | **Telemetry** | The log lines, counts and measurements a system emits about itself. | [07.10](07-ml-in-production/10-planning-for-operations.md) |

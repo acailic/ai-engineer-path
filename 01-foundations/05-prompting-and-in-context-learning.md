@@ -84,7 +84,7 @@ Writing exemplars by hand does not scale. **Analogical prompting**, a method Zho
 - **The self-made examples are imperfect.** For math, about 70% were accurate and relevant. The rest were irrelevant or contained wrong calculations, and the model still gained ([24:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=1440)).
 - **It needs a strong model.** Weaker models benefit less. From a certain size up, the method overtakes few-shot CoT with hand-written examples and beats retrieved examples too ([24:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=1440), [26:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=1560)).
 
-Chen's follow-up work lets the model choose more of the prompt itself. Least-to-most prompting, from step 3, has a limit on real tasks. Natural and programming languages have many more grammar rules and a far larger vocabulary than the toy tasks where it was first shown, so a single prompt can run out of room for the rules one problem needs. Her answer is to keep the split into sub-problems and to give each one its own examples, the ones whose rules matter most for it. She reports that this beat fine-tuning a model on the full training set of the CFQ benchmark of compositional questions ([39:17](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=2357)). **Self-Discover** goes further and drops the written demonstrations. You give the model a list of a few dozen reasoning strategies, such as decomposition or self-reflection. It picks the ones that suit the task and composes them into a reasoning structure to follow, and she reports that this beat chain-of-thought prompting on several reasoning benchmarks.
+Chen's follow-up work fits the prompt to each problem instead of writing one for all. Least-to-most prompting, from step 3, has a limit on real tasks. Natural and programming languages have many more grammar rules and a far larger vocabulary than the toy tasks where it was first shown, so a single prompt can run out of room for the rules one problem needs. Her answer keeps the split into sub-problems and gives each one its own examples, the ones whose rules matter most for it. She calls the method dynamic least-to-most prompting and reports that it beat fine-tuning a model on the full training set of the CFQ benchmark of compositional questions ([39:17](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=2357)). **Self-Discover** goes further and drops the written demonstrations. You give the model a list of a few dozen reasoning strategies, such as decomposition or self-reflection. It picks the ones that suit the task and composes them into a reasoning structure to follow, and she reports that this beat chain-of-thought prompting on several reasoning benchmarks.
 
 A model can also write the prompt itself. In her setup one LLM proposes instructions and an evaluator scores each on a held-out set of examples. With PaLM 2 as the model, the loop started from `Let's solve the problem`, at about 61% on GSM8K, a grade-school math test set, and found `Take a deep breath and work on this problem step-by-step`. That scored about 8 points above `Let's think step by step` and matched few-shot CoT with human-written examples. Nothing is trained ([30:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=1800), [32:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=1920)).
 
@@ -256,6 +256,12 @@ Shunyu Yao makes a related point about exemplars in his Fall 2024 lecture. Showi
    - C. The examples enlarge the model's parameter count
    - D. The model continues the pattern the examples set
 
+7. One prompt cannot hold every grammar rule a task needs. What does Chen's dynamic least-to-most prompting do?
+   - A. It fine-tunes the model on the whole training set
+   - B. It splits the task into sub-problems and gives each its own examples
+   - C. It asks the model for a longer chain of thought
+   - D. It raises the temperature so that the model tries more rules
+
 <details><summary>Show answers</summary>
 
 1. A. The parameters are frozen. In-context learning happens entirely in the input.
@@ -264,6 +270,7 @@ Shunyu Yao makes a related point about exemplars in his Fall 2024 lecture. Showi
 4. B. A three-way label needs no intermediate computation. Reasoning steps add cost and parsing problems.
 5. C. The system prompt carries what applies to the whole conversation. The ticket goes in the user message.
 6. D. The model predicts what comes next, and the examples make the wanted format and decision look likely to continue.
+7. B. Each sub-problem gets the examples whose grammar rules matter most for it. On the CFQ benchmark, Chen reports that this beat fine-tuning on the full training set.
 
 </details>
 

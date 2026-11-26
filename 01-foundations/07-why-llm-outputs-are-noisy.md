@@ -87,7 +87,7 @@ It is tempting to set the sampling temperature to zero and get "stable" numbers.
 
 Benchmarks are shrinking as they get harder. Wang's slides list the sizes: MNIST 10,000, ImageNet 100,000, MMLU about 10,000, HumanEval 164, SWE-bench Verified 500, τ-bench 80 ([2:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=120)).
 
-The new kind is also expensive to run. He says generative and agentic benchmarks take a while to build and to evaluate ([1:39](https://www.youtube.com/watch?v=HV8pugcFVO0&t=99)). LiveCodeBench aims for about a thousand problems. Agent evaluations in the style of SWE-bench often need hours and hundreds of thousands of tokens, and they stay in the hundreds of problems. The consequence he draws: the improvements reported on such benchmarks are relatively small, and many of those gains would not pass the usual test for statistical significance.
+The new kind is also expensive to run. He says generative and agentic benchmarks take a while to build and to evaluate ([1:39](https://www.youtube.com/watch?v=HV8pugcFVO0&t=99)). LiveCodeBench, a coding benchmark, aims for about a thousand problems. Agentic evaluations such as SWE-bench often need hours and hundreds of thousands of tokens, and they stay in the hundreds of problems. He adds that the improvements reported on such benchmarks are relatively small, and that many would not pass the usual test for statistical significance.
 
 The counter-argument is that each question now carries a long generation, so it is more informative. Wang tested this. He sorted the models by their average score and the questions from easiest to hardest, and colored each cell with the model's pass rate on that question, over several draws where he had them ([6:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=360), [8:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=480)). The result was "a lot of inconsistency" ([10:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=600)). The best model fails easy items. Weak models solve some hard ones. If a model has a 30% chance on a "hard" item, he argues, the first percent of improvement is worth more: once a model has a decent chance and a verifier exists, it can simply try again ([12:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=720), [14:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=840)).
 
@@ -143,7 +143,7 @@ Wang's lecture is a researcher's audit of his own field. Two of his images are w
 
 His method for auditing a benchmark is to look for questions on which better models do worse. On MBPP several of those turned out to be real errors, later corrected in MBPP+. Models that reproduce the wrong answers are then suspects for having trained on the test data ([40:00](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2400)).
 
-Shunyu Yao's benchmark shows a second way a score can mislead, one that more samples make worse ([59:17](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=3557)). For code with a unit test, sampling more answers helps: the chance that one of them passes keeps rising, and he calls that rate **pass@k**, the share of tasks solved at least once in *k* samples. Most jobs are not like that. In customer service one failure can cost a customer, so what matters is whether the task is solved every time. His benchmark has the agent serve a simulated customer through a company's tools. When he samples each task more often with the same simulated user, the share of tasks that come out right in all samples falls, at every model size he tested. An ideal model, he says, would keep it flat.
+Shunyu Yao's benchmark shows a second way a score can mislead, one that more samples make worse ([62:35](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=3755)). For code with a unit test, sampling more answers helps: the chance that one of them passes keeps rising, and he calls that rate **pass@k**, the share of tasks solved at least once in *k* samples. Most jobs are not like that. In customer service one failure can cost a customer, so what matters is whether the task is solved every time. His benchmark, τ-bench, has the agent serve a simulated customer through a company's tools. When he samples each task more often with the same simulated user, the share of tasks that come out right in all samples falls, at every model size he tested. An ideal model, he says, would keep it flat.
 
 Miller's paper closes the loop with reporting practice from other sciences: print the number of questions next to each score, and the standard error in parentheses.
 
@@ -222,6 +222,12 @@ This calls a model at least 600 times. With a small model and short inputs, the 
    - C. About half as many
    - D. The number of questions makes no difference
 
+7. An agent is run several times on each task of Yao's benchmark. What happens as the number of runs per task grows?
+   - A. Both the share solved at least once and the share solved every time rise
+   - B. The share solved at least once rises, and the share solved every time falls
+   - C. Both shares stay where they were
+   - D. The share solved at least once falls
+
 <details><summary>Show answers</summary>
 
 1. A. The standard error is sqrt(0.8 × 0.2 / 100) = 4 points, and 1.96 × 4 is about 8.
@@ -230,13 +236,14 @@ This calls a model at least 600 times. With a small model and short inputs, the 
 4. D. He found a lot of inconsistency, which is why a high pass rate on a "hard" item is less impressive than it looks.
 5. A. The temperature changes the model's behavior, can shift variance into a part that repeats cannot fix, and can bias the score.
 6. B. The standard error falls with the square root of n, so four times the questions halve it.
+7. B. More samples raise the chance of one pass and lower the chance that every sample passes, at every model size he tested. An ideal model would keep the second share flat.
 
 </details>
 
 ## Sources
 
 - **Lecture:** Sida Wang, "Predictable Noise in LLM Benchmarks", Agentic AI MOOC (Fall 2025): [video](https://www.youtube.com/watch?v=HV8pugcFVO0) · [guide](../lectures/f25-07-predictable-noise-in-llm.md), used at [benchmark sizes](https://www.youtube.com/watch?v=HV8pugcFVO0&t=120), [inconsistency](https://www.youtube.com/watch?v=HV8pugcFVO0&t=600), [hard items](https://www.youtube.com/watch?v=HV8pugcFVO0&t=720), [the kettle](https://www.youtube.com/watch?v=HV8pugcFVO0&t=840), [paired tests](https://www.youtube.com/watch?v=HV8pugcFVO0&t=1680), [predictable noise](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2160), [recommendations](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2280), [auditing a benchmark](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2400), [signal to noise](https://www.youtube.com/watch?v=HV8pugcFVO0&t=2520), [the cost of generative benchmarks](https://www.youtube.com/watch?v=HV8pugcFVO0&t=99)
-- **Lecture:** Shunyu Yao, "LLM agents: brief history and overview", LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=RM6ZArd2nVc) · [guide](../lectures/f24-02-llm-agents-brief-history-and-overview.md), used at [solved once against solved every time](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=3557)
+- **Lecture:** Shunyu Yao, "LLM agents: brief history and overview", LLM Agents MOOC (Fall 2024): [video](https://www.youtube.com/watch?v=RM6ZArd2nVc) · [guide](../lectures/f24-02-llm-agents-brief-history-and-overview.md), used at [solved once against solved every time](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=3755)
 - **Reading:** Evan Miller, "Adding Error Bars to Evals: A Statistical Approach to Language Model Evaluations" (2024): [arXiv](https://arxiv.org/abs/2411.00640)
 - **Tool:** Eval-Arena, pairwise statistical tests on public benchmarks (linked from Wang's slides): [project page](https://crux-eval.github.io/); the results page the slides point to no longer resolves
 

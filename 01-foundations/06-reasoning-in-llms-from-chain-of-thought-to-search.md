@@ -19,6 +19,8 @@ Each is a routine engineering choice, and each has a well-tested answer.
 
 A model call is one sample from a probability distribution. One call gives one reasoning path. On a hard problem, the chance of a correct path is below 100% and above 0%. That gap is the opportunity. The techniques in this chapter spend more computation per problem at inference time to close it. The trend has a name: **inference-time scaling**. Accuracy rises as you spend more compute on a single problem while the model stays unchanged.
 
+Xinyun Chen puts numbers on the trend ([8:23](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=503)). On ARC-AGI, a set of pattern puzzles, most models before o1 stay below 25% with no special inference-time technique. o3, given about $20 of compute per task, matches the average human annotator. Given about $1,000 per problem, it reaches 87.5%. She calls that a very expensive way to solve one task. It shows what the model can do when inference cost is no object.
+
 There are three ways to spend it:
 
 1. **Width.** Generate several complete candidates and pick one. This is search and selection.
@@ -26,8 +28,6 @@ There are three ways to spend it:
 3. **Better paths.** Change the prompt so that each candidate is stronger. [Chapter 05](05-prompting-and-in-context-learning.md) covered this.
 
 A useful analogy for the first two is getting a second opinion. Ask five colleagues the same question and take the majority. The analogy breaks on independence. Colleagues know different things and can argue it out. Samples from one model share every blind spot, so they repeat the same wrong path.
-
-Xinyun Chen puts numbers on the trend ([8:23](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=503)). On ARC-AGI, a set of pattern puzzles, most models before o1 stay below 25% when they answer directly. o3, given about $20 of compute per task, matches the average human annotator. Given about $1,000 per problem, it reaches 87.5%. She calls that a very expensive way to solve one task. It shows what the model can do when inference cost is no object.
 
 ## How it works, step by step
 
@@ -57,7 +57,7 @@ The two paths that end in 18 count together although their steps differ, and the
 
 The vote is on final answers, not on reasoning paths. Denny Zhou's example, from his Fall 2024 lecture, is Janet, whose ducks lay 16 eggs a day. She eats 3 and bakes with 4, and sells the rest at $2 each. One sampled path computes $26. Two others compute $18 by different routes. The vote returns 18 ([46:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2760)). Zhou calls the reasoning path a hidden variable: many paths lead to one answer, so the answer is what counts. He adds that the method beat the state of the art of its time.
 
-Three practical limits come from the two lectures:
+Five practical lessons come from the two lectures:
 
 - **You need an extractable answer**, such as a number or an option. For free-form text, Xinyun Chen presents **universal self-consistency**: show the model all its candidates and ask which is most consistent with the others. It helps on summarization and question answering, and matches ordinary self-consistency on math without any answer extraction ([56:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3360)).
 - **Consistency is a signal.** Zhou reports that when over 80% of the samples agree, the answer is almost always right ([48:00](https://www.youtube.com/watch?v=QL-FS_Zcmyo&t=2880)).
@@ -104,7 +104,7 @@ Unlike the vote, search spends its tokens only on the branches that still look p
 
 Her example is the game of 24, where four numbers must be combined into 24. It suits the method because a partial expression can be judged before it is complete. Chen names the two moves at each step: propose the next steps, here picking two numbers to combine, and evaluate the state, here whether 24 is still reachable. On Game of 24, tree of thought with breadth-first search scales better than standard prompting and chain of thought as the token budget grows ([64:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3840)).
 
-Zhou's slides name a more systematic alternative for problems where the steps get long: calling an external search tool such as **Monte Carlo tree search (MCTS)**, a search algorithm that grows a tree of moves by repeatedly picking a promising node, simulating a completion, and pushing the score back up the path. Chen says later work plugs such algorithms into tree of thought, and she notes the payoff: a search that judges early can drop unpromising branches before spending tokens on them ([64:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3840)).
+Zhou's slides name a more systematic alternative for problems where the steps get long: calling an external search tool such as **Monte Carlo tree search (MCTS)**, a search algorithm that grows a tree of moves by repeatedly picking a promising node, simulating a completion, and pushing the score back up the path. Chen says later work plugs such algorithms into tree of thought ([64:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=3840)).
 
 A chess engine is a good mental picture. It looks several moves ahead, scores each position and backs out of bad lines. The picture breaks on the scoring. A chess engine evaluates positions exactly. In tree search with an LLM, the same noisy model writes the moves and judges them.
 
@@ -130,7 +130,7 @@ In practice, do not trust a model to be robust to the order of facts in user-wri
 
 Chen's advice on budget comes from studies of inference scaling: allocate the compute per problem according to its difficulty. Easy problems need few samples. She also notes that the right model depends on the budget. A small budget favors more samples from a lighter model. A large budget justifies a stronger model for the problems a light model cannot solve at all ([78:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4680)).
 
-Hajishirzi's s1 recipe spends the budget on a longer thought instead of more samples. Her team filtered 59,000 hard questions down to 1,000, trained on reasoning traces from a thinking model, and got about the same results as with the full set ([64:51](https://www.youtube.com/watch?v=cMiu3A7YBks&t=3891)). At inference, **budget forcing** sets the length of the thought: when the model stops early, "wait" is appended and it continues. Accuracy rose with the tokens generated, and in her comparison this beat majority voting.
+Hanna Hajishirzi's s1 recipe spends the budget on a longer thought instead of more samples. Her team filtered 59,000 hard questions down to 1,000, trained on reasoning traces distilled from Google's Gemini thinking model, and got about the same results as with the full set ([64:51](https://www.youtube.com/watch?v=cMiu3A7YBks&t=3891)). At inference, **budget forcing** sets the length of the thought: when the model stops early, "wait" is appended and it continues. Accuracy rose with the tokens generated, and in her comparison this beat majority voting.
 
 ## Worked example
 
@@ -172,7 +172,7 @@ What to observe:
 
 Jason Weston frames the whole area with two terms from psychology, in his Spring 2025 lecture ([2:00](https://www.youtube.com/watch?v=_MNlLhU33H0&t=120)). **System 1** thinking is fast and associative. In an LLM it is the transformer itself: a fixed amount of computation per token, producing the answer directly. **System 2** thinking is slow and deliberate. Chain-of-thought and search are System 2 built on top with prompting. Weston dates the prompting wave to 2022 and describes its results as real but limited. The next wave, in his telling, trains the models to reason instead of prompting them into it ([34:00](https://www.youtube.com/watch?v=_MNlLhU33H0&t=2040)). [Chapter 03](03-from-base-model-to-assistant-post-training.md) covers that training.
 
-Chen's structure for her lecture is the practical summary. Better prompting is the first way to spend inference compute: it lets the model use more tokens on one solution. Search and selection over several candidates is the second. Iterative self-improvement with external feedback is the third. Her closing principle is Sutton's bitter lesson: prefer methods that keep improving as compute grows ([80:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4800)).
+Chen's closing principle is Sutton's bitter lesson: prefer methods that keep improving as compute grows ([80:00](https://www.youtube.com/watch?v=g0Dwtf3BH-0&t=4800)).
 
 Zhou's last word is a warning about the picture you form. These models write steps that read like human thought. They remain next-token predictors, and they fail in ways a person would not: one irrelevant sentence or one moved clause is enough.
 
@@ -248,6 +248,12 @@ This calls a paid API 17 times per problem or more. With a small model and short
    - C. A wide tree search with many branches
    - D. Several rounds of debate between agents
 
+7. What does budget forcing do in the s1 recipe?
+   - A. It takes a vote over more samples
+   - B. It appends "wait" when the model stops early
+   - C. It trains on all 59,000 questions
+   - D. It shortens the prompt
+
 <details><summary>Show answers</summary>
 
 1. A. The vote is over extracted final answers. Two different paths that reach 18 count together.
@@ -256,6 +262,7 @@ This calls a paid API 17 times per problem or more. With a small model and short
 4. D. Environments that return observations, and code execution with tests. The model alone cannot tell whether it is wrong.
 5. A. About 10 points on GSM8K. Reordering the rules of his logic task also cost the frontier models a significant share of their accuracy.
 6. B. The same budget buys many more samples from a lighter model. Stronger models pay off on hard problems when the budget is large.
+7. B. The model thinks longer. Accuracy rose with the tokens generated and, in her comparison, beat majority voting.
 
 </details>
 
