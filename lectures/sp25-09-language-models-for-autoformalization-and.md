@@ -70,12 +70,12 @@ Formalizing uncovered mistakes. Proposition 24's proof works for one configurati
 ### [46:00–50:00](https://www.youtube.com/watch?v=cLhWEyMQ4mQ&t=2760) What is obvious in a diagram
 
 Proposition 1 assumes that its two circles intersect, which cannot be proved from Euclid's axioms and which nobody proves because the diagram makes it obvious. Lean knows no diagram, so "obvious in the diagram" needs a computational meaning. A philosopher, now at CMU, had identified the hidden axioms behind such facts, so a fact is obvious when it follows from them. The evaluation pipeline runs the model's formal statement through the SMT solver against the reference; Lean then marks the holes in the model's formal proof, and the solver checks that each hole is obvious in this sense.
-**In this book:** nothing beyond this guide; nearest: [Agents for Formal Mathematics › What the practitioners say](../06-frontier-applications/04-agents-for-formal-mathematics.md#what-the-practitioners-say).
+**In this book:** [Agents for Formal Mathematics › What the practitioners say](../06-frontier-applications/04-agents-for-formal-mathematics.md#what-the-practitioners-say).
 
 ### [50:00–52:00](https://www.youtube.com/watch?v=cLhWEyMQ4mQ&t=3000) First results and the open problem
 
 Without training, only with a few demonstrations, two versions of GPT-4 autoformalized the benchmark problems. More demonstrations helped, yet success stayed just above 20%, which shows how hard the task is; the version that also sees the diagram did slightly better. Both difficulties were met by restricting the domain, with an equivalence checker for statements and a tool that fills the gaps of proofs. Generalizing beyond one domain remains open.
-**In this book:** nothing beyond this guide; nearest: [Agents for Formal Mathematics › What the practitioners say](../06-frontier-applications/04-agents-for-formal-mathematics.md#what-the-practitioners-say).
+**In this book:** [Agents for Formal Mathematics › What the practitioners say](../06-frontier-applications/04-agents-for-formal-mathematics.md#what-the-practitioners-say).
 
 ## What to take away
 

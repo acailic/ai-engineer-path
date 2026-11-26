@@ -30,7 +30,7 @@ Writing mathematics in code is the next phase of that arc. Several languages exi
 ### [11:06–17:00](https://www.youtube.com/watch?v=3gaEMscOMAU&t=666) What perfect verification unlocks
 
 A proof assistant says "correct" or "incomplete" with perfect certainty, so giant proofs can be trusted and checking delegated to the machine; concerns about correctness, mostly felt in abstract fields, disappear. The whole software stack applies. Mathematics becomes a video game whose levels are theorems, with instant feedback, always a harder level, and a meaningful reward; some enthusiasts say they could do it 14 hours a day. It suits education, since detail can adapt to the reader (the lecturer's father got stuck in week four of an online course on Galois theory, and the professor did not answer). Terence Tao argues that formalization will unlock massive collaboration: most papers have one or two authors and five is the maximum, because each author must check the others' work, but with a trusted checker thousands could contribute, as hundreds do on Mathlib.
-**In this book:** nothing beyond this guide; nearest: [Agents for Formal Mathematics › Why agents benefit](../06-frontier-applications/04-agents-for-formal-mathematics.md#why-agents-benefit).
+**In this book:** [Agents for Formal Mathematics › How it works, step by step › Why agents benefit](../06-frontier-applications/04-agents-for-formal-mathematics.md#why-agents-benefit).
 
 ### [17:00–18:00](https://www.youtube.com/watch?v=3gaEMscOMAU&t=1020) Why few mathematicians use it
 
@@ -45,7 +45,7 @@ The lecturer shows the infinitude of primes. Unicode lets the statement read alm
 ### [22:04–30:27](https://www.youtube.com/watch?v=3gaEMscOMAU&t=1324) Reinforcement learning and the "zero" idea
 
 Reinforcement learning is trial and error toward a goal; the reward need not guide, it can be one when the goal is reached and zero otherwise. Run at scale it mastered Atari games, Go, StarCraft and Stratego, discovered new algorithms, and shaped plasma in a fusion device. The "zero" philosophy: if an agent masters a domain from scratch, it has discovered knowledge by itself and the method should generalize. AlphaGo Zero and AlphaZero learned by playing themselves from random moves, rediscovered thousands of years of human patterns in days and then dropped some, as the Caro-Kann defence showed up and vanished in AlphaZero's self-play while the Queen's Gambit grew. AlphaTensor found new ways to multiply matrices at sizes beyond the two-by-two case, where Strassen's seven multiplications are optimal, in an action space of about 10 to the 30th.
-**In this book:** nothing beyond this guide; nearest: [Agents for Formal Mathematics › Why agents benefit](../06-frontier-applications/04-agents-for-formal-mathematics.md#why-agents-benefit).
+**In this book:** [Agents for Formal Mathematics › How it works, step by step › The AlphaProof recipe](../06-frontier-applications/04-agents-for-formal-mathematics.md#the-alphaproof-recipe).
 
 ### [30:27–35:28](https://www.youtube.com/watch?v=3gaEMscOMAU&t=1827) Two worlds meet
 
@@ -60,12 +60,12 @@ Most work on AI for mathematics uses natural language, because textbooks and pap
 ### [39:05–44:14](https://www.youtube.com/watch?v=3gaEMscOMAU&t=2345) The International Mathematical Olympiad
 
 Each country sends its six best high-school students, who tackle six problems over two sittings of four and a half hours each; of the six problems, two are easy, two medium and two hard. In the United States about 17 million students narrow to 60,000 contest entrants, then to a competition whose answers are integers from 1 to 1,000, then 250, a training camp, and six; contestants prepare about a thousand hours. The problems are chosen to resemble nothing seen before, so the event tests reasoning rather than knowledge; the national coach reports needing hours himself, and only half of the contestants solve two problems or more. The 2024 problems had not leaked, so they had to be solved by reasoning.
-**In this book:** nothing beyond this guide; nearest: [Agents for Formal Mathematics › Demonstrated, and expected](../06-frontier-applications/04-agents-for-formal-mathematics.md#demonstrated-and-expected).
+**In this book:** [Agents for Formal Mathematics › How it works, step by step › Demonstrated, and expected](../06-frontier-applications/04-agents-for-formal-mathematics.md#demonstrated-and-expected).
 
 ### [44:14–50:00](https://www.youtube.com/watch?v=3gaEMscOMAU&t=2654) Three decisions before the competition
 
 The entry was run like an Apollo program: can the system solve the problems at all, with the compute available? Many expected that to be five or ten years off. Seven months ahead, Euclidean geometry was sparse in Mathlib; by luck another DeepMind team had just published a paper on a system close to gold-medal level on such problems, AlphaGeometry, so it took the geometry problems and AlphaProof took algebra, number theory and combinatorics. For "find all" questions the team rejected the easy mode of proving a supplied answer: Gemini proposes candidates and AlphaProof tries to prove and to disprove each. The problems were formalized by human experts before entering the system, because the target is mathematical reasoning, not translation.
-**In this book:** nothing beyond this guide; nearest: [Agents for Formal Mathematics › The AlphaProof recipe](../06-frontier-applications/04-agents-for-formal-mathematics.md#the-alphaproof-recipe).
+**In this book:** [Agents for Formal Mathematics › How it works, step by step › Demonstrated, and expected](../06-frontier-applications/04-agents-for-formal-mathematics.md#demonstrated-and-expected).
 
 ### [50:00–56:54](https://www.youtube.com/watch?v=3gaEMscOMAU&t=3000) Four days at the olympiad
 

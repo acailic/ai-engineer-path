@@ -14,6 +14,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Accelerator chip** | A processor built for model arithmetic. | [07.09](07-ml-in-production/09-scaling-the-system.md) |
 | **Accelerator intensity** | A chip's peak FLOP/s divided by its memory bandwidth. | [10.02](10-llm-internals/02-resource-accounting-flops-memory-and-arithmetic-intensity.md) |
 | **Acceptance test** | A test that the product serves the users' needs, which validates that the right system was built. | [08.08](08-quality-assurance/08-system-quality-end-to-end-tests-and-guardrails.md) |
+| **Accessibility gap** | Welleck's name for the distance between strong research methods and tools people can use, since the methods are often closed or costly to run | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Accessibility tree** | The operating system's list of interface elements with their roles and names. | [06.01](06-frontier-applications/01-multimodal-agents-web-and-computer-use.md) |
 | **Accountability** | The state in which a named person or role answers for each kind of automated decision and affected people can appeal. | [08.14](08-quality-assurance/14-security-privacy-transparency-and-accountability.md) |
 | **Accuracy (of a measure)** | How close a measure's values lie, on average, to the true value. | [07.03](07-ml-in-production/03-goals-and-requirements.md) |
@@ -141,6 +142,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Blast radius** | The share of users and systems exposed to the consequences of a failed experiment or release. | [11.07](11-professional-practice/07-checklists.md) |
 | **Bloch sphere** | The sphere whose points are the states of one qubit; a single-qubit gate rotates it | [09.11](09-efficient-deep-learning/11-course-summary-and-outlook.md) |
 | **Blue/green deployment** | Switching all traffic from an old version to a new one at once. | [08.09](08-quality-assurance/09-testing-and-experimenting-in-production.md) |
+| **Blueprint** | A decomposition of a research proof into definitions and lemmas arranged as a dependency graph, written in LaTeX before each node is proved in Lean | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Bootstrap** | Estimating uncertainty by resampling the observed data with replacement. | [01.07](01-foundations/07-why-llm-outputs-are-noisy.md) |
 | **Bootstrapping (few-shot)** | Keeping the traces of runs that passed the metric and using them as worked examples in prompts. | [02.05](02-building-agents/05-compound-ai-systems-and-dspy.md) |
 | **Bubble** | Time in a pipeline when some GPUs wait for others. | [10.06](10-llm-internals/06-parallelism.md) |
@@ -845,6 +847,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Prefill** | The phase that processes a whole prompt at once, limited by arithmetic. | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
 | **Prefix (of a prompt)** | The unchanged beginning of a prompt, which prompt caching can reuse. | [01.04](01-foundations/04-using-llms-tokens-context-and-sampling.md) |
 | **Premise order** | The order in which the facts of a problem are presented, which changes a model's answers. | [01.06](01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) |
+| **Premise selection** | Choosing, among the hundreds of thousands of facts in a library, the few that an automated prover is given for a goal | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Pretrained model** | A model that someone else has already trained, which you can use as it is or adapt by fine-tuning. | [07.02](07-ml-in-production/02-when-to-use-ml-and-when-not-to.md) |
 | **Privacy** | The ability of a person to control what information about them is shared and how it is used. | [08.14](08-quality-assurance/14-security-privacy-transparency-and-accountability.md) |
 | **Privacy policy** | The public document describing what a system collects and how it may use and share it. | [08.14](08-quality-assurance/14-security-privacy-transparency-and-accountability.md) |

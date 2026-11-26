@@ -65,12 +65,12 @@ New, unpublished work uses the model's abstraction. For an olympiad problem, pro
 ### [46:38–50:00](https://www.youtube.com/watch?v=IHc0TEMrEdY&t=2798) From mathematics to systems
 
 Formal verification models a real system as definitions and its properties as theorems. It yields systems that are almost impossible to hack: in a program of the US Department of Defense a drone ran a formally verified kernel, and a red team attacked it for six weeks without success. It has been too expensive for most uses, and AI changes that balance. The lecturer's example verifies a compiler: a language has a syntax and a semantics, a compiler is a set of rules translating one language into another, and correctness means the rules preserve the semantics.
-**In this book:** nothing beyond this guide; nearest: [Agents for Formal Mathematics › What the practitioners say](../06-frontier-applications/04-agents-for-formal-mathematics.md#what-the-practitioners-say).
+**In this book:** [Agents for Formal Mathematics › What the practitioners say](../06-frontier-applications/04-agents-for-formal-mathematics.md#what-the-practitioners-say).
 
 ### [50:00–59:16](https://www.youtube.com/watch?v=IHc0TEMrEdY&t=3000) Verifying a compiler with Copra
 
 In Coq the source language is arithmetic expressions, constants and sums and products; the target language is a list of instructions for a stack machine; the compiler pattern-matches an expression and emits instructions. The correctness theorem says that executing the compiled program gives the same value as evaluating the expression. Copra cannot prove it in one shot, so a reasoning model invents an auxiliary lemma, that compiling one step is correct; Copra proves that, and then the theorem. The lecturer sums up: prompting goes a long way with the proof assistant as grounding; agents for formalization, planning and low-level proof can be combined; and a recent paper led by Dawn Song surveys open challenges.
-**In this book:** nothing beyond this guide; nearest: [Agents for Formal Mathematics › What the practitioners say](../06-frontier-applications/04-agents-for-formal-mathematics.md#what-the-practitioners-say).
+**In this book:** [Agents for Formal Mathematics › What the practitioners say](../06-frontier-applications/04-agents-for-formal-mathematics.md#what-the-practitioners-say).
 
 ### [59:16–1:04:00](https://www.youtube.com/watch?v=IHc0TEMrEdY&t=3556) Empirical discovery
 
@@ -90,12 +90,12 @@ A population of programs evolves either by classical tweaks to the syntax tree o
 ### [1:18:00–1:24:00](https://www.youtube.com/watch?v=IHc0TEMrEdY&t=4680) Hints, leakage and a new law
 
 Hints about the kind of equation gave a modest early benefit. For Coulomb's law, genetic programming returned an unwieldy expression equivalent to the truth, while LaSR reached the truth in four simplification steps. Could the model simply remember the law? The input is only numbers, and experiments on invented synthetic equations still gained. Concepts are natural language with no guarantee of quality, some are meaningless, and formal descriptions are an open idea. Applied to language-model loss versus hyperparameters, where an earlier DeepMind paper had fitted a law by hand, LaSR found a law that also includes the number of examples in the context: many examples hurt weak models and help once a capability threshold is passed. A human combination of the old law and this insight predicted better than either.
-**In this book:** nothing beyond this guide; nearest: [Agents for Formal Mathematics › What the practitioners say](../06-frontier-applications/04-agents-for-formal-mathematics.md#what-the-practitioners-say).
+**In this book:** [Agents for Formal Mathematics › What the practitioners say](../06-frontier-applications/04-agents-for-formal-mathematics.md#what-the-practitioners-say).
 
 ### [1:24:00–1:28:00](https://www.youtube.com/watch?v=IHc0TEMrEdY&t=5040) Outlook
 
 The same evolution can take images as input when a vision-language model does the describing. The lecturer then lists what is still missing: verifying hypotheses and concepts; concepts live only in natural-language descriptions, and a formal notation might help; the search has not been shown to hold up in larger spaces with more input dimensions; and only one step of discovery, proposing hypotheses, is automated. His closing message is that agents, models combined with other machinery, will matter in mathematics, in science and in engineering.
-**In this book:** nothing beyond this guide; nearest: [Agents for Formal Mathematics › What this means for someone building agents](../06-frontier-applications/04-agents-for-formal-mathematics.md#what-this-means-for-someone-building-agents).
+**In this book:** [Agents for Formal Mathematics › What the practitioners say](../06-frontier-applications/04-agents-for-formal-mathematics.md#what-the-practitioners-say).
 
 ## What to take away
 
