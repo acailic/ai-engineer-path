@@ -8,7 +8,7 @@
 
 ## Before you watch
 
-Read [Training Models for Agentic Tasks](../02-building-agents/08-training-models-for-agentic-tasks.md) first; it orders the same material into a procedure with a runnable example. The lecture assumes you know what supervised fine-tuning and reinforcement learning are, and it reports one team's experience as much as public results.
+Read [Training Models for Agentic Tasks](../02-building-agents/08-training-models-for-agentic-tasks.md) first; it orders the same material into a procedure with a runnable example. The lecture assumes you know what supervised fine-tuning and reinforcement learning are, and it reports one team's experience more than public results.
 
 ## The lecture, part by part
 
@@ -24,12 +24,12 @@ A repository and an issue go in; a pull request comes back, and the user comment
 
 ### [6:18–8:25](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=378) Three topics, and two kinds of data
 
-The lecture covers data, the grader and efficiency. Data splits into verifiable tasks (maths, code with tests, multiple choice) and the non-verifiable rest of a product: code style, writing, safety, where the ground truth is subjective.
+The lecture covers data, the grader and efficiency, and ends with a look ahead. Data splits into verifiable tasks (maths, code with tests, multiple choice) and the non-verifiable rest of a product: code style, writing, safety, where the ground truth is subjective.
 **In this book:** [From Base Model to Assistant: Post-Training › 4. Reinforcement learning with verifiable rewards](../01-foundations/03-from-base-model-to-assistant-post-training.md#4-reinforcement-learning-with-verifiable-rewards).
 
 ### [8:25–12:24](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=505) Rubrics: written criteria instead of reference answers
 
-For open questions human experts no longer write one answer; they write criteria, as many as 50 for one question, each clear, structured and scorable with a 0 or a 1. A long answer is split into fine-grained pieces and each is judged, because what cannot be measured cannot be learned. Writing them takes hours or days per question, so quality matters more than quantity. Data synthesis is the other lever, and the lecturer now puts his best people on it.
+For open questions human experts no longer write one answer; they write criteria, as many as 50 for one question, each clear, structured and scorable with a 0 or a 1. An answer is split into fine-grained pieces and each is judged, because what cannot be measured cannot be learned. Writing them can take hours or days per question; quality matters more than quantity. Data synthesis is the other lever, and the lecturer now puts his best people on it.
 **In this book:** [LLM-as-a-Judge and Rubrics › 2. Write the rubric](../03-evaluation/03-llm-as-a-judge-and-rubrics.md#2-write-the-rubric).
 
 ### [12:24–16:03](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=744) Reinforcement learning from one example
@@ -44,7 +44,7 @@ Most data work is the mix: shares such as 3% and 20% per source, easier data ear
 
 ### [22:20–28:26](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=1340) The grader is half the problem
 
-Knowing what and how to grade solves at least half of the task. Products need many graders beyond pass or fail: progress updates during ten-minute runs, correct formatting, short answers, time to the pull request. The three common kinds are a pass-or-fail test, a model as judge, and scoring by rubrics. With many graders a young model passes none, so the team ranks candidates instead of requiring a pass, adds strict graders late, respects dependencies between graders and runs independent ones in parallel.
+Knowing what and how to grade solves at least half of the task. Products need many graders beyond pass or fail: progress updates during ten-minute runs, correct formatting, short answers, time to the pull request. The three common kinds are a pass-or-fail test, a model as judge, and scoring by rubrics. With many graders an early model can hardly pass them all, so the team ranks candidates instead of requiring a pass, adds hard graders late, respects dependencies between graders and runs independent ones in parallel.
 **In this book:** [Training Models for Agentic Tasks › How it works, step by step](../02-building-agents/08-training-models-for-agentic-tasks.md#how-it-works-step-by-step).
 
 ### [28:26–30:37](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=1706) Cheating and how to stop it
@@ -74,7 +74,7 @@ Users connect their own tools and APIs to one model. That needs strong instructi
 
 ### [40:00–44:45](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=2400) Solution length and context
 
-A model that retries forever hurts the experience: a one-minute solution beats a one-hour one. Training keeps long rollouts but charges for tokens; the penalty must be balanced, since too low a penalty wastes tokens and too high a one ends exploration. Evaluation must report rollout length, because pass rates at different test-time compute are not comparable. Contexts of 128,000 tokens run out, so earlier rollouts are summarized and replaced; a paper from Alibaba uses a separate summarizer model.
+A model that retries forever hurts the experience: a one-minute solution beats a one-hour one. Training keeps long rollouts but charges for tokens; the penalty must be balanced, since too low a penalty wastes tokens and too high a one sacrifices exploration. Evaluation must report rollout length, because pass rates at different test-time compute are not comparable. Contexts of 128,000 tokens run out, so earlier rollouts are summarized and replaced; a paper from Alibaba uses a separate summarizer model.
 **In this book:** [Training Models for Agentic Tasks › How it works, step by step](../02-building-agents/08-training-models-for-agentic-tasks.md#how-it-works-step-by-step) · [Memory and Knowledge for Agents › B. Compaction](../02-building-agents/04-memory-and-knowledge-for-agents.md#b-compaction).
 
 ### [44:45–48:30](https://www.youtube.com/watch?v=xNxrBHZPDvM&t=2685) LoRA in reinforcement learning, and fast experiments

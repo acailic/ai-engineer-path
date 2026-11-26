@@ -139,6 +139,7 @@ Kästner's test for a precise measure: imagine arguing in front of a judge that 
 
 Kästner defines a **stakeholder** as anyone with an interest in the system or affected by it, including people who never use it: regulators, responders, competitors. His advice for gathering requirements (chapter 6):
 
+- Do not fill gaps with intuition, jump to technical solutions or drop messy special cases.
 - Interview stakeholders about the problems they have, not only the solution they imagine. Users often change their mind once they see mistakes: people who wanted the fall-detecting watch to call for help automatically reversed that after it mistook a hand gesture for a fall.
 - Show, do not only ask. Interviews work better with pictures, storyboards or prototypes. In a **wizard-of-oz experiment** a person does the model's job behind the scenes, so users can try the product before the ML problem is solved.
 - Ask about trade-offs directly. Is a more accurate answer worth a longer wait or a higher price?

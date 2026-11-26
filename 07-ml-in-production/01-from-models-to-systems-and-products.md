@@ -94,7 +94,7 @@ For each automated decision, pick one of three patterns:
 | Automated, with an appeal path | Acts, then lets a person reverse it | Fraud detection on an auction site: take the listing down, let the seller appeal |
 | Human confirms | Proposes, and waits for a person | Audit-risk estimate in tax software: show it, ask the user what to do |
 
-Kästner's warning is that humans are generally poor at monitoring systems and may have no chance of checking a prediction even if they try. A human who clicks "approve" on two hundred correct suggestions will approve the wrong one too. Human review is a design decision, not a safety guarantee.
+Asking or appealing gives people control ([chapter 2](https://mlip-cmu.github.io/book/02-from-models-to-systems.html)). Kästner's warning is that humans are generally poor at monitoring systems and may have no chance of checking a prediction even if they try. A human who clicks "approve" on two hundred correct suggestions will approve the wrong one too. Human review is a design decision, not a safety guarantee.
 
 ### Know your role
 
