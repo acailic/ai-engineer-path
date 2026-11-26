@@ -35,9 +35,9 @@ The first is about **explainability**, the second about **fairness**, the third 
 | What would change it? | **Counterfactual** | Find a small change to the input that flips the result |
 | What is odd in the training data? | Prototypes and criticisms | Typical examples, and outliers poorly covered by them |
 
-Most of these work without access to the model's internals (chapter 25), which is why outside auditors use surrogates on models available only through an API. Two details from the book help in practice. **LIME** learns a small linear model of the decision boundary, the border between the model's answers, near one input. Its influence values are known to be unstable, and **SHAP**, built on Shapley values, a rule for splitting a prediction fairly among the inputs, has largely replaced it as the more stable choice. Every prediction has many counterfactuals, so a tool must choose among them, usually the smallest change or the change to the fewest features (chapter 25).
+Most of these work without access to the model's internals (chapter 25), which is why outside auditors use surrogates on models available only through an API. Two details from the book help in practice. **LIME** learns a small linear model of the decision boundary, the border between the model's answers, near one input. Its influence values are known to be unstable, and **SHAP**, built on Shapley values, a rule for splitting a prediction fairly among the inputs, has largely replaced it as the more stable choice. Every prediction has many counterfactuals, so a tool must choose among them, usually the counterfactual that changes little, or that touches few inputs (chapter 25).
 
-Kästner's running example is a commercial tool that scores a defendant's risk of re-offending. Journalists at ProPublica found that Black defendants were almost twice as likely as white defendants to be labeled high risk without then re-offending. The model's internals were not open to inspection. Researchers have trained a simple points-based scorecard on the same data, with similar accuracy, that a judge can read in full and audit (chapter 25).
+Kästner's running example is a commercial tool that scores a defendant's risk of re-offending. Journalists at ProPublica found that Black defendants were almost twice as likely as white defendants to be labeled high risk without then re-offending. The model's internals were not open to inspection. Researchers have trained a simple points-based scorecard from the same data, as accurately, that a judge can read in full and audit (chapter 25).
 
 His warning is the "dark side" of explanations. They are approximations and can create an illusion of understanding. For decisions as serious as bail, he prefers models that are interpretable by design (chapter 25).
 
@@ -57,7 +57,7 @@ Kästner measures fairness over **protected attributes**, the features that divi
 
 Anti-classification can be audited with the invariant tests from [Testing Without Oracles](04-testing-without-oracles.md): flip the attribute in every input and assert that no output changes. One violation proves the criterion broken (chapter 26).
 
-For group fairness, the book also notes a rule of thumb from US employment-law discourse: the selection rate of the disadvantaged group should be at least 80 percent of the other group's (chapter 26).
+For group fairness, the book also notes a rule of thumb from US employment-law discourse: the group that is worse off should be selected at least 80 percent as often as the other group (chapter 26).
 
 Kästner's example makes the weakness plain (chapter 26). A bank can satisfy group fairness by approving the safest 20 percent of one group's applications and a random 20 percent of the other group's. The approval rates match, and the two groups are served very differently.
 
@@ -91,7 +91,7 @@ Robustness has a use at inference time ([chapter 27](https://mlip-cmu.github.io/
 
 Kästner describes safety engineering in four steps (chapter 27):
 
-1. **Identify hazards and safety requirements.** A **hazard** is a condition in which an accident can happen. It makes harm possible, not certain. His example is a sidewalk delivery robot that goes too fast while failing to recognize pedestrians. Analysis can run forward, from the ways a model's prediction can be wrong to the hazards that follow, or backward, from a hazard to the mistakes that could cause it. Fault tree analysis, failure mode and effects analysis, and hazard and operability studies are the named techniques. Rank hazards by likelihood times severity.
+1. **Identify hazards and safety requirements.** A **hazard** is a condition in which an accident can happen. It makes harm possible, not certain. His example is a sidewalk delivery robot that goes too fast while failing to recognize pedestrians. Analysis can run forward, from the ways a model's prediction can be wrong to the hazards that follow, or backward, from a hazard to the mistakes that could cause it. Named techniques include the fault tree, failure mode and effects analysis, as well as hazard and operability studies. Rank hazards by likelihood times severity.
 2. **Find the root causes** of each hazard. The same robot hazard could come from a wrong speed estimate, a missed detection, a bug in the speed controller, or a hardware fault.
 3. **Design a mitigation for each one.** Most mitigations make harm less likely by adding independent conditions that must all hold before the hazard can occur. The book's list: keep a human in the loop, make actions undoable and decisions appealable, add guardrails outside the model, install an independent check that detects mistakes, use redundancy, and contain a component's mistakes so they do not spread.
 4. **Provide evidence** that the mitigations work. There are two kinds: safe behavior in the field, as when autonomous vehicles move from simulation to test tracks to public roads, and evidence of a rigorous engineering process.

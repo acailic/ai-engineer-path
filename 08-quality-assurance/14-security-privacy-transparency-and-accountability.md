@@ -19,7 +19,7 @@ The first is **security**. The second is **privacy**. The third is **transparenc
 
 **Security** protects a system from people who intend to harm it. Requirements fall into three classes, the **CIA triad**: confidentiality (only authorized people read sensitive data), integrity (data and decisions are not tampered with), and availability (the service keeps running). Kästner notes that ML adds new things to protect: training data, models, prompts, and telemetry (chapter 28).
 
-**Privacy** means that a person decides which personal information is shared, and how it is used. Security is necessary for privacy and not sufficient for it. A system can break its privacy promises without any attacker, by selling data it promised to guard (chapter 28).
+**Privacy** means that a person decides which personal information other parties get, and what they may do with it. Security is necessary for privacy and not sufficient for it. A system can break its privacy promises without any attacker, by selling data it promised to guard (chapter 28).
 
 **Transparency** means telling the people affected that a model is involved and what it does. **Accountability** means a named person or role answers for each kind of automated decision, and an affected person can appeal it.
 

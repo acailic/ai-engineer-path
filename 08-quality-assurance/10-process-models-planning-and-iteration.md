@@ -32,7 +32,7 @@ The difference is what an iteration produces. Kästner contrasts model work with
 | Splitting work | Design supports divide and conquer, so people work in parallel | Model work is hard to decompose into independent pieces |
 | Dead ends | Rare, outside highly experimental projects | Common: many iterations change nothing |
 
-Kästner describes data-science work as a science mindset and notes that it is nearly impossible to say up front how long model development will take or what accuracy it will reach (chapter 20).
+Kästner describes data-science work as a science mindset and notes that it is nearly impossible to say in advance how long building a model will take or what accuracy it will reach (chapter 20).
 
 The analogy is a walk versus a search. Building a known feature is a walk: you know the route and can estimate the time. Finding a model that works is a search: you can decide how long you will look, not what you will find. The analogy breaks on the map: a search through model designs gives partial results along the way, which often turn out to be good enough to ship.
 

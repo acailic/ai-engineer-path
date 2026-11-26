@@ -56,9 +56,9 @@ Kästner describes these as **data linting**: heuristics for suspicious encoding
 - ambiguous date formats and unknown units;
 - duplicates.
 
-A linter earns its keep where no schema exists, or where the schema is wrong or too weak for the use. Not every warning is a real problem, and at the time of writing he knew of lists of common problems and academic prototypes but no broadly adopted data-linting tool (chapter 16).
+A linter earns its keep where no schema exists, or where the schema is incorrect or too loose for the use the data is put to. Not every warning is a real problem, and at the time of writing he knew of lists of common problems and academic prototypes but no broadly adopted data-linting tool (chapter 16).
 
-**Anomaly detection** goes one step further and learns the usual distribution, meaning how often each kind of value occurs. The book's example is a shipment of 80,000 kg of bananas in a system where weekly sales rarely exceed 2,000 kg (chapter 16). Flagged rows go to a human, or get dropped from training. Tune the checks so that they do not drown reviewers in false alarms.
+**Anomaly detection** goes one step further and learns the usual distribution, meaning how often each kind of value occurs. The book's example is a delivery of bananas, 80,000 kg of them, in a system where a week's sales seldom pass 2,000 kg (chapter 16). Flagged rows go to a human, or get dropped from training. Tune the checks so that they do not drown reviewers in false alarms.
 
 ### 4. Encode your assumptions about change
 
@@ -172,7 +172,7 @@ What to observe:
 - **Integrity is strict, and it is not enough.** Schema enforcement is well established and covers only format and internal consistency (chapter 16).
 - **Beyond the schema, you check plausibility.** His position is that most checks identify suspicious data rather than clear violations (chapter 16).
 - **Expected distributions are learned, not written.** Teams learn them from data and then tune detection to surface useful problems (chapter 16).
-- **Producers and consumers are strangers.** The people who enter and label data are often separated from the people who use it, and data is rarely documented or managed well (chapter 16).
+- **Producers and consumers are strangers.** The people who type in and label data are usually not the people who use it, and data is rarely documented or managed well (chapter 16).
 - **Manage it as a project concern.** Set data-quality requirements early, then check, measure, and monitor against them. He suggests the ISO/IEC 25012 standard for data quality as a checklist (chapter 16).
 
 ## Pitfalls

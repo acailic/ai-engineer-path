@@ -62,7 +62,7 @@ Kästner's list of where ML projects incur debt is a good place to look for cand
 
 Then repay in this order:
 
-1. **Record each debt with its cost and its owner.** Kästner asks for more than an issue: a named person responsible, the extra maintenance cost watched, and a goal for whether and when to pay it back. Some teams set aside fix-it days (chapter 22).
+1. **Record each debt with its cost and its owner.** Kästner asks for more than an issue: a named person responsible, the extra maintenance cost watched, and a decision on whether, and when, to repay it. Some teams set aside fix-it days (chapter 22).
 2. **Fix design debt first.** Debt in requirements and design is much harder to repay than debt in code quality or missing automation. A robot built without redundant sensors cannot be patched. Monitoring can be added later (chapter 22).
 3. **Add tests before you change it.** Refactoring untested pipeline code trades one debt for a bug (chapter 17).
 4. **Repay in small steps, next to related work.** Fix the prompt duplication when you next edit a prompt.
@@ -74,7 +74,7 @@ Then repay in this order:
 - **The people who make the data are strangers.** The people who gather, type in and label data often sit apart from the people who use it, and few teams count them as members (chapter 16).
 - **Documentation is coordination.** Data usually crosses team boundaries, so documenting its meaning and quality matters and is often neglected (chapter 16).
 - **Culture needs management.** A quality culture takes time and money and buy-in from managers and the whole team, not rules imposed from above (chapter 14).
-- **Specialists without power accomplish little.** In fairness work, Kästner finds that what gets done is pushed by individuals acting as internal activists, almost always without institutional support, and that central teams for responsible ML are often research-focused and rarely have the power to influence product teams (chapter 26).
+- **Specialists without power accomplish little.** In fairness work, Kästner finds that what gets done is pushed by individuals acting as internal activists, almost always without institutional support, and that central teams for responsible ML tend to sit in research and seldom can make product teams change course (chapter 26).
 - **Rare specialists are an old problem.** He compares fairness, privacy, usability, and operations experts in ML teams with security experts twenty years earlier: all want to be involved early, no team can afford each of them full time, and training is often seen as a distraction or a compliance exercise (chapter 21).
 - **Debt grows silently.** Chapter 15 notes that frequent evaluation wears out a test set. Chapter 22 names versioning debt: results that cannot be reproduced and a regression that cannot be traced to a change in data or code. Both are habits that decay unless someone owns them.
 

@@ -160,7 +160,7 @@ What to observe:
 - **Software testing solved the same problem.** He traces the **oracle problem**, the difficulty of naming expected outputs for generated inputs, to traditional testing, where invariants, fuzzing, and property-based testing (QuickCheck) were invented to get around it. A date function, for example, must always return day 1 or the next day (chapter 15).
 - **Fairness invariants are narrow.** Swapping gender in an input shows only that the model does not use the attribute directly. Correlated features can still stand in for it (chapter 15). [Explainability, Fairness and Safety](13-explainability-fairness-and-safety.md) returns to this.
 - **Formal verification is possible in narrow cases.** It is straightforward to prove that a decision tree never reads the age feature. For deep networks it remains an active research area (chapter 15).
-- **Differential testing has a strong record outside ML.** He cites CSmith, which found hundreds of bugs in C compilers by compiling the same generated program with different compilers and comparing behavior (chapter 15).
+- **Differential testing has a strong record outside ML.** He cites CSmith, a tool that exposed several hundred compiler bugs: it generates a program, compiles it with many C compilers and compares what they do (chapter 15).
 - **No agreed stopping rule.** There are no established criteria for when model tests are adequate, he writes. The closest parallel is specification coverage, the share of requirements that have a test, and it is rarely measured (chapter 15).
 
 ## Pitfalls

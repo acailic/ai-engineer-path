@@ -188,7 +188,7 @@ What to observe:
 - **Debugging is hypothesis-driven.** If reports say young children's cancers go undetected, build slices by cancer type and age group to test whether a few reports reflect a wider pattern (chapter 15).
 - **Small slices need more data.** Accuracy on a tiny slice is unreliable. If the slice matters, collect more test data for it (chapter 15).
 - **A slice can express a worry, not only a field.** His examples of slices chosen from requirements: shopping-related voice commands, because they are more profitable; rare cancers, because a miss is costly; and images that require telling cancer from lymph nodes, because that is a behavior the model must have learned (chapter 15).
-- **Overton at Apple.** Developers write slicing functions for hard subsets, such as nutrition-related queries or queries with complex disambiguation. They improve one slice at a time, usually by adding labeled training data through **weak supervision**, meaning labels produced by rules instead of hand. Kästner credits the approach with making progress tractable and visible (chapter 15).
+- **Overton at Apple.** Developers write slicing functions for hard subsets, for example queries about nutrition or queries whose disambiguation is complex. They improve one slice at a time, usually by adding labeled training data through **weak supervision**, meaning labels produced by rules instead of hand. Kästner credits the approach with making progress tractable and visible (chapter 15).
 - **The software parallel.** He maps slicing onto equivalence class testing: a weak design tests each class once, a strong one tests each combination of classes. Combinatorial testing and decision tables help when combinations multiply (chapter 15).
 
 ## Pitfalls
