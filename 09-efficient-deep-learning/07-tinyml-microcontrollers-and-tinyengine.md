@@ -35,7 +35,7 @@ The analogy for the whole approach is streaming a file instead of loading it: pr
 - **Weight bytes** = parameters × bytes per weight. An 8-bit model needs 1 byte per weight.
 - **Peak activation** = the largest set of intermediate values alive at the same time, usually the input of a layer together with its output. Han's slides call this a simplified method to estimate memory usage (Lecture 10, slides 19 to 23).
 
-Worked numbers. The first layer of MobileNetV2 at 224 × 224 pixels with 32 output channels produces 224 × 224 × 32 = 1,605,632 values. In 8-bit that is 1.5 MB, about six times the SRAM of a 256 KB chip. One layer, before anything else happens.
+Worked numbers. MobileNetV2 at 224 × 224 pixels, run one layer at a time, needs a peak of 1,372 KB of memory for its activations, more than five times the 256 KB of SRAM on such a chip. Inferring patch by patch brings the peak down to 172 KB, which fits (Lecture 10, [34:00](https://www.youtube.com/watch?v=uR1KKhIhHEk&t=2040)).
 
 ### Step 2: Pick a model for the chip
 
