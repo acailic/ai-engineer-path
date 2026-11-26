@@ -24,7 +24,7 @@ He recalls a 2003 neural language model that predicted the next word from learne
 
 ### [17:28–22:52](https://www.youtube.com/watch?v=_MNlLhU33H0&t=1048) From fine-tuning to RLHF and DPO
 
-Supervised fine-tuning on human demonstrations and preference data turn a pre-trained model into an assistant. RLHF trains a reward model on pairwise comparisons and optimizes the policy against it; DPO skips the reward model and directly raises the preferred answer and lowers the rejected one, though its fixed preference data cannot track how the policy changes.
+Supervised fine-tuning on human demonstrations and training on preference data turn a pre-trained model into an assistant. RLHF trains a reward model on pairwise comparisons and optimizes the policy against it; DPO skips the reward model and directly raises the preferred answer and lowers the rejected one, though its fixed preference data cannot track how the policy changes.
 **In this book:** [From Base Model to Assistant: Post-Training › 3. Preference tuning: reward models, RLHF and DPO](../01-foundations/03-from-base-model-to-assistant-post-training.md#3-preference-tuning-reward-models-rlhf-and-dpo).
 
 ### [22:52–25:30](https://www.youtube.com/watch?v=_MNlLhU33H0&t=1372) Prompting for system two: chain of thought
@@ -69,7 +69,7 @@ He lists directions: better self-evaluation, which bottlenecks performance; lear
 
 ## What to take away
 
-- A model can supply the judgments it trains on when it is also an able judge; the gains stop where its judging is weak, as in mathematics and code.
+- A model can supply the judgments it trains on when it is also an able judge; the gains are smaller where its judging is weak, as in mathematics and code.
 - A reward computed from a known answer trains chains of thought without any judge, which is the recipe behind recent reasoning models.
 - Prompting for reasoning came first; training for it is the current wave.
 
