@@ -1,6 +1,6 @@
 # 12. Alignment and Multimodality
 
-**Level:** Professional · **Reading time:** 18 min · **Exercise:** 45 min
+**Level:** Professional · **Reading time:** 19 min · **Exercise:** 45 min
 **Prerequisites:** [Post-Training: SFT, RLHF and RLVR](11-post-training-sft-rlhf-and-rlvr.md), for SFT, RLHF and GRPO, and [The Language Modeling Pipeline and Tokenization](01-the-language-modeling-pipeline-and-tokenization.md), for what a token is, and [Transformer Architectures and Hyperparameters](03-transformer-architectures-and-hyperparameters.md), for RoPE.
 
 > **In one sentence:** After this chapter you can state what CS336 means by alignment, and explain how an image becomes tokens that a language model can read, and why generating images calls for a different tool.
@@ -51,7 +51,7 @@ Lecture 17 spends almost all its time on the first. The long-term target is an *
 
 Trained on 400 million pairs ([8:00](https://www.youtube.com/watch?v=26FtD08ZpOU&t=480)), CLIP classifies ImageNet better without labels than a ResNet, the standard image classifier of that time, trained on ImageNet's 1.2 million labeled images ([16:00](https://www.youtube.com/watch?v=26FtD08ZpOU&t=960)). Two limits matter later. The training objective is about choosing between captions, so the image embedding captures meaning, not fine detail. And the softmax runs across the whole batch, which pushes batch sizes very high.
 
-Captions are one way to train a vision encoder without labels. Song Han's Lecture 16 shows another, **masked image modelling**, which borrows from BERT's masked language modelling, described in [Transformer Architectures and Hyperparameters](03-transformer-architectures-and-hyperparameters.md) ([34:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=2040)). Some patches of the image are hidden. A heavy encoder processes only the visible ones, and a light decoder receives its output together with the hidden positions and rebuilds the whole image, 25 patches from 8 in his example. The heavy part sees few tokens, so the light part can afford to see many. The best mask ratio is about 70 to 75%, against about 15% for BERT, and Han reports a higher accuracy than the baseline. His reading of the ratio is that images carry less information per token, and more redundancy, than language, so more of them can be hidden and still recovered.
+Captions are one way to train a vision encoder without labels. Song Han's Lecture 16 shows another ([34:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=2040)), **masked image modelling**, which borrows from BERT's masked language modelling, described in [Transformer Architectures and Hyperparameters](03-transformer-architectures-and-hyperparameters.md). Some patches of the image are hidden. A heavy encoder processes only the visible ones, and a light decoder receives its output together with the hidden positions and rebuilds the whole image, 25 patches from 8 in his example. The heavy part sees few tokens, so the light part can afford to see many. The best mask ratio is about 70 to 75%, against about 15% for BERT, and Han reports a higher accuracy than the baseline. His reading of the ratio is that images carry less information per token, and more redundancy, than language, so more of them can be hidden and still recovered.
 
 ### 2. SigLIP: the same idea with a cheaper loss
 
@@ -139,7 +139,7 @@ On the recipe, the slide summary is that most of the work is data curation, heav
 
 On CLIP, the lecturer reminds the class to read its results with the fact that its design decisions were tuned for image classification, not for fine-grained tasks.
 
-His closing position on generation: comprehension wants semantics, generation wants fine detail, and the two may demand different things. His description of the current best arrangement is continuous encoders for understanding, a Transformer in the middle, and diffusion models for generation, with video balanced against text because video carries a lower information density than text.
+His closing position on generation: comprehension wants semantics, generation wants fine detail, and the two may demand different things. His description of the current best arrangement is continuous encoders for understanding, a Transformer in the middle, and diffusion models for generation, with video balanced against text because video, in his words, has a lower information density than text.
 
 Lecture 1 gives the context for why this is one lecture. Liang listed multimodality among the topics the course does not cover in depth ([22:00](https://www.youtube.com/watch?v=JuoVZkPBiKk&t=1320)).
 
@@ -202,6 +202,11 @@ You are done when:
    - B. Short prompts being ignored by the tokenizer
    - C. Image tiles overlapping
    - D. The KL penalty from growing
+6. In Flamingo's cross-attention layer, where do the queries and the keys and values come from?
+   - A. Queries from the text; keys and values from the visual tokens
+   - B. Queries from the image; keys and values from the text
+   - C. All three from the text tokens
+   - D. All three from the projector
 
 <details><summary>Show answers</summary>
 
@@ -210,6 +215,7 @@ You are done when:
 3. A. Each tile is encoded at full resolution and the results are concatenated.
 4. B. Chameleon pays for one model for everything with weaker fine-grained performance.
 5. A. It balances text and multimodal examples of very different lengths.
+6. A. The language model itself stays frozen; a tanh gate, started at zero, scales what the layer adds, so training begins from the plain language model.
 
 </details>
 

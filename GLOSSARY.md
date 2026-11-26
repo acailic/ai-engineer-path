@@ -253,6 +253,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **credit assignment** | Deciding which of many changes to a program of several modules helped and which hurt, when a change in one module can break a later module that relied on the old output | [02.05](02-building-agents/05-compound-ai-systems-and-dspy.md) |
 | **Critical batch size** | The batch size beyond which doubling the batch saves less than half the steps. | [10.07](10-llm-internals/07-scaling-laws.md) |
 | **CRMArena** | Salesforce's benchmark of nine customer-relationship workflows for three roles, run in its own sandbox on synthetic data and scored mostly by an exact match on identifiers. | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
+| **Cross-attention model** | A vision-language model, such as Flamingo, whose frozen language model receives images through cross-attention layers added between its own layers. | [10.12](10-llm-internals/12-alignment-and-multimodality.md) |
 | **Cross-entropy** | The usual training loss for classifiers, which rewards a high probability on the correct label. | [09.06](09-efficient-deep-learning/06-knowledge-distillation.md) |
 | **CUDA** | NVIDIA's programming language for writing code that runs on its GPUs. | [10.05](10-llm-internals/05-gpus-tpus-and-kernels.md) |
 | **CUDA cores** | The other kind of unit on a GPU; work such as scaling runs on them, best after the main loop | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
@@ -317,6 +318,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Differential testing** | Comparing a model's output with a reference implementation or with several other models instead of with a label. | [08.04](08-quality-assurance/04-testing-without-oracles.md) |
 | **Diffusion model** | A generative model that produces an image by removing noise over many steps. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
 | **Direct injection** | A prompt injection in which the attacker types the instruction into the application. | [04.02](04-safety-and-security/02-jailbreaks-and-prompt-injection.md) |
+| **Discriminative task** | A task that labels the input the model is given, as sentiment analysis or entailment does. | [10.03](10-llm-internals/03-transformer-architectures-and-hyperparameters.md) |
 | **Discriminator** | The half of a GAN that learns to tell real images from generated ones. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
 | **Distillation loss** | A penalty on the difference between the teacher's and the student's output distributions. | [09.06](09-efficient-deep-learning/06-knowledge-distillation.md) |
 | **Distributed data parallel (DDP)** | Data parallelism in which every GPU holds a full copy of the model, each one takes its own slice of the batch, and the gradients are averaged after the backward pass. | [10.06](10-llm-internals/06-parallelism.md) |
@@ -482,6 +484,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Generation** (also called: Decode) | The phase that generates one token per step, limited by memory traffic. | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
 | **Generative agents** | A system of about twenty simulated townspeople, each keeping a diary of what happened and adding conclusions drawn from it, in Yao's example. | [01.04](01-foundations/04-using-llms-tokens-context-and-sampling.md) |
 | **Generative model** | A model that produces text or images rather than choosing a label. | [08.02](08-quality-assurance/02-measuring-model-quality.md) |
+| **Generative task** | A task in which the model produces the answer itself, token by token, as translation or summarization does. | [10.03](10-llm-internals/03-transformer-architectures-and-hyperparameters.md) |
 | **Generator and critic** | A run-time pattern in which one agent produces and another checks it with new information. | [05.05](05-frameworks-and-multi-agent/05-multi-agent-systems-ii-the-llm-era.md) |
 | **Genetic algorithm** | A search that keeps the candidates that work, mutates them, and repeats. | [04.02](04-safety-and-security/02-jailbreaks-and-prompt-injection.md) |
 | **Global surrogate model** | A small interpretable model trained to imitate a model's predictions. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
@@ -661,6 +664,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Lean** | The proof assistant used by AlphaProof and by most of the systems in this part. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Lean-STaR** | A method that trains a model to think in natural language before each formal tactic. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Learned detector** | A classifier trained to label inputs or outputs as attacks. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
+| **Learned query** | A trained vector that has no input of its own and only asks; in the perceiver resampler five of them stand for the fixed number of output vectors. | [10.12](10-llm-internals/12-alignment-and-multimodality.md) |
 | **Learning rate** | The size of the step a training loop takes at each update; a hyperparameter. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
 | **Least privilege** (also called: Principle of least privilege) | The principle that a component gets only the permissions its current task needs. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
 | **Least-to-most prompting** | Splitting a problem into subquestions and answering them easiest first. | [01.05](01-foundations/05-prompting-and-in-context-learning.md) |

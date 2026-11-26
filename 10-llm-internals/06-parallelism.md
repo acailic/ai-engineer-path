@@ -1,6 +1,6 @@
 # 06. Parallelism
 
-**Level:** Professional · **Reading time:** 20 min · **Exercise:** 45 min
+**Level:** Professional · **Reading time:** 21 min · **Exercise:** 45 min
 **Prerequisites:** [GPUs, TPUs and Kernels](05-gpus-tpus-and-kernels.md), for the single-GPU picture, and [Resource Accounting](02-resource-accounting-flops-memory-and-arithmetic-intensity.md), for the 12 bytes per parameter of mixed-precision Adam.
 
 > **In one sentence:** After this chapter you can name what each parallelism strategy splits and what it costs in communication, and estimate the memory that sharding saves per GPU.
@@ -49,7 +49,7 @@ One identity carries most of the lecture: all-reduce is reduce-scatter followed 
 
 Liang's accounting for an all-reduce on a tensor of `size` bytes: each rank sends about `2 × (world size − 1) × size`. The effective bandwidth, bytes sent divided by time and averaged over the ranks, is `2 × (world size − 1) / world size × size` per second, which approaches twice the size per second as the cluster grows. It is independent of world size and of whether messages travel a ring or a tree. His four-GPU run measures about 400 GB/s ([48:00](https://www.youtube.com/watch?v=SzpOcwdIL0Y&t=2880), [50:00](https://www.youtube.com/watch?v=SzpOcwdIL0Y&t=3000)).
 
-That accounting counts bytes. The shape of the exchange decides how many rounds they travel in. Song Han compares the shapes in his Lecture 19 ([26:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=1560)). A ring keeps the load on each node constant, because a node talks only to its neighbors, but it needs a number of rounds that grows with the cluster. Letting every node run the whole reduction at the same time takes constant time, but the load on each node grows with the number of nodes and the traffic in total grows with its square, which is too much. His answer is **recursive halving**, which people also call the butterfly all-reduce, because the pattern of its exchanges looks like one. With eight nodes, each node first exchanges with its neighbor at a distance of one, then at a distance of two, then at a distance of four. After log n rounds, three here, every node holds every contribution. He says it is much more widely used than a central server, and that his own lab uses it instead of one.
+That accounting counts bytes. The shape of the exchange decides how many rounds they travel in. Song Han compares the shapes in his Lecture 19 ([26:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=1560)). A ring keeps the load on each node constant, since a node talks only to its neighbors, but its rounds grow with the cluster. Letting every node run the whole reduction at once takes constant time, but each node's load grows with the number of nodes and the traffic with its square, which is too much. His answer is **recursive halving**, named the butterfly all-reduce after the shape of its exchanges. With eight nodes, each node first exchanges with its neighbor at a distance of one, then of two, then of four. After log n rounds, three here, every node holds every contribution. It is much more widely used than a central parameter server, he says, and his own lab uses it instead of one.
 
 ### 2. Data parallelism
 
@@ -110,7 +110,7 @@ Shard the width: each weight matrix is split into pieces that live on different 
 - **Expert parallelism** places different experts of a mixture-of-experts layer on different GPUs and routes tokens with all-to-all (Chapter 04). It complicates combinations: experts change only the MLPs, not the attention, so you want high tensor parallelism for the attention and low for the experts. Recent systems decouple the two ([58:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=3480), [60:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=3600)).
 - **Sequence parallelism** and **context parallelism** split the sequence length, which matters for long inputs. Context parallelism, or ring attention, spreads the activations of a long sequence across accelerators and passes them around a ring. It is used in long-context extension and in serving ([60:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=3600)).
 - **Activation recomputation** returns from Chapter 02: recompute instead of storing, to fit more. Hashimoto's counterintuitive tip: more recomputation can raise throughput, because saved memory becomes a larger batch, and pipelines need large batches ([72:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=4320)).
-- **Ulysses** is the other sequence-parallel method in Han's Lecture 19: it repartitions the attention layers, where ring attention passes the sequence around a ring. His lab has recently combined the two into a 2D parallelism that follows the hardware: within a node, its eight GPUs talk to each other at a higher bandwidth than nodes do across the network, so Ulysses is used inside each node and ring attention carries the sequence from node to node ([66:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=3960)). The paper is open source.
+- **Ulysses** is the other sequence-parallel method in Han's Lecture 19: it also splits the sequence, but an all-to-all exchange before attention switches the split to heads, so each GPU holds the whole sequence for its heads ([58:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=3480)). His lab has recently combined the two into a 2D parallelism that follows the hardware: eight GPUs inside a node talk at a higher bandwidth than nodes do across the network, so Ulysses runs inside each node and ring attention carries the sequence from node to node ([66:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=3960)). The paper is open source.
 
 ### 7. Putting it together
 
@@ -162,7 +162,7 @@ On pipelines he quotes the folklore that they are terrible, and answers that bat
 
 He closes with what recent runs did. Olmo, a 7B model, was trained entirely with FSDP, as many 7B-class models are. DeepSeek V1 used ZeRO stage 1 with tensor, sequence and pipeline parallelism. DeepSeek V3 used pipeline parallelism with 64-way expert parallelism ([72:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=4320)). NVIDIA's recommended configuration for Mixtral 8x22B uses expert parallelism of 8, pipeline parallelism of 4 and tensor parallelism of 4 on the attention layers, which follows the prescription. One number stands out as a reminder that scale brings failures: during Llama 3 405B training, he notes, GPUs failed 148 times ([76:00](https://www.youtube.com/watch?v=6-cXp-aOmdg&t=4560)).
 
-His Lecture 20 in the MIT course sorts the cost of communication in two, each with its own remedy ([57:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=3420)). Bandwidth is answered by compressing the gradients, by pruning them or by quantizing them, to one bit for example. Latency is answered by delaying the gradient update, in the way a student asks for a late day for homework, while the gradients travel; training still converges quite well, he reports. [Efficient Vision, Generative Models and Distributed Training](../09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) has both methods.
+Song Han's Lecture 20 in the MIT course sorts the cost of communication in two, each with its own remedy ([57:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=3420)). Bandwidth is answered by compressing the gradients, by pruning them or by quantizing them, to one bit for example. Latency is answered by delaying the gradient update, in the way a student asks for a late day for homework, while the gradients travel; training still converges quite well, he reports. [Efficient Vision, Generative Models and Distributed Training](../09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) has both methods.
 
 ## Pitfalls
 
@@ -224,6 +224,11 @@ You are done when:
    - B. Gathers them before the layer runs and frees them afterwards
    - C. Sends them to the CPU after each epoch
    - D. Quantizes them to 8 bits
+6. How many rounds does recursive halving take on eight nodes?
+   - A. Three
+   - B. Four
+   - C. Seven
+   - D. Eight
 
 <details><summary>Show answers</summary>
 
@@ -232,6 +237,7 @@ You are done when:
 3. B. More micro-batches shrink it.
 4. C. That traffic only pays off on NVLink-class links.
 5. B. All-gather, compute, free, then reduce-scatter the gradients.
+6. A. Three rounds, log n; it keeps the ring's load per node and the parallel reduce's short time.
 
 </details>
 

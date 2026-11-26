@@ -1,6 +1,6 @@
 # 05. GPUs, TPUs and Kernels
 
-**Level:** Professional · **Reading time:** 20 min · **Exercise:** 60 min
+**Level:** Professional · **Reading time:** 21 min · **Exercise:** 60 min
 **Prerequisites:** [Resource Accounting](02-resource-accounting-flops-memory-and-arithmetic-intensity.md), for arithmetic intensity and the memory-bound versus compute-bound distinction.
 
 > **In one sentence:** After this chapter you can describe a GPU's memory hierarchy, say what a kernel is and why speed is mostly about moving fewer bytes, and read a simple Triton kernel.
@@ -52,7 +52,7 @@ Blocks exist because some operations need threads to cooperate. Adding two vecto
 
 Hashimoto's warning about this table is that the programming model promises correctness if you ignore all of it. Performance does not forgive. Liang works two of the rows in Lecture 6. Occupancy: a block of 128 threads that each use 160 registers needs about 20,000 registers, so only three such blocks fit in a B200 SM's 65,000. That is 12 warps out of a maximum of 64, an occupancy of about 18% ([12:00](https://www.youtube.com/watch?v=xnDHaNUvHBg&t=720)). Wave quantization explains the biggest dip in Hashimoto's opening plot. With tiles of 256 by 128, a matrix of size 1792 yields 98 tiles and size 1793 yields 120. An A100 has 108 SMs, so 98 tiles fit in one round, while 120 need a second round for the last 12, and most of the GPU sits idle ([68:00](https://www.youtube.com/watch?v=izZba4UA7iY&t=4080)).
 
-Bank conflicts get the same treatment in Lecture 6 ([14:21](https://www.youtube.com/watch?v=xnDHaNUvHBg&t=861)). The hardware divides shared memory into 32 banks of four bytes each, and in one clock cycle no bank can serve more than a single thread. The worst case is 32 threads that all read the first column of a matrix: a 32-way conflict, in which every access waits for the one before it. Reading by rows would prevent it, but Liang points out that a matrix product cannot always be arranged that way: its kernel takes rows from the first matrix and columns from the second, sometimes after a transpose, so the order of travel cannot always be chosen. Element-wise operations alone can go in any order. Liang names the remedy without developing it: **swizzling**, an arrangement of shared memory that keeps a kernel out of conflicts. The profiler, he adds, shows bank conflicts and occupancy.
+Bank conflicts get the same treatment in Lecture 6 ([14:21](https://www.youtube.com/watch?v=xnDHaNUvHBg&t=861)). The hardware divides shared memory into 32 banks of four bytes each, and in one clock cycle no bank can serve more than a single thread. The worst case is 32 threads that all read the first column of a matrix: a 32-way conflict, every access waiting for the one before it. Reading by rows would prevent it, but Liang points out that a matrix product cannot always be arranged that way: its kernel reads rows from one matrix and columns from the other, sometimes after a transpose, so the order of travel cannot always be chosen. Element-wise operations, by contrast, can go in any order. Liang names the remedy without developing it: **swizzling**, an arrangement of shared memory that keeps a kernel out of conflicts. The profiler, he adds, shows bank conflicts and occupancy.
 
 ### 3. Six tricks
 
@@ -112,7 +112,7 @@ def add_kernel(x_ptr, y_ptr, out_ptr, n, BLOCK: tl.constexpr):
 
 Liang calls Triton generally powerful enough, especially when getting started ([38:00](https://www.youtube.com/watch?v=xnDHaNUvHBg&t=2280)). Triton compiles the kernel to PTX, an assembly language for GPUs.
 
-His softmax example shows how to choose the block for values that have to be combined, in the simple case of a row that fits in one block ([58:05](https://www.youtube.com/watch?v=xnDHaNUvHBg&t=3485)). PyTorch's naive version first takes the largest value of every row, to keep the arithmetic stable, then subtracts it, exponentiates, adds up and divides. Each step launches its own kernel and goes to HBM to read and write, so the whole matrix travels five times in and three times out, where much less would do. In Triton each row becomes one block, because a row is normalized and summed on its own, so blocks neither interact nor need shared memory. The block is as wide as the row, with the width taken up to the next power of two, and there is one block per row. The kernel receives pointers and strides, and positions beyond the row are masked and set to negative infinity, which contributes nothing. The rest is the plain sequence of steps: maximum, subtract, exponentiate, sum, divide, store. Once a whole row fits into one block, he says, a Triton kernel reads almost like ordinary PyTorch. A softmax down a column needs only a change of stride.
+His softmax example shows how to choose the block when values have to be combined, for a row that fits in one block ([58:05](https://www.youtube.com/watch?v=xnDHaNUvHBg&t=3485)). PyTorch's naive version first takes the largest value of every row, to keep the arithmetic stable, then subtracts it, exponentiates, adds up and divides. Each step launches its own kernel and goes to HBM to read and write, so the whole matrix travels five times in and three times out, where much less would do. In Triton each row becomes one block, because a row is normalized and summed on its own, so blocks neither interact nor need shared memory. The block is as wide as the row, rounded up to the next power of two, and there is one block per row. The kernel receives pointers and strides, and positions beyond the row are masked and set to negative infinity, which contributes nothing. The rest is the plain sequence of steps: maximum, subtract, exponentiate, sum, divide, store. Once a whole row fits into one block, he says, a Triton kernel reads almost like ordinary PyTorch. A softmax down a column, he answers, needs only a change of stride.
 
 ### 6. TPUs
 
@@ -163,7 +163,7 @@ His case study is the GeLU activation, with three contestants: a naive PyTorch v
 
 Two cautions from him. The hardware is "a lot messier than the programming model" ([20:00](https://www.youtube.com/watch?v=xnDHaNUvHBg&t=1200)). And everything on the GPU runs asynchronously, so a timer must record its end event and synchronize before it reads the clock ([24:00](https://www.youtube.com/watch?v=xnDHaNUvHBg&t=1440)).
 
-A practitioner's short version of the same lesson comes from Yann Dubois, who gives a systems overview in a Berkeley course on agents ([89:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=5340)). A GPU's matrix-multiplication cores are around ten times faster than its other floating-point operations. In a Transformer, matrix multiplication takes most of the FLOPs but only about two-thirds of the running time, while element-wise operations and normalization take few FLOPs and a large amount of time. The score to maximize is the **model FLOP utilization** (MFU), the throughput a run achieves over the hardware's theoretical best, as [Resource Accounting: FLOPs, Memory and Arithmetic Intensity](02-resource-accounting-flops-memory-and-arithmetic-intensity.md) defines it. Fifty percent is in really good shape, he says, and even big companies may be working to get above 15 or 20%. His list of optimizations is the one in this chapter: lower precision, fusion, which `torch.compile` performs, tiling, and recomputation, which FlashAttention added to the other two. FlashAttention's first version, he notes, brought a 1.7× end-to-end speed-up ([104:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=6240)).
+A practitioner's short version of the same lesson comes from Yann Dubois, who gives a systems overview in a Berkeley course on agents ([89:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=5340)). A GPU's matrix-multiplication cores are around ten times faster than most of its other floating-point operations. In a BERT Transformer, by the count of a 2020 paper he shows, matrix multiplication takes most of the FLOPs but only about two-thirds of the running time, while element-wise operations and normalization take few FLOPs and a large amount of time. The score to maximize is the **model FLOP utilization** (MFU), the throughput a run achieves over the hardware's theoretical best, as [Resource Accounting: FLOPs, Memory and Arithmetic Intensity](02-resource-accounting-flops-memory-and-arithmetic-intensity.md) defines it. Fifty percent is in really good shape, he says, and even big companies may be working to get above 15 or 20%. His optimizations are all on this chapter's list of tricks: lower precision, fusion, which `torch.compile` performs, tiling, and recomputation, which FlashAttention added to fusion and tiling. FlashAttention's first version, he notes, brought a 1.7× end-to-end speed-up ([104:00](https://www.youtube.com/watch?v=r1qZpYAmqmg&t=6240)).
 
 ## Pitfalls
 
@@ -247,6 +247,11 @@ You are done when:
    - B. A warp
    - C. A thread block
    - D. A whole node
+6. In Liang's Triton softmax, why is each row one block?
+   - A. Each row is normalized on its own, so blocks do not interact
+   - B. Shared memory holds only one row
+   - C. The GPU runs only one block per SM
+   - D. Rows must be processed in order
 
 <details><summary>Show answers</summary>
 
@@ -255,6 +260,7 @@ You are done when:
 3. C. n/t times from HBM, then t reuses from shared memory.
 4. B. Benchmarks give end-to-end time; profiles break it down by kernel.
 5. C. You describe what a block does with its piece of the data.
+6. A. Nothing crosses rows, so blocks need no shared memory; the block is as wide as the row.
 
 </details>
 
