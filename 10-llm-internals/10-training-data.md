@@ -71,7 +71,7 @@ Keep documents above a threshold. Some pipelines keep probabilistically, in prop
 | Domain | Rules plus a model of the domain | OpenMathText kept math-like text; its 14.7 billion tokens trained models that beat others trained on 20 times more |
 | Toxicity | A classifier on labeled comments | Dolma used the Jigsaw toxic-comments dataset |
 
-No single threshold is right. The lecturer's rule at [16:00](https://www.youtube.com/watch?v=5sxHosTLPF8&t=960): a long training run tolerates lower-quality data, a short one wants the best only. Lecture 13's slides add that strong quality filters can throw away about 90% of the crawl.
+No single threshold is right. The lecturer's rule at [16:00](https://www.youtube.com/watch?v=5sxHosTLPF8&t=960): a long training run tolerates lower-quality data, a short one wants higher-quality data in general. Lecture 13's slides add that strong quality filters can throw away about 90% of the crawl.
 
 ### 4. Deduplicate
 
