@@ -115,6 +115,8 @@ Kästner names six reasons offline accuracy comes out too high (chapter 15). The
 
 **Label leakage** deserves an example. A much-retold story tells of an early military image classifier that learned to tell tanks from weather: the tank photos were taken on sunny days. The story is probably apocryphal, as Kästner notes, but the pattern is real. In a support queue, a template footer that only the billing team's tool prints would let a model "predict" billing without reading the ticket.
 
+A suspicious score does not say what the shortcut is. **Model inspection** is a second route, the counterpart of a code review, which reads code without running it: ask whether the rules the model learned are plausible or lean on a shortcut. A small model, such as a decision tree, can be read directly. For a larger one, an explainability tool must show which inputs move the output. Kästner's example is a cancer model heavily influenced by the pixels in a corner of each image, which suggests a shortcut through the scanner's identifier ([chapter 15](https://mlip-cmu.github.io/book/15-model-quality.html)). [Explainability, Fairness and Safety](13-explainability-fairness-and-safety.md) covers those tools.
+
 ## Worked example
 
 Precision, recall, and why accuracy flatters a do-nothing model, in plain Python. Ten tickets, three of them urgent. The list holds a 1 for each urgent ticket.

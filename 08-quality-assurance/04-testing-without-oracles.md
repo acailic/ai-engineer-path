@@ -91,6 +91,8 @@ A **simulator** builds the input from a known answer, which reverses the oracle 
 
 **Red teaming** puts experts to work attacking the system on purpose. End-user audits do the same with real users from minority groups. Kästner reports the critics' view, that such audits can look like theater, and argues for a narrower use: they are a good way to discover requirements you missed. Each finding becomes a slice, a behavioral test, or an invariant (chapter 15).
 
+The term comes from software security: testers who act as attackers, as in penetration testing. Behavioral testing starts from requirements. A red team has no such list: experts who know the common attacks probe a system step by step, on intuition, to learn what it can be made to do. Large general-purpose models such as LLMs are now red-teamed to find ways around their safety mechanisms. An end-user audit has a narrower target. Before a wide release, users from minority groups try the system to find discriminatory behavior the developers did not think to test ([chapter 15](https://mlip-cmu.github.io/book/15-model-quality.html)). For an agent, see [Red-Teaming and Safety Evaluation](../04-safety-and-security/06-red-teaming-and-safety-evaluation.md).
+
 ## Worked example
 
 Invariant tests for the triage feature. A stand-in model keeps the file runnable with no API calls and no cost. The `pytest` code is illustrative: it uses `pytest.mark.parametrize` in its long-standing form and was not re-checked against the documentation for this chapter.

@@ -4,7 +4,7 @@
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=sTz2tXG1T0c) · **Slides:** [slides](https://www.dropbox.com/scl/fi/aa5ea0hrc68cn3fh18nan/Lec13-LLM-Deployment.pdf?rlkey=gzq9yiddx4bnh14bxomtfmcoj&dl=0)
 **Chapters that cite this lecture:** [08. Efficient LLM Inference and Deployment](../09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md)
 
-> **In one sentence:** Song Han shows how to deploy language models cheaply: SmoothQuant and AWQ, the quantization methods of his group, the QServe engine that combines them, three kinds of sparsity, and the serving techniques of modern inference libraries, paged KV caches, FlashAttention, speculative decoding and continuous batching.
+> **In one sentence:** Song Han shows how to deploy language models cheaply: SmoothQuant and AWQ, the quantization methods of his group, QServe, which combines them, three kinds of sparsity, and the serving techniques of modern inference libraries, paged attention, FlashAttention, speculative decoding and continuous batching.
 
 ## Before you watch
 
@@ -14,12 +14,12 @@ The chapter [Efficient LLM Inference and Deployment](../09-efficient-deep-learni
 
 ### [0:00–2:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=0) Plan
 
-The agenda in three parts: quantization, from 8-bit weights and activations to weight-only 4-bit to QServe, which quantizes both; sparsity, in weights, in contextual activation and in attention; and system support, with paged attention, FlashAttention, speculative decoding and batching. Inference time now dominates for models that reason at length, so efficiency matters, and AWQ and a laptop deployment are the subjects of Labs 4 and 5.
+The agenda in three parts: quantization, from 8-bit weights and activations to weight-only quantization to QServe, which quantizes both; sparsity of weights, contextual sparsity and attention sparsity; and system support, with paged attention, FlashAttention, speculative decoding and batching. Inference is getting very important, he says, and the scaling of inference time is crucial, so efficiency matters, and AWQ and a laptop deployment are the subjects of Labs 4 and 5.
 **In this book:** [Efficient LLM Inference and Deployment › How it works: count first](../09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md#how-it-works-count-first).
 
 ### [2:00–4:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=120) Why old quantization fails on language models
 
-Techniques that work on convolutional networks lose accuracy on language models from 1.3 billion parameters upward. The cause is outliers: a few activation channels, three of 5,000 in Han's plot, hold very large values for every token. Quantizing the tensor to the outliers' range clamps all the other values to zero. Weights, by contrast, are flat and easy to quantize; activations are the problem.
+Techniques that work on convolutional networks lose accuracy on large language models: in a plot that runs from 1.3 to 175 billion parameters, only the small models hold up. The cause is outliers: a few activation channels, three of 5,000 in Han's plot, hold very large values for every token. Quantizing the tensor to the outliers' range clamps all the other values to zero. Weights, by contrast, are flat and easy to quantize; activations are the problem.
 **In this book:** [Quantization › Outliers in language models: the SmoothQuant idea](../09-efficient-deep-learning/04-quantization.md#outliers-in-language-models-the-smoothquant-idea) · [Efficient LLM Inference and Deployment › 1. Quantization: weight-only or weights and activations](../09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md#1-quantization-weight-only-or-weights-and-activations).
 
 ### [4:00–10:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=240) SmoothQuant: moving the difficulty
@@ -39,7 +39,7 @@ AWQ, activation-aware weight-only quantization, targets a single user on a devic
 
 ### [20:00–24:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=1200) A few salient channels
 
-Rounding weights to 3 or 4 bits wrecks perplexity, a measure of how well a model predicts text, lower being better. Keeping just 1% of the channels in FP16 restores it. Which 1%? Not the largest weights: selection by activation magnitude does far better, because a weight error is amplified by the activation it multiplies, and outlier channels amplify it most. Keeping a few channels in another precision would force mixed precision on the whole tensor, which complicates the engine.
+Rounding weights to 3 bits wrecks perplexity, a measure of how well a model predicts text, lower being better. Keeping just 1% of the channels in FP16 greatly improves it. Which 1%? Not the largest weights: selection by activation magnitude does far better, because a weight error is amplified by the activation it multiplies, and outlier channels amplify it most. Keeping a few channels in another precision would force mixed precision on the whole tensor, which complicates the engine.
 **In this book:** [Efficient LLM Inference and Deployment › 1. Quantization: weight-only or weights and activations](../09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md#1-quantization-weight-only-or-weights-and-activations).
 
 ### [24:00–28:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=1440) Protect a channel by scaling it
@@ -59,7 +59,7 @@ TinyChat is Han's inference engine: low-level code under a Python interface, for
 
 ### [38:00–44:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=2280) What AWQ delivers
 
-On desktop, laptop and mobile GPUs, 4-bit AWQ models run about three times faster than FP16, and some that overflowed a laptop's 8 gigabytes now fit. A 3D-printed computer built around a Jetson Orin Nano with about 7 gigabytes runs Llama 2 7B at 3.5 gigabytes of weights, with privacy and no internet; on a MacBook's CPU a vision-language model answers questions about a painting at 25 milliseconds per token. By the time of the lecture AWQ had passed six million downloads and was used by NVIDIA's TensorRT-LLM, among others.
+On desktop, laptop and mobile GPUs, 4-bit AWQ models run about three times faster than FP16, and some that overflowed a laptop's 8 gigabytes now fit. A 3D-printed computer built around a Jetson Orin Nano with about 7 gigabytes runs Llama 2 7B at 3.5 gigabytes of weights, with privacy and no internet; a vision-language model on a MacBook's M1 chip, on the CPU alone, answers questions about a painting, and one laptop demo shows 25 milliseconds per token. By the time of the lecture AWQ had passed six million downloads and was used by NVIDIA's TensorRT-LLM, among others.
 **In this book:** [Efficient LLM Inference and Deployment › What the practitioners say](../09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md#what-the-practitioners-say).
 
 ### [44:00–48:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=2640) Combining the two: QServe
@@ -74,22 +74,22 @@ Han dissects quantized matrix multiplication on a GPU. TensorRT's INT8 kernel ke
 
 ### [52:00–56:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=3120) A 4-bit cache, and the order of operations
 
-The KV cache is hard to bring to 4 bits: values are smooth, but keys after rotary embedding have outlier channels. Smooth attention applies the same trick as SmoothQuant between queries and keys, pushing all difficulty into the queries, which are few and stay in FP16. A second detail: converting signed 4-bit integers to 8-bit by subtracting the zero point first overflows into the neighbouring nibble, so multiply by the scale first and subtract after. QServe reaches low perplexity at W4A8 with a 4-bit cache and higher throughput on A100 and L40S GPUs.
+The KV cache is hard to bring to 4 bits: values are smooth, but keys after rotary embedding have outlier channels. Smooth attention applies the same trick as SmoothQuant between queries and keys, pushing all difficulty into the queries, which are few and stay in FP16. A second detail: converting 4-bit integers to signed 8-bit by subtracting the zero point first lets the carry overflow into the next value, so multiply by the scale first and subtract after. QServe reaches low perplexity at W4A8 with a 4-bit cache and higher throughput on A100 and L40S GPUs.
 **In this book:** [Efficient LLM Inference and Deployment › 3. Shrink the KV cache](../09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md#3-shrink-the-kv-cache).
 
 ### [56:00–1:00:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=3360) Pruning weights and activations
 
-Sparsity follows. Wanda prunes weights by weight magnitude times activation magnitude rather than by weight alone, and beats magnitude pruning. Pruning activations statically hurts; contextual sparsity instead finds a small, input-dependent set of useless attention heads and feed-forward dimensions, predicted from the previous layer, and keeps accuracy at high reduction while Deja Vu turns it into speed-up. Mixture of experts is contextual sparsity too: a router sends each token to a few experts. A capacity factor, tokens per batch divided by experts and multiplied by a factor such as 1.5, bounds how many tokens an expert takes.
+Sparsity follows. Wanda prunes weights by weight magnitude times activation magnitude rather than by weight alone, and beats magnitude pruning. Pruning activations statically hurts; contextual sparsity instead finds a small, input-dependent set of useless attention heads and feed-forward dimensions, predicted from the previous layer, and keeps accuracy at high reduction while DejaVu turns it into speed-up. Mixture of experts is contextual sparsity too: a router sends each token to a few experts. An expert's capacity, tokens per batch divided by experts and multiplied by a capacity factor such as 1.5, bounds how many tokens it takes.
 **In this book:** [Efficient LLM Inference and Deployment › What the practitioners say](../09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md#what-the-practitioners-say) · [Attention Alternatives and Mixture of Experts › 6. Mixture of experts](../10-llm-internals/04-attention-alternatives-and-mixture-of-experts.md#6-mixture-of-experts).
 
 ### [1:00:00–1:02:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=3600) Routing, and sparse attention
 
-Routing can be decided per token, each picking its experts, or per expert, each picking its tokens. In attention, SpAtten prunes tokens and heads: a sentence of 11 tokens shrinks to 2, "film perfect", and still reads as positive. A token's importance is its cumulative attention score; tokens such as "I" and "the" receive little and go. H2O applies the same measure, made causal, to prune the KV cache.
+Routing can be decided per token, each picking its experts, or per expert, each picking its tokens. In attention, SpAtten prunes tokens and heads: a sentence of 11 tokens shrinks to 2, "film perfect", and still reads as positive. A token's importance is its cumulative attention score; tokens such as "I" and the final period receive little and go. H2O applies the same measure, made causal, to prune the KV cache.
 **In this book:** [Efficient LLM Inference and Deployment › 2. Attention without the N × N matrix](../09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md#2-attention-without-the-n--n-matrix) · [Attention Alternatives and Mixture of Experts › 5. Sparse attention](../10-llm-internals/04-attention-alternatives-and-mixture-of-experts.md#5-sparse-attention).
 
 ### [1:02:00–1:04:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=3720) Serving metrics
 
-Time to first token is the wait before a response begins, decisive for interaction. Time per output token sets the pace of generation; 100 milliseconds per token gives 10 tokens per second, roughly the threshold below which a model feels slow. Total latency is the first plus the second times the number of tokens. Throughput counts tokens per second over all requests. The system aims to shorten the first, quicken the second and raise throughput, and the last trades against the second. Output length, input length and model size predict cost, though size is not proportional: a 13-billion model is not twice as slow as a 7-billion one.
+Time to first token is the wait before a response begins, decisive for interaction. Time per output token sets the pace of generation; 100 milliseconds per token gives 10 tokens per second, roughly the threshold below which a model feels slow. Total latency is the first plus the second times the number of tokens. Throughput counts tokens per second over all requests. The system aims to shorten the first, quicken the second and raise throughput, and the last trades against the second. Output length, input length and model size predict cost, though size is not proportional: a 70-billion model has about twice the latency of a 13-billion one.
 **In this book:** [Efficient LLM Inference and Deployment › 7. Metrics and serving choices](../09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md#7-metrics-and-serving-choices).
 
 ### [1:04:00–1:08:00](https://www.youtube.com/watch?v=sTz2tXG1T0c&t=3840) PagedAttention
@@ -114,7 +114,7 @@ Running several requests together fills the GPU. Static batching waits for a ful
 
 ## What to take away
 
-- Activation outliers break naive quantization of language models; move the difficulty into the weights by per-channel scaling, the idea behind both SmoothQuant and AWQ.
+- Activation outliers break naive quantization of language models; per-channel scaling that moves difficulty between activations and weights is the idea behind both SmoothQuant and AWQ.
 - For a single user, weights bound speed: 4-bit weights with 16-bit arithmetic triple the speed; for many users, quantize everything to 8 bits and keep dequantization out of the inner loop.
 - Sparsity in weights, activations, attention and the cache can be guided by activations and attention scores.
 - Serving speed rests on paged caches, fused attention kernels, speculative decoding and continuous batching.

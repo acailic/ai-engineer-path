@@ -51,7 +51,7 @@ You cannot hold a whole system in one picture. An **architectural view** shows o
 
 ### Use what others have learned
 
-Architects do not start from scratch. **Architectural styles** are common overall structures. Kästner names six ([chapter 8](https://mlip-cmu.github.io/book/08-thinking-like-a-software-architect.html)):
+Architects do not start from scratch. Kästner writes that they carry two kinds of knowledge ([chapter 8](https://mlip-cmu.github.io/book/08-thinking-like-a-software-architect.html)). **Tacit** knowledge comes from a designer's own experience. **Codified** knowledge is what a community has written down as good practice. An experienced architect may already know several standard designs for one problem, say detecting that a system no longer works properly, together with their trade-offs. Naming those designs gives a team a **design vocabulary**: a name stands for a whole solution, so a discussion can go straight to the qualities at stake. Styles and patterns are the codified kind. **Architectural styles** are common overall structures. Kästner names six ([chapter 8](https://mlip-cmu.github.io/book/08-thinking-like-a-software-architect.html)):
 
 - **Client-server.** One server serves many simpler clients over a network.
 - **Multi-tier.** Requests travel down through layers and never back up. The usual form has three tiers: a presentation tier for the user interface, a logic tier for business rules and a data tier for storage.

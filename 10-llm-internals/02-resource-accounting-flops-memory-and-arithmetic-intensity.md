@@ -33,7 +33,7 @@ Memory for one tensor is its number of values times the bytes per value. A **dat
 | fp32 | 4 | The default in PyTorch; the scientific-computing baseline |
 | fp16 | 2 | Small numbers lose range, which can destabilize training |
 | bf16 | 2 | Same range as fp32, coarser precision (Google Brain, 2018) |
-| fp8 | 1 | Standardized in 2022 for machine learning |
+| fp8 | 1 | Introduced in 2022 for machine learning and since standardized |
 | fp4 | 0.5 | 16 possible values, with a separate scale per block |
 
 A 4 × 8 fp32 matrix is 32 values × 4 bytes = 128 bytes. One feedforward matrix in GPT-3 takes about 2.3 GB, Liang notes ([6:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=360)).
@@ -115,7 +115,7 @@ The last two rows are the reason training is efficient and generation is not. Li
 
 With Adam, the optimizer state is two statistics per parameter in fp32: 8 bytes. Add 2 bytes for the bf16 parameter and 2 for its gradient: 12 bytes per parameter. AdaGrad keeps one statistic, 4 bytes. Liang demonstrates with AdaGrad, an optimizer from 2011 that predates Adam: in his framing, AdaGrad looks at the second moment of the gradient (its average square), momentum at the first (its average), and Adam combines the two ([66:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=3960)).
 
-Activations are the other cost. Training must keep the activations of every layer for the backward pass; his figure is batch size × model dimension × 2 bytes × number of layers ([72:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=4320)). Inference keeps only the current layer's. Two tools trade memory for compute:
+Activations are the other cost. Training must keep the activations of every layer for the backward pass; his figure is batch size × model dimension × 2 bytes × number of layers ([72:00](https://www.youtube.com/watch?v=kuYAsz7zspQ&t=4320)). Inference keeps only the current layer's. Two tools reduce memory:
 
 - **Gradient accumulation**: split a batch into micro-batches, add up their gradients without zeroing them, and update once per full batch.
 - **Activation checkpointing** (also called gradient checkpointing or rematerialization): keep only some layers' activations and recompute the rest in the backward pass.
@@ -194,7 +194,7 @@ You are done when:
 - A training step costs about 6 × tokens × parameters FLOPs. Divide by the MFU-adjusted peak speed to get time.
 - With mixed-precision Adam, plan for 12 bytes per parameter before activations.
 - An operation is memory-bound when its arithmetic intensity is below the chip's. Matrix multiplications with many rows are compute-bound; almost everything else is memory-bound.
-- Gradient accumulation and activation checkpointing trade memory for time.
+- Gradient accumulation and activation checkpointing reduce memory; checkpointing pays with recomputation.
 
 ## Self-check
 
