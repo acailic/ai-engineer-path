@@ -59,7 +59,7 @@ Toronto researchers won a medical question-answering competition against 15 team
 
 ### [38:00–42:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2280) The setting of the optimizer paper
 
-The metric is defined apart from the program: some metrics need labels, others only check that the answer is grounded in retrieved context. The weights stay frozen; only instructions and few-shot demonstrations are optimized, without log probabilities or labels for intermediate steps, with few example inputs (perhaps 150 to 200) and few model calls. Two difficulties follow: a vast discrete search space, and credit assignment, because a local improvement in one module can hurt a module that relied on its output.
+The metric is defined apart from the program: some metrics need labels, others only check that the answer is grounded in retrieved context. The weights stay frozen; only instructions and few-shot demonstrations are optimized, without log probabilities or labels for intermediate steps, with few example inputs (perhaps 200) and few model calls. Two difficulties follow: a vast discrete search space, and credit assignment, because a local improvement in one module can hurt a module that relied on its output.
 **In this book:** nothing beyond this guide; nearest: [Compound AI Systems and DSPy › What the practitioners say](../02-building-agents/05-compound-ai-systems-and-dspy.md#what-the-practitioners-say).
 
 ### [42:00–46:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2520) Three ways to search
