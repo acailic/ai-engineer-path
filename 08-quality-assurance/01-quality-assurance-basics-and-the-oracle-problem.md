@@ -55,6 +55,8 @@ Correctness is only one target. Latency, cost per ticket, robustness to typos, a
 
 Kästner groups assurance techniques into three families, and all three apply to ML systems: **dynamic** techniques execute the code (testing, dynamic program analysis), **static** techniques read it without running it (code review, linting, static data-flow analysis, formal verification), and **process evaluation** looks at how the work was done (are requirements written down, are known bugs tracked).
 
+Kästner describes **static analysis**, which includes linting, as code review done by an algorithm. Each tool looks for one narrow kind of problem: a style violation, an assignment where a comparison was meant, a call to a function that does not exist, code that can never run. A type checker, as in Java, can guarantee that its one kind of mistake is absent, at the cost of false warnings. Most analyses instead rely on heuristics, so they miss some problems and flag harmless code. They are usually weaker for dynamically typed, flexible languages such as Python than for Java or C ([chapter 14](https://mlip-cmu.github.io/book/14-quality-assurance-basics.html)).
+
 ### 4. Name the oracle
 
 This is the step that changes. Pick one of four oracles for each requirement:

@@ -41,6 +41,8 @@ From practice outside the book: one more pattern is common in search and recomme
 
 Write down the system-level goals, such as retention or revenue, and the feature-level signals, such as how many agents accept a suggested queue. Coarse measures take weeks to move. Granular ones respond within minutes (chapter 19).
 
+A system-level number says whether users like the product, not whether your feature helped, and offline evaluation cannot measure them well. So design feature-level measures on purpose, such as how many users switch the feature on and how many still open its output after the first try (chapter 19).
+
 ### 2. Design telemetry that can tell right from wrong
 
 The hard problem is that production data has no labels. Kästner describes seven ways around it (chapter 19):
@@ -62,7 +64,7 @@ Each design trades accuracy, reliability, cost, and latency against the others (
 Kästner follows a three-step pattern for every measure (chapter 19):
 
 1. **The measure.** "The share of suggested queues that an agent overrides within one minute."
-2. **Data collection.** What is logged, and whether it is sampled, anonymized, or aggregated.
+2. **Data collection.** What is logged, and whether it is anonymized, sampled, or aggregated.
 3. **Operationalization.** The exact computation, including which edits count. An agent who adds a tag has not corrected the routing.
 
 ### 4. Put the change behind a feature flag
@@ -91,7 +93,7 @@ Start new versions as shadow releases. Release through a canary. Use an A/B expe
 
 ### 6. Read the result with statistics
 
-Kästner's example makes the point (chapter 19). Fifteen percent of 2,158 users in the control group corrected their meeting minutes, against 10 percent of the twenty users in the treatment group. That looks like a large improvement and proves nothing.
+Kästner's example makes the point (chapter 19). In the control group, 2,158 users saw the old model and 15 percent corrected their meeting minutes; in the treatment group, twenty users saw the new one and 10 percent did. That looks like a large improvement and proves nothing.
 
 ### 7. Build the way back before you need it
 
@@ -148,7 +150,7 @@ What to observe:
 
 ## What the practitioners say
 
-- **Production answers what offline cannot.** Real users try inputs testers never thought of, such as unusual dialects or extreme file sizes (chapter 18).
+- **Production answers what offline cannot.** Real users try inputs testers never thought of, such as unusual dialects or extreme file sizes (chapter 18). Other situations are too costly to rebuild in a test environment, such as a service recovering from a server crash under heavy load. Kästner's answer for both is testing in production (chapter 14).
 - **Telemetry feeds the flywheel.** Labeled production data trains the next model, which improves the product, which attracts users, who produce more data. Weak supervision tools such as Snorkel learn from partial labels (chapter 19).
 - **Experiments beat intuition.** Kohavi and colleagues at Microsoft describe a change to how Bing showed ads, with more text in the link. It raised ad revenue by 12 percent, about 100 million dollars a year, without hurting other engagement measures. Nobody expected it, and the change sat unimplemented for months. It was one of thousands of experiments that year (chapter 19, as reported there).
 - **Run for at least a week.** Usage cycles through the day and week, and novelty effects fade slowly: users poke at a new feature because it is new (chapter 19).
@@ -209,6 +211,7 @@ You are done when the same user lands in the same group on every request, when t
 
 - **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 19: [link](https://mlip-cmu.github.io/book/19-testing-and-experimenting-in-production.html)
 - **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 18, for fire drills: [link](https://mlip-cmu.github.io/book/18-system-quality.html)
+- **Book:** Christian Kästner, *Machine Learning in Production: From Models to Products* (MIT Press, 2025), chapter 14, on testing in production: [link](https://mlip-cmu.github.io/book/14-quality-assurance-basics.html)
 
 ## Next
 

@@ -44,7 +44,7 @@ Pass the model call, the database connection, or the file contents as arguments.
 
 ### 3. Decide the error handling, point by point
 
-Kästner recommends being explicit about every failure scenario a pipeline can meet (chapter 17). His own questions: what if the training data misses some values, if a whole column is absent during feature engineering, the step that turns raw data into model inputs, if an external inference service times out, if the upload of the trained model fails? There is no single right answer. For each, choose to recover or to raise, then document and test the decision.
+Kästner recommends being explicit about every failure scenario a pipeline can meet (chapter 17). His own questions: what if the training data misses some values, if a whole column is absent during feature engineering, the step that turns raw data into model inputs, if an external inference service times out, if uploading the trained model does not succeed? There is no single right answer. For each, choose to recover or to raise, then document and test the decision.
 
 | Situation | Recover | Or raise |
 |---|---|---|
@@ -82,7 +82,7 @@ You can assume that pandas and scikit-learn compute a mean correctly (chapter 17
 
 ### 6. Put data checks at the boundaries, and test the checks
 
-Any code that receives data should check it, and the check is code too (chapter 17). **Detection** usually returns true or false, so test it with valid and invalid examples. **Repair** returns corrected data, so test that broken input comes out as intended. If repair is impossible, or problems become frequent, the pipeline should raise.
+Every piece of code that takes in data ought to validate it, and the validation is code too (chapter 17). **Detection** usually returns true or false, so test it with valid and invalid examples. **Repair** returns corrected data, so test that broken input comes out as intended. If repair is impossible, or problems become frequent, the pipeline should raise.
 
 ### 7. Wire it into the process
 
@@ -161,11 +161,11 @@ What to observe:
 ## What the practitioners say
 
 - **Failures are silent.** Kästner opens the chapter with two stories from a delivery business that retrains daily. In one, the training data outgrew its virtual machine, training failed, and an aging model stayed in production for weeks until customers complained. In the other, an extraction job crashed after a connector update, and the model retrained every day on the same stale data while operators saw successful runs and stable offline accuracy (chapter 17).
-- **Review finds more than tests can.** He names what review surfaces in data code: problematic data transformations, inefficient encoding of features, poor handling of data-quality issues, and suggestions for better modeling (chapter 17).
+- **Review finds more than tests can.** He names what review surfaces in data code: problematic data transformations, features encoded wastefully, data-quality problems handled poorly, and suggestions for better modeling (chapter 17).
 - **Review less while exploring, more when shipping.** Reviewing every change in an exploratory notebook is not worth it. Once the pipeline is production-bound, review the whole thing once and every change after that (chapter 17).
 - **Modularity is the precondition for testing.** Each `if` can double the paths through a program, so small units with few decisions and few external interactions are the ones that can be tested (chapter 17).
 - **Isolate tests from dependencies.** A database that is sometimes slow makes tests flaky although the code is fine (chapter 17).
-- **Tooling for data code is thin.** At the time of writing, he found few ready-to-use static-analysis tools aimed at data-science code, and points to generic ones such as Flake8 for style issues and simple bug patterns. The academic tools he lists each target one problem: Pythia checks tensor shapes in TensorFlow programs, Leakage Analysis finds places where training and test data are not strictly separate, PySmell detects code smells in data-science code, and mlint checks that a project uses version control, dependency management, and tests (chapter 17).
+- **Tooling for data code is thin.** At the time of writing, he found few ready-to-use static-analysis tools aimed at data-science code, and points to generic ones such as Flake8 for style issues and simple bug patterns. The academic tools he lists each target one problem: Pythia checks tensor shapes in TensorFlow programs, Leakage Analysis finds places where test data is not kept strictly apart from training data, PySmell detects code smells in data-science code, and mlint checks that a project uses version control, dependency management, and tests (chapter 17).
 - **A maturity score exists.** A group at Google proposed an ML test score: twenty-eight concerns around a pipeline, grouped under feature tests, model tests, infrastructure tests, and production monitoring. A team earns a point for each concern it tests and a second point when that test is automated. Examples are whether a feature benefits the model, canary releases, meaning releases shown first to a small share of users, and monitoring for training-serving skew, a difference between the data used for training and the data seen in production (chapter 17). Kästner cautions that the list may not fit every project, and sees it as a starting point for agreeing what a team must track.
 - **Plan the effort.** Quality assurance belongs in the milestone that releases a model, and it is a prerequisite for letting a pipeline run and deploy on a schedule without a developer in the loop. Managers should allocate time and name who delivers it (chapter 17).
 

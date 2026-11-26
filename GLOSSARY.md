@@ -373,6 +373,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Feature interaction** | A failure that appears only when components that each work as specified are combined. | [08.08](08-quality-assurance/08-system-quality-end-to-end-tests-and-guardrails.md) |
 | **Feature store** | A central catalog of reusable feature-encoding code that can also precompute and cache feature vectors. | [07.07](07-ml-in-production/07-deploying-a-model.md) |
 | **Feature vector** | The sequence of numbers that represents an input for a model. | [07.07](07-ml-in-production/07-deploying-a-model.md) |
+| **Feature-level measure** | An online success measure designed for one feature, such as how many users switch it on, because a system-level number cannot say whether that feature helped. | [08.09](08-quality-assurance/09-testing-and-experimenting-in-production.md) |
 | **Federated learning** | Training on user devices and sharing model updates with a server that averages them. | [09.09](09-efficient-deep-learning/09-llm-post-training-and-on-device-training.md) |
 | **Feedback loop** | A cycle in which a system's predictions change the environment and so change the data the next model learns from. | [07.01](07-ml-in-production/01-from-models-to-systems-and-products.md) |
 | **Few-shot prompting** (also called: Few-shot) | Including a handful of worked examples in the prompt before the real input. | [01.05](01-foundations/05-prompting-and-in-context-learning.md) |
@@ -475,6 +476,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Hedge** | A self-play algorithm that picks regularized best responses and converges faster than fictitious play. | [05.04](05-frameworks-and-multi-agent/04-multi-agent-systems-i-games-and-self-play.md) |
 | **Held-out set** (also called: Held-out data) | Tasks that are never used while developing, so that a score on them still means something. | [03.07](03-evaluation/07-evals-in-production.md) |
 | **Hessian** | The matrix of second derivatives of the loss, used to estimate a weight's importance. | [09.03](09-efficient-deep-learning/03-pruning-and-sparsity.md) |
+| **Heuristic** | A rule of thumb that points out what looks like a problem, so it can miss real problems and flag harmless code. | [08.01](08-quality-assurance/01-quality-assurance-basics-and-the-oracle-problem.md) |
 | **Heuristic attack** | An attack payload written by a person, such as context ignoring or a fake completion. | [04.02](04-safety-and-security/02-jailbreaks-and-prompt-injection.md) |
 | **Hidden stratification** | A label that looks uniform while hiding subgroups on which a model performs very differently. | [08.03](08-quality-assurance/03-slicing.md) |
 | **Hippocampal indexing theory** | The theory that raw memories live in the cortex and an index in the hippocampus links them. | [02.04](02-building-agents/04-memory-and-knowledge-for-agents.md) |
@@ -1075,6 +1077,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **System of record** | The database that holds the real state of a business, such as whether an order was refunded. | [03.07](03-evaluation/07-evals-in-production.md) |
 | **System prompt** | A separate input field for instructions that apply to a whole conversation. | [01.04](01-foundations/04-using-llms-tokens-context-and-sampling.md) |
 | **System test** | A test that the whole product meets its requirements end to end, which verifies that the system was built right. | [08.08](08-quality-assurance/08-system-quality-end-to-end-tests-and-guardrails.md) |
+| **System-level measure** | An online measure of the success of the whole product, such as revenue or retention, which is easy to collect and slow to move. | [08.09](08-quality-assurance/09-testing-and-experimenting-in-production.md) |
 
 ## T
 
@@ -1146,6 +1149,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Trust boundary** | A line where data crosses from one party to another; in an agent every tool result and fetched page crosses one. | [04.01](04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md) |
 | **Turn limit** | A cap on how many messages a conversation may contain before the runtime stops it. | [05.02](05-frameworks-and-multi-agent/02-autogen-conversation-programming.md) |
 | **Two-agent chat** | A chat pattern in which two agents alternate until a stop condition holds. | [05.02](05-frameworks-and-multi-agent/02-autogen-conversation-programming.md) |
+| **Type checker** | A static analysis, as in Java, that can guarantee its one kind of mistake is absent when it reports nothing, at the cost of false warnings. | [08.01](08-quality-assurance/01-quality-assurance-basics-and-the-oracle-problem.md) |
 
 ## U
 
