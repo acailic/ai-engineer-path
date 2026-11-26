@@ -69,7 +69,7 @@ One guide per lecture of the four courses, in [`lectures/`](lectures/README.md).
 
 In the guides: 1,207 parts of lectures, of which 231 (19%) are taught by no chapter and are explained only in the guide.
 
-What is checked: each guide passes an automatic check before it is published (the parts cover the lecture end to end, every part links to its moment in the video, every link to a chapter section resolves, no passage is copied from the lecture). What is not checked: nobody has read a guide a second time against the lecture. If a guide and the lecture disagree, the lecture wins.
+What is checked: each guide passes an automatic check before it is published (the parts cover the lecture end to end, every part links to its moment in the video, every link to a chapter section resolves, no passage is copied from the lecture). What is not checked: 42 of the 77 guides have not been read a second time against the lecture (15 guides of the MIT and Fall 2025 courses and all 18 of the Stanford course, apart from 3 that were read only in part); the other 35 were read a second time by an AI reviewer on 2026-11-26 and corrected. If a guide and the lecture disagree, the lecture wins.
 
 ## Table of contents
 
@@ -268,8 +268,8 @@ The chapters were checked in two ways, described in [VERIFICATION.md](VERIFICATI
 - Facts that change fast (model names, prices, APIs, products, regulation) are true as of the date each chapter gives.
 - YouTube links were not checked, and not every external link was reopened.
 - The transcripts are machine-made and can garble names. The lectures are the authority.
-- The lecture guides: 51 of the 77 passed the automatic check only: nobody has read them a second time against the lecture (all guides of the MIT and Stanford courses and most of the Fall 2025 course). The other 26 were read a second time by an AI reviewer, not by a person, and corrected.
-- The chapters in parts 07 and 08 were checked statement by statement against the book *Machine Learning in Production*, and their coverage was reviewed from 2026-11-26. A word-overlap count had flagged 82 of its 399 sections as possibly reflected only in part; these sections were read against the chapters, in 10 groups. Eight groups are finished and the sections a reader needs were added to the chapters; the groups for book chapters 8 to 13 and for chapter 15 are not finished. The review also found 35 sentences in 19 chapters that repeated the book's wording without quotation marks; all were rephrased, and the longest passage a chapter now shares with the book outside quotation marks is a paper title.
+- The lecture guides: 42 of the 77 passed the automatic check only: nobody has read them a second time against the lecture (15 guides of the MIT and Fall 2025 courses and all 18 of the Stanford course, apart from 3 that were read only in part). The other 35 were read a second time by an AI reviewer, not by a person, and corrected.
+- The chapters in parts 07 and 08 were checked statement by statement against the book *Machine Learning in Production*, and their coverage was reviewed from 2026-11-26. A word-overlap count had flagged 82 of its 399 sections as possibly reflected only in part; these sections were read against the chapters, in 10 groups. Eight groups are finished and the sections a reader needs were added to the chapters; the groups for book chapters 8 to 13 and for chapter 15 are still being read. The review also found 35 sentences in 19 chapters that repeated the book's wording without quotation marks; all were rephrased, and the longest passage a chapter now shares with the book outside quotation marks is a paper title.
 
 ## Status and gaps
 
