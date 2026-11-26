@@ -1,8 +1,17 @@
 # AI Engineer Path
 
-A free, self-contained course that takes a software engineer **with no machine-learning background to a professional level** in building with large language models: how the models work, how to build agents, how to evaluate them, how to secure them, how to ship them, and how to run them cheaply.
+A free, self-contained course distilled from six open university courses:
 
-It has 101 chapters in eleven parts, five capstone projects, five checklists and four runnable example programs. Everything here is synthesized from four open university sources and links back to them.
+1. **UC Berkeley** — [LLM Agents MOOC](https://rdi.berkeley.edu/llm-agents/f24) (Fall 2024)
+2. **UC Berkeley** — [Advanced LLM Agents MOOC](https://rdi.berkeley.edu/adv-llm-agents/sp25) (Spring 2025)
+3. **UC Berkeley** — [Agentic AI MOOC](https://rdi.berkeley.edu/agentic-ai/f25) (Fall 2025)
+4. **Carnegie Mellon** — [Machine Learning in Production](https://mlip-cmu.github.io/) (Christian Kästner's course 17-645 and [book](https://mlip-cmu.github.io/book/))
+5. **MIT** — [6.5940 TinyML and Efficient Deep Learning Computing](https://hanlab.mit.edu/courses/2024-fall-65940) (Fall 2024)
+6. **Stanford** — [CS336 Language Modeling from Scratch](https://cs336.stanford.edu/) (Spring 2026)
+
+It turns them into one path that takes a software engineer **with no machine-learning background to a professional level** in building with large language models: how the models work, how to build agents, how to evaluate them, how to secure them, how to ship them, and how to run them cheaply. Nothing is copied: every explanation is rewritten, and every chapter links back to the lectures and readings it draws on ([sources](SOURCES.md)).
+
+It has 101 chapters in eleven parts, five capstone projects, five checklists, four runnable example programs and 77 lecture guides.
 
 You can also read it as a website: **[acailic.github.io/ai-engineer-path](https://acailic.github.io/ai-engineer-path/)**. Every page there has a **Read aloud** button that reads the page to you with your browser's own voices, follows the text, and lets you change the speed and the voice. It works in Chrome, Edge and Safari, on a computer and on a phone; it needs no account.
 
@@ -55,9 +64,9 @@ It does not mean training a frontier model. It does not replace experience with 
 
 ## Lecture guides
 
-One guide per lecture of the four courses, in [`lectures/`](lectures/README.md). A guide maps a whole lecture, part by part, and names for each part the chapter section that teaches the same thing; where no chapter teaches it, the guide explains the part itself.
+One guide per lecture of the five video courses, in [`lectures/`](lectures/README.md). A guide maps a whole lecture, part by part, and names for each part the chapter section that teaches the same thing; where no chapter teaches it, the guide explains the part itself.
 
-**All 77 guides are written, one for each lecture of the four courses (complete on 2026-11-26).** The table is regenerated from the files.
+**All 77 guides are written, one for each lecture of the five video courses (complete on 2026-11-26).** The table is regenerated from the files.
 
 | Course | Guides | Lectures |
 |---|---|---|
