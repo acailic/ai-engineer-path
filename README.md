@@ -1,16 +1,42 @@
 # AI Engineer Path
 
-A free, self-contained course that takes a software engineer **with no machine-learning background to a professional level** in building with large language models: how the models work, how to build agents, how to evaluate them, how to secure them, how to ship them, and how to run them cheaply.
+> **You need:** Python, Git and the terminal. **You do not need:** any ML, advanced math or a GPU to start. [Details](#what-you-need-before-you-start)
 
-It has 101 chapters in eleven parts, five capstone projects, five checklists and four runnable example programs. Everything here is synthesized from four open university sources and links back to them.
+A free, self-contained course distilled from six open university courses:
+
+1. **UC Berkeley** — [LLM Agents MOOC](https://rdi.berkeley.edu/llm-agents/f24) (Fall 2024)
+2. **UC Berkeley** — [Advanced LLM Agents MOOC](https://rdi.berkeley.edu/adv-llm-agents/sp25) (Spring 2025)
+3. **UC Berkeley** — [Agentic AI MOOC](https://rdi.berkeley.edu/agentic-ai/f25) (Fall 2025)
+4. **Carnegie Mellon** — [Machine Learning in Production](https://mlip-cmu.github.io/) (Christian Kästner's course 17-645 and [book](https://mlip-cmu.github.io/book/))
+5. **MIT** — [6.5940 TinyML and Efficient Deep Learning Computing](https://hanlab.mit.edu/courses/2024-fall-65940) (Fall 2024)
+6. **Stanford** — [CS336 Language Modeling from Scratch](https://cs336.stanford.edu/) (Spring 2026)
+
+It turns them into one path that takes a software engineer **with no machine-learning background to a professional level** in building with large language models: how the models work, how to build agents, how to evaluate them, how to secure them, how to ship them, and how to run them cheaply. Nothing is copied: every explanation is rewritten, and every chapter links back to the lectures and readings it draws on ([sources](SOURCES.md)).
+
+It has 101 chapters in eleven parts, five capstone projects, five checklists, four runnable example programs and 77 lecture guides.
+
+## Who it is for
+
+A software engineer who has never worked with ML or LLMs and wants to get from zero to professional level.
+
+### What you need before you start
+
+| | Needed? | What that means |
+|---|---|---|
+| **Python** | Yes | You can read and write a script of a few hundred lines, and use Git and the terminal. |
+| **Machine learning** | No | The course starts from zero. You do not need to have trained a model. |
+| **Math** | Not for the main path | The statistics you need for evaluation (error bars, comparing two runs) are taught in [Statistics for Evals](03-evaluation/05-statistics-for-evals.md). Part 10 and Capstone 5 are easier with some linear algebra and PyTorch. |
+| **A GPU** | Not for the main path | The examples run on any laptop. Part 10 and Capstone 5 need a rented GPU, by the hour. |
+| **An API key** | For Capstone 1 | The examples need none. Capstone 1 calls a hosted model, which costs from a few cents to a few dollars per evaluation run. |
+| **A habit** | Yes | Asking what a component assumes, what happens when it fails, and how you would know. |
+
+Part 10 (how a language model is built, from Stanford CS336) is the hardest part of the course and comes last. Skip it on a first pass if you only want to build with models.
+
+## Start here
 
 You can also read it as a website: **[acailic.github.io/ai-engineer-path](https://acailic.github.io/ai-engineer-path/)**. Every page there has a **Read aloud** button that reads the page to you with your browser's own voices, follows the text, and lets you change the speed and the voice. It works in Chrome, Edge and Safari, on a computer and on a phone; it needs no account.
 
 Start with [how to use this repository](#how-to-use-this-repository). If you already know what you want, go to the [roadmap](ROADMAP.md), the [table of contents](#table-of-contents) or the [glossary](GLOSSARY.md).
-
-## Who it is for
-
-A software engineer who has never worked with ML or LLMs, who is comfortable with Python, Git and the terminal, and who wants to get from zero to professional level. You do not need to have trained a model. You do need the habit of asking what a component assumes, what happens when it fails, and how you would know.
 
 ## What "professional level" means here
 
@@ -55,9 +81,9 @@ It does not mean training a frontier model. It does not replace experience with 
 
 ## Lecture guides
 
-One guide per lecture of the four courses, in [`lectures/`](lectures/README.md). A guide maps a whole lecture, part by part, and names for each part the chapter section that teaches the same thing; where no chapter teaches it, the guide explains the part itself.
+One guide per lecture of the five video courses, in [`lectures/`](lectures/README.md). A guide maps a whole lecture, part by part, and names for each part the chapter section that teaches the same thing; where no chapter teaches it, the guide explains the part itself.
 
-**All 77 guides are written, one for each lecture of the four courses (complete on 2026-11-26).** The table is regenerated from the files.
+**All 77 guides are written, one for each lecture of the five video courses (complete on 2026-11-26).** The table is regenerated from the files.
 
 | Course | Guides | Lectures |
 |---|---|---|
