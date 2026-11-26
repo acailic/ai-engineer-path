@@ -250,7 +250,7 @@ The [lecture guides](lectures/README.md) were made the same way, from the same m
 
 The chapters were checked in two ways, described in [VERIFICATION.md](VERIFICATION.md) with the results per part.
 
-**Automated checks, run on 2026-11-25.** All 2,636 internal links resolved at that point; the count is 4,962 with the lecture guides, all resolving on 2026-11-26. All 119 arXiv citations (103 papers) carry the title and year of the arXiv record. All 1,459 links to a moment in a lecture were checked against the transcript at that moment. No chapter shares more than 23 words in a row with a source. The 66 standalone Python listings run, and 16 tests pass.
+**Automated checks, run on 2026-11-25.** All 2,636 internal links resolved at that point; the count is 5,005 with the lecture guides, all resolving on 2026-11-26. All 119 arXiv citations (103 papers) carry the title and year of the arXiv record. All 1,459 links to a moment in a lecture were checked against the transcript at that moment; on 2026-11-26 the label and the seconds of each of the 1,622 links in the chapters and guides were checked against each other. No chapter shares more than 23 words in a row with a source. The 66 standalone Python listings run, and 16 tests pass.
 
 **The verification pass, 2026-11-24.** Every statement that a chapter attributes to a lecture or to the book was compared with the source at the cited place. About 1,500 statements were checked and more than 210 corrected. In 72 chapters, passages were deepened with the lecturers' own content.
 
@@ -258,7 +258,7 @@ The chapters were checked in two ways, described in [VERIFICATION.md](VERIFICATI
 
 **Lecture guides, 2026-11-25 and 2026-11-26.** All 77 lectures now have a guide: 1,207 parts. Before a guide is published, an automatic check confirms that its parts cover the lecture end to end without a gap or an overlap, that every part links to the second of the video that its heading names, that every link to a chapter section resolves, and that no run of eight or more words is copied from the lecture outside quotation marks.
 
-**Glossary, 2026-11-25.** Every row of the glossary was checked against the chapter it links to: 12 definitions corrected, 7 links moved to a better chapter, 13 duplicates merged, 16 rows removed and 24 added. The glossary has 1,291 terms.
+**Glossary, 2026-11-25.** Every row of the glossary was checked against the chapter it links to: 12 definitions corrected, 7 links moved to a better chapter, 13 duplicates merged, 16 rows removed and 24 added. The glossary has 1,294 terms.
 
 **Not verified:**
 
@@ -270,6 +270,7 @@ The chapters were checked in two ways, described in [VERIFICATION.md](VERIFICATI
 - The transcripts are machine-made and can garble names. The lectures are the authority.
 - The lecture guides: they were read a second time only by AI, never by a person.
 - The chapters in parts 07 and 08 were checked statement by statement against the book *Machine Learning in Production*, and their coverage was reviewed from 2026-11-26. A word-overlap count had flagged 82 of its 399 sections as possibly reflected only in part; these sections were read against the chapters, in 10 groups. All ten groups are finished, and the sections a reader needs were added to the chapters; two short proposed texts for the chapters on models-to-systems and on goals did not fit under the 3,500-word limit and are not in the course. The review also found 35 sentences in 19 chapters that repeated the book's wording without quotation marks; all were rephrased, and the longest passage a chapter now shares with the book outside quotation marks is a paper title.
+- **The chapters enlarged from the lectures.** On 2026-11-26, 42 chapters in every part written from lectures received passages with the lecturers' own statements. Each passage was written by AI from the lecture text and then read a second time against the lecture by another AI, never by a person; that second reading corrected about one added statement in six. The 69 parts of lectures (of 1,207) that no chapter teaches are explained only in the guides.
 
 ## Status and gaps
 
@@ -316,7 +317,7 @@ Each part's main limitations are below. [VERIFICATION.md](VERIFICATION.md#furthe
 
 ### Part 09 · Efficient deep learning
 
-- **09.03, 09.05 to 09.09** The lottery ticket hypothesis, architecture search strategies, distillation formulas, TinyEngine's memory planner, PagedAttention, FlashAttention tiling and parameter-efficient training are general knowledge; the chapters did not draw on the lectures for them. The lectures are now covered by the [lecture guides](lectures/README.md), and the chapters were not rewritten from those guides.
+- **09.03, 09.05 to 09.09** The lottery ticket hypothesis, architecture search strategies, distillation formulas, TinyEngine's memory planner, PagedAttention, FlashAttention tiling and parameter-efficient training are general knowledge; the chapters did not draw on the lectures for them. On 2026-11-26 passages with the lecturers' own statements were added to these chapters and read a second time (see "Moved into the chapters" in [VERIFICATION.md](VERIFICATION.md#lecture-guides)); the [lecture guides](lectures/README.md) cover every lecture in full.
 
 ### Part 10 · LLM internals
 

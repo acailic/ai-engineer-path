@@ -6,7 +6,7 @@ What was checked in this repository, how, and what was left out. The checks ran 
 
 These checks ran on 2026-11-25, after the second review.
 
-- **Internal links.** 2,636 checked, none broken; 4,962 with the lecture guides on 2026-11-26, none broken.
+- **Internal links.** 2,636 checked, none broken; 5,005 with the lecture guides on 2026-11-26, none broken.
 - **External links.** 181 links other than YouTube. Three refuse automated requests: two DOI links into the ACM Digital Library and one Medium post. They open in a browser.
 - **arXiv citations.** 119 citations to 103 distinct papers. Every title and year matches the arXiv record.
 - **Lecture citations.** 1,459 links point to a moment in a lecture video. Each was checked against the two-minute block of the machine transcript at that moment.
@@ -103,7 +103,7 @@ What the check cannot see is whether a guide understood the lecture correctly. E
 - **The chapters checked against the corrected claims.** A claim that one reader of a lecture got wrong, another reader of the same lecture may have got wrong too. For every claim corrected in a guide, the chapters were searched for the same claim and the passage was re-read against the lecture: for the guides of all four courses, 387 changed claims were checked and 45 sentences in 26 chapters corrected.
 Names are the weakest point: the machine transcript can garble a name, so a guide prefers the names as the lecture's slides spell them and otherwise says "the lecturer". If a guide and the lecture disagree, the lecture wins.
 
-**Moved into the chapters, 2026-11-26.** By the evening of 2026-11-26 forty-two chapters, in every part that was written from lectures, had been enlarged this way, and the parts that only a guide teaches had fallen from 231 to 69 of 1,207. The added text is being read a second time against the lectures, as the rest of the book was. Thirty-six of the forty-two are done: in most of them a few added sentences needed a correction (a hedge the lecturer had given, such as "usually" or "by his account"; a number he stated differently; a claim he had not made; a passage copied in eight or more words), and in some none did. The other six enlarged chapters, all in part 02, are being read the same way, and until that is done their added passages count as unchecked.
+**Moved into the chapters, 2026-11-26.** By the evening of 2026-11-26 forty-two chapters, in every part that was written from lectures, had been enlarged this way, and the parts that only a guide teaches had fallen from 231 to 69 of 1,207. Each enlarged chapter was then read a second time against the lectures, as the rest of the book was; all forty-two are done. The reading mattered. In the eight groups whose reviewers counted statement by statement, 104 of 637 added statements were corrected (one in six), and 20 more in the other four groups. The corrections were of the kinds found elsewhere in the book: a hedge the lecturer had given ("usually", "by his account"), a number he stated differently from his slide or the recording, a claim he had not made, a link that pointed at the wrong minute, and passages copied in eight or more words from a guide or the lecture text. Most enlarged chapters also gained a self-check question on their largest addition, and chapters that stood at the 3,400-word line were trimmed to make room for it.
 
 ## Glossary
 
@@ -123,6 +123,7 @@ The same files are published as a website, <https://acailic.github.io/ai-enginee
 - **The transcripts.** They are machine-made and can garble names. The lectures are the authority: a chapter that disagrees with its source is wrong.
 - **The lecture guides.** they were read a second time only by AI, never by a person.
 - **Coverage of the book.** The chapters of parts 07 and 08 were checked statement by statement against the book *Machine Learning in Production*, and their coverage was reviewed from 2026-11-26. A word-overlap count had flagged 82 of its 399 sections as possibly reflected only in part; these sections were read against the chapters, in 10 groups. All ten groups are finished, and the sections a reader needs were added to the chapters; two short proposed texts for the chapters on models-to-systems and on goals did not fit under the 3,500-word limit and are not in the course. The review also found 35 sentences in 19 chapters that repeated the book's wording without quotation marks; all were rephrased, and the longest passage a chapter now shares with the book outside quotation marks is a paper title.
+- **The chapters enlarged from the lectures.** On 2026-11-26, 42 chapters in every part written from lectures received passages with the lecturers' own statements. Each passage was written by AI from the lecture text and then read a second time against the lecture by another AI, never by a person; that second reading corrected about one added statement in six. The 69 parts of lectures (of 1,207) that no chapter teaches are explained only in the guides.
 
 ## Further limitations by part
 
