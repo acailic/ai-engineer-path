@@ -1145,7 +1145,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **StateFlow** | A group chat that encodes a finite state machine: one agent per state, transitions fixed in advance. | [05.02](05-frameworks-and-multi-agent/02-autogen-conversation-programming.md) |
 | **Stateless** | Holding no memory between requests, as a plain RAG pipeline does. | [05.03](05-frameworks-and-multi-agent/03-llamaindex-knowledge-assistants.md) |
 | **Static analysis** | Inspecting code for problems without running it. | [02.07](02-building-agents/07-coding-agents.md) |
-| **static benchmark** | A benchmark whose test cases never change, which makes comparisons reproducible but lets the fixed cases end up in training data | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
+| **Static benchmark** | A benchmark whose test cases usually stay fixed, which makes comparisons reproducible but lets the fixed cases end up in training data. | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
 | **Statistical test** | A calculation of how unlikely a result is if only chance were at work. | [08.03](08-quality-assurance/03-slicing.md) |
 | **Statistically significant** | Unlikely to be caused by sampling noise alone; in practice larger than about two standard errors of the difference. | [03.05](03-evaluation/05-statistics-for-evals.md) |
 | **Stdio transport** | Carrying protocol messages through a local program's standard input and output. | [05.06](05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md) |
