@@ -97,7 +97,7 @@ Every part heading links to the moment in the video where the part begins.
 | 8 | Parallelism II |  | 1:22:00 | 16 | 0 | [open](cs336-08-parallelism-ii.md) |
 | 9 | Scaling laws I |  | 1:18:00 | 17 | 0 | [open](cs336-09-scaling-laws-i.md) |
 | 10 | Inference |  | 1:26:00 | 16 | 0 | [open](cs336-10-inference.md) |
-| 11 | Scaling laws II |  | 1:18:00 | 17 | 0 | [open](cs336-11-scaling-laws-ii.md) |
+| 11 | Scaling laws II |  | 1:18:00 | 17 | 2 | [open](cs336-11-scaling-laws-ii.md) |
 | 12 | Evaluation |  | 1:20:00 | 15 | 0 | [open](cs336-12-evaluation.md) |
 | 13 | Data: sources, datasets |  | 1:22:00 | 16 | 0 | [open](cs336-13-data-sources-datasets.md) |
 | 14 | Data: filtering, deduplication, mixing, synthetic data |  | 1:26:00 | 15 | 0 | [open](cs336-14-data-filtering-deduplication-mixing-synthetic.md) |
@@ -106,4 +106,4 @@ Every part heading links to the moment in the video where the part begins.
 | 17 | Alignment: multimodality |  | 1:18:00 | 13 | 0 | [open](cs336-17-alignment-multimodality.md) |
 | 18 | Guest lecture: Dan Fu |  | 1:12:00 | 13 | 0 | [open](cs336-18-guest-lecture-dan-fu.md) |
 
-In all: 1207 parts, of which 161 (13%) teach something no chapter teaches; 201,297 words.
+In all: 1207 parts, of which 163 (14%) teach something no chapter teaches; 201,586 words.

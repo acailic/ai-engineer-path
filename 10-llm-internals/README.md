@@ -50,7 +50,7 @@ Each guide maps one lecture from its first minute to its last and says where thi
 | Attention alternatives and mixture of experts |  | 1:28:00 | 0 of 20 | [open guide](../lectures/cs336-04-attention-alternatives-and-mixture-of-experts.md) |
 | Scaling laws I |  | 1:18:00 | 0 of 17 | [open guide](../lectures/cs336-09-scaling-laws-i.md) |
 | Inference |  | 1:26:00 | 0 of 16 | [open guide](../lectures/cs336-10-inference.md) |
-| Scaling laws II |  | 1:18:00 | 0 of 17 | [open guide](../lectures/cs336-11-scaling-laws-ii.md) |
+| Scaling laws II |  | 1:18:00 | 2 of 17 | [open guide](../lectures/cs336-11-scaling-laws-ii.md) |
 | Evaluation |  | 1:20:00 | 0 of 15 | [open guide](../lectures/cs336-12-evaluation.md) |
 | Data: sources, datasets |  | 1:22:00 | 0 of 16 | [open guide](../lectures/cs336-13-data-sources-datasets.md) |
 | Data: filtering, deduplication, mixing, synthetic data |  | 1:26:00 | 0 of 15 | [open guide](../lectures/cs336-14-data-filtering-deduplication-mixing-synthetic.md) |

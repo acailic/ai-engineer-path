@@ -250,7 +250,7 @@ The [lecture guides](lectures/README.md) were made the same way, from the same m
 
 The chapters were checked in two ways, described in [VERIFICATION.md](VERIFICATION.md) with the results per part.
 
-**Automated checks, run on 2026-11-25.** All 2,636 internal links resolved at that point; the count is 4,735 with the lecture guides, all resolving on 2026-11-26. All 119 arXiv citations (103 papers) carry the title and year of the arXiv record. All 1,459 links to a moment in a lecture were checked against the transcript at that moment. No chapter shares more than 23 words in a row with a source. The 66 standalone Python listings run, and 16 tests pass.
+**Automated checks, run on 2026-11-25.** All 2,636 internal links resolved at that point; the count is 4,840 with the lecture guides, all resolving on 2026-11-26. All 119 arXiv citations (103 papers) carry the title and year of the arXiv record. All 1,459 links to a moment in a lecture were checked against the transcript at that moment. No chapter shares more than 23 words in a row with a source. The 66 standalone Python listings run, and 16 tests pass.
 
 **The verification pass, 2026-11-24.** Every statement that a chapter attributes to a lecture or to the book was compared with the source at the cited place. About 1,500 statements were checked and more than 210 corrected. In 72 chapters, passages were deepened with the lecturers' own content.
 

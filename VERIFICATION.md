@@ -6,14 +6,14 @@ What was checked in this repository, how, and what was left out. The checks ran 
 
 These checks ran on 2026-11-25, after the second review.
 
-- **Internal links.** 2,636 checked, none broken.
+- **Internal links.** 2,636 checked, none broken; 4,840 with the lecture guides on 2026-11-26, none broken.
 - **External links.** 181 links other than YouTube. Three refuse automated requests: two DOI links into the ACM Digital Library and one Medium post. They open in a browser.
 - **arXiv citations.** 119 citations to 103 distinct papers. Every title and year matches the arXiv record.
 - **Lecture citations.** 1,459 links point to a moment in a lecture video. Each was checked against the two-minute block of the machine transcript at that moment.
 - **Overlap with the sources.** About 2.5 million words of sources were compared with the chapters. The longest passage a chapter shares with a source is 23 words: a quotation with an attribution, an author list or a paper title.
 - **Diagrams.** 81 diagrams in 80 chapters. Each passes Mermaid's own parser, and each has a caption before it and a plain sentence after it.
 - **Code.** 66 Python listings run on their own, and 17 tests pass in four pytest suites. Two more suites fail on purpose, as their chapters describe, to show tests catching planted errors. A third needs a paid model and is labelled as pseudocode that does not run as pasted. The remaining listings that do not run alone are labelled in their chapters: they need a package such as numpy or PyTorch, or a file the reader creates. The four programs in `examples/` are identical to their chapter listings and run.
-- **Chapter shape.** Every chapter has the same required sections, a level tag, a self-check with answers and a sources list. The longest chapter is 3,718 words including code, diagrams and link addresses.
+- **Chapter shape.** Every chapter has the same required sections, a level tag, a self-check with answers and a sources list. The longest chapter is 4,175 words including code, diagrams and link addresses.
 
 ## The verification pass
 
