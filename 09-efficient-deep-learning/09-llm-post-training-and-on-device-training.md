@@ -68,7 +68,7 @@ Worked numbers for one 4,096 × 4,096 weight matrix:
 
 **On-device training** adapts a model where the data is created. Han gives the reason in his Fall 2024 lecture on the subject: a gradient is not safe to share. His **deep leakage from gradients** slides show input images and text reconstructed from gradients alone, for vision models and for BERT, a language model (Lecture 21, [10:00](https://www.youtube.com/watch?v=1YuD_5UQxsA&t=600)). His slide concludes that, if training data can be recovered this way, sharing the gradient is not safe. Adding noise as a defense also disrupts the model, he says: only very strong noise stops the leak ([12:00](https://www.youtube.com/watch?v=1YuD_5UQxsA&t=720)). So even federated learning, where devices send updates instead of data ([2:00](https://www.youtube.com/watch?v=1YuD_5UQxsA&t=120)), has a privacy hole. His repair is the compression from the previous lecture: prune the gradients before sending. In his test, 99% of the gradients could be pruned without hurting accuracy, and beyond about 70% there was nothing left to match, so the leak stopped (same block).
 
-The attack is also cheap to build. Han describes deep leakage as about 20 lines of PyTorch: start from a dummy input and a dummy label, compute their gradient, and change the dummy input until its gradient matches the shared one. Pruning breaks that matching. With 1% of the gradient left, he says, the attack has many variables and few equations, so the equations cannot be solved. He adds that the method's code and its website are public on his lab's domain (Lecture 21, [12:00](https://www.youtube.com/watch?v=1YuD_5UQxsA&t=720)).
+The attack is also cheap to build. Han describes deep leakage as about 20 lines of PyTorch: start from a dummy input and a dummy label, compute their gradient, and change the dummy input until its gradient matches the shared one. Pruning breaks that matching. With 1% of the gradient left, he says, the attack has many variables and few equations, so the equations cannot be solved. He adds that the method's code and its website are public on his lab's domain (Lecture 21, [12:00](https://www.youtube.com/watch?v=1YuD_5UQxsA&t=720), [14:00](https://www.youtube.com/watch?v=1YuD_5UQxsA&t=840)).
 
 The obstacle is memory. Training keeps every intermediate activation for the backward pass. Four of Han's remedies:
 
@@ -145,6 +145,7 @@ Adapt a small open model to a narrow task on your own machine.
 4. Why does fake quantization not reduce training memory?
 5. What does deep leakage from gradients show?
 6. Which saves more memory for a 7B model: LoRA on a 16-bit base, or LoRA on a 4-bit base, and why?
+7. How does a deep leakage attack proceed, and why does pruning most of the gradient defeat it?
 
 <details><summary>Show answers</summary>
 
@@ -154,6 +155,7 @@ Adapt a small open model to a narrow task on your own machine.
 4. It rounds values only to simulate low precision; the weights are still stored and updated in high precision.
 5. That the original inputs, images and text, can be reconstructed from shared gradients.
 6. LoRA on a 4-bit base: the base weights take a quarter of the memory.
+7. It starts from a dummy input and a dummy label and changes them until their gradient matches the shared one. After pruning, only 1% of the gradient is left to match, many variables for few equations, so the match cannot be solved.
 
 </details>
 

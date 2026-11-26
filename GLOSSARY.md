@@ -324,6 +324,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Dual use** | The property of a technology that serves a peaceful and a hostile purpose, so that one and the same model can rescue and attack. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
 | **dual-use** | Said of a technology that brings great benefits and, in the hands of attackers, enables harm | [04.08](04-safety-and-security/08-ai-for-cyber-defense-and-vulnerability-detection.md) |
 | **DualFormer** | A successor to Searchformer, trained on partially removed traces, that switches between a fast and a slow mode. | [02.03](02-building-agents/03-planning-search-and-decision-making.md) |
+| **Dummy input** | A random stand-in for the real input, with a stand-in label, that an attacker changes until its gradient matches the shared one. | [09.09](09-efficient-deep-learning/09-llm-post-training-and-on-device-training.md) |
 | **DuoAttention** | A method that classifies attention heads into retrieval heads with full cache and streaming heads with a window. | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
 | **Durable idea** | An idea that keeps its value across model generations because it has a mechanism, appears in several sources and has a metric. | [11.08](11-professional-practice/08-staying-current.md) |
 | **dynamic benchmark** | A benchmark that updates or regenerates its test cases every week, month or season, so that it follows the data and is harder to game | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
@@ -473,6 +474,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **GPU kernel** | A function that runs on the GPU. A fast kernel moves as little data as possible to the GPU's main memory and back. | [10.05](10-llm-internals/05-gpus-tpus-and-kernels.md) |
 | **Graceful degradation** | Reducing a system's function, after a failure, to keep operating safely. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
 | **Grader** | Code, or a judge, that turns one response into a score and a list of violations. | [03.02](03-evaluation/02-a-minimal-eval-harness.md) |
+| **Gradient pruning** | Removing most of the entries of a gradient before it is shared; it also stops deep leakage, because too little is left to match. | [09.09](09-efficient-deep-learning/09-llm-post-training-and-on-device-training.md) |
 | **Gradient** (also called: Gradients) | The direction that raises the loss fastest; training steps the parameters the opposite way. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
 | **Gradient accumulation** | Adding up gradients over several small batches before updating the parameters. | [10.02](10-llm-internals/02-resource-accounting-flops-memory-and-arithmetic-intensity.md) |
 | **Gradient compression** | Sending only the largest or a low-rank approximation of the gradients to cut communication. | [09.10](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) |
@@ -597,6 +599,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 |---|---|---|
 | **K-means quantization** | Storing a small table of representative values and an index per weight. | [09.04](09-efficient-deep-learning/04-quantization.md) |
 | **Kernel** | In a convolution, the small weight table that slides over the input. On a GPU, a kernel is instead a small program; see GPU kernel. | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
+| **Kernel fusion** | Writing a whole operation, such as attention, as one kernel instead of several, to save the cost of kernel launches. | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
 | **Kill switch** | A flag that turns a model's action off while the rest of the system keeps running. | [07.10](07-ml-in-production/10-planning-for-operations.md) |
 | **KL divergence** | A measure of how one probability distribution differs from another, zero when they are identical. | [09.06](09-efficient-deep-learning/06-knowledge-distillation.md) |
 | **KL penalty** | A training term that keeps a policy close to a reference model. | [10.11](10-llm-internals/11-post-training-sft-rlhf-and-rlvr.md) |
