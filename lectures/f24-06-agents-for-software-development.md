@@ -29,7 +29,7 @@ Six challenges organize the talk: the environment, the observation and action sp
 
 ### [12:33–17:45](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=753) Coding benchmarks
 
-HumanEval and MBPP ask for a small function from a docstring, like an interview puzzle: necessary, not sufficient. CoNaLa and ODEX use Stack Overflow answers, ARCADE notebooks. SWE-bench gives a real GitHub issue and repository, scored by the tests added with the fix; it keeps only projects whose fixes added tests, so it leans toward bug fixes.
+HumanEval and MBPP ask for a small function from a docstring, like an interview puzzle: necessary, not sufficient. CoNaLa is scraped from Stack Overflow and ODEX adds execution-based scoring; ARCADE uses data science notebooks. SWE-bench gives a real GitHub issue and repository, scored by the tests added with the fix; it keeps only high-quality repositories, and only pull requests that added tests, so it leans toward bug fixes.
 **In this book:** [Coding Agents › How coding agents are evaluated](../02-building-agents/07-coding-agents.md#how-coding-agents-are-evaluated).
 
 ### [17:45–21:19](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1065) Metrics and dataset leakage
@@ -39,7 +39,7 @@ The common metric is pass@k: the chance that at least one of k samples passes th
 
 ### [21:19–22:32](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1279) Multimodal coding models
 
-Design2Code, a data set from Stanford, shows a model an image of a web page and asks for the code that renders it; a multimodal version of SWE-bench had appeared only days before the lecture. Scoring compares screenshots, not text: a high-level score uses visual embeddings of the whole page, and a low-level score counts how many individual elements were reproduced. A coding model can therefore start from what it sees, not only from a written specification.
+Design2Code, a data set from Stanford, shows a model an image of a web page and asks for the code that renders it; a multimodal version of SWE-bench had appeared so recently that it is missing from his slides. Scoring compares screenshots, not text: a high-level score uses visual embeddings of the whole page, and a low-level score counts how many individual elements were reproduced. He ends his tour of evaluation here and turns to how the agents themselves are built.
 **In this book:** nothing beyond this guide; nearest: [Coding Agents › How coding agents are evaluated](../02-building-agents/07-coding-agents.md#how-coding-agents-are-evaluated).
 
 ### [22:32–30:18](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1352) Code as the action space
@@ -49,7 +49,7 @@ CodeAct replaces one tool call per step with programs: to compare phone prices i
 
 ### [30:18–37:08](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=1818) Training code models
 
-Nearly all serious language models now train on code, partly because code also improves general reasoning; The Stack 2 is an open pre-training data set with per-file license checks, dominated by a few popular languages. Infilling suits editing: a coherent span is masked and moved to the end of a document, and the model generates it. Because code is long, models also need context extension: pre-trained on roughly 4,000-token chunks, they generalize badly beyond that, since the angles of RoPE, the usual positional encoding, exceed the trained range. Scaling the angles back, uniformly or only at low frequencies, restores long inputs.
+Nearly all serious language models now train on code, partly because code also improves general reasoning; The Stack 2 is an open pre-training data set with careful license checks, dominated by a few popular languages. Infilling suits editing: a coherent span is masked and moved to the end of a document, and the model generates it. Because code is long, models also need context extension: pre-trained on roughly 4,000-token chunks, they generalize badly beyond that, since the angles of RoPE, the usual positional encoding, exceed the trained range. Scaling the angles back, uniformly or only at low frequencies, restores long inputs.
 **In this book:** nothing beyond this guide; nearest: [Pre-training data](../01-foundations/02-how-large-language-models-are-trained.md#pre-training-data).
 
 ### [37:08–44:53](https://www.youtube.com/watch?v=f9L9Fkq-8K4&t=2228) Context and file localization
@@ -80,7 +80,7 @@ Copilots already pay off, and in some of his repositories an agent drafted half 
 ## What to take away
 
 - Coding is 15% of a developer's day; the prize is an agent that finishes a whole task.
-- Finding the right files is the hardest open step; maps, staged search and retrieval each solve part of it.
+- Finding the right files may be the hardest open step; repository maps and staged search each solve part of it, and retrieval is, in his view, still unsolved.
 - Benchmarks built from public code lean toward bug fixes and are contaminated by training data.
 - Sandbox, least-privilege credentials and auditing each action before it runs are the three safety measures.
 

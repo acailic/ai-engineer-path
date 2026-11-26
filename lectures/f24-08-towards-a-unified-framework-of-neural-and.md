@@ -8,7 +8,7 @@
 
 ## Before you watch
 
-Read [Planning, Search and Decision-Making](../02-building-agents/03-planning-search-and-decision-making.md) first; its last section already summarizes this lecture. The lecture assumes that you know what a language model is, that you have met the idea of a search algorithm, and that you are willing to look at a few equations in the last fifteen minutes.
+Read [Planning, Search and Decision-Making](../02-building-agents/03-planning-search-and-decision-making.md) first; its section "A unified view: neural plus symbolic" already summarizes the lecture up to the modular-addition part. The lecture assumes that you know what a language model is, that you have met the idea of a search algorithm, and that you are willing to look at a few equations in the last fifteen minutes.
 
 ## The lecture, part by part
 
@@ -24,17 +24,17 @@ The user names cities, dates and a budget and wants an itinerary that can be exe
 
 ### [4:00–8:00](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=240) Current models fail it
 
-On a benchmark from the lecturer's group, the strongest model of early 2024 produced a fully valid itinerary 0.6% of the time, and only 4.4% when given the correct information upfront; a pass means every constraint holds, such as the budget or a non-smoking room. Reasoning models of late 2024 scored worse than a model fine-tuned for the task. Plots from other teams show the same trend: a large jump from reasoning models, yet accuracy still slides towards zero as the number of cities or people grows.
+On a benchmark from the lecturer's group, the strongest model of early 2024 produced a fully valid itinerary 0.6% of the time, and only 4.4% when given the correct information upfront; a pass means every constraint holds, such as the budget or a non-smoking room. The o1 reasoning models scored worse than a model fine-tuned for the task. Plots from other teams show the same trend: accuracy slides towards zero as the number of cities or people grows, and although the o1 models score far higher on small problems, their curve also drops to zero as the plan gets longer.
 **In this book:** [Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
 
 ### [8:00–12:00](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=480) Three kinds of answer
 
-One answer is the scaling law: more data, more compute, larger models, at great cost. A second is hybrid systems. Foundation models understand natural language and flexible goals but plan badly; symbolic solvers return optimal solutions with guarantees, quickly and without GPUs, but cannot read a request. A third is to show that a symbolic representation emerges inside a network trained by gradient descent.
+One answer is the scaling law: more data, more compute, larger models, at great cost. A second is hybrid systems. Foundation models understand natural-language instructions but plan badly; symbolic solvers return optimal solutions with guarantees in many scenarios, often run fast without GPUs, but cannot read a request. A third is to show that a symbolic representation emerges inside a network trained by gradient descent.
 **In this book:** [Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
 
 ### [12:00–15:13](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=720) Hybrid one: the model calls the solver
 
-The model translates the request into a JSON description; flights and hotels are added; the problem is written as mixed integer linear programming; a solver returns the optimal itinerary, which is turned back into sentences. A fine-tuned translator takes 2 to 2.5 seconds and the solve 0.5 to 7 seconds, so the demo runs in real time, and human raters preferred it to the baselines on usefulness and value for money.
+The model translates the request into a JSON description; flights and hotels are added; the problem is written as mixed integer linear programming; a solver returns the optimal itinerary, which is turned back into sentences. A fine-tuned translator takes 2 to 2.5 seconds and the solve 0.5 to 7 seconds, so the demo runs in real time, and most human raters were net positive about it against the baselines on usefulness, satisfaction, value for money and efficiency.
 **In this book:** [Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
 
 ### [15:13–20:23](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=913) Hybrid one, continued: dialogue that gathers what is missing
@@ -44,12 +44,12 @@ Real users start with a rough idea, so a follow-up agent asks questions over sev
 
 ### [20:23–24:32](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=1223) Hybrid two: the solver teaches the model
 
-In Searchformer a transformer does not predict the plan directly. It first outputs the trace of the A* search algorithm, every node it created and explored, and then the plan. The search-augmented model is longer to generate but far more efficient: with 15 million parameters and 50,000 training examples it reaches about 80% on unseen 30 by 30 mazes, where a solution-only model of 175 million parameters scores about 20% on that budget and needs about a million examples. A box-pushing puzzle game shows the same trend.
+In Searchformer a transformer does not predict the plan directly. It first outputs the trace of the A* search algorithm, every node it created and explored, and then the plan. The search-augmented model is much longer to generate.
 **In this book:** [Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
 
-### [24:32–32:50](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=1472) Hybrid two, continued: shorter traces than A*
+### [24:32–32:50](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=1472) Hybrid two, continued: efficient learning, then shorter traces than A*
 
-The first model imitates A*, so its traces are as long as the algorithm's. The next step samples many traces, keeps the shortest ones that still lead to an optimal plan and retrains on them. Over rounds the average trace length shrinks, the ratio of the A* trace length to the model's (the improved length ratio) rises, and the optimality rate even climbs a little. A 24-million-parameter model then matches solution-only models of 700 million.
+The search-augmented model is far more efficient: with 15 million parameters and 50,000 training examples it reaches about 80% on unseen 30 by 30 mazes, where a solution-only model of 175 million parameters scores about 20% on that budget and needs about a million examples to reach high performance. A box-pushing puzzle game shows the same trend. The first model imitates A*, so its traces are as long as the algorithm's. The next step samples many traces, keeps the shortest ones that still lead to an optimal plan and retrains on them. Over rounds the average trace length shrinks, the ratio of the A* trace length to the model's (the improved length ratio) rises, and the optimality rate even climbs a little. A 24-million-parameter model then matches solution-only models of 700 million.
 **In this book:** [Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
 
 ### [32:50–41:26](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=1970) Dualformer: one model, fast and slow
@@ -69,34 +69,34 @@ One variant optimizes the coefficients at test time by backpropagation (slow, go
 
 ### [49:34–54:02](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=2974) Photonic design, and the limits
 
-The same method designs a device on an 80 by 80 grid of nanometre-scale cells that bends or splits light by diffraction. The design space is binary and constrained by the width of the brush that will carve it, and the loss comes from a physical simulation. The method converges more smoothly than the standard approach without a neural network. Limits remain: the objective must be differentiable, a solver is called in every training step, and that solver must be differentiable.
+The same method designs a device on an 80 by 80 grid of nanometre-scale cells that bends or splits light by diffraction. The design space is binary and constrained by the size of the brush that will carve it, and the loss comes from a physical simulation. The method converges more smoothly than the standard approach without a neural network. Limits remain: the objective must be differentiable, a solver is called in every training step, and that solver must be differentiable.
 **In this book:** nothing beyond this guide; nearest: [Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
 
 ### [54:02–56:36](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=3242) Two stories about what models learn
 
-One camp expects emergent abilities from scale. The other says a model mostly retrieves patterns seen in training. An Apple study supports the second: adding irrelevant sentences to a maths word-problem benchmark, which does not change the answers, makes every model's score drop sharply. The lecturer asks what representation a network uses to reason, and takes a small case that can be analysed completely.
+One camp expects emergent abilities from scale. The other says a model mostly retrieves patterns seen in training. An Apple study supports the second: adding irrelevant sentences to a maths word-problem benchmark, which does not change the answers, makes every model's score drop sharply. The lecturer calls it a core problem to understand what representation a language model uses for reasoning and planning.
 **In this book:** nothing beyond this guide; nearest: [Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
 
 ### [56:36–1:02:00](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=3396) Modular addition and the Fourier basis
 
-The task is addition modulo a number: two inputs, one output, easy to memorize. Networks trained on it do not build a lookup table; earlier work found that they represent numbers with sine and cosine features. The lecturer studies a two-layer network with one-hot inputs and quadratic activations, moves everything into the Fourier domain, and finds that the hidden neurons respond strongly at a few frequencies. Counting neurons per frequency shows sharp peaks at orders four and six, for moduli 7, 23, 71 and 127; only strong weight decay collapses everything to zero.
+The task is addition modulo a number: two inputs, one output, easy to memorize. Networks trained on it do not build a lookup table; earlier work found that they represent numbers with sine and cosine features. The lecturer studies a two-layer network with one-hot inputs and quadratic activations, moves everything into the Fourier domain, and finds that the hidden neurons respond strongly at a few frequencies. Counting neurons per frequency shows sharp peaks at orders four and six, for moduli 7, 23, 71 and 127.
 **In this book:** nothing beyond this guide; nearest: [Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
 
 ### [1:02:00–1:06:00](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=3720) Why four and six: the algebra of the loss
 
-The mean-squared loss is rewritten as one minus a term plus three sums of squares. Setting the term to one and the squares to zero is a sufficient condition for a global optimum. The space of two-layer networks, with concatenation of neurons as addition and a Kronecker product along the hidden units as multiplication, forms a semi-ring, and the terms of the loss are ring homomorphisms: they respect that addition and multiplication. So two partial solutions, each satisfying one term, can be multiplied into a solution that satisfies both. Global optima of order six and order four can be built this way, with no gradient descent at all.
+Only very strong weight decay changes this picture: every solution collapses to zero. The mean-squared loss is rewritten as one minus a term plus three sums of squares. Setting the term to one and the squares to zero is a sufficient condition for a global optimum. The space of two-layer networks, with concatenation of neurons as addition and a product along the hidden units as multiplication, forms a semi-ring, and two terms of the loss are ring homomorphisms: they respect that addition and multiplication. So two partial solutions, each satisfying one term, can be multiplied into a solution that satisfies both. Global optima of order six and order four can be built this way, with no gradient descent at all.
 **In this book:** nothing beyond this guide; nearest: [Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
 
 ### [1:06:00–1:10:00](https://www.youtube.com/watch?v=wm9-7VBpdEo&t=3960) What gradient descent finds is the constructed solution
 
-Networks trained by gradient descent land almost entirely on the order-four and order-six solutions. Factorizing them under the ring multiplication, 95% split into a two times a three or a two times a two, as the construction predicts, and 98% of the factor entries match the constructed forms. The implication: a network trained by gradient descent converged to a solution that is symbolic. Perhaps larger networks do the same in a form nobody has constructed yet, and solutions could one day be assembled algebraically from small ones.
+Networks trained by gradient descent land almost entirely on the order-four and order-six solutions. Factorizing them under the ring multiplication, 95% split into a two times a three or a two times a two, as the construction predicts, and, entry by entry, 98% of the solutions match the constructed forms. The implication: a network trained by gradient descent converged to a solution that is symbolic. Perhaps larger networks do the same in a form nobody has constructed yet, and solutions could one day be assembled algebraically from small ones.
 **In this book:** nothing beyond this guide; nearest: [Planning, Search and Decision-Making › A unified view: neural plus symbolic](../02-building-agents/03-planning-search-and-decision-making.md#a-unified-view-neural-plus-symbolic).
 
 ## What to take away
 
 - Models still fail at planning under hard constraints, and accuracy falls as the problem grows.
 - When a sub-problem has a known algorithm, let the model translate the request and let the solver decide.
-- Training a model to output a solver's trace makes it ten times smaller and twenty times cheaper in data; trimming the traces then makes it faster than the solver.
+- Training a model to output a solver's trace makes it ten times smaller and ten times cheaper in data; trimming the traces then makes them shorter than A*'s.
 - In one small task, gradient descent finds a solution that algebra could have built directly.
 
 ## Sources

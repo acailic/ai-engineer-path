@@ -34,17 +34,17 @@ Three fixes arrive: generate and run a program; retrieve passages into the conte
 
 ### [15:14–20:47](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=914) ReAct in action
 
-The prompt shows a hand-written trajectory of thoughts, actions and observations, given as one example, a few, or through fine-tuning. Asked whether $7 trillion buys Apple, Nvidia and Microsoft, a frontier model searches for the market caps and adds them: not enough. When a search returns nothing, reasoning re-plans.
+The prompt shows a hand-written trajectory of thoughts, actions and observations, given as one example, a few, or through fine-tuning. Asked whether $7 trillion buys Apple, Nvidia and Microsoft, GPT-4 searches for the market caps and adds them: not enough. When a search returns nothing, reasoning re-plans.
 **In this book:** [08. A Short History of LLM Agents › Stage 3: ReAct joins them](../01-foundations/08-a-short-history-of-llm-agents.md#stage-3-react-joins-them).
 
 ### [20:47–24:37](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=1247) Thinking as an action
 
-Once the screen is captioned and sentences are mapped to key presses, many tasks reduce to text games. Mapping observation straight to action only imitates examples, so ReAct adds one more action, thinking, which no environment fixes: it changes nothing in the world and rewrites only the agent's own context.
+Once the screen is captioned and sentences are mapped to key presses, many tasks reduce to text games. Mapping observation straight to action only imitates examples, so ReAct adds one more action, thinking, which no environment fixes: it changes nothing in the world and only the agent's own context.
 **In this book:** [08. A Short History of LLM Agents › Stage 3: ReAct joins them](../01-foundations/08-a-short-history-of-llm-agents.md#stage-3-react-joins-them).
 
 ### [24:37–38:28](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=1477) Long-term memory
 
-The context window is the agent's short-term memory: append-only, bounded (a thousand tokens two years ago, a million now, ten million next year), and gone once the task ends. Reflexion adds the simplest long-term memory: a program fails its unit tests, the agent writes down why and reads the note next time. No gradient is taken: feedback can be a test result or a compiler error, and the agent updates text, which steers later behavior. A later game agent saves each skill as code, and Generative Agents gives about twenty townsfolk a log of events plus conclusions drawn from it. Weights are memory too, so any agent reduces to memory, action space and decision procedure.
+The context window is the agent's short-term memory: append-only, bounded (a thousand tokens two years ago, a million now, ten million next year), and gone once the task ends. Reflexion adds a very simple long-term memory: a program fails its unit tests, the agent writes down why and reads the note next time. No gradient is taken: feedback can be a test result or a compiler error, and the agent updates text, which steers later behavior. A later game agent saves each skill as code, and Generative Agents gives about twenty townsfolk a log of events plus conclusions drawn from it. Weights are memory too, so any agent reduces to memory, action space and decision procedure.
 **In this book:** nothing beyond this guide; nearest: [04. Using LLMs: Tokens, Context and Sampling › 2. The call does not remember](../01-foundations/04-using-llms-tokens-context-and-sampling.md#2-the-call-does-not-remember).
 
 ### [38:28–43:26](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=2308) Three paradigms of agents
@@ -54,12 +54,12 @@ A minimal history, offered as certainly wrong: Symbolic AI, an AI winter, deep r
 
 ### [43:26–51:22](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=2606) Practical applications
 
-LLM agents enable digital automation, and WebShop (2021) was an early practical test: a simulated shop built from more than one million real products, scored from 0 to 1 on how well the purchase matches the instruction. A software-engineering benchmark then asks for a file diff that fixes a reported issue, and ChemCrow carries the idea into a chemistry lab.
+LLM agents enable digital automation, and WebShop (2021–2022) was an early practical test: a simulated shop built from more than one million real products, scored from 0 to 1 on how well the purchase matches the instruction. A software-engineering benchmark then asks for a file diff that fixes a reported issue, and ChemCrow carries the idea into a chemistry lab.
 **In this book:** [08. A Short History of LLM Agents › WebShop and what followed](../01-foundations/08-a-short-history-of-llm-agents.md#webshop-and-what-followed).
 
 ### [51:22–59:17](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=3082) Lessons and a look ahead
 
-First, lessons: the most important work is often the simplest (chain of thought, ReAct), and simple means general; good research pairs abstraction above individual tasks with close knowledge of them, though familiarity with one task's tricks can breed incremental work. Then five future directions: training, interface, robustness, humans, benchmarks. Training: model makers and agent builders were different groups, and a model trained to predict text was never trained to act as an agent. The fix: let prompted agents generate trajectories and fine-tune on them, adding data the web lacks: the thoughts and actions behind finished blog posts.
+First, lessons: some of the most important work is sometimes also the simplest (chain of thought, ReAct), and simple means general; good research pairs abstraction above individual tasks with close knowledge of them, though familiarity with one task's tricks can breed incremental work. Then five future directions: training, interface, robustness, humans, benchmarks. Training: model makers and agent builders were different groups, and a model trained to predict text was not trained to act as an agent. The fix: let prompted agents generate trajectories and fine-tune on them, adding data the web lacks: the thoughts and actions behind finished blog posts.
 **In this book:** nothing beyond this guide.
 
 ### [59:17–1:10:00](https://www.youtube.com/watch?v=RM6ZArd2nVc&t=3557) Interfaces and robustness

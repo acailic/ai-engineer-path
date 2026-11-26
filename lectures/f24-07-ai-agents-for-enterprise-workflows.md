@@ -29,7 +29,7 @@ One access problem takes a human agent many manual steps, although a generative 
 
 ### [15:00–17:04](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=900) Web agent demonstration
 
-A short video shows a web agent asked for directions from a company's headquarters to a conference. It searches, reaches a maps service, and cannot find the event there. It then asks the person for details, learns the venue name, and plans again with that new information. The lesson: an agent should be allowed to ask a person for clarification, and it should replan on its own when an observation does not fit.
+A short video shows a web agent asked for directions from a company's headquarters to a conference. It searches, reaches a maps service, and cannot find the event there. It then asks the person for more details, is told that the destination is the GTC conference, and plans again: it searches, finds the venue and enters it in the maps service. The lesson: an agent should be allowed to ask a person for clarification, and it should plan and replan on its own.
 **In this book:** nothing beyond this guide.
 
 ### [17:04–23:53](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=1024) TapeAgents: one log for building and optimizing
@@ -54,17 +54,17 @@ MiniWoB++ holds toy tasks. Trace-based benchmarks on real websites compare an ag
 
 ### [44:16–52:10](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=2656) WorkArena: tasks on a real product
 
-WorkArena has about 600 tasks on the ServiceNow product; the tasks are open source, the product is not, and back-end APIs check the end state. Humans succeed on about 94 percent of the realistic workflows; a strong agent reaches 42.7 percent on the simplest level and zero there. It fails to plan, invents controls and writes wrong action syntax.
+WorkArena has about 600 tasks on the ServiceNow product; the tasks are open source, the product is not, and back-end APIs check the end state. Humans succeed on about 94 percent of the realistic workflows; a strong agent reaches 42.7 percent on the simplest level, has little success on the second and scores zero on the third. It fails to plan, invents controls and writes wrong action syntax.
 **In this book:** [Agent Infrastructure: Sandboxes, Browser Use and Protocols › What the practitioners say](../05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md#what-the-practitioners-say).
 
 ### [52:10–55:35](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=3130) BrowserGym and AgentLab
 
-BrowserGym puts most major benchmarks under one interface, with a standard observation space (HTML, accessibility tree, screenshot) and action space (click by element number or by coordinates). AgentLab adds building blocks, an inspection view of a run, and public trace repositories with versions and dates, so that results can be reproduced.
+BrowserGym puts most major benchmarks under one interface, with a standard observation space (HTML, accessibility tree, screenshot) and action space (click by element number or by coordinates). AgentLab adds building blocks and an inspection view of a run, and is building public trace repositories with versions and dates, so that results can be reproduced.
 **In this book:** [Agent Infrastructure: Sandboxes, Browser Use and Protocols › Part 2: Browser and computer use](../05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md#part-2-browser-and-computer-use) · [Agent Infrastructure: Sandboxes, Browser Use and Protocols › What the practitioners say](../05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md#what-the-practitioners-say).
 
-### [55:35–1:00:01](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=3335) Five hurdles for web agents
+### [55:35–1:00:01](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=3335) Six hurdles for web agents
 
-A page holds hundreds of thousands of tokens, little of it relevant. The target page lies two or three pages away. Agents must learn from mistakes, use vision, and run faster. And they are unsafe: white-on-white text on a page hijacked the demonstrated agent, and a malicious browser extension could redirect a bank transfer.
+A page holds hundreds of thousands of tokens, little of it relevant. The target page lies two or three pages away. Agents must learn from mistakes, use vision, and run faster. And they are unsafe: white-on-white text on a page hijacked the demonstrated agent, and a malicious browser extension could hijack an agent into making a wire transfer.
 **In this book:** [Agent Infrastructure: Sandboxes, Browser Use and Protocols › What the practitioners say](../05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md#what-the-practitioners-say) · [Jailbreaks and Prompt Injection](../04-safety-and-security/02-jailbreaks-and-prompt-injection.md).
 
 ### [1:00:01–1:04:00](https://www.youtube.com/watch?v=-yf-e-9FvOc&t=3601) A team of agents around one ticket

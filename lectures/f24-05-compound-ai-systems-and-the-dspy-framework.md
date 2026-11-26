@@ -14,17 +14,17 @@ Read [Compound AI Systems and DSPy](../02-building-agents/05-compound-ai-systems
 
 ### [0:00–1:41](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=0) Fluent mistakes are hard to see
 
-Demos are easy to build. The cost is that a model's mistakes read as smoothly as its correct answers: it gave Stanford's founding year wrong and returned parallel code with the very race condition it was asked to remove. Turning a monolithic model into a reliable system stays hard.
+Demos are easy to build. The cost is that a model's mistakes read as smoothly as its correct answers: it gave Stanford's founding year wrong and returned parallel code that had a bug, though avoiding data races was the whole point of the request. Turning a monolithic model into a reliable system stays hard.
 **In this book:** [Compound AI Systems and DSPy › Why this matters](../02-building-agents/05-compound-ai-systems-and-dspy.md#why-this-matters).
 
 ### [1:41–6:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=101) Compound systems: modules with narrow jobs
 
-A compound AI system is a modular program in which language models play specialized roles instead of answering as one black box. In retrieval-augmented generation a retriever selects passages and the model writes from them. That buys transparency (you can inspect what was retrieved), efficiency (knowledge sits in a corpus, not in the model) and control over the design, so you can iterate without waiting for the next model release.
+A compound AI system is a modular program in which language models play specialized roles instead of answering as one black box. In retrieval-augmented generation a retriever selects passages and the model writes from them. That buys transparency (you can inspect what was retrieved), efficiency (knowledge sits in a corpus, not in the model) and control over the design, so you can iterate without waiting for the next model release. The model can also itself split a question into pieces and search for each, which is multi-hop retrieval.
 **In this book:** [Compound AI Systems and DSPy › The core idea](../02-building-agents/05-compound-ai-systems-and-dspy.md#the-core-idea).
 
-### [6:00–8:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=360) Three further wins of composition
+### [6:00–8:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=360) Two further wins of composition
 
-The model can itself split a question into pieces and search for each, which is multi-hop retrieval. A Stanford system for writing Wikipedia-style articles brainstorms, outlines, revises and retrieves per section. A competitive-programming system reflects on the problem and public tests, generates candidate solutions, ranks them by tests passed and iterates. The five advantages named are quality, control, transparency, efficiency and inference-time scaling.
+A Stanford system for writing Wikipedia-style articles splits the work into much finer components: it brainstorms, generates outlines, revises them, poses questions for each section of the outline, retrieves sources and synthesizes information. A model then only has to work with what it is given instead of remembering facts, which raises quality. A system for generating code, AlphaCodium, reflects on the problem and on public tests, generates various solutions, ranks them by performance and iterates. The five advantages named are quality, control, transparency, efficiency and inference-time scaling.
 **In this book:** nothing beyond this guide; nearest: [Compound AI Systems and DSPy › The core idea](../02-building-agents/05-compound-ai-systems-and-dspy.md#the-core-idea).
 
 ### [8:00–12:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=480) A prompt hides five different jobs
@@ -49,7 +49,7 @@ A signature says what a module does; a strategy, applied like a layer in a neura
 
 ### [28:00–34:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=1680) Evidence and the shared pattern of optimizers
 
-On multi-hop questions, a small optimized model beats a larger unoptimized one, and the same program serves every model. Optimizers may also fine-tune weights, even by reinforcement learning, which let a text-to-text model from 2019 under a billion parameters outscore the frontier models of 2023. Most optimizers share a pattern: guess a first prompt, run the program many times, keep the traces that scored well, use them as demonstrations, or induce instructions from them.
+On multi-hop questions, a small optimized model beats a larger unoptimized one, and the same program serves every model. Optimizers may also fine-tune weights, even by reinforcement learning, which let a text-to-text model from 2019 under a billion parameters outscore the closed frontier models of that time. Most optimizers share a pattern: guess a first prompt, run the program many times, keep the traces that scored well, use them as demonstrations, or induce instructions from them.
 **In this book:** [Compound AI Systems and DSPy › What the practitioners say](../02-building-agents/05-compound-ai-systems-and-dspy.md#what-the-practitioners-say).
 
 ### [34:00–38:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2040) What optimization achieved in practice
@@ -64,7 +64,7 @@ The metric is defined apart from the program: some metrics need labels, others o
 
 ### [42:00–46:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2520) Three ways to search
 
-The cheapest is to bootstrap demonstrations: run the program, trace each module's inputs and outputs, keep the traces whose final answer the metric liked, and search over which ones to insert. A second family comes from single-prompt optimization: ask a model for many instruction variants, score them, show it the best and repeat. Applying it module by module (coordinate ascent) is expensive and greedy, since each step runs the whole program and freezes the others; proposing all modules jointly is cheaper but a harder request.
+The simplest, at least for the value it gives, is to bootstrap demonstrations: run the program, trace each module's inputs and outputs, keep the traces whose final answer the metric liked, and search over which ones to insert. A second family comes from single-prompt optimization: ask a model for many instruction variants, score them, show it the best and repeat. Applying it module by module (coordinate ascent) is expensive and greedy, since each step runs the whole program and freezes the others; proposing all modules at once drops explicit credit assignment, a harder request that risks confusing the model, though with an ideal model far more powerful.
 **In this book:** [Compound AI Systems and DSPy › What the practitioners say](../02-building-agents/05-compound-ai-systems-and-dspy.md#what-the-practitioners-say).
 
 ### [46:00–52:00](https://www.youtube.com/watch?v=JEMYuzrKLUw&t=2760) Ground the proposals in the program
@@ -94,10 +94,10 @@ The lecturer closes with a goal: let open research lead progress again. Progress
 
 ## What to take away
 
-- A pipeline of narrow modules is easier to inspect, improve and port than one model asked to do everything.
-- A hand-written prompt mixes the design with choices tied to one model; declare what each step does and let an optimizer find how.
+- A pipeline of narrow modules is easier to inspect and improve than one model asked to do everything.
+- A hand-written prompt mixes the design with choices tied to one model; declare what each step does and let an optimizer find how, so the program ports to a new model.
 - Optimizers search in bulk: many bootstrapped examples and proposed instructions, scored by a metric defined outside the program.
-- Demonstrations gave the largest gains; instructions matter most where examples cannot show every case.
+- In isolation, nothing beats bootstrapped demonstrations; instructions matter most where examples cannot show every case.
 
 ## Sources
 

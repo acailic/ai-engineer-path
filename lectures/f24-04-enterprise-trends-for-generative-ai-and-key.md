@@ -24,12 +24,12 @@ Classical AI maps an input to a label; generative models run the other way, prod
 
 ### [9:15–11:15](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=555) From base model to assistant
 
-Supervised fine-tuning needs tens of thousands of expert answers. Preference tuning is cheaper: the model proposes several answers and a person marks each good or bad.
+Supervised fine-tuning needs tens of thousands of expert answers. Preference tuning is quicker: the model proposes several answers and a person marks each good or bad.
 **In this book:** [From Base Model to Assistant: Post-Training › 1. Supervised fine-tuning: imitate good answers](../01-foundations/03-from-base-model-to-assistant-post-training.md#1-supervised-fine-tuning-imitate-good-answers) · [From Base Model to Assistant: Post-Training › 3. Preference tuning: reward models, RLHF and DPO](../01-foundations/03-from-base-model-to-assistant-post-training.md#3-preference-tuning-reward-models-rlhf-and-dpo).
 
 ### [11:15–15:57](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=675) A multimodal model and a long context
 
-Gemini 1.5 accepts image, text, audio and video from the start, and its context reaches a million tokens in public preview, with trials up to ten million. The needle-in-a-haystack test hides one sentence, image or clip in a long input and checks that the model finds it: green for found, red for missed. An open research question is whether a model with a huge context will replace keyword or embedding search.
+Gemini accepts image, text, audio and video from the start, and the context of Gemini 1.5 reaches a million tokens in public preview, with internal trials up to ten million. The needle-in-a-haystack test hides one sentence, image or clip in a long input and checks that the model finds it: green for found, red for missed. An open research question is whether a model with a huge context will replace keyword or embedding search.
 **In this book:** nothing beyond this guide; nearest: [Using LLMs: Tokens, Context and Sampling › The core idea](../01-foundations/04-using-llms-tokens-context-and-sampling.md#the-core-idea).
 
 ### [15:57–20:43](https://www.youtube.com/watch?v=Sy1psHS3w3I&t=957) Enterprise trends: speed and access
@@ -103,7 +103,7 @@ A side-by-side tool runs several models on one input and lets the largest model 
 - Adapt a model cheapest first: examples in the prompt, then parameter-efficient tuning such as LoRA.
 - A model is trained on the past, invents facts and cannot cite; search grounds it.
 - Function calling turns answers into actions.
-- Evaluate each change automatically, with a large model as the rater.
+- Evaluate automatically, with a large model as the rater.
 
 ## Sources
 

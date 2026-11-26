@@ -26,19 +26,19 @@ At NVIDIA's 2024 developer conference, humanoid robots from partner companies sh
 
 ### [5:40–9:19](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=340) The generalist strategy
 
-The name, he explains, expands to Generalist Robot 00 Technology; the key word is **generalist**. His template is language processing, which once held a separate system for every task, each with its own pipelines. Then one general model arrived that could be prompted for any task and was specialized again by prompting, fine-tuning and distilling into smaller experts that beat the hand-built systems. Robotics is still at the specialist stage, and GR00T is meant to be its generalist moment.
+The name, he explains, expands to Generalist Robot 00 Technology; the key word is **generalist**. His template is language processing, which once held a separate system for every task, each with its own pipelines. Then one general model arrived that could be prompted for any task and was specialized again by prompting, fine-tuning and distilling into smaller experts that beat the original specialists. Robotics is still at the specialist stage, and GR00T is meant to be its generalist moment.
 
 **In this book:** nothing beyond this guide; nearest: [02. Embodied Agents and Robotics › How it works, step by step](../06-frontier-applications/02-embodied-agents-and-robotics.md#how-it-works-step-by-step).
 
 ### [9:19–13:51](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=559) The data pyramid principle
 
-Robotics lags because text can be downloaded and motor commands cannot. Topping the pyramid is real robot data, scarce at 24 hours per robot per day and gathered by teleoperation. Simulation comes next, then internet text and video, the largest and noisiest tier.
+Robotics lags because text can be downloaded and motor commands cannot. Topping the pyramid is real robot data, scarce at 24 hours per robot per day and gathered by teleoperation. Simulation comes next.
 
 **In this book:** [02. Embodied Agents and Robotics › Jim Fan (November 2024): data is the bottleneck](../06-frontier-applications/02-embodied-agents-and-robotics.md#jim-fan-november-2024-data-is-the-bottleneck).
 
 ### [13:51–19:31](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=831) The matrix principle
 
-Robots will live mostly in simulation, the only way to gather trillions of training examples. The reason: simulating a problem is easier than solving it, as the roughly 500 lines of Python that encode the rules of Go show. Two uses follow: reinforcement learning on self-generated data and imitation learning on multiplied demonstrations.
+Below simulation comes internet text and video, the largest and noisiest tier. Robots will live mostly in simulation, the only way to gather trillions of training examples. The reason: simulating a problem is easier than solving it, as the roughly 500 lines of Python that encode the rules of Go show. Two uses follow: reinforcement learning on self-generated data and imitation learning on multiplied demonstrations.
 
 **In this book:** [02. Embodied Agents and Robotics › How it works, step by step](../06-frontier-applications/02-embodied-agents-and-robotics.md#how-it-works-step-by-step).
 
@@ -68,13 +68,13 @@ The third principle places robot research on three axes: the number of bodies, o
 
 ### [46:42–52:20](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=2802) DrEureka and sim-to-real
 
-No simulation is exact, so domain randomization varies gravity, friction, weight and size across thousands of simulated worlds; a policy that masters them all should also work in the next one, the physical world. DrEureka has the language model write those ranges as well, and the resulting policies moved to hardware with no fine-tuning, including a dog balancing on a yoga ball that was rigid in simulation.
+No simulation is exact, so domain randomization varies gravity, friction, weight and size across thousands of simulated worlds; a policy that masters them all may very well also work in the next one, the physical world. DrEureka has the language model write those ranges as well, and the resulting policies moved to hardware with no fine-tuning, including a dog balancing on a yoga ball that was rigid in simulation.
 
 **In this book:** [02. Embodied Agents and Robotics › How it works, step by step](../06-frontier-applications/02-embodied-agents-and-robotics.md#how-it-works-step-by-step).
 
 ### [52:20–58:00](https://www.youtube.com/watch?v=Qhxr0uVT2zs&t=3140) The three computers and the closing argument
 
-The target model takes a description of the body plus a natural-language instruction and returns actions. Three computers support it: servers that generate data in simulation (OVX), systems that train the model (DGX) and chips that run it on the robot (AGX). The lecturer closes by calling robotics perhaps the hardest AI problem and humanoid robots worth nothing today and a trillion dollars tomorrow.
+The target model takes a description of the body plus a natural-language instruction and returns actions. Three computers support it: machines that generate data in simulation (OVX), systems that train the model (DGX) and chips that run it on the robot (AGX). The lecturer closes by calling robotics perhaps the hardest AI problem and humanoid robots worth nothing today and a trillion dollars tomorrow.
 
 **In this book:** [02. Embodied Agents and Robotics › Jim Fan (November 2024): data is the bottleneck](../06-frontier-applications/02-embodied-agents-and-robotics.md#jim-fan-november-2024-data-is-the-bottleneck).
 
