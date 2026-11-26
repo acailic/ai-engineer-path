@@ -14,7 +14,7 @@ Start with [04. Memory and Knowledge for Agents › The core idea](../02-buildin
 
 ### [0:00–2:16](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=0) Introduction to agents
 
-Yu Su opens with the hype around agents and the skeptics' reply: thin wrappers, built on autoregressive LLMs that cannot truly plan. Auto-GPT, hugely popular yet a prototype, is his cautionary tale; agents are an old AI topic.
+Yu Su opens with the hype around agents and the skeptics' reply: thin wrappers with nothing fundamental in them, and autoregressive LLMs that can never truly reason or plan. Auto-GPT, hugely popular yet a prototype, is his cautionary tale; agents are an old AI topic.
 **In this book:** not needed (course introduction).
 
 ### [2:16–5:13](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=136) Defining modern language agents
@@ -24,13 +24,13 @@ The usual definition, a language model connected to an external environment, lea
 
 ### [5:13–8:56](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=313) Reasoning in language agents
 
-Language as communication brings instruction following and in-context learning; language as reasoning is the rarer gift. A model that first answers no, then yes, is spending an adaptive amount of compute on a hard problem; in an agent, thinking exists to act better.
+Language as communication brings instruction following and in-context learning; language as reasoning is the rarer gift. A model that first answers no, then yes, is spending an adaptive amount of compute on that problem; in an agent, thinking exists to act better. Adding one action type, generating reasoning tokens, and one internal environment, an inner monologue, reconciles the new agents with the classic picture; self-reflection becomes a meta-level reasoning step.
 **In this book:** [03. Planning, Search and Decision-Making › The core idea](../02-building-agents/03-planning-search-and-decision-making.md#the-core-idea).
 
-### [8:56–12:34](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=536) Reconciling agent generations
+### [8:56–12:34](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=536) Why call it reasoning, and why language agents
 
-Adding one action type, generating reasoning tokens, and one internal environment, an inner monologue, reconciles the new agents with the classic picture; self-reflection becomes a meta-level reasoning step. One mechanism, token generation, blends perception-like, intuitive and symbolic steps, which justifies the word reasoning.
-**In this book:** [01. The Anatomy of an Agent › How it works, step by step](../02-building-agents/01-the-anatomy-of-an-agent.md#how-it-works-step-by-step).
+One mechanism, token generation, blends perception-like, intuitive and symbolic steps, as in a model's description of an image, which justifies the word reasoning. Of the many names in use, the one he prefers for this generation is language agents: language is their most salient trait, in multimodal agents it still does the heavy lifting, and that command of language need not come from a language model, which may be a means to an end.
+**In this book:** nothing beyond this guide; nearest: [01. The Anatomy of an Agent › How it works, step by step](../02-building-agents/01-the-anatomy-of-an-agent.md#how-it-works-step-by-step).
 
 ### [12:34–16:51](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=754) Core competencies framework
 
@@ -54,17 +54,17 @@ The Grokked Transformers paper asks whether a model can compose two memorized fa
 
 ### [59:51–1:16:45](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=3591) Mechanistic interpretation of grokking
 
-Decoding internal states reveals different circuits per reasoning type. Composition forms a staged circuit: early layers look up the bridge entity (reliably by layer 5 of 8), the second relation waiting for upper layers; comparison uses a parallel circuit. Out-of-distribution facts never required a second copy of the second-hop fact in the upper layers; tying lower and upper layer weights supplies it, and generalization appears. Grokking is this circuit forming: a state that already names the bridge entity gradually gains the second relation, as weight decay favors the efficient circuit.
+Decoding internal states reveals different circuits per reasoning type. Composition forms a staged circuit: early layers look up the bridge entity (reliably by layer 5 of 8), the second relation waiting for upper layers; comparison uses a parallel circuit. Out-of-distribution generalization needs a second copy of the second-hop fact in the upper layers, but an atomic fact never seen composed gives the model no reason to store one, which is why composition fails there; tying lower and upper layer weights supplies the copy, and generalization appears. Grokking is this circuit forming: a state that already names the bridge entity gradually gains the second relation, as weight decay favors the efficient circuit.
 **In this book:** nothing beyond this guide; nearest: [08. Training Models for Agentic Tasks › The core idea](../02-building-agents/08-training-models-for-agentic-tasks.md#the-core-idea).
 
 ### [1:16:45–1:29:10](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=4605) Planning and world models
 
-Planning means choosing actions that end in a state passing the goal test; language agents bring natural-language goals, actions discovered page by page and goal tests hard to automate. The reactive loop is fast but greedy; tree search backtracks, which real websites rarely allow. Model-based planning simulates each candidate with a world model first; WebDreamer, a language model playing that role, beat reactive planning on a sandbox benchmark and cost far less than tree search.
+Planning means choosing actions that end in a state passing the goal test; language agents bring natural-language goals, actions discovered page by page and goal tests hard to automate. The reactive loop is fast but greedy; tree search backtracks, which real websites rarely allow. Model-based planning simulates each candidate with a world model first; WebDreamer, which uses a language model as that world model, beat reactive planning on a sandbox benchmark and cost far less than tree search. The best planning strategy depends on the underlying model: a stronger one may need less scaffolding.
 **In this book:** [03. Planning, Search and Decision-Making › How it works: six patterns](../02-building-agents/03-planning-search-and-decision-making.md#how-it-works-six-patterns).
 
 ### [1:29:10–1:34:00](https://www.youtube.com/watch?v=zvI4UN2_i-w&t=5350) Future directions and conclusions
 
-The best planning strategy depends on the underlying model: a stronger one needs less scaffolding. Open problems remain in continual learning and personalization, in reasoning without reliable rewards, in genuine world models and in long horizons. Safety worries him most: the attack surface of a web agent is the whole internet; he separates endogenous risks, the agent's own incompetence, from exogenous risks planted in the environment.
+Open problems remain in continual learning and personalization, in reasoning without reliable rewards, in genuine world models and in long horizons. Safety keeps him up at night: the attack surface of a web agent is essentially the whole internet, where a deep research agent can be tricked by a seemingly benign website into revealing private information; he separates endogenous risks, which stem from the agent's own incompetence, from exogenous risks, which come from the external environment. He also sees exciting applications: agentic search or deep research, workflow automation and agents for science.
 **In this book:** nothing beyond this guide; nearest: [07. Coding Agents › 6. Safety](../02-building-agents/07-coding-agents.md#6-safety).
 
 ## What to take away

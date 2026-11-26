@@ -24,7 +24,7 @@ A modern model is built in two stages: pre-training on web-scale next-token pred
 
 ### [10:51–16:45](https://www.youtube.com/watch?v=cMiu3A7YBks&t=651) Instruction tuning and where the data comes from
 
-Evaluations come first: the team fixes target skills, keeps some test sets hidden, then collects prompts, checks licences and removes overlap with the tests. Supervised fine-tuning trains on prompt–answer pairs; answers from people are accurate but costly, synthetic ones cheap but noisy, and a mix works best.
+Evaluations come first: the team fixes target skills, keeps some test sets hidden, then collects prompts, checks licences and removes overlap with the tests. Supervised fine-tuning trains on prompt–answer pairs; answers from people cost time and money and vary in quality, synthetic ones are noisy, and a mix works best.
 **In this book:** [From Base Model to Assistant: Post-Training › 1. Supervised fine-tuning: imitate good answers](../01-foundations/03-from-base-model-to-assistant-post-training.md#1-supervised-fine-tuning-imitate-good-answers) · [Evaluating Agents: Trajectories and Environments › Benchmark design and contamination](../03-evaluation/04-evaluating-agents-trajectories-and-environments.md#benchmark-design-and-contamination).
 
 ### [16:45–23:00](https://www.youtube.com/watch?v=cMiu3A7YBks&t=1005) Data mixing and why step-by-step data helps
@@ -34,7 +34,7 @@ Mixing data is a balancing act: more poetry data can weaken mathematics, and vic
 
 ### [23:00–30:00](https://www.youtube.com/watch?v=cMiu3A7YBks&t=1380) Persona-driven synthetic data and filtering
 
-To scale reasoning data, the team writes problems for a persona, the same skill aimed at a researcher, a six-year-old or a musician, and has GPT-4o and Claude produce the solutions. The data raised accuracy on MATH far more than on GSM8K; a majority vote over several reasoning paths filtered out about 40% at equal performance.
+To scale reasoning data, the team has a model write problems for a persona, the same skill aimed at a researcher, a six-year-old or a musician, and has GPT-4o and Claude produce the solutions. The data raised accuracy on MATH far more than on GSM8K; a majority vote over several reasoning paths filtered out about 40% at equal performance.
 **In this book:** [From Base Model to Assistant: Post-Training › 1. Supervised fine-tuning: imitate good answers](../01-foundations/03-from-base-model-to-assistant-post-training.md#1-supervised-fine-tuning-imitate-good-answers).
 
 ### [30:00–33:40](https://www.youtube.com/watch?v=cMiu3A7YBks&t=1800) Other routes to reasoning data; the final SFT mix
@@ -49,7 +49,7 @@ A preference example pairs two responses to one prompt. RLHF trains a reward mod
 
 ### [40:00–49:21](https://www.youtube.com/watch?v=cMiu3A7YBks&t=2400) What matters in preference tuning
 
-PPO beats DPO in almost all cases but needs two models in memory, so DPO suits ablations. After SFT scored 56, careful preference-data selection brought 61; PPO added one point, a larger reward model half a point, and in-domain prompts little on average but much on GSM8K.
+PPO beats DPO in almost all cases but needs two models in memory, so DPO suits ablations. Careful preference-data selection took the score from 56 to 61; PPO added one point, a larger reward model under half a point, and in-domain prompts little on average but much on GSM8K.
 **In this book:** [From Base Model to Assistant: Post-Training › 3. Preference tuning: reward models, RLHF and DPO](../01-foundations/03-from-base-model-to-assistant-post-training.md#3-preference-tuning-reward-models-rlhf-and-dpo).
 
 ### [49:21–54:30](https://www.youtube.com/watch?v=cMiu3A7YBks&t=2961) Over-optimization and a rule-based reward
@@ -59,7 +59,7 @@ During DPO training the chat score plateaus, instruction following dips and GSM8
 
 ### [54:30–1:04:51](https://www.youtube.com/watch?v=cMiu3A7YBks&t=3270) RLVR: setup, results and scale
 
-RLVR needs only final answers or verifiable constraints, and optimizes with PPO on about 100,000 prompts from GSM8K, MATH and IFEval. It lifts scores after SFT and again after DPO, and works only because base models are now strong enough to explore.
+RLVR needs only final answers or verifiable constraints, and optimizes with PPO on about 100,000 prompts from GSM8K, MATH and IFEval. It lifts scores after SFT and again after DPO; on MATH the gain is seven points at 405B against three at 70B. It works now, she says, because base models are strong enough to explore.
 **In this book:** [From Base Model to Assistant: Post-Training › 4. Reinforcement learning with verifiable rewards](../01-foundations/03-from-base-model-to-assistant-post-training.md#4-reinforcement-learning-with-verifiable-rewards).
 
 ### [1:04:51–1:12:30](https://www.youtube.com/watch?v=cMiu3A7YBks&t=3891) s1: 1,000 examples and budget forcing
@@ -79,7 +79,7 @@ Pre-training itself can add reasoning. After warm-up and a cosine schedule over 
 
 ## What to take away
 
-- Data curation decided each stage more than the algorithm did.
+- In preference tuning, data curation mattered more than the algorithm: better data took the score from 56 to 61, and switching to PPO added one point.
 - RLVR needs only a final answer or a verifiable constraint, and pays off when the base model is strong.
 - Open recipes, data and code let others reproduce and extend the results.
 
