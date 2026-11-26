@@ -32,10 +32,10 @@ Every part heading links to the moment in the video where the part begins.
 | 5 | Coding Agents and AI for Vulnerability Detection | Charles Sutton (Google DeepMind) | 1:28:00 | 20 | 5 | [open](sp25-05-coding-agents-and-ai-for-vulnerability-detection.md) |
 | 6 | Multimodal Autonomous AI Agents | Ruslan Salakhutdinov (CMU / Meta) | 1:18:00 | 16 | 3 | [open](sp25-06-multimodal-autonomous-ai-agents.md) |
 | 7 | Multimodal Agents: From Perception to Action | Caiming Xiong (Salesforce AI Research) | 1:30:00 | 19 | 6 | [open](sp25-07-multimodal-agents-from-perception-to-action.md) |
-| 8 | AlphaProof: when reinforcement learning meets formal mathematics | Thomas Hubert (Google DeepMind) | 1:16:00 | 17 | 6 | [open](sp25-08-alphaproof-when-reinforcement-learning-meets.md) |
-| 9 | Language models for autoformalization and theorem proving | Kaiyu Yang (Meta FAIR) | 52:00 | 13 | 2 | [open](sp25-09-language-models-for-autoformalization-and.md) |
-| 10 | Bridging Informal and Formal Mathematical Reasoning | Sean Welleck (CMU) | 1:14:00 | 16 | 5 | [open](sp25-10-bridging-informal-and-formal-mathematical.md) |
-| 11 | Abstraction and Discovery with Large Language Model Agents | Swarat Chaudhuri (UT Austin) | 1:28:00 | 17 | 5 | [open](sp25-11-abstraction-and-discovery-with-large-language.md) |
+| 8 | AlphaProof: when reinforcement learning meets formal mathematics | Thomas Hubert (Google DeepMind) | 1:16:00 | 17 | 2 | [open](sp25-08-alphaproof-when-reinforcement-learning-meets.md) |
+| 9 | Language models for autoformalization and theorem proving | Kaiyu Yang (Meta FAIR) | 52:00 | 13 | 0 | [open](sp25-09-language-models-for-autoformalization-and.md) |
+| 10 | Bridging Informal and Formal Mathematical Reasoning | Sean Welleck (CMU) | 1:14:00 | 16 | 2 | [open](sp25-10-bridging-informal-and-formal-mathematical.md) |
+| 11 | Abstraction and Discovery with Large Language Model Agents | Swarat Chaudhuri (UT Austin) | 1:28:00 | 17 | 1 | [open](sp25-11-abstraction-and-discovery-with-large-language.md) |
 | 12 | Towards building safe and secure agentic AI | Dawn Song (UC Berkeley) | 1:52:00 | 10 | 2 | [open](sp25-12-towards-building-safe-and-secure-agentic-ai.md) |
 
 ## UC Berkeley Agentic AI MOOC (Fall 2025)
@@ -76,7 +76,7 @@ Every part heading links to the moment in the video where the part begins.
 | 15 | Long Context LLM | Song Han (MIT) | 1:14:00 | 19 | 0 | [open](mit-15-long-context-llm.md) |
 | 16 | Vision Transformer | Song Han (MIT) | 1:02:00 | 18 | 1 | [open](mit-16-vision-transformer.md) |
 | 17 | GAN, Video, and Point Cloud | Song Han (MIT) | 1:12:00 | 17 | 5 | [open](mit-17-gan-video-and-point-cloud.md) |
-| 18 | Diffusion Model | Song Han (MIT) | 1:12:00 | 18 | 4 | [open](mit-18-diffusion-model.md) |
+| 18 | Diffusion Model | Song Han (MIT) | 1:12:00 | 18 | 5 | [open](mit-18-diffusion-model.md) |
 | 19 | Distributed Training (Part I) | Song Han (MIT) | 1:10:00 | 17 | 2 | [open](mit-19-distributed-training-part-i.md) |
 | 20 | Distributed Training (Part II) | Song Han (MIT) | 1:00:00 | 16 | 2 | [open](mit-20-distributed-training-part-ii.md) |
 | 21 | On-Device Training and Transfer Learning | Song Han (MIT) | 1:06:00 | 16 | 1 | [open](mit-21-on-device-training-and-transfer-learning.md) |
@@ -93,7 +93,7 @@ Every part heading links to the moment in the video where the part begins.
 | 4 | Attention alternatives and mixture of experts |  | 1:28:00 | 20 | 0 | [open](cs336-04-attention-alternatives-and-mixture-of-experts.md) |
 | 5 | GPUs, TPUs |  | 1:20:00 | 18 | 0 | [open](cs336-05-gpus-tpus.md) |
 | 6 | Kernels, Triton |  | 1:28:00 | 19 | 2 | [open](cs336-06-kernels-triton.md) |
-| 7 | Parallelism I |  | 1:22:00 | 11 | 0 | [open](cs336-07-parallelism-i.md) |
+| 7 | Parallelism I |  | 1:22:00 | 11 | 1 | [open](cs336-07-parallelism-i.md) |
 | 8 | Parallelism II |  | 1:22:00 | 16 | 0 | [open](cs336-08-parallelism-ii.md) |
 | 9 | Scaling laws I |  | 1:18:00 | 17 | 0 | [open](cs336-09-scaling-laws-i.md) |
 | 10 | Inference |  | 1:26:00 | 16 | 0 | [open](cs336-10-inference.md) |
@@ -106,4 +106,4 @@ Every part heading links to the moment in the video where the part begins.
 | 17 | Alignment: multimodality |  | 1:18:00 | 13 | 0 | [open](cs336-17-alignment-multimodality.md) |
 | 18 | Guest lecture: Dan Fu |  | 1:12:00 | 13 | 0 | [open](cs336-18-guest-lecture-dan-fu.md) |
 
-In all: 1207 parts, of which 172 (14%) teach something no chapter teaches; 200,810 words.
+In all: 1207 parts, of which 161 (13%) teach something no chapter teaches; 201,297 words.

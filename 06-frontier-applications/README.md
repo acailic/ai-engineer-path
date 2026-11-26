@@ -56,10 +56,10 @@ Each guide maps one lecture from its first minute to its last and says where thi
 | Autonomous Agents: Embodiment, Interaction, and Learning | Peter Stone (UT Austin / Sony AI) | 1:02:00 | 2 of 15 | [open guide](../lectures/f25-11-autonomous-agents-embodiment-interaction-and.md) |
 | Project GR00T: A Blueprint for Generalist Robotics | Jim Fan (NVIDIA) | 58:00 | 3 of 11 | [open guide](../lectures/f24-09-project-gr00t-a-blueprint-for-generalist.md) |
 | Open-Source and Science in the Era of Foundation Models | Percy Liang (Stanford) | 54:00 | 5 of 15 | [open guide](../lectures/f24-10-open-source-and-science-in-the-era-of-foundation.md) |
-| AlphaProof: when reinforcement learning meets formal mathematics | Thomas Hubert (Google DeepMind) | 1:16:00 | 6 of 17 | [open guide](../lectures/sp25-08-alphaproof-when-reinforcement-learning-meets.md) |
-| Language models for autoformalization and theorem proving | Kaiyu Yang (Meta FAIR) | 52:00 | 2 of 13 | [open guide](../lectures/sp25-09-language-models-for-autoformalization-and.md) |
-| Bridging Informal and Formal Mathematical Reasoning | Sean Welleck (CMU) | 1:14:00 | 5 of 16 | [open guide](../lectures/sp25-10-bridging-informal-and-formal-mathematical.md) |
-| Abstraction and Discovery with Large Language Model Agents | Swarat Chaudhuri (UT Austin) | 1:28:00 | 5 of 17 | [open guide](../lectures/sp25-11-abstraction-and-discovery-with-large-language.md) |
+| AlphaProof: when reinforcement learning meets formal mathematics | Thomas Hubert (Google DeepMind) | 1:16:00 | 2 of 17 | [open guide](../lectures/sp25-08-alphaproof-when-reinforcement-learning-meets.md) |
+| Language models for autoformalization and theorem proving | Kaiyu Yang (Meta FAIR) | 52:00 | 0 of 13 | [open guide](../lectures/sp25-09-language-models-for-autoformalization-and.md) |
+| Bridging Informal and Formal Mathematical Reasoning | Sean Welleck (CMU) | 1:14:00 | 2 of 16 | [open guide](../lectures/sp25-10-bridging-informal-and-formal-mathematical.md) |
+| Abstraction and Discovery with Large Language Model Agents | Swarat Chaudhuri (UT Austin) | 1:28:00 | 1 of 17 | [open guide](../lectures/sp25-11-abstraction-and-discovery-with-large-language.md) |
 
 ## Where to go next
 

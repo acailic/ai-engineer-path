@@ -60,7 +60,7 @@ Each guide maps one lecture from its first minute to its last and says where thi
 | PyTorch (einops), resource accounting (FLOPs, memory, arithmetic intensity) |  | 1:18:00 | 0 of 18 | [open guide](../lectures/cs336-02-pytorch-einops-resource-accounting-flops-memory.md) |
 | GPUs, TPUs |  | 1:20:00 | 0 of 18 | [open guide](../lectures/cs336-05-gpus-tpus.md) |
 | Kernels, Triton |  | 1:28:00 | 2 of 19 | [open guide](../lectures/cs336-06-kernels-triton.md) |
-| Parallelism I |  | 1:22:00 | 0 of 11 | [open guide](../lectures/cs336-07-parallelism-i.md) |
+| Parallelism I |  | 1:22:00 | 1 of 11 | [open guide](../lectures/cs336-07-parallelism-i.md) |
 | Parallelism II |  | 1:22:00 | 0 of 16 | [open guide](../lectures/cs336-08-parallelism-ii.md) |
 | Guest lecture: Dan Fu |  | 1:12:00 | 0 of 13 | [open guide](../lectures/cs336-18-guest-lecture-dan-fu.md) |
 

@@ -67,9 +67,9 @@ One guide per lecture of the four courses, in [`lectures/`](lectures/README.md).
 | MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024) | 23 | 23 |
 | Stanford CS336 Language Modeling from Scratch (Spring 2026) | 18 | 18 |
 
-In the guides: 1,207 parts of lectures, of which 172 (14%) are taught by no chapter and are explained only in the guide.
+In the guides: 1,207 parts of lectures, of which 161 (13%) are taught by no chapter and are explained only in the guide.
 
-What is checked: each guide passes an automatic check before it is published (the parts cover the lecture end to end, every part links to its moment in the video, every link to a chapter section resolves, no passage is copied from the lecture). What is not checked: 28 of the 77 guides have not been read a second time against the lecture (11 guides of the MIT course and 17 of the Stanford course); the other 49 were read a second time by an AI reviewer on 2026-11-26 and corrected. If a guide and the lecture disagree, the lecture wins.
+What is checked: each guide passes an automatic check before it is published (the parts cover the lecture end to end, every part links to its moment in the video, every link to a chapter section resolves, no passage is copied from the lecture). What is not checked: 15 of the 77 guides have not been read a second time against the lecture (15 guides of the Stanford course); the other 62 were read a second time by an AI reviewer on 2026-11-26 and corrected. If a guide and the lecture disagree, the lecture wins.
 
 ## Table of contents
 
@@ -258,7 +258,7 @@ The chapters were checked in two ways, described in [VERIFICATION.md](VERIFICATI
 
 **Lecture guides, 2026-11-25 and 2026-11-26.** All 77 lectures now have a guide: 1,207 parts. Before a guide is published, an automatic check confirms that its parts cover the lecture end to end without a gap or an overlap, that every part links to the second of the video that its heading names, that every link to a chapter section resolves, and that no run of eight or more words is copied from the lecture outside quotation marks.
 
-**Glossary, 2026-11-25.** Every row of the glossary was checked against the chapter it links to: 12 definitions corrected, 7 links moved to a better chapter, 13 duplicates merged, 16 rows removed and 24 added. The glossary has 1,156 terms.
+**Glossary, 2026-11-25.** Every row of the glossary was checked against the chapter it links to: 12 definitions corrected, 7 links moved to a better chapter, 13 duplicates merged, 16 rows removed and 24 added. The glossary has 1,159 terms.
 
 **Not verified:**
 
@@ -268,7 +268,7 @@ The chapters were checked in two ways, described in [VERIFICATION.md](VERIFICATI
 - Facts that change fast (model names, prices, APIs, products, regulation) are true as of the date each chapter gives.
 - YouTube links were not checked, and not every external link was reopened.
 - The transcripts are machine-made and can garble names. The lectures are the authority.
-- The lecture guides: 28 of the 77 passed the automatic check only: nobody has read them a second time against the lecture (11 guides of the MIT course and 17 of the Stanford course). The other 49 were read a second time by an AI reviewer, not by a person, and corrected.
+- The lecture guides: 15 of the 77 passed the automatic check only: nobody has read them a second time against the lecture (15 guides of the Stanford course). The other 62 were read a second time by an AI reviewer, not by a person, and corrected.
 - The chapters in parts 07 and 08 were checked statement by statement against the book *Machine Learning in Production*, and their coverage was reviewed from 2026-11-26. A word-overlap count had flagged 82 of its 399 sections as possibly reflected only in part; these sections were read against the chapters, in 10 groups. All ten groups are finished, and the sections a reader needs were added to the chapters; two short proposed texts for the chapters on models-to-systems and on goals did not fit under the 3,500-word limit and are not in the course. The review also found 35 sentences in 19 chapters that repeated the book's wording without quotation marks; all were rephrased, and the longest passage a chapter now shares with the book outside quotation marks is a paper title.
 
 ## Status and gaps
