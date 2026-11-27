@@ -532,6 +532,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **GPU kernel** | A function that runs on the GPU. A fast kernel moves as little data as possible to the GPU's main memory and back. | [10.05](10-llm-internals/05-gpus-tpus-and-kernels.md) |
 | **Graceful degradation** | Reducing a system's function, after a failure, to keep operating safely. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
 | **Grader** | Code, or a judge, that turns one response into a score and a list of violations. | [03.02](03-evaluation/02-a-minimal-eval-harness.md) |
+| **Gradient clipping** | A cap on a gradient's size, one of the four parts of deep gradient compression. | [09.15](09-efficient-deep-learning/15-distributed-training.md) |
 | **Gradient pruning** | Removing most of the entries of a gradient before it is shared; it also stops deep leakage, because too little is left to match. | [09.09](09-efficient-deep-learning/09-llm-post-training-and-on-device-training.md) |
 | **Gradient quantization** | Keeping every gradient entry but in fewer bits. | [09.15](09-efficient-deep-learning/15-distributed-training.md) |
 | **Gradient** (also called: Gradients) | The direction that raises the loss fastest; training steps the parameters the opposite way. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
@@ -895,6 +896,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Operations** | All tasks, infrastructure and processes for deploying, running and updating a system in production. | [07.10](07-ml-in-production/10-planning-for-operations.md) |
 | **Optical flow** | For each pixel, its direction of motion into the next frame. | [09.13](09-efficient-deep-learning/13-gans-video-and-point-clouds.md) |
 | **Optimization loop (red teaming)** | Dawn Song's frame for automatic red teaming: generate candidates, inject, score, feed back, update. | [04.06](04-safety-and-security/06-red-teaming-and-safety-evaluation.md) |
+| **Optimizer** | The rule that turns gradients into new weights. | [09.15](09-efficient-deep-learning/15-distributed-training.md) |
 | **Optimizer (DSPy)** | A procedure that searches for better instructions and examples for every module of a program. | [02.05](02-building-agents/05-compound-ai-systems-and-dspy.md) |
 | **Optimizer state** | Running statistics an optimizer keeps to decide each step. | [10.02](10-llm-internals/02-resource-accounting-flops-memory-and-arithmetic-intensity.md) |
 | **Oracle** (also called: External check, Test oracle) | A cheap, trusted procedure that says whether a result is correct, such as running a program. | [03.01](03-evaluation/01-evaluation-is-the-product.md) |
@@ -1004,6 +1006,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Program retry** | An automatic repeat of a failed call after a transient error. | [02.02](02-building-agents/02-tool-design-and-function-calling.md) |
 | **Progressive distillation** | Training a student to replace two neighbouring teacher steps with one, halving the step count each round | [09.14](09-efficient-deep-learning/14-efficient-diffusion-models.md) |
 | **Project GR00T** | NVIDIA's effort, announced in March 2024, to build a generalist model as the brain of humanoid robots. | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
+| **Projection** | A weight matrix that turns each token into its query, key or value, or that produces a block's output. | [09.15](09-efficient-deep-learning/15-distributed-training.md) |
 | **Projector** | The small layer that maps a vision encoder's output into the language model's embedding space. | [10.12](10-llm-internals/12-alignment-and-multimodality.md) |
 | **Prompt** | The text sent to a model, which acts as the argument of a function. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
 | **Prompt (MCP primitive)** | A reusable prompt template that a server offers and a user picks. | [05.06](05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md) |
@@ -1483,6 +1486,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Window activation pruning** | Scoring windows by the magnitude of their activations and dropping the low-scoring ones. | [09.12](09-efficient-deep-learning/12-vision-transformers.md) |
 | **Window attention** | Attention restricted to a local window of patches, with linear instead of quadratic cost. | [09.12](09-efficient-deep-learning/12-vision-transformers.md) |
 | **Winograd convolution** | A transformation that computes a 3 × 3 convolution with fewer multiplications. | [09.07](09-efficient-deep-learning/07-tinyml-microcontrollers-and-tinyengine.md) |
+| **Worker** | One of the machines that compute gradients on their share of the data and send them to the parameter server or to one another. | [09.15](09-efficient-deep-learning/15-distributed-training.md) |
 | **Workflow** | A set of LLM calls connected by code that decides their order. | [01.08](01-foundations/08-a-short-history-of-llm-agents.md) |
 | **Workflow (LlamaIndex)** | Event-driven steps that pass messages, where a step can be plain Python or a model call. | [05.03](05-frameworks-and-multi-agent/03-llamaindex-knowledge-assistants.md) |
 | **Workflow-to-agent spectrum** | The scale from a single prompt through a fixed workflow and a bounded loop to an agent and a multi-agent system, measured by who decides the next step. | [01.08](01-foundations/08-a-short-history-of-llm-agents.md) |

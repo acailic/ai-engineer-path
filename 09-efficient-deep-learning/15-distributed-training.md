@@ -1,6 +1,6 @@
 # 15. Distributed Training
 
-**Level:** Practitioner · **Reading time:** 20 min · **Exercise:** 45 min
+**Level:** Practitioner · **Reading time:** 21 min · **Exercise:** 45 min
 **Prerequisites:** [Neural Network Basics for Efficiency](02-neural-network-basics-for-efficiency.md) for weights, activations and the batch
 
 > **In one sentence:** By the end you can choose how to split a training job over many GPUs, count the memory a run leaves on one GPU, and reduce what the GPUs send one another.
@@ -22,7 +22,7 @@ One training step takes a **batch**, a handful of examples: a forward pass compu
 | **Tensor parallelism** | each weight matrix | reduced | high, at both ends of every block |
 | **Sequence parallelism** | the tokens of a long input | activations reduced | inside attention |
 
-Data and sequence parallelism divide the data and copy the model; pipeline and tensor parallelism divide the model and share the data. Han rates a pipeline low on GPU time, because its fastest stage still waits for the slowest ([Lecture 20, 2:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=120)).
+Data and sequence parallelism divide the data and copy the model; pipeline and tensor parallelism divide the model and share the data. In Han's rating a pipeline idles its GPUs: its fastest stage still waits for the slowest ([Lecture 20, 2:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=120)).
 
 Data parallelism is a parallel sum, as in map and reduce, except that every GPU, not one process, must receive the total.
 
@@ -30,7 +30,7 @@ Data parallelism is a parallel sum, as in map and reduce, except that every GPU,
 
 ### Data parallelism with a parameter server
 
-Han starts with the centralized design, a **parameter server**, which he says is no longer widely used ([10:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=600)):
+Han starts with the centralized design, a **parameter server**, one machine that holds the model for the others, the **workers** or nodes. He says it is no longer widely used ([10:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=600)):
 
 1. The server replicates the model, every worker pulls a copy, and the data is split randomly but evenly among the workers.
 2. Each worker computes gradients on its share; they differ because the data differ.
@@ -40,9 +40,9 @@ Each iteration thus gains two synchronization steps over single-GPU training, th
 
 ### All-reduce: add without a server
 
-**Broadcast** sends the same copy to all nodes, and **reduce** collects and then sums, as the server does with the gradients. **All-reduce** is a reduce whose result every node receives ([16:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=960)).
+**Broadcast** sends the same copy to all nodes, and **reduce** collects and then sums, as the server does with the gradients. **All-reduce** is a reduce whose result every node receives ([16:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=960), [18:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=1080)).
 
-A worker moves one copy whatever the number N of GPUs, written O(1); the server serves all N, so its bandwidth requirement grows as O(N) and caps the scale. All-reduce removes the server; Han compares the shapes ([20:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=1200), [26:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=1560)):
+A worker moves one copy whatever the number N of GPUs, written O(1); the server serves all N, so its **bandwidth**, the bytes it must carry per second, grows as O(N) and caps the scale. All-reduce removes the server; Han compares the shapes ([20:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=1200), [26:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=1560)):
 
 | Aggregation | Time | Bandwidth of one node | Bandwidth of all nodes |
 |---|---|---|---|
@@ -50,11 +50,11 @@ A worker moves one copy whatever the number N of GPUs, written O(1); the server 
 | Ring all-reduce | O(N) | O(1) | O(N) |
 | Parallel all-reduce | O(1) | O(N) | O(N²) |
 
-In the ring, each node passes what it holds to its neighbor; after N − 1 steps each holds the full sum. **Recursive halving**, the butterfly all-reduce, takes the middle way ([28:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=1680)): with eight nodes, each exchanges with the node at distance 1, then 2, then 4, and after log N rounds, three for eight nodes, each node has every contribution ([30:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=1800)).
+In the ring, each node passes what it holds to its neighbor; after N − 1 steps each holds the full sum ([24:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=1440)). **Recursive halving**, the butterfly all-reduce, takes the middle way ([28:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=1680)): with eight nodes, each exchanges with the node at distance 1, then 2, then 4, and after log N rounds, three here, each node has every contribution ([30:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=1800)).
 
 ### Shard the memory: ZeRO and FSDP
 
-Data parallelism saves time and no memory. Training one parameter in FP16 costs 16 bytes, Han counts ([32:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=1920)): a 2-byte weight, a 2-byte gradient and 12 bytes of **optimizer state**, the extra numbers the optimizer keeps per weight: a 32-bit master copy of the weight and two 4-byte statistics. **ZeRO**, the zero-redundancy optimizer, gives each of N GPUs one N-th of these parts instead of a full copy ([34:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=2040)):
+Data parallelism saves time and no memory. Training one parameter in **FP16**, 16-bit floating point, costs 16 bytes, Han counts ([32:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=1920)): a 2-byte weight, a 2-byte gradient and 12 bytes of **optimizer state**, the extra numbers the optimizer keeps per weight, a 32-bit master copy of the weight and two 4-byte statistics. **ZeRO**, the zero-redundancy optimizer, gives each of N GPUs one N-th of these parts instead of a full copy ([34:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=2040)):
 
 | Stage | Shared across the GPUs | Bytes per parameter; largest model on an 80 GB GPU, N = 64 |
 |---|---|---|
@@ -69,36 +69,36 @@ He calls the last stage the usual way to train large language models ([36:00](ht
 
 Consecutive layers go to different GPUs, each a **stage**. Transformers suit this: their blocks are identical and take equal time. GPT-3's 350 GB of weights over eight GPUs leave 43.75 GB on each, which fits an 80 GB card ([38:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=2280)).
 
-Fed one batch at a time, only one GPU computes at any moment: 25% **utilization**, the share of a GPU's time spent computing, with four stages, and the waiting is the **bubble**. The cure is the **micro-batch**: split the batch into pieces, 16 examples into four groups of 4, so the first GPU starts the second piece while the second GPU works on the first ([40:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=2400)). Utilization rises to 57%, 2.5 times. Split the work finely, Han says ([42:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=2520)).
+Fed one batch at a time, only one GPU computes at any moment: 25% **utilization**, the share of a GPU's time spent computing, with four stages, and the waiting is the **bubble**. The cure is the **micro-batch**: split the batch into pieces, 16 examples into four groups of 4, so the first GPU starts the second piece while the second GPU works on the first ([40:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=2400)). Utilization rises to 57%, a gain Han puts at 2.5 times. Split the work finely, Han says ([42:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=2520)).
 
 ### Tensor parallelism: split inside a layer
 
-The split can go into one layer, as Megatron-LM does for a transformer's two blocks; since communication is expensive, each block speaks only at its start and its end ([44:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=2640)).
+The split can go into one layer, as Megatron-LM does for a transformer's two blocks, the **MLP**, a two-layer feed-forward network, and attention; since communication is expensive, each block speaks only at its start and its end ([44:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=2640)).
 
 1. **MLP block.** Split the first weight matrix by columns and the second by rows, and broadcast the input to two GPUs.
 2. Each GPU multiplies the input by its half of the first matrix, then the result by its rows of the second. The two results are partial sums, and one all-reduce adds them ([46:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=2760)).
-3. **Attention block.** Split the query, key and value projections by columns, which is splitting by **heads**, the independent attention computations; each GPU runs whole heads on its own.
+3. **Attention block.** Attention turns each token into a query, a key and a value with three **projections**, weight matrices. Split these three by columns, which is splitting by **heads**, the independent attention computations; each GPU runs whole heads on its own.
 4. Split the output projection by rows, and add the partial results with one all-reduce ([50:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=3000)).
 
 ### Sequence parallelism: split the tokens
 
-Long sequences need their own split: an hour of 1080p video easily passes 100 million tokens, Han says ([4:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=240)). In sequence parallelism every GPU holds the whole model and one part of the sequence ([54:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=3240)). It holds only its part's queries, keys and values, yet attention has to connect each part with all the others; with no exchange, chapter 1 never attends to chapter 2.
+Long sequences need their own split: an hour of 1080p video easily passes 100 million tokens, Han says ([4:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=240)). In sequence parallelism every GPU holds the whole model and one part of the sequence ([54:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=3240)). It holds only its part's queries, keys and values, yet attention has to connect each part with all the others; with no exchange, the first chapter never attends to the second.
 
-**DeepSpeed Ulysses** re-partitions inside attention ([56:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=3360), [58:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=3480)): after the projections, an **all-to-all** exchange, in which every GPU sends a different piece to every other GPU, switches the split from tokens to heads, so that each GPU runs the attention of the whole sequence for its own heads. Its limits are heavy communication and a parallelism at most equal to the number of heads, 8, 16 or 32 in Han's examples ([62:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=3720)).
+**DeepSpeed Ulysses** re-partitions inside attention ([56:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=3360), [58:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=3480)): after the projections, an **all-to-all** exchange, in which every GPU sends a different piece to every other GPU, switches the split from tokens to heads, so that each GPU runs the attention of the whole sequence for its own heads. The split cannot begin by heads, because each token's projections are computed where that token sits ([62:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=3720)). Its limits are heavy communication and a parallelism at most equal to the number of heads, 8, 16 or 32, the counts Han names ([62:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=3720)).
 
-**Ring attention** borrows the ring of the all-reduce ([64:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=3840)): each GPU keeps its queries and passes its keys and values around the ring until every block of the attention table is computed, and no count of heads caps it.
+**Ring attention** borrows the ring of the all-reduce ([64:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=3840)): each GPU keeps its queries and passes its keys and values around the ring until every block of the attention table is computed, and no count of heads caps it ([66:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=3960)).
 
 ### Combining the methods, and Alpa
 
-The methods combine ([Lecture 20, 4:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=240)). **3D parallelism** keeps tensor parallelism, the most communication-heavy, inside a server, splits the layers by pipeline parallelism and runs sharded data parallelism across servers ([Lecture 20, 8:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=480)). Bandwidth decides what goes where: eight GPUs within a node reach up to 900 GB per second over NVLink, nodes about 50 GB per second between them. Han's group therefore keeps Ulysses inside a node and lets ring attention cross between nodes ([6:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=360), [Lecture 19, 66:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=3960)).
+The methods combine ([Lecture 20, 4:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=240)): on four GPUs, two pairs each run a two-stage pipeline, and the two pairs take different shares of the data. **3D parallelism** keeps tensor parallelism, the most communication-heavy, inside a server, splits the layers by pipeline parallelism and runs sharded data parallelism across servers ([Lecture 20, 8:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=480)). Bandwidth decides what goes where: eight GPUs within a node reach up to 900 GB per second over **NVLink**, the link between GPUs in one node, and nodes about 50 GB per second between them. Han's group therefore keeps Ulysses inside a node and lets ring attention cross between nodes ([Lecture 20, 6:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=360), [Lecture 19, 66:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=3960)).
 
 The choices multiply, so **Alpa**, a compiler, searches them in two levels: stages first, by dynamic programming, then each operator's split. On his slide it beats a manual baseline by up to 8 times in throughput on 64 V100 GPUs ([10:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=600), [12:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=720)).
 
 ### Two costs: bandwidth and latency
 
-Han's premise: computation is cheap and moving data is expensive ([12:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=720)). Three trends make it worse. **Synchronous training**, the usual choice, trades gradients among all workers once per iteration. Larger models have more to trade, since a gradient has one entry per weight, and more nodes add traffic. Scalability therefore depends on the model: AlexNet, with 240 MB of weights and little arithmetic, does badly on 200 nodes, where Inception does far better ([14:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=840)).
+Han's premise: computation is cheap and moving data is expensive ([12:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=720)). Three trends make it worse: **synchronous training**, the usual choice, trades gradients among all workers once per iteration; larger models have more to trade, since a gradient has one entry per weight; and more nodes add traffic. Scalability therefore depends on the model: AlexNet, with 240 MB of weights and little arithmetic, does badly on 200 nodes, where Inception does far better ([14:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=840)).
 
-A network charges twice: in **bandwidth**, the bytes a link carries per second, and in **latency**, the wait before a byte arrives. Two remedies follow: fewer bytes per message, and sending them later ([16:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=960)).
+A network charges twice: in bandwidth and in **latency**, the wait before a byte arrives. Two remedies follow: send fewer bytes ([16:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=960)) or send them later ([42:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2520)).
 
 ### Send fewer bytes: prune the gradients
 
@@ -108,45 +108,45 @@ A network charges twice: in **bandwidth**, the bytes a link carries per second, 
 2. **Local accumulation**: hold the rest in a buffer on the node and add the next iteration's gradients to them.
 3. Send a buffered gradient once it passes the threshold.
 
-An early paper sped up training this way, but on ResNet-110 over CIFAR-10 accuracy fell from 93.75% to 92.75% ([20:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=1200)). Han traces the loss to **momentum**, which nearly every optimizer uses ([22:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=1320)): it keeps a **velocity**, a discounted sum of past gradients, and moves the weights by the velocity. An accumulated gradient fed into that rule lands the weights where the ordinary run never goes ([24:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=1440)).
+An early paper sped up training this way, but on ResNet-110 over CIFAR-10 accuracy fell from 93.75% to 92.75% ([20:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=1200)). Han traces that drop to **momentum**, which nearly every optimizer uses ([20:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=1200), [22:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=1320)): it keeps a **velocity**, a discounted sum of past gradients, and moves the weights by it. An accumulated gradient fed into that rule moves the weights somewhere the ordinary run would not ([24:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=1440)).
 
-**Momentum correction** accumulates the velocity instead, so the late update lands where it would have ([24:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=1440)). **Warm-up** guards the start of training, when the weights move fast: begin with a small **learning rate**, the size of each update, and raise it, and raise the pruning ratio gradually over the first epochs ([26:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=1560)). Local accumulation, momentum correction, warm-up and **gradient clipping**, a cap on a gradient's size, together make Han's deep gradient compression of 2017 ([36:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2160)).
+**Momentum correction** accumulates the velocity instead, so the late update lands where it would have ([24:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=1440)). **Warm-up** guards the start of training, when the weights move fast: begin with a small **learning rate**, the size of each update, and a low **pruning ratio**, the share of gradients dropped, and raise both gradually over the first epochs ([26:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=1560)). Local accumulation, momentum correction, warm-up and **gradient clipping**, a cap on a gradient's size, together make Han's **deep gradient compression** of 2017 ([36:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2160)).
 
 ### Send fewer bytes: low-rank and quantized gradients
 
-Under all-reduce, pruned gradients lose their sparsity, since nodes keep different large entries and their sum densifies every iteration. A shared coarse-grained pattern, or a second pruning inside the ring, holds that back. **PowerSGD** avoids sparsity: it sends each gradient matrix as two low-rank factors, a 4 × 4 matrix as 1 × 4 and 4 × 1 in Han's example, whose shape is the same on every node, so all-reduce changes nothing ([34:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2040)). Its speed-up grows almost linearly with the number of workers ([36:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2160)).
+Under all-reduce, pruned gradients lose their sparsity, since nodes keep different large entries and their sum densifies every iteration. A shared coarse-grained pattern, or a second pruning inside the ring, holds that back ([34:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2040)). **PowerSGD** avoids sparsity: it sends each gradient matrix as two low-rank factors, a 4 × 4 matrix as 1 × 4 and 4 × 1 in Han's example, whose shape is the same on every node, so all-reduce changes nothing ([34:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2040)). By Han's account its speed-up grows almost linearly with the number of workers, though the caption on his slide calls it nonlinear ([36:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2160)).
 
-**Gradient quantization** keeps every entry but in fewer bits ([38:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2280)). **1-bit SGD** sends the sign of each value with a 32-bit scale per column that keeps the sum of absolute values; it keeps its rounding error as a residual for the next gradient, an **error accumulation** that **TernGrad** avoids: its random choice of 0 or plus or minus the largest magnitude, with probabilities proportional to each gradient's size, averages to the true gradient ([38:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2280), [40:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2400)).
+**Gradient quantization** keeps every entry but in fewer bits ([38:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2280)). **1-bit SGD** sends the sign of each value with a 32-bit scale per column that keeps the sum of absolute values. It keeps its rounding error as a residual for the next gradient, an **error accumulation** that **TernGrad** does not need: TernGrad sends 0 or plus or minus the largest magnitude at random, with probabilities proportional to each gradient's size, so its choices average to the true gradient ([38:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2280), [40:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2400)).
 
 ### Send them later: delayed gradient averaging
 
-Latency resists money: light itself needs 162 milliseconds from Boston to Shanghai, Han says, and congestion adds more ([42:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2520), [44:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2640)). Bandwidth can be bought, with compression or faster hardware up to InfiniBand at 400 gigabits a second; latency cannot ([42:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2520)). A synchronous worker waits for the exchange before its next iteration.
+Latency resists money: light itself needs 162 milliseconds from Boston to Shanghai, Han says, and congestion adds more ([42:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2520), [44:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2640)). Bandwidth can be bought, with compression or faster hardware up to InfiniBand at 400 gigabits a second; latency cannot ([42:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2520)). A synchronous worker waits for the exchange before its next iteration ([44:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2640)).
 
-His analogy is a late day for homework, and, as in a course, only a fixed number is allowed: past some delay the model does not converge ([48:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2880)).
+His analogy is a late day for homework, and only a fixed number is allowed: past some delay the model does not converge ([48:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2880)).
 
-**Delayed gradient averaging** runs as follows ([46:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2760)):
+**Delayed gradient averaging** runs as follows ([46:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2760), [50:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=3000)):
 
 1. Compute the local gradient, send it with its iteration number, and store it in an array G.
 2. Start the next iteration at once.
 3. When the average from iteration i − D arrives, D iterations late, update the weights with the learning rate times the fresh local gradient, minus G[i − D], plus that average.
 
-The delayed average is made of **stale gradients**, gradients computed for weights that have since moved. It already contains this worker's gradient from D iterations ago; the correction swaps that one for the fresh one. No gradient is dropped.
+The delayed average is made of **stale gradients**, gradients computed for weights that have since moved. It already contains this worker's gradient from D iterations ago; the correction swaps that one for the fresh one ([52:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=3120)). No gradient is dropped.
 
 **Figure 1.** Delayed gradient averaging with a delay of one iteration: the exchange overlaps the next computation.
 
 ```mermaid
 sequenceDiagram
-    participant W1 as "Worker 1"
-    participant W2 as "Worker 2"
-    W1->>W2: "gradient of iteration 1"
-    W2->>W1: "gradient of iteration 1"
-    Note over W1,W2: "Both workers compute iteration 2 while the exchange travels"
-    W1->>W2: "gradient of iteration 2"
-    W2->>W1: "gradient of iteration 2"
-    Note over W1,W2: "Update 2 applies the average of iteration 1, corrected"
+    participant W1 as Worker 1
+    participant W2 as Worker 2
+    W1->>W2: gradient of iteration 1
+    W2->>W1: gradient of iteration 1
+    Note over W1,W2: Both workers compute iteration 2 while the exchange travels
+    Note over W1,W2: The average of iteration 1 arrives, and update 2 applies it, corrected
+    W1->>W2: gradient of iteration 2
+    W2->>W1: gradient of iteration 2
 ```
 
-The second update applies the average of iteration 1.
+Update 2 used iteration 1's average without waiting for its own exchange.
 
 ## Worked example
 
@@ -176,15 +176,15 @@ stage 3: 0.25 bytes per parameter, 320B parameters fit in 80 GB
 7B model: 112.0 GB on one GPU, 14.0 GB on each of eight GPUs at stage 3
 ```
 
-The first four lines reproduce the table above (4.2 and 2.2 rounded); the last shows why one GPU cannot train a 7-billion-parameter model and eight can. Activations are not counted. Without the master copy the count is 12 bytes, the 84 GB of the linked chapter.
+The first four lines reproduce the table above (4.2 and 2.2 rounded); the last shows why one GPU cannot train a 7-billion-parameter model and eight can. Activations are not counted. The linked chapter counts 12 bytes, 84 GB for the same model, because it assumes BF16 training, a second 16-bit format, without a separate 32-bit master copy: 2 + 2 + 8.
 
 ## What the practitioners say
 
-- **Han's own large run.** In 2019 his group trained a video model built on the temporal shift module (see [Efficient GANs, Video and Point-Cloud Models](13-gans-video-and-point-clouds.md)) on 660 hours of video on the Summit supercomputer: 49 hours 50 minutes on one node of 6 V100 GPUs, and, on 1,536 GPUs, 14 minutes: a speed-up of 211 times where the ideal is 256, with accuracy moving from 74.1% to 74.0% ([2:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=120), [4:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=240)).
-- **What pruning costs, and recovers.** On ResNet-110 over CIFAR-10, pruning without accumulation never converges. Accumulation alone reaches about 91.4% to 91.9% against a baseline of 92.9%; momentum correction brings 92.56%; warm-up helps further, and all three together pass 93% ([28:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=1680)).
-- **What compression buys.** The gradients end up 99.9% sparse and several hundred times smaller: AlexNet's shrinks from 232.56 MB to 0.39 MB, 597 times, and a speech model's from 488.08 MB to 0.74 MB, 608 times, with the accuracy intact ([30:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=1800)). Not 1,000 times: a sparse tensor needs an index per value, and the biases are not pruned ([32:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=1920)). Gradients take far more pruning than weights, for which 90% is already a high ratio, he adds ([36:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2160)); [Pruning and Sparsity](03-pruning-and-sparsity.md) covers weights.
+- **Han's own large run.** In 2019 his group trained a video model built on the temporal shift module (see [Chapter 13](13-gans-video-and-point-clouds.md)) on 660 hours of video on the Summit supercomputer: 49 hours 50 minutes on one node of 6 V100 GPUs, and, on 1,536 GPUs, 14 minutes: a speed-up of 211 times against an ideal 256, with accuracy moving from 74.1% to 74.0% ([2:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=120), [4:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=240)).
+- **What pruning costs, and recovers.** On ResNet-110 over CIFAR-10, pruning without accumulation never converges. Accumulation alone reaches about 91.4% to 91.9% against a baseline of 92.9%; momentum correction brings 92.56%; warm-up helps further, and all three together reach 93.28% on his slide, above the baseline ([28:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=1680)).
+- **What compression buys.** The gradients end up 99.9% sparse and several hundred times smaller: AlexNet's shrinks from 232.56 MB to 0.39 MB, 597 times, its accuracy intact, and a speech model's from 488.08 MB to 0.74 MB, its error rate intact ([30:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=1800), [32:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=1920)). Not 1,000 times: a sparse tensor needs an index per value, and the biases are not pruned ([32:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=1920)). Gradients take far more pruning than weights, for which 90% is already a high ratio, he adds ([36:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2160)); [Pruning and Sparsity](03-pruning-and-sparsity.md) covers weights.
 - **How long a delay is safe.** At least three steps of delay are very safe by his study, and he takes 10 or 20 as still small ([46:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2760), [52:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=3120)). On ResNet-18 over CIFAR-10 the uncorrected update sinks from 88.7% to 84.2% as the delay grows from 5 to 20; the corrected one stays between 88.7% and 89.3%. Asked whether the learning rate must then be smaller, he answers that it has to grow with the batch size, and more nodes make a bigger batch ([54:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=3240)).
-- **Speed-ups.** Summing ten iterations before sending gives 1.5 times the speed of a baseline of five local steps, and twenty gives 2 times; with the delay, 3 to 4 times, at unchanged accuracy. With eight Raspberry Pis joined by ordinary Ethernet, plain averaging speeds training up by 3 to 4 times with eight nodes; delayed averaging, by 7 to 7.5 times ([54:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=3240), [56:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=3360)).
+- **Speed-ups.** Summing ten iterations before sending gives about 1.5 times the speed of a baseline of five local steps, and twenty gives 2 times; with the delay, 3 to 4 times, at unchanged accuracy. With eight Raspberry Pis joined by ordinary Ethernet, plain averaging gives 3 to 4 times; delayed averaging, by 7 to 7.5 times ([54:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=3240), [56:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=3360)).
 
 ## Pitfalls
 
