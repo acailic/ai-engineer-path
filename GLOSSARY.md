@@ -140,6 +140,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Behavioral testing** | Building test data for one capability at a time and asserting a pass rate per capability. | [08.04](08-quality-assurance/04-testing-without-oracles.md) |
 | **Benchmark** | A dataset, an environment and a scoring procedure that many teams use to compare systems. | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
 | **Benign environment** | A test setting with plain prompts. | [04.07](04-safety-and-security/07-trustworthiness-beyond-injection.md) |
+| **BERT** | A language model trained by hiding some of its input words and predicting them from the rest. | [09.12](09-efficient-deep-learning/12-vision-transformers.md) |
 | **Best response** | The strategy that scores highest against a given opponent strategy. | [05.04](05-frameworks-and-multi-agent/04-multi-agent-systems-i-games-and-self-play.md) |
 | **Best-of-N** (also called: Search by repeated sampling) | Sampling N answers in parallel and keeping one that passes a check. | [05.05](05-frameworks-and-multi-agent/05-multi-agent-systems-ii-the-llm-era.md) |
 | **Beta distribution** | A flexible probability distribution for values between 0 and 1, which fits per-question pass rates across models. | [01.07](01-foundations/07-why-llm-outputs-are-noisy.md) |
@@ -184,6 +185,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Catastrophic forgetting** | A neural network losing old knowledge when it learns something new. | [02.04](02-building-agents/04-memory-and-knowledge-for-agents.md) |
 | **CFQ** | The Compositional Freebase Questions benchmark, on which Chen reports that dynamic least-to-most prompting beat fine-tuning on the full training set. | [01.05](01-foundations/05-prompting-and-in-context-learning.md) |
 | **Chain-of-thought (CoT)** (also called: Chain-of-thought prompting) | The reasoning steps a model writes before its final answer. Chain-of-thought prompting asks for them through worked examples or an instruction. | [01.05](01-foundations/05-prompting-and-in-context-learning.md) |
+| **Channels** | The parallel feature maps a layer outputs. | [09.13](09-efficient-deep-learning/13-gans-video-and-point-clouds.md) |
 | **Chaos engineering** (also called: Chaos testing) | Injecting faults into a running system to test its robustness. | [08.09](08-quality-assurance/09-testing-and-experimenting-in-production.md) |
 | **Chat model** | A model after post-training that follows instructions and converses, such as the models you call through an API. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
 | **Chat pattern** | The rule for who speaks next in a conversation and when it ends. | [05.02](05-frameworks-and-multi-agent/02-autogen-conversation-programming.md) |
@@ -194,6 +196,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Chinchilla rule of thumb** | About 20 training tokens per parameter for a compute-optimal model. | [01.02](01-foundations/02-how-large-language-models-are-trained.md) |
 | **Chunk** | One piece of a document, a few hundred tokens, stored for retrieval. | [02.04](02-building-agents/04-memory-and-knowledge-for-agents.md) |
 | **CIA triad** | The three classic security goals: confidentiality, integrity, and availability. | [04.01](04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md) |
+| **Cityscapes** | A dataset of street-scene photos with a class label per pixel, used to score segmentation models. | [09.12](09-efficient-deep-learning/12-vision-transformers.md) |
 | **Classification model** | A model that predicts one label from a fixed set. | [08.02](08-quality-assurance/02-measuring-model-quality.md) |
 | **Classifier** | A small model that labels an input, for example harmful or harmless. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
 | **Classifier guidance** | Steering each sampling step of a diffusion model with the gradient of a separately trained classifier, multiplied by a strength | [09.14](09-efficient-deep-learning/14-efficient-diffusion-models.md) |
@@ -205,6 +208,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Closed-ended task** | A task with few possible answers, so a program can check them. | [01.01](01-foundations/01-machine-learning-in-a-nutshell.md) |
 | **Cluster** | A group of observations that depend on the same source, such as repeated attempts on one task. | [03.05](03-evaluation/05-statistics-for-evals.md) |
 | **Clustered standard error** | A standard error that treats each cluster as one source of evidence. | [03.05](03-evaluation/05-statistics-for-evals.md) |
+| **CNN** (also called: convolutional neural network) | A network of convolutional layers; a 2D CNN reads single frames, a 3D CNN also runs over time. | [09.13](09-efficient-deep-learning/13-gans-video-and-point-clouds.md) |
 | **CNOT** | Controlled NOT, a two-qubit gate that flips the target qubit only when the control qubit is 1. | [09.16](09-efficient-deep-learning/16-quantum-machine-learning.md) |
 | **Coalescing** | Combining the memory accesses of a warp's threads into a few full cache-line transfers. | [10.05](10-llm-internals/05-gpus-tpus-and-kernels.md) |
 | **Code action** | An action expressed as code or a shell command that does several things at once. | [02.07](02-building-agents/07-coding-agents.md) |
@@ -303,6 +307,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Decision record** | A stored description of one production decision that ties its output to the exact inputs and versions that produced it. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
 | **Declarative language** | A language in which a team states what the agent should do, not how. | [03.07](03-evaluation/07-evals-in-production.md) |
 | **decoder-only** | A model whose causal mask lets each token look only at the ones before it; the family of GPT and of the models the chapter describes | [10.03](10-llm-internals/03-transformer-architectures-and-hyperparameters.md) |
+| **Decoupled high-resolution adaptation** | DC-AE's three training phases: the whole encoder and decoder at low resolution, only the middle layers at high resolution, then only the decoder's last layer at low resolution again. | [09.14](09-efficient-deep-learning/14-efficient-diffusion-models.md) |
 | **Deduplication** | Removing repeated documents or passages from a data set. | [10.10](10-llm-internals/10-training-data.md) |
 | **Deep compression autoencoder** (also called: DC-AE) | Han's DC-AE, an autoencoder that compresses each side of an image 64 times, so that a 512 image leaves 8 × 8 = 64 tokens. | [09.14](09-efficient-deep-learning/14-efficient-diffusion-models.md) |
 | **Deep gradient compression** | A 2017 method of Han's group: prune gradients, accumulate the rest locally, and add momentum correction, warm-up and gradient clipping to keep the accuracy. | [09.15](09-efficient-deep-learning/15-distributed-training.md) |
@@ -331,9 +336,11 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Differentiable augmentation** | Applying the same transformation to real and generated images during GAN training, so that the loss flows back through the transformation to the generator. | [09.13](09-efficient-deep-learning/13-gans-video-and-point-clouds.md) |
 | **Differential privacy** | A guarantee that a training result is nearly the same whether or not one person's record is in the data. | [04.07](04-safety-and-security/07-trustworthiness-beyond-injection.md) |
 | **Differential testing** | Comparing a model's output with a reference implementation or with several other models instead of with a label. | [08.04](08-quality-assurance/04-testing-without-oracles.md) |
+| **Diffusion kernel** | Han's name for the shortcut that gives the noisy image at step t directly from the clean image. | [09.14](09-efficient-deep-learning/14-efficient-diffusion-models.md) |
 | **Diffusion model** | A generative model that produces an image by removing noise over many steps. | [09.14](09-efficient-deep-learning/14-efficient-diffusion-models.md) |
 | **Diffusion transformer** | A transformer used as the denoiser; Sana's uses linear attention. | [09.14](09-efficient-deep-learning/14-efficient-diffusion-models.md) |
 | **Direct injection** | A prompt injection in which the attacker types the instruction into the application. | [04.02](04-safety-and-security/02-jailbreaks-and-prompt-injection.md) |
+| **Discriminative model** | A model that learns a decision boundary, the border between one label's region and another's, where a generative model learns the distribution of the data. | [09.14](09-efficient-deep-learning/14-efficient-diffusion-models.md) |
 | **Discriminative task** | A task that labels the input the model is given, as sentiment analysis or entailment does. | [10.03](10-llm-internals/03-transformer-architectures-and-hyperparameters.md) |
 | **Discriminator** | The half of a GAN that learns to tell real images from generated ones. | [09.13](09-efficient-deep-learning/13-gans-video-and-point-clouds.md) |
 | **Distillation loss** | A penalty on the difference between the teacher's and the student's output distributions. | [09.06](09-efficient-deep-learning/06-knowledge-distillation.md) |
@@ -370,6 +377,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Ecological validity** | How well an evaluation captures real use. | [10.09](10-llm-internals/09-evaluating-language-models.md) |
 | **Economy of mechanism** | The principle that security controls stay small and simple. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
 | **Effector** | A part that acts, such as a motor in a robot. | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
+| **Eigenvalue** | A number λ for which a matrix maps some vector to λ times itself. | [09.16](09-efficient-deep-learning/16-quantum-machine-learning.md) |
 | **einops** | A library for tensor operations in which dimensions are written by name. | [10.02](10-llm-internals/02-resource-accounting-flops-memory-and-arithmetic-intensity.md) |
 | **Elicitation** | The choice of prompts, techniques and environments that draws a capability out of a model. | [03.06](03-evaluation/06-evaluating-capabilities-and-risks.md) |
 | **Elo** (also called: Elo score) | A rating built from pairwise wins, with the win probability given by a logistic formula. | [10.09](10-llm-internals/09-evaluating-language-models.md) |
@@ -453,6 +461,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Feature flag** | A switch that turns new code on for selected users. | [07.08](07-ml-in-production/08-automating-the-pipeline.md) |
 | **Feature importance** | How much a model's accuracy drops when it loses access to one feature. | [08.13](08-quality-assurance/13-explainability-fairness-and-safety.md) |
 | **Feature interaction** | A failure that appears only when components that each work as specified are combined. | [08.08](08-quality-assurance/08-system-quality-end-to-end-tests-and-guardrails.md) |
+| **Feature maps** | The individual arrays of numbers a layer outputs. | [09.13](09-efficient-deep-learning/13-gans-video-and-point-clouds.md) |
 | **Feature store** | A central catalog of reusable feature-encoding code that can also precompute and cache feature vectors. | [07.07](07-ml-in-production/07-deploying-a-model.md) |
 | **Feature vector** | The sequence of numbers that represents an input for a model. | [07.07](07-ml-in-production/07-deploying-a-model.md) |
 | **Feature-level measure** | An online success measure designed for one feature, such as how many users switch it on, because a system-level number cannot say whether that feature helped. | [08.09](08-quality-assurance/09-testing-and-experimenting-in-production.md) |
@@ -507,6 +516,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Generative agents** | A system of about twenty simulated townspeople, each keeping a diary of what happened and adding conclusions drawn from it, in Yao's example. | [01.04](01-foundations/04-using-llms-tokens-context-and-sampling.md) |
 | **Generative model** | A model that produces text or images rather than choosing a label. | [08.02](08-quality-assurance/02-measuring-model-quality.md) |
 | **Generative task** | A task in which the model produces the answer itself, token by token, as translation or summarization does. | [10.03](10-llm-internals/03-transformer-architectures-and-hyperparameters.md) |
+| **Generator** | The network of a GAN that turns an input into an image; the only one that runs after training. | [09.13](09-efficient-deep-learning/13-gans-video-and-point-clouds.md) |
 | **Generator and critic** | A run-time pattern in which one agent produces and another checks it with new information. | [05.05](05-frameworks-and-multi-agent/05-multi-agent-systems-ii-the-llm-era.md) |
 | **Generator-conditioned discriminator** | A discriminator that receives the generator's channel counts and resolution through a fully connected layer, so it knows how large its opponent is. | [09.13](09-efficient-deep-learning/13-gans-video-and-point-clouds.md) |
 | **Genetic algorithm** | A search that keeps the candidates that work, mutates them, and repeats. | [04.02](04-safety-and-security/02-jailbreaks-and-prompt-injection.md) |
@@ -597,6 +607,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **ICPC** | A programming contest that Brown calls one of the leading in the world; he reports a first place among its human contestants. | [05.05](05-frameworks-and-multi-agent/05-multi-agent-systems-ii-the-llm-era.md) |
 | **Idempotent** | Said of an operation that has the same effect when repeated as when called once. | [02.02](02-building-agents/02-tool-design-and-function-calling.md) |
 | **Im2col** | Rearranging convolution inputs into columns so the operation becomes matrix multiplication. | [09.07](09-efficient-deep-learning/07-tinyml-microcontrollers-and-tinyengine.md) |
+| **ImageNet** | A large labeled image dataset used as the standard classification benchmark. | [09.12](09-efficient-deep-learning/12-vision-transformers.md) |
 | **Imitation learning** | Learning a policy from demonstrations of the wanted behavior instead of from a reward. | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **Imperfect information** | A game in which a player cannot see everything, as in poker. | [05.04](05-frameworks-and-multi-agent/04-multi-agent-systems-i-games-and-self-play.md) |
 | **Improper output handling** | Trusting model output enough to pass it to a shell, a database, or a URL without validation. | [04.01](04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md) |
@@ -681,7 +692,9 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Latency** | The delay to complete one request. | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **Latency budget** | A written limit on how much time a check may add to each step of a system, fixed before the check goes on the path between a model and its effect. | [11.03](11-professional-practice/03-capstone-monitoring-agent-for-prompt-injection.md) |
 | **Latency table** | Per-operator timings measured once on the target device and summed to estimate a model's latency. | [09.05](09-efficient-deep-learning/05-neural-architecture-search.md) |
+| **Latent** | The much smaller tensor (a multidimensional array) that an autoencoder's encoder produces from an image. | [09.14](09-efficient-deep-learning/14-efficient-diffusion-models.md) |
 | **Latent diffusion** | Running a diffusion model in a compressed latent space instead of on pixels. | [09.14](09-efficient-deep-learning/14-efficient-diffusion-models.md) |
+| **Latent space** | A space of vectors that describe images; moving a point in it edits the image. | [09.13](09-efficient-deep-learning/13-gans-video-and-point-clouds.md) |
 | **Latent variables** | Hidden properties, such as an agent's skill or a customer's shopping habits, that a data generator varies so that synthetic tasks follow realistic causal patterns. | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
 | **layer normalization** | A normalization layer whose set is every channel and position of one input, so that each token is normalized before attention | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
 | **LayerNorm** | Normalization that subtracts the mean and divides by the standard deviation, then scales and shifts. | [10.03](10-llm-internals/03-transformer-architectures-and-hyperparameters.md) |
@@ -812,6 +825,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Multi-head latent attention (MLA)** | Attention that caches one compressed vector per token and expands it to keys and values when needed. | [10.08](10-llm-internals/08-inference.md) |
 | **Multi-hop question** | A question whose answer needs more than one fact, often from different documents. | [02.04](02-building-agents/04-memory-and-knowledge-for-agents.md) |
 | **Multi-query attention (MQA)** | Attention in which all query heads share a single key-value head. | [10.08](10-llm-internals/08-inference.md) |
+| **Multi-scale learning** | Learning from patterns at several sizes at once, here by aggregating nearby tokens before attention. | [09.12](09-efficient-deep-learning/12-vision-transformers.md) |
 | **Multimodal agent** | An agent that reads more than text, here screenshots as well as page source, and acts on what it perceives. | [06.01](06-frontier-applications/01-multimodal-agents-web-and-computer-use.md) |
 | **Multimodal model** | A model that reads or writes more than one kind of data, such as text and images. | [05.03](05-frameworks-and-multi-agent/03-llamaindex-knowledge-assistants.md) |
 | **Multiple comparisons** | The rise in false alarms that comes from testing many slices or hypotheses at once. | [08.03](08-quality-assurance/03-slicing.md) |
@@ -943,6 +957,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Plan** | A sequence of actions chosen before taking them. | [02.03](02-building-agents/03-planning-search-and-decision-making.md) |
 | **Plan-then-execute** | Writing every step first and then carrying them out. | [02.03](02-building-agents/03-planning-search-and-decision-making.md) |
 | **Plausibility check** | A soft check that flags data that looks wrong without being able to prove it wrong. | [08.06](08-quality-assurance/06-data-quality.md) |
+| **Point branch** | The branch of a point-voxel CNN that applies a multilayer perceptron to each point on its own. | [09.13](09-efficient-deep-learning/13-gans-video-and-point-clouds.md) |
 | **Point cloud** | A set of 3D points measured by a sensor such as LiDAR, mostly empty space. | [09.03](09-efficient-deep-learning/03-pruning-and-sparsity.md) |
 | **Point-voxel CNN** (also called: PVCNN) | A network whose block combines a voxel branch and a point branch. | [09.13](09-efficient-deep-learning/13-gans-video-and-point-clouds.md) |
 | **Pointwise judging** | Scoring one output at a time. | [03.03](03-evaluation/03-llm-as-a-judge-and-rubrics.md) |
@@ -956,6 +971,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Population best response** | The best strategy against the mix of players actually present. | [05.04](05-frameworks-and-multi-agent/04-multi-agent-systems-i-games-and-self-play.md) |
 | **Position bias** | The tendency of a judge to favor the output listed first. | [03.03](03-evaluation/03-llm-as-a-judge-and-rubrics.md) |
 | **Position interpolation** | Rescaling rotary positions so a model trained on short contexts accepts longer ones. | [09.08](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) |
+| **positional encoding** | A vector added to every token to mark where it sits in the input. | [09.12](09-efficient-deep-learning/12-vision-transformers.md) |
 | **Post-training** | Every training stage that comes after pre-training, which reuses the training loop with a new objective. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
 | **Post-training quantization** | Converting a trained model to low precision without retraining it. | [09.04](09-efficient-deep-learning/04-quantization.md) |
 | **Power analysis** | A calculation, made before running, of whether an evaluation is large enough to detect an effect of a given size. | [01.07](01-foundations/07-why-llm-outputs-are-noisy.md) |
@@ -1027,6 +1043,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Quantization-aware training** | Fine-tuning a model with quantization simulated in the forward pass. | [09.04](09-efficient-deep-learning/04-quantization.md) |
 | **Quantum circuit** | The three stages of a quantum program: initialize the qubits, apply gates, measure, with optional classical post-processing | [09.16](09-efficient-deep-learning/16-quantum-machine-learning.md) |
 | **Quantum error correction** | Trading redundancy, several physical qubits per logical one, for reliability. | [09.16](09-efficient-deep-learning/16-quantum-machine-learning.md) |
+| **Quantum gate** | An operation on one or two qubits, written as a matrix that multiplies the state vector; every gate is reversible. | [09.16](09-efficient-deep-learning/16-quantum-machine-learning.md) |
 | **Quantum simulator** | A classical program that computes a circuit's state vector, which a real device does not expose; its time and memory grow exponentially with the number of qubits. | [09.16](09-efficient-deep-learning/16-quantum-machine-learning.md) |
 | **Quantum supremacy** | A computation that a quantum device performs better than the best classical computer, shown by Google a few years before Lecture 22 | [09.16](09-efficient-deep-learning/16-quantum-machine-learning.md) |
 | **Quantum utility** | A computation that is hard to run classically but not yet useful, demonstrated by IBM | [09.16](09-efficient-deep-learning/16-quantum-machine-learning.md) |
@@ -1053,12 +1070,14 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Reasoning structure** | The steps Self-Discover composes for one task from a list of reasoning strategies, which the model then follows. | [01.05](01-foundations/05-prompting-and-in-context-learning.md) |
 | **Recall** | Of all the real positive cases, the share a model flagged. | [08.02](08-quality-assurance/02-measuring-model-quality.md) |
 | **Receptive field** | The set of inputs that one output value depends on. | [09.02](09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) |
+| **Reconstruction loss** | A loss that compares the student's output with the target pixel by pixel. | [09.13](09-efficient-deep-learning/13-gans-video-and-point-clouds.md) |
 | **recursive halving** | An all-reduce in which each node exchanges with nodes at doubling distances, so that after log n rounds every node holds the whole sum; also called butterfly all-reduce | [10.06](10-llm-internals/06-parallelism.md) |
 | **Red teaming** | Playing the attacker against your own system, on purpose, before somebody else does. | [04.06](04-safety-and-security/06-red-teaming-and-safety-evaluation.md) |
 | **Reduce** | A collective operation that collects data onto one node and then sums it. | [09.15](09-efficient-deep-learning/15-distributed-training.md) |
 | **Reduce-scatter** | Summing tensors across ranks and dealing the result out in slices. | [10.06](10-llm-internals/06-parallelism.md) |
 | **Reduction in error** | The share of a baseline's mistake rate that a model removes. | [08.02](08-quality-assurance/02-measuring-model-quality.md) |
 | **Redundancy** | Running several independent copies or kinds of a component so that one failure does not stop the system. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
+| **Redundancy (of data)** | Work spent on data that repeats or is not there: the property that image generators, video and 3D data share in Han's lecture. | [09.13](09-efficient-deep-learning/13-gans-video-and-point-clouds.md) |
 | **Reference window** | An earlier period whose data is trusted and that a new batch is compared with. | [08.06](08-quality-assurance/06-data-quality.md) |
 | **Reference-based criterion** | A rubric criterion that checks the output against known facts. | [03.03](03-evaluation/03-llm-as-a-judge-and-rubrics.md) |
 | **Reference-free criterion** | A rubric criterion that can only judge the form of the output. | [03.03](03-evaluation/03-llm-as-a-judge-and-rubrics.md) |
@@ -1087,10 +1106,12 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **ReProver** | A theorem prover that retrieves useful known lemmas before proposing a tactic. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **REQ (requirement)** | A statement of a state you want in the world. | [07.03](07-ml-in-production/03-goals-and-requirements.md) |
 | **Requirements engineering** | The work of finding, negotiating and writing down what a system must do and how well. | [07.03](07-ml-in-production/03-goals-and-requirements.md) |
+| **Residual autoencoding** | A DC-AE ingredient: a branch without weights in each downsampling block moves every 2 × 2 block of pixels into four channels (and back in upsampling), so the network does not have to learn the rearrangement. | [09.14](09-efficient-deep-learning/14-efficient-diffusion-models.md) |
 | **Residual diffusion** | Han's small diffusion model that predicts the residual tokens. | [09.12](09-efficient-deep-learning/12-vision-transformers.md) |
 | **Residual stream** | The vector a token carries from the first layer to the last, which blocks add to and never overwrite. | [10.03](10-llm-internals/03-transformer-architectures-and-hyperparameters.md) |
 | **Residual token** | The continuous token minus the discrete one, which holds the detail a codebook misses. | [09.12](09-efficient-deep-learning/12-vision-transformers.md) |
 | **Resource (MCP primitive)** | Data that a server exposes for the application to read. | [05.06](05-frameworks-and-multi-agent/06-agent-infrastructure-sandboxes-browser-use-and-protocols.md) |
+| **Resource-constrained search** | A search over the sparsity of each layer that keeps only proposals meeting a latency budget. | [09.12](09-efficient-deep-learning/12-vision-transformers.md) |
 | **Responsible Scaling Policy** | A developer's public commitment that names capability thresholds and the measures it will meet before training or deploying a model above each one. | [04.09](04-safety-and-security/09-policy-governance-and-standards.md) |
 | **Retrieval** | A search that puts matching documents into the prompt. | [01.04](01-foundations/04-using-llms-tokens-context-and-sampling.md) |
 | **Retrieval hit rate** | How often the retrieval step fetches a chunk that contains the answer. | [02.04](02-building-agents/04-memory-and-knowledge-for-agents.md) |
@@ -1098,6 +1119,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Retriever** | A model that ranks the premises of a library by how likely each is to help with the current proof state. | [06.04](06-frontier-applications/04-agents-for-formal-mathematics.md) |
 | **Reverse process** | The half of a diffusion model that runs from noise to an image and needs a network. | [09.14](09-efficient-deep-learning/14-efficient-diffusion-models.md) |
 | **Reversible action** | An action that can be undone, so that a wrong prediction behind it usually does minor or temporary harm. | [07.04](07-ml-in-production/04-planning-for-mistakes.md) |
+| **Reversible gate** | A property of every quantum gate: from the gate and its output the input can be recovered. | [09.16](09-efficient-deep-learning/16-quantum-machine-learning.md) |
 | **Revision** | A version of an artifact that replaces an earlier one in time. | [08.12](08-quality-assurance/12-responsible-engineering-versioning-and-reproducibility.md) |
 | **Reward** | A score given to a model's output during training, which the model is trained to maximize. | [01.03](01-foundations/03-from-base-model-to-assistant-post-training.md) |
 | **Reward hacking** | Passing the grader without doing the task. | [02.08](02-building-agents/08-training-models-for-agentic-tasks.md) |
@@ -1202,6 +1224,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Simulator** (also called: Environment simulator) | A program that imitates an environment so that trials are cheap. | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **Single control** | A setting in which the agent operates every tool and the user only talks. | [03.04](03-evaluation/04-evaluating-agents-trajectories-and-environments.md) |
 | **Skill library** | Voyager's store of learned behaviors as executable code, each retrieved by its description. | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
+| **Skip connection** | A shortcut that carries a layer's output past the layers after it; a quantum circuit cannot have one, because a state cannot be copied. | [09.16](09-efficient-deep-learning/16-quantum-machine-learning.md) |
 | **Slave** | In Privtrans, the unprivileged part of a program that does the risky work with no permissions. | [04.04](04-safety-and-security/04-defenses-guardrails-detection-and-secure-design.md) |
 | **Slice** | A subset of evaluation or production data selected by a slicing function and reported with its size. | [08.03](08-quality-assurance/03-slicing.md) |
 | **Slice intersection** | A slice made from examples that belong to two or more other slices at once. | [08.03](08-quality-assurance/03-slicing.md) |
@@ -1263,6 +1286,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Structured index** | A network of concepts and their links, stored beside the embeddings, that lets retrieval follow associations. | [02.04](02-building-agents/04-memory-and-knowledge-for-agents.md) |
 | **Structured output** | Model output constrained to a format such as JSON that code can parse. | [01.04](01-foundations/04-using-llms-tokens-context-and-sampling.md) |
 | **Stub** (also called: Scripted model, stub model) | A deterministic fake that stands in for a real system behind the same interface. | [03.02](03-evaluation/02-a-minimal-eval-harness.md) |
+| **Sub-network** | A smaller network inside a larger one, obtained by sampling a channel count per layer. | [09.13](09-efficient-deep-learning/13-gans-video-and-point-clouds.md) |
 | **Subcircuit** | A candidate circuit contained in a supercircuit, which inherits the supercircuit's parameters. | [09.16](09-efficient-deep-learning/16-quantum-machine-learning.md) |
 | **Super-population** | The infinite set of questions that an evaluation's questions were drawn from. | [03.05](03-evaluation/05-statistics-for-evals.md) |
 | **Supercircuit** | A circuit large enough to contain every candidate, trained once so that its subcircuits can be ranked without training each. | [09.16](09-efficient-deep-learning/16-quantum-machine-learning.md) |
@@ -1272,6 +1296,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Supply chain attack** | An attack in which something imported, such as a model file, a package, or a data set, was already malicious. | [04.01](04-safety-and-security/01-threat-modeling-llm-applications-and-agents.md) |
 | **SurCo** | A method that learns a simple stand-in for a hard optimization objective and solves it with an existing solver. | [02.03](02-building-agents/03-planning-search-and-decision-making.md) |
 | **surrogate model** | In MIPRO, a model fitted to predict the quality of any combination of instructions and demonstrations, so that the search knows which combination to try next | [02.05](02-building-agents/05-compound-ai-systems-and-dspy.md) |
+| **SVD** | Singular value decomposition: a way to split a matrix into parts ordered by importance; the top 32 ranks of the weight form SVDQuant's side branch. | [09.14](09-efficient-deep-learning/14-efficient-diffusion-models.md) |
 | **SVDQuant** | Han's recipe for W4A4 in a diffusion model: smoothing that moves outliers from the activations onto the weights, then a low-rank full-precision side branch that absorbs the remaining weight outliers. | [09.14](09-efficient-deep-learning/14-efficient-diffusion-models.md) |
 | **SWAP gate** | A two-qubit gate that exchanges the states of two qubits. | [09.16](09-efficient-deep-learning/16-quantum-machine-learning.md) |
 | **SWE-bench** | A benchmark of real GitHub issues, scored by the tests added with each fix. | [02.07](02-building-agents/07-coding-agents.md) |
@@ -1348,6 +1373,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **Tool contract** | The name, description and argument schema that the model sees for one tool. | [02.02](02-building-agents/02-tool-design-and-function-calling.md) |
 | **Tool generalization** | Using tools the model has never seen by following their descriptions. | [02.08](02-building-agents/08-training-models-for-agentic-tasks.md) |
 | **Tool poisoning** | Hiding an instruction in a tool's description, which the model reads when it decides which tool to call. | [04.03](04-safety-and-security/03-agent-specific-attacks.md) |
+| **Top-1 accuracy** | The share of images whose highest-scoring class is the right one. | [09.12](09-efficient-deep-learning/12-vision-transformers.md) |
 | **Top-p (nucleus sampling)** | A sampling parameter that keeps only the smallest set of tokens whose probabilities add up to p. | [01.04](01-foundations/04-using-llms-tokens-context-and-sampling.md) |
 | **TPU** | Google's machine-learning accelerator, structured like a GPU with a larger matrix-multiply unit. | [10.05](10-llm-internals/05-gpus-tpus-and-kernels.md) |
 | **Trace** | The recorded trajectory of one production attempt, with versions, cost and outcome. | [03.07](03-evaluation/07-evals-in-production.md) |
@@ -1431,6 +1457,7 @@ One definition per term, and one term per concept. The name in bold is the one t
 | **voice sommelier** | The person at Sierra, under an unofficial title, who listens to voices, rates them on a fixed set of dimensions and matches them to a company's brand | [03.07](03-evaluation/07-evals-in-production.md) |
 | **Voice-to-voice model** | A model that takes sound in and gives sound out, with no separate transcription and synthesis. | [03.07](03-evaluation/07-evals-in-production.md) |
 | **Voxel** | A cube of space, the 3D counterpart of a pixel. | [09.13](09-efficient-deep-learning/13-gans-video-and-point-clouds.md) |
+| **Voxel branch** | The branch of a point-voxel CNN that places the points in a voxel grid, applies a 3D convolution and hands each point the feature of its voxel. | [09.13](09-efficient-deep-learning/13-gans-video-and-point-clouds.md) |
 | **Voyager** | An open-ended agent that plays Minecraft with no fixed goal, saving each learned behavior as code in a skill library. | [06.02](06-frontier-applications/02-embodied-agents-and-robotics.md) |
 | **VQ-VAE** | A network that compresses an image into a list of discrete codes and reconstructs it. | [10.12](10-llm-internals/12-alignment-and-multimodality.md) |
 

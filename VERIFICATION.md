@@ -109,7 +109,7 @@ Names are the weakest point: the machine transcript can garble a name, so a guid
 
 ## Glossary
 
-Each of the 1,091 rows of [GLOSSARY.md](GLOSSARY.md) was read against the chapter it links to on 2026-11-25. 12 definitions were corrected, 7 links moved to the chapter that defines the term better, 13 duplicate rows merged, 16 rows removed and 24 rows added. That made 1,086 terms; the rows added from the lectures on 2026-11-26 and 2026-11-27 brought the glossary to 1,362 terms.
+Each of the 1,091 rows of [GLOSSARY.md](GLOSSARY.md) was read against the chapter it links to on 2026-11-25. 12 definitions were corrected, 7 links moved to the chapter that defines the term better, 13 duplicate rows merged, 16 rows removed and 24 rows added. That made 1,086 terms; the rows added from the lectures on 2026-11-26 and 2026-11-27 brought the glossary to 1,389 terms.
 
 ## Reading site
 

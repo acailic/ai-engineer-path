@@ -2,7 +2,7 @@
 
 **Lecturer:** course staff · **Course:** Stanford CS336 Language Modeling from Scratch, Spring 2026, lecture 16 · **Length:** 1:16:00
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=dIFAi87Ws4E)
-**Chapters that cite this lecture:** [08. Inference](../10-llm-internals/08-inference.md) · [11. Post-Training: SFT, RLHF and RLVR](../10-llm-internals/11-post-training-sft-rlhf-and-rlvr.md)
+**Chapters that cite this lecture:** [11. Post-Training: SFT, RLHF and RLVR](../10-llm-internals/11-post-training-sft-rlhf-and-rlvr.md)
 
 > **In one sentence:** Tatsu Hashimoto shows how reinforcement learning on rewards that can be checked, with GRPO in place of PPO, turns a chat model into a reasoning model, and reads DeepSeek R1, Kimi K1.5 and the Qwen3 reports to show what the method looks like in production, rewards and their hacks included.
 

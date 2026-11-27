@@ -1,14 +1,14 @@
 # Lecture guide: Course Summary + Quantum Machine Learning I
 
-**Lecturer:** Song Han (MIT) · **Course:** MIT 6.5940 TinyML and Efficient Deep Learning Computing, Fall 2024, lecture 22 · **Length:** 1:24:00
+**Lecturer:** Song Han (MIT) for the recap, then Hanrui Wang (MIT) · **Course:** MIT 6.5940 TinyML and Efficient Deep Learning Computing, Fall 2024, lecture 22 · **Length:** 1:24:00
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=svjjD2uthhQ) · **Slides:** [slides](https://www.dropbox.com/scl/fi/cn0wr4zxuv4hvpce81lo1/Course-Summary.pdf?rlkey=ycn79vnsu2n7395fz1v04khz0&st=z86d0rap&dl=0)
-**Chapters that cite this lecture:** [11. Course Summary and Outlook](../09-efficient-deep-learning/17-course-summary-and-outlook.md)
+**Chapters that cite this lecture:** [16. Quantum Machine Learning](../09-efficient-deep-learning/16-quantum-machine-learning.md) · [17. Course Summary and Outlook](../09-efficient-deep-learning/17-course-summary-and-outlook.md)
 
 > **In one sentence:** Song Han recaps the course, then Hanrui Wang, a graduating member of the lab who joins UCLA, introduces quantum computing from qubits and gates through circuits and the noisy devices of today to the compilers that map circuits onto superconducting and neutral-atom hardware.
 
 ## Before you watch
 
-The chapter [Course Summary and Outlook](../09-efficient-deep-learning/17-course-summary-and-outlook.md) carries the course map of the first minutes, lists quantum machine learning among the open questions and, in later sections, teaches the quantum devices, qubits, gates, circuits and compilers themselves; no other chapter does. The quantum half needs only complex numbers and matrices.
+The chapter [Course Summary and Outlook](../09-efficient-deep-learning/17-course-summary-and-outlook.md) carries the course map of the first minutes and lists quantum machine learning among the open questions; the chapter [Quantum Machine Learning](../09-efficient-deep-learning/16-quantum-machine-learning.md) teaches the quantum devices, qubits, gates, circuits and compilers themselves. The quantum half needs only complex numbers and matrices.
 
 ## The lecture, part by part
 
@@ -69,7 +69,7 @@ A CNOT exchanges two amplitudes. A Hadamard on the control followed by a CNOT pr
 
 ### [46:00–52:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=2760) Gates in practice, circuits, and an adder
 
-Asked how gates are built, Wang answers that it depends on the technology: superconducting qubits receive microwave pulses whose area sets the rotation angle, neutral atoms are lit by lasers whose duration does the same. A quantum circuit has three parts, initialize the qubits with the problem, apply gates, measure, and may end with classical post-processing, much as a processor loads, computes and stores. An adder is a CNOT; a full adder adds a multi-controlled CNOT that sets the carry when either input is 1.
+Asked how gates are built, Wang answers that it depends on the technology: superconducting qubits receive microwave pulses whose area sets the rotation angle, neutral atoms are lit by lasers whose duration does the same. A quantum circuit has three parts, initialize the qubits with the problem, apply gates, measure, and may end with classical post-processing, much as a processor loads, computes and stores. An adder is a CNOT; a full adder adds a multi-controlled CNOT that sets the carry when both inputs are 1.
 **In this book:** [Quantum Machine Learning › How it works, step by step › A circuit that classifies digits](../09-efficient-deep-learning/16-quantum-machine-learning.md#a-circuit-that-classifies-digits).
 
 ### [52:00–58:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=3120) A quantum machine-learning circuit
@@ -99,7 +99,7 @@ Neutral-atom devices are reached through cloud providers such as AWS and have, b
 
 ### [1:16:00–1:18:45](https://www.youtube.com/watch?v=svjjD2uthhQ&t=4560) Compilation as a graph cut
 
-Because arrays can always be moved together, the device's coupling graph is complete between arrays. So the graph of two-qubit gates is cut into as many parts as there are arrays, a max-k-cut, and atoms are assigned so that most partners share an array and few SWAPs remain. Earlier compilers cast the whole problem as a satisfiability problem for an SMT solver, optimal but exponential; Atomique compiles circuits on over a thousand qubits within minutes and also reports how fast atoms must move, guidance for future devices.
+Because arrays can always be moved together, the device's coupling graph is complete between arrays. So the graph of two-qubit gates is cut into as many parts as there are arrays, a max-k-cut, and atoms are assigned so that the two qubits of a gate sit in different arrays, which the movement of the atoms brings together, so fewer SWAPs are needed. Earlier compilers cast the whole problem as a satisfiability problem for an SMT solver, optimal but exponential; Atomique compiles circuits on over a thousand qubits within minutes and also reports how fast atoms must move, guidance for future devices.
 **In this book:** [Quantum Machine Learning › How it works, step by step › Compiling for a real device](../09-efficient-deep-learning/16-quantum-machine-learning.md#compiling-for-a-real-device).
 
 ### [1:18:45–1:24:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=4725) Summary, and questions

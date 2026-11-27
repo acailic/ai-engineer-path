@@ -2,7 +2,7 @@
 
 **Lecturer:** Shunyu Yao (OpenAI) · **Course:** UC Berkeley LLM Agents MOOC, Fall 2024 (CS 294-137), lecture 2 · **Length:** 1:10:00
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=RM6ZArd2nVc) · **Slides:** [slides](https://rdi.berkeley.edu/llm-agents-mooc/slides/llm_agent_history.pdf)
-**Chapters that cite this lecture:** [05. Prompting and In-Context Learning](../01-foundations/05-prompting-and-in-context-learning.md) · [08. A Short History of LLM Agents](../01-foundations/08-a-short-history-of-llm-agents.md)
+**Chapters that cite this lecture:** [04. Using LLMs: Tokens, Context and Sampling](../01-foundations/04-using-llms-tokens-context-and-sampling.md) · [05. Prompting and In-Context Learning](../01-foundations/05-prompting-and-in-context-learning.md) · [07. Why LLM Outputs Are Noisy, and What To Do About It](../01-foundations/07-why-llm-outputs-are-noisy.md) · [08. A Short History of LLM Agents](../01-foundations/08-a-short-history-of-llm-agents.md)
 
 > **In one sentence:** A history of how LLM agents grew out of rule-based systems, reinforcement learning and question answering, for engineers who want the ideas behind ReAct, memory and agent benchmarks.
 

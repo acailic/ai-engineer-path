@@ -2,7 +2,7 @@
 
 **Lecturer:** Song Han (MIT) · **Course:** MIT 6.5940 TinyML and Efficient Deep Learning Computing, Fall 2024, lecture 14 · **Length:** 1:18:00
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=OCdwWfVoQ-Q) · **Slides:** [slides](https://www.dropbox.com/scl/fi/ed32dovpq8no4571xmkzs/Lec14-LLM-Post-training.pdf?rlkey=5re66ef6shk3tr3v31ey6hzzo&st=d9n9h7ql&dl=0)
-**Chapters that cite this lecture:** [09. LLM Post-Training and On-Device Training](../09-efficient-deep-learning/09-llm-post-training-and-on-device-training.md) · [10. Efficient Vision, Generative Models and Distributed Training](../09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md)
+**Chapters that cite this lecture:** [09. LLM Post-Training and On-Device Training](../09-efficient-deep-learning/09-llm-post-training-and-on-device-training.md) · [10. Efficient Vision, Generative Models and Distributed Training](../09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) · [12. Vision Transformers](../09-efficient-deep-learning/12-vision-transformers.md) · [12. Alignment and Multimodality](../10-llm-internals/12-alignment-and-multimodality.md)
 
 > **In one sentence:** Song Han covers post-training: supervised fine-tuning, RLHF and DPO; parameter-efficient fine-tuning from BitFit and adapters to LoRA, QLoRA and BitDelta; vision-language models of both kinds, Flamingo-style cross-attention and tokens in, tokens out for PaLM-E and VILA; and prompting with retrieval.
 

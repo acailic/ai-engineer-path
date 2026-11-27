@@ -36,7 +36,7 @@ Arithmetic is counted in **MACs** (multiply-accumulates): one multiplication and
 
 A **generative model** produces images, video or 3D content instead of a label. A **GAN** (generative adversarial network) pits two networks against each other: the **generator**, which turns an input into an image, and the **discriminator**, which decides whether an image is real or generated. Each has its own loss ([2:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=120)). An unconditional GAN turns random noise into an image; a conditional one also gives both networks a condition, such as the brush strokes that NVIDIA's GauGAN turns into landscapes (same block).
 
-Only the generator runs after training, so only it is worth making cheaper ([2:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=120)). It computes an output for every pixel, and such generative models cost far more than recognition models. His costs, by the slide; he says about 400 for GauGAN ([4:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=240)):
+Only the generator runs after training, so only it is worth making cheaper ([2:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=120)). It computes every output pixel, so such models cost far more than recognition models. His costs, by the slide; he says about 400 for GauGAN ([4:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=240)):
 
 | Model | Parameters | GMACs |
 |---|---|---|
@@ -70,7 +70,7 @@ A GAN also needs many images: the FFHQ data set has 70,000 faces, and such sets 
 
 | Applied to | Result |
 |---|---|
-| Real images only | The generator copies the changes (a shifted real image comes out shifted, a darker one darker, and cutout, which blanks a patch, leaves blank patches), because the discriminator learned that real images look so. |
+| Real images only | The generator copies the changes: shifted or darker real images give shifted or darker outputs, and cutout, which blanks a patch, leaves blank patches; the discriminator learned that real images look so. |
 | Real and generated images, for the discriminator only | The discriminator judges transformed images and the generator is trained without them: training is out of step. |
 | Real and generated images, for both networks | **Differentiable augmentation**: the transformations pass gradients, so the generator's loss reaches it through them. |
 
@@ -121,7 +121,7 @@ flowchart LR
 Each point leaves the block with its own features fused with those of the voxels around it.
 
 - The **voxel branch** places the points in a regular voxel grid, applies a 3D convolution and hands each point the feature of its voxel: regular access, neighborhood summarized ([60:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=3600)).
-- The **point branch** applies a multilayer perceptron (**MLP**, a small stack of fully connected layers) to each point on its own, as the earlier network PointNet does, so no detail is merged. The point branch picks out chair legs, the voxel branch the tabletop ([60:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=3600), [62:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=3720)).
+- The **point branch** applies a multilayer perceptron (**MLP**, a small stack of fully connected layers) to each point on its own, as the earlier PointNet does, so no detail is merged. The point branch picks out chair legs, the voxel branch the tabletop ([60:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=3600), [62:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=3720)).
 
 Voxelization still merges points (same block). The **sparse point-voxel CNN** (SPVCNN) uses **sparse convolution**, computed only on voxels that hold a point, so the voxel branch can run at a finer resolution while the point branch keeps traffic signs and tree trunks ([64:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=3840)).
 
@@ -191,7 +191,7 @@ Observe:
 
 ## What the practitioners say
 
-**Compress the generator, then measure.** By the slide of his first lecture, GAN Compression takes a horse-to-zebra CycleGAN from 56.8 to 3.50 GMACs (16.2 times) and from 12.1 to 40.0 frames per second on an NVIDIA Jetson Xavier GPU (3.3 times). On this lecture's slides they shrink 11.8 times for edges-to-shoes, 21.2 for horse-to-zebra and 8.8 for GauGAN, at a quality he calls comparable ([6:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=360), [8:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=480)).
+**Compress the generator, then measure.** By the slide of his first lecture, GAN Compression takes a horse-to-zebra CycleGAN from 56.8 to 3.50 GMACs (16.2 times) and from 12.1 to 40.0 frames per second on an NVIDIA Jetson Xavier GPU (3.3 times). On this lecture's slides they shrink 11.8 times for edges-to-shoes, 21.2 for horse-to-zebra (two slides, two figures) and 8.8 for GauGAN, at a quality he calls comparable ([6:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=360), [8:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=480)).
 
 **The judge must fit the contestant.** With one shared discriminator, the FID of some sub-networks spikes to about 40, for a 256-pixel one at a quarter of its channels ([16:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=960)); with the generator's configuration fed in, the spikes disappear and the training beats StyleGAN2 and MSG-GAN on FID at low and high resolutions ([18:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=1080), [12:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=720)). The generator then runs at 59%, 39% or 19% of its computation with hardly visible loss ([20:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=1200)). On a MacBook, by his demo, the full model needs 3.24 seconds for each update and the sub-network answers almost at once; one click runs the full network for the final image, and the software is open source ([20:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=1200), [22:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=1320)).
 
@@ -205,7 +205,7 @@ Observe:
 | **Throughput** (videos per second), 16 at a time | 6.1 | 77.4 |
 | Accuracy | 41.6% | 43.4% |
 
-With only 10% or 40% of a clip observed, TSM keeps its accuracy where baselines drop ([46:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=2760)). In a driving clip a frame-by-frame detector turns a car into a tree; TSM does not ([48:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=2880)). He reports over 20 frames a second on a CPU and over 70 on a Jetson Nano GPU (same block). Inside a trained network, he shows, single channels respond to one motion, such as moving something away ([50:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=3000)).
+With only 10% or 40% of a clip observed, TSM keeps its accuracy where baselines drop ([46:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=2760)). In a driving clip a frame-by-frame detector mislabels a car in a later frame; TSM does not ([48:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=2880)). He reports over 20 frames a second on a CPU and over 70 on a Jetson Nano GPU (same block). Inside a trained network, he shows, single channels respond to one motion, such as moving something away ([50:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=3000)).
 
 **Light models scale.** On the Summit supercomputer, Han's group trained TSM on 256 nodes in 14 minutes, against 49 hours 50 minutes on one node, at the same accuracy (74.0% against 74.1%): 211 times faster by his slide, against a theoretical 256 ([50:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=3000)). Accuracy holds to a batch of 12,000 videos, which he says needs its own schedule for the **learning rate**, the step size of each update. He credits the model's size for the scaling: a batch is bound by computation, not by reading data, and the small weights leave little to communicate, so throughput and hardware utilization are about twice a baseline's (1.6 and 2.9 times two I3D models' throughput, by his slide) ([48:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=2880)).
 

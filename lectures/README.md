@@ -81,7 +81,7 @@ Every part heading links to the moment in the video where the part begins.
 | 20 | Distributed Training (Part II) | Song Han (MIT) | 1:00:00 | 16 | 0 | [open](mit-20-distributed-training-part-ii.md) |
 | 21 | On-Device Training and Transfer Learning | Song Han (MIT) | 1:06:00 | 16 | 0 | [open](mit-21-on-device-training-and-transfer-learning.md) |
 | 22 | Course Summary + Quantum Machine Learning I | Song Han (MIT) | 1:24:00 | 19 | 1 | [open](mit-22-course-summary-quantum-machine-learning-i.md) |
-| 23 | Quantum Machine Learning II | Song Han (MIT) | 1:14:00 | 20 | 1 | [open](mit-23-quantum-machine-learning-ii.md) |
+| 23 | Quantum Machine Learning II | Hanrui Wang (MIT) | 1:14:00 | 20 | 1 | [open](mit-23-quantum-machine-learning-ii.md) |
 
 ## Stanford CS336 Language Modeling from Scratch (Spring 2026)
 
@@ -106,4 +106,4 @@ Every part heading links to the moment in the video where the part begins.
 | 17 | Alignment: multimodality |  | 1:18:00 | 13 | 0 | [open](cs336-17-alignment-multimodality.md) |
 | 18 | Guest lecture: Dan Fu |  | 1:12:00 | 13 | 0 | [open](cs336-18-guest-lecture-dan-fu.md) |
 
-In all: 1207 parts, of which 55 (5%) teach something no chapter teaches; 201,749 words.
+In all: 1207 parts, of which 55 (5%) teach something no chapter teaches; 201,969 words.

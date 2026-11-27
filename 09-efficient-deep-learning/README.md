@@ -80,7 +80,7 @@ Each guide maps one lecture from its first minute to its last and says where thi
 | Vision Transformer | Song Han (MIT) | 1:02:00 | 0 of 18 | [open guide](../lectures/mit-16-vision-transformer.md) |
 | GAN, Video, and Point Cloud | Song Han (MIT) | 1:12:00 | 0 of 17 | [open guide](../lectures/mit-17-gan-video-and-point-cloud.md) |
 | Diffusion Model | Song Han (MIT) | 1:12:00 | 0 of 18 | [open guide](../lectures/mit-18-diffusion-model.md) |
-| Quantum Machine Learning II | Song Han (MIT) | 1:14:00 | 1 of 20 | [open guide](../lectures/mit-23-quantum-machine-learning-ii.md) |
+| Quantum Machine Learning II | Hanrui Wang (MIT) | 1:14:00 | 1 of 20 | [open guide](../lectures/mit-23-quantum-machine-learning-ii.md) |
 
 ## Going further
 

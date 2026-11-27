@@ -2,7 +2,7 @@
 
 **Lecturer:** Jiantao Jiao (NVIDIA) · **Course:** UC Berkeley Agentic AI MOOC, Fall 2025 (CS 294/196), lecture 3 · **Length:** 1:18:00
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=3l0Zxus34es) · **Slides:** [slides](https://rdi.berkeley.edu/agentic-ai/slides/AgenticAI_Jiantao Jiao.pdf)
-**Chapters that cite this lecture:** [03. From Base Model to Assistant: Post-Training](../01-foundations/03-from-base-model-to-assistant-post-training.md) · [08. Training Models for Agentic Tasks](../02-building-agents/08-training-models-for-agentic-tasks.md)
+**Chapters that cite this lecture:** [03. From Base Model to Assistant: Post-Training](../01-foundations/03-from-base-model-to-assistant-post-training.md) · [08. Training Models for Agentic Tasks](../02-building-agents/08-training-models-for-agentic-tasks.md) · [04. Evaluating Agents: Trajectories and Environments](../03-evaluation/04-evaluating-agents-trajectories-and-environments.md)
 
 > **In one sentence:** Jiantao Jiao lays out what it takes to post-train an agent whose answers can be checked: good data, honest evaluation, and a training loop that keeps exploring.
 

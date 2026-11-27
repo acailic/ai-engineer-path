@@ -2,7 +2,7 @@
 
 **Lecturer:** Yu Su (Ohio State University) · **Course:** UC Berkeley Advanced LLM Agents MOOC, Spring 2025 (CS 194/294-199), lecture 3 · **Length:** 1:34:00
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=zvI4UN2_i-w) · **Slides:** [slides](https://rdi.berkeley.edu/llm-agents-mooc/slides/language_agents_YuSu_Berkeley.pdf)
-**Chapters that cite this lecture:** [03. Planning, Search and Decision-Making](../02-building-agents/03-planning-search-and-decision-making.md) · [04. Memory and Knowledge for Agents](../02-building-agents/04-memory-and-knowledge-for-agents.md) · [08. Training Models for Agentic Tasks](../02-building-agents/08-training-models-for-agentic-tasks.md)
+**Chapters that cite this lecture:** [01. The Anatomy of an Agent](../02-building-agents/01-the-anatomy-of-an-agent.md) · [03. Planning, Search and Decision-Making](../02-building-agents/03-planning-search-and-decision-making.md) · [04. Memory and Knowledge for Agents](../02-building-agents/04-memory-and-knowledge-for-agents.md) · [08. Training Models for Agentic Tasks](../02-building-agents/08-training-models-for-agentic-tasks.md)
 
 > **In one sentence:** Yu Su treats language agents as the newest generation of a classic AI problem and surveys long-term memory, implicit reasoning and model-based planning, for engineers who want the research picture.
 

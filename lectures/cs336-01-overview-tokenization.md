@@ -2,7 +2,7 @@
 
 **Lecturer:** course staff · **Course:** Stanford CS336 Language Modeling from Scratch, Spring 2026, lecture 1 · **Length:** 1:20:00
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=JuoVZkPBiKk)
-**Chapters that cite this lecture:** [01. The Language Modeling Pipeline and Tokenization](../10-llm-internals/01-the-language-modeling-pipeline-and-tokenization.md) · [07. Scaling Laws](../10-llm-internals/07-scaling-laws.md) · [08. Inference](../10-llm-internals/08-inference.md) · [12. Alignment and Multimodality](../10-llm-internals/12-alignment-and-multimodality.md) · [13. Building Your Own: A Roadmap Through the Assignments](../10-llm-internals/13-building-your-own-a-roadmap-through-the-assignments.md)
+**Chapters that cite this lecture:** [01. The Language Modeling Pipeline and Tokenization](../10-llm-internals/01-the-language-modeling-pipeline-and-tokenization.md) · [07. Scaling Laws](../10-llm-internals/07-scaling-laws.md) · [10. Training Data](../10-llm-internals/10-training-data.md) · [12. Alignment and Multimodality](../10-llm-internals/12-alignment-and-multimodality.md) · [13. Building Your Own: A Roadmap Through the Assignments](../10-llm-internals/13-building-your-own-a-roadmap-through-the-assignments.md)
 
 > **In one sentence:** Percy Liang opens CS336 with why building language models from scratch still matters and what the course teaches, tours its five units from basics and systems through scaling laws, data and alignment, and then builds byte-pair encoding, the tokenizer that turns text into tokens.
 

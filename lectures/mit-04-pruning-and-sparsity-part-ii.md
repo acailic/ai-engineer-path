@@ -2,7 +2,7 @@
 
 **Lecturer:** Song Han (MIT) · **Course:** MIT 6.5940 TinyML and Efficient Deep Learning Computing, Fall 2024, lecture 4 · **Length:** 1:10:00
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=upaZrpXkELc) · **Slides:** [slides](https://www.dropbox.com/scl/fi/w5baiyci5cxl1ozpy6lsr/Lec04-Pruning-II.pdf?rlkey=6qxc1nz20isy9izwnqfebtukg&st=59gy1eal&dl=0)
-**Chapters that cite this lecture:** [03. Pruning and Sparsity](../09-efficient-deep-learning/03-pruning-and-sparsity.md) · [11. Course Summary and Outlook](../09-efficient-deep-learning/17-course-summary-and-outlook.md)
+**Chapters that cite this lecture:** [03. Pruning and Sparsity](../09-efficient-deep-learning/03-pruning-and-sparsity.md)
 
 > **In one sentence:** Song Han finishes pruning: how to choose a pruning ratio for each layer (sensitivity analysis, the reinforcement-learning agent AMC, NetAdapt), how to fine-tune, and how hardware from the Efficient Inference Engine to sparse tensor cores, TorchSparse and PointAcc runs sparse networks.
 

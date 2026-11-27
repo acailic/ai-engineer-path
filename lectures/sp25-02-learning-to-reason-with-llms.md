@@ -2,7 +2,7 @@
 
 **Lecturer:** Jason Weston (Meta) · **Course:** UC Berkeley Advanced LLM Agents MOOC, Spring 2025 (CS 194/294-199), lecture 2 · **Length:** 1:18:00
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=_MNlLhU33H0) · **Slides:** [slides](https://rdi.berkeley.edu/llm-agents-mooc/slides/Jason-Weston-Reasoning-Alignment-Berkeley-Talk.pdf)
-**Chapters that cite this lecture:** [03. From Base Model to Assistant: Post-Training](../01-foundations/03-from-base-model-to-assistant-post-training.md) · [06. Reasoning in LLMs: From Chain-of-Thought to Search](../01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md)
+**Chapters that cite this lecture:** [03. From Base Model to Assistant: Post-Training](../01-foundations/03-from-base-model-to-assistant-post-training.md) · [06. Reasoning in LLMs: From Chain-of-Thought to Search](../01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md) · [03. LLM-as-a-Judge and Rubrics](../03-evaluation/03-llm-as-a-judge-and-rubrics.md)
 
 > **In one sentence:** Jason Weston explains how a language model can improve its own reasoning: judge its own answers, train on verifiable rewards, and even train its judge.
 

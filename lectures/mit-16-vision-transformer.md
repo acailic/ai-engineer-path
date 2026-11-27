@@ -2,7 +2,7 @@
 
 **Lecturer:** Song Han (MIT) · **Course:** MIT 6.5940 TinyML and Efficient Deep Learning Computing, Fall 2024, lecture 16 · **Length:** 1:02:00
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=v0jYDgaVzlk) · **Slides:** [slides](https://www.dropbox.com/scl/fi/lr3jlbzoa1du3og22wbiw/Lec16-Vision-Transformers.pdf?rlkey=6ejlatw4kpfzxgxg7zx2a6zo2&st=7btq6r53&dl=0)
-**Chapters that cite this lecture:** [10. Efficient Vision, Generative Models and Distributed Training](../09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md)
+**Chapters that cite this lecture:** [10. Efficient Vision, Generative Models and Distributed Training](../09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) · [12. Vision Transformers](../09-efficient-deep-learning/12-vision-transformers.md) · [12. Alignment and Multimodality](../10-llm-internals/12-alignment-and-multimodality.md)
 
 > **In one sentence:** Song Han turns transformers to images: how patches become tokens, why high resolution is expensive, and three ways to make it affordable (window attention, EfficientViT's linear attention with a convolution branch, SparseViT's pruned windows), then self-supervised pre-training and HART, an autoregressive image generator that runs interactively on a laptop.
 
@@ -39,7 +39,7 @@ No free lunch: from 1k to 2k resolution a vision transformer's computation grows
 
 ### [10:00–14:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=600) Window attention and shifted windows
 
-Instead of letting every patch attend to every patch, window attention restricts it to windows, 7 by 7 patches in Han's example. Each window holds a fixed number of tokens, so the cost grows linearly with the image. The flaw is isolation: in one layer, tokens in neighbouring windows cannot attend to each other. The next layer shifts the windows by half a window, so that tokens near an edge attend to the neighbouring window, and repetition connects everything. The Swin Transformer beats ViT accuracy on ImageNet, detection and segmentation.
+Instead of letting every patch attend to every patch, window attention restricts it to windows, 7 by 7 patches in Han's example. Each window holds a fixed number of tokens, so the cost grows linearly with the image. The flaw is isolation: in one layer, tokens in neighbouring windows cannot attend to each other. The next layer shifts the windows, so that tokens near an edge attend to the neighbouring window, and repetition connects everything. The Swin Transformer beats ViT accuracy on ImageNet, detection and segmentation.
 **In this book:** [Vision Transformers › How it works, step by step › 3. Window attention](../09-efficient-deep-learning/12-vision-transformers.md#3-window-attention).
 
 ### [14:00–16:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=840) Sparse windows

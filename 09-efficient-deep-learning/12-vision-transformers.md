@@ -149,8 +149,8 @@ print("multiplications:", 2 * n * n * d, "versus", 2 * n * d * d)
 The windowed count is `n × window²`: `n / window²` windows, each with `window⁴` entries. What to observe:
 
 - From 224 to 448 pixels the tokens grow 4 times, the full table 16 times and the windowed table 4 times.
-- At 1,024 pixels the full table has 16,777,216 entries and the windowed one 200,704.
-- The two multiplication orders agree to within 1e-15. The first does `2n²d` multiplications, the second `2nd²`: for one head of ViT-Large at 4,096 tokens, 2.1 billion against 34 million.
+- The full table has 38,416 entries at 224 pixels and 16,777,216 at 1,024; windowed, 9,604 and 200,704.
+- The two multiplication orders agree to within 1e-14. The first does `2n²d` multiplications, the second `2nd²`: for one head of ViT-Large at 4,096 tokens, 2.1 billion against 34 million.
 
 ## What the practitioners say
 

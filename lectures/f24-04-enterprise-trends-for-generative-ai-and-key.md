@@ -2,7 +2,7 @@
 
 **Lecturer:** Burak Gokturk (Google) · **Course:** UC Berkeley LLM Agents MOOC, Fall 2024 (CS 294-137), lecture 4 · **Length:** 1:04:00
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=Sy1psHS3w3I) · **Slides:** [slides](https://rdi.berkeley.edu/llm-agents-mooc/slides/Burak_slides.pdf)
-**Chapters that cite this lecture:** [07. Agents in the Enterprise](../05-frameworks-and-multi-agent/07-agents-in-the-enterprise.md)
+**Chapters that cite this lecture:** [04. Using LLMs: Tokens, Context and Sampling](../01-foundations/04-using-llms-tokens-context-and-sampling.md) · [07. Agents in the Enterprise](../05-frameworks-and-multi-agent/07-agents-in-the-enterprise.md)
 
 > **In one sentence:** Burak Gokturk describes what changed in the enterprise market for generative AI, and explains four techniques that turn a base model into a working application: tuning, distillation, grounding and function calling.
 

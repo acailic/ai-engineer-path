@@ -2,7 +2,7 @@
 
 **Lecturer:** Song Han (MIT) · **Course:** MIT 6.5940 TinyML and Efficient Deep Learning Computing, Fall 2024, lecture 12 · **Length:** 1:18:00
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=EV6xb4xY708) · **Slides:** [slides](https://www.dropbox.com/scl/fi/4o87goykb0aoyopps02t4/Lec12-Transformers-and-LLM.pdf?rlkey=k97sdf3ls3xxz4fgvte6px279&dl=0)
-**Chapters that cite this lecture:** [08. Efficient LLM Inference and Deployment](../09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md)
+**Chapters that cite this lecture:** [08. Efficient LLM Inference and Deployment](../09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) · [03. Transformer Architectures and Hyperparameters](../10-llm-internals/03-transformer-architectures-and-hyperparameters.md)
 
 > **In one sentence:** Song Han builds the transformer from its parts (tokens, attention, feed-forward layers, normalization, positional encoding), covers the variants that define modern open models (decoder-only blocks, rotary position, grouped-query attention, SwiGLU), sizes the KV cache, and ends with scaling, emergent abilities and the Llama family.
 

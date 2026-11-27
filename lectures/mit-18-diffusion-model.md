@@ -2,7 +2,7 @@
 
 **Lecturer:** Song Han (MIT) · **Course:** MIT 6.5940 TinyML and Efficient Deep Learning Computing, Fall 2024, lecture 18 · **Length:** 1:12:00
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=LXrqmQrscf0) · **Slides:** [slides](https://www.dropbox.com/scl/fi/f4end70haytw1nalboxp2/Lec18-Diffusion-Models.pdf?rlkey=emaxca812n2npb2rinq1nor64&st=ed3ziw4o&dl=0)
-**Chapters that cite this lecture:** [10. Efficient Vision, Generative Models and Distributed Training](../09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md)
+**Chapters that cite this lecture:** [10. Efficient Vision, Generative Models and Distributed Training](../09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) · [14. Efficient Diffusion Models](../09-efficient-deep-learning/14-efficient-diffusion-models.md)
 
 > **In one sentence:** Song Han explains diffusion models, which turn noise into images step by step, and how to make them cheap: conditioning and guidance, diffusion in a compressed latent space (latent diffusion, DC-AE, Sana), fewer sampling steps (DDIM, distillation), spatial sparsity, 4-bit weights and activations, and several GPUs.
 

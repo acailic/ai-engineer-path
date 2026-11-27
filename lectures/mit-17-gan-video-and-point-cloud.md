@@ -2,7 +2,7 @@
 
 **Lecturer:** Song Han (MIT) · **Course:** MIT 6.5940 TinyML and Efficient Deep Learning Computing, Fall 2024, lecture 17 · **Length:** 1:12:00
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=o_60Yhb79W8) · **Slides:** [slides](https://www.dropbox.com/scl/fi/6o45qs8xm20qhzkc192bv/Lec17-Efficient-GANs-Video-PointCloud.pdf?rlkey=71hrp50kjtl8zz8w7jntvbwn0&st=ywq378y5&dl=0)
-**Chapters that cite this lecture:** [10. Efficient Vision, Generative Models and Distributed Training](../09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md)
+**Chapters that cite this lecture:** [10. Efficient Vision, Generative Models and Distributed Training](../09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) · [13. Efficient GANs, Video and Point-Cloud Models](../09-efficient-deep-learning/13-gans-video-and-point-clouds.md)
 
 > **In one sentence:** Song Han applies efficiency to three heavy but redundant workloads: GANs, compressed by GAN Compression, made elastic by AnyCost GAN and trainable on little data by differentiable augmentation; video, handled at 2D cost by the temporal shift module; and point clouds, processed by point-voxel and sparse point-voxel CNNs and fused with cameras in bird's-eye view.
 

@@ -2,7 +2,7 @@
 
 **Lecturer:** Swarat Chaudhuri (UT Austin) · **Course:** UC Berkeley Advanced LLM Agents MOOC, Spring 2025 (CS 194/294-199), lecture 11 · **Length:** 1:28:00
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=IHc0TEMrEdY) · **Slides:** [slides](https://rdi.berkeley.edu/llm-agents-mooc/slides/swarat.pdf)
-**Chapters that cite this lecture:** [04. Agents for Formal Mathematics](../06-frontier-applications/04-agents-for-formal-mathematics.md) · [05. What Frontier Domains Teach About Agents](../06-frontier-applications/05-what-frontier-domains-teach-about-agents.md)
+**Chapters that cite this lecture:** [03. Agents for Scientific Discovery](../06-frontier-applications/03-agents-for-scientific-discovery.md) · [04. Agents for Formal Mathematics](../06-frontier-applications/04-agents-for-formal-mathematics.md) · [05. What Frontier Domains Teach About Agents](../06-frontier-applications/05-what-frontier-domains-teach-about-agents.md)
 
 > **In one sentence:** Swarat Chaudhuri shows language-model agents at work in discovery: Copra proves theorems in Lean without any training by taking the proof assistant's feedback, and LaSR finds equations in data by naming the concepts behind them, with results from olympiad problems, compiler verification and a new scaling law.
 

@@ -2,7 +2,7 @@
 
 **Lecturer:** Ben Mann (Anthropic) · **Course:** UC Berkeley LLM Agents MOOC, Fall 2024 (CS 294-137), lecture 11 · **Length:** 46:00
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=6y2AnWol7oo) · **Slides:** [slides](https://rdi.berkeley.edu/llm-agents-mooc/slides/antrsp.pdf)
-**Chapters that cite this lecture:** [06. Evaluating Capabilities and Risks](../03-evaluation/06-evaluating-capabilities-and-risks.md)
+**Chapters that cite this lecture:** [04. Evaluating Agents: Trajectories and Environments](../03-evaluation/04-evaluating-agents-trajectories-and-environments.md) · [06. Evaluating Capabilities and Risks](../03-evaluation/06-evaluating-capabilities-and-risks.md)
 
 > **In one sentence:** Ben Mann explains why measuring capability is hard, how Anthropic's Responsible Scaling Policy ties safety commitments to capability levels, and what computer use adds to the problem.
 

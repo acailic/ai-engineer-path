@@ -1,14 +1,14 @@
 # Lecture guide: Quantum Machine Learning II
 
-**Lecturer:** Song Han (MIT) · **Course:** MIT 6.5940 TinyML and Efficient Deep Learning Computing, Fall 2024, lecture 23 · **Length:** 1:14:00
+**Lecturer:** Hanrui Wang (MIT) · **Course:** MIT 6.5940 TinyML and Efficient Deep Learning Computing, Fall 2024, lecture 23 · **Length:** 1:14:00
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=ZDk-GsyInt8) · **Slides:** [slides](https://www.dropbox.com/scl/fi/wxpnpwkrl6pw7lb4n4vrg/Lec23-Quantum-ML-II.pdf?rlkey=21msd9zdilhry5pydlkvbn7n4&st=aoyc9pzv&dl=0)
-**Chapters that cite this lecture:** [11. Course Summary and Outlook](../09-efficient-deep-learning/17-course-summary-and-outlook.md)
+**Chapters that cite this lecture:** [16. Quantum Machine Learning](../09-efficient-deep-learning/16-quantum-machine-learning.md)
 
 > **In one sentence:** Hanrui Wang's second lecture builds quantum machine learning: what makes a parameterized quantum circuit expressive, how to encode data into it, how to train it on real noisy hardware with the parameter-shift rule, gradient pruning and SPSA, the TorchQuantum library, and a search for circuit architectures that stay reliable under noise.
 
 ## Before you watch
 
-The lecture is given by Hanrui Wang, as the first quantum lecture was; it assumes that lecture's qubits, gates and circuits. The chapter [Course Summary and Outlook](../09-efficient-deep-learning/17-course-summary-and-outlook.md) lists quantum machine learning among the course's open questions; the material itself is not taught elsewhere in this book. The architecture-search and pruning lectures of the course return here in quantum form.
+The lecture is given by Hanrui Wang, as the first quantum lecture was; it assumes that lecture's qubits, gates and circuits. The chapter [Quantum Machine Learning](../09-efficient-deep-learning/16-quantum-machine-learning.md) teaches the whole lecture; [Course Summary and Outlook](../09-efficient-deep-learning/17-course-summary-and-outlook.md) lists quantum machine learning among the course's open questions. The architecture-search and pruning lectures of the course return here in quantum form.
 
 ## The lecture, part by part
 
@@ -121,5 +121,5 @@ Other frameworks train a predictor, for instance a graph neural network, of a su
 
 ## Sources
 
-- Song Han and Hanrui Wang, "Quantum Machine Learning II", MIT 6.5940 TinyML and Efficient Deep Learning Computing, Fall 2024: [video](https://www.youtube.com/watch?v=ZDk-GsyInt8).
+- Hanrui Wang, "Quantum Machine Learning II", MIT 6.5940 TinyML and Efficient Deep Learning Computing, Fall 2024: [video](https://www.youtube.com/watch?v=ZDk-GsyInt8).
 - Course page: <https://hanlab.mit.edu/courses/2024-fall-65940>.

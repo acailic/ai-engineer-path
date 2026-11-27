@@ -2,7 +2,7 @@
 
 **Lecturer:** Hanna Hajishirzi (University of Washington) · **Course:** UC Berkeley Advanced LLM Agents MOOC, Spring 2025 (CS 194/294-199), lecture 4 · **Length:** 1:22:00
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=cMiu3A7YBks) · **Slides:** [slides](https://rdi.berkeley.edu/llm-agents-mooc/slides/OLMo-Tulu-Reasoning-Hanna.pdf)
-**Chapters that cite this lecture:** [03. From Base Model to Assistant: Post-Training](../01-foundations/03-from-base-model-to-assistant-post-training.md)
+**Chapters that cite this lecture:** [03. From Base Model to Assistant: Post-Training](../01-foundations/03-from-base-model-to-assistant-post-training.md) · [06. Reasoning in LLMs: From Chain-of-Thought to Search](../01-foundations/06-reasoning-in-llms-from-chain-of-thought-to-search.md)
 
 > **In one sentence:** Hanna Hajishirzi walks through the open Tülu 3 recipe for post-training a language model so that it reasons, then adds test-time scaling and mid-training.
 

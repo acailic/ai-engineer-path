@@ -2,7 +2,7 @@
 
 **Lecturer:** Song Han (MIT) · **Course:** MIT 6.5940 TinyML and Efficient Deep Learning Computing, Fall 2024, lecture 20 · **Length:** 1:00:00
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=lOVcPooetrM) · **Slides:** [slides](https://www.dropbox.com/scl/fi/c0w7j7dxduuf8ply7lzeb/Lec20-Distributed-Training-II.pdf?rlkey=ynh3yx4jf99nojklt0ki7zh0y&st=vxzkzdt4&dl=0)
-**Chapters that cite this lecture:** [10. Efficient Vision, Generative Models and Distributed Training](../09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md)
+**Chapters that cite this lecture:** [10. Efficient Vision, Generative Models and Distributed Training](../09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) · [15. Distributed Training](../09-efficient-deep-learning/15-distributed-training.md) · [06. Parallelism](../10-llm-internals/06-parallelism.md)
 
 > **In one sentence:** Song Han continues distributed training: combining parallelisms in 2D and 3D and choosing them automatically with Alpa, then attacking the two costs of communication, bandwidth with gradient compression (deep gradient compression, PowerSGD, 1-bit and ternary gradients) and latency with delayed gradient averaging.
 

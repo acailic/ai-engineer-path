@@ -2,7 +2,7 @@
 
 **Lecturer:** Song Han (MIT) · **Course:** MIT 6.5940 TinyML and Efficient Deep Learning Computing, Fall 2024, lecture 1 · **Length:** 1:06:00
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=U7EPZv8Kh9w) · **Slides:** [slides](https://www.dropbox.com/scl/fi/h3ggav4eopxsitqxzf6t2/Lec01-Introduction.pdf?rlkey=hzbpsha72p5e3ed4mdvcgcda5&st=pz5u977e&dl=0)
-**Chapters that cite this lecture:** [01. Why Efficiency Matters](../09-efficient-deep-learning/01-why-efficiency-matters.md) · [02. Neural Network Basics for Efficiency](../09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) · [04. Quantization](../09-efficient-deep-learning/04-quantization.md) · [11. Course Summary and Outlook](../09-efficient-deep-learning/17-course-summary-and-outlook.md)
+**Chapters that cite this lecture:** [01. Why Efficiency Matters](../09-efficient-deep-learning/01-why-efficiency-matters.md) · [02. Neural Network Basics for Efficiency](../09-efficient-deep-learning/02-neural-network-basics-for-efficiency.md) · [04. Quantization](../09-efficient-deep-learning/04-quantization.md) · [17. Course Summary and Outlook](../09-efficient-deep-learning/17-course-summary-and-outlook.md)
 
 > **In one sentence:** Song Han opens MIT 6.5940 with the gap between growing models and finite hardware, a tour of what efficient techniques buy in vision, language and multimodal work, the hardware trends behind them, and the plan of the course.
 

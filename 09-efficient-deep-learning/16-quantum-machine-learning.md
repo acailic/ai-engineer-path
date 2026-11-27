@@ -13,30 +13,30 @@ A press release says a quantum computer will train the next generation of models
 
 A **qubit**, short for quantum bit, stores its information in two complex numbers (numbers with a real and an imaginary part): its **state vector**. One more bit adds one bit of information; one more qubit doubles the vector, so n qubits need 2 to the power of n numbers; by Wang's figure, the data the world produces in a day, about 3 exabytes, would in principle fit into 64 qubits (Lecture 22, [10:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=600)). By his account, 20 to 50 qubits are already too many to simulate classically ([38:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=2280)).
 
-A quantum machine-learning model is a **parameterized quantum circuit**, a circuit in which some gates carry learned angles and the rest, such as CNOT, X and H, are fixed (Lecture 23, [2:00](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=120)). It keeps what a neural network would recognize:
+A quantum machine-learning model is a **parameterized quantum circuit**, a circuit in which some gates carry learned angles and others, such as the CNOT, the NOT gate and the Hadamard gate, are fixed (Lecture 23, [2:00](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=120)). It keeps what a neural network would recognize:
 
 | Neural network | Parameterized quantum circuit |
 |---|---|
 | weights | rotation angles of some gates |
-| gradient | parameter-shift rule, two circuit runs per angle |
-| skip connection | unavailable: a quantum state cannot be copied |
+| gradient | parameter-shift rule (defined below), two circuit runs per angle |
+| **Skip connection** (a shortcut past later layers) | unavailable: a quantum state cannot be copied |
 | wrong bit | about 1 in 100 per two-qubit gate, as of Fall 2024 |
 
-The analogy is Wang's own, and it breaks in the last three rows: the intermediate state cannot be read, a state cannot be copied, and the hardware itself flips results. Both lectures stay in one cell of his map of the field: classical data, quantum algorithm; the other cells hold ordinary deep learning, device control and calibration, and quantum sensing ([0:00](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=0), [2:00](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=120)).
+The first row is Wang's own analogy, gates with angles against weighted layers and fixed gates against parameterless ones. The last three are where it breaks: the intermediate state cannot be read, a state cannot be copied, and the hardware itself flips results. Both lectures stay in one cell of his map of the field: classical data, quantum algorithm; the other cells hold ordinary deep learning, device control and calibration, and quantum sensing ([0:00](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=0), [2:00](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=120)).
 
 ## How it works, step by step
 
 ### Qubits, gates and entanglement
 
-A qubit's state is a **superposition**, a weighted sum of the two states, α|0⟩ + β|1⟩, with complex weights α and β, called **amplitudes**. A **measurement** returns one classical bit, 0 or 1 at random, and collapses the state to the bit it returned. The chance of a 0 is |α|² and of a 1 is |β|², so the two squares add up to 1. Since nothing reads α and β themselves, a computation is repeated many times and its answer is the distribution of the results (Lecture 22, [22:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=1320), [24:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=1440)).
+A qubit's state is a **superposition**, a weighted sum of the bit values 0 and 1, written |0⟩ and |1⟩: α|0⟩ + β|1⟩, with complex weights α and β, called **amplitudes**. A **measurement** returns one classical bit, 0 or 1 at random, and collapses the state to the bit it returned. The chance of a 0 is |α|² and of a 1 is |β|², so the two squares add up to 1. Since nothing reads α and β themselves, a computation is repeated many times and its answer is the distribution of the results (Lecture 22, [22:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=1320), [24:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=1440)).
 
-A single-qubit state is a point on the **Bloch sphere**, since the sum-to-one rule leaves two real numbers ([28:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=1680)). Every single-qubit **gate** is a 2 by 2 matrix and a rotation of the sphere: the **Hadamard gate**, which has no classical counterpart, turns |0⟩ into an equal superposition of 0 and 1, and the general U gate takes three parameters and moves any point to any other ([34:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=2040), [36:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=2160)); RX(θ), one of them, rotates by θ about the x axis. Every gate is **reversible**: from the gate and its output you recover its input ([30:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=1800)).
+A single-qubit state is a point on the **Bloch sphere**, since the sum-to-one rule leaves two real numbers ([28:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=1680)). Every single-qubit **gate** is a 2 by 2 matrix and a rotation of the sphere: the **Hadamard gate**, which has no classical counterpart, turns |0⟩ into an equal superposition of 0 and 1, and the general U gate takes three parameters and moves any point to any other ([34:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=2040), [36:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=2160)). RZ turns a qubit about the sphere's z axis, RX about its x axis. Every gate is **reversible**: from the gate and its output you recover its input ([28:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=1680)).
 
 The **CNOT**, short for controlled NOT, has a control and a target and flips the target only when the control is 1: 10 becomes 11, in the order control, target ([40:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=2400)). A Hadamard on one qubit followed by a CNOT from it to a second produces **entanglement**, the joint state (|00⟩ + |11⟩)/√2. Measured a hundred times, the pair reads 00 in about half of the runs and 11 in the rest, however far apart the qubits are; each result is still random, so this sends no message ([42:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=2520), [44:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=2640)).
 
 ### A circuit that classifies digits
 
-A **quantum circuit** has three stages: initialize the qubits with the problem, apply gates, measure, with classical post-processing allowed afterwards. A gate is a physical pulse, microwaves on a superconducting chip or laser light on neutral atoms, whose area or duration sets the rotation angle (Lecture 22, [46:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=2760), [48:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=2880)). Wang's smallest program, an adder, needs a CNOT for the sum and one with two controls for the carry ([50:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=3000)).
+A **quantum circuit** has three stages: initialize the qubits with the problem, apply gates, measure, with classical post-processing allowed afterwards. A gate is a physical pulse, microwaves on a superconducting chip or laser light on neutral atoms, whose area or duration sets the rotation angle (Lecture 22, [46:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=2760), [48:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=2880)). Wang's simple first circuit, an adder, needs a CNOT for the sum and one with two controls for the carry ([50:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=3000)).
 
 His machine-learning program classifies handwritten digits ([52:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=3120), [56:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=3360)):
 
@@ -68,7 +68,7 @@ Encoding turns a classical input into the initial state of the qubits; Wang's fo
 
 ### Gradients on a real device: the parameter-shift rule and SPSA
 
-Training follows the classical recipe until the gradient, and that is where a device differs from PyTorch (Lecture 23, [22:00](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=1320)). A finite-difference gradient, the change in the output for a small nudge of one angle, depends on the step, and a large step gives a derivative far from the true one ([24:00](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=1440)). The **parameter-shift rule** gives the analytic gradient instead: run the circuit twice, with the angle moved up by π/2 and down by π/2, and take half the difference of the outputs ([26:00](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=1560)).
+Training follows the classical recipe until the gradient (Lecture 23, [22:00](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=1320)). A finite-difference gradient, the change in the output for a small nudge of one angle, depends on the step, and a large step gives a derivative far from the true one ([24:00](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=1440)). The **parameter-shift rule** gives the analytic gradient instead: run the circuit twice, with the angle moved up by π/2 and down by π/2, and take half the difference of the outputs ([26:00](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=1560)).
 
 On a simulator, backpropagation through the circuit yields the same gradients. It needs every intermediate state, and a real device exposes none, so on hardware it covers only the classical part ([30:00](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=1800)):
 
@@ -86,13 +86,13 @@ flowchart TD
     G --> H["Update the angles"]
 ```
 
-The chain rule joins the two parts ([32:00](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=1920)). **SPSA**, simultaneous perturbation stochastic approximation, cuts the rule's two circuit evaluations per angle, 2n per step for n angles, to two: nudge all the angles at once, each by a small amount with a random sign; run the circuit once for the plus and once for the minus perturbation; give every angle an estimate of the same magnitude and the sign of its own nudge ([34:00](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=2040), [36:00](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=2160)).
+The chain rule joins the two parts ([32:00](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=1920)). **SPSA**, simultaneous perturbation stochastic approximation, cuts the rule's two circuit evaluations per angle, 2n per step for n angles, to two: nudge all the angles at once, each by a small amount with a random sign; run the circuit once per perturbation; give every angle an estimate of the same magnitude and the sign of its own nudge ([34:00](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=2040), [36:00](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=2160)).
 
 ### Training in noise: probabilistic gradient pruning
 
 On an IBM device, noise makes gradients from the parameter-shift rule inaccurate. Wang's observation: a gradient of small magnitude carries a large relative error, because a little noise can reverse its direction, whereas a large gradient keeps it. His group's **probabilistic gradient pruning** therefore skips the unreliable gradients ([46:00](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=2760), [48:00](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=2880)):
 
-1. **Accumulation window.** Over a few steps, three in his example, add up each angle's absolute gradient.
+1. **Accumulation window.** Over a few steps, three by his account, add up each angle's absolute gradient.
 2. **Pruning window.** Turn the sums into probabilities and sample which gradients not to compute; the small ones are the likeliest.
 3. Update only the angles whose gradients were computed, then repeat.
 
@@ -181,19 +181,19 @@ The first line shows the parameter-shift rule equal to the analytic derivative o
 
 ### Where the devices stand
 
-Everything here is Wang's account, as of Fall 2024 (Lecture 22, [4:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=240), [64:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=3840)).
+Everything here is Wang's account (Lecture 22), as of Fall 2024.
 
-- **Milestones.** A day before Lecture 22, Google released **AlphaQubit**, a transformer that decodes a quantum computer's error-correcting codes. Google had earlier shown **quantum supremacy**, a computation its device performed better than the best classical computer, and IBM **quantum utility**, one that is hard to run classically but not yet useful.
-- **Size and quality.** Superconducting chips held 5 qubits in 2017, 27 in 2019 and 65 in 2020, before IBM's Condor chip reached over 1,000; by his count qubits double every year, so computing power grows doubly exponentially. A thousand noisy qubits cannot be used together: **quantum error correction** trades redundancy for reliability, in his example 25 physical qubits per one **logical qubit**, and a Harvard team had built 48 logical qubits from neutral atoms.
-- **Several roadmaps.** Quantum devices, unlike classical chips, follow several: superconducting circuits, trapped ions, neutral atoms, photonics and spin qubits.
-- **Three stages of algorithms.** Shor's algorithm, by MIT's Peter Shor in the 1980s and 1990s, factors large integers with an exponential speed-up over classical machines and so threatens RSA, which rests on the difficulty of factoring. A National Quantum Initiative followed in the United States in 2018, and NIST, the United States standards body, has narrowed the quantum-safe schemes to four.
-- **The gap.** Factoring an RSA key needs an error rate below one in a hundred million. Today's machines are in the **NISQ era**, noisy intermediate-scale quantum: the control pulses are imperfect, the environment disturbs the qubits, and error rates are about one in a thousand for single-qubit gates and one in a hundred for a CNOT. An adder that a laptop gets right every time is wrong some of the time, while a model needs tens, thousands or even millions of gates. On a plot of size against error tolerance, today's devices are nowhere near what Shor's algorithm, Grover's database search and quantum chemistry require.
+- **Milestones.** A day before Lecture 22, Google released **AlphaQubit**, a transformer that decodes a quantum computer's error-correcting codes. Google had earlier shown **quantum supremacy**, a computation its device performed better than the best classical computer, and IBM **quantum utility**, one that is hard to run classically but not yet useful ([4:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=240)).
+- **Size and quality.** Superconducting chips held 5 qubits in 2017, 27 in 2019 and 65 in 2020, before IBM's Condor chip reached over 1,000; by his count qubits double every year, so computing power grows doubly exponentially. A thousand noisy qubits cannot be used together: **quantum error correction** trades redundancy for reliability, in his example 25 physical qubits per one **logical qubit**, and a Harvard team had built 48 logical qubits from neutral atoms ([6:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=360), [8:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=480), [10:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=600)).
+- **Several roadmaps.** Quantum devices, unlike classical chips, follow several: superconducting circuits, trapped ions, neutral atoms, photonics and spin qubits ([8:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=480)).
+- **Shor's algorithm.** By MIT's Peter Shor in the 1980s and 1990s, it factors large integers with an exponential speed-up over classical machines and so threatens RSA, which rests on the difficulty of factoring. A National Quantum Initiative followed in the United States in 2018, and NIST (the United States standards body) has narrowed the quantum-safe schemes to four ([12:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=720)).
+- **The gap.** Factoring an RSA key needs an error rate below one in a hundred million. Today's machines are in the **NISQ era**, noisy intermediate-scale quantum: the control pulses are imperfect, the environment disturbs the qubits, and error rates are about one in a thousand for single-qubit gates and one in a hundred for a CNOT. An adder that a laptop gets right every time is wrong some of the time, while a model needs tens, thousands or even millions of gates. On a plot of size against error tolerance, today's devices are nowhere near what Shor's algorithm, Grover's database search and quantum chemistry require ([16:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=960), [60:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=3600), [62:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=3720), [64:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=3840)).
 
 ### The numbers behind the methods
 
 - **Gradient pruning.** Wang credits it with about 5 to 10% more accuracy on a classification task, though his slide says 2 to 4%, and with half the training time, since skipped gradients are never computed (Lecture 23, [48:00](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=2880)). Probabilistic pruning beats deterministic pruning by 1 to 9% accuracy across several tasks ([52:00](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=3120)).
 - **Optimizers.** SPSA's training curve stays close to that of plain gradient descent; the quantum natural gradient converges best of all, at a much higher cost ([38:00](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=2280)).
-- **Atomique.** It compiles, by his account, circuits of more than a thousand qubits within minutes, where an exact SMT solver would be optimal but exponential in cost (Lecture 22, [76:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=4560)).
+- **Atomique.** It compiles, by his account, circuits of more than a thousand qubits within minutes, where an SMT solver, a program that decides whether logical constraints can all be met, would be optimal but exponential in cost (Lecture 22, [76:00](https://www.youtube.com/watch?v=svjjD2uthhQ&t=4560)).
 
 ### The limits the lectures leave open
 
@@ -211,7 +211,7 @@ Everything here is Wang's account, as of Fall 2024 (Lecture 22, [4:00](https://w
 
 The script computes exact probabilities; a device returns counts.
 
-1. Add `estimate(theta, shots)`, the fraction of 1s in `shots` simulated measurements, each a random number below `p1(theta)`.
+1. Add `estimate(theta, shots)`, the fraction of 1s in `shots` simulated measurements, each reading 1 when a random number falls below `p1(theta)`.
 2. Use it with 100 shots in the parameter-shift rule, and compute the gradient 20 times at θ = 0.05 and at θ = 2.5.
 3. Print the mean relative error for both angles: the absolute difference from sin(θ)/2, divided by sin(θ)/2.
 
@@ -223,7 +223,7 @@ The script computes exact probabilities; a device returns counts.
 
 - n qubits hold 2 to the power of n amplitudes, but a measurement returns one bit per qubit, so a circuit runs many times and its answer is a distribution.
 - A quantum machine-learning model is a parameterized circuit, encoded data, gates with learned angles and a measurement; on hardware its gradients come from the parameter-shift rule, two circuit runs per angle.
-- Devices of Fall 2024 erred about once in a hundred per two-qubit gate, against below one in a hundred million for factoring, so the lectures prune unreliable gradients, search for robust circuits and compile around the connectivity; loading data and the barren plateau remain open.
+- Devices of Fall 2024 erred about once in a hundred per two-qubit gate, against below one in a hundred million for factoring, so the course's answer is to prune unreliable gradients, search for robust circuits and compile around the connectivity; loading data and the barren plateau remain open.
 
 ## Self-check
 
@@ -246,7 +246,7 @@ The script computes exact probabilities; a device returns counts.
 ## Sources
 
 - **Lecture:** Song Han and Hanrui Wang, "Course Summary + Quantum Machine Learning I", MIT 6.5940 (Fall 2024): [video](https://www.youtube.com/watch?v=svjjD2uthhQ) · [guide](../lectures/mit-22-course-summary-quantum-machine-learning-i.md), used at [qubits and gates](https://www.youtube.com/watch?v=svjjD2uthhQ&t=1080), [a classifier circuit](https://www.youtube.com/watch?v=svjjD2uthhQ&t=3120), [data loading](https://www.youtube.com/watch?v=svjjD2uthhQ&t=3480), [qubit mapping](https://www.youtube.com/watch?v=svjjD2uthhQ&t=3960)
-- **Lecture:** Song Han and Hanrui Wang, "Quantum Machine Learning II", MIT 6.5940 (Fall 2024): [video](https://www.youtube.com/watch?v=ZDk-GsyInt8) · [guide](../lectures/mit-23-quantum-machine-learning-ii.md), used at [expressivity](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=240), [the parameter-shift rule](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=1560), [barren plateaus](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=2280), [architecture search](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=3720)
+- **Lecture:** Hanrui Wang, "Quantum Machine Learning II", MIT 6.5940 (Fall 2024): [video](https://www.youtube.com/watch?v=ZDk-GsyInt8) · [guide](../lectures/mit-23-quantum-machine-learning-ii.md), used at [expressivity](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=240), [the parameter-shift rule](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=1560), [barren plateaus](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=2280), [architecture search](https://www.youtube.com/watch?v=ZDk-GsyInt8&t=3720)
 
 ## Next
 

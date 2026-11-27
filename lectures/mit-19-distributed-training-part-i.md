@@ -2,7 +2,7 @@
 
 **Lecturer:** Song Han (MIT) · **Course:** MIT 6.5940 TinyML and Efficient Deep Learning Computing, Fall 2024, lecture 19 · **Length:** 1:10:00
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=LcOM-nZdqxw) · **Slides:** [slides](https://www.dropbox.com/scl/fi/85ud2gzrtyllgeqgpv9gs/Lec19-Distributed-Training-I.pdf?rlkey=80t52w3peqqf8oanpc6ojmvnf&st=jn4yxsjy&dl=0)
-**Chapters that cite this lecture:** [10. Efficient Vision, Generative Models and Distributed Training](../09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md)
+**Chapters that cite this lecture:** [10. Efficient Vision, Generative Models and Distributed Training](../09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) · [15. Distributed Training](../09-efficient-deep-learning/15-distributed-training.md) · [06. Parallelism](../10-llm-internals/06-parallelism.md)
 
 > **In one sentence:** Song Han opens distributed training: why many GPUs are needed, the four ways to split work (data, pipeline, tensor and sequence parallelism), how gradients are aggregated without a central server (ring and recursive-halving all-reduce), how ZeRO and FSDP shard training state to fit large models, and how sequence parallelism handles long contexts.
 

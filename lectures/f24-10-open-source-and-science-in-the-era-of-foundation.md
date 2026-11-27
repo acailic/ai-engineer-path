@@ -2,7 +2,7 @@
 
 **Lecturer:** Percy Liang (Stanford) · **Course:** UC Berkeley LLM Agents MOOC, Fall 2024 (CS 294-137), lecture 10 · **Length:** 54:00
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=f3KKx9LWntQ) · **Slides:** [slides](https://rdi.berkeley.edu/llm-agents-mooc/slides/percyliang.pdf)
-**Chapters that cite this lecture:** [03. Agents for Scientific Discovery](../06-frontier-applications/03-agents-for-scientific-discovery.md) · [05. What Frontier Domains Teach About Agents](../06-frontier-applications/05-what-frontier-domains-teach-about-agents.md)
+**Chapters that cite this lecture:** [04. Memory and Knowledge for Agents](../02-building-agents/04-memory-and-knowledge-for-agents.md) · [08. Training Models for Agentic Tasks](../02-building-agents/08-training-models-for-agentic-tasks.md) · [03. Agents for Scientific Discovery](../06-frontier-applications/03-agents-for-scientific-discovery.md) · [05. What Frontier Domains Teach About Agents](../06-frontier-applications/05-what-frontier-domains-teach-about-agents.md)
 
 > **In one sentence:** Percy Liang argues that access shapes research, and walks down three levels of access to language models (API, open weights, open source), showing what each one lets researchers build or find out, from agents for machine-learning work to a statistical test of whether two models were trained independently.
 

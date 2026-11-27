@@ -2,7 +2,7 @@
 
 **Lecturer:** Clay Bavor (Sierra) · **Course:** UC Berkeley Agentic AI MOOC, Fall 2025 (CS 294/196), lecture 9 · **Length:** 48:00
 **Video:** [watch on YouTube](https://www.youtube.com/watch?v=sfJM4LaiYsM) · **Slides:** [slides](https://rdi.berkeley.edu/agentic-ai/slides/Practical_Lessons_AI_Agents.pdf)
-**Chapters that cite this lecture:** [04. Evaluating Agents: Trajectories and Environments](../03-evaluation/04-evaluating-agents-trajectories-and-environments.md) · [07. Evals in Production](../03-evaluation/07-evals-in-production.md)
+**Chapters that cite this lecture:** [04. Using LLMs: Tokens, Context and Sampling](../01-foundations/04-using-llms-tokens-context-and-sampling.md) · [04. Evaluating Agents: Trajectories and Environments](../03-evaluation/04-evaluating-agents-trajectories-and-environments.md) · [07. Evals in Production](../03-evaluation/07-evals-in-production.md) · [01. The Agent Framework Landscape](../05-frameworks-and-multi-agent/01-the-agent-framework-landscape.md)
 
 > **In one sentence:** Clay Bavor sets out what Sierra learned in two and a half years of running customer-facing agents for large companies: how to build, test and secure them, and what makes voice hard.
 
