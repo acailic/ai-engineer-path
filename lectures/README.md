@@ -75,13 +75,13 @@ Every part heading links to the moment in the video where the part begins.
 | 14 | LLM Post Training | Song Han (MIT) | 1:18:00 | 17 | 0 | [open](mit-14-llm-post-training.md) |
 | 15 | Long Context LLM | Song Han (MIT) | 1:14:00 | 19 | 0 | [open](mit-15-long-context-llm.md) |
 | 16 | Vision Transformer | Song Han (MIT) | 1:02:00 | 18 | 0 | [open](mit-16-vision-transformer.md) |
-| 17 | GAN, Video, and Point Cloud | Song Han (MIT) | 1:12:00 | 17 | 5 | [open](mit-17-gan-video-and-point-cloud.md) |
-| 18 | Diffusion Model | Song Han (MIT) | 1:12:00 | 18 | 5 | [open](mit-18-diffusion-model.md) |
-| 19 | Distributed Training (Part I) | Song Han (MIT) | 1:10:00 | 17 | 1 | [open](mit-19-distributed-training-part-i.md) |
-| 20 | Distributed Training (Part II) | Song Han (MIT) | 1:00:00 | 16 | 2 | [open](mit-20-distributed-training-part-ii.md) |
+| 17 | GAN, Video, and Point Cloud | Song Han (MIT) | 1:12:00 | 17 | 0 | [open](mit-17-gan-video-and-point-cloud.md) |
+| 18 | Diffusion Model | Song Han (MIT) | 1:12:00 | 18 | 0 | [open](mit-18-diffusion-model.md) |
+| 19 | Distributed Training (Part I) | Song Han (MIT) | 1:10:00 | 17 | 0 | [open](mit-19-distributed-training-part-i.md) |
+| 20 | Distributed Training (Part II) | Song Han (MIT) | 1:00:00 | 16 | 0 | [open](mit-20-distributed-training-part-ii.md) |
 | 21 | On-Device Training and Transfer Learning | Song Han (MIT) | 1:06:00 | 16 | 0 | [open](mit-21-on-device-training-and-transfer-learning.md) |
 | 22 | Course Summary + Quantum Machine Learning I | Song Han (MIT) | 1:24:00 | 19 | 1 | [open](mit-22-course-summary-quantum-machine-learning-i.md) |
-| 23 | Quantum Machine Learning II | Song Han (MIT) | 1:14:00 | 20 | 2 | [open](mit-23-quantum-machine-learning-ii.md) |
+| 23 | Quantum Machine Learning II | Song Han (MIT) | 1:14:00 | 20 | 1 | [open](mit-23-quantum-machine-learning-ii.md) |
 
 ## Stanford CS336 Language Modeling from Scratch (Spring 2026)
 
@@ -106,4 +106,4 @@ Every part heading links to the moment in the video where the part begins.
 | 17 | Alignment: multimodality |  | 1:18:00 | 13 | 0 | [open](cs336-17-alignment-multimodality.md) |
 | 18 | Guest lecture: Dan Fu |  | 1:12:00 | 13 | 0 | [open](cs336-18-guest-lecture-dan-fu.md) |
 
-In all: 1207 parts, of which 69 (6%) teach something no chapter teaches; 201,422 words.
+In all: 1207 parts, of which 55 (5%) teach something no chapter teaches; 201,749 words.

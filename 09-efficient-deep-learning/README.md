@@ -11,6 +11,7 @@ This part follows **MIT 6.5940, TinyML and Efficient Deep Learning Computing, Fa
 - Choose a serving setup for a language model: precision, batching, KV cache and decoding tricks.
 - Check whether a model fits a microcontroller, and get it there.
 - Decide between pruning, quantization, search and distillation for a given budget.
+- Name the efficiency move for a vision model, an image generator or a training job on many machines, and estimate what it saves.
 
 ## Chapters
 
@@ -25,7 +26,12 @@ This part follows **MIT 6.5940, TinyML and Efficient Deep Learning Computing, Fa
 | 07 | [TinyML: Microcontrollers and TinyEngine](07-tinyml-microcontrollers-and-tinyengine.md) | Practitioner | 19 | flash and SRAM budgets, patch-based inference, inference engines |
 | 08 | [Efficient LLM Inference and Deployment](08-efficient-llm-inference-and-deployment.md) | Practitioner | 24 | prefill and decode, KV cache, attention, batching, speculative decoding, long context |
 | 09 | [LLM Post-Training and On-Device Training](09-llm-post-training-and-on-device-training.md) | Practitioner | 15 | parameter-efficient fine-tuning, quantized training, training on the device |
-| 10 | [Efficient Vision, Generative Models and Distributed Training](10-efficient-vision-generative-models-and-distributed-training.md) | Practitioner | 15 | vision transformers, GANs and diffusion, parallelism across machines |
+| 10 | [Efficient Vision, Generative Models and Distributed Training](10-efficient-vision-generative-models-and-distributed-training.md) | Practitioner | 12 | a map of three areas: which cost grows fastest for vision, for generative models and for training across machines, and where each is taught in detail |
+| 12 | [Vision Transformers](12-vision-transformers.md) | Practitioner | 21 | patches as tokens and the cost of attention at high resolution; window, linear and sparse attention; pre-training without labels; generating images token by token |
+| 13 | [Efficient GANs, Video and Point-Cloud Models](13-gans-video-and-point-clouds.md) | Practitioner | 20 | GAN compression, one generator for several budgets, training on little data, the temporal shift module for video, point-voxel networks and sensor fusion |
+| 14 | [Efficient Diffusion Models](14-efficient-diffusion-models.md) | Practitioner | 20 | the denoising steps and their cost, conditions and guidance, latent diffusion, fewer steps, sparse inference, 4-bit arithmetic, several GPUs |
+| 15 | [Distributed Training](15-distributed-training.md) | Practitioner | 20 | why train on many machines; data, pipeline, tensor and sequence parallelism; sharding with ZeRO and FSDP; gradient compression; network latency |
+| 16 | [Quantum Machine Learning](16-quantum-machine-learning.md) | Foundation | 20 | qubits, gates and circuits; encoding data; training a circuit on a noisy device; search and compilation for real devices |
 | 17 | [Course Summary and Outlook](17-course-summary-and-outlook.md) | Foundation | 12 | one map of the whole part, the course's open topics, a routine for staying current |
 
 "Min" is reading time. Each chapter header also gives the time for its exercise.
@@ -35,6 +41,7 @@ This part follows **MIT 6.5940, TinyML and Efficient Deep Learning Computing, Fa
 - **Compression route:** 01, 02, 03, 04, 06. Start here if you have a model that must shrink.
 - **Language model serving route:** 02, 04, 08, then 09. Start here if you deploy language models.
 - **Edge route:** 02, 05, 07, then 09. Start here if you target phones or microcontrollers.
+- **Applications route:** 02, 10, then the chapter for your workload: 12 for vision, 13 for GANs, video and point clouds, 14 for diffusion models, 15 for training across machines. Start here if you work with images, video or large training runs.
 
 Chapter 02 is the only real prerequisite for everything else: it defines the counts and the latency-versus-throughput reasoning the later chapters rely on.
 
@@ -57,8 +64,8 @@ Each guide maps one lecture from its first minute to its last and says where thi
 | LLM Post Training | Song Han (MIT) | 1:18:00 | 0 of 17 | [open guide](../lectures/mit-14-llm-post-training.md) |
 | Long Context LLM | Song Han (MIT) | 1:14:00 | 0 of 19 | [open guide](../lectures/mit-15-long-context-llm.md) |
 | Basics of Deep Learning | Song Han (MIT) | 52:00 | 1 of 17 | [open guide](../lectures/mit-02-basics-of-deep-learning.md) |
-| Distributed Training (Part I) | Song Han (MIT) | 1:10:00 | 1 of 17 | [open guide](../lectures/mit-19-distributed-training-part-i.md) |
-| Distributed Training (Part II) | Song Han (MIT) | 1:00:00 | 2 of 16 | [open guide](../lectures/mit-20-distributed-training-part-ii.md) |
+| Distributed Training (Part I) | Song Han (MIT) | 1:10:00 | 0 of 17 | [open guide](../lectures/mit-19-distributed-training-part-i.md) |
+| Distributed Training (Part II) | Song Han (MIT) | 1:00:00 | 0 of 16 | [open guide](../lectures/mit-20-distributed-training-part-ii.md) |
 | On-Device Training and Transfer Learning | Song Han (MIT) | 1:06:00 | 0 of 16 | [open guide](../lectures/mit-21-on-device-training-and-transfer-learning.md) |
 | Pruning and Sparsity (Part I) | Song Han (MIT) | 58:00 | 0 of 15 | [open guide](../lectures/mit-03-pruning-and-sparsity-part-i.md) |
 | Pruning and Sparsity (Part II) | Song Han (MIT) | 1:10:00 | 1 of 19 | [open guide](../lectures/mit-04-pruning-and-sparsity-part-ii.md) |
@@ -71,9 +78,9 @@ Each guide maps one lecture from its first minute to its last and says where thi
 | TinyEngine and Parallel Processing | Song Han (MIT) | 1:12:00 | 0 of 15 | [open guide](../lectures/mit-11-tinyengine-and-parallel-processing.md) |
 | Course Summary + Quantum Machine Learning I | Song Han (MIT) | 1:24:00 | 1 of 19 | [open guide](../lectures/mit-22-course-summary-quantum-machine-learning-i.md) |
 | Vision Transformer | Song Han (MIT) | 1:02:00 | 0 of 18 | [open guide](../lectures/mit-16-vision-transformer.md) |
-| GAN, Video, and Point Cloud | Song Han (MIT) | 1:12:00 | 5 of 17 | [open guide](../lectures/mit-17-gan-video-and-point-cloud.md) |
-| Diffusion Model | Song Han (MIT) | 1:12:00 | 5 of 18 | [open guide](../lectures/mit-18-diffusion-model.md) |
-| Quantum Machine Learning II | Song Han (MIT) | 1:14:00 | 2 of 20 | [open guide](../lectures/mit-23-quantum-machine-learning-ii.md) |
+| GAN, Video, and Point Cloud | Song Han (MIT) | 1:12:00 | 0 of 17 | [open guide](../lectures/mit-17-gan-video-and-point-cloud.md) |
+| Diffusion Model | Song Han (MIT) | 1:12:00 | 0 of 18 | [open guide](../lectures/mit-18-diffusion-model.md) |
+| Quantum Machine Learning II | Song Han (MIT) | 1:14:00 | 1 of 20 | [open guide](../lectures/mit-23-quantum-machine-learning-ii.md) |
 
 ## Going further
 

@@ -1,9 +1,9 @@
 # 10. Efficient Vision, Generative Models and Distributed Training
 
-**Level:** Practitioner · **Reading time:** 21 min · **Exercise:** 30 min
+**Level:** Practitioner · **Reading time:** 12 min · **Exercise:** 30 min
 **Prerequisites:** [Neural Network Basics for Efficiency](02-neural-network-basics-for-efficiency.md), [Efficient LLM Inference and Deployment](08-efficient-llm-inference-and-deployment.md) for the cost of attention
 
-> **In one sentence:** After this chapter you can name the standard efficiency moves for vision transformers, for generative models and for training across many machines, and estimate what each one saves.
+> **In one sentence:** After this chapter you can name, for a vision model, an image generator or a training job on many machines, the cost that grows fastest, the standard moves against it and the chapter that teaches each in detail.
 
 ## Why this matters
 
@@ -13,97 +13,64 @@ The techniques so far were introduced on classifiers and language models. They r
 - an image generator, where the problem is running a large network dozens of times per image;
 - a training job that does not fit on one GPU.
 
-This is a survey: for each, the dominant cost and the standard moves.
+This chapter is the map of these places. For each it gives the cost that grows fastest, the standard moves and one worked number. The chapters that follow take one place each: [12](12-vision-transformers.md) vision transformers, [13](13-gans-video-and-point-clouds.md) GANs, video and point clouds, [14](14-efficient-diffusion-models.md) diffusion models, [15](15-distributed-training.md) training across machines.
 
-## Efficient vision transformers
+## The core idea: find the term that grows fastest
 
-A **vision transformer** (ViT) cuts an image into patches, treats each patch as a token, and runs a standard transformer encoder over them (Han's Lecture 16, slides 4 to 11). Han's slides note that it is weaker than a convolutional network on small datasets and stronger with large-scale pre-training.
+Every cost in this part is a product. [Chapter 02](02-neural-network-basics-for-efficiency.md) counts parameters, operations and memory, and asks how large each term is. Here the question is how fast each term grows when the input grows. The term that grows fastest is the one to attack.
 
-The cost problem is attention. With `N` patches, the attention table has `N²` entries per head.
+| Place | The cost, written as a product | The term that grows fastest | Standard moves | Chapter |
+|---|---|---|---|---|
+| Vision transformer | attention entries = patches² per head; the patches grow with the resolution² | attention, with the fourth power of the resolution | window attention, linear attention, sparse windows | [12](12-vision-transformers.md) |
+| GAN | the generator runs once per pixel at inference | the generator's size | prune the generator; one generator for several budgets | [13](13-gans-video-and-point-clouds.md) |
+| Video and point clouds | a 3D convolution weighs and computes far more than a 2D one | the extra dimension | shift channels in time; a voxel branch beside a point branch | [13](13-gans-video-and-point-clouds.md) |
+| Diffusion model | steps × cost per step; the cost per step grows with its tokens | both factors | fewer steps, fewer tokens, cheaper attention, skip unchanged regions | [14](14-efficient-diffusion-models.md) |
+| Training on many machines | memory per GPU; bytes exchanged per step | the model's size and the communication | data, pipeline, tensor and sequence parallelism; sharding; gradient compression | [15](15-distributed-training.md) |
 
-- 224 × 224 image, 16 × 16 patches: 196 tokens, 38,416 entries.
-- 1,024 × 1,024 image, same patches: 4,096 tokens, 16.8 million entries.
+The families in one sentence each:
 
-An image 4.6 times larger on each side costs 21 times more tokens and 436 times more attention. Han makes the same point when he raises resolution in the lecture: tokens grow as the square of the resolution and attention as the square of the token count, so a vision transformer's computation grows with the fourth power, much faster than a convolutional network's ([8:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=480)). His example of the gain is segmentation on a Jetson Orin at FP16 and batch size one: from 1.6 to 21 frames per second at the same accuracy.
+- A **vision transformer** cuts an image into patches, treats each patch as a token, and runs a transformer encoder over them.
+- A **generative model** produces images, video or 3D content instead of a label.
+- A **GAN**, a generative adversarial network, has a generator and a discriminator, which learns to tell real images from generated ones; only the generator runs at inference (Han, Lecture 17, [2:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=120)).
+- A **diffusion model** learns to remove noise step by step; starting from pure noise, it produces an image after many steps (Lecture 18, [2:00](https://www.youtube.com/watch?v=LXrqmQrscf0&t=120)).
 
-| Move | Idea | What you pay |
+## Three numbers to keep
+
+**Vision.** A 224 × 224 image cut into 16 × 16 patches gives 196 tokens and 38,416 attention entries per head. At 1,024 × 1,024 it gives 4,096 tokens and 16.8 million entries: an image 4.6 times larger on each side costs 21 times more tokens and 436 times more attention. Han makes the point in the lecture by raising the resolution: a vision transformer's computation grows with the fourth power of the resolution, much faster than a convolutional network's (Lecture 16, [8:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=480)). His example of the gain is segmentation on a Jetson Orin at FP16 and batch size one: from 1.6 to 21 frames per second while keeping the accuracy. His EfficientViT results cover segmentation on Cityscapes, super-resolution and Segment Anything, which is where [Chapter 01](01-why-efficiency-matters.md) got its 182 images per second example (Lecture 16, [24:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=1440)).
+
+**Generation.** An illustration with round numbers: 50 denoising steps on 16,384 tokens are 819,200 token-steps per image. 20 steps on 256 tokens are 5,120. That is 160 times less work, before any change to the network itself. [Chapter 14](14-efficient-diffusion-models.md) gives the lecture's own figures for each way of getting there.
+
+**Training.** On a single GPU, the training of GPT-3 would take 355 years (Lecture 19, [2:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=120)). Data parallelism, several GPUs that each hold the whole model, saves time and no memory. For memory, Han presents ZeRO, which shards the optimizer state, the gradients and the weights across GPUs, stage by stage (Lecture 19, [36:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=2160), [38:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=2280)). Worked numbers for the 7-billion-parameter model of [Chapter 09](09-llm-post-training-and-on-device-training.md): 112 GB before activations on one GPU, about 14 GB per GPU on eight.
+
+## How to choose the move
+
+1. **Write the cost as a product.** Attention entries, steps × tokens, memory per GPU, bytes per step.
+2. **Double what worries you** and see which term grows fastest: the resolution, the image size, the number of GPUs.
+3. **Pick the move that changes that term's growth**, not the one with the best percentage in a paper. Window attention turns the square of the patch count into a linear term; a more compressed latent space cuts the tokens of every step at once.
+4. **Measure latency on the target.** Fewer MACs is never the whole story. Han reports latency on an Orin, an edge chip serving one user, and throughput on an A100, a cloud chip serving many (Lecture 16, [24:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=1440)).
+
+## What the practitioners say
+
+Three of Han's remarks hold for every place in the table.
+
+- **Each technique added for quality adds computation** (Lecture 18, [30:00](https://www.youtube.com/watch?v=LXrqmQrscf0&t=1800)). The clearest case is guidance, which evaluates the model twice per step; [Chapter 14](14-efficient-diffusion-models.md) shows its two forms.
+- **More tokens are not automatically better, and they are never cheap.** For the VILA vision-language model he reports that the image's original resolution matters more than its number of tokens (Lecture 14, [54:00](https://www.youtube.com/watch?v=OCdwWfVoQ-Q&t=3240)).
+- **Computation is cheap and data movement is expensive.** Synchronous training exchanges gradients after every iteration, so the network, not the processor, can set the time of a large run (Lecture 20, [12:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=720)).
+
+## Worked example
+
+A cost sheet with one line per family, each number next to its formula:
+
+| Family | Formula | Result |
 |---|---|---|
-| Window attention | each patch attends only inside a local window; cost grows linearly with image size. Han's example uses 7 × 7 windows, so each holds a fixed number of tokens ([10:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=600)) | long-range relations need several layers |
-| Shifted or balanced windows | let neighboring windows exchange information; equal-size groups are hardware-friendly, and on a Jetson Orin they run faster than other transformer models and even than convolutional ones (Han, [16:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=960)) | bookkeeping |
-| Linear attention | change the order of multiplication, as in `(A × B) × C = A × (B × C)`, so the cost is linear in `N` (Han, [18:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=1080)) | on its own, a large accuracy drop: it cannot produce the sharp, local attention of softmax. Han's fix adds a small convolution branch inside the feed-forward layer, a depthwise convolution followed by a 1 × 1 grouped convolution, which costs little, restores the accuracy and gives about 5.8 times the speed with higher accuracy on segmentation on a mobile chip ([20:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=1200)) |
-| Sparse windows | prune unimportant windows; his SparseViT keeps the first layer dense and later layers sparser, because a pruned token cannot recover, and finds the per-layer sparsity by evolutionary search ([28:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=1680)) | a search for which windows |
+| Vision transformer at 224 × 224 | 196² | 38,416 attention entries per head |
+| The same at 1,024 × 1,024 | 4,096² | 16.8 million entries |
+| Diffusion, many steps on many tokens (an illustration) | 50 steps × 16,384 tokens | 819,200 token-steps per image |
+| Diffusion, fewer of each (an illustration) | 20 steps × 256 tokens | 5,120 token-steps |
+| Training a 7-billion-parameter model on one GPU | 7 billion × 16 bytes | 112 GB before activations |
+| The same on eight GPUs, sharded | 112 GB ÷ 8 | 14 GB per GPU |
 
-His EfficientViT results cover segmentation on Cityscapes, super-resolution and Segment Anything, which is where [Chapter 01](01-why-efficiency-matters.md) got its 182 images per second example. He reports latency on an Orin, an edge chip serving one user, and throughput on an A100, a cloud chip serving many ([24:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=1440)).
-
-One more finding is relevant to efficiency. In his lecture on post-training, Han reports for the VILA vision-language model that the image's original resolution matters more than its number of tokens (Lecture 14, [54:00](https://www.youtube.com/watch?v=OCdwWfVoQ-Q&t=3240)). More tokens are not automatically better, and they are never cheap.
-
-## Efficient generative models
-
-A **generative model** produces images, video or 3D content instead of a label.
-
-| Family | Why it is expensive | Standard moves |
-|---|---|---|
-| GAN | two networks; the generator runs per pixel | prune the generator; one generator at several sizes |
-| Diffusion | a large network runs once per denoising step, dozens of steps per image | fewer steps, fewer tokens, cheaper attention, skip unchanged regions |
-| Autoregressive image models | one network pass per visual token | predict many tokens per step |
-
-A **GAN** has a generator and a discriminator, which learns to tell real images from generated ones (Han, Lecture 17, [2:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=120)). Only the generator runs at inference, so that is the part to compress (same block). His GAN Compression result cut a CycleGAN model from 56.8 to 3.5 billion MACs and raised its speed from 12.1 to 40 frames per second (Lecture 17, [8:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=480), on a Jetson Xavier GPU, the device named on his Lecture 1 slide). Anycost GANs train one generator that runs at several resolutions and channel widths, the once-for-all idea from [Chapter 05](05-neural-architecture-search.md). Han's finding: one discriminator cannot give useful feedback to every sub-generator, so it is conditioned on the generator's configuration ([16:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=960)).
-
-Data is a second limit. Han's group trained StyleGAN2 on 100 faces, 160 cats and a few hundred dogs and got poor images, and the FID, an image-quality score that is better when lower, kept climbing as the training set shrank to 20% and 10%. The discriminator is the cause: on 20% of the data its training accuracy rose while its validation accuracy collapsed, and a discriminator that has overfitted gives the generator bad feedback (Lecture 17, [22:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=1320)). Augmentation is the cure, but it has to reach both networks. Applied to the real images only, it leaks: a color jitter, a shift or a cutout reappears in the generated images. **Differentiable augmentation** applies the same transformation to real and generated images, for both networks, so that the loss flows back through the transformation to the generator. With it, shrinking the data takes the FID only from 9 to 14 instead of from 11 to 36 (Lecture 17, [26:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=1560)).
-
-A **diffusion model** learns to remove noise step by step. Starting from pure noise, it produces an image after many steps. Total cost = steps × cost per step.
-
-The cost sits on one side. In the **forward process** a little Gaussian noise is added at each step, at a speed set by a schedule. The steps are linear, so the noisy image at any step can be formed directly from the clean one (Lecture 18, [2:00](https://www.youtube.com/watch?v=LXrqmQrscf0&t=120)). Training therefore needs one network pass per example: it picks a step at random, adds the noise, has the network predict it, and minimizes the squared error (Lecture 18, [6:00](https://www.youtube.com/watch?v=LXrqmQrscf0&t=360)). Sampling repeats one rule, predict the noise and subtract it, with the same network at every step; each pass makes a pixel-wise prediction, not just a class or a box, and earlier models ran once per output (Lecture 18, [10:00](https://www.youtube.com/watch?v=LXrqmQrscf0&t=600)).
-
-Han's Lecture 18 covers four ways to reduce it:
-
-1. **Fewer steps.** Deterministic samplers (DDIM) and progressive distillation.
-2. **Fewer tokens per step.** Latent diffusion runs in a compressed space. Han's deep compression autoencoder shrinks an image 64 times instead of the usual 8, so a model diffuses 64 tokens where it used to diffuse about 4,000 ([40:00](https://www.youtube.com/watch?v=LXrqmQrscf0&t=2400)).
-3. **Cheaper attention.** His Sana model uses linear attention in the diffusion transformer.
-4. **Skip work.** When editing part of an image, SIGE recomputes only the edited region: Han's demo changes 3% of the pixels and runs more than 4 times faster at the same quality ([60:00](https://www.youtube.com/watch?v=LXrqmQrscf0&t=3600)). Quantization needs another recipe. Weight-only quantization speeds up a language model, which is bound by memory bandwidth, but a diffusion model is bound by compute, so Han says weights and activations must both go to 4 bits for a measured speed-up (same block).
-
-Worked numbers: 50 steps on 16,384 tokens is 819,200 token-steps per image. 20 steps on 256 tokens is 5,120. That is 160 times less work, before any change to the network itself.
-
-The first way has two forms. **DDIM**, the denoising diffusion implicit model, changes only how samples are drawn, not the trained model: each step uses the noisy image together with the model's estimate of the finished image, which lets the sampler skip forward in jumps of 10 steps in Han's example. Squeezed from 1,000 steps to 20 or 10, the original sampler's FID explodes; DDIM's hardly moves. **Progressive distillation** has a student replace two neighbouring teacher steps with one, halving the step count each round, four steps down to one (Lecture 18, [52:00](https://www.youtube.com/watch?v=LXrqmQrscf0&t=3120)).
-
-Quantization has a recipe for this family, SVDQuant. Outliers sit in the weights and in the activations; a smoothing step borrowed from SmoothQuant shifts them from the activations onto the weights, and a low-rank side branch, 32 ranks from an SVD, kept in full precision, takes the remaining weight outliers onto itself. What is left quantizes cleanly to 4 bits on both sides. The branch fits LoRA: adding one only means adding ranks (Lecture 18, [62:00](https://www.youtube.com/watch?v=LXrqmQrscf0&t=3720)). W4A16 saves memory but no time, since its arithmetic stays 16-bit; the gain needs INT4 or FP4 arithmetic. Han measures about 3 times the speed on an RTX 4090; on a laptop's, a step takes 0.5 seconds where the W4A16 method NF4 needs 1.8, and the BF16 model does not fit. Memory drops from 23 to 6.5 gigabytes, and the output stays close to BF16, while NF4 and plain INT4 lose quality (Lecture 18, [66:00](https://www.youtube.com/watch?v=LXrqmQrscf0&t=3960)).
-
-Han's remark on conditioning techniques applies to the whole family: each technique added for quality adds computation ([30:00](https://www.youtube.com/watch?v=LXrqmQrscf0&t=1800)).
-
-Guidance is the clearest case. **Classifier guidance** pushes each sample toward a class with the gradient of a separately trained classifier, multiplied by a strength ω: Han's low value gives varied images that are sometimes not the class; his high value gives faithful ones with little variety. It covers classes only and costs a second network. **Classifier-free guidance** needs none: the diffusion model is evaluated twice at every step, once conditioned and once not, and the two estimates are blended, the conditioned one times ω + 1 minus the other times ω. Any condition works, class, text or pixels, with variety again traded for quality, at double the FLOPs (Lecture 18, [22:00](https://www.youtube.com/watch?v=LXrqmQrscf0&t=1320)).
-
-The third family has HART, the hybrid autoregressive transformer from Han's group: it predicts the discrete visual tokens, and a tiny residual diffusion model, 30 to 40 million parameters, supplies the fine detail they cannot hold. Han measures roughly 2 images a second where the diffusion models he names manage 0.2, and on a laptop with a mobile 4090 an image takes about a second (Lecture 16, [38:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=2280), [50:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=3000), [56:00](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=3360)).
-
-For video, a 2D CNN is cheap and reuses image pre-training, but sees each frame alone; a 3D CNN jointly models low-, middle- and high-level information but needs four-dimensional weights and far more computation (Lecture 17, [30:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=1800), [38:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=2280)). His Temporal Shift Module adds temporal modeling to a 2D network with no multiplies: part of a frame's channels is traded for those of the frames before and after it, and the next 1 × 1 convolution blends them. How many are moved is a hyperparameter, since too many leave a frame nothing of its own. For offline video the exchange looks both ways, and a bypass adds back the channels the current frame gave up. A car cannot see ahead, so only earlier frames are borrowed, and the channels moved out are stored for the next frame (Lecture 17, [38:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=2280), [42:00](https://www.youtube.com/watch?v=o_60Yhb79W8&t=2520)).
-
-## Distributed training basics
-
-Two reasons to train on several machines: the data is too large for one, or the model does not fit. Han's motivating figure: on a single GPU, the training of GPT-3 would take 355 years (Lecture 19, [2:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=120)). His practical reason is the developer's time: a job of 10 GPU-days on one GPU takes about 40 minutes on 1,024 GPUs, by his figure; the plain arithmetic gives about 14 minutes.
-
-| Parallelism | What is split | Memory per GPU | Communication |
-|---|---|---|---|
-| Data | the data; every GPU holds a full model | unchanged | gradients each step |
-| Pipeline | the layers, in stages | reduced | activations between stages |
-| Tensor | each weight matrix | reduced | heavy; keep inside one machine |
-| Sequence | the tokens | reduced | activations and attention across machines |
-
-**Data parallelism** in Han's five steps (Lecture 19, slides 34 to 41): replicate the model to each GPU, split the data, compute gradients, aggregate them, update. The aggregation uses **all-reduce**, an operation in which every GPU ends up with the sum; his slides compare a naive version with a ring ([26:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=1560)).
-
-Data parallelism saves time and no memory. For memory, ZeRO shards, stage by stage, the optimizer state, the gradients and the weights across GPUs, and PyTorch's FSDP implements the last stage ([38:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=2280)). On Han's slide, with 64 GPUs, the first stage leaves 4.2 bytes per parameter and fits 19 billion parameters on one 80 GB GPU; the last, which also shards the weights, fits about 320 billion ([36:00](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=2160)). Worked numbers for the 7-billion-parameter model from [Chapter 09](09-llm-post-training-and-on-device-training.md): 112 GB before activations on one GPU, about 14 GB per GPU on eight.
-
-Large runs combine the methods into 3D parallelism: tensor parallelism stays inside one server because it is the most communication-heavy, pipeline parallelism splits the layers, and sharded data parallelism spans servers (Lecture 20, [8:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=480)). Alpa searches the partitioning automatically, first between operators, then within them ([12:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=720)).
-
-Communication is the remaining bottleneck: computation is cheap, data movement is expensive, and synchronous training exchanges gradients after every iteration (Lecture 20, [12:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=720)). To send fewer bytes, prune small gradients and keep them locally until they grow past a threshold. An early version lost 1% accuracy on ResNet; Han traces that to momentum, the optimizer's running average of past gradients, its velocity ([20:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=1200)).
-
-His 2017 deep gradient compression adds warm-up, gradient clipping and momentum correction to local accumulation. **Momentum correction** accumulates that velocity instead of the raw gradient, so a late update lands where it would have without the delay. **Warm-up** starts with a small learning rate and little pruning and raises both, because the weights move fastest early in training and an old gradient hurts most then (Lecture 20, [24:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=1440)). On his vision benchmark, pruning without accumulation never converges, and accumulation, momentum correction and warm-up together pass 93%, above the unpruned 92.9%. The gradients end up 99.9% sparse, several hundred times smaller; for weights, Han notes, 90% would already be a high ratio (Lecture 20, [28:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=1680), [36:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2160)).
-
-Pruned gradients have one weakness under all-reduce: each node keeps a different set of large entries, so their sum loses sparsity at every iteration. A common coarse-grained pattern, or a second pruning inside the ring, holds that back. **PowerSGD** drops sparsity and sends each gradient matrix as two low-rank factors instead, which have the same shape on every node, and scales nearly linearly as workers are added (Lecture 20, [32:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=1920)).
-
-Latency is harder: his slides are titled "High Network Latency Slows Distributed Training" (Lecture 20, slides 19 to 22). More bandwidth can be bought, with compression or with faster hardware, from Ethernet to InfiniBand at 400 gigabits a second. Latency is very hard to improve: light alone needs 162 milliseconds to cross from Boston to Shanghai, and a synchronous training loop waits at every iteration until the gradients have been exchanged (Lecture 20, [42:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2520)).
-
-**Delayed gradient averaging**, the remedy on those slides, accepts stale gradients instead of waiting: a worker that has finished its local gradient starts the next iteration at once and applies the average from `d` iterations back. Every gradient is still used, and Han's study finds a lag of at least three iterations harmless. That old average includes the worker's own gradient of `d` iterations ago, so the update adds the fresh local gradient and removes the worker's stale share. Uncorrected, accuracy sinks from 88% to 84% as the lag grows; corrected, Han measures it up to 4 to 5 points better (Lecture 20, [46:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=2760), [50:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=3000)). The lag brings a 3 to 4 times speed-up at unchanged accuracy, and 7 to 7.5 times on eight Raspberry Pis over ordinary Ethernet ([54:00](https://www.youtube.com/watch?v=lOVcPooetrM&t=3240)).
-
-The details are in [parallelism](../10-llm-internals/06-parallelism.md).
+The two diffusion lines illustrate the rule steps × tokens; they are not figures of the lecture. The 112 GB are [Chapter 09](09-llm-post-training-and-on-device-training.md)'s account of training a 7-billion-parameter model before activations: 14 GB of weights, 14 GB of gradients and 84 GB of optimizer state. The last two lines are the reason data parallelism alone does not fit a large model: without sharding, every GPU holds the same 112 GB.
 
 ## Pitfalls
 
@@ -115,7 +82,7 @@ The details are in [parallelism](../10-llm-internals/06-parallelism.md).
 
 ## Try it
 
-Build a cost sheet with one line per family.
+Extend the cost sheet of this chapter to a system you know.
 
 1. A vision transformer at two resolutions: token count and attention entries.
 2. A diffusion model: steps × tokens per step, for the original and for a compressed latent space.
@@ -127,10 +94,10 @@ Build a cost sheet with one line per family.
 
 ## Key takeaways
 
-- Vision transformers: attention cost grows with the square of the token count. Windows, linear attention and sparsity make it linear.
-- Diffusion: cost is steps times tokens. Cut both.
-- Data parallelism saves time, not memory. ZeRO and FSDP shard memory.
-- Communication bytes can be compressed. Latency is the hard limit.
+- Find the term that grows fastest; it names the move.
+- Vision transformers: attention grows with the square of the patch count, so with the fourth power of the resolution. Windows, linear attention and sparsity make it linear.
+- Diffusion: cost is steps × tokens. Cut both.
+- Data parallelism saves time, not memory. Sharding saves memory.
 - Fewer MACs is never the whole story; measure latency on the target.
 
 ## Self-check
@@ -138,9 +105,9 @@ Build a cost sheet with one line per family.
 1. Doubling an image's side length multiplies the number of tokens by 4. What happens to the attention cost?
 2. A diffusion model needs 50 steps on 16,384 tokens. Give two independent ways to cut its cost.
 3. Which parallelism leaves memory per GPU unchanged?
-4. What do ZeRO and FSDP shard across GPUs?
-5. Why is tensor parallelism usually kept inside one machine?
-6. A GAN trained on few images fails. Where does the failure start, and what fixes it?
+4. What is sharded across GPUs to bring a 7-billion-parameter training run from 112 GB on one GPU down to about 14 GB on each of eight?
+5. A vision transformer on 1,024 × 1,024 images is too slow. Which term do you attack first, and which moves change how it grows?
+6. Han says that each technique added for quality adds computation. Give his clearest case.
 
 <details><summary>Show answers</summary>
 
@@ -148,25 +115,22 @@ Build a cost sheet with one line per family.
 2. Fewer sampling steps, and fewer tokens per step by working in a more compressed latent space.
 3. Data parallelism, because every GPU holds a full copy of the model.
 4. The optimizer state, the gradients and the weights.
-5. Because it needs heavy communication for every layer, and links between machines are slower.
-6. The discriminator overfits. Differentiable augmentation, the same transformation on real and generated images for both networks, fixes it.
+5. Attention, which grows with the square of the patch count and so with the fourth power of the resolution. Window attention, linear attention and sparse windows make it linear.
+6. Guidance, which evaluates the diffusion model twice at every step.
 
 </details>
 
 ## Sources
 
-- **Lecture:** Song Han, "Lecture 16: Vision Transformer", MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024): [video](https://www.youtube.com/watch?v=v0jYDgaVzlk) · [guide](../lectures/mit-16-vision-transformer.md), used at [resolution cost](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=480), [balanced windows](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=960), [linear attention](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=1080), [sparse windows](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=1680)
-- **Lecture:** Song Han, "Lecture 17: Efficient GAN, Video, and Point Cloud", MIT 6.5940 (Fall 2024): [video](https://www.youtube.com/watch?v=o_60Yhb79W8) · [guide](../lectures/mit-17-gan-video-and-point-cloud.md), used at [GANs](https://www.youtube.com/watch?v=o_60Yhb79W8&t=120), [temporal shift](https://www.youtube.com/watch?v=o_60Yhb79W8&t=2520)
-- **Lecture:** Song Han, "Lecture 18: Diffusion Model", MIT 6.5940 (Fall 2024): [video](https://www.youtube.com/watch?v=LXrqmQrscf0) · [guide](../lectures/mit-18-diffusion-model.md), used at [cost of conditioning](https://www.youtube.com/watch?v=LXrqmQrscf0&t=1800), [compression autoencoder](https://www.youtube.com/watch?v=LXrqmQrscf0&t=2400)
-- **Lecture:** Song Han, "Lecture 19: Distributed Training (Part I)", MIT 6.5940 (Fall 2024): [video](https://www.youtube.com/watch?v=LcOM-nZdqxw) · [guide](../lectures/mit-19-distributed-training-part-i.md), used at [motivation](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=120), [all-reduce](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=1560), [ZeRO and FSDP](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=2280)
-- **Lecture:** Song Han, "Lecture 20: Distributed Training (Part II)", MIT 6.5940 (Fall 2024): [video](https://www.youtube.com/watch?v=lOVcPooetrM) · [guide](../lectures/mit-20-distributed-training-part-ii.md), used at [3D parallelism](https://www.youtube.com/watch?v=lOVcPooetrM&t=480), [automatic partitioning](https://www.youtube.com/watch?v=lOVcPooetrM&t=720)
+- **Lecture:** Song Han, "Lecture 16: Vision Transformer", MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024): [video](https://www.youtube.com/watch?v=v0jYDgaVzlk) · [guide](../lectures/mit-16-vision-transformer.md), used at [resolution cost](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=480), [latency and throughput](https://www.youtube.com/watch?v=v0jYDgaVzlk&t=1440)
+- **Lecture:** Song Han, "Lecture 17: Efficient GAN, Video, and Point Cloud", MIT 6.5940 (Fall 2024): [video](https://www.youtube.com/watch?v=o_60Yhb79W8) · [guide](../lectures/mit-17-gan-video-and-point-cloud.md), used at [GANs](https://www.youtube.com/watch?v=o_60Yhb79W8&t=120)
+- **Lecture:** Song Han, "Lecture 18: Diffusion Model", MIT 6.5940 (Fall 2024): [video](https://www.youtube.com/watch?v=LXrqmQrscf0) · [guide](../lectures/mit-18-diffusion-model.md), used at [the diffusion model](https://www.youtube.com/watch?v=LXrqmQrscf0&t=120), [cost of conditioning](https://www.youtube.com/watch?v=LXrqmQrscf0&t=1800)
+- **Lecture:** Song Han, "Lecture 19: Distributed Training (Part I)", MIT 6.5940 (Fall 2024): [video](https://www.youtube.com/watch?v=LcOM-nZdqxw) · [guide](../lectures/mit-19-distributed-training-part-i.md), used at [motivation](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=120), [ZeRO and FSDP](https://www.youtube.com/watch?v=LcOM-nZdqxw&t=2160)
+- **Lecture:** Song Han, "Lecture 20: Distributed Training (Part II)", MIT 6.5940 (Fall 2024): [video](https://www.youtube.com/watch?v=lOVcPooetrM) · [guide](../lectures/mit-20-distributed-training-part-ii.md), used at [communication cost](https://www.youtube.com/watch?v=lOVcPooetrM&t=720)
 - **Lecture:** Song Han, "Lecture 14: LLM Post-Training", MIT 6.5940 (Fall 2024): [resolution versus tokens](https://www.youtube.com/watch?v=OCdwWfVoQ-Q&t=3240)
 - **Reading:** Alexey Dosovitskiy, Lucas Beyer, Alexander Kolesnikov, et al., "An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale" (ICLR 2021): [arXiv](https://arxiv.org/abs/2010.11929)
-- **Reading:** Robin Rombach, Andreas Blattmann, Dominik Lorenz, et al., "High-Resolution Image Synthesis with Latent Diffusion Models" (CVPR 2022): [arXiv](https://arxiv.org/abs/2112.10752)
-- **Reading:** Jiaming Song, Chenlin Meng, Stefano Ermon, "Denoising Diffusion Implicit Models" (ICLR 2021): [arXiv](https://arxiv.org/abs/2010.02502)
 - **Reading:** Samyam Rajbhandari, Jeff Rasley, Olatunji Ruwase, Yuxiong He, "ZeRO: Memory Optimizations Toward Training Trillion Parameter Models" (SC 2020): [arXiv](https://arxiv.org/abs/1910.02054)
-- **Reading:** Yanan Li, Ji Lin, Song Han, "TSM: Temporal Shift Module for Efficient Video Understanding" (CVPR 2019): [arXiv](https://arxiv.org/abs/1811.08383)
 
 ## Next
 
-→ [Course Summary and Outlook](17-course-summary-and-outlook.md): what the course treats as the frontier, and how to keep track of it.
+→ [Vision Transformers](12-vision-transformers.md): why attention over patches costs so much, and the moves that make it linear.

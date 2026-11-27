@@ -6,7 +6,7 @@ What was checked in this repository, how, and what was left out. The checks ran 
 
 These checks ran on 2026-11-25, after the second review.
 
-- **Internal links.** 2,636 checked, none broken; 5,005 with the lecture guides on 2026-11-26, none broken.
+- **Internal links.** 2,636 checked, none broken; 5,160 with the lecture guides on 2026-11-26, none broken.
 - **External links.** 181 links other than YouTube. Three refuse automated requests: two DOI links into the ACM Digital Library and one Medium post. They open in a browser.
 - **arXiv citations.** 119 citations to 103 distinct papers. Every title and year matches the arXiv record.
 - **Lecture citations.** 1,459 links point to a moment in a lecture video. Each was checked against the two-minute block of the machine transcript at that moment.
@@ -80,11 +80,11 @@ The chapters cite a lecture where they make a claim taken from it. They do not r
 | [UC Berkeley LLM Agents MOOC, Fall 2024](lectures/README.md#uc-berkeley-llm-agents-mooc-fall-2024) | 12 | 173 | 15 |
 | [UC Berkeley Advanced LLM Agents MOOC, Spring 2025](lectures/README.md#uc-berkeley-advanced-llm-agents-mooc-spring-2025) | 12 | 175 | 14 |
 | [UC Berkeley Agentic AI MOOC, Fall 2025](lectures/README.md#uc-berkeley-agentic-ai-mooc-fall-2025) | 12 | 162 | 15 |
-| [MIT 6.5940 TinyML and Efficient Deep Learning Computing, Fall 2024](lectures/README.md#mit-65940-tinyml-and-efficient-deep-learning-computing-fall-2024) | 23 | 410 | 21 |
+| [MIT 6.5940 TinyML and Efficient Deep Learning Computing, Fall 2024](lectures/README.md#mit-65940-tinyml-and-efficient-deep-learning-computing-fall-2024) | 23 | 410 | 7 |
 | [Stanford CS336 Language Modeling from Scratch, Spring 2026](lectures/README.md#stanford-cs336-language-modeling-from-scratch-spring-2026) | 18 | 287 | 4 |
-| Total | 77 | 1,207 | 69 |
+| Total | 77 | 1,207 | 55 |
 
-In 69 of the 1,207 parts, 6%, the guide's writer found no chapter section that teaches the same thing, and the guide explains the part itself. That is the measure of how much of the lectures the chapters do not cover. It is largest for the MIT course, where 21 of 410 parts are explained only in the guide, and smallest for CS336, with 4 of 287. The count rests on each writer's judgement of what counts as the same thing, so read it as an estimate.
+In 55 of the 1,207 parts, 5%, the guide's writer found no chapter section that teaches the same thing, and the guide explains the part itself. That is the measure of how much of the lectures the chapters do not cover. It is largest for the MIT course, where 7 of 410 parts are explained only in the guide, and smallest for CS336, with 4 of 287. The count rests on each writer's judgement of what counts as the same thing, so read it as an estimate.
 
 An automatic check runs on every guide before it is published. For each guide it confirms that:
 
@@ -105,9 +105,11 @@ Names are the weakest point: the machine transcript can garble a name, so a guid
 
 **Moved into the chapters, 2026-11-26.** By the evening of 2026-11-26 forty-two chapters, in every part that was written from lectures, had been enlarged this way, and the parts that only a guide teaches had fallen from 231 to 69 of 1,207. Each enlarged chapter was then read a second time against the lectures, as the rest of the book was; all forty-two are done. The reading mattered. In the eight groups whose reviewers counted statement by statement, 104 of 637 added statements were corrected (one in six), and 20 more in the other four groups. The corrections were of the kinds found elsewhere in the book: a hedge the lecturer had given ("usually", "by his account"), a number he stated differently from his slide or the recording, a claim he had not made, a link that pointed at the wrong minute, and passages copied in eight or more words from a guide or the lecture text. Most enlarged chapters also gained a self-check question on their largest addition, and chapters that stood at the 3,400-word line were trimmed to make room for it.
 
+**Five new chapters of part 09, 2026-11-27.** The last lectures of the MIT course had been squeezed into two chapters that stood at the word limit. Each group of them now has a chapter of its own, 09.12 to 09.16, written by AI from the lecture text and the slides; the two old chapters became a short overview and the course summary. A second reading of each new chapter against its lectures, by another AI and never by a person, is in progress. With the new chapters the parts that only a guide teaches fell from 69 to 55 of 1,207.
+
 ## Glossary
 
-Each of the 1,091 rows of [GLOSSARY.md](GLOSSARY.md) was read against the chapter it links to on 2026-11-25. 12 definitions were corrected, 7 links moved to the chapter that defines the term better, 13 duplicate rows merged, 16 rows removed and 24 rows added. The glossary now has 1,086 terms.
+Each of the 1,091 rows of [GLOSSARY.md](GLOSSARY.md) was read against the chapter it links to on 2026-11-25. 12 definitions were corrected, 7 links moved to the chapter that defines the term better, 13 duplicate rows merged, 16 rows removed and 24 rows added. That made 1,086 terms; the rows added from the lectures on 2026-11-26 and 2026-11-27 brought the glossary to 1,362 terms.
 
 ## Reading site
 
@@ -123,8 +125,8 @@ The same files are published as a website, <https://acailic.github.io/ai-enginee
 - **The transcripts.** They are machine-made and can garble names. The lectures are the authority: a chapter that disagrees with its source is wrong.
 - **The lecture guides.** they were read a second time only by AI, never by a person.
 - **Coverage of the book.** The chapters of parts 07 and 08 were checked statement by statement against the book *Machine Learning in Production*, and their coverage was reviewed from 2026-11-26. A word-overlap count had flagged 82 of its 399 sections as possibly reflected only in part; these sections were read against the chapters, in 10 groups. All ten groups are finished, and the sections a reader needs were added to the chapters; two short proposed texts for the chapters on models-to-systems and on goals did not fit under the 3,500-word limit and are not in the course. The review also found 35 sentences in 19 chapters that repeated the book's wording without quotation marks; all were rephrased, and the longest passage a chapter now shares with the book outside quotation marks is a paper title.
-- **The chapters enlarged from the lectures.** On 2026-11-26, 42 chapters in every part written from lectures received passages with the lecturers' own statements. Each passage was written by AI from the lecture text and then read a second time against the lecture by another AI, never by a person; that second reading corrected about one added statement in six. The 69 parts of lectures (of 1,207) that no chapter teaches are explained only in the guides.
-
+- **The chapters enlarged from the lectures.** On 2026-11-26, 42 chapters in every part written from lectures received passages with the lecturers' own statements. Each passage was written by AI from the lecture text and then read a second time against the lecture by another AI, never by a person; that second reading corrected about one added statement in six. After that pass, 69 parts of lectures (of 1,207) were taught by no chapter.
+- **The five new chapters of part 09.** On 2026-11-27, chapters 09.12 to 09.16 were written by AI from the lectures of the MIT course, and the two chapters that had squeezed those lectures became an overview and a course summary. A second reading of each new chapter against its lectures, by another AI and not by a person, is in progress; its result will be stated here. The 55 parts of lectures (of 1,207) that no chapter teaches are explained only in the guides.
 ## Further limitations by part
 
 Further ones, not listed in the [README](README.md#status-and-gaps):

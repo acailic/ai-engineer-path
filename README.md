@@ -13,7 +13,7 @@ A free, self-contained course distilled from six open university courses:
 
 It turns them into one path that takes a software engineer **with no machine-learning background to a professional level** in building with large language models: how the models work, how to build agents, how to evaluate them, how to secure them, how to ship them, and how to run them cheaply. Nothing is copied: every explanation is rewritten, and every chapter links back to the lectures and readings it draws on ([sources](SOURCES.md)).
 
-It has 101 chapters in eleven parts, five capstone projects, five checklists, four runnable example programs and 77 lecture guides.
+It has 106 chapters in eleven parts, five capstone projects, five checklists, four runnable example programs and 77 lecture guides.
 
 ## Who it is for
 
@@ -83,7 +83,7 @@ It does not mean training a frontier model. It does not replace experience with 
 
 One guide per lecture of the five video courses, in [`lectures/`](lectures/README.md). A guide maps a whole lecture, part by part, and names for each part the chapter section that teaches the same thing; where no chapter teaches it, the guide explains the part itself.
 
-**All 77 guides are written, one for each lecture of the five video courses (complete on 2026-11-26).** The table is regenerated from the files.
+**All 77 guides are written, one for each lecture of the five video courses (complete on 2026-11-27).** The table is regenerated from the files.
 
 | Course | Guides | Lectures |
 |---|---|---|
@@ -93,7 +93,7 @@ One guide per lecture of the five video courses, in [`lectures/`](lectures/READM
 | MIT 6.5940 TinyML and Efficient Deep Learning Computing (Fall 2024) | 23 | 23 |
 | Stanford CS336 Language Modeling from Scratch (Spring 2026) | 18 | 18 |
 
-In the guides: 1,207 parts of lectures, of which 69 (6%) are taught by no chapter and are explained only in the guide.
+In the guides: 1,207 parts of lectures, of which 55 (5%) are taught by no chapter and are explained only in the guide.
 
 What is checked: each guide passes an automatic check before it is published (the parts cover the lecture end to end, every part links to its moment in the video, every link to a chapter section resolves, no passage is copied from the lecture). What is not checked: no person has read a guide against its lecture. An AI reviewer read every guide a second time against the whole lecture on 2026-11-26 and corrected it. If a guide and the lecture disagree, the lecture wins.
 
@@ -221,7 +221,12 @@ What is checked: each guide passes an automatic check before it is published (th
 | [TinyML: Microcontrollers and TinyEngine](09-efficient-deep-learning/07-tinyml-microcontrollers-and-tinyengine.md) | Practitioner | 19 min | Models that fit in kilobytes of memory |
 | [Efficient LLM Inference and Deployment](09-efficient-deep-learning/08-efficient-llm-inference-and-deployment.md) | Practitioner | 24 min | Weights, the KV cache, prefill, decode, batching |
 | [LLM Post-Training and On-Device Training](09-efficient-deep-learning/09-llm-post-training-and-on-device-training.md) | Practitioner | 15 min | Adapters, LoRA, the memory of a fine-tuning run |
-| [Efficient Vision, Generative Models and Distributed Training](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) | Practitioner | 15 min | A survey of three areas |
+| [Efficient Vision, Generative Models and Distributed Training](09-efficient-deep-learning/10-efficient-vision-generative-models-and-distributed-training.md) | Practitioner | 12 min | A map of three areas: vision, generative models, training across machines |
+| [Vision Transformers](09-efficient-deep-learning/12-vision-transformers.md) | Practitioner | 21 min | Patches as tokens; window, linear and sparse attention |
+| [Efficient GANs, Video and Point-Cloud Models](09-efficient-deep-learning/13-gans-video-and-point-clouds.md) | Practitioner | 21 min | GAN compression, little data, video, point clouds |
+| [Efficient Diffusion Models](09-efficient-deep-learning/14-efficient-diffusion-models.md) | Practitioner | 21 min | Steps, tokens and guidance; latent diffusion; 4-bit arithmetic |
+| [Distributed Training](09-efficient-deep-learning/15-distributed-training.md) | Practitioner | 20 min | Parallelism, sharding, gradient compression, latency |
+| [Quantum Machine Learning](09-efficient-deep-learning/16-quantum-machine-learning.md) | Foundation | 20 min | Qubits and circuits; training and compiling for noisy devices |
 | [Course Summary and Outlook](09-efficient-deep-learning/17-course-summary-and-outlook.md) | Foundation | 12 min | A map of the part, and a routine for keeping up |
 
 ### [Part 10 · LLM internals: language modeling from scratch](10-llm-internals/README.md)
@@ -276,7 +281,7 @@ The [lecture guides](lectures/README.md) were made the same way, from the same m
 
 The chapters were checked in two ways, described in [VERIFICATION.md](VERIFICATION.md) with the results per part.
 
-**Automated checks, run on 2026-11-25.** All 2,636 internal links resolved at that point; the count is 5,005 with the lecture guides, all resolving on 2026-11-26. All 119 arXiv citations (103 papers) carry the title and year of the arXiv record. All 1,459 links to a moment in a lecture were checked against the transcript at that moment; on 2026-11-26 the label and the seconds of each of the 1,622 links in the chapters and guides were checked against each other. No chapter shares more than 23 words in a row with a source. The 66 standalone Python listings run, and 16 tests pass.
+**Automated checks, run on 2026-11-25.** All 2,636 internal links resolved at that point; the count is 5,160 with the lecture guides, all resolving on 2026-11-26. All 119 arXiv citations (103 papers) carry the title and year of the arXiv record. All 1,459 links to a moment in a lecture were checked against the transcript at that moment; on 2026-11-26 the label and the seconds of each of the 1,622 links in the chapters and guides were checked against each other. No chapter shares more than 23 words in a row with a source. The 66 standalone Python listings run, and 16 tests pass.
 
 **The verification pass, 2026-11-24.** Every statement that a chapter attributes to a lecture or to the book was compared with the source at the cited place. About 1,500 statements were checked and more than 210 corrected. In 72 chapters, passages were deepened with the lecturers' own content.
 
@@ -284,7 +289,7 @@ The chapters were checked in two ways, described in [VERIFICATION.md](VERIFICATI
 
 **Lecture guides, 2026-11-25 and 2026-11-26.** All 77 lectures now have a guide: 1,207 parts. Before a guide is published, an automatic check confirms that its parts cover the lecture end to end without a gap or an overlap, that every part links to the second of the video that its heading names, that every link to a chapter section resolves, and that no run of eight or more words is copied from the lecture outside quotation marks.
 
-**Glossary, 2026-11-25.** Every row of the glossary was checked against the chapter it links to: 12 definitions corrected, 7 links moved to a better chapter, 13 duplicates merged, 16 rows removed and 24 added. The glossary has 1,294 terms.
+**Glossary, 2026-11-25.** Every row of the glossary was checked against the chapter it links to: 12 definitions corrected, 7 links moved to a better chapter, 13 duplicates merged, 16 rows removed and 24 added. The glossary has 1,362 terms.
 
 **Not verified:**
 
@@ -296,7 +301,8 @@ The chapters were checked in two ways, described in [VERIFICATION.md](VERIFICATI
 - The transcripts are machine-made and can garble names. The lectures are the authority.
 - The lecture guides: they were read a second time only by AI, never by a person.
 - The chapters in parts 07 and 08 were checked statement by statement against the book *Machine Learning in Production*, and their coverage was reviewed from 2026-11-26. A word-overlap count had flagged 82 of its 399 sections as possibly reflected only in part; these sections were read against the chapters, in 10 groups. All ten groups are finished, and the sections a reader needs were added to the chapters; two short proposed texts for the chapters on models-to-systems and on goals did not fit under the 3,500-word limit and are not in the course. The review also found 35 sentences in 19 chapters that repeated the book's wording without quotation marks; all were rephrased, and the longest passage a chapter now shares with the book outside quotation marks is a paper title.
-- **The chapters enlarged from the lectures.** On 2026-11-26, 42 chapters in every part written from lectures received passages with the lecturers' own statements. Each passage was written by AI from the lecture text and then read a second time against the lecture by another AI, never by a person; that second reading corrected about one added statement in six. The 69 parts of lectures (of 1,207) that no chapter teaches are explained only in the guides.
+- **The chapters enlarged from the lectures.** On 2026-11-26, 42 chapters in every part written from lectures received passages with the lecturers' own statements. Each passage was written by AI from the lecture text and then read a second time against the lecture by another AI, never by a person; that second reading corrected about one added statement in six. After that pass, 69 parts of lectures (of 1,207) were taught by no chapter.
+- **The five new chapters of part 09.** On 2026-11-27, chapters 09.12 to 09.16 were written by AI from the lectures of the MIT course, and the two chapters that had squeezed those lectures became an overview and a course summary. A second reading of each new chapter against its lectures, by another AI and not by a person, is in progress; its result will be stated here. The 55 parts of lectures (of 1,207) that no chapter teaches are explained only in the guides.
 
 ## Status and gaps
 
@@ -343,6 +349,7 @@ Each part's main limitations are below. [VERIFICATION.md](VERIFICATION.md#furthe
 
 ### Part 09 · Efficient deep learning
 
+- **09.12 to 09.16** These five chapters were written by AI from the lectures of the MIT course and are being read a second time by AI; no person has read them. Where the lecture's recording and its slides give different figures, the chapter gives both.
 - **09.03, 09.05 to 09.09** The lottery ticket hypothesis, architecture search strategies, distillation formulas, TinyEngine's memory planner, PagedAttention, FlashAttention tiling and parameter-efficient training are general knowledge; the chapters did not draw on the lectures for them. On 2026-11-26 passages with the lecturers' own statements were added to these chapters and read a second time (see "Moved into the chapters" in [VERIFICATION.md](VERIFICATION.md#lecture-guides)); the [lecture guides](lectures/README.md) cover every lecture in full.
 
 ### Part 10 · LLM internals
